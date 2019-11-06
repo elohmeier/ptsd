@@ -19,26 +19,31 @@ in
     enable = true;
 
     initExtra = ''
-          if [ "$TERM" != dumb ]; then
-      autoload -U colors && colors
-      PS1="%B%(?..[%?] )%b%(!.%{$fg_bold[red]%}%m.%{$fg_bold[green]%}%n@%m) %{$fg_bold[blue]%}%~%{$reset_color%} "
+      if [ "$TERM" != dumb ]; then
+        autoload -U colors && colors
 
-      function preexec() {
-        timer=''${timer:-$SECONDS}
-      }
+        # PS1 w/o username:
+        PS1="%B%(?..[%?] )%b%(!.%{$fg_bold[red]%}%m.%{$fg_bold[green]%}%m) %{$fg_bold[blue]%}%~%{$reset_color%} "
+        
+        # PS1 including username:
+        #PS1="%B%(?..[%?] )%b%(!.%{$fg_bold[red]%}%m.%{$fg_bold[green]%}%n@%m) %{$fg_bold[blue]%}%~%{$reset_color%} "
 
-      function precmd() {
-        if [ $timer ]; then
-          timer_show=$(($SECONDS - $timer))
-          if [ $timer_show -lt 2 ]; then
-            export RPROMPT=""
-          else
-            export RPROMPT="%F{cyan}''${timer_show}s %{$reset_color%}"
+        function preexec() {
+          timer=''${timer:-$SECONDS}
+        }
+
+        function precmd() {
+          if [ $timer ]; then
+            timer_show=$(($SECONDS - $timer))
+            if [ $timer_show -lt 2 ]; then
+              export RPROMPT=""
+            else
+              export RPROMPT="%F{cyan}''${timer_show}s %{$reset_color%}"
+            fi
+            unset timer
           fi
-          unset timer
-        fi
-      }
-          fi
+        }
+      fi
     '';
 
     shellAliases = shellAliases;
