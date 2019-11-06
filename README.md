@@ -7,9 +7,12 @@ Public [Nix](https://nixos.org/nix/) configurations.
 
 ## Cachix
 
-To use the binary cache select [nixos-19.09](https://nixos.org/channels/nixos-19.09) as
-the "nixpkgs" channel.
+To use the binary cache select a supported channel as the "nixpkgs" channel.
 
-Then use [Cachix](https://cachix.org/) to enable the cache by invoking 
-`cachix use nerdworks` or `nix-shell -p cachix --run "cachix use nerdworks"`.
+Supported channels:
+* https://nixos.org/channels/nixos-19.09
+* https://nixos.org/channels/nixos-unstable
+
+Use [Cachix](https://cachix.org/) to enable the binary cache by invoking 
+`cachix use nerdworks` (or `nix-shell -p cachix --run "cachix use nerdworks"`).
 
