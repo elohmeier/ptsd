@@ -1,6 +1,9 @@
 { config, pkgs, ...}:
 with import <ptsd/lib>;
 
+let
+  shellAliases = import ./aliases.nix;
+in
 {
   programs.zsh = {
     enable = true;
@@ -8,5 +11,7 @@ with import <ptsd/lib>;
     initExtra = ''
       echo "Hello from PTSD"
     '';
+
+    shellAliases = shellAliases;
   };
 }
