@@ -64,6 +64,9 @@ vc.customize {
 
       " fix not being able to backspace more than beginning of insert-mode
       set backspace=indent,eol,start
+
+      " required by YouCompleteMe
+      set encoding=utf-8
     '';
 
     packages.myVimPackage = with pkgs.vimPlugins; {
