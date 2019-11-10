@@ -5,6 +5,16 @@
 Public [Nix](https://nixos.org/nix/) configurations.
 
 
+## Setup
+
+Add the ptsd channel using
+
+```console
+$ nix-channel --add https://git.nerdworks.de/nerdworks/ptsd/archive/master.tar.gz ptsd
+$ nix-channel --update
+```
+
+
 ## Cachix
 
 To use the binary cache select a supported channel as the "nixpkgs" channel.
