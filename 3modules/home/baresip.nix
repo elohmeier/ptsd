@@ -3,11 +3,11 @@
 with lib;
 
 let
-  cfg = config.ptsd.baresip-user;
+  cfg = config.ptsd.baresip;
 in
 {
-  options.ptsd.baresip-user = {
-    enable = mkEnableOption "baresip-user: userspace baresip setup";
+  options.ptsd.baresip = {
+    enable = mkEnableOption "baresip: userspace baresip setup";
     username = mkOption { type = types.str; };
     password = mkOption { type = types.str; };
     registrar = mkOption { type = types.str; };

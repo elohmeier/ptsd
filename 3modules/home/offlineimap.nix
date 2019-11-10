@@ -3,11 +3,11 @@
 with lib;
 
 let
-  cfg = config.ptsd.offlineimap-user;
+  cfg = config.ptsd.offlineimap;
 in
 {
-  options.ptsd.offlineimap-user = {
-    enable = mkEnableOption "offlineimap-user: userspace pass-enabled offlineimap setup";
+  options.ptsd.offlineimap = {
+    enable = mkEnableOption "offlineimap: userspace pass-enabled offlineimap setup";
     # TODO: generate offlineimaprc in module
     offlineimaprc = mkOption {
       type = types.str;
