@@ -1,6 +1,7 @@
 _:
 {
   imports = [
-    # ./xxx.nix
+    ./offlineimap-user.nix
+    ./vdi-container.nix
   ];
 }
