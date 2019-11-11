@@ -4,6 +4,7 @@ with lib;
 
 let
   cfg = config.ptsd.offlineimap;
+  dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
 in
 {
   options.ptsd.offlineimap = {
@@ -50,5 +51,11 @@ in
           return check_output("${pkgs.pass}/bin/pass mail/" + account, shell=True).splitlines()[0]
     '';
     xdg.configFile."offlineimap/config".text = cfg.offlineimaprc;
+
+    # offlineimap will load the pyc file instead of the propably newer .py-File, which can
+    # lead to weird errors. Thus we always delete the .pyc when activating
+    home.activation.deleteOfflineImapPyc = dag.dagEntryAfter [ "writeBoundary" ] ''
+      rm -f "${config.xdg.configHome}/offlineimap/get_settings.pyc";
+    '';
   };
 }
