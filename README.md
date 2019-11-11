@@ -14,6 +14,23 @@ $ nix-channel --add https://git.nerdworks.de/nerdworks/ptsd/archive/master.tar.g
 $ nix-channel --update
 ```
 
+## Hacking on ptsd
+
+Make sure to remove the ptsd channel first to avoid conflicts.
+Then include local checkout of ptsd in nix builds by altering the NIX\_PATH variable.
+
+E.g. to use local checkout in home-manager:
+
+```console
+NIX_PATH=$NIX_PATH:ptsd=$HOME/ptsd home-manager build
+```
+
+or when rebuilding using sudo:
+
+```console
+sudo nixos-rebuild -I ptsd=$HOME/ptsd build
+```
+
 
 ## Cachix
 
