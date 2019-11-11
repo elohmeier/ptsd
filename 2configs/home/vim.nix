@@ -2,7 +2,7 @@
 with import <ptsd/lib>;
 
 let
-  vim = pkgs.callPackage ../5pkgs/vim-customized {};
+  vim = pkgs.callPackage ../../5pkgs/vim-customized {};
 in
 {
   home.sessionVariables = {

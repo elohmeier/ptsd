@@ -2,7 +2,7 @@
 with import <ptsd/lib>;
 
 let
-  shellAliases = import ./aliases.nix;
+  shellAliases = import ../aliases.nix;
 in
 {
   programs.fzf = {
