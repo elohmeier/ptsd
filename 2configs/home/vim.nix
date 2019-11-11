@@ -83,7 +83,7 @@ let
 in
 {
   home.sessionVariables = {
-    EDITOR = "${vim}/bin/vim";
+    EDITOR = "vim";
   };
 
   home.packages = [ vim ];
