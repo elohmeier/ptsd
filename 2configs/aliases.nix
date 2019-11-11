@@ -1,7 +1,8 @@
 {
-  l = "ls -alh";
-  la = "ls -alh";
-  ll = "ls -l";
+  l = "ls -alh --color";
+  la = "ls -alh --color";
+  ll = "ls -l --color";
+  ls = "ls --color";
   "cd.." = "cd ..";
   gs = "git status";
   ga = "git add";
