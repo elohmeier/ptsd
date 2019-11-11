@@ -15,4 +15,5 @@
   gf = "git fetch";
   grep = "grep --color";
   vi = "vim";
+  which = "which -s";
 }

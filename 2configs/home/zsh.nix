@@ -45,4 +45,6 @@ in
 
     shellAliases = shellAliases;
   };
+
+  home.packages = [ pkgs.nix-zsh-completions ];
 }
