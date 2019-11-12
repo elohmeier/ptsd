@@ -13,12 +13,12 @@ let
 
     order += "ipv6"
     order += "disk /"
-    ${lib.optionalString cfg.useWifi ''order += "wireless _first_"''}
+    ${optionalString cfg.useWifi ''order += "wireless _first_"''}
     order += "ethernet ${cfg.ethIf}"
-    ${lib.optionalString cfg.useBattery ''order += "battery all"''}
+    ${optionalString cfg.useBattery ''order += "battery all"''}
     order += "load"
     order += "memory"
-    order += "volume master"
+    ${optionalString (cfg.primarySpeaker != null) ''order += "volume master"''}
     order += "tztime local"
 
     wireless _first_ {
@@ -52,11 +52,13 @@ let
       format = "%percentage_used used, %percentage_free free, %percentage_shared shared"
     }
 
+    ${optionalString (cfg.primarySpeaker != null) ''
     volume master {
       format = "♪: %volume"
       format_muted = "♪: muted (%volume)"
-      device = "pulse:1"
+      device = "pulse:${cfg.primarySpeaker}"
     }
+  ''}
   '';
   # alacritty themes
   solarized_light = {
@@ -170,6 +172,14 @@ in
       type = types.str;
       default = "Consolas 12";
     };
+    primaryMicrophone = mkOption {
+      type = with types; nullOr str;
+      description = "Pulseaudio microphone device name";
+    };
+    primarySpeaker = mkOption {
+      type = with types; nullOr str;
+      description = "Pulseaudio speaker device name";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -191,10 +201,10 @@ in
                 "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%+";
                 "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%-";
 
-                "XF86AudioMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute 1 toggle";
-                "XF86AudioLowerVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume 1 -5%";
-                "XF86AudioRaiseVolume" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume 1 +5%";
-                "XF86AudioMicMute" = "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute 2 toggle";
+                "XF86AudioMute" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute ${cfg.primarySpeaker} toggle";
+                "XF86AudioLowerVolume" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} -5%";
+                "XF86AudioRaiseVolume" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
+                "XF86AudioMicMute" = mkIf (cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
                 "XF86Calculator" = mkIf cfg.enableAlacritty "exec i3-sensible-terminal --title bc --command ${pkgs.bc}/bin/bc -l";
               };
@@ -226,8 +236,8 @@ in
       enable = true;
       settings = {
         font.size = 11.0;
-        colors = solarized_dark;
-        #colors = solarized_light;
+        #colors = solarized_dark;
+        colors = solarized_light;
       };
     };
   };
