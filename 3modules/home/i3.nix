@@ -229,7 +229,31 @@ in
           };
         };
 
-    home.packages = [ pkgs.i3status pkgs.i3lock ]; # only needed for config testing / man pages
+    gtk = {
+      enable = true;
+      font.name = "DejaVu Sans 10";
+      iconTheme = {
+        name = "Tango";
+        package = pkgs.tango-icon-theme;
+      };
+      theme = {
+        name = "Arc-Dark";
+        package = pkgs.arc-theme;
+      };
+    };
+
+    home.packages = [
+      pkgs.i3status
+      pkgs.i3lock # only needed for config testing / man pages
+      pkgs.libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
+    ];
+
+    home.sessionVariables = {
+      TERMINAL = "alacritty";
+      TERM = "xterm-256color";
+      QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
+    };
+
     xdg.configFile."i3status/config".source = i3statusrc;
 
     programs.alacritty = mkIf cfg.enableAlacritty {
