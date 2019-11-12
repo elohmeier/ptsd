@@ -197,7 +197,7 @@ in
               mkOptionDefault {
                 "${modifier}+Shift+Delete" = "exec ${pkgs.i3lock}/bin/i3lock --color=000000 --show-failed-attempts"; # TODO: add lockpaper
                 "${modifier}+Shift+Return" = mkIf cfg.enableAlacritty "exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
-                "${modifier}+Shift+c" = "exec ${pkgs.vscodium}/bin/codium \"`${pkgs.xcwd}/bin/xcwd`\""; # TODO: remove tight coupling
+                "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
                 "${modifier}+Shift+t" = "exec ${pkgs.pcmanfm}/bin/pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
 
                 "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%+";
@@ -209,7 +209,71 @@ in
                 "XF86AudioMicMute" = mkIf (cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
                 "XF86Calculator" = mkIf cfg.enableAlacritty "exec i3-sensible-terminal --title bc --command ${pkgs.bc}/bin/bc -l";
+
+                "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play";
+                "${modifier}+p" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+                "XF86AudioStop" = "exec ${pkgs.playerctl}/bin/playerctl stop";
+                "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
+                "${modifier}+n" = "exec ${pkgs.playerctl}/bin/playerctl next";
+                "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+                "${modifier}+Shift+n" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+
+                "${modifier}+h" = "focus left";
+                "${modifier}+Shift+z" = "resize grow width 2 px or 2 ppt";
+
+                "${modifier}+j" = "focus down";
+                "${modifier}+Shift+u" = "resize shrink height 2 px or 2 ppt";
+
+                "${modifier}+k" = "focus up";
+                "${modifier}+Shift+i" = "resize grow height 2 px or 2 ppt";
+
+                "${modifier}+l" = "focus right";
+                "${modifier}+Shift+o" = "resize shrink width 2 px or 2 ppt";
+
+                "${modifier}+0" = "workspace 10";
+                "${modifier}+Shift+0" = "move container to workspace 10";
+
+                "${modifier}+Home" = "workspace 1";
+                "${modifier}+Prior" = "workspace prev";
+                "${modifier}+Next" = "workspace next";
+                "${modifier}+End" = "workspace 10";
+                "${modifier}+Tab" = "workspace back_and_forth";
+
+                # not working
+                #"${modifier}+p" = ''[instance="scratch-term"] scratchpad show'';
+
+                "${modifier}+c" = ''mode "codium: [n]obbofin, nix[p]kgs"'';
+
+                "${modifier}+Shift+e" = ''mode "exit: [l]ogout, [r]eboot, [s]hutdown"'';
               };
+
+            modes."codium: [n]obbofin, nix[p]kgs" = {
+              "n" = ''exec codium /home/enno/nobbofin; mode "default"'';
+              "p" = ''exec codium /home/enno/nixpkgs; mode "default"'';
+              "Escape" = ''mode "default"'';
+              "Return" = ''mode "default"'';
+            };
+
+            modes."exit: [l]ogout, [r]eboot, [s]hutdown" = {
+              "l" = "exec i3-msg exit";
+              "r" = "exec systemctl reboot";
+              "s" = "exec systemctl shutdown";
+              "Escape" = ''mode "default"'';
+              "Return" = ''mode "default"'';
+            };
+
+            startup = [
+              # not working
+              #{ command = "alacritty --class scratch-term"; always = true; }
+            ];
+
+            window.commands = [
+              # not working
+              #{
+              #  command = ''floating enable, move to scratchpad'';
+              #  criteria.instance = "scratch-term";
+              #}
+            ];
 
             # extend the home-manager default config to the upstream i3 default config
             modes.resize = mkOptionDefault {
@@ -247,10 +311,12 @@ in
       };
     };
 
-    home.packages = [
-      pkgs.i3status
-      pkgs.i3lock # only needed for config testing / man pages
-      pkgs.libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
+    home.packages = with pkgs; [
+      i3status
+      i3lock # only needed for config testing / man pages
+      libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
+      playerctl
+      brightnessctl
     ];
 
     home.sessionVariables = {
