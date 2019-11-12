@@ -56,7 +56,7 @@ let
     volume master {
       format = "♪: %volume"
       format_muted = "♪: muted (%volume)"
-      device = "pulse:${cfg.primarySpeaker}"
+      device = "pulse"
     }
   ''}
   '';
@@ -175,10 +175,12 @@ in
     primaryMicrophone = mkOption {
       type = with types; nullOr str;
       description = "Pulseaudio microphone device name";
+      default = "@DEFAULT_SOURCE@";
     };
     primarySpeaker = mkOption {
       type = with types; nullOr str;
       description = "Pulseaudio speaker device name";
+      default = "@DEFAULT_SINK@";
     };
   };
 
@@ -231,7 +233,10 @@ in
 
     gtk = {
       enable = true;
-      font.name = "DejaVu Sans 10";
+      font = {
+        name = "DejaVu Sans 10";
+        package = pkgs.dejavu_fonts;
+      };
       iconTheme = {
         name = "Tango";
         package = pkgs.tango-icon-theme;
