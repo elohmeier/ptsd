@@ -224,16 +224,16 @@ in
                 "${modifier}+Shift+n" = "exec ${pkgs.playerctl}/bin/playerctl previous";
 
                 "${modifier}+h" = "focus left";
-                "${modifier}+Shift+z" = "resize grow width 2 px or 2 ppt";
+                "${modifier}+Shift+u" = "resize shrink width 20 px or 20 ppt";
 
                 "${modifier}+j" = "focus down";
-                "${modifier}+Shift+u" = "resize shrink height 2 px or 2 ppt";
+                "${modifier}+Shift+i" = "resize shrink height 20 px or 20 ppt";
 
                 "${modifier}+k" = "focus up";
-                "${modifier}+Shift+i" = "resize grow height 2 px or 2 ppt";
+                "${modifier}+Shift+o" = "resize grow height 20 px or 20 ppt";
 
                 "${modifier}+l" = "focus right";
-                "${modifier}+Shift+o" = "resize shrink width 2 px or 2 ppt";
+                "${modifier}+Shift+p" = "resize grow width 20 px or 20 ppt";
 
                 "${modifier}+0" = "workspace 10";
                 "${modifier}+Shift+0" = "move container to workspace 10";
@@ -250,6 +250,13 @@ in
                 "${modifier}+c" = ''mode "codium: [n]obbofin, nix[p]kgs"'';
 
                 "${modifier}+Shift+e" = ''mode "exit: [l]ogout, [r]eboot, [s]hutdown"'';
+
+                "${modifier}+numbersign" = "split horizontal;; exec alacritty";
+                "${modifier}+minus" = "split vertical;; exec alacritty";
+
+                "${modifier}+a" = ''[class="Firefox"] scratchpad show'';
+                "${modifier}+b" = ''[class="Firefox"] scratchpad show'';
+
               };
 
             modes."codium: [n]obbofin, nix[p]kgs" = {
@@ -260,9 +267,9 @@ in
             };
 
             modes."exit: [l]ogout, [r]eboot, [s]hutdown" = {
-              "l" = "exec i3-msg exit";
-              "r" = "exec systemctl reboot";
-              "s" = "exec systemctl shutdown";
+              "l" = ''exec i3-msg exit; mode "default"'';
+              "r" = ''exec reboot; mode "default"'';
+              "s" = ''exec shutdown now; mode "default"'';
               "Escape" = ''mode "default"'';
               "Return" = ''mode "default"'';
             };
@@ -270,6 +277,7 @@ in
             startup = [
               # not working
               #{ command = "alacritty --class scratch-term"; always = true; }
+              { command = "i3-msg workspace 1"; notification = false; }
             ];
 
             window.commands = [
@@ -278,10 +286,20 @@ in
               #  command = ''floating enable, move to scratchpad'';
               #  criteria.instance = "scratch-term";
               #}
+              {
+                criteria.class = "Firefox";
+                command = "floating enable, move to scratchpad, scratchpad show";
+              }
             ];
 
-            # extend the home-manager default config to the upstream i3 default config
-            modes.resize = mkOptionDefault {
+            modes.resize = {
+
+              "Left" = "resize shrink width 10 px or 10 ppt";
+              "Down" = "resize grow height 10 px or 10 ppt";
+              "Up" = "resize shrink height 10 px or 10 ppt";
+              "Right" = "resize grow width 10 px or 10 ppt";
+              "Escape" = "mode default";
+              "Return" = "mode default";
               "${modifier}+r" = "mode default";
               "j" = "resize shrink width 10 px or 10 ppt";
               "k" = "resize grow height 10 px or 10 ppt";
