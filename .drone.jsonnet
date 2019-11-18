@@ -22,6 +22,8 @@ local Pipeline(pkg, channel) = {
 };
 
 [
+  Pipeline("burrow", "nixos-19.09"),
+  Pipeline("burrow", "nixos-unstable"),
   Pipeline("vim-customized", "nixos-19.09"),
   Pipeline("vim-customized", "nixos-unstable")
 ]
