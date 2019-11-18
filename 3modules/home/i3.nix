@@ -334,6 +334,11 @@ in
       };
     };
 
+    xsession.pointerCursor = {
+      package = pkgs.vanilla-dmz;
+      name = "Vanilla-DMZ-AA";
+    };
+
     home.packages = with pkgs; [
       i3status
       i3lock # only needed for config testing / man pages
