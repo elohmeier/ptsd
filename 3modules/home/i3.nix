@@ -280,6 +280,7 @@ in
               { command = "i3-msg workspace 1"; notification = false; }
             ];
 
+            # to get the class of a window run `xprop WM_CLASS` and click on the window
             window.commands = [
               # not working
               #{
@@ -289,6 +290,14 @@ in
               {
                 criteria.class = "Firefox";
                 command = "floating enable, move to scratchpad, scratchpad show";
+              }
+              {
+                criteria.class = ".blueman-manager-wrapped";
+                command = "floating enable";
+              }
+              {
+                criteria.class = "Pavucontrol";
+                command = "floating enable";
               }
             ];
 
