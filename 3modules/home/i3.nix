@@ -251,8 +251,8 @@ in
 
                 "${modifier}+Shift+e" = ''mode "exit: [l]ogout, [r]eboot, [s]hutdown"'';
 
-                "${modifier}+numbersign" = "split horizontal;; exec alacritty";
-                "${modifier}+minus" = "split vertical;; exec alacritty";
+                "${modifier}+numbersign" = mkIf cfg.enableAlacritty "split horizontal;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+                "${modifier}+minus" = mkIf cfg.enableAlacritty "split vertical;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
 
                 "${modifier}+a" = ''[class="Firefox"] scratchpad show'';
                 "${modifier}+b" = ''[class="Firefox"] scratchpad show'';
