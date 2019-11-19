@@ -52,6 +52,15 @@ in
       description = "URLs Firefox should open automatically after startup, e.g. Login web page for Firewalls etc.";
       default = [];
     };
+    containerTimeZone = mkOption {
+      type = types.str;
+      default = "Europe/Berlin";
+      description = "Will be forwarded to the Citrix Remote";
+    };
+    containerLocale = mkOption {
+      type = types.str;
+      default = "de_DE.UTF-8";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -105,6 +114,13 @@ in
             networking = {
               useHostResolvConf = false;
               nameservers = [ "8.8.8.8" "8.8.4.4" ]; # will be used for VPN DNS lookup
+            };
+
+            time.timeZone = cfg.containerTimeZone;
+
+            i18n = {
+              defaultLocale = cfg.containerLocale;
+              supportedLocales = [ "${cfg.containerLocale}/UTF-8" ];
             };
           };
     };
