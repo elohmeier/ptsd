@@ -257,6 +257,8 @@ in
                 "${modifier}+a" = ''[class="Firefox"] scratchpad show'';
                 "${modifier}+b" = ''[class="Firefox"] scratchpad show'';
 
+                # Take a screenshot
+                "${modifier}+Ctrl+Shift+4" = "exec flameshot gui";
               };
 
             modes."codium: [n]obbofin, nix[p]kgs" = {
@@ -354,6 +356,7 @@ in
       libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
       playerctl
       brightnessctl
+      flameshot
     ];
 
     home.sessionVariables = {
