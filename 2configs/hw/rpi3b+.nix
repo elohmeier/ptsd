@@ -1,7 +1,6 @@
 # Raspberry Pi 3B+
 
-{ config, pkgs, lib, ... }:
-{
+{ config, pkgs, lib, ... }: {
   # NixOS wants to enable GRUB by default
   boot.loader.grub.enable = false;
   # Enables the generation of /boot/extlinux/extlinux.conf
@@ -37,7 +36,8 @@
       pkgs.stdenv.mkDerivation {
         name = "broadcom-rpi3bplus-extra";
         src = pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/b518de4/brcm/brcmfmac43455-sdio.txt";
+          url =
+            "https://raw.githubusercontent.com/RPi-Distro/firmware-nonfree/b518de4/brcm/brcmfmac43455-sdio.txt";
           sha256 = "0r4bvwkm3fx60bbpwd83zbjganjnffiq1jkaj0h20bwdj9ysawg9";
         };
         phases = [ "installPhase" ];
@@ -58,4 +58,6 @@
     doc.enable = false;
     dev.enable = false;
   };
+
+  i18n.consoleKeyMap = "de-latin1";
 }

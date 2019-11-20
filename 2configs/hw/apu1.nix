@@ -1,10 +1,8 @@
-# PC-Engines APU2c4
-
 { config, lib, pkgs, ... }:
 
 {
   boot.initrd.availableKernelModules =
-    [ "xhci_pci" "ahci" "ehci_pci" "usb_storage" "sd_mod" "sdhci_pci" ];
+    [ "ahci" "ohci_pci" "ehci_pci" "usb_storage" "sd_mod" ];
 
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -14,7 +12,7 @@
   boot.kernelParams = [ "console=tty0" "console=ttyS0,115200n8" ];
   boot.extraModulePackages = [];
 
-  nix.maxJobs = lib.mkDefault 4;
+  nix.maxJobs = lib.mkDefault 2;
 
   i18n.consoleKeyMap = "de-latin1";
 }
