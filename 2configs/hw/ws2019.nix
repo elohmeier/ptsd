@@ -66,7 +66,7 @@ in
   boot.kernelParams = [
     "mitigations=off" # make linux fast again
     "nordrand" # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1690085
-    "acpi_osi=! acpi_osi=\"Windows 2009\"" # https://github.com/NixOS/nixpkgs/issues/40388#issuecomment-455790792
+    "acpi_osi=Linux" # (try) fix shutdown bug
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
   boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
