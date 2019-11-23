@@ -130,7 +130,7 @@ in
     };
   };
 
-  config = mkIf config.services.nwbackup.enable {
+  config = mkIf cfg.enable {
     services.borgbackup.jobs = mapAttrs' generateJob cfg.repos;
 
     environment.variables = {
