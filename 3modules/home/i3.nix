@@ -389,5 +389,10 @@ in
         colors = alacritty_themes."${cfg.alacrittyTheme}";
       };
     };
+
+    # auto-hide the mouse cursor after inactivity
+    services.unclutter = {
+      enable = true;
+    };
   };
 }
