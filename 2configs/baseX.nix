@@ -2,6 +2,14 @@
 
 
 {
+  imports = [
+    <ptsd/2configs/nwhost.nix>
+
+    <ptsd/3modules>
+  ];
+
+  ptsd.nwtelegraf.enable = true;
+
   # Make sure zsh lands in /etc/shells
   # to not be affected by user not showing up in LightDM
   # as in https://discourse.nixos.org/t/normal-users-not-appearing-in-login-manager-lists/4619

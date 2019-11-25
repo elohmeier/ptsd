@@ -4,6 +4,7 @@ with lib;
 
 let
   cfg = config.ptsd.nwmonit;
+  universe = import ../2configs/universe.nix;
   check-systemd-units = pkgs.writeShellScriptBin "check-systemd-units" ''
     set -e
     out=$(${pkgs.systemd}/bin/systemctl list-units --state=failed --all)
@@ -23,7 +24,7 @@ in
       enable = mkEnableOption "nwmonit";
       httpIP = mkOption {
         type = types.str;
-        default = "127.0.0.1";
+        default = universe.nwvpn."${config.networking.hostName}".ip;
         example = "191.18.19.123";
       };
       httpUser = mkOption {
@@ -33,15 +34,15 @@ in
       httpPassword = mkOption {
         type = types.str;
       };
-      extraConfig = mkOption {
-        type = types.lines;
-        default = '''';
-      };
       telegramBotToken = mkOption {
         type = types.str;
       };
       telegramChatIds = mkOption {
         type = types.str;
+      };
+      extraConfig = mkOption {
+        type = with types; listOf str;
+        default = [];
       };
     };
   };
@@ -117,8 +118,7 @@ in
           if cpu usage > 90% for 10 cycles then alert
           if memory usage > 70% for 5 cycles then alert
           if swap usage > 20% for 10 cycles then alert
-        
-        ${cfg.extraConfig}
+        ${lib.concatMapStrings (x: "\n${x}") cfg.extraConfig}        
       '';
     };
     networking.firewall.allowedTCPPorts = [ 2812 ];

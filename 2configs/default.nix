@@ -1,3 +1,4 @@
+# Keep in mind this config is also used for NixOS containers.
 { config, lib, pkgs, ... }:
 
 let
@@ -40,16 +41,6 @@ in
   i18n.defaultLocale = "de_DE.UTF-8";
 
   time.timeZone = "Europe/Berlin";
-
-  services.timesyncd = {
-    enable = true;
-    servers = [
-      "0.de.pool.ntp.org"
-      "1.de.pool.ntp.org"
-      "2.de.pool.ntp.org"
-      "3.de.pool.ntp.org"
-    ];
-  };
 
   services.openssh = {
     enable = true;
