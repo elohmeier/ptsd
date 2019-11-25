@@ -4,10 +4,8 @@ let
   unstable = import <nixpkgs-unstable> {
     config.allowUnfree = true;
   };
-  xmind = pkgs.callPackage ./pkgs/xmind {};
 in
 {
-
   xsession.enable = true;
 
   home.keyboard = {
@@ -39,7 +37,7 @@ in
     spotify
     xournalpp
     calibre
-    xmind
+    unstable.xmind
     transmission-gtk
 
     chromium

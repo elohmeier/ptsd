@@ -9,6 +9,10 @@ in
   options = {
     ptsd.dockerHomeAssistant = {
       enable = mkEnableOption "dockerHomeAssistant";
+      version = mkOption {
+        default = "0.102.2";
+        type = types.str;
+      };
     };
   };
 
@@ -31,7 +35,7 @@ in
         -v /var/lib/hass-docker:/config \
         -v /etc/localtime:/etc/localtime:ro \
         --net=host \
-        homeassistant/home-assistant:0.99.3 \
+        homeassistant/home-assistant:${cfg.version} \
       '';
         ExecStop = "${pkgs.docker}/bin/docker stop home-assistant";
         ExecReload = "${pkgs.docker}/bin/docker restart home-assistant";
