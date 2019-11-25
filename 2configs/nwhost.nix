@@ -8,6 +8,9 @@ in
     <ptsd/3modules>
   ];
 
+  nix.gc.automatic = true;
+  system.stateVersion = "19.09";
+
   services.timesyncd = {
     enable = true;
     servers = [
