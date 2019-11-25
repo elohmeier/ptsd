@@ -32,7 +32,6 @@ in
       };
       httpPassword = mkOption {
         type = types.str;
-        default = "";
       };
       extraConfig = mkOption {
         type = types.lines;
