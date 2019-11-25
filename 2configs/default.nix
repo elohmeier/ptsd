@@ -68,6 +68,4 @@ in
     ${sshPubKeys.hostPub.htz1}
     ${sshPubKeys.hostPub.htz2}
   '';
-
-
 }
