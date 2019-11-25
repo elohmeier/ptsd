@@ -17,6 +17,8 @@ in
 
     home = {
 
+      packages = [ pkgs.baresip ];
+
       file.".baresip/accounts".text = ''
         <sip:${cfg.username}@${cfg.registrar}>;auth_pass=${cfg.password}
       '';

@@ -368,7 +368,6 @@ in
 
     xdg.configFile."i3status/config".source = i3statusrc;
 
-
     xdg.dataFile."file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI {} {
       "Desktop Entry" = {
         Type = "Action";
@@ -392,6 +391,10 @@ in
 
     # auto-hide the mouse cursor after inactivity
     services.unclutter = {
+      enable = true;
+    };
+
+    services.dunst = {
       enable = true;
     };
   };
