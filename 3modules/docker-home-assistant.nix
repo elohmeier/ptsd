@@ -21,7 +21,7 @@ in
     networking.firewall.allowedTCPPorts = [ 8123 ];
 
     # guessed port range for pyHomematic XML RPC Server
-    networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 39999; } ];
+    networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 49999; } ];
 
     virtualisation.docker.enable = true;
 
