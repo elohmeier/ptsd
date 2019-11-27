@@ -396,6 +396,12 @@ in
 
     services.dunst = {
       enable = true;
+      settings = {
+        global = {
+          geometry = "300x5-30+50";
+        };
+        urgency_low.timeout = 1;
+      };
     };
   };
 }

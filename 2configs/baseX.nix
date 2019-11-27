@@ -20,4 +20,8 @@
   # as recommended in
   # https://github.com/rycee/home-manager/blob/master/modules/programs/zsh.nix
   environment.pathsToLink = [ "/share/zsh" ];
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.enableOfBoot = true;
+  virtualisation.libvirtd.enable = true;
 }

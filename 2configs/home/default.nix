@@ -93,5 +93,44 @@ in
     cachix
     pssh
     pyenv
+    bc
+    wget
+    mc
+    tig
+    killall
+    unzip
+    whois
+    ncdu
+    iftop
+    bind
+    nmap
+    htop
+    cryptsetup
+    ntfs-3g
+    virtmanager
+    virtviewer
+    docker_compose
+    nvi # needed for virsh
+    dnsmasq
+    mosh
+    wireguard-qt
+    freerdp
+    screen
+    sqlitebrowser
+    nixpkgs-fmt
+    asciinema
+    gnumake
+    qrencode
+    nix-deploy
+    hcloud
+    dep2nix
+    xca
+    gcolor3
+    vlc
+    syncthing
+    imagemagick
+    youtube-dl
+    spotify
+    mpv
   ];
 }
