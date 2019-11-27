@@ -105,15 +105,13 @@ in
     bind
     nmap
     htop
-    cryptsetup
-    ntfs-3g
     virtmanager
     virtviewer
     docker_compose
     nvi # needed for virsh
     dnsmasq
     mosh
-    wireguard-qt
+    wireshark-qt
     freerdp
     screen
     sqlitebrowser
@@ -132,5 +130,9 @@ in
     youtube-dl
     spotify
     mpv
+    cryptsetup
+    ntfs3g
+    tree
+    drawio
   ];
 }

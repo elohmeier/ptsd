@@ -1,10 +1,8 @@
 { config, lib, pkgs, ... }:
 
-
 {
   imports = [
     <ptsd/2configs/nwhost.nix>
-
     <ptsd/3modules>
   ];
 
@@ -22,6 +20,6 @@
   environment.pathsToLink = [ "/share/zsh" ];
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableOfBoot = true;
+  virtualisation.docker.enableOnBoot = true;
   virtualisation.libvirtd.enable = true;
 }
