@@ -22,4 +22,6 @@
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = true;
   virtualisation.libvirtd.enable = true;
+
+  networking.firewall.allowedTCPPorts = [ 22000 ]; # Syncthing
 }
