@@ -22,4 +22,6 @@
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = true;
   virtualisation.libvirtd.enable = true;
+
+  environment.systemPackages = with pkgs; [ git nvi ];
 }

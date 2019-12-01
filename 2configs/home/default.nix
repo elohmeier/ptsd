@@ -134,5 +134,6 @@ in
     ntfs3g
     tree
     drawio
+    passExtensions.pass-import
   ];
 }
