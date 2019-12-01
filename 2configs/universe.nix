@@ -55,6 +55,8 @@
       ip = "191.18.19.36";
       publicKey = "dLfyCkEPM2bDwcO2JEYBv772dXX+JM6bsnSpttaN0gs=";
     };
+    rpi3 = { # RPi-HomeMatic      
+    };
     ws1 = {
       ip = "191.18.19.80";
       publicKey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
