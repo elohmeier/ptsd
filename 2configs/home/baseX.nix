@@ -41,7 +41,6 @@ in
     transmission-gtk
 
     chromium
-    firefox
 
     thunderbird
     sylpheed
@@ -50,4 +49,13 @@ in
 
     pulseeffects
   ];
+
+  programs.browserpass = {
+    enable = true;
+    browsers = [ "firefox" ];
+  };
+
+  programs.firefox = {
+    enable = true;
+  };
 }

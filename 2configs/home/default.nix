@@ -134,6 +134,6 @@ in
     ntfs3g
     tree
     drawio
-    passExtensions.pass-import
+    (pass.withExtensions (ext: [ ext.pass-import ]))
   ];
 }
