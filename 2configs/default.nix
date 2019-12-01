@@ -44,7 +44,7 @@ in
 
   services.openssh = {
     enable = true;
-    permitRootLogin = "prohibit-password";
+    permitRootLogin = lib.mkDefault "prohibit-password";
     passwordAuthentication = false;
     challengeResponseAuthentication = false;
   };

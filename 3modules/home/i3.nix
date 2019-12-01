@@ -215,7 +215,7 @@ in
 
                 "XF86Calculator" = mkIf cfg.enableAlacritty "exec i3-sensible-terminal --title bc --command ${pkgs.bc}/bin/bc -l";
 
-                "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play";
+                "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
                 "${modifier}+p" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
                 "XF86AudioStop" = "exec ${pkgs.playerctl}/bin/playerctl stop";
                 "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";

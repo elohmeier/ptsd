@@ -24,4 +24,6 @@
   virtualisation.libvirtd.enable = true;
 
   environment.systemPackages = with pkgs; [ git nvi ];
+
+  networking.firewall.allowedTCPPorts = [ 22000 ]; # Syncthing
 }

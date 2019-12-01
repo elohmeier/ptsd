@@ -47,4 +47,8 @@ in
   ptsd.nwbackup = {
     enable = true;
   };
+
+  environment.systemPackages = [
+    (pkgs.callPackage ../5pkgs/telegram.sh {})
+  ];
 }
