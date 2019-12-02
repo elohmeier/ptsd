@@ -4,11 +4,11 @@
 let
   sshPubKeys = import ./ssh-pubkeys.nix;
   authorizedKeys = [
-    sshPubKeys.sshPub.nw1
-    sshPubKeys.sshPub.nw15_terminus
-    sshPubKeys.sshPub.nw15_workingcopy
-    sshPubKeys.sshPub.nw30
-    sshPubKeys.sshPub.nw30_win10
+    sshPubKeys.sshPub.mb1
+    sshPubKeys.sshPub.iph1_terminus
+    sshPubKeys.sshPub.iph1_workingcopy
+    sshPubKeys.sshPub.tp1
+    sshPubKeys.sshPub.tp1_win10
     sshPubKeys.sshPub.ws1
     sshPubKeys.sshPub.enno_yubi41
     sshPubKeys.sshPub.enno_yubi49
@@ -66,5 +66,6 @@ in
     tmux
     git
     nixpkgs-fmt
+    dnsutils
   ];
 }
