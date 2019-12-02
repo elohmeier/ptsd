@@ -54,5 +54,7 @@ in
       enable = true;
       extraConfig = configOptions;
     };
+
+    systemd.services.telegraf.serviceConfig.TimeoutStopSec = "10s";
   };
 }

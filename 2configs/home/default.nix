@@ -135,5 +135,7 @@ in
     tree
     drawio
     (pass.withExtensions (ext: [ ext.pass-import ]))
+    openssl
+    efitools
   ];
 }

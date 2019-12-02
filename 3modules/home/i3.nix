@@ -193,6 +193,8 @@ in
     xsession.windowManager.i3 =
       let
         modifier = config.xsession.windowManager.i3.config.modifier;
+        exit_mode = "exit: [l]ogout, [r]eboot, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate";
+        open_codium_mode = "codium: [n]obbofin, nix[p]kgs";
       in
         {
           enable = true;
@@ -247,9 +249,9 @@ in
                 # not working
                 #"${modifier}+p" = ''[instance="scratch-term"] scratchpad show'';
 
-                "${modifier}+c" = ''mode "codium: [n]obbofin, nix[p]kgs"'';
+                "${modifier}+c" = ''mode "${open_codium_mode}"'';
 
-                "${modifier}+Shift+e" = ''mode "exit: [l]ogout, [r]eboot, [s]hutdown"'';
+                "${modifier}+Shift+e" = ''mode "${exit_mode}"'';
 
                 "${modifier}+numbersign" = mkIf cfg.enableAlacritty "split horizontal;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
                 "${modifier}+minus" = mkIf cfg.enableAlacritty "split vertical;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
@@ -261,17 +263,19 @@ in
                 "${modifier}+Ctrl+Shift+4" = "exec flameshot gui";
               };
 
-            modes."codium: [n]obbofin, nix[p]kgs" = {
+            modes."${open_codium_mode}" = {
               "n" = ''exec codium /home/enno/nobbofin; mode "default"'';
               "p" = ''exec codium /home/enno/nixpkgs; mode "default"'';
               "Escape" = ''mode "default"'';
               "Return" = ''mode "default"'';
             };
 
-            modes."exit: [l]ogout, [r]eboot, [s]hutdown" = {
+            modes."${exit_mode}" = {
               "l" = ''exec i3-msg exit; mode "default"'';
-              "r" = ''exec reboot; mode "default"'';
-              "s" = ''exec shutdown now; mode "default"'';
+              "r" = ''exec systemctl reboot; mode "default"'';
+              "s" = ''exec systemctl poweroff; mode "default"'';
+              "u" = ''exec systemctl suspend-then-hibernate; mode "default"'';
+              "h" = ''exec systemctl hibernate; mode "default"'';
               "Escape" = ''mode "default"'';
               "Return" = ''mode "default"'';
             };
