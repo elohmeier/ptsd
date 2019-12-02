@@ -137,5 +137,6 @@ in
     (pass.withExtensions (ext: [ ext.pass-import ]))
     openssl
     efitools
+    tpm2-tools
   ];
 }

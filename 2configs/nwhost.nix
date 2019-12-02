@@ -50,6 +50,5 @@ in
 
   environment.systemPackages = [
     (pkgs.callPackage ../5pkgs/telegram.sh {})
-    pkgs.nvi
   ];
 }

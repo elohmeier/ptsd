@@ -76,8 +76,8 @@ let
       exclude = cfg.exclude;
       extraCreateArgs = "--stats --exclude-caches";
       environment = { BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes"; };
-      postCreate = postCreate name;
-      readWritePaths = [ "/var/lib/node_exporter" ];
+      #postCreate = postCreate name;
+      #readWritePaths = [ "/var/lib/node_exporter" ];
       #    postHook = "${prowl}/bin/prowl borg ${config.networking.hostName}➡${name} exited with status $exitStatus";
       prune.keep = {
         within = "1d"; # Keep all archives from the last day
