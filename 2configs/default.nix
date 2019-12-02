@@ -64,5 +64,7 @@ in
   environment.systemPackages = with pkgs; [
     vims.small
     tmux
+    git
+    nixpkgs-fmt
   ];
 }
