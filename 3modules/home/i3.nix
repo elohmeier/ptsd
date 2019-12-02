@@ -4,62 +4,6 @@ with lib;
 
 let
   cfg = config.ptsd.i3;
-  i3statusrc = pkgs.writeText "i3statusconfig" ''
-    general {
-      colors = true
-      interval = 5
-      color_good = "#35d689"
-    }
-
-    order += "ipv6"
-    order += "disk /"
-    ${optionalString cfg.useWifi ''order += "wireless _first_"''}
-    order += "ethernet ${cfg.ethIf}"
-    ${optionalString cfg.useBattery ''order += "battery all"''}
-    order += "load"
-    order += "memory"
-    ${optionalString (cfg.primarySpeaker != null) ''order += "volume master"''}
-    order += "tztime local"
-
-    wireless _first_ {
-      format_up = "W: (%quality at %essid) %ip"
-      format_down = "W: down"
-    }
-
-    ethernet ${cfg.ethIf} {
-      #format_up = "E: %ip (%speed)"
-      format_up = "E: %ip"
-      format_down = "E: down"
-    }
-
-    battery all {
-      format = "%status %percentage %remaining"
-    }
-
-    tztime local {
-      format = "%Y-%m-%d %H:%M:%S"
-    }
-
-    load {
-      format = "%1min"
-    }
-
-    disk "/" {
-      format = "%avail"
-    }
-
-    memory {
-      format = "%percentage_used used, %percentage_free free, %percentage_shared shared"
-    }
-
-    ${optionalString (cfg.primarySpeaker != null) ''
-    volume master {
-      format = "♪: %volume"
-      format_muted = "♪: muted (%volume)"
-      device = "pulse"
-    }
-  ''}
-  '';
   alacritty_themes = {
     solarized_light = {
 
@@ -139,6 +83,10 @@ let
   };
 in
 {
+  imports = [
+    ./i3status.nix
+  ];
+
   options.ptsd.i3 = {
     enable = mkEnableOption "i3 window manager";
     primaryScreenWidth = mkOption {
@@ -366,7 +314,84 @@ in
       QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
     };
 
-    xdg.configFile."i3status/config".source = i3statusrc;
+    ptsd.i3status = {
+      enable = true;
+      blocks = {
+        general.opts = {
+          colors = true;
+          interval = 5;
+          color_good = "#35d689";
+        };
+
+        wireless = {
+          type = "wireless";
+          name = "_first_";
+          opts = {
+            format_up = "W: (%quality at %essid) %ip";
+            format_down = "W: down";
+          };
+        };
+
+        ethernet = {
+          type = "ethernet";
+          name = cfg.ethIf;
+          opts = {
+            format_up = "E: %ip";
+            format_down = "E: down";
+          };
+        };
+
+        battery = {
+          type = "battery";
+          name = "all";
+          opts.format = "%status %percentage %remaining";
+        };
+
+        tztime = {
+          type = "tztime";
+          name = "local";
+          opts.format = "%Y-%m-%d %H:%M:%S";
+        };
+
+        load = {
+          type = "load";
+          opts.format = "%1min";
+        };
+
+        disk_root = {
+          type = "disk";
+          name = "/";
+          opts.format = "%avail";
+        };
+
+        memory = {
+          type = "memory";
+          opts.format = "%percentage_used used, %percentage_free free, %percentage_shared shared";
+        };
+
+        volume_master = {
+          type = "volume";
+          name = "master";
+          opts = {
+            format = "♪: %volume";
+            format_muted = "♪: muted (%volume)";
+            device = "pulse";
+          };
+        };
+      };
+
+      order = [
+        "ipv6"
+        "disk /"
+        (optionalString cfg.useWifi "wireless _first_")
+        "ethernet ${cfg.ethIf}"
+        (optionalString cfg.useBattery "battery all")
+        "load"
+        "memory"
+        "volume master"
+        "tztime local"
+      ];
+    };
 
     xdg.dataFile."file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI {} {
       "Desktop Entry" = {
