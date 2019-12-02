@@ -44,6 +44,9 @@ let
 
     " fix not being able to backspace more than beginning of insert-mode
     set backspace=indent,eol,start
+
+    " fix nasty vim yaml defaults
+    autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
   '';
 in
 {
@@ -85,21 +88,17 @@ in
     name = "vim";
     vimrcConfig = {
       customRC = ''
+        " disable folding e.g. in beancount-files
+        set nofoldenable
 
-            " fix nasty vim yaml defaults
-            autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab
+        map <C-n> :NERDTreeToggle<CR>
 
-            " disable folding e.g. in beancount-files
-            set nofoldenable
+        " close vim if the only window left open is a NERDTree
+        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-            map <C-n> :NERDTreeToggle<CR>
-
-            " close vim if the only window left open is a NERDTree
-            autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-            " required by YouCompleteMe
-            set encoding=utf-8
-            '';
+        " required by YouCompleteMe
+        set encoding=utf-8
+      '';
 
       packages.myVimPackage = with vimPlugins; {
         start = [ vim-nix vim-beancount nerdtree nerdtree-git-plugin ale vim-renamer tabnine-vim ];
