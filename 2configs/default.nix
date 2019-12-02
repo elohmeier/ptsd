@@ -13,6 +13,7 @@ let
     sshPubKeys.sshPub.enno_yubi41
     sshPubKeys.sshPub.enno_yubi49
   ];
+  vims = pkgs.callPackage ./vims.nix {};
 in
 {
   environment.shellAliases = import ./aliases.nix;
@@ -59,4 +60,9 @@ in
     ${sshPubKeys.hostPub.htz1}
     ${sshPubKeys.hostPub.htz2}
   '';
+
+  environment.systemPackages = with pkgs; [
+    vims.small
+    tmux
+  ];
 }

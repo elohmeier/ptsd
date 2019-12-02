@@ -135,5 +135,6 @@ in
     tree
     drawio
     (pass.withExtensions (ext: [ ext.pass-import ]))
+    tpm2-tools
   ];
 }
