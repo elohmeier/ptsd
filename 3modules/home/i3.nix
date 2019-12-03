@@ -141,7 +141,7 @@ in
     xsession.windowManager.i3 =
       let
         modifier = config.xsession.windowManager.i3.config.modifier;
-        exit_mode = "exit: [l]ogout, [r]eboot, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate";
+        exit_mode = "exit: [l]ogout, [r]eboot, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
         open_codium_mode = "codium: [n]obbofin, nix[p]kgs";
       in
         {
@@ -223,6 +223,7 @@ in
               "r" = ''exec systemctl reboot; mode "default"'';
               "s" = ''exec systemctl poweroff; mode "default"'';
               "u" = ''exec systemctl suspend-then-hibernate; mode "default"'';
+              "p" = ''exec systemctl suspend; mode "default"'';
               "h" = ''exec systemctl hibernate; mode "default"'';
               "Escape" = ''mode "default"'';
               "Return" = ''mode "default"'';
