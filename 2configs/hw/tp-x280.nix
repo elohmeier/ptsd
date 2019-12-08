@@ -53,7 +53,7 @@
     };
   };
   boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
-  
+
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
