@@ -138,5 +138,6 @@ in
     openssl
     efitools
     tpm2-tools
+    lorri
   ];
 }

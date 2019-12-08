@@ -99,7 +99,7 @@ in
         type = types.str;
       };
       paths = mkOption {
-        default = [ "/etc/nixos" "/home" "/root" "/var/db" "/var/lib" "/var/spool" ];
+        default = [ "/etc" "/home" "/root" "/var/db" "/var/lib" "/var/spool" ];
         type = with types; coercedTo str lib.singleton (listOf str);
       };
       exclude = mkOption {

@@ -1,8 +1,5 @@
 { config, lib, pkgs, ... }:
 
-let
-  unstable = import <nixpkgs-unstable> {};
-in
 {
   imports = [
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix> # don't remove, wifi will be lost :-)
@@ -45,7 +42,7 @@ in
     # https://wiki.archlinux.org/index.php/Intel_graphics#Enable_GuC_/_HuC_firmware_loading
     "i915.enable_guc=2"
   ];
-  boot.kernelPackages = unstable.linuxPackages_latest; # use the latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest; # use the latest kernel
   boot.zfs.enableUnstable = true;
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs = {
