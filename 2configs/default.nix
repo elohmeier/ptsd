@@ -1,5 +1,6 @@
 # Keep in mind this config is also used for NixOS containers.
-{ config, lib, pkgs, ... }:
+with import <ptsd/lib>;
+{ config, pkgs, ... }:
 
 let
   sshPubKeys = import ./ssh-pubkeys.nix;
@@ -16,26 +17,38 @@ let
   vims = pkgs.callPackage ./vims.nix {};
 in
 {
+  imports = [
+    {
+      users.users =
+        mapAttrs (_: h: { hashedPassword = h; })
+          (import <secrets/hashedPasswords.nix>);
+    }
+    {
+      users.users = {
+        root = {
+          openssh.authorizedKeys.keys = authorizedKeys;
+        };
+
+        mainUser = {
+          name = "enno";
+          isNormalUser = true;
+          home = "/home/enno";
+          createHome = true;
+          useDefaultShell = true;
+          uid = 1000;
+          description = "Enno Lohmeier";
+          extraGroups =
+            [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" ];
+          openssh.authorizedKeys.keys = authorizedKeys;
+        };
+      };
+    }
+  ];
+
   environment.shellAliases = import ./aliases.nix;
 
-  users = {
-    mutableUsers = false;
+  users.mutableUsers = false;
 
-    users.root = {
-      openssh.authorizedKeys.keys = authorizedKeys;
-    };
-
-    users.enno = {
-      isNormalUser = true;
-      home = "/home/enno";
-      useDefaultShell = true;
-      uid = 1000;
-      description = "Enno Lohmeier";
-      extraGroups =
-        [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" ];
-      openssh.authorizedKeys.keys = authorizedKeys;
-    };
-  };
 
   boot.initrd.network.ssh.authorizedKeys = authorizedKeys;
 
@@ -45,7 +58,7 @@ in
 
   services.openssh = {
     enable = true;
-    permitRootLogin = lib.mkDefault "prohibit-password";
+    permitRootLogin = mkDefault "prohibit-password";
     passwordAuthentication = false;
     challengeResponseAuthentication = false;
   };

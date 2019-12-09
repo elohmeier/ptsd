@@ -2,6 +2,7 @@
 
 {
   imports = [
+    <ptsd>
     <ptsd/2configs/nwhost.nix>
     <ptsd/3modules>
   ];
@@ -23,7 +24,7 @@
   virtualisation.docker.enableOnBoot = true;
   virtualisation.libvirtd.enable = true;
 
-  environment.systemPackages = with pkgs; [ git nvi ];
+  environment.systemPackages = with pkgs; [ git gen-secrets ];
 
   networking.firewall.allowedTCPPorts = [ 22000 ]; # Syncthing
 }

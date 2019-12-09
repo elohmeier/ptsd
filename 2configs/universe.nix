@@ -63,4 +63,23 @@
       publicKey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
     };
   };
+
+  # not used yet
+  hosts = {
+    apu1 = {
+      cores = 1;
+      nets = {
+        nwvpn = {
+          aliases = [
+            "apu1.nw"
+          ];
+          wireguard.pubkey = ''
+            t6zE4F6k5PjaSyUU69iDJbK3eVXy+7jgeSuV2+cfGWA=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEoUyEnCGv00sy4Zzul1XdF/6CMPg4Z4BMcJ3RSJ89Eq ";
+    };
+  };
 }

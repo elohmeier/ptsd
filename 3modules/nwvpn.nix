@@ -35,7 +35,8 @@ in
         type = types.int;
         default = 21;
       };
-      privateKey = mkOption {
+      privateKeyFile = mkOption {
+        default = (toString <secrets>) + "/nwvpn.key";
         type = types.str;
       };
     };
@@ -51,7 +52,7 @@ in
         mkIf (!config.networking.useNetworkd) {
           networking.wireguard.interfaces."${cfg.ifname}" = {
             ips = [ cfg.ip ];
-            privateKey = cfg.privateKey;
+            privateKeyFile = cfg.privateKeyFile;
             peers = [
               {
                 publicKey = cfg.publicKey;
@@ -83,7 +84,7 @@ in
               };
 
               wireguardConfig = {
-                PrivateKeyFile = pkgs.writeText "wgpriv" cfg.privateKey;
+                PrivateKeyFile = cfg.privateKeyFile;
               };
 
               wireguardPeers = [
