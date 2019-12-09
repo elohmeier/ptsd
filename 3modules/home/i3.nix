@@ -76,7 +76,59 @@ in
           config = {
             modifier = "Mod4";
             keybindings =
-              mkOptionDefault {
+              {
+                "${modifier}+Return" = "exec i3-sensible-terminal";
+                "${modifier}+Shift+q" = "kill";
+                "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
+
+                "${modifier}+Left" = "focus left";
+                "${modifier}+Down" = "focus down";
+                "${modifier}+Up" = "focus up";
+                "${modifier}+Right" = "focus right";
+
+                "${modifier}+Shift+Left" = "move left";
+                "${modifier}+Shift+Down" = "move down";
+                "${modifier}+Shift+Up" = "move up";
+                "${modifier}+Shift+Right" = "move right";
+
+                "${modifier}+f" = "fullscreen toggle";
+
+                "${modifier}+s" = "layout stacking";
+                "${modifier}+w" = "layout tabbed";
+                "${modifier}+e" = "layout toggle split";
+
+                "${modifier}+Shift+space" = "floating toggle";
+                "${modifier}+space" = "focus mode_toggle";
+
+                # "Space-Hack" to fix the ordering in the generated config file
+                # This prevents that i3 uses this order: 10, 1, 2, ...
+                " ${modifier}+1" = "workspace $ws1";
+                " ${modifier}+2" = "workspace $ws2";
+                " ${modifier}+3" = "workspace $ws3";
+                " ${modifier}+4" = "workspace $ws4";
+                " ${modifier}+5" = "workspace $ws5";
+                " ${modifier}+6" = "workspace $ws6";
+                " ${modifier}+7" = "workspace $ws7";
+                " ${modifier}+8" = "workspace $ws8";
+                " ${modifier}+9" = "workspace $ws9";
+                "${modifier}+0" = "workspace $ws10";
+
+                "${modifier}+Shift+1" = "move container to workspace $ws1";
+                "${modifier}+Shift+2" = "move container to workspace $ws2";
+                "${modifier}+Shift+3" = "move container to workspace $ws3";
+                "${modifier}+Shift+4" = "move container to workspace $ws4";
+                "${modifier}+Shift+5" = "move container to workspace $ws5";
+                "${modifier}+Shift+6" = "move container to workspace $ws6";
+                "${modifier}+Shift+7" = "move container to workspace $ws7";
+                "${modifier}+Shift+8" = "move container to workspace $ws8";
+                "${modifier}+Shift+9" = "move container to workspace $ws9";
+                "${modifier}+Shift+0" = "move container to workspace $ws10";
+
+                "${modifier}+Shift+r" = "restart";
+
+                "${modifier}+r" = "mode resize";
+
+
                 "${modifier}+Shift+Delete" = "exec ${pkgs.i3lock}/bin/i3lock --color=000000 --show-failed-attempts"; # TODO: add lockpaper
                 "${modifier}+Shift+Return" = "exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
                 "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
@@ -111,9 +163,6 @@ in
 
                 "${modifier}+l" = "focus right";
                 "${modifier}+Shift+p" = "resize grow width 20 px or 20 ppt";
-
-                "${modifier}+0" = "workspace 10";
-                "${modifier}+Shift+0" = "move container to workspace 10";
 
                 "${modifier}+Home" = "workspace 1";
                 "${modifier}+Prior" = "workspace prev";
@@ -205,6 +254,19 @@ in
               }
             ];
           };
+
+          extraConfig = ''
+            set $ws1 "1"
+            set $ws2 "2"
+            set $ws3 "3"
+            set $ws4 "4"
+            set $ws5 "5"
+            set $ws6 "6"
+            set $ws7 "7"
+            set $ws8 "8"
+            set $ws9 "9"
+            set $ws10 "10"
+          '';
         };
 
     gtk = {
