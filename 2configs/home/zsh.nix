@@ -40,6 +40,12 @@ in
             unset timer
           fi
         }
+
+        # allow any key to get things flowing again (after Ctrl-s)
+        stty ixany
+
+        # to disable Ctrl-s use this:
+        # stty -ixon
       fi
     '';
 
