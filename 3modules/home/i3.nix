@@ -4,6 +4,7 @@ with lib;
 
 let
   cfg = config.ptsd.i3;
+  i3font = "${cfg.defaultFont} ${toString cfg.defaultFontSize}";
 in
 {
   imports = [
@@ -39,9 +40,17 @@ in
       type = types.str;
       default = "solarized_dark";
     };
+    defaultFont = mkOption {
+      type = types.str;
+      default = "DejaVu Sans";
+    };
     monospaceFont = mkOption {
       type = types.str;
-      default = "Consolas 8";
+      default = "Consolas";
+    };
+    defaultFontSize = mkOption {
+      type = types.int;
+      default = 8;
     };
     primaryMicrophone = mkOption {
       type = with types; nullOr str;
@@ -187,12 +196,12 @@ in
               "odiaeresis" = "resize grow width 10 px or 10 ppt";
             };
 
-            fonts = [ cfg.monospaceFont ];
+            fonts = [ i3font ];
 
             bars = [
               {
                 colors.background = "#181516";
-                fonts = [ cfg.monospaceFont ];
+                fonts = [ i3font ];
               }
             ];
           };
@@ -201,7 +210,7 @@ in
     gtk = {
       enable = true;
       font = {
-        name = "DejaVu Sans 10";
+        name = "${cfg.defaultFont} ${toString cfg.defaultFontSize}";
         package = pkgs.dejavu_fonts;
       };
       iconTheme = {
@@ -230,7 +239,8 @@ in
     ];
 
     programs.urxvt = let
-      font = "Consolas";
+      font = cfg.monospaceFont;
+      fontSize = toString cfg.defaultFontSize;
       themes = {
         solarized_dark = {
           "background" = "#002b36";
@@ -296,8 +306,8 @@ in
           intensityStyles = false;
         } // themes."${cfg.consoleTheme}";
         fonts = [
-          "xft:${font}:size=8"
-          "xft:${font}:size=8:bold"
+          "xft:${font}:size=${fontSize}"
+          "xft:${font}:size=${fontSize}:bold"
         ];
         keybindings = {
           "M-u" = "perl:url-select:select_next";
@@ -305,7 +315,7 @@ in
           "M-s" = "perl:keyboard-select:search";
 
           "M-F1" = "command:\\033]710;xft:${font}:size=6\\007\\033]711;xft:${font}:size=6:bold\\007";
-          "M-F2" = "command:\\033]710;xft:${font}:size=8\\007\\033]711;xft:${font}:size=8:bold\\007";
+          "M-F2" = "command:\\033]710;xft:${font}:size=${fontSize}\\007\\033]711;xft:${font}:size=${fontSize}:bold\\007";
           "M-F3" = "command:\\033]710;xft:${font}:size=11\\007\\033]711;xft:${font}:size=11:bold\\007";
           "M-F4" = "command:\\033]710;xft:${font}:size=25\\007\\033]711;xft:${font}:size=25:bold\\007";
           "M-F5" = "command:\\033]710;xft:${font}:size=30\\007\\033]711;xft:${font}:size=30:bold\\007";
