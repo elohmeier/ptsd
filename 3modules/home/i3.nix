@@ -388,9 +388,10 @@ in
       order = [
         "ipv6"
         "disk /"
-        (optionalString cfg.useWifi "wireless _first_")
-        "ethernet ${cfg.ethIf}"
-        (optionalString cfg.useBattery "battery all")
+      ] ++ optional cfg.useWifi [ "wireless _first_" ]
+      ++ [ "ethernet ${cfg.ethIf}" ]
+      ++ optional cfg.useBattery [ "battery all" ]
+      ++ [
         "load"
         "memory"
         "volume master"
