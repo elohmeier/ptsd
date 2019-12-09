@@ -98,6 +98,10 @@ in
 
         " required by YouCompleteMe
         set encoding=utf-8
+
+        " For mouse click in NERDTree
+        :set mouse=a
+        let g:NERDTreeMouseMode=3
       '';
 
       packages.myVimPackage = with vimPlugins; {

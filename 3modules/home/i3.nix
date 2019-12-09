@@ -4,83 +4,6 @@ with lib;
 
 let
   cfg = config.ptsd.i3;
-  alacritty_themes = {
-    solarized_light = {
-
-      # Default colors
-      primary = {
-        background = "0xfdf6e3"; # base3
-        foreground = "0x657b83"; # base00
-      };
-
-      # Cursor colors
-      cursor = {
-        text = "0xfdf6e3"; # base3
-        cursor = "0x657b83"; # base00
-      };
-
-      # Normal colors
-      normal = {
-        black = "0x073642"; # base02
-        red = "0xdc322f"; # red
-        green = "0x859900"; # green
-        yellow = "0xb58900"; # yellow
-        blue = "0x268bd2"; # blue
-        magenta = "0xd33682"; # magenta
-        cyan = "0x2aa198"; # cyan
-        white = "0xeee8d5"; # base2
-      };
-
-      # Bright colors
-      bright = {
-        black = "0x002b36"; # base03
-        red = "0xcb4b16"; # orange
-        green = "0x586e75"; # base01
-        yellow = "0x657b83"; # base00
-        blue = "0x839496"; # base0
-        magenta = "0x6c71c4"; # violet
-        cyan = "0x93a1a1"; # base1
-        white = "0xfdf6e3"; # base3
-      };
-    };
-    solarized_dark = {
-      # Default colors
-      primary = {
-        background = "0x002b36"; # base03
-        foreground = "0x839496"; # base0
-      };
-
-      # Cursor colors
-      cursor = {
-        text = "0x002b36"; # base03
-        cursor = "0x839496"; # base0
-      };
-
-      # Normal colors
-      normal = {
-        black = "0x073642"; # base02
-        red = "0xdc322f"; # red
-        green = "0x859900"; # green
-        yellow = "0xb58900"; # yellow
-        blue = "0x268bd2"; # blue
-        magenta = "0xd33682"; # magenta
-        cyan = "0x2aa198"; # cyan
-        white = "0xeee8d5"; # base2
-      };
-
-      # Bright colors
-      bright = {
-        black = "0x002b36"; # base03
-        red = "0xcb4b16"; # orange
-        green = "0x586e75"; # base01
-        yellow = "0x657b83"; # base00
-        blue = "0x839496"; # base0
-        magenta = "0x6c71c4"; # violet
-        cyan = "0x93a1a1"; # base1
-        white = "0xfdf6e3"; # base3
-      };
-    };
-  };
 in
 {
   imports = [
@@ -112,18 +35,13 @@ in
       default = "eth0";
       description = "Ethernet interface for i3status config.";
     };
-    enableAlacritty = mkOption {
-      type = types.bool;
-      default = true;
-      description = "Configure alacritty and setup i3 integration";
-    };
-    alacrittyTheme = mkOption {
+    consoleTheme = mkOption {
       type = types.str;
       default = "solarized_dark";
     };
     monospaceFont = mkOption {
       type = types.str;
-      default = "Consolas 12";
+      default = "Consolas 8";
     };
     primaryMicrophone = mkOption {
       type = with types; nullOr str;
@@ -151,7 +69,7 @@ in
             keybindings =
               mkOptionDefault {
                 "${modifier}+Shift+Delete" = "exec ${pkgs.i3lock}/bin/i3lock --color=000000 --show-failed-attempts"; # TODO: add lockpaper
-                "${modifier}+Shift+Return" = mkIf cfg.enableAlacritty "exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+                "${modifier}+Shift+Return" = "exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
                 "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
                 "${modifier}+Shift+t" = "exec ${pkgs.pcmanfm}/bin/pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
 
@@ -163,7 +81,7 @@ in
                 "XF86AudioRaiseVolume" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
                 "XF86AudioMicMute" = mkIf (cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
-                "XF86Calculator" = mkIf cfg.enableAlacritty "exec i3-sensible-terminal --title bc --command ${pkgs.bc}/bin/bc -l";
+                "XF86Calculator" = "exec i3-sensible-terminal -title bc -e ${pkgs.bc}/bin/bc -l";
 
                 "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
                 "${modifier}+p" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
@@ -201,8 +119,8 @@ in
 
                 "${modifier}+Shift+e" = ''mode "${exit_mode}"'';
 
-                "${modifier}+numbersign" = mkIf cfg.enableAlacritty "split horizontal;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
-                "${modifier}+minus" = mkIf cfg.enableAlacritty "split vertical;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+                "${modifier}+numbersign" = "split horizontal;; exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
+                "${modifier}+minus" = "split vertical;; exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
 
                 "${modifier}+a" = ''[class="Firefox"] scratchpad show'';
                 "${modifier}+b" = ''[class="Firefox"] scratchpad show'';
@@ -230,8 +148,6 @@ in
             };
 
             startup = [
-              # not working
-              #{ command = "alacritty --class scratch-term"; always = true; }
               { command = "i3-msg workspace 1"; notification = false; }
             ];
 
@@ -313,8 +229,90 @@ in
       pcmanfm
     ];
 
+    programs.urxvt = let
+      font = "Consolas";
+      themes = {
+        solarized_dark = {
+          "background" = "#002b36";
+          "foreground" = "#839496";
+          "fadeColor" = "#002b36";
+          "cursorColor" = "#93a1a1";
+          "pointerColorBackground" = "#586e75";
+          "pointerColorForeground" = "#93a1a1";
+          "color0" = "#073642";
+          "color8" = "#002b36";
+          "color1" = "#dc322f";
+          "color9" = "#cb4b16";
+          "color2" = "#859900";
+          "color10" = "#586e75";
+          "color3" = "#b58900";
+          "color11" = "#657b83";
+          "color4" = "#268bd2";
+          "color12" = "#839496";
+          "color5" = "#d33682";
+          "color13" = "#6c71c4";
+          "color6" = "#2aa198";
+          "color14" = "#93a1a1";
+          "color7" = "#eee8d5";
+          "color15" = "#fdf6e3";
+        };
+        solarized_light = {
+          "background" = "#fdf6e3";
+          "foreground" = "#657b83";
+          "fadeColor" = "#fdf6e3";
+          "cursorColor" = "#586e75";
+          "pointerColorBackground" = "#93a1a1";
+          "pointerColorForeground" = "#586e75";
+          "color0" = "#073642";
+          "color8" = "#002b36";
+          "color1" = "#dc322f";
+          "color9" = "#cb4b16";
+          "color2" = "#859900";
+          "color10" = "#586e75";
+          "color3" = "#b58900";
+          "color11" = "#657b83";
+          "color4" = "#268bd2";
+          "color12" = "#839496";
+          "color5" = "#d33682";
+          "color13" = "#6c71c4";
+          "color6" = "#2aa198";
+          "color14" = "#93a1a1";
+          "color7" = "#eee8d5";
+          "color15" = "#fdf6e3";
+        };
+      };
+    in
+      {
+        enable = true;
+        package = pkgs.rxvt_unicode-with-plugins;
+        extraConfig = {
+          saveLines = 100000;
+          scrollBar = false;
+          urgentOnBell = true;
+          perl-ext-common = "default,clipboard,url-select,keyboard-select";
+          "url-select.underline" = true;
+          "url-select.launcher" = "firefox";
+
+          intensityStyles = false;
+        } // themes."${cfg.consoleTheme}";
+        fonts = [
+          "xft:${font}:size=8"
+          "xft:${font}:size=8:bold"
+        ];
+        keybindings = {
+          "M-u" = "perl:url-select:select_next";
+          "M-Escape" = "perl:keyboard-select:activate";
+          "M-s" = "perl:keyboard-select:search";
+
+          "M-F1" = "command:\\033]710;xft:${font}:size=6\\007\\033]711;xft:${font}:size=6:bold\\007";
+          "M-F2" = "command:\\033]710;xft:${font}:size=8\\007\\033]711;xft:${font}:size=8:bold\\007";
+          "M-F3" = "command:\\033]710;xft:${font}:size=11\\007\\033]711;xft:${font}:size=11:bold\\007";
+          "M-F4" = "command:\\033]710;xft:${font}:size=25\\007\\033]711;xft:${font}:size=25:bold\\007";
+          "M-F5" = "command:\\033]710;xft:${font}:size=30\\007\\033]711;xft:${font}:size=30:bold\\007";
+        };
+      };
+
     home.sessionVariables = {
-      TERMINAL = "alacritty";
       TERM = "xterm-256color";
       QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
     };
@@ -408,15 +406,7 @@ in
 
       "X-Action-Profile assign" = {
         MimeTypes = "application/pdf";
-        Exec = "alacritty -e /home/enno/nobbofin/assign-doc-fzf.py %f";
-      };
-    };
-
-    programs.alacritty = mkIf cfg.enableAlacritty {
-      enable = true;
-      settings = {
-        font.size = 11.0;
-        colors = alacritty_themes."${cfg.alacrittyTheme}";
+        Exec = "urxvt -e /home/enno/nobbofin/assign-doc-fzf.py %f";
       };
     };
 
