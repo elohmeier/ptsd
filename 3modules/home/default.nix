@@ -5,5 +5,6 @@ _:
     ./i3.nix
     ./i3status.nix
     ./offlineimap.nix
+    ./urxvt.nix
   ];
 }

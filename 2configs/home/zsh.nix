@@ -46,6 +46,18 @@ in
 
         # to disable Ctrl-s use this:
         # stty -ixon
+
+        # the following bindkey statments
+        # fix the Ctrl-Left/Right keybindings
+        # https://unix.stackexchange.com/questions/58870/ctrl-left-right-arrow-keys-issue/332049#332049
+
+        # terminator, konsole and xterm (and maybe others):
+        bindkey "^[[1;5C" forward-word
+        bindkey "^[[1;5D" backward-word
+
+        # urxvt/rxvt-unicode (and maybe others)
+        bindkey "^[Od" backward-word
+        bindkey "^[Oc" forward-word
       fi
     '';
 

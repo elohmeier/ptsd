@@ -33,8 +33,6 @@ in
     enable = true;
 
     initExtra = ''
-      echo "Easy choices, hard life. Hard choices, easy life..."
-
       # Johnnydecimal.com
       cjdfunction() {
         pushd ~/Pocket/*/*/$${1}*
@@ -139,5 +137,6 @@ in
     efitools
     tpm2-tools
     lorri
+    ripgrep
   ];
 }

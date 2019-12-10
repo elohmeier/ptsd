@@ -17,6 +17,8 @@ in
     enable = true;
   };
 
+  ptsd.urxvt.enable = true;
+
   home = {
     file.".mozilla/native-messaging-hosts/passff.json".source = "${pkgs.passff-host}/share/passff-host/passff.json";
   };

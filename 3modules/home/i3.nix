@@ -4,7 +4,7 @@ with lib;
 
 let
   cfg = config.ptsd.i3;
-  i3font = "${cfg.defaultFont} ${toString cfg.defaultFontSize}";
+  i3font = "${cfg.font} ${toString cfg.fontSize}";
 in
 {
   imports = [
@@ -36,19 +36,11 @@ in
       default = "eth0";
       description = "Ethernet interface for i3status config.";
     };
-    consoleTheme = mkOption {
+    font = mkOption {
       type = types.str;
-      default = "solarized_dark";
+      default = "DejaVu Sans"; # TODO: expose package, e.g. for gtk
     };
-    defaultFont = mkOption {
-      type = types.str;
-      default = "DejaVu Sans";
-    };
-    monospaceFont = mkOption {
-      type = types.str;
-      default = "Consolas";
-    };
-    defaultFontSize = mkOption {
+    fontSize = mkOption {
       type = types.int;
       default = 8;
     };
@@ -272,7 +264,7 @@ in
     gtk = {
       enable = true;
       font = {
-        name = "${cfg.defaultFont} ${toString cfg.defaultFontSize}";
+        name = "${cfg.font} ${toString cfg.fontSize}";
         package = pkgs.dejavu_fonts;
       };
       iconTheme = {
@@ -299,90 +291,6 @@ in
       flameshot
       pcmanfm
     ];
-
-    programs.urxvt = let
-      font = cfg.monospaceFont;
-      fontSize = toString cfg.defaultFontSize;
-      themes = {
-        solarized_dark = {
-          "background" = "#002b36";
-          "foreground" = "#839496";
-          "fadeColor" = "#002b36";
-          "cursorColor" = "#93a1a1";
-          "pointerColorBackground" = "#586e75";
-          "pointerColorForeground" = "#93a1a1";
-          "color0" = "#073642";
-          "color8" = "#002b36";
-          "color1" = "#dc322f";
-          "color9" = "#cb4b16";
-          "color2" = "#859900";
-          "color10" = "#586e75";
-          "color3" = "#b58900";
-          "color11" = "#657b83";
-          "color4" = "#268bd2";
-          "color12" = "#839496";
-          "color5" = "#d33682";
-          "color13" = "#6c71c4";
-          "color6" = "#2aa198";
-          "color14" = "#93a1a1";
-          "color7" = "#eee8d5";
-          "color15" = "#fdf6e3";
-        };
-        solarized_light = {
-          "background" = "#fdf6e3";
-          "foreground" = "#657b83";
-          "fadeColor" = "#fdf6e3";
-          "cursorColor" = "#586e75";
-          "pointerColorBackground" = "#93a1a1";
-          "pointerColorForeground" = "#586e75";
-          "color0" = "#073642";
-          "color8" = "#002b36";
-          "color1" = "#dc322f";
-          "color9" = "#cb4b16";
-          "color2" = "#859900";
-          "color10" = "#586e75";
-          "color3" = "#b58900";
-          "color11" = "#657b83";
-          "color4" = "#268bd2";
-          "color12" = "#839496";
-          "color5" = "#d33682";
-          "color13" = "#6c71c4";
-          "color6" = "#2aa198";
-          "color14" = "#93a1a1";
-          "color7" = "#eee8d5";
-          "color15" = "#fdf6e3";
-        };
-      };
-    in
-      {
-        enable = true;
-        package = pkgs.rxvt_unicode-with-plugins;
-        extraConfig = {
-          saveLines = 100000;
-          scrollBar = false;
-          urgentOnBell = true;
-          perl-ext-common = "default,clipboard,url-select,keyboard-select";
-          "url-select.underline" = true;
-          "url-select.launcher" = "firefox";
-
-          intensityStyles = false;
-        } // themes."${cfg.consoleTheme}";
-        fonts = [
-          "xft:${font}:size=${fontSize}"
-          "xft:${font}:size=${fontSize}:bold"
-        ];
-        keybindings = {
-          "M-u" = "perl:url-select:select_next";
-          "M-Escape" = "perl:keyboard-select:activate";
-          "M-s" = "perl:keyboard-select:search";
-
-          "M-F1" = "command:\\033]710;xft:${font}:size=6\\007\\033]711;xft:${font}:size=6:bold\\007";
-          "M-F2" = "command:\\033]710;xft:${font}:size=${fontSize}\\007\\033]711;xft:${font}:size=${fontSize}:bold\\007";
-          "M-F3" = "command:\\033]710;xft:${font}:size=11\\007\\033]711;xft:${font}:size=11:bold\\007";
-          "M-F4" = "command:\\033]710;xft:${font}:size=25\\007\\033]711;xft:${font}:size=25:bold\\007";
-          "M-F5" = "command:\\033]710;xft:${font}:size=30\\007\\033]711;xft:${font}:size=30:bold\\007";
-        };
-      };
 
     home.sessionVariables = {
       TERM = "xterm-256color";
@@ -458,9 +366,9 @@ in
       order = [
         "ipv6"
         "disk /"
-      ] ++ optional cfg.useWifi [ "wireless _first_" ]
+      ] ++ optional cfg.useWifi "wireless _first_"
       ++ [ "ethernet ${cfg.ethIf}" ]
-      ++ optional cfg.useBattery [ "battery all" ]
+      ++ optional cfg.useBattery "battery all"
       ++ [
         "load"
         "memory"
@@ -478,7 +386,7 @@ in
 
       "X-Action-Profile assign" = {
         MimeTypes = "application/pdf";
-        Exec = "urxvt -e /home/enno/nobbofin/assign-doc-fzf.py %f";
+        Exec = "i3-sensible-terminal -e /home/enno/nobbofin/assign-doc-fzf.py %f";
       };
     };
 
