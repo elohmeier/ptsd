@@ -92,6 +92,8 @@ in
           "matcher.button" = 1; # allow left click on url
 
           bell-command = ''${pkgs.libnotify}/bin/notify-send "rxvt-unicode: bell!"''; # use `echo -ne '\007'` to test
+
+          termName = "xterm-256color"; # fix bash backspace not working
         } // themes."${cfg.theme}";
         fonts = [
           "xft:${cfg.font}:size=${toString cfg.fontSize}"

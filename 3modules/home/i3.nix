@@ -293,7 +293,6 @@ in
     ];
 
     home.sessionVariables = {
-      TERM = "xterm-256color";
       QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
     };
 

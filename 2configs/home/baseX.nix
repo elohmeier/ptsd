@@ -50,7 +50,12 @@ in
     unstable.zoom-us
 
     pulseeffects
+
+    mucommander
   ];
+
+  # fix font antialiasing in mucommander
+  home.sessionVariables._JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
 
   programs.browserpass = {
     enable = true;
