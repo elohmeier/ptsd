@@ -138,5 +138,6 @@ in
     tpm2-tools
     lorri
     ripgrep
+    pwgen
   ];
 }
