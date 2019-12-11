@@ -16,6 +16,12 @@
         url = https://github.com/NixOS/nixpkgs;
       };
 
+      nixpkgs-unstable.git = {
+        clean.exclude = [ "/.version-suffix" ];
+        ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
+        url = https://github.com/NixOS/nixpkgs;
+      };
+
       ptsd.file = toString ./.;
 
       nixos-config.symlink = "ptsd/1systems/${name}/physical.nix";
@@ -28,6 +34,11 @@
       secrets-shared.pass = {
         dir = "${lib.getEnv "HOME"}/.password-store";
         name = "hosts-shared";
+      };
+
+      client-secrets.pass = {
+        dir = "${lib.getEnv "HOME"}/.password-store";
+        name = "clients";
       };
     }
   ];

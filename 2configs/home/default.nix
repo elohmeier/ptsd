@@ -139,5 +139,22 @@ in
     lorri
     ripgrep
     pwgen
+    htop
+    iotop
+    smartmontools
+    gptfdisk
+    gparted
+    efibootmgr
+    rmlint
+    usbutils
+    wirelesstools
+    wpa_supplicant
+    inetutils
+    macchanger
+    p7zip
+    unrar
+    mosh
+    mkpasswd
+    pcmanfm
   ];
 }

@@ -85,13 +85,11 @@ in
 
           urgentOnBell = true;
 
-          perl-ext-common = "default,clipboard,font-size,bell-command,url-select,keyboard-select";
+          perl-ext-common = "default,clipboard,font-size,url-select,keyboard-select";
 
           "url-select.underline" = true;
           "url-select.launcher" = "${pkgs.xdg_utils}/bin/xdg-open";
           "matcher.button" = 1; # allow left click on url
-
-          bell-command = ''${pkgs.libnotify}/bin/notify-send "rxvt-unicode: bell!"''; # use `echo -ne '\007'` to test
 
           termName = "xterm-256color"; # fix bash backspace not working
         } // themes."${cfg.theme}";

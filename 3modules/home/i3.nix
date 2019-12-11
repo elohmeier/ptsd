@@ -5,6 +5,10 @@ with lib;
 let
   cfg = config.ptsd.i3;
   i3font = "${cfg.font} ${toString cfg.fontSize}";
+  nerdworks-artwork = pkgs.nerdworks-artwork.override {
+    width = cfg.primaryScreenWidth;
+    height = cfg.primaryScreenHeight;
+  };
 in
 {
   imports = [

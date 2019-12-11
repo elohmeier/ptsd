@@ -49,6 +49,9 @@ in
 
   users.mutableUsers = false;
 
+  environment.variables = {
+    NIX_PATH = mkForce "secrets=/var/src/ptsd/null:/var/src";
+  };
 
   boot.initrd.network.ssh.authorizedKeys = authorizedKeys;
 
