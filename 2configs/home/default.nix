@@ -24,6 +24,13 @@ in
     <ptsd/3modules/home>
   ];
 
+  nixpkgs = {
+    config.packageOverrides = import ../../5pkgs pkgs;
+    overlays = [
+      (import ../../submodules/nix-writers/pkgs)
+    ];
+  };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
@@ -97,7 +104,6 @@ in
     tig
     killall
     unzip
-    whois
     ncdu
     iftop
     bind

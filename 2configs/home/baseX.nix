@@ -4,11 +4,6 @@ let
   unstable = import <nixpkgs-unstable> {
     config.allowUnfree = true;
   };
-  zathura-single = pkgs.writeShellScriptBin "zathura-single" ''
-    ${pkgs.killall}/bin/killall zathura 2>/dev/null
-    ${pkgs.zathura}/bin/zathura "$*"
-  '';
-
 in
 {
   xsession.enable = true;
@@ -63,7 +58,7 @@ in
     gnome3.file-roller
     zathura
     zathura-single
-    nerdworks-motivation
+    #nerdworks-motivation
     caffeine
     lguf-brightness
 
@@ -72,7 +67,6 @@ in
     yubikey-manager-qt
     keepassxc
     xcalib
-
   ];
 
   # fix font antialiasing in mucommander
