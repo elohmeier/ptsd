@@ -91,7 +91,7 @@ in
           "url-select.launcher" = "${pkgs.xdg_utils}/bin/xdg-open";
           "matcher.button" = 1; # allow left click on url
 
-          termName = "xterm-256color"; # fix bash backspace not working
+          termName = "rxvt-unicode"; # fix bash backspace not working
         } // themes."${cfg.theme}";
         fonts = [
           "xft:${cfg.font}:size=${toString cfg.fontSize}"
@@ -110,6 +110,10 @@ in
           "Control-Down" = "\\033[1;5B";
           "Control-Left" = "\\033[1;5D"; # jump to the previous word
           "Control-Right" = "\\033[1;5C"; # jump to the next word
+          "Home" = "\\033[1~";
+          "KP_Home" = "\\033[1~";
+          "End" = "\\033[4~";
+          "KP_End" = "\\033[4~";
 
           "Shift-Control-V" = "perl:clipboard:paste";
 

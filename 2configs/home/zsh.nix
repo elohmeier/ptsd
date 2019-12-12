@@ -58,6 +58,8 @@ in
         # urxvt/rxvt-unicode (and maybe others)
         bindkey "^[Od" backward-word
         bindkey "^[Oc" forward-word
+        bindkey "^[[1~" beginning-of-line
+        bindkey "^[[4~" end-of-line
       fi
     '';
 
