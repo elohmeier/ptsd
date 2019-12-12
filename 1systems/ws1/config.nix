@@ -5,12 +5,12 @@ with import <ptsd/lib>;
   imports = [
     <ptsd>
     <ptsd/2configs>
-    <ptsd/2configs/hw/ws2019.nix>
+    <ptsd/2configs/nwhost.nix>
+
     <ptsd/2configs/baseX.nix>
     <ptsd/2configs/dovecot.nix>
 
     <secrets-shared/nwsecrets.nix>
-
     <client-secrets/dbk/vdi.nix>
   ];
 
@@ -32,6 +32,7 @@ with import <ptsd/lib>;
     hosts = {
       "192.168.178.10" = [ "nuc1.host.nerdworks.de" "nuc1" ];
       "192.168.178.11" = [ "apu1.host.nerdworks.de" "apu1" ];
+      "191.18.19.34" = [ "apu2.host.nerdworks.de" "apu2" ];
       "192.168.178.33" = [ "prt1.host.nerdworks.de" "prt1" ];
     };
 
@@ -79,6 +80,4 @@ with import <ptsd/lib>;
     configDir = "/home/enno/.config/syncthing";
     dataDir = "/home/enno/";
   };
-
-
 }
