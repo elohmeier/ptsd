@@ -67,11 +67,12 @@
   # not used yet
   hosts = {
     apu1 = {
-      cores = 1;
+      cores = 2;
       nets = {
         nwvpn = {
+          ip4.addr = "191.18.19.11";
           aliases = [
-            "apu1.nw"
+            "apu1.host.nerdworks.de"
           ];
           wireguard.pubkey = ''
             t6zE4F6k5PjaSyUU69iDJbK3eVXy+7jgeSuV2+cfGWA=
@@ -82,12 +83,30 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEoUyEnCGv00sy4Zzul1XdF/6CMPg4Z4BMcJ3RSJ89Eq ";
     };
 
+    apu2 = {
+      cores = 2;
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.34";
+          aliases = [
+            "apu2.host.nerdworks.de"
+          ];
+          wireguard.pubkey = ''
+    eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8kcXGoM6iZJy6Q/EHl+i2oXvMvzepeilNqM9a/otYu ";
+    };
+
     ws1 = {
       cores = 24;
       nets = {
         nwvpn = {
+          ip4.addr = "191.18.19.80";
           aliases = [
-            "ws1.nw"
+            "ws1.host.nerdworks.de"
           ];
           wireguard.pubkey = ''
             yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=

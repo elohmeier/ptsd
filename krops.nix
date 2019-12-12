@@ -1,4 +1,4 @@
-{ name }: let
+{ name, desktop ? false }: let
   krops = (import <nixpkgs> {}).fetchgit {
     url = https://cgit.krebsco.de/krops/;
     rev = "v1.18.1";
@@ -16,12 +16,6 @@
         url = https://github.com/NixOS/nixpkgs;
       };
 
-      nixpkgs-unstable.git = {
-        clean.exclude = [ "/.version-suffix" ];
-        ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
-        url = https://github.com/NixOS/nixpkgs;
-      };
-
       ptsd.file = toString ./.;
 
       nixos-config.symlink = "ptsd/1systems/${name}/physical.nix";
@@ -35,16 +29,28 @@
         dir = "${lib.getEnv "HOME"}/.password-store";
         name = "hosts-shared";
       };
-
-      client-secrets.pass = {
-        dir = "${lib.getEnv "HOME"}/.password-store";
-        name = "clients";
-      };
     }
+
+    (
+      lib.optionalAttrs desktop {
+        nixpkgs-unstable.git = {
+          clean.exclude = [ "/.version-suffix" ];
+          ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
+          url = https://github.com/NixOS/nixpkgs;
+        };
+
+        client-secrets.pass = {
+          dir = "${lib.getEnv "HOME"}/.password-store";
+          name = "clients";
+        };
+      }
+    )
   ];
+
 in
 {
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy)
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A deploy)
   deploy =
     pkgs.krops.writeDeploy "deploy" {
       source = source;
@@ -52,6 +58,7 @@ in
     };
 
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A populate)  
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A populate)  
   populate = pkgs.populate {
     source = source;
     target = lib.mkTarget "root@${name}.host.nerdworks.de";
