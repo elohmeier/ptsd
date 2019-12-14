@@ -6,7 +6,10 @@ let
     pythonPackages: with pythonPackages; [
       black
       jupyterlab
+      keyring
+      pdfminer
       requests
+      selenium
     ]
   );
   unstable = import <nixpkgs-unstable> {
@@ -162,5 +165,6 @@ in
     mosh
     mkpasswd
     pcmanfm
+    geckodriver
   ];
 }

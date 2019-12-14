@@ -92,7 +92,7 @@
             "apu2.host.nerdworks.de"
           ];
           wireguard.pubkey = ''
-    eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=
+            eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=
           '';
         };
       };
