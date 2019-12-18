@@ -2,9 +2,15 @@
 
 {
   imports = [
+    <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/nwhost.nix>
+
     <ptsd/2configs/baseX.nix>
+    <ptsd/2configs/dovecot.nix>
+
+    <secrets-shared/nwsecrets.nix>
+    <client-secrets/dbk/vdi.nix>
   ];
 
   #  # https://github.com/anbox/anbox/issues/253
@@ -23,10 +29,10 @@
   #  "ptsd=/etc/nixos/ptsd"
   #];
 
-  #  nerdworks.xxx-vdi-container = {
-  #    enable = true;
-  #    extIf = "wlan0";
-  #  };
+  ptsd.vdi-container = {
+    enable = true;
+    extIf = "wlan0";
+  };
 
   systemd.services.disable-bluetooth = {
     description = "Disable Bluetooth after boot to save energy";
@@ -35,11 +41,6 @@
   };
 
   boot.tmpOnTmpfs = true;
-
-  networking.hostName = "tp1";
-  #networking.hosts = {
-  #  "127.0.0.1" = [ "fritz.box" ];
-  #};
 
   ptsd.nwvpn.ifname = "nwvpn";
 
@@ -61,7 +62,7 @@
   ];
 
   #  services.avahi.enable = true;
-  services.avahi.enable = false; # dubai...
+  services.avahi.enable = false;
 
   services.syncthing = {
     enable = true;
@@ -72,6 +73,18 @@
   };
 
   services.logind.lidSwitch = "suspend-then-hibernate";
+
+  networking = {
+    hostName = "tp1";
+    hosts = {
+      #  "127.0.0.1" = [ "fritz.box" ];
+    };
+
+    useNetworkd = true;
+    useDHCP = false;
+  };
+
+  systemd.network.enable = true;
 
   networking.networkmanager = {
     enable = true;
@@ -92,31 +105,6 @@
       Restart = "always";
     };
   };
-
-  #  networking.nameservers = [ "191.18.19.32" ];
-
-  #  networking.extraHosts = ''
-  #    127.0.0.1 stats.pearprogramming.eu
-  #    127.0.0.1 demo.pearprogramming.eu
-  #    127.0.0.1 master.pearprogramming.eu
-  #  '';
-
-  # activate using sudo /run/current-system/fine-tune/child-1/bin/switch-to-configuration test
-  # to revert either reboot or
-  # sudo /run/booted-system/bin/switch-to-configuration test
-  #  nesting.clone = [
-  #    {
-  #      # Use DHCP provided DNS hosts
-  #      networking.nameservers = lib.mkForce [ ];
-  #    }
-  #    {
-  #      # NetworkManager, Use DNS from DHCP
-  #      networking.networkmanager.enable = true;
-  #      networking.wireless.enable = lib.mkForce false;
-  #      networking.nameservers = lib.mkForce [ ];
-  #      environment.systemPackages = with pkgs; [ networkmanagerapplet ];
-  #    }
-  #  ];
 
   environment.systemPackages = with pkgs; [
     (wineStaging.override { wineBuild = "wine32"; })
