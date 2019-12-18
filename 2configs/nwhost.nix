@@ -9,7 +9,6 @@ in
   ];
 
   nix.gc.automatic = true;
-  system.stateVersion = "19.09";
 
   services.timesyncd = {
     enable = true;

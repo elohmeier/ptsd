@@ -31,11 +31,11 @@ in
     unstable.jetbrains.pycharm-professional
     unstable.vscodium
     sqlitebrowser
-    filezilla
+    #filezilla
     libreoffice
     inkscape
     gimp
-    tor-browser-bundle-bin
+    #tor-browser-bundle-bin
     spotify
     xournalpp
     calibre
@@ -44,14 +44,14 @@ in
 
     chromium
 
-    thunderbird
+    #thunderbird
     sylpheed
 
-    unstable.zoom-us
+    #unstable.zoom-us
 
     pulseeffects
 
-    mucommander
+    #mucommander
     xorg.xev
     xorg.xhost
 
@@ -62,9 +62,9 @@ in
     caffeine
     lguf-brightness
 
-    nitrokey-app
-    yubioath-desktop
-    yubikey-manager-qt
+    #nitrokey-app
+    #yubioath-desktop
+    #yubikey-manager-qt
     keepassxc
     xcalib
   ];

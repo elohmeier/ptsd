@@ -33,7 +33,7 @@
 
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "hid_microsoft" ];
-  boot.kernelModules = [ "kvm-intel" ]; # tp_smapi is not yet compatible
+  boot.kernelModules = [ "kvm-intel" "dm-snapshot" ]; # tp_smapi is not yet compatible
   boot.kernelParams = [
     "zfs.zfs_arc_max=6442451000" # max ARC size: 6GB (instead of default 8GB)
     "mitigations=off" # make linux fast again
@@ -43,15 +43,6 @@
     "i915.enable_guc=2"
   ];
   boot.kernelPackages = pkgs.linuxPackages_latest; # use the latest kernel
-  boot.zfs.enableUnstable = true;
-  boot.supportedFilesystems = [ "zfs" ];
-  services.zfs = {
-    autoScrub = { enable = true; };
-    autoSnapshot = {
-      enable = true;
-      flags = "-k -p --utc";
-    };
-  };
   boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
 
   nix.maxJobs = lib.mkDefault 8;

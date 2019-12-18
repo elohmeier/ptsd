@@ -100,6 +100,23 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8kcXGoM6iZJy6Q/EHl+i2oXvMvzepeilNqM9a/otYu ";
     };
 
+    tp1 = {
+      cores = 8;
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.30";
+          aliases = [
+            "tp1.nw"
+          ];
+          wireguard.pubkey = ''
+            jGuiJG7v/5MXwDcqHZMhQN9SEq6i5gvbVe9ZK0f75WQ=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGOhX8m3f1fpboga+H/uZeCUawyqur2dNBZwK6+ZaAlj ";
+    };
+
     ws1 = {
       cores = 24;
       nets = {

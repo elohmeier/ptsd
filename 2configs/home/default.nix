@@ -1,7 +1,10 @@
 { config, lib, pkgs, ... }:
 
 let
-  py3 = pkgs.python3;
+  unstable = import <nixpkgs-unstable> {
+    config.allowUnfree = true;
+  };
+  py3 = unstable.python38;
   pyenv = py3.withPackages (
     pythonPackages: with pythonPackages; [
       black
@@ -12,9 +15,6 @@ let
       selenium
     ]
   );
-  unstable = import <nixpkgs-unstable> {
-    config.allowUnfree = true;
-  };
 in
 {
   imports = [
@@ -90,6 +90,8 @@ in
       settings = { core = { real_name = "nobbo"; user_name = "nobbo"; nick = "nobbo"; }; };
     '';
   };
+
+  programs.emacs.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
