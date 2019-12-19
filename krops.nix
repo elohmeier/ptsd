@@ -1,9 +1,11 @@
 { name, desktop ? false }: let
-  krops = (import <nixpkgs> {}).fetchgit {
-    url = https://cgit.krebsco.de/krops/;
-    rev = "v1.18.1";
-    sha256 = "061ngm42xfr9grmchwzx6v3zmraych23xc1miimdsyd65y9hg4c5";
-  };
+  #krops = (import <nixpkgs> {}).fetchgit {
+  #  url = https://cgit.krebsco.de/krops/;
+  #  rev = "v1.18.1";
+  #  sha256 = "061ngm42xfr9grmchwzx6v3zmraych23xc1miimdsyd65y9hg4c5";
+  #};
+
+  krops = ./submodules/krops;
 
   lib = import "${krops}/lib";
   pkgs = import "${krops}/pkgs" {};
@@ -42,6 +44,11 @@
         client-secrets.pass = {
           dir = "${lib.getEnv "HOME"}/.password-store";
           name = "clients";
+        };
+
+        ci.git = {
+          ref = "e3b62cd62ec0537716fb3d8af1242c6b470befee";
+          url = "git@git.nerdworks.de:nerdworks/ci.git";
         };
       }
     )

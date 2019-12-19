@@ -131,8 +131,7 @@
 
   programs.xss-lock = {
     enable = true;
-    #lockerCommand = ''${pkgs.i3lock}/bin/i3lock -i "${pkgs.nerdworks-artwork}/scaled/wallpaper-n3.png"'';
-    lockerCommand = ''${pkgs.i3lock}/bin/i3lock --color=000000'';
+    lockerCommand = "${pkgs.nwlock}/bin/nwlock";
   };
 
   hardware.logitech = {

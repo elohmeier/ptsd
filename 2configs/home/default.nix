@@ -9,6 +9,7 @@ let
     pythonPackages: with pythonPackages; [
       black
       jupyterlab
+      lxml
       keyring
       pdfminer
       requests

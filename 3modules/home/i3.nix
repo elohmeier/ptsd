@@ -124,8 +124,7 @@ in
 
                 "${modifier}+r" = "mode resize";
 
-
-                "${modifier}+Shift+Delete" = "exec ${pkgs.i3lock}/bin/i3lock --color=000000 --show-failed-attempts"; # TODO: add lockpaper
+                "${modifier}+Shift+Delete" = "exec ${pkgs.nwlock}/bin/nwlock";
                 "${modifier}+Shift+Return" = "exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
                 "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
                 "${modifier}+Shift+t" = "exec ${pkgs.pcmanfm}/bin/pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
@@ -294,6 +293,7 @@ in
       brightnessctl
       flameshot
       pcmanfm
+      nwlock
     ];
 
     home.sessionVariables = {
@@ -344,10 +344,28 @@ in
           opts.format = "%1min";
         };
 
+        disk_home = {
+          type = "disk";
+          name = "/home";
+          opts.format = "/home %avail";
+        };
+
+        disk_nix = {
+          type = "disk";
+          name = "/nix";
+          opts.format = "/nix %avail";
+        };
+
+        disk_var = {
+          type = "disk";
+          name = "/var";
+          opts.format = "/var %avail";
+        };
+
         disk_root = {
           type = "disk";
           name = "/";
-          opts.format = "%avail";
+          opts.format = "/ %avail";
         };
 
         memory = {
@@ -369,6 +387,9 @@ in
       order = [
         "ipv6"
         "disk /"
+        "disk /home"
+        "disk /var"
+        "disk /nix"
       ] ++ optional cfg.useWifi "wireless _first_"
       ++ [ "ethernet ${cfg.ethIf}" ]
       ++ optional cfg.useBattery "battery all"

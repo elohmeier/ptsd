@@ -76,15 +76,13 @@
 
   networking = {
     hostName = "tp1";
-    hosts = {
-      #  "127.0.0.1" = [ "fritz.box" ];
-    };
+    #hosts = {
+    #  "127.0.0.1" = [ "fritz.box" ];
+    #};
 
-    useNetworkd = true;
+    useNetworkd = false;
     useDHCP = false;
   };
-
-  systemd.network.enable = true;
 
   networking.networkmanager = {
     enable = true;
