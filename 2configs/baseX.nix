@@ -38,7 +38,10 @@
     home-manager
   ];
 
-  networking.firewall.allowedTCPPorts = [ 22000 ]; # Syncthing
+  # open the syncthing ports
+  # https://docs.syncthing.net/users/firewall.html
+  networking.firewall.allowedTCPPorts = [ 22000 ];
+  networking.firewall.allowedUDPPorts = [ 21027 ];
 
   systemd.user.services.pasystray = {
     description = "PulseAudio system tray";
@@ -148,4 +151,6 @@
   };
 
   users.groups.nitrokey.members = [ config.users.users.mainUser.name ];
+
+  fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab ];
 }
