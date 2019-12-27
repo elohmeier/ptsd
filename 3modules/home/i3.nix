@@ -5,10 +5,6 @@ with lib;
 let
   cfg = config.ptsd.i3;
   i3font = "${cfg.font} ${toString cfg.fontSize}";
-  nerdworks-artwork = pkgs.nerdworks-artwork.override {
-    width = cfg.primaryScreenWidth;
-    height = cfg.primaryScreenHeight;
-  };
 in
 {
   imports = [
@@ -17,28 +13,18 @@ in
 
   options.ptsd.i3 = {
     enable = mkEnableOption "i3 window manager";
-    primaryScreenWidth = mkOption {
-      type = types.int;
-      description = "Used for i3lock image generation.";
-    };
-    primaryScreenHeight = mkOption {
-      type = types.int;
-      description = "Used for i3lock image generation.";
-    };
-    useBattery = mkOption {
+    showBatteryStatus = mkOption {
       type = types.bool;
-      description = "Used for i3status config.";
       default = true;
     };
-    useWifi = mkOption {
+    showWifiStatus = mkOption {
       type = types.bool;
-      description = "Used for i3status config.";
-      default = true;
+      default = false;
     };
     ethIf = mkOption {
       type = types.str;
       default = "eth0";
-      description = "Ethernet interface for i3status config.";
+      description = "for i3status";
     };
     font = mkOption {
       type = types.str;
@@ -390,9 +376,9 @@ in
         "disk /home"
         "disk /var"
         "disk /nix"
-      ] ++ optional cfg.useWifi "wireless _first_"
+      ] ++ optional cfg.showWifiStatus "wireless _first_"
       ++ [ "ethernet ${cfg.ethIf}" ]
-      ++ optional cfg.useBattery "battery all"
+      ++ optional cfg.showBatteryStatus "battery all"
       ++ [
         "load"
         "memory"

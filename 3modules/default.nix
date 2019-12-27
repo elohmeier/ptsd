@@ -6,7 +6,9 @@ _:
     ./docker-home-assistant.nix
     ./lego.nix
     ./nwbackup.nix
+    ./nwmonica.nix
     ./nwmonit.nix
+    ./nwstats.nix
     ./nwtelegraf.nix
     ./nwvpn.nix
     ./vdi-container.nix

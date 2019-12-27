@@ -169,5 +169,6 @@ in
     mkpasswd
     pcmanfm
     geckodriver
+    smbclient
   ];
 }

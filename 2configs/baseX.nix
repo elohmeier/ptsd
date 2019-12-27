@@ -36,7 +36,9 @@
     gnupg
     paperkey
     home-manager
+    lxqt.lxqt-policykit # provides a default authentification client for policykit
   ];
+  services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
   # open the syncthing ports
   # https://docs.syncthing.net/users/firewall.html

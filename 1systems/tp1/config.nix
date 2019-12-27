@@ -74,11 +74,18 @@
 
   services.logind.lidSwitch = "suspend-then-hibernate";
 
+  services.udev.extraRules = ''
+    # Suspend the system when battery level drops to 5% or lower
+    SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl hibernate"
+  '';
+
   networking = {
     hostName = "tp1";
-    #hosts = {
-    #  "127.0.0.1" = [ "fritz.box" ];
-    #};
+    hosts = {
+      #  "127.0.0.1" = [ "fritz.box" ];
+      #"192.168.178.11" = [ "apu1.host.nerdworks.de" "apu1" ];
+      #"192.168.178.33" = [ "prt1.host.nerdworks.de" "prt1" ];
+    };
 
     useNetworkd = false;
     useDHCP = false;
