@@ -29,13 +29,6 @@ with import <ptsd/lib>;
   networking = {
     hostName = "ws1";
     hostId = "8c5598b5"; # required for zfs
-    hosts = {
-      "192.168.178.10" = [ "nuc1.host.nerdworks.de" "nuc1" ];
-      "192.168.178.11" = [ "apu1.host.nerdworks.de" "apu1" ];
-      "191.18.19.34" = [ "apu2.host.nerdworks.de" "apu2" ];
-      "192.168.178.33" = [ "prt1.host.nerdworks.de" "prt1" ];
-    };
-
     useNetworkd = true;
     useDHCP = false;
   };

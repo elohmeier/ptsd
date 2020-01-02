@@ -213,7 +213,7 @@ in
               #}
               {
                 criteria.class = "Firefox";
-                command = "floating enable, move to scratchpad, scratchpad show";
+                command = "floating enable, resize set 90 ppt 90 ppt, move position center, move to scratchpad, scratchpad show";
               }
               {
                 criteria.class = ".blueman-manager-wrapped";
