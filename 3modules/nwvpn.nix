@@ -35,10 +35,10 @@ in
         type = types.int;
         default = 21;
       };
-      privateKeyFile = mkOption {
-        default = (toString <secrets>) + "/nwvpn.key";
-        type = types.str;
-      };
+      #privateKeyFile = mkOption {
+      #  default = (toString <secrets>) + "/nwvpn.key";
+      #  type = types.str;
+      #};
     };
   };
 
@@ -47,12 +47,15 @@ in
       {
         environment.systemPackages = [ pkgs.wireguard ];
         boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
+
+        ptsd.secrets.files."nwvpn.key" = {};
       }
       (
         mkIf (!config.networking.useNetworkd) {
+
           networking.wireguard.interfaces."${cfg.ifname}" = {
             ips = [ cfg.ip ];
-            privateKeyFile = cfg.privateKeyFile;
+            privateKeyFile = config.ptsd.secrets.files."nwvpn.key".path;
             peers = [
               {
                 publicKey = cfg.publicKey;
@@ -64,16 +67,22 @@ in
           };
 
           ptsd.nwmonit.extraConfig = [
-            ''          
-            check process wireguard-${cfg.ifname} matching ^wg-crypt-${cfg.ifname}$
-              start program = "${pkgs.systemd}/bin/systemctl start wireguard-${cfg.ifname}"
-              stop program = "${pkgs.systemd}/bin/systemctl stop wireguard-${cfg.ifname}"
-          ''
+            ''
+              check process wireguard-${cfg.ifname} matching ^wg-crypt-${cfg.ifname}$
+                start program = "${pkgs.systemd}/bin/systemctl start wireguard-${cfg.ifname}"
+                stop program = "${pkgs.systemd}/bin/systemctl stop wireguard-${cfg.ifname}"
+            ''
           ];
         }
       )
       (
         mkIf (config.networking.useNetworkd) {
+          ptsd.secrets.files."nwvpn.key" = {
+            owner = "systemd-network";
+            group-name = "systemd-network";
+            mode = "0440";
+          };
+
           systemd.network = {
 
             netdevs."10-${cfg.ifname}" = {
@@ -84,7 +93,7 @@ in
               };
 
               wireguardConfig = {
-                PrivateKeyFile = cfg.privateKeyFile;
+                PrivateKeyFile = config.ptsd.secrets.files."nwvpn.key".path;
               };
 
               wireguardPeers = [

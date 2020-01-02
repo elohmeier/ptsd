@@ -11,6 +11,7 @@ _:
     ./nwstats.nix
     ./nwtelegraf.nix
     ./nwvpn.nix
+    ./secrets.nix
     ./vdi-container.nix
     ./wireguard-reresolve.nix
   ];
