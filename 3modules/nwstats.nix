@@ -73,7 +73,9 @@ in
       in
         {
           PYTHONPATH = "${penv}/${python.sitePackages}/";
-          NWSTATS_CONFIG = configFile;
+          #NWSTATS_CONFIG = configFile;
+
+          NWSTATS_CONFIG = "/var/src/secrets/nwstats.cfg";
         };
 
       serviceConfig = {

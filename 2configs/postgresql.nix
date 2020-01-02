@@ -22,4 +22,6 @@
       hostssl all +scram_sha_256_users 0.0.0.0/0 scram-sha-256
     '';
   };
+
+  users.groups.lego.members = [ "postgres" ];
 }

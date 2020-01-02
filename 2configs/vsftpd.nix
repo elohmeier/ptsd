@@ -21,4 +21,6 @@
   networking.firewall.allowedTCPPortRanges = [
     { from = 10090; to = 10100; }
   ];
+
+  users.groups.lego.members = [ "vsftpd" ];
 }

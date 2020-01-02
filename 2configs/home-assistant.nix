@@ -40,4 +40,6 @@
     };
   };
 
+  networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } ]; # for pyhomematic
+  users.groups.lego.members = [ "hass" ];
 }

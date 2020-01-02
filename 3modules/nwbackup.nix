@@ -3,7 +3,6 @@
 with lib;
 
 let
-  #prowl = pkgs.callPackage ../pkgs/prowl.nix {};
   postCreate = name: ''
 
         TMP_FILE=`mktemp`
@@ -26,7 +25,7 @@ let
         function calc_bytes {
           NUM=$1
           UNIT=$2
-          
+
           case "$UNIT" in
             kB)
               echo $NUM | ${pkgs.gawk}/bin/awk '{ print $1 * 1024 }'
@@ -78,7 +77,7 @@ let
       environment = { BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes"; };
       #postCreate = postCreate name;
       #readWritePaths = [ "/var/lib/node_exporter" ];
-      #    postHook = "${prowl}/bin/prowl borg ${config.networking.hostName}➡${name} exited with status $exitStatus";
+      #    postHook = "${pkgs.prowl}/bin/prowl borg ${config.networking.hostName}➡${name} exited with status $exitStatus";
       prune.keep = {
         within = "1d"; # Keep all archives from the last day
         daily = 7;
@@ -95,7 +94,7 @@ in
     ptsd.nwbackup = {
       enable = mkEnableOption "nwbackup";
       passCommand = mkOption {
-        default = "cat /etc/nixos/local-secrets/borg_passphrase";
+        default = "cat /var/src/secrets/nwbackup.borgkey";
         type = types.str;
       };
       paths = mkOption {

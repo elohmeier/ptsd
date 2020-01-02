@@ -37,7 +37,7 @@
       encrypted = {
         enable = true;
         blkDev = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
-        keyFile = "/mnt-root/etc/nixos/.int_crypt_key";
+        keyFile = "/mnt-root/var/src/secrets/int-crypt-key";
         label = "int_crypt";
       };
     };
