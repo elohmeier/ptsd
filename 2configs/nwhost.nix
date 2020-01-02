@@ -6,6 +6,7 @@ in
 {
   imports = [
     <ptsd/3modules>
+    <ptsd/2configs/tor-ssh.nix>
   ];
 
   nix.gc.automatic = true;
@@ -48,6 +49,6 @@ in
   };
 
   environment.systemPackages = [
-    (pkgs.callPackage ../5pkgs/telegram.sh {})
+    pkgs."telegram.sh"
   ];
 }

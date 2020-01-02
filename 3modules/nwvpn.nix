@@ -29,7 +29,7 @@ in
       };
       ifname = mkOption {
         type = types.str;
-        default = "wg1"; # this shall be switched to "nwvpn" someday
+        default = "nwvpn";
       };
       persistentKeepalive = mkOption {
         type = types.int;

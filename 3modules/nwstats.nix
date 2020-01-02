@@ -60,6 +60,10 @@ in
 
     users.groups.nwstats = {};
 
+    ptsd.secrets.files."nwstats.cfg" = {
+      owner = "nwstats";
+    };
+
     systemd.services.nwstats = {
       description = "nwstats HTTP server";
       wantedBy = [ "multi-user.target" ];
@@ -74,8 +78,7 @@ in
         {
           PYTHONPATH = "${penv}/${python.sitePackages}/";
           #NWSTATS_CONFIG = configFile;
-
-          NWSTATS_CONFIG = "/var/src/secrets/nwstats.cfg";
+          NWSTATS_CONFIG = config.ptsd.secrets.files."nwstats.cfg".path;
         };
 
       serviceConfig = {
