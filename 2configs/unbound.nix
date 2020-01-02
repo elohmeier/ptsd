@@ -11,8 +11,18 @@
     allowedAccess = [ "192.168.178.0/24" ];
     interfaces = [ "192.168.178.11" ];
 
+    # TODO: Generate local entries
     extraConfig = ''
       include: /var/lib/unbound/blocklist.conf
+
+      local-data: "prt1 A 192.168.178.33"
+      local-data: "prt1.host.nerdworks.de A 192.168.178.33"
+
+      local-data: "apu1 A 192.168.178.11"
+      local-data: "apu1.host.nerdworks.de A 192.168.178.11"
+
+      local-data: "nuc1 A 192.168.178.10"
+      local-data: "nuc1.host.nerdworks.de A 192.168.178.10"
 
       remote-control:
         control-enable: yes

@@ -36,7 +36,9 @@
     gnupg
     paperkey
     home-manager
+    lxqt.lxqt-policykit # provides a default authentification client for policykit
   ];
+  services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
   # open the syncthing ports
   # https://docs.syncthing.net/users/firewall.html
@@ -152,5 +154,7 @@
 
   users.groups.nitrokey.members = [ config.users.users.mainUser.name ];
 
-  fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab ];
+  fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab source-code-pro ];
+
+  services.teamviewer.enable = true;
 }

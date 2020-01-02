@@ -12,6 +12,7 @@ let
       lxml
       keyring
       pdfminer
+      pillow
       requests
       selenium
     ]
@@ -169,5 +170,6 @@ in
     mkpasswd
     pcmanfm
     geckodriver
+    smbclient
   ];
 }
