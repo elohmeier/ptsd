@@ -154,5 +154,7 @@
 
   users.groups.nitrokey.members = [ config.users.users.mainUser.name ];
 
-  fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab ];
+  fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab source-code-pro ];
+
+  services.teamviewer.enable = true;
 }

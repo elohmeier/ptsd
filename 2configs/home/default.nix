@@ -12,6 +12,7 @@ let
       lxml
       keyring
       pdfminer
+      pillow
       requests
       selenium
     ]

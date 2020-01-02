@@ -33,6 +33,7 @@
           }
         )
         ps.pynacl
+        ps.pysonos
         ps.ssdp
         ps.zeroconf
       ];
