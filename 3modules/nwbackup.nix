@@ -94,7 +94,7 @@ in
     ptsd.nwbackup = {
       enable = mkEnableOption "nwbackup";
       passCommand = mkOption {
-        default = "cat /var/src/secrets/nwbackup.borgkey";
+        default = "cat ${toString <secrets>}/nwbackup.borgkey";
         type = types.str;
       };
       paths = mkOption {
