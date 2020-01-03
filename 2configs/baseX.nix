@@ -37,6 +37,7 @@
     paperkey
     home-manager
     lxqt.lxqt-policykit # provides a default authentification client for policykit
+    nixpkgs-fmt
   ];
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 

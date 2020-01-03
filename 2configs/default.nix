@@ -81,7 +81,6 @@ in
     vims.small
     tmux
     git
-    nixpkgs-fmt
     dnsutils
   ];
 }
