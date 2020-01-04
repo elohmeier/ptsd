@@ -1,6 +1,7 @@
 _:
 {
   imports = [
+    ./alerta.nix
     ./dlrg-vpn-client.nix
     ./dlrg-vpn-host.nix
     ./docker-home-assistant.nix
