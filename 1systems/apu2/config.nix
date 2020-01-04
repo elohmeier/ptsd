@@ -13,6 +13,11 @@ with import <ptsd/lib>;
     <secrets-shared/nwsecrets.nix>
   ];
 
+  ptsd.dlrgVpnClient = {
+    enable = true;
+    ip = "191.18.20.34";
+  };
+
   ptsd.dockerHomeAssistant.enable = true;
 
   networking = {

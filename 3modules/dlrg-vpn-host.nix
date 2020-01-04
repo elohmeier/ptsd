@@ -11,7 +11,6 @@ in
     ip = mkOption {
       type = types.str;
     };
-    privateKey = mkOption { type = types.str; };
   };
 
   config = mkIf cfg.enable {
@@ -50,11 +49,13 @@ in
       '';
     };
 
+    ptsd.secrets.files."dlrgvpn.key" = {};
+
     networking.wireguard.interfaces = {
       wgdlrg = {
         ips = [ "${cfg.ip}/24" ];
         listenPort = 55557;
-        privateKey = cfg.privateKey;
+        privateKeyFile = config.ptsd.secrets.files."dlrgvpn.key".path;
 
         peers = [
 

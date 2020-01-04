@@ -15,7 +15,6 @@ in
     ip = mkOption {
       type = types.str;
     };
-    privateKey = mkOption { type = types.str; };
   };
 
   config = mkIf cfg.enable {
@@ -52,6 +51,8 @@ in
       '';
     };
 
+    ptsd.secrets.files."dlrgvpn.key" = {};
+
     networking.wireguard = {
 
       reresolve = [ "wgdlrg" ];
@@ -59,7 +60,7 @@ in
       interfaces = {
         wgdlrg = {
           ips = [ cfg.ip ];
-          privateKey = cfg.privateKey;
+          privateKeyFile = config.ptsd.secrets.files."dlrgvpn.key".path;
           peers = [
             {
               publicKey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
@@ -74,7 +75,6 @@ in
         };
       };
     };
-
 
   };
 }
