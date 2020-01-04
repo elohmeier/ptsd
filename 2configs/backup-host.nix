@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
 
+with lib;
+
 let
   variables = import <ptsd/2configs/ssh-pubkeys.nix>;
   repos = {
@@ -109,7 +111,6 @@ in
 
   services.borgbackup.repos = repos;
 
-  # please ´chown -R borg-nwXX:borg /mnt/backup/nwXX/borg´ manually.
   systemd.services.borgbackup-repo-eee1.wantedBy = pkgs.lib.mkForce [];
   systemd.services.borgbackup-repo-nw1.wantedBy = pkgs.lib.mkForce [];
   systemd.services.borgbackup-repo-nw10.wantedBy = pkgs.lib.mkForce [];
@@ -122,4 +123,12 @@ in
   systemd.services.borgbackup-repo-ws1.wantedBy = pkgs.lib.mkForce [];
 
   ptsd.nwmonit.extraConfig = [ monitrc_borg_fs ];
+
+  system.activationScripts.chown-borg-repos = let
+    script = ''
+      ${lib.concatMapStrings (x: "\nchown -R ${x.user}:borg ${x.path}") (attrValues repos)}
+    '';
+  in
+    stringAfter [ "users" "groups" ] "source ${pkgs.writeText "chown-borg-repos.sh" script}";
+
 }
