@@ -12,4 +12,10 @@ local:
 
 .PHONY: pretty
 pretty:
-	nixpkgs-fmt .
+	nixpkgs-fmt 1systems
+	nixpkgs-fmt 2configs
+	find 3modules -name '*.nix' ! -name 'wireguard-reresolve.nix' -exec nixpkgs-fmt {} \;
+	nixpkgs-fmt 4lib
+	nixpkgs-fmt 5pkgs
+	nixpkgs-fmt lib
+	nixpkgs-fmt *.nix

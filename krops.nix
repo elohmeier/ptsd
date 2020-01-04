@@ -1,4 +1,4 @@
-{ name, desktop ? false }: let
+{ name, desktop ? false, unstable ? false }: let
   #krops = (import <nixpkgs> {}).fetchgit {
   #  url = https://cgit.krebsco.de/krops/;
   #  rev = "v1.18.1";
@@ -34,13 +34,17 @@
     }
 
     (
-      lib.optionalAttrs desktop {
+      lib.optionalAttrs (unstable || desktop) {
         nixpkgs-unstable.git = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
           url = https://github.com/NixOS/nixpkgs;
         };
+      }
+    )
 
+    (
+      lib.optionalAttrs desktop {
         client-secrets.pass = {
           dir = "${lib.getEnv "HOME"}/.password-store";
           name = "clients";
