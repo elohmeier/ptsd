@@ -21,7 +21,10 @@ with import <ptsd/lib>;
 
   services.xserver.xrandrHeads = [
     { output = "DP-0"; primary = true; }
-    { output = "USB-C-0"; monitorConfig = ''Option "Rotate" "left"''; }
+    {
+      output = "USB-C-0";
+      # monitorConfig = ''Option "Rotate" "left"'';
+    }
   ];
 
   services.avahi.enable = true;
