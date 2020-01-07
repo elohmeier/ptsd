@@ -6,27 +6,8 @@ in
 {
   imports = [
     <ptsd/3modules>
-    <ptsd/2configs/tor-ssh.nix>
+    <ptsd/2configs/nwhost-mini.nix>
   ];
-
-  nix.gc.automatic = true;
-
-  services.timesyncd = {
-    enable = true;
-    servers = [
-      "0.de.pool.ntp.org"
-      "1.de.pool.ntp.org"
-      "2.de.pool.ntp.org"
-      "3.de.pool.ntp.org"
-    ];
-  };
-
-  networking.domain = "host.nerdworks.de";
-
-  networking.hosts = {
-    "127.0.0.1" = [ "${config.networking.hostName}.${config.networking.domain}" "${config.networking.hostName}" ];
-    "::1" = [ "${config.networking.hostName}.${config.networking.domain}" "${config.networking.hostName}" ];
-  };
 
   ptsd.lego = {
     enable = true;
@@ -39,16 +20,15 @@ in
     enable = true;
   };
 
-  ptsd.nwvpn = {
-    enable = true;
-    ip = universe.nwvpn."${config.networking.hostName}".ip;
-  };
-
   ptsd.nwbackup = {
     enable = true;
   };
 
   environment.systemPackages = [
     pkgs."telegram.sh"
+    pkgs.dnsutils
   ];
+
+  programs.mosh.enable = true;
+  services.fail2ban.enable = true;
 }

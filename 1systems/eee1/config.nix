@@ -7,7 +7,7 @@ with import <ptsd/lib>;
 
     <ptsd>
     <ptsd/2configs>
-    <ptsd/2configs/nwhost.nix>
+    <ptsd/2configs/nwhost-mini.nix>
 
     <ptsd/2configs/backup-host.nix>
 
@@ -26,11 +26,11 @@ with import <ptsd/lib>;
 
   services.logind.lidSwitch = "ignore";
 
-  services.cron = {
-    enable = true;
-    systemCronJobs = [
-      # reboot every sunday at 6 am
-      "0 6 * * 0      root    ${pkgs.systemd}/bin/reboot"
-    ];
-  };
+  #services.cron = {
+  #  enable = true;
+  #  systemCronJobs = [
+  #    # reboot every sunday at 6 am
+  #    "0 6 * * 0      root    ${pkgs.systemd}/bin/reboot"
+  #  ];
+  #};
 }

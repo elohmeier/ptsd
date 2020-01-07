@@ -54,6 +54,11 @@
           ref = "e3b62cd62ec0537716fb3d8af1242c6b470befee";
           url = "git@git.nerdworks.de:nerdworks/ci.git";
         };
+
+        secrets-eee1.pass = {
+          dir = "${lib.getEnv "HOME"}/.password-store";
+          name = "hosts/eee1";
+        };
       }
     )
   ];

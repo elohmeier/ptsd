@@ -19,3 +19,7 @@ pretty:
 	nixpkgs-fmt 5pkgs
 	nixpkgs-fmt lib
 	nixpkgs-fmt *.nix
+
+.PHONY: eee1
+eee1:
+	sudo nix-build '<nixpkgs/nixos>' -A system -I nixos-config=1systems/eee1/physical.nix -I secrets=/var/src/secrets-eee1 -I /var/src --argstr system i686-linux

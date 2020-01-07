@@ -72,6 +72,6 @@ in
       ) files}
       '';
     in
-      stringAfter [ "users" "groups" ] "source ${pkgs.writeText "setup-secrets.sh" script}";
+      stringAfter [ "specialfs" "users" "groups" ] "source ${pkgs.writeText "setup-secrets.sh" script}";
   };
 }

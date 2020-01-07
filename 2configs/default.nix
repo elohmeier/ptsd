@@ -66,9 +66,6 @@ in
     challengeResponseAuthentication = false;
   };
 
-  programs.mosh.enable = true;
-  services.fail2ban.enable = true;
-
   environment.etc."ssh/ssh_known_hosts".text = ''
     ${sshPubKeys.hostPub.nuc1}
     ${sshPubKeys.hostPub.apu1}
@@ -78,9 +75,7 @@ in
   '';
 
   environment.systemPackages = with pkgs; [
-    vims.small
     tmux
-    git
-    dnsutils
+    gitMinimal
   ];
 }
