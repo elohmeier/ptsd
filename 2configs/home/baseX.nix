@@ -6,6 +6,10 @@ let
   };
 in
 {
+  imports = [
+    <ptsd/2configs/home/file-manager.nix>
+  ];
+
   xsession.enable = true;
 
   home.keyboard = {

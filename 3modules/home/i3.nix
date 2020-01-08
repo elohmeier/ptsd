@@ -387,19 +387,6 @@ in
       ];
     };
 
-    xdg.dataFile."file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI {} {
-      "Desktop Entry" = {
-        Type = "Action";
-        Name = "Assign PDF to Nobbofin Transaction";
-        Profiles = "assign;";
-      };
-
-      "X-Action-Profile assign" = {
-        MimeTypes = "application/pdf";
-        Exec = "i3-sensible-terminal -e /home/enno/nobbofin/assign-doc-fzf.py %f";
-      };
-    };
-
     # auto-hide the mouse cursor after inactivity
     services.unclutter = {
       enable = true;
