@@ -71,6 +71,8 @@ in
     #yubikey-manager-qt
     keepassxc
     xcalib
+
+    portfolio
   ];
 
   # fix font antialiasing in mucommander
