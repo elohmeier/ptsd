@@ -14,6 +14,9 @@ with import <ptsd/lib>;
     <client-secrets/dbk/vdi.nix>
   ];
 
+  # default: poweroff
+  #services.logind.extraConfig = "HandlePowerKey=suspend";
+
   ptsd.vdi-container = {
     enable = true;
     extIf = "virbr0";

@@ -22,8 +22,6 @@ in
     };
   };
 
-  services.logind.extraConfig = "HandlePowerKey=suspend";
-
   # turn on numlock in X11 by default
   services.xserver.displayManager.lightdm.extraSeatDefaults =
     "greeter-setup-script=${pkgs.numlockx}/bin/numlockx on";

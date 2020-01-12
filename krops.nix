@@ -23,12 +23,13 @@
       nixos-config.symlink = "ptsd/1systems/${name}/physical.nix";
 
       secrets.pass = {
-        dir = "${lib.getEnv "HOME"}/.password-store";
+        #dir = "${lib.getEnv "HOME"}/.password-store";
+        dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
         name = "hosts/${name}";
       };
 
       secrets-shared.pass = {
-        dir = "${lib.getEnv "HOME"}/.password-store";
+        dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
         name = "hosts-shared";
       };
     }
@@ -46,7 +47,7 @@
     (
       lib.optionalAttrs desktop {
         client-secrets.pass = {
-          dir = "${lib.getEnv "HOME"}/.password-store";
+          dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "clients";
         };
 
@@ -56,7 +57,7 @@
         };
 
         secrets-eee1.pass = {
-          dir = "${lib.getEnv "HOME"}/.password-store";
+          dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "hosts/eee1";
         };
       }

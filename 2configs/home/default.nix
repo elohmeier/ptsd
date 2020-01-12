@@ -36,6 +36,10 @@ in
     ];
   };
 
+  home.sessionVariables = {
+    PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
+  };
+
   programs.direnv = {
     enable = true;
     enableZshIntegration = true;
