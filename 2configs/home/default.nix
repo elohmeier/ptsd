@@ -175,5 +175,6 @@ in
     pcmanfm
     geckodriver
     smbclient
+    unstable.mu-repo # not yet in 19.09
   ];
 }
