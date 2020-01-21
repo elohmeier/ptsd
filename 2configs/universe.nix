@@ -1,5 +1,8 @@
 {
   nwvpn = {
+    # fb1: 192.168.178.1
+    # fb2: 192.168.178.2
+    # arc1 = {}; # Archer C7 v5  192.168.178.3
     mb1 = {
       ip = "191.18.19.1";
       publicKey = "3SL8LpzYj4cncLpx3CEqOCmsQaJ45j9G51g41YNU+kw=";
