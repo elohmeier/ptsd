@@ -60,7 +60,7 @@
 
     script = ''
       set -e
-      ${pkgs.curl}/bin/curl -SsL https://raw.githubusercontent.com/StevenBlack/hosts/master/alternates/gambling-porn/hosts | \
+      ${pkgs.curl}/bin/curl -SsL https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | \
         ${pkgs.gnugrep}/bin/grep '^0\.0\.0\.0' | \
         ${pkgs.gawk}/bin/awk '{print "local-zone: \""$2"\" always_nxdomain"}' \
         > /var/lib/unbound/blocklist.conf
