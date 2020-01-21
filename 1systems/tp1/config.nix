@@ -42,8 +42,6 @@
 
   boot.tmpOnTmpfs = true;
 
-  ptsd.nwvpn.ifname = "nwvpn";
-
   #  services.dlrgvpn = {
   #    # DNS resolution to Uwe will often fail after boot, so only enable when needed
   #    enable = false;
