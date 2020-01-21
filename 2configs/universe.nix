@@ -72,7 +72,7 @@
         nwvpn = {
           ip4.addr = "191.18.19.11";
           aliases = [
-            "apu1.host.nerdworks.de"
+            "apu1.nw"
           ];
           wireguard.pubkey = ''
             t6zE4F6k5PjaSyUU69iDJbK3eVXy+7jgeSuV2+cfGWA=
@@ -89,7 +89,7 @@
         nwvpn = {
           ip4.addr = "191.18.19.34";
           aliases = [
-            "apu2.host.nerdworks.de"
+            "apu2.nw"
           ];
           wireguard.pubkey = ''
             eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=
@@ -106,7 +106,7 @@
         nwvpn = {
           ip4.addr = "191.18.19.31";
           aliases = [
-            "eee1.host.nerdworks.de"
+            "eee1.nw"
           ];
           wireguard.pubkey = ''
             GRjSScIwM2VBYpLkl5L9iThvJ2YNYiNWZPBND9eniBU=
@@ -134,6 +134,23 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4xuAXx1Vjcseg5mvoSUt2MijZbSSwTsq/sD2OmU36a ";
     };
 
+    rpi2 = {
+      cores = 1;
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.35";
+          aliases = [
+            "rpi2.nw"
+          ];
+          wireguard.pubkey = ''
+            BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDQw7ZYiuLCgx6ISk5GdrNBLg78HTstQapro/W7nodyV ";
+    };
+
     tp1 = {
       cores = 8;
       nets = {
@@ -157,7 +174,7 @@
         nwvpn = {
           ip4.addr = "191.18.19.80";
           aliases = [
-            "ws1.host.nerdworks.de"
+            "ws1.nw"
           ];
           wireguard.pubkey = ''
             yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=
