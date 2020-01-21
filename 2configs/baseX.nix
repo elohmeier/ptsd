@@ -21,8 +21,10 @@
   environment.pathsToLink = [ "/share/zsh" ];
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = true;
+  virtualisation.docker.enableOnBoot = false;
   virtualisation.libvirtd.enable = true;
+
+  ptsd.nwmonit.enable = lib.mkForce false;
 
   environment.systemPackages = with pkgs; [
     git
