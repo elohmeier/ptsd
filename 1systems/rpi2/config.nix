@@ -13,15 +13,10 @@ with import <ptsd/lib>;
     <secrets-shared/nwsecrets.nix>
   ];
 
-  ptsd.dlrgVpnClient = {
+  networking.hostName = "rpi2";
+
+  ptsd.dlrgVpnHost = {
     enable = true;
-    ip = "191.18.20.34";
-  };
-
-  ptsd.dockerHomeAssistant.enable = true;
-
-  networking = {
-    hostName = "apu2";
-    bridges.br0.interfaces = [ "enp1s0" "enp2s0" "enp3s0" ];
+    ip = "191.18.20.35";
   };
 }

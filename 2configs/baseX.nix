@@ -21,7 +21,7 @@
   environment.pathsToLink = [ "/share/zsh" ];
 
   virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = false;
+  virtualisation.docker.enableOnBoot = false; # will be socket-activated
   virtualisation.libvirtd.enable = true;
 
   ptsd.nwmonit.enable = lib.mkForce false;

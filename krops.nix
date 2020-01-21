@@ -80,4 +80,11 @@ in
     source = source;
     target = lib.mkTarget "root@${name}.host.nerdworks.de";
   };
+
+  populate_sudo = pkgs.populate {
+    source = source;
+    target = lib.mkTarget "enno@${name}.host.nerdworks.de" // {
+      sudo = true;
+    };
+  };
 }

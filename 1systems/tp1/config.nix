@@ -29,6 +29,9 @@
   #  "ptsd=/etc/nixos/ptsd"
   #];
 
+  # reduce the noise
+  ptsd.nwtelegraf.enable = lib.mkForce false;
+
   ptsd.vdi-container = {
     enable = true;
     extIf = "wlan0";
@@ -89,8 +92,11 @@
     useDHCP = false;
   };
 
+  services.resolved.enable = true;
+
   networking.networkmanager = {
     enable = true;
+    dns = "systemd-resolved";
     wifi = {
       macAddress = "random";
       powersave = true;

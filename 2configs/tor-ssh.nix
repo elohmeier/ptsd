@@ -10,7 +10,7 @@
   systemd.services.tor-ssh-announce = {
     description = "Announce hidden ssh in Telegram";
     after = [ "tor.service" "network-online.target" ];
-    wants = [ "tor.service" ];
+    wants = [ "tor.service" "network-online.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       ExecStart =
@@ -28,6 +28,8 @@
       PrivateTmp = true;
       User = "tor";
       Type = "oneshot";
+      Restart = "on-failure";
+      RestartSec = "2min";
     };
   };
 }

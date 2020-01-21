@@ -27,53 +27,59 @@ in
     file.".mozilla/native-messaging-hosts/passff.json".source = "${pkgs.passff-host}/share/passff-host/passff.json";
   };
 
-  home.packages = with pkgs; [
-    (wineStaging.override { wineBuild = "wine32"; })
+  home.packages = with pkgs; let
+    wine = wineStaging.override { wineBuild = "wine32"; };
+  in
+    [
+      wine
+      (winetricks.override { wine = wine; })
 
-    slack-dark
+      slack-dark
 
-    unstable.jetbrains.pycharm-professional
-    unstable.vscodium
-    sqlitebrowser
-    #filezilla
-    libreoffice
-    inkscape
-    gimp
-    #tor-browser-bundle-bin
-    spotify
-    xournalpp
-    calibre
-    unstable.xmind
-    transmission-gtk
+      unstable.jetbrains.pycharm-professional
+      unstable.vscodium
+      sqlitebrowser
+      #filezilla
+      libreoffice
+      inkscape
+      gimp
+      #tor-browser-bundle-bin
+      spotify
+      xournalpp
+      calibre
+      unstable.xmind
+      transmission-gtk
 
-    chromium
+      chromium
 
-    #thunderbird
-    sylpheed
+      #thunderbird
+      sylpheed
 
-    #unstable.zoom-us
+      #unstable.zoom-us
 
-    pulseeffects
+      pulseeffects
 
-    #mucommander
-    xorg.xev
-    xorg.xhost
+      #mucommander
+      xorg.xev
+      xorg.xhost
 
-    gnome3.file-roller
-    zathura
-    zathura-single
-    #nerdworks-motivation
-    caffeine
-    lguf-brightness
+      gnome3.file-roller
+      zathura
+      zathura-single
+      #nerdworks-motivation
+      caffeine
+      lguf-brightness
 
-    #nitrokey-app
-    #yubioath-desktop
-    #yubikey-manager-qt
-    keepassxc
-    xcalib
+      #nitrokey-app
+      #yubioath-desktop
+      #yubikey-manager-qt
+      keepassxc
+      xcalib
 
-    portfolio
-  ];
+      portfolio
+
+      unstable.steam
+    ];
 
   # fix font antialiasing in mucommander
   home.sessionVariables._JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
