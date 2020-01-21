@@ -8,7 +8,7 @@ with import <ptsd/lib>;
     <ptsd>
 
     <ptsd/2configs>
-    <ptsd/2configs/nwhost.nix>
+    <ptsd/2configs/nwhost-mini.nix>
 
     <secrets-shared/nwsecrets.nix>
   ];
