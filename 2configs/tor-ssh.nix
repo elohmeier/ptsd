@@ -30,8 +30,8 @@
       Type = "oneshot";
 
       # not supported in 19.09, waiting for https://github.com/systemd/systemd/pull/13754 / systemd v244
-      Restart = "on-failure";
-      RestartSec = "2min";
+      #Restart = "on-failure";
+      #RestartSec = "2min";
     };
   };
 }
