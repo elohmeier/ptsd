@@ -35,11 +35,10 @@
       ip = "191.18.19.31"; # Oma
       publicKey = "GRjSScIwM2VBYpLkl5L9iThvJ2YNYiNWZPBND9eniBU=";
     };
-    # TODO: implement filter in htz1.nix
-    #htz1 = {
-    #    ip ="191.18.19.32";
-    #    publicKey = "UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=";
-    #};
+    htz1 = {
+      ip = "191.18.19.32";
+      publicKey = "UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=";
+    };
     iph2 = {
       ip = "191.18.19.33"; # Lu
       publicKey = "BJD/QMJ/hF2opW+tVGYFjdY14+y60QQQlP6X5bdgK1w=";
@@ -58,9 +57,9 @@
       ip = "191.18.19.36";
       publicKey = "dLfyCkEPM2bDwcO2JEYBv772dXX+JM6bsnSpttaN0gs=";
     };
-    rpi3 = {
-      # RPi-HomeMatic      
-    };
+    #rpi3 = {
+    # RPi-HomeMatic      
+    #};
     ws1 = {
       ip = "191.18.19.80";
       publicKey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
@@ -118,6 +117,40 @@
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGrj3IURmrKLMUZrFFlENJedliTcjzvZrJiJUbSskVIH ";
+    };
+
+    htz1 = {
+      cores = 1;
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.32";
+          aliases = [
+            "htz1.nw"
+          ];
+          wireguard.pubkey = ''
+            UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPYs2VSLe3WazR2xKDPx1yv3kkSVNlAWTh8bO4WqOTJu ";
+    };
+
+    htz2 = {
+      cores = 1;
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.36";
+          aliases = [
+            "htz2.nw"
+          ];
+          wireguard.pubkey = ''
+            dLfyCkEPM2bDwcO2JEYBv772dXX+JM6bsnSpttaN0gs=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC8oMXFMl21K1NNVQJpjgY8TAJb0qGZ9GmL6H+aZqDbq ";
     };
 
     nuc1 = {

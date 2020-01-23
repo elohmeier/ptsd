@@ -5,13 +5,17 @@ _:
     ./dlrg-vpn-client.nix
     ./dlrg-vpn-host.nix
     ./docker-home-assistant.nix
+    ./drone-server.nix
+    ./gitea.nix
     ./lego.nix
     ./nwbackup.nix
     ./nwmonica.nix
     ./nwmonit.nix
     ./nwstats.nix
     ./nwtelegraf.nix
+    ./nwtraefik.nix
     ./nwvpn.nix
+    ./nwvpn-server.nix
     ./secrets.nix
     ./vdi-container.nix
     ./wireguard-reresolve.nix
