@@ -64,27 +64,38 @@
     )
   ];
 
+  target = lib.mkTarget "root@${name}.host.nerdworks.de";
 in
-{
+rec {
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy)
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A deploy)
   deploy =
     pkgs.krops.writeDeploy "deploy" {
       source = source;
-      target = "root@${name}.host.nerdworks.de";
+      target = target;
     };
 
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A populate)  
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A populate)  
   populate = pkgs.populate {
     source = source;
-    target = lib.mkTarget "root@${name}.host.nerdworks.de";
+    target = target;
   };
 
   populate_sudo = pkgs.populate {
     source = source;
-    target = lib.mkTarget "enno@${name}.host.nerdworks.de" // {
+    target = target // {
       sudo = true;
     };
   };
+
+  # build without switching to the new config (to test the build)
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A build_remote)
+  build_remote =
+    pkgs.writeDash "build_remote" ''
+      set -efu
+      ${populate}
+      ${pkgs.krops.rebuild [ "dry-build" ] target}
+      ${pkgs.krops.build target}
+    '';
 }
