@@ -4,7 +4,7 @@ with lib;
 
 let
   cfg = config.ptsd.nwvpn;
-  universe = import ../2configs/universe.nix;
+  universe = import <ptsd/2configs/universe.nix>;
 in
 {
   options = {
