@@ -9,6 +9,7 @@ pkgs.writeDashBin "gen-secrets" ''
   ${pkgs.wireguard}/bin/wg genkey > $TMPDIR/nwvpn.key
   ${pkgs.coreutils}/bin/cat $TMPDIR/nwvpn.key | ${pkgs.wireguard}/bin/wg pubkey > $TMPDIR/nwvpn.pub
   ${pkgs.pwgen}/bin/pwgen 25 1 > $TMPDIR/nwbackup.borgkey
+  ${pkgs.dropbear}/bin/dropbearkey -t ecdsa -f $TMPDIR/initrd-ssh-key
 
   cat <<EOF > $TMPDIR/hashedPasswords.nix
   {
