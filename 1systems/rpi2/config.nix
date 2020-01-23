@@ -17,6 +17,6 @@ with import <ptsd/lib>;
 
   ptsd.dlrgVpnHost = {
     enable = true;
-    ip = "191.18.20.35";
+    ip = "191.18.21.35";
   };
 }

@@ -15,7 +15,7 @@ with import <ptsd/lib>;
 
   ptsd.dlrgVpnClient = {
     enable = true;
-    ip = "191.18.20.34";
+    ip = "191.18.21.34";
   };
 
   ptsd.dockerHomeAssistant.enable = true;
