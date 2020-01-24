@@ -158,16 +158,16 @@ in
               supportedLocales = [ "${cfg.containerLocale}/UTF-8" ];
             };
 
-# TODO: Allow systemctl without password, not working currently
-#            security.sudo.extraRules = [
-#              {
-#                groups = [ "vpn" ];
-#                commands = [ { command = "${pkgs.systemd}/bin/systemctl"; options = [ "NOPASSWD" ]; } ];
-#              }
-#            ];
-#
-#            users.groups.vpn = {};
-#            users.users.mainUser.extraGroups = [ "vpn" ];
+            # TODO: Allow systemctl without password, not working currently
+            #            security.sudo.extraRules = [
+            #              {
+            #                groups = [ "vpn" ];
+            #                commands = [ { command = "${pkgs.systemd}/bin/systemctl"; options = [ "NOPASSWD" ]; } ];
+            #              }
+            #            ];
+            #
+            #            users.groups.vpn = {};
+            #            users.users.mainUser.extraGroups = [ "vpn" ];
 
             users.motd = ''
                           ** Welcome **
