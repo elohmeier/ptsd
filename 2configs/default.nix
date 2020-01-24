@@ -9,7 +9,6 @@ let
     sshPubKeys.sshPub.iph1_terminus
     sshPubKeys.sshPub.iph1_workingcopy
     sshPubKeys.sshPub.tp1
-    sshPubKeys.sshPub.tp1_win10
     sshPubKeys.sshPub.ws1
     sshPubKeys.sshPub.enno_yubi41
     sshPubKeys.sshPub.enno_yubi49
