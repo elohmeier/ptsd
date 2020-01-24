@@ -16,6 +16,16 @@ in
         type = types.attrsOf types.int;
       };
 
+      httpPort = mkOption {
+        type = types.int;
+        default = 80;
+      };
+
+      httpsPort = mkOption {
+        type = types.int;
+        default = 443;
+      };
+
       logLevel = mkOption {
         type = types.str;
         default = "ERROR";
@@ -64,11 +74,11 @@ in
             defaultEntryPoints = [ "https" "http" ];
             entryPoints = {
               http = {
-                address = ":80";
+                address = ":${toString cfg.httpPort}";
                 redirect.entryPoint = "https";
               };
               https = {
-                address = ":443";
+                address = ":${toString cfg.httpsPort}";
                 tls = {
                   certificates = [
                     {
@@ -111,7 +121,7 @@ in
 
         networking = {
           firewall = {
-            allowedTCPPorts = [ 80 443 ];
+            allowedTCPPorts = [ cfg.httpPort cfg.httpsPort ];
           };
         };
 

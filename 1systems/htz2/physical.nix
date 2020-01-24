@@ -4,7 +4,7 @@
   imports = [
     ./config.nix
     <ptsd/2configs/hw/hetzner-vm.nix>
-    <ptsd/2configs/luks-ssh-unlock.nix>
+    #<ptsd/2configs/luks-ssh-unlock.nix>
   ];
 
   boot.initrd.luks.devices = [
@@ -24,4 +24,10 @@
     device = "/dev/sda1";
     fsType = "ext4";
   };
+
+  swapDevices = [
+    {
+      device = "/swapfile";
+    }
+  ];
 }
