@@ -6,6 +6,7 @@
       <ptsd>
       <ptsd/2configs>
       <ptsd/2configs/nwhost.nix>
+      <ptsd/2configs/nwradicale.nix>
 
       <secrets-shared/nwsecrets.nix>
     ];
@@ -39,17 +40,8 @@
     #logLevel = "DEBUG";
   };
 
-  #ptsd.nwradicale = {
-  #  enable = true;
-  #};
-
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
   };
-
-  # currently unused but configured domains
-  ptsd.lego.extraDomains = [
-    "mail.nerdworks.de"
-  ];
 }

@@ -51,6 +51,7 @@ in
         ffoxsync = 10077;
         nerdworkswww = 1080;
         nwgit = 10055;
+        radicale = 5232;
       };
     }
     (

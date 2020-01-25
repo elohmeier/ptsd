@@ -16,6 +16,7 @@ _:
     ./nwtraefik.nix
     ./nwvpn.nix
     ./nwvpn-server.nix
+    ./radicale.nix
     ./secrets.nix
     ./vdi-container.nix
     ./wireguard-reresolve.nix
