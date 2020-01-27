@@ -23,7 +23,7 @@
 
   i18n.consoleKeyMap = "de-latin1";
 
-  environment.systemPackages = with pkgs; [ tmux ncdu git ];
+  environment.systemPackages = with pkgs; [ tmux ncdu git mc ];
 
   services.resolved.enable = true;
   networking.wireless.enable = false;
