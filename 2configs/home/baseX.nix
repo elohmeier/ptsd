@@ -79,6 +79,8 @@ in
       portfolio
 
       unstable.steam
+
+      woeusb
     ];
 
   # fix font antialiasing in mucommander
