@@ -1,4 +1,8 @@
-{ name, desktop ? false, unstable ? false }: let
+{ name
+, desktop ? false
+, unstable ? false
+, starget ? "root@${name}.host.nerdworks.de"
+}: let
   #krops = (import <nixpkgs> {}).fetchgit {
   #  url = https://cgit.krebsco.de/krops/;
   #  rev = "v1.18.1";
@@ -64,7 +68,8 @@
     )
   ];
 
-  target = lib.mkTarget "root@${name}.host.nerdworks.de";
+  #target = lib.mkTarget "root@${name}.host.nerdworks.de";
+  target = lib.mkTarget starget;
 in
 rec {
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy)
@@ -75,8 +80,9 @@ rec {
       target = target;
     };
 
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A populate)  
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A populate)  
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A populate)
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A populate)
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --argstr starget "root@IP/mnt/var/src" --arg desktop true -A populate)
   populate = pkgs.populate {
     source = source;
     target = target;
