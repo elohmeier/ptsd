@@ -145,8 +145,6 @@ in
     youtube-dl
     spotify
     mpv
-    cryptsetup
-    ntfs3g
     tree
     drawio
     (pass.withExtensions (ext: [ ext.pass-import ]))

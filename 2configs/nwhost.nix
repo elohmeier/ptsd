@@ -27,8 +27,11 @@ in
   environment.systemPackages = [
     pkgs."telegram.sh"
     pkgs.dnsutils
+    pkgs.cryptsetup
   ];
 
   programs.mosh.enable = true;
   services.fail2ban.enable = true;
+
+  system.fsPackages = [ pkgs.ntfs3g ];
 }
