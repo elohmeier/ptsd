@@ -34,7 +34,6 @@ with import <ptsd/lib>;
 
   networking = {
     hostName = "ws1";
-    hostId = "8c5598b5"; # required for zfs
     useNetworkd = true;
     useDHCP = false;
   };
