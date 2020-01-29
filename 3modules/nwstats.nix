@@ -92,7 +92,6 @@ in
         Group = "nwstats";
         WorkingDirectory = cfg.dataDir;
         Restart = "on-failure";
-        RuntimeMaxSec = "300";
       };
     };
 
@@ -107,6 +106,7 @@ in
         Group = "nwstats";
         WorkingDirectory = "${cfg.dataDir}/nobbofin";
         Restart = "on-failure";
+        RuntimeMaxSec = "300";
       };
     };
 
