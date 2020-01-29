@@ -9,6 +9,7 @@
       <ptsd/2configs/backup-host.nix>
       <ptsd/2configs/home-assistant.nix>
       <ptsd/2configs/mosquitto.nix>
+      <ptsd/2configs/nextcloud.nix>
       <ptsd/2configs/postgresql.nix>
       <ptsd/2configs/samba.nix>
       <ptsd/2configs/vsftpd.nix>
@@ -17,7 +18,7 @@
 
   users.users.media = {
     name = "media";
-    isNormalUser = true;
+    isSystemUser = true;
     home = "/mnt/int/media";
     createHome = false;
     useDefaultShell = true;
@@ -29,6 +30,10 @@
   services.syncthing = {
     enable = true;
     openDefaultPorts = true;
+
+    # mirror the nextcloud permissions
+    user = "nextcloud";
+    group = "nginx";
   };
 
   ptsd.nwtelegraf = {
@@ -362,6 +367,12 @@
           routes.r1.rule = "Host:hass.services.nerdworks.de";
           passHostHeader = true;
         };
+        nextcloud = {
+          entryPoints = [ "https" "http" ];
+          backend = "nginx_nextcloud";
+          routes.r1.rule = "Host:nextcloud.services.nerdworks.de";
+          passHostHeader = true;
+        };
       };
       backends = {
         nginx_intweb = {
@@ -369,6 +380,9 @@
         };
         nginx_alerta_webui = {
           servers.s1.url = "http://localhost:1081";
+        };
+        nginx_nextcloud = {
+          servers.s1.url = "http://localhost:1082";
         };
         influxdb = {
           servers.s1.url = "http://localhost:18086";
@@ -413,7 +427,10 @@
     "hass.services.nerdworks.de"
     "intweb.services.nerdworks.de"
     "monica.services.nerdworks.de"
+    "nextcloud.services.nerdworks.de"
   ];
+
+
 
   networking.hostName = "nuc1";
 
