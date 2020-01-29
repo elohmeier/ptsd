@@ -1,6 +1,7 @@
 _:
 {
   imports = [
+    ./acme-dns.nix
     ./alerta.nix
     ./dlrg-vpn-client.nix
     ./dlrg-vpn-host.nix
