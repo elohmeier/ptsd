@@ -140,6 +140,9 @@
   programs.xss-lock = {
     enable = true;
     lockerCommand = "${pkgs.nwlock}/bin/nwlock";
+    extraOptions = [
+      "-n '${pkgs.libnotify}/bin/notify-send \"locking soon...\"'"
+    ];
   };
 
   hardware.logitech = {
@@ -159,5 +162,5 @@
 
   fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab source-code-pro ];
 
-  services.teamviewer.enable = true;
+  #services.teamviewer.enable = true;
 }
