@@ -41,10 +41,7 @@ in
       };
       dnsResolvers = mkOption {
         type = with types; listOf str;
-        # https://digitalcourage.de/support/zensurfreier-dns-server
-        default = [ "46.182.19.48" "85.214.20.141" ];
-        #default = [ "8.8.8.8" "8.8.4.4" ];
-        example = [ "8.8.8.8" "8.8.4.4" ];
+        default = [ "8.8.8.8" "8.8.4.4" ];
       };
       acmeDnsApiBase = mkOption {
         type = types.str;
@@ -64,6 +61,7 @@ in
       group = "lego";
       home = cfg.home;
       createHome = true;
+      isSystemUser = true;
     };
 
     systemd.services."lego" = {
