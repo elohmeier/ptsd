@@ -21,6 +21,9 @@
       local-data: "apu1 A 192.168.178.11"
       local-data: "apu1.host.nerdworks.de A 192.168.178.11"
 
+      local-data: "nas1 A 192.168.178.12"
+      local-data: "nas1.host.nerdworks.de A 192.168.178.12"
+
       local-data: "nuc1 A 192.168.178.10"
       local-data: "nuc1.host.nerdworks.de A 192.168.178.10"
 
