@@ -47,4 +47,20 @@
     enable = true;
   };
 
+  systemd.services.nextcloud-reindex-syncthing-folders = {
+    description = "Update the NextCloud index for folders managed by Syncthing";
+    wants = [ "network.target" "network-online.target" ];
+    after = [ "network.target" "network-online.target" ];
+    startAt = "daily";
+
+    script = ''
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files
+    '';
+
+    # wait for 20.03, sudo is optional there
+    #serviceConfig = {
+    #  User = "nextcloud";
+    #};
+  };
+
 }
