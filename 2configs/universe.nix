@@ -57,6 +57,10 @@
       ip = "191.18.19.36";
       publicKey = "dLfyCkEPM2bDwcO2JEYBv772dXX+JM6bsnSpttaN0gs=";
     };
+    nas1 = {
+      ip = "191.18.19.37";
+      publicKey = "52uBY3v3s7JE74MRVLepEx8vQliKCpzZteGXG0EhNGU=";
+    };
     #rpi3 = {
     # RPi-HomeMatic      
     #};
@@ -152,6 +156,24 @@
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC8oMXFMl21K1NNVQJpjgY8TAJb0qGZ9GmL6H+aZqDbq ";
     };
+
+    nas1 = {
+      cores = 4;
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.37";
+          aliases = [
+            "nas1.nw"
+          ];
+          wireguard.pubkey = ''
+            52uBY3v3s7JE74MRVLepEx8vQliKCpzZteGXG0EhNGU=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPzSELiOpE3nCNPSeylax/W3UfXbzSBVQ3mqjHBz/yPy ";
+    };
+
 
     nuc1 = {
       cores = 4;
