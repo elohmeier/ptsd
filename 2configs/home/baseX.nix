@@ -81,6 +81,7 @@ in
       unstable.steam
 
       woeusb
+      obs-studio
     ];
 
   # fix font antialiasing in mucommander
