@@ -80,6 +80,17 @@ rec {
       target = target;
     };
 
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy_ptsd)
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A deploy_ptsd)
+  deploy_ptsd =
+    pkgs.krops.writeDeploy "deploy_ptsd" {
+      source = lib.evalSource [
+        { ptsd.file = toString ./.; }
+      ];
+      target = target;
+      fast = true;
+    };
+
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A populate)
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A populate)
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --argstr starget "root@IP/mnt/var/src" --arg desktop true -A populate)
