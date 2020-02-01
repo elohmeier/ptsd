@@ -6,12 +6,14 @@ in
   imports = [
     ./config.nix
     <ptsd/2configs/hw/nas2020.nix>
+    <ptsd/2configs/luks-ssh-unlock.nix>
   ];
 
   system.stateVersion = "19.09";
 
   boot.initrd.luks.devices.sysVG = {
     device = "${disk}-part2";
+    preLVM = true;
   };
 
   fileSystems."/" =
