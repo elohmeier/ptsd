@@ -2,7 +2,7 @@
 let
   unlock = pkgs.writeScriptBin "unlock" ''
     #!/bin/sh
-    echo -n "Please enter passphrase: "
+    echo -n "Please enter LUKS passphrase: "
     IFS= read -rs passphrase
     echo -n "$passphrase" > /crypt-ramfs/passphrase
   '';
