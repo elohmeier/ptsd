@@ -24,15 +24,16 @@ let
         ignore_fs = [ "tmpfs" "devtmpfs" ];
       };
       diskio = {};
+      interrupts = {};
       kernel = {};
+      linux_sysctl_fs = {};
       mem = {};
+      net = {};
+      netstat = {};
       processes = {};
       swap = {};
       system = {};
-      net = {};
-      netstat = {};
-      interrupts = {};
-      linux_sysctl_fs = {};
+      temp = {};
     };
   } cfg.extraConfig;
 in
