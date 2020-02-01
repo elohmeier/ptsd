@@ -107,19 +107,7 @@ in
     minishift
     neomutt
     cachix
-    pssh
     pyenv
-    bc
-    wget
-    mc
-    tig
-    killall
-    unzip
-    ncdu
-    iftop
-    bind
-    nmap
-    htop
     virtmanager
     virtviewer
     docker_compose
@@ -145,22 +133,16 @@ in
     youtube-dl
     spotify
     mpv
-    tree
     drawio
     (pass.withExtensions (ext: [ ext.pass-import ]))
     openssl
     efitools
     tpm2-tools
     lorri
-    ripgrep
-    pwgen
-    htop
-    iotop
     smartmontools
     gptfdisk
     gparted
     efibootmgr
-    rmlint
     usbutils
     wirelesstools
     wpa_supplicant

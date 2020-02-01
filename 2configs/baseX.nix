@@ -3,6 +3,7 @@
 {
   imports = [
     <ptsd>
+    <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/3modules>
   ];

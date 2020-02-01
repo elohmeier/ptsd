@@ -5,12 +5,14 @@ with import <ptsd/lib>;
   imports = [
     <ptsd>
     <ptsd/2configs>
+    <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/nwhost.nix>
 
     <secrets-shared/nwsecrets.nix>
   ];
 
   boot.tmpOnTmpfs = true;
+  boot.supportedFilesystems = [ "zfs" ];
 
   networking = {
     hostName = "nas1";
