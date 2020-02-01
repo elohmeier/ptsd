@@ -17,6 +17,13 @@ with import <ptsd/lib>;
   # default: poweroff
   #services.logind.extraConfig = "HandlePowerKey=suspend";
 
+  # compensate X11 shutdown problems, probably caused by nvidia driver
+  systemd.services.display-manager.postStop = ''
+    ${pkgs.coreutils}/bin/sleep 5
+  '';
+
+  boot.tmpOnTmpfs = true;
+
   ptsd.vdi-container = {
     enable = true;
     extIf = "virbr0";

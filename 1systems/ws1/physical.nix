@@ -38,6 +38,12 @@ in
       fsType = "ext4";
     };
 
+  fileSystems."/var/lib/libvirt/images" =
+    {
+      device = "${vgPrefix}-var--lib--libvirt--images";
+      fsType = "ext4";
+    };
+
   fileSystems."/var/log" =
     {
       device = "${vgPrefix}-var--log";
