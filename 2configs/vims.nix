@@ -52,14 +52,15 @@ in
 {
   small = (
     vim_configurable.override {
-      features = "huge";
-      guiSupport = "";
-      luaSupport = false;
-      perlSupport = false;
-      pythonSupport = false;
-      rubySupport = false;
-      tclSupport = false;
-      netbeansSupport = false;
+      # disable all the customizations, faster to build (vim from nix cache)
+      #features = "huge";
+      #guiSupport = "";
+      #luaSupport = false;
+      #perlSupport = false;
+      #pythonSupport = false;
+      #rubySupport = false;
+      #tclSupport = false;
+      #netbeansSupport = false;
     }
   ).customize {
     name = "vim";
@@ -74,15 +75,15 @@ in
 
   big = (
     vim_configurable.override {
-      features = "huge";
-      guiSupport = "";
-      luaSupport = false;
-      perlSupport = false;
-      pythonSupport = true;
-      python = py3;
-      rubySupport = false;
-      tclSupport = false;
-      netbeansSupport = false;
+      #features = "huge";
+      #guiSupport = "";
+      #luaSupport = false;
+      #perlSupport = false;
+      #pythonSupport = true;
+      #python = py3;
+      #rubySupport = false;
+      #tclSupport = false;
+      #netbeansSupport = false;
     }
   ).customize {
     name = "vim";

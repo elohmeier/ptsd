@@ -13,7 +13,6 @@ let
     sshPubKeys.sshPub.enno_yubi41
     sshPubKeys.sshPub.enno_yubi49
   ];
-  vims = pkgs.callPackage ./vims.nix {};
 in
 {
   imports = [

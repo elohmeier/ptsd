@@ -10,6 +10,7 @@
 
     <ptsd>
     <ptsd/2configs>
+    <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/tor-ssh.nix>
 
     <secrets-shared/nwsecrets.nix>
@@ -22,8 +23,6 @@
   systemd.services.sshd.wantedBy = lib.mkOverride 40 [ "multi-user.target" ];
 
   i18n.consoleKeyMap = "de-latin1";
-
-  environment.systemPackages = with pkgs; [ tmux ncdu git mc ];
 
   services.resolved.enable = true;
   networking.wireless.enable = false;
