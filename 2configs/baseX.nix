@@ -30,6 +30,7 @@
   environment.systemPackages = with pkgs; [
     git
     gen-secrets
+    nwvpn-qr
     redshift
     pavucontrol
     pasystray

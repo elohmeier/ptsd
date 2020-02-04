@@ -28,3 +28,6 @@ eee1:
 iso:
 	nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=2configs/iso.nix -I /var/src
 
+.PHONY: nwvpn-qr
+nwvpn-qr:
+	nix-build -E 'with import <nixpkgs> {overlays = [(import ./submodules/nix-writers/pkgs)];}; callPackage ./5pkgs/nwvpn-qr {}'
