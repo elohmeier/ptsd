@@ -61,6 +61,10 @@
       ip = "191.18.19.37";
       publicKey = "52uBY3v3s7JE74MRVLepEx8vQliKCpzZteGXG0EhNGU=";
     };
+    ipd1 = {
+      ip = "191.18.19.38";
+      publicKey = "JgZZ9Os5M/O2B+b5GaajcfV01wj8nTByoUdhF76yNiM=";
+    };
     #rpi3 = {
     # RPi-HomeMatic      
     #};
@@ -121,6 +125,23 @@
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGrj3IURmrKLMUZrFFlENJedliTcjzvZrJiJUbSskVIH ";
+    };
+
+    ipd1 = {
+      cores = 1;
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.38";
+          aliases = [
+            "ipd1.nw"
+          ];
+          wireguard.pubkey = ''
+            JgZZ9Os5M/O2B+b5GaajcfV01wj8nTByoUdhF76yNiM=
+          '';
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHnjlNsk2FvicjCpza8uAm9wAUUajzrTm8jTE/nYwi3/ ";
     };
 
     htz1 = {
