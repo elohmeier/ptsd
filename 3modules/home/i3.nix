@@ -5,6 +5,7 @@ with lib;
 let
   cfg = config.ptsd.i3;
   i3font = "${cfg.font} ${toString cfg.fontSize}";
+  unstable = import <nixpkgs-unstable> {};
 in
 {
   imports = [
@@ -369,6 +370,14 @@ in
           opts.format = "%percentage_used used, %percentage_free free, %percentage_shared shared";
         };
 
+        read_file_gitalarm = {
+          type = "read_file";
+          name = "gitalarm";
+          opts = {
+            path = "${config.xdg.dataHome}/git-alarm.txt";
+          };
+        };
+
         volume_master = {
           type = "volume";
           name = "master";
@@ -381,6 +390,7 @@ in
       };
 
       order = [
+        "read_file gitalarm"
         "ipv6"
         "disk /"
         "disk /home"
@@ -410,6 +420,32 @@ in
         };
         urgency_low.timeout = 1;
       };
+    };
+
+    systemd.user.services.git-alarm = {
+      Unit = {
+        Description = "Run git-alarm and generate i3status file";
+      };
+
+      Service = {
+        Type = "oneshot";
+        ExecStart = "${pkgs.git-alarm} -o ${config.xdg.dataHome}/git-alarm.txt ${config.home.homeDirectory}/repos";
+        TimeoutStartSec = "5min"; # kill if still alive after 5 minutes
+        Environment = "PATH=${pkgs.git}/bin:${unstable.mu-repo}/bin";
+      };
+    };
+
+    systemd.user.timers.git-alarm = {
+      Unit = {
+        Description = "git-alarm Timer";
+      };
+
+      Timer = {
+        OnCalendar = "*:0/5";
+        Unit = "git-alarm.service";
+      };
+
+      Install = { WantedBy = [ "timers.target" ]; };
     };
   };
 }
