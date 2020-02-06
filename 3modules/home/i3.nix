@@ -170,8 +170,8 @@ in
                 };
 
               modes."${open_codium_mode}" = {
-                "n" = ''exec codium /home/enno/nobbofin; mode "default"'';
-                "p" = ''exec codium /home/enno/nixpkgs; mode "default"'';
+                "n" = ''exec codium /home/enno/repos/nobbofin; mode "default"'';
+                "p" = ''exec codium /home/enno/repos/nixpkgs; mode "default"'';
                 "Escape" = ''mode "default"'';
                 "Return" = ''mode "default"'';
               };
