@@ -3,9 +3,9 @@
 let
   metadata = assert stdenv.hostPlatform.system == "i686-linux" || stdenv.hostPlatform.system == "x86_64-linux";
     if stdenv.hostPlatform.system == "i686-linux" then
-      { arch = "x86"; sha256 = "0fdcapchg4zg25hn7kghf3i6hipw6cngn7v3cvnq2c9dndznvsxq"; }
+      { arch = "x86"; sha256 = "1fdcapchg4zg25hn7kghf3i6hipw6cngn7v3cvnq2c9dndznvsxq"; }
     else
-      { arch = "x86_64"; sha256 = "06jqq9fl4xf6c1a672hvkacx5p3x765pp1gxkl5f9lmi0pk506rf"; };
+      { arch = "x86_64"; sha256 = "1ww5l0hpqpwxhl0rb52izvh6rv6zxlh07bpbm40xbr4nb4kpnyp5"; };
   desktopItem = makeDesktopItem {
     name = "Portfolio";
     exec = "portfolio";
@@ -17,10 +17,10 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "PortfolioPerformance";
-  version = "0.43.1";
+  version = "0.44.0";
 
   src = fetchurl {
-    url = "https://github.com/buchen/portfolio/releases/download/0.43.1/PortfolioPerformance-${version}-linux.gtk.${metadata.arch}.tar.gz";
+    url = "https://github.com/buchen/portfolio/releases/download/${version}/PortfolioPerformance-${version}-linux.gtk.${metadata.arch}.tar.gz";
     sha256 = metadata.sha256;
   };
 
