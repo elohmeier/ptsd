@@ -1,7 +1,9 @@
 { config, lib, pkgs, ... }:
 
+let
+  domain = "nextcloud.services.nerdworks.de";
+in
 {
-
   services.postgresql.ensureDatabases = [ "nextcloud" ];
   services.postgresql.ensureUsers = [
     {
@@ -16,9 +18,11 @@
     after = [ "postgresql.service" ];
   };
 
+  ptsd.secrets.files."ncadmin-pw" = {};
+
   services.nextcloud = {
     enable = true;
-    hostName = "nextcloud.services.nerdworks.de";
+    hostName = domain;
     https = true;
     nginx.enable = true;
     caching = {
@@ -32,19 +36,19 @@
       dbhost = "/run/postgresql"; # nextcloud will add /.s.PGSQL.5432 by itself
       dbname = "nextcloud";
       adminuser = "ncadmin";
-      adminpassFile = (toString <secrets>) + "/ncadmin-pw";
+      adminpassFile = config.ptsd.secrets.files."ncadmin-pw".path;
     };
   };
 
-  services.nginx.virtualHosts."nextcloud.services.nerdworks.de".listen = [
+  services.nginx.virtualHosts."${domain}".listen = [
     {
       addr = "127.0.0.1";
-      port = 1082;
+      port = config.ptsd.nwtraefik.ports.nextcloud;
     }
   ];
 
   services.redis = {
-    enable = true;
+    enable = true; # remember to activate it in the local NextCloud config file!
   };
 
   systemd.services.nextcloud-reindex-syncthing-folders = {
@@ -63,4 +67,14 @@
     #};
   };
 
+  ptsd.lego.extraDomains = [
+    domain
+  ];
+
+  ptsd.nwtraefik.services = [
+    {
+      name = "nextcloud";
+      rule = "Host:${domain}";
+    }
+  ];
 }

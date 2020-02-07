@@ -50,6 +50,7 @@ in
         droneci = 10050;
         ffoxsync = 10077;
         nerdworkswww = 1080;
+        nextcloud = 1082;
         nwgit = 10055;
         radicale = 5232;
       };

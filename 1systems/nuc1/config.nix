@@ -428,7 +428,6 @@
     "hass.services.nerdworks.de"
     "intweb.services.nerdworks.de"
     "monica.services.nerdworks.de"
-    "nextcloud.services.nerdworks.de"
   ];
 
 

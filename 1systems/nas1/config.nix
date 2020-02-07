@@ -7,6 +7,8 @@ with import <ptsd/lib>;
     <ptsd/2configs>
     <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/nwhost.nix>
+    <ptsd/2configs/nextcloud.nix>
+    <ptsd/2configs/postgresql.nix>
 
     <secrets-shared/nwsecrets.nix>
   ];
@@ -24,4 +26,21 @@ with import <ptsd/lib>;
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
   boot.kernelParams = [ "ip=192.168.178.12::192.168.178.1:255.255.255.0:${config.networking.hostName}:eth0:off" ];
+
+  services.syncthing = {
+    enable = true;
+    openDefaultPorts = true;
+
+    # mirror the nextcloud permissions
+    user = "nextcloud";
+    group = "nginx";
+  };
+  system.activationScripts.syncthing = ''
+    mkdir -m 0700 -p /var/lib/syncthing
+    chown nextcloud:nginx /var/lib/syncthing
+  '';
+
+  ptsd.nwtraefik = {
+    enable = true;
+  };
 }
