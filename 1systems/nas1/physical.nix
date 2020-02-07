@@ -57,11 +57,15 @@ in
       { device = "${vgPrefix}-swap"; }
     ];
 
-  networking.hostId = "1591AF90"; # required for zfs
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   powerManagement.cpuFreqGovernor = "powersave";
+
+  networking.hostId = "1591AF90"; # required for zfs
+
+  boot.tmpOnTmpfs = true;
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.zfs.extraPools = [ "tank" ];
 }

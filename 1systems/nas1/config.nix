@@ -13,9 +13,6 @@ with import <ptsd/lib>;
     <secrets-shared/nwsecrets.nix>
   ];
 
-  boot.tmpOnTmpfs = true;
-  boot.supportedFilesystems = [ "zfs" ];
-
   networking = {
     hostName = "nas1";
     useNetworkd = true;
