@@ -3,6 +3,7 @@
 let
   unstable = import <nixpkgs-unstable> {
     config.allowUnfree = true;
+    config.packageOverrides = import ../../5pkgs unstable;
   };
 in
 {
@@ -83,8 +84,9 @@ in
       woeusb
       obs-studio
 
-      hasura-graphql-engine
-      hasura-cli
+      # "shakespeare" too old in 19.09
+      unstable.hasura-graphql-engine
+      unstable.hasura-cli
     ];
 
   # fix font antialiasing in mucommander
