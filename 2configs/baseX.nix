@@ -139,13 +139,19 @@
   security.pam.services.lightdm.enableGnomeKeyring = true;
   services.gnome3.gnome-keyring.enable = true;
 
-  programs.xss-lock = {
-    enable = true;
-    lockerCommand = "${pkgs.nwlock}/bin/nwlock";
-    extraOptions = [
-      "-n '${pkgs.libnotify}/bin/notify-send \"locking soon...\"'"
-    ];
-  };
+  programs.xss-lock = let
+    notify-pre-lock = pkgs.writeDash "notify-pre-lock" ''    
+    ${pkgs.libnotify}/bin/notify-send "locking soon..."
+  '';
+  in
+    {
+      enable = true;
+      lockerCommand = "${pkgs.nwlock}/bin/nwlock";
+      extraOptions = [
+        "-n"
+        "${notify-pre-lock}"
+      ];
+    };
 
   hardware.logitech = {
     enable = true;
