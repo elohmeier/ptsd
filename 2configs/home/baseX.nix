@@ -84,9 +84,10 @@ in
       woeusb
       obs-studio
 
-      # "shakespeare" too old in 19.09
-      unstable.hasura-graphql-engine
-      unstable.hasura-cli
+      # using unstable: "shakespeare" too old in 19.09
+      # disabled: see https://github.com/NixOS/nixpkgs/pull/75527#issuecomment-584187640
+      #unstable.hasura-graphql-engine
+      #unstable.hasura-cli
     ];
 
   # fix font antialiasing in mucommander
