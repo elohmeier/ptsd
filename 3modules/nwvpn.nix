@@ -35,10 +35,6 @@ in
         type = types.int;
         default = 21;
       };
-      #privateKeyFile = mkOption {
-      #  default = (toString <secrets>) + "/nwvpn.key";
-      #  type = types.str;
-      #};
     };
   };
 
@@ -55,7 +51,8 @@ in
 
           networking.wireguard.interfaces."${cfg.ifname}" = {
             ips = [ cfg.ip ];
-            privateKeyFile = config.ptsd.secrets.files."nwvpn.key".path;
+            #privateKeyFile = config.ptsd.secrets.files."nwvpn.key".path; # not working
+            privateKeyFile = toString <secrets> + "nwvpn.key";
             peers = [
               {
                 publicKey = cfg.publicKey;
