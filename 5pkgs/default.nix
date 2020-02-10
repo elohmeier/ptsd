@@ -12,4 +12,9 @@ mapAttrs (_: flip self.callPackage {})
   (
     filterAttrs (_: dir: pathExists (dir + "/default.nix"))
       (subdirsOf ./.)
-  )
+  ) // {
+  inherit (self.callPackage ./hasura {})
+    hasura-cli
+    hasura-graphql-engine
+    ;
+}

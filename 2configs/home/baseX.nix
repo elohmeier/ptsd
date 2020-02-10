@@ -82,6 +82,9 @@ in
 
       woeusb
       obs-studio
+
+      hasura-graphql-engine
+      hasura-cli
     ];
 
   # fix font antialiasing in mucommander
