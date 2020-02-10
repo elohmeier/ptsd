@@ -4,7 +4,7 @@ let
   unstable = import <nixpkgs-unstable> {
     config.allowUnfree = true;
   };
-  py3 = unstable.python38;
+  py3 = pkgs.python37;
   pyenv = py3.withPackages (
     pythonPackages: with pythonPackages; [
       black
