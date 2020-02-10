@@ -430,8 +430,6 @@
     "monica.services.nerdworks.de"
   ];
 
-
-
   networking.hostName = "nuc1";
 
   boot.kernelParams = [ "ip=192.168.178.10::192.168.178.1:255.255.255.0:${config.networking.hostName}:eth0:off" ];
@@ -441,7 +439,7 @@
     ssh = {
       enable = true;
       port = 2222;
-      hostECDSAKey = (toString <secrets>) + "/initrd-ssh-key";
+      hostECDSAKey = toString <secrets> + "/initrd-ssh-key";
     };
     postCommands = ''
       echo "zfs load-key -a; killall zfs" >> /root/.profile

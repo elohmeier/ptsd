@@ -42,7 +42,7 @@ in
       ssh = {
         enable = true;
         port = 2222;
-        hostECDSAKey = (toString <secrets>) + "/initrd-ssh-key";
+        hostECDSAKey = toString <secrets> + "/initrd-ssh-key";
       };
       postCommands = ''
         echo "unlock" >> /root/.profile
