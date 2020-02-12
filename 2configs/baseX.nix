@@ -171,4 +171,11 @@
   fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab source-code-pro ];
 
   #services.teamviewer.enable = true;
+
+  # for betaflight-configurator firmware flashing
+  # from https://github.com/betaflight/betaflight/wiki/Installing-Betaflight#platform-specific-linux
+  services.udev.extraRules = ''
+    # DFU (Internal bootloader for STM32 MCUs)
+    ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE="0664", GROUP="dialout"
+  '';
 }

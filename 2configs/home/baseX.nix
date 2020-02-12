@@ -88,6 +88,8 @@ in
       # disabled: see https://github.com/NixOS/nixpkgs/pull/75527#issuecomment-584187640
       #unstable.hasura-graphql-engine
       #unstable.hasura-cli
+
+      unstable.betaflight-configurator
     ];
 
   # fix font antialiasing in mucommander

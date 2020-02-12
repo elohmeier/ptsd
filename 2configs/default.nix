@@ -36,7 +36,7 @@ in
           uid = 1000;
           description = "Enno Lohmeier";
           extraGroups =
-            [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" ];
+            [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" "dialout" ];
           openssh.authorizedKeys.keys = authorizedKeys;
         };
       };
