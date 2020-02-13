@@ -51,6 +51,16 @@ in
     NIX_PATH = mkForce "secrets=/var/src/ptsd/null:/var/src";
   };
 
+  nix = {
+    binaryCaches = [
+      "https://cache.nixos.org/"
+      "https://nerdworks.cachix.org"
+    ];
+    binaryCachePublicKeys = [
+      "nerdworks.cachix.org-1:mt3i8px0W2IFrZ+vs/xu3mawh+XJZFTlZ+eaxMpVr+A="
+    ];
+  };
+
   boot.initrd.network.ssh.authorizedKeys = authorizedKeys;
 
   i18n.defaultLocale = "de_DE.UTF-8";
