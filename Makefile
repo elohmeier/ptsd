@@ -19,6 +19,7 @@ pretty:
 	nixpkgs-fmt 5pkgs
 	nixpkgs-fmt lib
 	nixpkgs-fmt *.nix
+	black .
 
 .PHONY: eee1
 eee1:
