@@ -49,7 +49,7 @@ pkgs.writePython3 "git-alarm" {} ''
           print(status_output)
           sys.exit(1)
       uncommitted = re.findall(
-          r"^(\w+) \w+:$",
+          r"^(\w+) [\w-]+:$",
           ansi_escape.sub("", status_output),
           re.MULTILINE,
       )
