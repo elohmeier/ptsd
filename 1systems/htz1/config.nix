@@ -10,6 +10,7 @@
       <ptsd/2configs/nwgit.nix>
       <ptsd/2configs/ffoxsync.nix>
       <ptsd/2configs/drone-ci.nix>
+      <ptsd/2configs/wdplaner.nix>
 
       # TODO: upgrade geoip update script
       # see https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/
@@ -56,7 +57,6 @@
   ptsd.lego.extraDomains = [
     "kb.nerdworks.de"
     "wiki.nerdworks.de"
-    "wrd.nerdworks.de"
     "www-dev.nerdworks.de"
   ];
 }
