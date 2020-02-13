@@ -416,7 +416,7 @@
   networking.firewall.allowedTCPPorts = [
     80 # HTTP
     443 # HTTPS
-    5432
+    5432 # postgresql
     8086 # InfluxDB
     9092 # Kapacitor
     5000 # Alerta
