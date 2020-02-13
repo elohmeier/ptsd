@@ -9,6 +9,7 @@ in
 {
   imports = [
     <ptsd/2configs/home/file-manager.nix>
+    <ptsd/2configs/home/git-alarm.nix>
   ];
 
   xsession.enable = true;
