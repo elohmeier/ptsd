@@ -77,4 +77,21 @@ in
       rule = "Host:${domain}";
     }
   ];
+
+  ptsd.nwmonit.extraConfig = [
+    ''
+      check host ${domain} with address ${domain}
+        if failed
+          port 80
+          protocol http
+          status = 302
+        then alert
+
+        if failed
+          port 443
+          protocol https request "/login" and certificate valid > 30 days          
+          content = "a safe home for all your data"
+        then alert
+    ''
+  ];
 }

@@ -58,4 +58,21 @@ in
       rule = "Host:nerdworks.de,www.nerdworks.de";
     }
   ];
+
+  ptsd.nwmonit.extraConfig = [
+    ''
+      check host www.nerdworks.de with address www.nerdworks.de
+        if failed
+          port 80
+          protocol http
+          status = 302
+        then alert
+
+        if failed
+          port 443
+          protocol https and certificate valid > 30 days
+          content = "Nerdworks Hamburg unterstützt Unternehmen bei"
+        then alert
+    ''
+  ];
 }

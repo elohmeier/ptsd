@@ -4,6 +4,8 @@ with lib;
 
 let
   cfg = config.ptsd.dockerHomeAssistant;
+  domain = "192.168.168.41";
+  port = 8123;
 in
 {
   options = {
@@ -18,7 +20,7 @@ in
 
   config = mkIf cfg.enable {
 
-    networking.firewall.allowedTCPPorts = [ 8123 ];
+    networking.firewall.allowedTCPPorts = [ port ];
 
     # guessed port range for pyHomematic XML RPC Server
     networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 49999; } ];
@@ -42,6 +44,17 @@ in
         TimeoutStartSec = 300; # protect slow docker pulls
       };
     };
+
+    ptsd.nwmonit.extraConfig = [
+      ''
+        check host ${domain} with address ${domain}
+          if failed
+            port ${port}
+            protocol http
+            content = "Home Assistant"
+          then alert
+      ''
+    ];
 
   };
 }

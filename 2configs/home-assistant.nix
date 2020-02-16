@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  domain = "hass.services.nerdworks.de";
+in
 {
   services.home-assistant = {
     enable = true;
@@ -42,4 +45,21 @@
 
   networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } ]; # for pyhomematic
   users.groups.lego.members = [ "hass" ];
+
+  ptsd.nwmonit.extraConfig = [
+    ''
+      check host ${domain} with address ${domain}
+        if failed
+          port 80
+          protocol http
+          status = 302
+        then alert
+
+        if failed
+          port 443
+          protocol https and certificate valid > 30 days          
+          content = "Home Assistant"
+        then alert
+    ''
+  ];
 }

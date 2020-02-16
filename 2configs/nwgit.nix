@@ -59,4 +59,21 @@ in
       rule = "Host:${domain}";
     }
   ];
+
+  ptsd.nwmonit.extraConfig = [
+    ''
+      check host ${domain} with address ${domain}
+        if failed
+          port 80
+          protocol http
+          status = 302
+        then alert
+
+        if failed
+          port 443
+          protocol https and certificate valid > 30 days
+          content = "Gitea - Git with a cup of tea"
+        then alert
+    ''
+  ];
 }
