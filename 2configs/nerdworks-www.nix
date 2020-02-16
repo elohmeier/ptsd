@@ -25,10 +25,10 @@ in
         root = "/var/www/nerdworks.de/prod-v2";
         locations."/dl/" = {
           alias = "/var/www/nerdworks.de/dl/";
-          extraConfig = ''
-            fancyindex on;
-            fancyindex_exact_size off;
-          '';
+          #extraConfig = ''
+          #  fancyindex on;
+          #  fancyindex_exact_size off;
+          #'';
         };
       };
 
@@ -44,7 +44,7 @@ in
 
     };
 
-    package = mynginx;
+    #package = mynginx;
   };
 
   ptsd.lego.extraDomains = [
