@@ -82,6 +82,16 @@ in
               https = {
                 address = ":${toString cfg.httpsPort}";
                 tls = {
+                  minVersion = "VersionTLS12";
+                  sniStrict = true;
+                  cipherSuites = [
+                    "TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384"
+                    "TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384"
+                    "TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256"
+                    "TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256"
+                    "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
+                    "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
+                  ];
                   certificates = [
                     {
                       certFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
@@ -103,6 +113,15 @@ in
                     backend = svc.name;
                     routes.r1.rule = svc.rule;
                     passHostHeader = true;
+                    headers = {
+                      STSSeconds = 315360000;
+                      STSPreload = true;
+                      frameDeny = false;
+                      contentTypeNosniff = true;
+                      browserXSSFilter = true;
+                      contentSecurityPolicy = "frame-ancestors";
+                      referrerPolicy = "no-referrer";
+                    };
                   };
                 }
               ) cfg.services
