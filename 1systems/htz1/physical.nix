@@ -4,11 +4,8 @@
   imports = [
     ./config.nix
     <ptsd/2configs/hw/hetzner-vm.nix>
-    #<ptsd/2configs/luks-ssh-unlock.nix>
+    <ptsd/2configs/luks-ssh-unlock.nix>
   ];
-
-  # not working as of 2019-10-14
-  # boot.kernelParams = [ "ip=159.69.186.234::172.31.1.1:255.255.255.255:htz1:eth0:off" ];
 
   boot.initrd.luks.devices = [
     {
@@ -33,4 +30,8 @@
       device = "/swapfile";
     }
   ];
+
+  services.udev.extraRules = ''
+    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="96:00:00:13:17:74", NAME="eth0"
+  '';
 }

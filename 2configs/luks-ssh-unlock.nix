@@ -19,7 +19,7 @@ in
 
   # use network cfg like this:
   # networking.useDHCP = false;
-  # networking.interfaces."eno1".useDHCP = true;
+  # networking.interfaces."eth0".useDHCP = true;
   # (tested with networkd)
 
   # find your network driver module name using
@@ -42,7 +42,7 @@ in
       ssh = {
         enable = true;
         port = 2222;
-        hostECDSAKey = toString <secrets> + "/initrd-ssh-key";
+        hostECDSAKey = lib.mkDefault (toString <secrets> + "/initrd-ssh-key");
       };
       postCommands = ''
         echo "unlock" >> /root/.profile
