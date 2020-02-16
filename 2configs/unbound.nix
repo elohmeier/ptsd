@@ -15,17 +15,19 @@
     extraConfig = ''
       include: /var/lib/unbound/blocklist.conf
 
-      local-data: "prt1 A 192.168.178.33"
-      local-data: "prt1.host.nerdworks.de A 192.168.178.33"
+      # entries disabled because of DNSSEC
 
-      local-data: "apu1 A 192.168.178.11"
-      local-data: "apu1.host.nerdworks.de A 192.168.178.11"
+      #local-data: "prt1 A 192.168.178.33"
+      #local-data: "prt1.host.nerdworks.de A 192.168.178.33"
 
-      local-data: "nas1 A 192.168.178.12"
-      local-data: "nas1.host.nerdworks.de A 192.168.178.12"
+      #local-data: "apu1 A 192.168.178.11"
+      #local-data: "apu1.host.nerdworks.de A 192.168.178.11"
 
-      local-data: "nuc1 A 192.168.178.10"
-      local-data: "nuc1.host.nerdworks.de A 192.168.178.10"
+      #local-data: "nas1 A 192.168.178.12"
+      #local-data: "nas1.host.nerdworks.de A 192.168.178.12"
+
+      #local-data: "nuc1 A 192.168.178.10"
+      #local-data: "nuc1.host.nerdworks.de A 192.168.178.10"
 
       remote-control:
         control-enable: yes
