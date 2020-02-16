@@ -10,7 +10,7 @@
       <ptsd/2configs/backup-host.nix>
       <ptsd/2configs/home-assistant.nix>
       <ptsd/2configs/mosquitto.nix>
-      <ptsd/2configs/nextcloud.nix>
+      #<ptsd/2configs/nextcloud.nix>
       <ptsd/2configs/postgresql.nix>
       <ptsd/2configs/samba.nix>
       <ptsd/2configs/vsftpd.nix>
