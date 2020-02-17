@@ -34,7 +34,6 @@
     redshift
     pavucontrol
     pasystray
-    feh
     dunst
     libnotify
     gnupg

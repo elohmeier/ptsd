@@ -91,6 +91,10 @@ in
       #unstable.hasura-cli
 
       unstable.betaflight-configurator
+
+      sxiv # image viewer
+      lxmenu-data # pcmanfm: show "installed applications"
+      shared_mime_info # pcmanfm: recognise different file types
     ];
 
   # fix font antialiasing in mucommander
