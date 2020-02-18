@@ -116,10 +116,10 @@ in
                     headers = {
                       STSSeconds = 315360000;
                       STSPreload = true;
-                      frameDeny = false;
+                      customFrameOptionsValue = "sameorigin";
                       contentTypeNosniff = true;
                       browserXSSFilter = true;
-                      contentSecurityPolicy = "frame-ancestors";
+                      contentSecurityPolicy = "frame-ancestors 'self' https://*.nerdworks.de";
                       referrerPolicy = "no-referrer";
                     };
                   };
