@@ -6,6 +6,7 @@ with import <ptsd/lib>;
     <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/cli-tools.nix>
+    <ptsd/2configs/cups-airprint.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/postgresql.nix>
