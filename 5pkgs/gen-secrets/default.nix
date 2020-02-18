@@ -26,7 +26,6 @@ pkgs.writeDashBin "gen-secrets" ''
 
   cat <<EOF
     $HOSTNAME = {
-      cores = 1;
       nets = {
         nwvpn = {
           ip4.addr = "changeme";

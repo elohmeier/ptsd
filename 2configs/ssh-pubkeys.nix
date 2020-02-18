@@ -51,15 +51,4 @@
     ws1_root =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDA84/TA+U54faQA0Bgqiuw84JkK2503MhGS3LiJQ8+0uJzX7zWSre3f2LMLIVBEzpAXs4TpVUvEUXR5eOGIKxl+tC8xKO8jcN402aS397SyvYu5f+8EgftiQXMppsQ2hSCDbV5ra+dUxexZYNKF85UONJjTvop5ZqU08QvJ0B+GniD1I66btjwCmAwOW9FIxqeKXk6Odr1yVvSKiLtamN/EPIwV5hoJ/0rtFhxla454EF5UcMK8zyqEy05X7zbICLkJVqsA2cxnvqGg/rbfiqon7M+5zs1dpxNIXtRsVyhK7K2/cFjn/vXU+5HNfq9ADMQ/BHoEN6v2xEwyMyY0KTl root@ws1";
   };
-
-  hostPub = {
-    htz1 =
-      "htz1.host.nerdworks.de,git.nerdworks.de,2a01:4f8:c010:1adc::1,159.69.186.234 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPNbPDL5Pb5AegmRFkpIb3ILpPiOHC8tkZnZ+Nia775K";
-    htz2 =
-      "htz2.host.nerdworks.de,2a01:4f8:c2c:b468::1,116.203.211.215 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIP1g3HSdBq9mRYLNy14ZoqS2b6WKX3gn3D4Z4kRsr1gu";
-    nuc1 =
-      "nuc1.host.nerdworks.de,nw10,nw10.fritz.box,191.18.19.10,192.168.178.10 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMsgU7LkfO2lN0Zj/SBqomnBX1L1LNg/J9TRz+nJbLnW";
-    apu1 = "apu1.host.nerdworks.de,nw11,nw11.fritz.box,191.18.19.11,git.nerdworks.de ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMNFwo0Gz8qAvQYjMMtewYKISjIfR+AAMRzDYAvKKk7S";
-    eee1 = "eee1.host.nerdworks.de,nw31,191.18.19.31 ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKwGZtuiw0HM3oQzBcjxHtcnkagZcvhfalsKLnX8KDJF";
-  };
 }

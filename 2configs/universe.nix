@@ -62,7 +62,7 @@
       publicKey = "52uBY3v3s7JE74MRVLepEx8vQliKCpzZteGXG0EhNGU=";
     };
     ipd1 = {
-      ip = "191.18.19.38";
+      ip = "191.18.19.38"; # Enno
       publicKey = "JgZZ9Os5M/O2B+b5GaajcfV01wj8nTByoUdhF76yNiM=";
     };
     #rpi3 = {
@@ -74,10 +74,8 @@
     };
   };
 
-  # not used yet
   hosts = {
     apu1 = {
-      cores = 2;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.11";
@@ -94,7 +92,6 @@
     };
 
     apu2 = {
-      cores = 2;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.34";
@@ -111,7 +108,6 @@
     };
 
     eee1 = {
-      cores = 2;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.31";
@@ -128,7 +124,6 @@
     };
 
     ipd1 = {
-      cores = 1;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.38";
@@ -140,13 +135,17 @@
           '';
         };
       };
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHnjlNsk2FvicjCpza8uAm9wAUUajzrTm8jTE/nYwi3/ ";
     };
 
     htz1 = {
-      cores = 1;
       nets = {
+        www = {
+          ip4.addr = "159.69.186.234";
+          ip6.addr = "2a01:4f8:c010:1adc::1";
+          aliases = [
+            "git.nerdworks.de"
+          ];
+        };
         nwvpn = {
           ip4.addr = "191.18.19.32";
           aliases = [
@@ -162,8 +161,11 @@
     };
 
     htz2 = {
-      cores = 1;
       nets = {
+        www = {
+          ip4.addr = "116.203.211.215";
+          ip6.addr = "2a01:4f8:c2c:b468::1";
+        };
         nwvpn = {
           ip4.addr = "191.18.19.36";
           aliases = [
@@ -179,7 +181,6 @@
     };
 
     nas1 = {
-      cores = 4;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.37";
@@ -197,7 +198,6 @@
 
 
     nuc1 = {
-      cores = 4;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.10";
@@ -214,7 +214,6 @@
     };
 
     rpi2 = {
-      cores = 1;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.35";
@@ -231,7 +230,6 @@
     };
 
     tp1 = {
-      cores = 8;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.30";
@@ -248,7 +246,6 @@
     };
 
     ws1 = {
-      cores = 24;
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.80";

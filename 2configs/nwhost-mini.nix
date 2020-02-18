@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 
+with import <ptsd/lib>;
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
@@ -32,6 +33,13 @@ in
     enable = true;
     ip = universe.nwvpn."${config.networking.hostName}".ip;
   };
+
+  services.openssh.hostKeys = [
+    {
+      path = (toString <secrets/ssh.id_ed25519>);
+      type = "ed25519";
+    }
+  ];
 
   #ptsd.nwbackup = {
   #  enable = true;
