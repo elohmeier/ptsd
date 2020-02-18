@@ -18,24 +18,18 @@ with import <ptsd/lib>;
     useNetworkd = true;
     useDHCP = false;
     interfaces."eth0".useDHCP = true;
+
+    # NAT for Syncthing-Containers (NextCloud-Support)
+    nat = {
+      enable = true;
+      internalInterfaces = [ "ve-+" ];
+      externalInterface = "eth0";
+    };
   };
 
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
   boot.kernelParams = [ "ip=192.168.178.12::192.168.178.1:255.255.255.0:${config.networking.hostName}:eth0:off" ];
-
-  services.syncthing = {
-    enable = true;
-    openDefaultPorts = true;
-
-    # mirror the nextcloud permissions
-    user = "nextcloud";
-    group = "nginx";
-  };
-  system.activationScripts.syncthing = ''
-    mkdir -m 0700 -p /var/lib/syncthing
-    chown nextcloud:nginx /var/lib/syncthing
-  '';
 
   ptsd.nwtraefik = {
     enable = true;

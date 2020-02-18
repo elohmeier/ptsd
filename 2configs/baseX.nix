@@ -30,6 +30,7 @@
   environment.systemPackages = with pkgs; [
     git
     gen-secrets
+    syncthing-device-id
     nwvpn-qr
     redshift
     pavucontrol

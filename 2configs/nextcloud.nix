@@ -1,7 +1,75 @@
 { config, lib, pkgs, ... }:
 
+with lib;
+
 let
+  universe = import <ptsd/2configs/universe.nix>;
+
   domain = "nextcloud.services.nerdworks.de";
+  nextcloudUid = 131; # unused as of 19.09, old docker uid
+
+  generateSyncthingContainer = name: values: nameValuePair "st-${name}"
+    {
+      autoStart = true;
+      enableTun = true;
+      privateNetwork = true;
+      hostAddress = "192.168.100.10";
+      localAddress = values.localAddress;
+      bindMounts = {
+        "/run/keys" = {
+          hostPath = "/run/keys";
+          isReadOnly = true;
+        };
+        "/var/lib/nextcloud/data/${name}" = {
+          hostPath = "/var/lib/nextcloud/data/${name}";
+          isReadOnly = false;
+        };
+      };
+
+      config =
+        { config, pkgs, ... }:
+          {
+            imports = [
+              <ptsd>
+              <ptsd/2configs>
+            ];
+
+            boot.isContainer = true;
+
+            networking = {
+              useHostResolvConf = false;
+              nameservers = [ "8.8.8.8" "8.8.4.4" ]; # will be used for VPN DNS lookup
+            };
+
+            time.timeZone = "Europe/Berlin";
+
+            i18n = {
+              defaultLocale = "de_DE.UTF-8";
+              supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+            };
+
+            users.groups.nginx = { gid = config.ids.gids.nginx; };
+            users.users.nextcloud = {
+              uid = nextcloudUid;
+              isSystemUser = true;
+            };
+
+            services.syncthing = {
+              enable = true;
+
+              # mirror the nextcloud permissions
+              user = "nextcloud";
+              group = "nginx";
+
+              declarative = {
+                key = "/run/keys/syncthing-${name}.key";
+                cert = "/run/keys/syncthing-${name}.crt";
+                devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
+                folders = values.folders;
+              };
+            };
+          };
+    };
 in
 {
   services.postgresql.ensureDatabases = [ "nextcloud" ];
@@ -19,6 +87,12 @@ in
   };
 
   ptsd.secrets.files."ncadmin-pw" = {};
+
+  # this is not set inside nixpkgs for NextCloud as of 19.09
+  users.users.nextcloud = {
+    isSystemUser = true;
+    uid = nextcloudUid;
+  };
 
   services.nextcloud = {
     enable = true;
@@ -59,6 +133,7 @@ in
 
     script = ''
       /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files
     '';
 
     # wait for 20.03, sudo is optional there
@@ -94,4 +169,42 @@ in
         then alert
     ''
   ];
+
+  ptsd.secrets.files = {
+    "syncthing-enno.key" = {};
+    "syncthing-enno.crt" = {};
+    "syncthing-luisa.key" = {};
+    "syncthing-luisa.crt" = {};
+  };
+
+  containers = mapAttrs' generateSyncthingContainer {
+
+    # device-id enno: 2U7PBTB-3AVWHDO-KKITN5S-JW5AKLX-2MLBQOR-PJDL2QH-BZZJBMD-DFX3MQI
+    "enno" = {
+      localAddress = "192.168.100.12";
+      folders = {
+        "/var/lib/nextcloud/data/enno/files/Pocket" = {
+          id = "hmekh-kgprn";
+          devices = [ "ws1" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/LuNo" = {
+          id = "3ull9-9deg4";
+          devices = [ "ws1" ];
+        };
+      };
+    };
+
+    # device-id luisa: HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW
+    "luisa" = {
+      localAddress = "192.168.100.13";
+      folders = {
+        "/var/lib/nextcloud/data/luisa/files/LuNo" = {
+          id = "3ull9-9deg4";
+          devices = [ "ws1" ];
+        };
+      };
+    };
+
+  };
+
 }
