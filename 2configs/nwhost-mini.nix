@@ -31,7 +31,7 @@ in
 
   ptsd.nwvpn = {
     enable = true;
-    ip = universe.nwvpn."${config.networking.hostName}".ip;
+    ip = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
   };
 
   services.openssh.hostKeys = [

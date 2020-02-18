@@ -24,7 +24,7 @@ in
       enable = mkEnableOption "nwmonit";
       httpIP = mkOption {
         type = types.str;
-        default = universe.nwvpn."${config.networking.hostName}".ip;
+        default = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
         example = "191.18.19.123";
       };
       httpUser = mkOption {

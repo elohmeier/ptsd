@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.ptsd.nwvpn-server;
   universe = import <ptsd/2configs/universe.nix>;
-  vpnClients = filterAttrs (n: v: n != config.networking.hostName) universe.nwvpn;
+  vpnClients = filterAttrs (n: v: n != config.networking.hostName && hasAttr "nwvpn" v.nets) universe.hosts;
 in
 {
   options = {
@@ -13,7 +13,7 @@ in
       enable = mkEnableOption "nwvpn-server";
       ip = mkOption {
         type = types.str;
-        default = universe.nwvpn."${config.networking.hostName}".ip;
+        default = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
         example = "191.18.19.123";
       };
       ifname = mkOption {
@@ -61,8 +61,8 @@ in
         wireguardPeers = map (
           h: {
             wireguardPeerConfig = {
-              PublicKey = h.publicKey;
-              AllowedIPs = [ "${h.ip}/32" ] ++ (if builtins.hasAttr "networks" h then h.networks else []);
+              PublicKey = h.nets.nwvpn.wireguard.pubkey;
+              AllowedIPs = [ "${h.nets.nwvpn.ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets.nwvpn.wireguard then h.nets.nwvpn.wireguard.networks else []);
             };
           }
         ) (builtins.attrValues vpnClients);

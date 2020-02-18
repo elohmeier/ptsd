@@ -15,7 +15,7 @@ pkgs.writeDashBin "nwvpn-qr" ''
   PrivateKey = $PASSWORD
 
   [Peer]
-  PublicKey = ${universe.nwvpn.htz1.publicKey}
+  PublicKey = ${universe.hosts.htz1.nets.nwvpn.wireguard.pubkey}
   Endpoint = htz1.host.nerdworks.de:55555
   AllowedIPs = 191.18.19.0/24
   PersistentKeepalive = 21
