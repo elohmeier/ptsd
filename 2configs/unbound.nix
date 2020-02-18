@@ -12,14 +12,19 @@
     interfaces = [ "192.168.178.11" ];
 
     # TODO: Generate local entries
+    # The first two lines are in the "server:" context of the generated cfg
     extraConfig = ''
+      #  private-domain: "host.nerdworks.de"
+      #  domain-insecure: "host.nerdworks.de"
+
       include: /var/lib/unbound/blocklist.conf
 
-      # entries disabled because of DNSSEC
-
+      # entry is set on main NS to local IP, no override necessary
+      # changed for DNSSEC
       #local-data: "prt1 A 192.168.178.33"
       #local-data: "prt1.host.nerdworks.de A 192.168.178.33"
 
+      # disabled for DNSSEC
       #local-data: "apu1 A 192.168.178.11"
       #local-data: "apu1.host.nerdworks.de A 192.168.178.11"
 
