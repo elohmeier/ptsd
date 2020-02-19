@@ -2,10 +2,12 @@
 
 let
   domain = "ci.nerdworks.de";
+  unstable = import <nixpkgs-unstable> {}; # Drone > 1.0 not in 19.09
 in
 {
   ptsd.drone-server = {
     enable = true;
+    package = unstable.drone;
     port = config.ptsd.nwtraefik.ports.droneci;
     envConfig = {
       DRONE_USER_CREATE = "username:enno,admin:true";
@@ -22,11 +24,7 @@ in
     envFile = config.ptsd.secrets.files."drone-ci.env".path;
   };
 
-  ptsd.secrets.files."drone-ci.env" = {
-    owner = "drone-server";
-    group-name = "drone-server";
-    mode = "0440";
-  };
+  ptsd.secrets.files."drone-ci.env" = {};
 
   ptsd.lego.extraDomains = [
     domain

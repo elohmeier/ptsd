@@ -9,7 +9,7 @@
       <ptsd/2configs/nerdworks-www.nix>
       <ptsd/2configs/nwgit.nix>
       <ptsd/2configs/ffoxsync.nix>
-      #<ptsd/2configs/drone-ci.nix>
+      <ptsd/2configs/drone-ci.nix>
       <ptsd/2configs/wdplaner.nix>
 
       # TODO: upgrade geoip update script
