@@ -430,7 +430,12 @@
     "monica.services.nerdworks.de"
   ];
 
-  networking.hostName = "nuc1";
+  networking = {
+    useDHCP = false;
+    useNetworkd = true;
+    hostName = "nuc1";
+    interfaces.eth0.useDHCP = true;
+  };
 
   boot.kernelParams = [ "ip=192.168.178.10::192.168.178.1:255.255.255.0:${config.networking.hostName}:eth0:off" ];
 
@@ -448,5 +453,5 @@
 
   ptsd.nwbackup.paths = [ "/mnt/int" ];
 
-  virtualisation.libvirtd.enable = true;
+  # virtualisation.libvirtd.enable = true;
 }
