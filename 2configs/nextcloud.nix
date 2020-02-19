@@ -39,6 +39,7 @@ let
             networking = {
               useHostResolvConf = false;
               nameservers = [ "8.8.8.8" "8.8.4.4" ];
+              useNetworkd = true;
             };
 
             time.timeZone = "Europe/Berlin";

@@ -149,6 +149,7 @@ in
               nameservers = [ "8.8.8.8" "8.8.4.4" ]; # will be used for VPN DNS lookup
 
               extraHosts = concatStringsSep "\n" (mapAttrsToList (ip: hostname: ip + " " + hostname) cfg.vpnHosts);
+              useNetworkd = true;
             };
 
             time.timeZone = cfg.containerTimeZone;
