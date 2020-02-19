@@ -12,7 +12,7 @@ in
       enable = mkEnableOption "nwvpn";
       ip = mkOption {
         type = types.str;
-        default = universe.nwvpn."${config.networking.hostName}".ip;
+        default = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
         example = "191.18.19.123";
       };
       publicKey = mkOption {
@@ -35,6 +35,10 @@ in
         type = types.int;
         default = 21;
       };
+      keyname = mkOption {
+        type = types.str;
+        default = "nwvpn.key";
+      };
     };
   };
 
@@ -44,15 +48,15 @@ in
         environment.systemPackages = [ pkgs.wireguard ];
         boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
 
-        ptsd.secrets.files."nwvpn.key" = {};
+        ptsd.secrets.files."${cfg.keyname}" = {};
       }
       (
         mkIf (!config.networking.useNetworkd) {
 
           networking.wireguard.interfaces."${cfg.ifname}" = {
             ips = [ cfg.ip ];
-            #privateKeyFile = config.ptsd.secrets.files."nwvpn.key".path; # not working
-            privateKeyFile = toString <secrets> + "nwvpn.key";
+            #privateKeyFile = config.ptsd.secrets.files."${cfg.keyname}".path; # not working
+            privateKeyFile = toString <secrets> + "${cfg.keyname}";
             peers = [
               {
                 publicKey = cfg.publicKey;
@@ -74,7 +78,7 @@ in
       )
       (
         mkIf (config.networking.useNetworkd) {
-          ptsd.secrets.files."nwvpn.key" = {
+          ptsd.secrets.files."${cfg.keyname}" = {
             owner = "systemd-network";
             group-name = "systemd-network";
             mode = "0440";
@@ -90,7 +94,7 @@ in
               };
 
               wireguardConfig = {
-                PrivateKeyFile = config.ptsd.secrets.files."nwvpn.key".path;
+                PrivateKeyFile = config.ptsd.secrets.files."${cfg.keyname}".path;
               };
 
               wireguardPeers = [
