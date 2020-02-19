@@ -1,30 +1,41 @@
-local Pipeline(pkg, channel) = {
-  kind: "pipeline",
-  type: "docker",
-  name: "cachix:"+pkg+":"+channel,
-  steps: [
-    {
-      name: "cachix:"+pkg+":"+channel,
-      image: "nixos/nix",
-      commands: [
-        "nix-channel --add https://nixos.org/channels/"+channel+" nixpkgs",
-        "nix-channel --update",
-        "nix-env -i cachix",
-        "nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/"+pkg+" {}' | cachix push nerdworks"
-      ],
-      environment: {
-        CACHIX_SIGNING_KEY: {
-          from_secret: "cachix-signing-key"
-        }
-      }
+local Deploy(hostname, populate_unstable) = {
+  name: "deploy " + hostname,
+  commands: [
+    "eval $(ssh-agent -s)",
+    @"echo ""$SSH_KEY"" | tr -d '\r' | ssh-add -",
+    "$(nix-build --no-out-link krops.nix --argstr name " + hostname + " --arg secrets false --arg unstable " + populate_unstable + " -A deploy -I /var/src)"
+  ],
+  environment: {
+    SSH_KEY: {
+      from_secret: "ssh-key"
     }
-  ]
+  }
 };
 
 [
-#  Pipeline("burrow", "nixos-19.09"),
-#  Pipeline("burrow", "nixos-unstable")
-#  Pipeline("vim-customized", "nixos-19.09"),
-#  Pipeline("vim-customized", "nixos-unstable")
-]
+  {
+    kind: "pipeline",
+    type: "exec",
+    name: "default",
 
+    steps : [
+      {
+        name: "submodules",
+        commands: [
+          "git submodule update --init --recursive --remote"
+        ]
+      },
+      #{
+      #  name: "build",
+      #  commands: [
+      #    "nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/smtp-to-telegram {}' -I /var/src"
+      #  ]
+      #},
+      Deploy("apu1", false),
+      Deploy("htz1", true),
+      Deploy("htz2", false),
+      Deploy("nas1", false),
+      Deploy("nuc1", false)
+    ]
+  }
+]
