@@ -10,7 +10,10 @@ in
     <ptsd/2configs/tor-ssh.nix>
   ];
 
-  nix.gc.automatic = true;
+  nix.gc = {
+    automatic = true;
+    options = "-d";
+  };
 
   services.timesyncd = {
     enable = true;
