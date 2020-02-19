@@ -1,14 +1,14 @@
 ---
 kind: pipeline
 type: exec
-name: default
+name: deploy apu1
 
 platform:
   os: linux
   arch: amd64
 
 steps:
-- name: submodules
+- name: fetch submodules
   commands:
   - git submodule update --init --recursive --remote
 
@@ -21,6 +21,20 @@ steps:
     SSH_KEY:
       from_secret: ssh-key
 
+---
+kind: pipeline
+type: exec
+name: deploy htz1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
+
 - name: deploy htz1
   commands:
   - eval $(ssh-agent -s)
@@ -29,6 +43,20 @@ steps:
   environment:
     SSH_KEY:
       from_secret: ssh-key
+
+---
+kind: pipeline
+type: exec
+name: deploy htz2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
 
 - name: deploy htz2
   commands:
@@ -39,6 +67,20 @@ steps:
     SSH_KEY:
       from_secret: ssh-key
 
+---
+kind: pipeline
+type: exec
+name: deploy nas1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
+
 - name: deploy nas1
   commands:
   - eval $(ssh-agent -s)
@@ -47,6 +89,20 @@ steps:
   environment:
     SSH_KEY:
       from_secret: ssh-key
+
+---
+kind: pipeline
+type: exec
+name: deploy nuc1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
 
 - name: deploy nuc1
   commands:

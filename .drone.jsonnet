@@ -12,30 +12,26 @@ local Deploy(hostname, populate_unstable) = {
   }
 };
 
-[
-  {
-    kind: "pipeline",
-    type: "exec",
-    name: "default",
+local DeployPipeline(hostname, populate_unstable) = {
+  kind: "pipeline",
+  type: "exec",
+  name: "deploy " + hostname,
 
-    steps : [
-      {
-        name: "submodules",
-        commands: [
-          "git submodule update --init --recursive --remote"
-        ]
-      },
-      #{
-      #  name: "build",
-      #  commands: [
-      #    "nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/smtp-to-telegram {}' -I /var/src"
-      #  ]
-      #},
-      Deploy("apu1", false),
-      Deploy("htz1", true),
-      Deploy("htz2", false),
-      Deploy("nas1", false),
-      Deploy("nuc1", false)
-    ]
-  }
+  steps : [
+    {
+      name: "fetch submodules",
+      commands: [
+        "git submodule update --init --recursive --remote"
+      ]
+    },
+    Deploy(hostname, populate_unstable)
+  ]
+};
+
+[
+  DeployPipeline("apu1", false),
+  DeployPipeline("htz1", true),
+  DeployPipeline("htz2", false),
+  DeployPipeline("nas1", false),
+  DeployPipeline("nuc1", false)
 ]
