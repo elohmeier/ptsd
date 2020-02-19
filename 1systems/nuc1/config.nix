@@ -199,6 +199,11 @@
     KAPACITOR_URL = "https://nuc1.host.nerdworks.de:9092";
   };
 
+  systemd.services.kapacitor = {
+    after = [ "influxdb" ];
+    wants = [ "influxdb" ];
+  };
+
   # ptsd.alerta = let
   #   alertaSecrets = import <secrets/alerta.nix>;
   #   py3 = pkgs.python3.override {
