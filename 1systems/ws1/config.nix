@@ -10,6 +10,8 @@ with import <ptsd/lib>;
     <ptsd/2configs/baseX.nix>
     <ptsd/2configs/dovecot.nix>
 
+    <ptsd/2configs/drone-exec-container.nix>
+
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
   ];
