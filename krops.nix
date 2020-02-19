@@ -1,6 +1,7 @@
 { name
 , desktop ? false
 , unstable ? false
+, secrets ? true
 , starget ? "root@${name}.host.nerdworks.de"
 }: let
   #krops = (import <nixpkgs> {}).fetchgit {
@@ -25,18 +26,22 @@
       ptsd.file = toString ./.;
 
       nixos-config.symlink = "ptsd/1systems/${name}/physical.nix";
-
-      secrets.pass = {
-        #dir = "${lib.getEnv "HOME"}/.password-store";
-        dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
-        name = "hosts/${name}";
-      };
-
-      secrets-shared.pass = {
-        dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
-        name = "hosts-shared";
-      };
     }
+
+    (
+      lib.optionalAttrs secrets {
+        secrets.pass = {
+          #dir = "${lib.getEnv "HOME"}/.password-store";
+          dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+          name = "hosts/${name}";
+        };
+
+        secrets-shared.pass = {
+          dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+          name = "hosts-shared";
+        };
+      }
+    )
 
     (
       lib.optionalAttrs (unstable || desktop) {

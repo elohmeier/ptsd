@@ -50,5 +50,8 @@
 
     ws1_root =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDA84/TA+U54faQA0Bgqiuw84JkK2503MhGS3LiJQ8+0uJzX7zWSre3f2LMLIVBEzpAXs4TpVUvEUXR5eOGIKxl+tC8xKO8jcN402aS397SyvYu5f+8EgftiQXMppsQ2hSCDbV5ra+dUxexZYNKF85UONJjTvop5ZqU08QvJ0B+GniD1I66btjwCmAwOW9FIxqeKXk6Odr1yVvSKiLtamN/EPIwV5hoJ/0rtFhxla454EF5UcMK8zyqEy05X7zbICLkJVqsA2cxnvqGg/rbfiqon7M+5zs1dpxNIXtRsVyhK7K2/cFjn/vXU+5HNfq9ADMQ/BHoEN6v2xEwyMyY0KTl root@ws1";
+
+    drone_exec_runner_ws1 =
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0LQDlDqSKf73+YwK0aWobCzaOM5Aqm3fGkkfYYGqnGnU8V9oUjbFiUt2XDkwzf8O8khs5wkzceFiteE8532qmkVD3RUJEtgNiaOMfy2MGOVwXVshiQFNwBxW33Bh3ey3w1EsCjIL+0Xu8qBxtylrcXYK5/0W5qtYA9AJXDFbAzWdO5kjeef1LAhWvHX35kaploTz12j7y6pNxkbPMekiUhNnwt7hRePcKToNopw9ZPoZ0cHoYJngIWSw+SQaGb/lmQJJe+kjNZe5XwPuCT3ofFeyEyxdeacfiPJ4Ny8ht5Y2QOYR10cd1B5p2O0xr6bfttRvAj5OMHbki8hpQDOld drone-exec-runner@ws1";
   };
 }
