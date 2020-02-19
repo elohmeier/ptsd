@@ -33,5 +33,8 @@ local DeployPipeline(hostname, populate_unstable) = {
   DeployPipeline("htz1", true),
   DeployPipeline("htz2", false),
   DeployPipeline("nas1", false),
-  DeployPipeline("nuc1", false)
+  DeployPipeline("nuc1", false),
+  DeployPipeline("ws1", true)
 ]
+
+# Don't forget to run `make .drone.yml`
