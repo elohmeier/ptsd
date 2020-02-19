@@ -245,5 +245,12 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxl5cu7JzupBVvcuT7hpAD2aPqGCDDV8ergHqeFinem ";
       syncthing.id = "463IXFR-CH3QL6E-REW64TF-JMGOCZX-VQN556L-MGWC5ER-CQFSW3B-7XLZ4AH";
     };
+
+    ws1-drone = {
+      nets.nwvpn = {
+        ip4.addr = "191.18.19.39";
+        wireguard.pubkey = "KT8heQPAfjkG3GB3ssi1l5/utJ8QNTTMH+0lry4qtWQ=";
+      };
+    };
   };
 }
