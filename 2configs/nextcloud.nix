@@ -38,7 +38,7 @@ let
 
             networking = {
               useHostResolvConf = false;
-              nameservers = [ "8.8.8.8" "8.8.4.4" ]; # will be used for VPN DNS lookup
+              nameservers = [ "8.8.8.8" "8.8.4.4" ];
             };
 
             time.timeZone = "Europe/Berlin";
