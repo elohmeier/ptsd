@@ -16,6 +16,15 @@ steps:
 #  commands:
 #  - nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/smtp-to-telegram {}' -I /var/src
 
+- name: deploy apu1
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - $(nix-build --no-out-link krops.nix --argstr name apu1 --arg secrets false -A deploy -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
 - name: deploy htz1
   commands:
   - eval $(ssh-agent -s)
@@ -39,6 +48,15 @@ steps:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
   - $(nix-build --no-out-link krops.nix --argstr name nas1 --arg secrets false -A deploy -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+- name: deploy nuc1
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - $(nix-build --no-out-link krops.nix --argstr name nuc1 --arg secrets false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
