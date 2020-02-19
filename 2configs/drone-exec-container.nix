@@ -70,8 +70,8 @@ in
               StartLimitInterval = 86400;
               StartLimitBurst = 5;
               NoNewPrivileges = true;
-              LimitNPROC = 128;
-              LimitNOFILE = 10485760;
+              LimitNPROC = 256;
+              LimitNOFILE = 104857600;
               PrivateTmp = true;
               PrivateDevices = true;
               ProtectHome = true;
