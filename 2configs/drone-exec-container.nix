@@ -1,7 +1,17 @@
 { config, lib, pkgs, ... }:
 
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
-  ptsd.secrets.files."drone-ci.env" = {};
+  ptsd.secrets.files = {
+    "drone-ci.env" = {};
+    "nwvpn-drone.key" = {
+      owner = "systemd-network";
+      group-name = "systemd-network";
+      mode = "0440";
+    };
+  };
 
   containers.drone = {
     autoStart = true;
@@ -33,6 +43,13 @@
           networking = {
             useHostResolvConf = false;
             nameservers = [ "8.8.8.8" "8.8.4.4" ];
+            useNetworkd = true;
+          };
+
+          ptsd.nwvpn = {
+            enable = true;
+            ip = universe.hosts."ws1-drone".nets.nwvpn.ip4.addr;
+            keyname = "nwvpn-drone.key";
           };
 
           time.timeZone = "Europe/Berlin";
