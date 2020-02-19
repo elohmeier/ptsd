@@ -94,7 +94,6 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    tmux
-    gitMinimal
+    gitMinimal # required for krops
   ];
 }

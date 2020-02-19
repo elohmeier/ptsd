@@ -122,7 +122,7 @@ in
       repos = mkOption {
         default = {
           nuc1 = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:.";
-          eee1 = "borg-${config.networking.hostName}@eee1.host.nerdworks.de:.";
+          #eee1 = "borg-${config.networking.hostName}@eee1.host.nerdworks.de:."; # temporarily unavailable
         };
         type = with types; attrsOf str;
       };

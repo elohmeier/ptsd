@@ -28,6 +28,7 @@ in
     pkgs."telegram.sh"
     pkgs.dnsutils
     pkgs.cryptsetup
+    pkgs.tmux
   ];
 
   programs.mosh.enable = true;
