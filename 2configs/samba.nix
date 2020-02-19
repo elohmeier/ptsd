@@ -6,8 +6,8 @@
     securityType = "user";
     extraConfig = ''
       workgroup = WORKGROUP
-      server string = nuc1
-      netbios name = nuc1
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
       security = user
       hosts allow = 192.168.178.0/24
       hosts deny = 0.0.0.0/0
@@ -27,8 +27,10 @@
 
   environment.systemPackages = [ pkgs.samba ];
 
-  networking.firewall.enable = true;
-  networking.firewall.allowPing = true;
-  networking.firewall.allowedTCPPorts = [ 445 139 ];
-  networking.firewall.allowedUDPPorts = [ 137 138 ];
+  networking.firewall = {
+    enable = true;
+    allowPing = true;
+    allowedTCPPorts = [ 445 139 ];
+    allowedUDPPorts = [ 137 138 ];
+  };
 }
