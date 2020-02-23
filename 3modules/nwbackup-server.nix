@@ -10,7 +10,7 @@ let
   mkAuthorizedKey = name: client: key:
     let
       # Because of the following line, clients do not need to specify an absolute repo path
-      cdCommand = "cd ${escapeShellArg "${cfg.mountRoot}/${name}"}";
+      cdCommand = "cd ${escapeShellArg "${cfg.mountRoot}/${name}/borg"}";
       restrictedArg = "--restrict-to-repository .";
       appendOnlyArg = "--append-only";
       quotaArg = optionalString (client.borg.quota != null) "--storage-quota ${client.borg.quota}";
