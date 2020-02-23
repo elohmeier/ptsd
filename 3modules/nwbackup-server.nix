@@ -38,8 +38,13 @@ let
           ${pkgs.zfs}/bin/zfs create ${cfg.zpool}${cfg.zfsPath}/${name}
         fi
 
-        echo "setting mountpoint"
-        ${pkgs.zfs}/bin/zfs set mountpoint=${cfg.mountRoot}/${name} ${cfg.zpool}${cfg.zfsPath}/${name}
+        # set mountpoint causes remount, which fails when drive is in use.
+        if [[ `${pkgs.zfs}/bin/zfs get mountpoint ${cfg.zpool}${cfg.zfsPath}/${name} -H -o value` == "${cfg.mountRoot}/${name}" ]]; then
+          echo "mountpoint correctly set, skipping modification"
+        else
+          echo "setting mountpoint"
+          ${pkgs.zfs}/bin/zfs set mountpoint=${cfg.mountRoot}/${name} ${cfg.zpool}${cfg.zfsPath}/${name}
+        fi
 
         echo "setting quota"
         ${pkgs.zfs}/bin/zfs set quota=${client.borg.quota} ${cfg.zpool}${cfg.zfsPath}/${name}
