@@ -62,7 +62,7 @@ let
 
   postCreateTelegraf = name: ''
     TMP_FILE=`mktemp`
-    IQL_PREFIX="borgbackup,target=\"${name}\",host=\"${config.networking.hostName}\""
+    IQL_PREFIX="borgbackup,target=${name},host=${config.networking.hostName}"
     echo $IQL_PREFIX backup_completion_time=$(date +%s) > $TMP_FILE
 
     LIST=$(${pkgs.borgbackup}/bin/borg list |${pkgs.gawk}/bin/awk '{print $1}')
