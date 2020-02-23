@@ -145,6 +145,8 @@
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC8oMXFMl21K1NNVQJpjgY8TAJb0qGZ9GmL6H+aZqDbq ";
+      borg.quota = "2G";
+      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDzkkNcPp0uXsZRsu2hXu2h/LfeOffvwldQT1XweECjV6MR0+fDcJnJrTHcRmBxxWBXlOhV6skCJFW711qoknzW+3tHTpHbzrBLI/hFXjH2eN7Bxb0kObNwl6vAWv7zhvjOVJ5pRPnDkChiJ8AJczgS8Natt9R5J0BPrMi47QCmsuh5K8Qig43gf1HXulSLbfQ1vo429B5aSFXqszJ9Ma7muHjHxOQYnj4Hn3fUoYgdggQvUTqq/WQR8VYmh8cb28iTbNvRbq3lgxT0Wah4CcBn11ozMgDKL1g+H2kmLjgywmdMGm9sbm0efHEi9BaWbx13aoz1LiOruss0UFUyk/rf root@htz2";
     };
 
     mb1 = {
@@ -172,6 +174,8 @@
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPzSELiOpE3nCNPSeylax/W3UfXbzSBVQ3mqjHBz/yPy ";
+      borg.quota = "10G";
+      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2g2ga5+52k9vQwbX204VK+ZXEb9dIhbicRe1bZXunDS00MI/kvC1NnLrKpZSJmtieyRBSnYkWkWsejFMKe9TWuTQqd5wceFIASr7bUVInoxQazpYaC07H4wkx1uoeKZqCvQfJD/BCIrPQfXnm8lOwMPWKhAml0wnOPo3EOIFffW5vszxi2RRRLh4af1Azs2pd6/9E+TJnA4foOTgAA1dQEou1X+0eLCEtEwjJFPLNFRVOImXfB4dZ0mke/WTae5DUfUuT4Guz0uf11VYeG1iCorcOLk/0w+LcP4aJMllK3znXQHc/Olm+Og+l4MpRsJTZRke23k+GSgf31BPbvGJJ root@nas1";
     };
 
 

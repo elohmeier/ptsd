@@ -27,6 +27,33 @@ let
     groups."borg" = {};
   };
 
+  mkRepoService = name: client:
+    nameValuePair "nwbackup-repo-${name}" {
+      description = "Create BorgBackup repository ${name} directory";
+      script = ''
+        if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '${cfg.zpool}${cfg.zfsPath}/${name}'; then
+          echo "zfs volume exists, skipping creation"
+        else
+          echo "creating zfs volume ${cfg.zpool}${cfg.zfsPath}/${name}"
+          ${pkgs.zfs}/bin/zfs create ${cfg.zpool}${cfg.zfsPath}/${name}
+        fi
+
+        echo "setting mountpoint"
+        ${pkgs.zfs}/bin/zfs set mountpoint=${cfg.mountRoot}/${name} ${cfg.zpool}${cfg.zfsPath}/${name}
+
+        echo "setting quota"
+        ${pkgs.zfs}/bin/zfs set quota=${client.borg.quota} ${cfg.zpool}${cfg.zfsPath}/${name}
+
+        echo "creating borg directory"
+        mkdir -p ${cfg.mountRoot}/${name}/borg
+        chown -R borg-${name}:borg ${cfg.mountRoot}/${name}/borg
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
+
   mkMonitConfig = name: _: ''
     check filesystem borg-${name} with path ${cfg.mountRoot}/${name}
       if space usage > 90% then alert
@@ -36,7 +63,7 @@ let
 
   mkMigration = src: dest: ''
     if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '${cfg.zpool}/${src}'; then
-      echo "migrating ${cfg.zpool}/${src}"
+      echo "nwbackup-server: migrating ${cfg.zpool}/${src}"
       ${pkgs.zfs}/bin/zfs set mountpoint=${cfg.mountRoot}/${dest} ${cfg.zpool}/${src}
       ${pkgs.zfs}/bin/zfs rename ${cfg.zpool}/${src} ${cfg.zpool}${cfg.zfsPath}/${dest}
     fi
@@ -69,6 +96,8 @@ in
     environment.systemPackages = [ pkgs.borgbackup ];
     ptsd.nwmonit.extraConfig = mapAttrsToList mkMonitConfig backupClients;
 
+    systemd.services = mapAttrs' mkRepoService backupClients;
+
     system.activationScripts.migrate-nwbackup =
       let
         migrations = {
@@ -87,14 +116,13 @@ in
         stringAfter [ "users" "groups" ] ''
 
       if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '${cfg.zpool}${cfg.zfsPath}'; then
-        echo "zfsRoot exists, skipping creation"
+        echo "nwbackup-server: zfs-root ${cfg.zpool}${cfg.zfsPath} exists, skipping creation"
       else
-        echo "creating zfsRoot ${cfg.zpool}${cfg.zfsPath}"
+        echo "nwbackup-server: creating zfs-root ${cfg.zpool}${cfg.zfsPath}"
         ${pkgs.zfs}/bin/zfs create -o mountpoint=none ${cfg.zpool}${cfg.zfsPath}
       fi
 
       ${concatStringsSep "\n" (mapAttrsToList mkMigration migrations)}
-
     '';
   };
 }
