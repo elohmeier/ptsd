@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.ptsd.nwvpn-server;
   universe = import <ptsd/2configs/universe.nix>;
-  vpnClients = filterAttrs (n: v: n != config.networking.hostName && hasAttr "nwvpn" v.nets) universe.hosts;
+  vpnClients = filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" "nwvpn" ] hostcfg) universe.hosts;
 in
 {
   options = {
