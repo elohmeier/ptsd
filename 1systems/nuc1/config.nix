@@ -7,7 +7,6 @@
       <ptsd/2configs>
       <ptsd/2configs/cli-tools.nix>
       <ptsd/2configs/nwhost.nix>
-      <ptsd/2configs/backup-host.nix>
       <ptsd/2configs/home-assistant.nix>
       <ptsd/2configs/mosquitto.nix>
       #<ptsd/2configs/nextcloud.nix>
@@ -26,6 +25,11 @@
     uid = 1001;
     description = "Media User";
     extraGroups = [];
+  };
+
+  ptsd.nwbackup-server = {
+    enable = true;
+    zpool = "nw27";
   };
 
   # services.syncthing = {

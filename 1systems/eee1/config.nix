@@ -9,11 +9,14 @@ with import <ptsd/lib>;
     <ptsd/2configs>
     <ptsd/2configs/nwhost-mini.nix>
 
-    <ptsd/2configs/backup-host.nix>
-
     <secrets/wifi.nix>
     <secrets-shared/nwsecrets.nix>
   ];
+
+  ptsd.nwbackup-server = {
+    enable = true;
+    zpool = "nw26";
+  };
 
   networking.hostName = "eee1";
 
