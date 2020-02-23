@@ -144,16 +144,18 @@ let
     nameValuePair "nwbackup-init-repo-${name}" {
       description = "Initialize BorgBackup repository ${name}";
       script = ''
-        if ${pkgs.borgbackup}/bin/borg info; then
-          echo "borg repo exists, skipping initialization"
-        else
+        set +e
+        ${pkgs.borgbackup}/bin/borg info
+        retVal=$?
+        if [ $retVal -eq 2 ]; then
           echo "initializing borg repo ${repoAddress}"
           ${pkgs.borgbackup}/bin/borg init -e repokey-blake2
+        else
+          echo "borg repo exists, no initialization necessary"
         fi
       '';
       serviceConfig = {
         Type = "oneshot";
-
       };
       environment = {
         BORG_REPO = repoAddress;
