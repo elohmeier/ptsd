@@ -140,6 +140,29 @@ let
       };
     };
 
+  mkInitRepoService = name: repoAddress:
+    nameValuePair "nwbackup-init-repo-${name}" {
+      description = "Initialize BorgBackup repository ${name}";
+      script = ''
+        if ${pkgs.borgbackup}/bin/borg info; then
+          echo "borg repo exists, skipping initialization"
+        else
+          echo "initializing borg repo ${repoAddress}"
+          ${pkgs.borgbackup}/bin/borg init -e repokey-blake2
+        fi
+      '';
+      serviceConfig = {
+        Type = "oneshot";
+
+      };
+      environment = {
+        BORG_REPO = repoAddress;
+        BORG_PASSCOMMAND = cfg.passCommand;
+        BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+      };
+      wantedBy = [ "multi-user.target" ];
+    };
+
   cfg = config.ptsd.nwbackup;
 in
 {
@@ -185,6 +208,8 @@ in
 
   config = mkIf cfg.enable {
     services.borgbackup.jobs = mapAttrs' generateJob cfg.repos;
+
+    systemd.services = mapAttrs' mkInitRepoService cfg.repos;
 
     environment.variables = {
       BORG_REPO = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:.";
