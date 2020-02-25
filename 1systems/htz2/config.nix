@@ -6,6 +6,7 @@
       <ptsd>
       <ptsd/2configs>
       <ptsd/2configs/acme-dns.nix>
+      <ptsd/2configs/mailserver.nix>
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/nwradicale.nix>
 
