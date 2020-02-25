@@ -38,7 +38,6 @@
 
   ptsd.nwtraefik = {
     enable = true;
-    httpsPort = 1443;
     #logLevel = "DEBUG";
   };
 

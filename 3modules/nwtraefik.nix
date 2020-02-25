@@ -47,6 +47,7 @@ in
   config = mkMerge [
     {
       ptsd.nwtraefik.ports = {
+        acme-dns = 10049;
         droneci = 10050;
         ffoxsync = 10077;
         nerdworkswww = 1080;
@@ -137,6 +138,17 @@ in
                 }
               ) cfg.services
             );
+
+            # "Traefik will only try to generate a Let's encrypt certificate (thanks to HTTP-01 challenge) if the domain cannot be checked by the provided certificates."
+            # From: https://docs.traefik.io/v1.7/user-guide/examples/#onhostrule-option-and-provided-certificates-with-http-challenge
+            acme = {
+              email = "elo-lenc@nerdworks.de";
+              storage = "/var/lib/traefik/acme.json";
+              entryPoint = "https";
+              acmeLogging = true;
+              onHostRule = true;
+              httpChallenge.entryPoint = "http";
+            };
           };
         };
 
