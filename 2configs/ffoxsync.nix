@@ -32,7 +32,8 @@ in
 
         if failed
           port 443
-          protocol https and certificate valid > 30 days          
+          certificate valid > 30 days
+          protocol https
           content = "it works!"
         then alert
     ''
