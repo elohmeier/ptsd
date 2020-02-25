@@ -49,6 +49,11 @@ in
       description = "API config for acme-dns.";
       type = types.attrs;
     };
+    package = mkOption {
+      type = types.package;
+      default = pkgs.acme-dns;
+      defaultText = "pkgs.acme-dns";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -64,7 +69,7 @@ in
       before = [ "systemd-resolved.service" ]; #
 
       serviceConfig = {
-        ExecStart = "${pkgs.acme-dns}/bin/acme-dns -c ${configFile}";
+        ExecStart = "${cfg.package}/bin/acme-dns -c ${configFile}";
         PrivateTmp = true;
         ProtectSystem = "full";
         ProtectHome = true;
@@ -77,7 +82,7 @@ in
       };
     };
 
-    networking.firewall.allowedTCPPorts = [ 53 80 443 ];
+    networking.firewall.allowedTCPPorts = [ 53 ];
     networking.firewall.allowedUDPPorts = [ 53 ];
   };
 
