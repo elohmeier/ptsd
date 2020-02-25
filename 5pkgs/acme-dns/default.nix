@@ -1,15 +1,16 @@
-{ lib, fetchFromGitHub, buildGoPackage }:
+{ lib, fetchFromGitHub, buildGoModule }:
 
-buildGoPackage rec {
+buildGoModule rec {
   pname = "acme-dns";
-  version = "0.7.2";
+  version = "0.8";
+
   src = fetchFromGitHub {
     owner = "joohoi";
     repo = pname;
     rev = "v${version}";
-    sha256 = "0wzm3kzkrw9pilravhqc9rycjxvqqqj1vwxyirx74x8r324sjjd4";
+    sha256 = "1v2k8kfws4a0hmi1almmdjd6rdihbr3zifji623wwnml00mjrplf";
   };
 
-  goDeps = ./deps.nix;
+  modSha256 = "1ivvzc2m8z7rqy31ljjjzlv5inzfjq23r55gwjk1f6w7i0n8qy9g";
   goPackagePath = "github.com/joohoi/acme-dns";
 }
