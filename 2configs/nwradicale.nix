@@ -26,4 +26,20 @@ in
       rule = "Host:${domain}";
     }
   ];
+
+  ptsd.nwmonit.extraConfig = [
+    ''
+      check process radicale matching "\.radicale-wrapped"
+        start program = "${pkgs.systemd}/bin/systemctl start radicale"
+        stop program = "${pkgs.systemd}/bin/systemctl stop radicale"
+
+        if failed
+          host ${domain}
+          port 443
+          certificate valid > 30 days
+          protocol https
+          request "/.web"
+          then alert
+    ''
+  ];
 }
