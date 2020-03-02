@@ -7,10 +7,12 @@ in
   environment.systemPackages = with pkgs; [
     bc
     bind
+    bridge-utils
     file
     htop
     iftop
     iotop
+    jq
     killall
     mc
     ncdu

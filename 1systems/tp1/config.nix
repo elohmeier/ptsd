@@ -88,7 +88,7 @@
       #"192.168.178.33" = [ "prt1.host.nerdworks.de" "prt1" ];
     };
 
-    useNetworkd = false;
+    useNetworkd = true;
     useDHCP = false;
   };
 
