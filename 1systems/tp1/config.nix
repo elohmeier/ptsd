@@ -119,5 +119,32 @@
     (wineStaging.override { wineBuild = "wine32"; })
     powertop
     networkmanagerapplet
+    samba
   ];
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
+      security = user
+      hosts allow = 192.168.101.0/24 # host-virsh network
+      hosts deny = 0.0.0.0/0
+    '';
+    shares = {
+      home = {
+        path = "/home/enno";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+    };
+  };
+
+  networking.firewall.interfaces.virbr2 = {
+    allowedTCPPorts = [ 445 139 ];
+    allowedUDPPorts = [ 137 138 ];
+  };
 }
