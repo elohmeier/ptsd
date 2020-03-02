@@ -89,6 +89,8 @@ in
     name = "vim";
     vimrcConfig = {
       customRC = ''
+        ${commonrc}
+
         " disable folding e.g. in beancount-files
         set nofoldenable
 
