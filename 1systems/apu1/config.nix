@@ -30,16 +30,8 @@ in
       "enp2s0"
       #"enp3s0"
     ];
-  };
-
-  systemd.network = {
-    networks = {
-      "99-main" = {
-        DHCP = "yes";
-        matchConfig = {
-          Name = "br0";
-        };
-      };
+    interfaces.br0 = {
+      useDHCP = true;
     };
   };
 
