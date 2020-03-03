@@ -162,6 +162,7 @@ let
         BORG_PASSCOMMAND = cfg.passCommand;
         BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
       };
+      requires = [ "network.target" "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
     };
 
