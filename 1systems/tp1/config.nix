@@ -103,6 +103,16 @@
     };
   };
 
+  systemd.network.networks = {
+    # 99-main will be removed in 20.03
+    # effectively disable all-matching 99-main here
+    "99-main" = {
+      matchConfig = {
+        MACAddress = "aa:bb:cc:dd:ee:ff";
+      };
+    };
+  };
+
   systemd.user.services.nm-applet = {
     description = "Network Manager applet";
     partOf = [ "graphical-session.target" ];
