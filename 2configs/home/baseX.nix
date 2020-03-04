@@ -9,18 +9,11 @@ in
 {
   imports = [
     <ptsd/2configs/home/file-manager.nix>
-    <ptsd/2configs/home/git-alarm.nix>
   ];
-
-  xsession.enable = true;
 
   home.keyboard = {
     layout = "de";
     variant = "nodeadkeys";
-  };
-
-  ptsd.i3 = {
-    enable = true;
   };
 
   ptsd.urxvt.enable = true;
@@ -92,9 +85,6 @@ in
 
       unstable.betaflight-configurator
 
-      sxiv # image viewer
-      lxmenu-data # pcmanfm: show "installed applications"
-      shared_mime_info # pcmanfm: recognise different file types
     ];
 
   # fix font antialiasing in mucommander
