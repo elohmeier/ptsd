@@ -7,11 +7,17 @@
     <ptsd/2configs/nwhost.nix>
 
     <ptsd/2configs/baseX.nix>
+    <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/dovecot.nix>
+
+    <ptsd/2configs/xfce.nix>
+    #<ptsd/2configs/themes/chicago95.nix>
 
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
   ];
+
+  #boot.plymouth.enable = true;
 
   #  # https://github.com/anbox/anbox/issues/253
   #  # use:
@@ -92,7 +98,10 @@
     useDHCP = false;
   };
 
-  services.resolved.enable = true;
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
 
   networking.networkmanager = {
     enable = true;

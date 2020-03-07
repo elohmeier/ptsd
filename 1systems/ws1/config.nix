@@ -8,6 +8,7 @@ with import <ptsd/lib>;
     <ptsd/2configs/nwhost.nix>
 
     <ptsd/2configs/baseX.nix>
+    <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/dovecot.nix>
 
     <ptsd/2configs/drone-exec-container.nix>
