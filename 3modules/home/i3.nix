@@ -366,7 +366,12 @@ in
 
         memory = {
           type = "memory";
-          opts.format = "%percentage_used used, %percentage_free free, %percentage_shared shared";
+          #opts.format = "%percentage_used used, %percentage_free free, %percentage_shared shared";
+          opts = {
+            format = "%used";
+            threshold_degraded = "10%";
+            format_degraded = "MEMORY: %free";
+          };
         };
 
         read_file_gitalarm = {
