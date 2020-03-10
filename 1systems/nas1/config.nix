@@ -18,14 +18,10 @@ with import <ptsd/lib>;
     hostName = "nas1";
     useNetworkd = true;
     useDHCP = false;
-    interfaces."eth0".useDHCP = true;
 
-    # NAT for Syncthing-Containers (NextCloud-Support)
-    nat = {
-      enable = true;
-      internalInterfaces = [ "ve-+" ];
-      externalInterface = "eth0";
-    };
+    # Bridge is used for Nextcloud-Syncthing-Containers
+    bridges.br0.interfaces = [ "eth0" ];
+    interfaces.br0.useDHCP = true;
   };
 
   # IP is reserved in DHCP server for us.

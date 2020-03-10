@@ -11,9 +11,8 @@ let
   generateSyncthingContainer = name: values: nameValuePair "st-${name}"
     {
       autoStart = true;
-      enableTun = true;
+      hostBridge = "br0";
       privateNetwork = true;
-      hostAddress = "192.168.100.10";
       localAddress = values.localAddress;
       bindMounts = {
         "/run/keys" = {
@@ -185,7 +184,7 @@ in
       root = "/var/lib/nextcloud/data/enno/files";
     in
       {
-        localAddress = "192.168.100.12";
+        localAddress = "192.168.178.233/24";
         folders = {
           "${root}/Pocket" = {
             id = "hmekh-kgprn";
@@ -203,7 +202,7 @@ in
       root = "/var/lib/nextcloud/data/luisa/files";
     in
       {
-        localAddress = "192.168.100.13";
+        localAddress = "192.168.178.234/24";
         folders = {
           "${root}/LuNo" = {
             id = "3ull9-9deg4";
