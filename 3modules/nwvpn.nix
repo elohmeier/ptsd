@@ -42,84 +42,58 @@ in
     };
   };
 
-  config = mkIf cfg.enable (
-    mkMerge [
-      {
-        environment.systemPackages = [ pkgs.wireguard ];
-        boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
-
-        ptsd.secrets.files."${cfg.keyname}" = {};
-      }
-      (
-        mkIf (!config.networking.useNetworkd) {
-
-          networking.wireguard.interfaces."${cfg.ifname}" = {
-            ips = [ cfg.ip ];
-            #privateKeyFile = config.ptsd.secrets.files."${cfg.keyname}".path; # not working
-            privateKeyFile = toString <secrets> + "${cfg.keyname}";
-            peers = [
-              {
-                publicKey = cfg.publicKey;
-                allowedIPs = cfg.allowedIPs;
-                endpoint = cfg.endpoint;
-                persistentKeepalive = cfg.persistentKeepalive;
-              }
-            ];
-          };
-
-          ptsd.nwmonit.extraConfig = [
-            ''
-              check process wireguard-${cfg.ifname} matching ^wg-crypt-${cfg.ifname}$
-                start program = "${pkgs.systemd}/bin/systemctl start wireguard-${cfg.ifname}"
-                stop program = "${pkgs.systemd}/bin/systemctl stop wireguard-${cfg.ifname}"
-            ''
-          ];
+  config = mkIf cfg.enable {
+    assertions =
+      [
+        {
+          assertion = config.networking.useNetworkd;
+          message = "nwvpn only supports systemd-networkd.";
         }
-      )
-      (
-        mkIf (config.networking.useNetworkd) {
-          ptsd.secrets.files."${cfg.keyname}" = {
-            owner = "systemd-network";
-            group-name = "systemd-network";
-            mode = "0440";
-          };
+      ];
 
-          systemd.network = {
+    environment.systemPackages = [ pkgs.wireguard ];
+    boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
 
-            netdevs."10-${cfg.ifname}" = {
-              netdevConfig = {
-                Name = "${cfg.ifname}";
-                Kind = "wireguard";
-                MTUBytes = "1300";
-              };
+    ptsd.secrets.files."${cfg.keyname}" = {
+      owner = "systemd-network";
+      group-name = "systemd-network";
+      mode = "0440";
+    };
 
-              wireguardConfig = {
-                PrivateKeyFile = config.ptsd.secrets.files."${cfg.keyname}".path;
-              };
+    systemd.network = {
 
-              wireguardPeers = [
-                {
-                  wireguardPeerConfig = {
-                    PublicKey = cfg.publicKey;
-                    AllowedIPs = cfg.allowedIPs;
-                    Endpoint = cfg.endpoint;
-                    PersistentKeepalive = cfg.persistentKeepalive;
-                  };
-                }
-              ];
+      netdevs."10-${cfg.ifname}" = {
+        netdevConfig = {
+          Name = "${cfg.ifname}";
+          Kind = "wireguard";
+          MTUBytes = "1300";
+        };
+
+        wireguardConfig = {
+          PrivateKeyFile = config.ptsd.secrets.files."${cfg.keyname}".path;
+        };
+
+        wireguardPeers = [
+          {
+            wireguardPeerConfig = {
+              PublicKey = cfg.publicKey;
+              AllowedIPs = cfg.allowedIPs;
+              Endpoint = cfg.endpoint;
+              PersistentKeepalive = cfg.persistentKeepalive;
             };
+          }
+        ];
+      };
 
-            networks."20-${cfg.ifname}" = {
-              matchConfig = {
-                Name = "${cfg.ifname}";
-              };
-              address = [
-                "${cfg.ip}/24"
-              ];
-            };
-          };
-        }
-      )
-    ]
-  );
+      networks."20-${cfg.ifname}" = {
+        matchConfig = {
+          Name = "${cfg.ifname}";
+        };
+        address = [
+          "${cfg.ip}/24"
+        ];
+      };
+
+    };
+  };
 }
