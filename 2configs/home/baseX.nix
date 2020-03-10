@@ -85,6 +85,7 @@ in
 
       unstable.betaflight-configurator
 
+      (pidgin-with-plugins.override { plugins = [ telegram-purple ]; })
     ];
 
   # fix font antialiasing in mucommander
