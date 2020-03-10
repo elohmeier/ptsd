@@ -8,6 +8,7 @@
       <ptsd/2configs/cli-tools.nix>
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/home-assistant.nix>
+      <ptsd/2configs/monica.nix>
       <ptsd/2configs/mosquitto.nix>
       #<ptsd/2configs/nextcloud.nix>
       <ptsd/2configs/postgresql.nix>
@@ -80,17 +81,6 @@
   services.nwstats = {
     enable = true;
   };
-
-  services.nwmonica = let
-    monicaSecrets = import <secrets/monica.nix>;
-  in
-    {
-      enable = true;
-      appKey = monicaSecrets.appKey;
-      dbPassword = monicaSecrets.dbPassword;
-      hashSalt = monicaSecrets.hashSalt;
-      mailPassword = monicaSecrets.mailPassword;
-    };
 
   # intweb
   # services.nginx = {
@@ -436,7 +426,6 @@
     "grafana.services.nerdworks.de"
     "hass.services.nerdworks.de"
     "intweb.services.nerdworks.de" # unused
-    "monica.services.nerdworks.de"
   ];
 
   networking = {

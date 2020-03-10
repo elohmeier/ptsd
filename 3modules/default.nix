@@ -11,7 +11,6 @@ _:
     ./lego.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
-    ./nwmonica.nix
     ./nwmonit.nix
     ./nwstats.nix
     ./nwtelegraf.nix
