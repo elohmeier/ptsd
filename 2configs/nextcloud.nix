@@ -181,30 +181,51 @@ in
   containers = mapAttrs' generateSyncthingContainer {
 
     # device-id enno: 2U7PBTB-3AVWHDO-KKITN5S-JW5AKLX-2MLBQOR-PJDL2QH-BZZJBMD-DFX3MQI
-    "enno" = {
-      localAddress = "192.168.100.12";
-      folders = {
-        "/var/lib/nextcloud/data/enno/files/Pocket" = {
-          id = "hmekh-kgprn";
-          devices = [ "ws1" ];
-        };
-        "/var/lib/nextcloud/data/enno/files/LuNo" = {
-          id = "3ull9-9deg4";
-          devices = [ "ws1" ];
+    "enno" = let
+      root = "/var/lib/nextcloud/data/enno/files";
+    in
+      {
+        localAddress = "192.168.100.12";
+        folders = {
+          "${root}/Pocket" = {
+            id = "hmekh-kgprn";
+            devices = [ "ws1" ];
+          };
+          "${root}/LuNo" = {
+            id = "3ull9-9deg4";
+            devices = [ "ws1" ];
+          };
         };
       };
-    };
 
     # device-id luisa: HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW
-    "luisa" = {
-      localAddress = "192.168.100.13";
-      folders = {
-        "/var/lib/nextcloud/data/luisa/files/LuNo" = {
-          id = "3ull9-9deg4";
-          devices = [ "ws1" ];
+    "luisa" = let
+      root = "/var/lib/nextcloud/data/luisa/files";
+    in
+      {
+        localAddress = "192.168.100.13";
+        folders = {
+          "${root}/LuNo" = {
+            id = "3ull9-9deg4";
+            devices = [ "ws1" ];
+          };
+
+          "${root}/Bilder" = {
+            id = "ugmai-ti6vl";
+            devices = [ "tp2" ];
+          };
+
+          "${root}/Dokumente" = {
+            id = "sqkfd-m9he7";
+            devices = [ "tp2" ];
+          };
+
+          "${root}/Musik" = {
+            id = "zvffu-ff92z";
+            devices = [ "tp2" ];
+          };
         };
       };
-    };
 
   };
 
