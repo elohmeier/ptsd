@@ -33,15 +33,6 @@
     zpool = "nw27";
   };
 
-  # services.syncthing = {
-  #   enable = true;
-  #   openDefaultPorts = true;
-
-  #   # mirror the nextcloud permissions
-  #   user = "nextcloud";
-  #   group = "nginx";
-  # };
-
   ptsd.nwtelegraf = {
     extraConfig = {
       inputs.influxdb = {
@@ -82,88 +73,6 @@
     enable = true;
   };
 
-  # intweb
-  # services.nginx = {
-  #   enable = true;
-
-  #   commonHttpConfig = ''
-  #     charset UTF-8;
-  #   '';
-
-  #   package =
-  #     pkgs.nginx.override { modules = with pkgs.nginxModules; [ fancyindex ]; };
-
-  #   virtualHosts = {
-
-  # "alerta.services.nerdworks.de" = {
-  #   listen = [
-  #     {
-  #       addr = "127.0.0.1";
-  #       port = 1081;
-  #     }
-  #   ];
-  #   locations."/" = let
-  #     alertaCfg = pkgs.symlinkJoin {
-  #       name = "alerta-webui-cfg";
-  #       paths = [
-  #         pkgs.alerta-webui
-  #         (
-  #           pkgs.writeTextFile {
-  #             name = "alerta-webui-config.json";
-  #             destination = "/config.json";
-  #             text = ''
-  #               {"endpoint": "https://nuc1.host.nerdworks.de:5000"}
-  #             '';
-  #           }
-  #         )
-  #       ];
-  #     };
-  #   in
-  #     {
-  #       root = "${alertaCfg}";
-  #       extraConfig = ''
-  #         try_files $uri $uri/ /index.html;
-  #       '';
-  #     };
-  # };
-
-  # "intweb.services.nerdworks.de" = {
-  #   listen = [
-  #     {
-  #       addr = "127.0.0.1";
-  #       port = 1080;
-  #     }
-  #   ];
-  #   locations."/" = {
-  #     root = "/mnt/int";
-  #     extraConfig = ''
-  #       fancyindex on;              # Enable fancy indexes.
-  #       fancyindex_exact_size off;  # Output human-readable file sizes.
-  #     '';
-  #   };
-
-  #   locations."/sync" = {
-  #     root = "/mnt/int";
-  #     extraConfig = ''
-  #       fancyindex on;              # Enable fancy indexes.
-  #       fancyindex_exact_size off;  # Output human-readable file sizes.
-  #       auth_basic           "Privater Bereich";
-  #       auth_basic_user_file ${<secrets/intweb.htpasswd>};
-  #     '';
-  #   };
-  #   locations."/privat" = {
-  #     root = "/mnt/int";
-  #     extraConfig = ''
-  #       fancyindex on;              # Enable fancy indexes.
-  #       fancyindex_exact_size off;  # Output human-readable file sizes.
-  #       auth_basic           "Privater Bereich";
-  #       auth_basic_user_file ${<secrets/intweb.htpasswd>};
-  #     '';
-  #   };
-  # };
-  #   };
-  # };
-
   services.influxdb = {
     enable = true;
     extraConfig = {
@@ -197,32 +106,6 @@
     after = [ "influxdb" ];
     wants = [ "influxdb" ];
   };
-
-  # ptsd.alerta = let
-  #   alertaSecrets = import <secrets/alerta.nix>;
-  #   py3 = pkgs.python3.override {
-  #     packageOverrides = self: super: {
-  #       alerta-server = super.callPackage ../../5pkgs/alerta-server {};
-  #       sentry-sdk = super.callPackage ../../5pkgs/sentry-sdk {};
-  #       psycopg2 = super.psycopg2.override {
-  #         postgresql = pkgs.postgresql_11;
-  #       };
-  #     };
-  #   };
-  # in
-  #   {
-  #     enable = true;
-  #     port = 15000;
-  #     bind = "127.0.0.1";
-  #     databaseUrl = "postgresql://alerta:${alertaSecrets.dbPassword}@nuc1.host.nerdworks.de/alerta";
-  #     databaseName = "alerta";
-  #     corsOrigins = [ "https://nuc1.host.nerdworks.de:5000" "https://nuc1.host.nerdworks.de:5001" ];
-  #     serverPackage = py3.pkgs.alerta-server;
-  #     clientPackage = py3.pkgs.alerta;
-  #     extraConfig = ''
-  #       ADMIN_USERS = ['enno']
-  #     '';
-  #   };
 
   services.grafana = let
     grafanaSecrets = import <secrets/grafana.nix>;
@@ -298,39 +181,11 @@
             ];
           };
         };
-        # https_alerta = {
-        #   address = ":5000";
-        #   tls = {
-        #     certificates = [
-        #       {
-        #         certFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-        #         keyFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.key";
-        #       }
-        #     ];
-        #   };
-        # };
-        # https_alerta_webui = {
-        #   address = ":5001";
-        #   tls = {
-        #     certificates = [
-        #       {
-        #         certFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-        #         keyFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.key";
-        #       }
-        #     ];
-        #   };
-        # };
       };
 
       file = {};
 
       frontends = {
-        # intweb = {
-        #   entryPoints = [ "https" "http" ];
-        #   backend = "nginx_intweb";
-        #   routes.r1.rule = "Host:intweb.services.nerdworks.de";
-        #   passHostHeader = true;
-        # };
         influxdb = {
           entryPoints = [ "https_influxdb" ];
           backend = "influxdb";
@@ -343,18 +198,6 @@
           routes.r1.rule = "Host:${config.networking.hostName}.${config.networking.domain}";
           passHostHeader = true;
         };
-        # alerta = {
-        #   entryPoints = [ "https_alerta" ];
-        #   backend = "alerta";
-        #   routes.r1.rule = "Host:${config.networking.hostName}.${config.networking.domain}";
-        #   passHostHeader = true;
-        # };
-        # alerta_webui = {
-        #   entryPoints = [ "https_alerta_webui" ];
-        #   backend = "nginx_alerta_webui";
-        #   routes.r1.rule = "Host:${config.networking.hostName}.${config.networking.domain}";
-        #   passHostHeader = true;
-        # };
         grafana = {
           entryPoints = [ "https" "http" ];
           backend = "grafana";
@@ -367,32 +210,14 @@
           routes.r1.rule = "Host:hass.services.nerdworks.de";
           passHostHeader = true;
         };
-        # nextcloud = {
-        #   entryPoints = [ "https" "http" ];
-        #   backend = "nginx_nextcloud";
-        #   routes.r1.rule = "Host:nextcloud.services.nerdworks.de";
-        #   passHostHeader = true;
-        # };
       };
-      backends = {
-        # nginx_intweb = {
-        #   servers.s1.url = "http://localhost:1080";
-        # };
-        # nginx_alerta_webui = {
-        #   servers.s1.url = "http://localhost:1081";
-        # };
-        # nginx_nextcloud = {
-        #   servers.s1.url = "http://localhost:1082";
-        # };
+      backends = {        
         influxdb = {
           servers.s1.url = "http://localhost:18086";
         };
         kapacitor = {
           servers.s1.url = "http://localhost:19092";
         };
-        # alerta = {
-        #   servers.s1.url = "http://localhost:15000";
-        # };
         grafana = {
           servers.s1.url = "http://localhost:3000";
         };
@@ -418,14 +243,11 @@
     5432 # postgresql
     8086 # InfluxDB
     9092 # Kapacitor
-    # 5000 # Alerta
-    # 5001 # Alerta Web-UI
   ];
 
   ptsd.lego.extraDomains = [
     "grafana.services.nerdworks.de"
     "hass.services.nerdworks.de"
-    "intweb.services.nerdworks.de" # unused
   ];
 
   networking = {
@@ -450,6 +272,4 @@
   };
 
   ptsd.nwbackup.paths = [ "/mnt/int" ];
-
-  # virtualisation.libvirtd.enable = true;
 }
