@@ -102,6 +102,18 @@
       };
     };
 
+    ipd2 = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.40"; # Lu
+          aliases = [
+            "ipd2.nw"
+          ];
+          wireguard.pubkey = "+i2sgu4OY2p5J5qO8N8Ritr8ySPyYqSeQayyEx9cBVc=";
+        };
+      };
+    };
+
     htz1 = {
       nets = {
         www = {
