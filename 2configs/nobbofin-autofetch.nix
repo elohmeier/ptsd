@@ -34,8 +34,7 @@ in
         --host $MAIL_HOST \
         --user $MAIL_USER \
         --password $MAIL_PASSWORD \
-        --imap-folder-prefix "INBOX." \
-        --dry-run
+        --imap-folder-prefix "INBOX."
       
       git add .
       git commit -m "nobbofin-autofetch: imported e-mails"
