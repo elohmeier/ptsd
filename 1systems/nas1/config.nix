@@ -9,6 +9,7 @@ with import <ptsd/lib>;
     <ptsd/2configs/cups-airprint.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/nextcloud.nix>
+    <ptsd/2configs/nobbofin-autofetch.nix>
     <ptsd/2configs/postgresql.nix>
 
     <secrets-shared/nwsecrets.nix>

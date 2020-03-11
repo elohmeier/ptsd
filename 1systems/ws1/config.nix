@@ -13,6 +13,8 @@ with import <ptsd/lib>;
 
     <ptsd/2configs/drone-exec-container.nix>
 
+    <ptsd/2configs/nobbofin-autofetch.nix>
+
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
   ];
