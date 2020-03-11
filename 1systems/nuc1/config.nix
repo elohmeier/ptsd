@@ -211,7 +211,7 @@
           passHostHeader = true;
         };
       };
-      backends = {        
+      backends = {
         influxdb = {
           servers.s1.url = "http://localhost:18086";
         };
