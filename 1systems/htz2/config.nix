@@ -36,13 +36,5 @@
     };
   };
 
-  ptsd.nwtraefik = {
-    enable = true;
-    #logLevel = "DEBUG";
-  };
-
-  services.syncthing = {
-    enable = true;
-    openDefaultPorts = true;
-  };
+  ptsd.nwtraefik.enable = true;
 }
