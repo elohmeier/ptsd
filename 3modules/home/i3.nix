@@ -382,6 +382,14 @@ in
           };
         };
 
+        read_file_current_song = {
+          type = "read_file";
+          name = "current_song";
+          opts = {
+            path = "${config.xdg.dataHome}/current_song.txt";
+          };
+        };
+
         volume_master = {
           type = "volume";
           name = "master";
@@ -395,6 +403,7 @@ in
 
       order = [
         "read_file gitalarm"
+        "read_file current_song"
         "ipv6"
         "disk /"
         "disk /home"

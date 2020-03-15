@@ -32,6 +32,7 @@ in
       slack-dark
 
       unstable.jetbrains.pycharm-professional
+      unstable.jetbrains.goland
       unstable.vscodium
       sqlitebrowser
       #filezilla
