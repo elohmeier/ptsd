@@ -23,6 +23,10 @@ with import <ptsd/lib>;
     # Bridge is used for Nextcloud-Syncthing-Containers
     bridges.br0.interfaces = [ "eth0" ];
     interfaces.br0.useDHCP = true;
+
+    hosts = {
+      "192.168.178.10" = [ "nuc1.host.nerdworks.de" "nuc1" ]; # speed-up borg backup
+    };
   };
 
   # IP is reserved in DHCP server for us.

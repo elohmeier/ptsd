@@ -33,6 +33,10 @@ in
     interfaces.br0 = {
       useDHCP = true;
     };
+
+    hosts = {
+      "192.168.178.10" = [ "nuc1.host.nerdworks.de" "nuc1" ]; # speed-up borg backup
+    };
   };
 
   #  ptsd.nwmonit.extraConfig = [

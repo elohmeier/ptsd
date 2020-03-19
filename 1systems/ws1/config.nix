@@ -46,6 +46,10 @@ with import <ptsd/lib>;
     hostName = "ws1";
     useNetworkd = true;
     useDHCP = false;
+
+    hosts = {
+      "192.168.178.10" = [ "nuc1.host.nerdworks.de" "nuc1" ]; # speed-up borg backup
+    };
   };
 
   systemd.network = {
