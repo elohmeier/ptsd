@@ -59,12 +59,14 @@ in
             supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
           };
 
+          virtualisation.docker.enable = true;
+
           systemd.services.drone-runner-exec = {
             description = "Drone Exec Runner";
             wantedBy = [ "multi-user.target" ];
             requires = [ "network.target" ];
             after = [ "network.target" "network-online.target" ];
-            path = with pkgs; [ gitMinimal nix openssh ];
+            path = with pkgs; [ gitMinimal nix openssh docker ];
             serviceConfig = {
               ExecStart = "${pkgs.drone-runner-exec}/bin/drone-runner-exec";
               StartLimitInterval = 86400;
@@ -80,6 +82,7 @@ in
               Restart = "on-failure";
               EnvironmentFile = "/run/keys/drone-ci.env";
               ReadOnlyPaths = "/run/keys/drone-ci.env";
+              SupplementaryGroups = "docker";
             };
             environment = {
               DRONE_RPC_HOST = "ci.nerdworks.de";
