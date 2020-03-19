@@ -45,7 +45,7 @@ in
 
     Timer = {
       Unit = "current-song.service";
-      OnUnitInactiveSec="5s";
+      OnUnitInactiveSec = "5s";
     };
 
     Install = { WantedBy = [ "timers.target" ]; };
