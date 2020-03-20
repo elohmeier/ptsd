@@ -92,4 +92,32 @@ with import <ptsd/lib>;
     configDir = "/home/enno/.config/syncthing";
     dataDir = "/home/enno/";
   };
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
+      security = user
+      hosts allow = 192.168.101.0/24 # host-only-virsh network
+      hosts deny = 0.0.0.0/0
+    '';
+    shares = {
+      home = {
+        path = "/home/enno";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+    };
+  };
+
+  environment.systemPackages = with pkgs; [ samba ];
+
+  networking.firewall.interfaces.virbr4 = {
+    allowedTCPPorts = [ 445 139 ];
+    allowedUDPPorts = [ 137 138 ];
+  };
 }
