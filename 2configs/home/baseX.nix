@@ -74,8 +74,6 @@ in
 
       portfolio
 
-      unstable.steam
-
       woeusb
       obs-studio
 
