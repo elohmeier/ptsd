@@ -1,3 +1,5 @@
+{ config, ... }:
+
 let
   disk = "/dev/disk/by-id/nvme-Force_MP600_192482300001285612C9";
   vgPrefix = "/dev/disk/by-id/dm-name-p5vg";
@@ -54,6 +56,13 @@ in
     {
       device = "${disk}-part2";
       fsType = "vfat";
+    };
+
+  fileSystems."/mnt/win" =
+    {
+      device = "${disk}-part4";
+      fsType = "ntfs-3g";
+      options = [ "nofail" ];
     };
 
   swapDevices =
