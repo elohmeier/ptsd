@@ -28,6 +28,16 @@ let
       sha256 = "0gwyn9ff3f9pn5mkk31sxrs230p7fy66399p2yqy43xfqv36mzwl";
     };
   };
+  vim-tickscript = vimUtils.buildVimPluginFrom2Nix {
+    pname = "vim-tickscript";
+    version = "2017-12-01";
+    src = fetchFromGitHub {
+      owner = "nathanielc";
+      repo = "vim-tickscript";
+      rev = "399e332b709f034421c83af9ea14380d71e0d743";
+      sha256 = "1fnv4vs3lngr3jn74p71dz5xgjlmy6qmr6xnfchx1k32bsidzjxj";
+    };
+  };
   tabnine-vim = vimUtils.buildVimPluginFrom2Nix {
     pname = "tabnine-vim";
     version = "2.11";
@@ -118,7 +128,7 @@ in
       '';
 
       packages.myVimPackage = with vimPlugins; {
-        start = [ vim-nix vim-beancount nerdtree nerdtree-git-plugin ale vim-renamer tabnine-vim ];
+        start = [ vim-nix vim-beancount nerdtree nerdtree-git-plugin ale vim-renamer tabnine-vim vim-tickscript ];
       };
     };
   };
