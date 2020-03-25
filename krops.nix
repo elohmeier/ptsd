@@ -23,6 +23,12 @@
         url = https://github.com/NixOS/nixpkgs;
       };
 
+      nixos-hardware.git = {
+        clean.exclude = [ "/.version-suffix" ];
+        ref = (lib.importJSON ./nixos-hardware.json).rev;
+        url = https://github.com/NixOS/nixos-hardware;
+      };
+
       ptsd.file = toString ./.;
 
       nixos-config.symlink = "ptsd/1systems/${name}/physical.nix";
