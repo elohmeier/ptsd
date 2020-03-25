@@ -3,6 +3,7 @@
 {
   imports = [
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix> # don't remove, wifi will be lost :-)
+    <nixos-hardware/lenovo/thinkpad/x280>
   ];
 
   environment.variables = {
