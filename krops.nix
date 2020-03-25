@@ -97,6 +97,28 @@ rec {
     pkgs.krops.writeDeploy "deploy_ptsd" {
       source = lib.evalSource [
         { ptsd.file = toString ./.; }
+        (
+          lib.optionalAttrs secrets {
+            secrets.pass = {
+              #dir = "${lib.getEnv "HOME"}/.password-store";
+              dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+              name = "hosts/${name}";
+            };
+
+            secrets-shared.pass = {
+              dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+              name = "hosts-shared";
+            };
+          }
+        )
+        (
+          lib.optionalAttrs (secrets && desktop) {
+            client-secrets.pass = {
+              dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+              name = "clients";
+            };
+          }
+        )
       ];
       target = target;
       fast = true;
