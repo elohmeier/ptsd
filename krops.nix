@@ -71,6 +71,12 @@
           url = "git@git.nerdworks.de:nerdworks/ci.git";
         };
 
+        home-manager.git = {
+          clean.exclude = [ "/.version-suffix" ];
+          ref = (lib.importJSON ./home-manager.json).rev;
+          url = https://github.com/rycee/home-manager;
+        };
+
         secrets-eee1.pass = {
           dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "hosts/eee1";
