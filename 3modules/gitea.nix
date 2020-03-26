@@ -4,6 +4,7 @@
 # Added:
 # - public folder provisioning
 # - template folder provisioning
+# - attachment config
 
 { config, lib, pkgs, ... }:
 
@@ -61,6 +62,10 @@ let
 
     [service]
     DISABLE_REGISTRATION = ${boolToString cfg.disableRegistration}
+
+    [attachment]
+    ALLOWED_TYPES = */*
+    MAX_SIZE = 10
 
     ${optionalString (cfg.mailerPasswordFile != null) ''
     [mailer]
