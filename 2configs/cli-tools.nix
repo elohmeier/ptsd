@@ -25,7 +25,6 @@ in
     tree
     unzip
     vims.big
-    #vims.small
     wget
   ];
 }
