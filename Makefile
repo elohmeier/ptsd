@@ -27,7 +27,7 @@ eee1:
 
 .PHONY: iso
 iso:
-	nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=2configs/iso.nix -I /var/src
+	nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=2configs/iso.nix -I /var/src -I ptsd=$$(pwd)
 
 .PHONY: nwvpn-qr
 nwvpn-qr:
