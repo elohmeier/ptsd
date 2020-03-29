@@ -42,7 +42,6 @@ in
     }
   ];
 
-  # TODO: test config
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}
@@ -54,8 +53,7 @@ in
 
         if failed
           port 443
-          certificate valid > 30 days
-          protocol https
+          protocol https request "/login" and certificate valid > 30 days
           content = "Grafana"
         then alert
     ''

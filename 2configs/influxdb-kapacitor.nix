@@ -58,7 +58,6 @@ in
     };
   };
 
-  # TODO: update monit cfg, add Kapacitor
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}
@@ -70,9 +69,16 @@ in
 
         if failed
           port 443
+          protocol https request "/debug/vars" and certificate valid > 30 days
+        then alert
+
+        if failed
+          port 443
           certificate valid > 30 days
           protocol https
-          content = "it works!"
+          request "/kapacitor"
+          status = 404
+          content = "error"
         then alert
     ''
   ];
