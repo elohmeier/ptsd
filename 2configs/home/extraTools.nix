@@ -147,6 +147,8 @@ in
       smbclient
       unstable.mu-repo # not yet in 19.09
       file-rename
+
+      unstable.sublime
     ];
 
   # fix font antialiasing in mucommander
