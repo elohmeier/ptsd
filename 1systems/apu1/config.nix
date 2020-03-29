@@ -1,6 +1,13 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
 
+let
+  bridgeIfs = [
+    "enp1s0"
+    "enp2s0"
+    "enp3s0"
+  ];
+in
 {
   # INFO: Remember there is an unused drive /dev/sda2 (/srv) installed.
 
@@ -16,11 +23,7 @@ with import <ptsd/lib>;
     useNetworkd = true;
     useDHCP = false;
     hostName = "apu1";
-    bridges.br0.interfaces = [
-      "enp1s0"
-      "enp2s0"
-      "enp3s0"
-    ];
+    bridges.br0.interfaces = bridgeIfs;
     interfaces.br0 = {
       useDHCP = true;
     };
@@ -38,5 +41,16 @@ with import <ptsd/lib>;
         MACAddress = "aa:bb:cc:dd:ee:ff";
       };
     };
-  };
+  } // builtins.listToAttrs (
+    map (
+      brName: {
+        name = "40-${brName}";
+        value = {
+          networkConfig = {
+            ConfigureWithoutCarrier = true;
+          };
+        };
+      }
+    ) bridgeIfs
+  );
 }
