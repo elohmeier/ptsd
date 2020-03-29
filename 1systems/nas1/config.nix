@@ -8,10 +8,16 @@ with import <ptsd/lib>;
     <ptsd/2configs/bs53lan.nix>
     <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/cups-airprint.nix>
+    <ptsd/2configs/influxdb-kapacitor.nix>
+    <ptsd/2configs/grafana.nix>
+    <ptsd/2configs/home-assistant.nix>
+    <ptsd/2configs/monica-nginx.nix>
+    <ptsd/2configs/mosquitto.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/nobbofin-autofetch.nix>
     <ptsd/2configs/postgresql.nix>
+    <ptsd/2configs/samba.nix>
 
     <secrets-shared/nwsecrets.nix>
   ];

@@ -7,7 +7,7 @@ let
   configOptions = recursiveUpdate {
     outputs = {
       influxdb = {
-        urls = [ "https://nuc1.host.nerdworks.de:8086" ];
+        urls = [ "https://influxdb.services.nerdworks.de" ];
         database = "telegraf";
         skip_database_creation = true;
         username = "telegraf";

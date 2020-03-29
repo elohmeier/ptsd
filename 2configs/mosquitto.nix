@@ -12,7 +12,7 @@ with import <ptsd/lib>;
 
   services.mosquitto = {
     enable = true;
-    host = "192.168.178.10";
+    host = "192.168.178.12";
     ssl = {
       enable = true;
       cafile = "/etc/ssl/certs/ca-certificates.crt";
