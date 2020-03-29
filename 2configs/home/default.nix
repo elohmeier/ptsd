@@ -1,23 +1,5 @@
 { config, lib, pkgs, ... }:
 
-let
-  unstable = import <nixpkgs-unstable> {
-    config.allowUnfree = true;
-  };
-  py3 = pkgs.python37;
-  pyenv = py3.withPackages (
-    pythonPackages: with pythonPackages; [
-      black
-      jupyterlab
-      lxml
-      keyring
-      pdfminer
-      pillow
-      requests
-      selenium
-    ]
-  );
-in
 {
   imports = [
     <ptsd/2configs/home/git.nix>
@@ -45,7 +27,6 @@ in
   };
 
   home.packages = with pkgs; [
-    pyenv
     nixpkgs-fmt
     gnumake
     (pass.withExtensions (ext: [ ext.pass-import ]))

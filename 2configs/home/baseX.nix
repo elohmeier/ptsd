@@ -18,7 +18,6 @@
 
   home.packages = with pkgs;
     [
-      unstable.vscodium
       xorg.xev
       xorg.xhost
       gnome3.file-roller

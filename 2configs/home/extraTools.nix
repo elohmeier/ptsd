@@ -7,9 +7,23 @@ let
     config.allowUnfree = true;
     config.packageOverrides = import ../../5pkgs unstable;
   };
+  py3 = pkgs.python37;
+  pyenv = py3.withPackages (
+    pythonPackages: with pythonPackages; [
+      black
+      jupyterlab
+      lxml
+      keyring
+      pdfminer
+      pillow
+      requests
+      selenium
+    ]
+  );
 in
 {
   imports = [
+    <ptsd/2configs/home/irssi.nix>
     <ptsd/2configs/home/mbsync.nix>
   ];
 
@@ -17,6 +31,7 @@ in
     wine = wineStaging.override { wineBuild = "wine32"; };
   in
     [
+      unstable.vscodium
       wine
       (winetricks.override { wine = wine; })
 
@@ -136,45 +151,6 @@ in
 
   # fix font antialiasing in mucommander
   home.sessionVariables._JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
-
-  programs.irssi = {
-    enable = true;
-
-    networks = {
-      freenode = {
-        nick = "nobbo";
-        server = {
-          address = "chat.freenode.net";
-          port = 6697;
-          autoConnect = true;
-          ssl = {
-            enable = true;
-            verify = true;
-          };
-        };
-        channels = {
-          "nixos".autoJoin = true;
-          "nixos-de".autoJoin = true;
-          "krebs".autoJoin = true;
-        };
-      };
-      hackint = {
-        nick = "nobbo";
-        server = {
-          address = "irc.hackint.org";
-          port = 6697;
-          ssl = {
-            enable = true;
-            verify = true;
-          };
-        };
-      };
-    };
-
-    extraConfig = ''
-      settings = { core = { real_name = "nobbo"; user_name = "nobbo"; nick = "nobbo"; }; };
-    '';
-  };
 
   programs.emacs.enable = true;
 

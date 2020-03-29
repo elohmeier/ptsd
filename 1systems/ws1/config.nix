@@ -15,6 +15,7 @@ with import <ptsd/lib>;
 
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
+    <ptsd/2configs/home-secrets.nix>
   ];
 
   # default: poweroff
