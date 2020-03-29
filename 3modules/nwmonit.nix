@@ -16,6 +16,13 @@ let
     fi
   '';
   smtp_to_telegram = pkgs.callPackage ../5pkgs/smtp-to-telegram {};
+
+  # service names must not start with "/", so we prefix them
+  genFsCheck = path: ''
+    check filesystem fs-${path} with path ${path}
+      if space usage > 80% then alert
+      if inode usage > 80% then alert
+  '';
 in
 {
 
@@ -109,9 +116,7 @@ in
         check program check-systemd-units path ${check-systemd-units}/bin/check-systemd-units
           if status != 0 then alert
       
-        check filesystem rootfs with path /
-          if space usage > 80% then alert
-          if inode usage > 80% then alert
+        ${lib.concatMapStrings (fs: "\n${genFsCheck fs}") (builtins.attrNames config.fileSystems)}
       
         check system $HOST
           if loadavg (1min) per core > 2 for 15 cycles then alert
