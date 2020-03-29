@@ -1,18 +1,9 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
 
-let
-  letsgo = pkgs.writeShellScriptBin "letsgo" ''
-    set -e
-    ${pkgs.cryptsetup}/bin/cryptsetup luksOpen /dev/sda2 srv_crypt
-    ${pkgs.utillinux}/bin/mount /dev/mapper/srv_crypt /srv
-    ${pkgs.systemd}/bin/systemctl start ftpmail-enno
-    ${pkgs.systemd}/bin/systemctl start ftpmail-luisa
-    ${pkgs.systemd}/bin/systemctl start gitea
-    #${pkgs.systemd}/bin/systemctl start drone
-  '';
-in
 {
+  # INFO: Remember there is an unused drive /dev/sda2 (/srv) installed.
+
   imports = [
     <ptsd>
     <ptsd/2configs>
@@ -28,7 +19,7 @@ in
     bridges.br0.interfaces = [
       "enp1s0"
       "enp2s0"
-      #"enp3s0"
+      "enp3s0"
     ];
     interfaces.br0 = {
       useDHCP = true;
@@ -39,13 +30,13 @@ in
     };
   };
 
-  #  ptsd.nwmonit.extraConfig = [
-  #    ''
-  #      check filesystem srv_crypt with path /srv
-  #        if space usage > 80% then alert
-  #        if inode usage > 80% then alert
-  #    ''
-  #  ];
-  #  environment.systemPackages = [ letsgo pkgs.wol ];
-  #  ptsd.nwbackup.paths = [ "/srv" ];
+  systemd.network.networks = {
+    # 99-main will be removed in 20.03
+    # effectively disable all-matching 99-main here
+    "99-main" = {
+      matchConfig = {
+        MACAddress = "aa:bb:cc:dd:ee:ff";
+      };
+    };
+  };
 }
