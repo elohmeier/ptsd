@@ -50,8 +50,12 @@ in
         acme-dns = 10049;
         droneci = 10050;
         ffoxsync = 10077;
+        grafana = 10089;
+        influxdb = 10078;
+        kapacitor = 10079;
         nerdworkswww = 1080;
         nextcloud = 1082;
+        nginx-monica = 10090;
         nwgit = 10055;
         radicale = 5232;
       };
