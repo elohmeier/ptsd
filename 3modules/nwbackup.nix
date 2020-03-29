@@ -140,6 +140,7 @@ let
       };
     };
 
+  # TODO: Handle running backup (fail to lock), handle no connection
   mkInitRepoService = name: repoAddress:
     nameValuePair "nwbackup-init-repo-${name}" {
       description = "Initialize BorgBackup repository ${name}";
@@ -213,7 +214,7 @@ in
   config = mkIf cfg.enable {
     services.borgbackup.jobs = mapAttrs' generateJob cfg.repos;
 
-    #systemd.services = mapAttrs' mkInitRepoService cfg.repos;
+    systemd.services = mapAttrs' mkInitRepoService cfg.repos;
 
     environment.variables = {
       BORG_REPO = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:.";
