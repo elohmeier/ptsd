@@ -201,6 +201,7 @@ in
       };
       repos = mkOption {
         default = {
+          nas1 = "borg-${config.networking.hostName}@nas1.host.nerdworks.de:.";
           nuc1 = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:.";
           #eee1 = "borg-${config.networking.hostName}@eee1.host.nerdworks.de:."; # temporarily unavailable
         };

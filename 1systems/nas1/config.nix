@@ -36,4 +36,9 @@ with import <ptsd/lib>;
   ptsd.nwtraefik = {
     enable = true;
   };
+
+  ptsd.nwbackup-server = {
+    enable = true;
+    zpool = "tank";
+  };
 }
