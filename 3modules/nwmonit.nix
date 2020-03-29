@@ -56,6 +56,7 @@ in
     systemd.services.monit = {
       requires = [ "smtp-to-telegram.service" ];
       after = [ "smtp-to-telegram.service" ];
+      serviceConfig.TimeoutStopSec = 10;
     };
 
     systemd.services.smtp-to-telegram = {
@@ -72,6 +73,7 @@ in
         PrivateTmp = true;
         PrivateDevices = true;
         ProtectSystem = "full";
+        TimeoutStopSec = 10;
       };
       environment = {
         ST_TELEGRAM_BOT_TOKEN = "${cfg.telegramBotToken}";
