@@ -8,9 +8,9 @@ with import <ptsd/lib>;
     <ptsd/2configs/nwhost.nix>
 
     <ptsd/2configs/baseX.nix>
+    <ptsd/2configs/bs53lan.nix>
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/dovecot.nix>
-
     <ptsd/2configs/drone-exec-container.nix>
 
     <secrets-shared/nwsecrets.nix>
@@ -47,10 +47,6 @@ with import <ptsd/lib>;
     hostName = "ws1";
     useNetworkd = true;
     useDHCP = false;
-
-    hosts = {
-      "192.168.178.10" = [ "nuc1.host.nerdworks.de" "nuc1" ]; # speed-up borg backup
-    };
   };
 
   systemd.network = {

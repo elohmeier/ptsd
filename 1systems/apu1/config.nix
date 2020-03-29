@@ -14,6 +14,7 @@ in
   imports = [
     <ptsd>
     <ptsd/2configs>
+    <ptsd/2configs/bs53lan.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/unbound.nix>
     <secrets-shared/nwsecrets.nix>
@@ -26,10 +27,6 @@ in
     bridges.br0.interfaces = bridgeIfs;
     interfaces.br0 = {
       useDHCP = true;
-    };
-
-    hosts = {
-      "192.168.178.10" = [ "nuc1.host.nerdworks.de" "nuc1" ]; # speed-up borg backup
     };
   };
 
