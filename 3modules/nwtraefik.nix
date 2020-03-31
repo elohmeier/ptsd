@@ -136,8 +136,7 @@ in
                       contentSecurityPolicy = "frame-ancestors 'self' https://*.nerdworks.de";
                       referrerPolicy = "no-referrer";
                     };
-                    auth = svc.auth;
-                  };
+                  } // lib.optionalAttrs (svc.auth != {}) { auth = svc.auth; };
                 }
               ) cfg.services
             );
