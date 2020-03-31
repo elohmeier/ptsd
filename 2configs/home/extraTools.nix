@@ -148,7 +148,7 @@ in
       unstable.mu-repo # not yet in 19.09
       file-rename
 
-      unstable.sublime
+      sublime3
     ];
 
   # fix font antialiasing in mucommander
