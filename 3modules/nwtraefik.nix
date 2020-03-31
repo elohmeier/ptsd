@@ -32,7 +32,15 @@ in
       };
 
       services = mkOption {
-        type = with types; listOf attrs;
+        type = types.listOf (
+          types.submodule {
+            options = {
+              name = mkOption { type = types.str; };
+              rule = mkOption { type = types.str; };
+              auth = mkOption { type = types.attrs; default = {}; };
+            };
+          }
+        );
         default = [];
         example = [
           {
@@ -56,6 +64,7 @@ in
         nerdworkswww = 1080;
         nextcloud = 1082;
         nginx-monica = 10090;
+        nginx-htz2 = 10091;
         nwgit = 10055;
         radicale = 5232;
       };
@@ -127,6 +136,7 @@ in
                       contentSecurityPolicy = "frame-ancestors 'self' https://*.nerdworks.de";
                       referrerPolicy = "no-referrer";
                     };
+                    auth = svc.auth;
                   };
                 }
               ) cfg.services

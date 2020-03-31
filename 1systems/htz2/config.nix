@@ -10,6 +10,8 @@
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/nwradicale.nix>
 
+      #<ptsd/2configs/google-protected-web.nix>
+
       <secrets-shared/nwsecrets.nix>
     ];
 
