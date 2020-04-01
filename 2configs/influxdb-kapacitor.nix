@@ -48,15 +48,13 @@ in
     }
   ];
 
-  ptsd.nwtelegraf = {
-    extraConfig = {
-      inputs.influxdb = {
-        urls = [
-          "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.influxdb}/debug/vars"
-        ];
-      };
-    };
-  };
+  ptsd.nwtelegraf.inputs.influxdb = [
+    {
+      urls = [
+        "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.influxdb}/debug/vars"
+      ];
+    }
+  ];
 
   ptsd.nwmonit.extraConfig = [
     ''

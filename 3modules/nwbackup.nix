@@ -222,7 +222,7 @@ in
       BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
     };
 
-    ptsd.nwtelegraf.extraConfig.inputs.file = [
+    ptsd.nwtelegraf.inputs.file = [
       {
         files = [ "/var/log/borg_backup_*.iql" ];
         data_format = "influx";
