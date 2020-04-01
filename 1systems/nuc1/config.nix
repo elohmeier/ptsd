@@ -65,7 +65,6 @@
     enable = true;
   };
 
-
   # environment.variables = {
   #   KAPACITOR_URL = "https://nuc1.host.nerdworks.de:9092";
   # };
@@ -73,11 +72,6 @@
   networking.firewall.allowedTCPPorts = [
     5432 # postgresql
   ];
-
-  #ptsd.lego.extraDomains = [
-  #  "grafana.services.nerdworks.de"
-  #  "hass.services.nerdworks.de"
-  #];
 
   networking = {
     useDHCP = false;
