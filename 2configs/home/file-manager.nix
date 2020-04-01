@@ -31,6 +31,20 @@
       };
     };
 
+    "file-manager/actions/pdf2svg.desktop".text = lib.generators.toINI {} {
+      "Desktop Entry" = {
+        Type = "Action";
+        Name = "Convert PDF to SVG";
+        "Name[de]" = "Konvertiere PDF zu SVG";
+        Profiles = "pdf2svg;";
+      };
+
+      "X-Action-Profile pdf2svg" = {
+        MimeTypes = "application/pdf";
+        Exec = "${pkgs.pdf2svg}/bin/pdf2svg %f %f.svg";
+      };
+    };
+
     "applications/vim.desktop" = {
       text = lib.generators.toINI {} {
         "Desktop Entry" = {
