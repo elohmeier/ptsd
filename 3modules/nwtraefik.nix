@@ -59,6 +59,7 @@ in
         droneci = 10050;
         ffoxsync = 10077;
         grafana = 10089;
+        home-assistant = 8123;
         influxdb = 10078;
         kapacitor = 10079;
         nerdworkswww = 1080;

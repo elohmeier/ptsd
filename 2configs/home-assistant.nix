@@ -51,6 +51,13 @@ in
     domain
   ];
 
+  ptsd.nwtraefik.services = [
+    {
+      name = "home-assistant";
+      rule = "Host:${domain}";
+    }
+  ];
+
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}
