@@ -27,6 +27,24 @@ in
     }
   ];
 
+  ptsd.nwtelegraf.inputs = {
+    http_response = [
+      {
+        urls = [ "http://${domain}" ];
+      }
+      {
+        urls = [ "https://${domain}/.web" ];
+      }
+    ];
+    x509_cert = [
+      {
+        sources = [
+          "https://${domain}"
+        ];
+      }
+    ];
+  };
+
   ptsd.nwmonit.extraConfig = [
     ''
       check process radicale matching "\.radicale-wrapped"

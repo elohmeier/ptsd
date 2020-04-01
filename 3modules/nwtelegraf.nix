@@ -36,16 +36,11 @@ let
         swap = {};
         system = {};
         temp = {};
-        x509_cert = [
-          {
-            sources = [
-              "https://${config.networking.hostName}.${config.networking.domain}:443"
-            ];
-          }
-        ];
       } // lib.optionalAttrs (cfg.inputs.file != []) { file = cfg.inputs.file; }
       // lib.optionalAttrs (cfg.inputs.http != []) { http = cfg.inputs.http; }
-      // lib.optionalAttrs (cfg.inputs.influxdb != []) { influxdb = cfg.inputs.influxdb; };
+      // lib.optionalAttrs (cfg.inputs.http_response != []) { http_response = cfg.inputs.http_response; }
+      // lib.optionalAttrs (cfg.inputs.influxdb != []) { influxdb = cfg.inputs.influxdb; }
+      // lib.optionalAttrs (cfg.inputs.x509_cert != []) { x509_cert = cfg.inputs.x509_cert; };
     };
 in
 {
@@ -60,7 +55,9 @@ in
             # extend as needed
             file = mkOption { type = types.listOf types.attrs; };
             http = mkOption { type = types.listOf types.attrs; };
+            http_response = mkOption { type = types.listOf types.attrs; };
             influxdb = mkOption { type = types.listOf types.attrs; };
+            x509_cert = mkOption { type = types.listOf types.attrs; };
           };
         };
       };

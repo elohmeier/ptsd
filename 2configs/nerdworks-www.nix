@@ -59,6 +59,26 @@ in
     }
   ];
 
+  ptsd.nwtelegraf.inputs = {
+    http_response = [
+      {
+        urls = [ "http://www.nerdworks.de" "http://nerdworks.de" "https://nerdworks.de" ];
+      }
+      {
+        urls = [ "https://www.nerdworks.de" ];
+        response_string_match = "Nerdworks Hamburg unterstützt Unternehmen bei";
+      }
+    ];
+    x509_cert = [
+      {
+        sources = [
+          "https://nerdworks.de"
+          "https://www.nerdworks.de"
+        ];
+      }
+    ];
+  };
+
   ptsd.nwmonit.extraConfig = [
     ''
       check host www.nerdworks.de with address www.nerdworks.de

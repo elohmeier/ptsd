@@ -58,6 +58,21 @@ in
     }
   ];
 
+  ptsd.nwtelegraf.inputs = {
+    http_response = [
+      {
+        urls = [ "http://${domain}" "https://${domain}/update" ];
+      }
+    ];
+    x509_cert = [
+      {
+        sources = [
+          "https://${domain}"
+        ];
+      }
+    ];
+  };
+
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}

@@ -153,6 +153,25 @@ in
     }
   ];
 
+  ptsd.nwtelegraf.inputs = {
+    http_response = [
+      {
+        urls = [ "http://${domain}" ];
+      }
+      {
+        urls = [ "https://${domain}/login" ];
+        response_string_match = "a safe home for all your data";
+      }
+    ];
+    x509_cert = [
+      {
+        sources = [
+          "https://${domain}"
+        ];
+      }
+    ];
+  };
+
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}

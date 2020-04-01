@@ -167,6 +167,25 @@ in
     domain
   ];
 
+  ptsd.nwtelegraf.inputs = {
+    http_response = [
+      {
+        urls = [ "http://${domain}" ];
+      }
+      {
+        urls = [ "https://${domain}" ];
+        response_string_match = "Monica – personal relationship manager";
+      }
+    ];
+    x509_cert = [
+      {
+        sources = [
+          "https://${domain}"
+        ];
+      }
+    ];
+  };
+
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}

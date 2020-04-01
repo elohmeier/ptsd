@@ -56,6 +56,21 @@ in
     }
   ];
 
+  ptsd.nwtelegraf.inputs = {
+    http_response = [
+      {
+        urls = [ "http://${domain}" "https://${domain}/query" "https://${domain}/kapacitor" ];
+      }
+    ];
+    x509_cert = [
+      {
+        sources = [
+          "https://${domain}"
+        ];
+      }
+    ];
+  };
+
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}

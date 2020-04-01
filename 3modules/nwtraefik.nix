@@ -176,6 +176,15 @@ in
           members = [ "traefik" ];
         };
 
+        ptsd.nwtelegraf.inputs.x509_cert = [
+          {
+            sources = [
+              "http://${config.networking.hostName}.${config.networking.domain}:${cfg.http}"
+              "https://${config.networking.hostName}.${config.networking.domain}:${cfg.httpsPort}"
+            ];
+          }
+        ];
+
       }
     )
   ];
