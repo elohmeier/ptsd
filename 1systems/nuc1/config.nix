@@ -8,61 +8,14 @@
       <ptsd/2configs/bs53lan.nix>
       <ptsd/2configs/cli-tools.nix>
       <ptsd/2configs/nwhost.nix>
-      <ptsd/2configs/vsftpd.nix>
       <secrets-shared/nwsecrets.nix>
 
       <ptsd/2configs/postgresql.nix>
     ];
 
-  users.users.media = {
-    name = "media";
-    isSystemUser = true;
-    home = "/mnt/int/media";
-    createHome = false;
-    useDefaultShell = true;
-    uid = 1001;
-    description = "Media User";
-    extraGroups = [];
-  };
-
   ptsd.nwbackup-server = {
     enable = true;
     zpool = "nw27";
-  };
-
-  ptsd.nwtelegraf = {
-    extraConfig = {
-      inputs.http = [
-        {
-          name_override = "email";
-          urls = [ "http://127.0.0.1:8000/mail" ];
-          data_format = "json";
-          tag_keys = [ "account" "folder" ];
-        }
-        {
-          name_override = "todoist";
-          urls = [ "http://127.0.0.1:8000/todoist" ];
-          data_format = "json";
-          tag_keys = [ "project" ];
-        }
-        {
-          name_override = "nobbofin";
-          urls = [ "http://127.0.0.1:8000/nobbofin" ];
-          data_format = "json";
-        }
-      ];
-      inputs.x509_cert = [
-        {
-          sources = [
-            "https://${config.networking.hostName}.${config.networking.domain}:443"
-          ];
-        }
-      ];
-    };
-  };
-
-  services.nwstats = {
-    enable = true;
   };
 
   # environment.variables = {

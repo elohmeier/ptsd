@@ -6,7 +6,7 @@ let
   gunicorn = pkgs.python3Packages.gunicorn;
   nwstats = pkgs.python3Packages.callPackage <ptsd/5pkgs/nwstats> {};
   python = pkgs.python3Packages.python;
-  cfg = config.services.nwstats;
+  cfg = config.ptsd.nwstats;
   configFile = pkgs.writeText "nwstats.cfg" ''
     SECRET_KEY="${cfg.secretKey}"
     TODOIST_API_KEY="${cfg.todoistApiKey}"
@@ -20,7 +20,7 @@ let
 in
 {
   options = {
-    services.nwstats = {
+    ptsd.nwstats = {
       enable = mkEnableOption "nwstats";
       dataDir = mkOption {
         default = "/var/lib/nwstats";

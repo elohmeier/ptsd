@@ -18,6 +18,7 @@ _:
     ./nwvpn.nix
     ./nwvpn-server.nix
     ./radicale.nix
+    ./samba-sonos.nix
     ./secrets.nix
     ./traefik-forward-auth.nix
     ./vdi-container.nix

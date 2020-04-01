@@ -14,10 +14,10 @@ with import <ptsd/lib>;
     <ptsd/2configs/monica-nginx.nix>
     <ptsd/2configs/mosquitto.nix>
     <ptsd/2configs/nwhost.nix>
+    <ptsd/2configs/nwstats-telegraf.nix>
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/nobbofin-autofetch.nix>
     <ptsd/2configs/postgresql.nix>
-    <ptsd/2configs/samba.nix>
 
     <secrets-shared/nwsecrets.nix>
   ];
@@ -43,5 +43,10 @@ with import <ptsd/lib>;
   ptsd.nwbackup-server = {
     enable = true;
     zpool = "tank";
+  };
+
+  ptsd.samba-sonos = {
+    enable = true;
+    mediaPath = "/tank/enc/media";
   };
 }
