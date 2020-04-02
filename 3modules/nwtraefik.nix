@@ -65,20 +65,13 @@ in
         nerdworkswww = 1080;
         nextcloud = 1082;
         nginx-monica = 10090;
-        nginx-htz2 = 10091;
+        nginx-htz3 = 10091;
         nwgit = 10055;
         radicale = 5232;
       };
     }
     (
       mkIf cfg.enable {
-        assertions =
-          [
-            {
-              assertion = config.ptsd.lego.enable;
-              message = "nwtraefik requires lego to be enabled.";
-            }
-          ];
 
         services.traefik = {
           enable = true;
@@ -107,6 +100,7 @@ in
                     "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
                     "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
                   ];
+                } // lib.optionalAttrs config.ptsd.lego.enable {
                   certificates = [
                     {
                       certFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
@@ -172,8 +166,8 @@ in
           };
         };
 
-        users.groups.lego = {
-          members = [ "traefik" ];
+        users.groups = lib.optionalAttrs config.ptsd.lego.enable {
+          lego.members = [ "traefik" ];
         };
 
         ptsd.nwtelegraf.inputs.x509_cert = [
