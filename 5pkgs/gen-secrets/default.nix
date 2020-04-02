@@ -9,7 +9,7 @@ pkgs.writeDashBin "gen-secrets" ''
   ${pkgs.wireguard}/bin/wg genkey > $TMPDIR/nwvpn.key 2>/dev/null
   ${pkgs.coreutils}/bin/cat $TMPDIR/nwvpn.key | ${pkgs.wireguard}/bin/wg pubkey > $TMPDIR/nwvpn.pub
   ${pkgs.pwgen}/bin/pwgen 25 1 > $TMPDIR/nwbackup.borgkey
-  ${pkgs.dropbear}/bin/dropbearkey -t ecdsa -f $TMPDIR/initrd-ssh-key -C "" > /dev/null 2>/dev/null
+  ${pkgs.dropbear}/bin/dropbearkey -t ecdsa -f $TMPDIR/initrd-ssh-key > /dev/null 2>/dev/null
   ${pkgs.openssl}/bin/openssl ecparam -name secp384r1 -genkey -noout -out $TMPDIR/syncthing.key 2>/dev/null > /dev/null
   ${pkgs.openssl}/bin/openssl req -new -x509 -key $TMPDIR/syncthing.key -out $TMPDIR/syncthing.crt -days 10000 -subj "/CN=syncthing" 2>/dev/null > /dev/null
 
