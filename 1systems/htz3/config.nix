@@ -7,6 +7,8 @@
       <ptsd/2configs>
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
+
+      <ptsd/2configs/google-protected-web.nix>
     ];
 
   networking = {
@@ -31,4 +33,6 @@
   # cp: cannot stat '/var/src/secrets/initrd-ssh-key': No such file or directory
   # builder for '/nix/store/dwlv0grq7lmjayl1kk1jhsvgfz5flbwk-extra-utils.drv' failed with exit code 1
   boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
+
+  ptsd.nwtraefik.enable = true;
 }

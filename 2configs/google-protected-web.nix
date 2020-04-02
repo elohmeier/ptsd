@@ -10,11 +10,11 @@
 
     virtualHosts = {
       # vHost to be protected
-      "htz2.host.nerdworks.de" = {
+      "htz3.host.fraam.de" = {
         listen = [
           {
             addr = "127.0.0.1";
-            port = config.ptsd.nwtraefik.ports.nginx-htz2;
+            port = config.ptsd.nwtraefik.ports.nginx-htz3;
           }
         ];
         locations."/" = {
@@ -33,8 +33,8 @@
 
   ptsd.nwtraefik.services = [
     {
-      name = "nginx-htz2";
-      rule = "Host:htz2.host.nerdworks.de";
+      name = "nginx-htz3";
+      rule = "Host:htz3.host.fraam.de";
       auth.forward = {
         address = "http://localhost:4181";
         authResponseHeaders = [ "X-Forwarded-User" ];
