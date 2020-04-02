@@ -53,11 +53,11 @@ in
         type = types.submodule {
           options = {
             # extend as needed
-            file = mkOption { type = types.listOf types.attrs; };
-            http = mkOption { type = types.listOf types.attrs; };
-            http_response = mkOption { type = types.listOf types.attrs; };
-            influxdb = mkOption { type = types.listOf types.attrs; };
-            x509_cert = mkOption { type = types.listOf types.attrs; };
+            file = mkOption { type = types.listOf types.attrs; default = []; };
+            http = mkOption { type = types.listOf types.attrs; default = []; };
+            http_response = mkOption { type = types.listOf types.attrs; default = []; };
+            influxdb = mkOption { type = types.listOf types.attrs; default = []; };
+            x509_cert = mkOption { type = types.listOf types.attrs; default = []; };
           };
         };
       };
