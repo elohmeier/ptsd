@@ -36,8 +36,10 @@ in
         module g711.so # Audio codec
 
         module pulse.so  # Audio driver
-        audio_player pulse,bluez_sink.04_52_C7_0C_C1_61.headset_head_unit
-        audio_source pulse,bluez_source.04_52_C7_0C_C1_61.headset_head_unit
+        #audio_player pulse,bluez_sink.04_52_C7_0C_C1_61.headset_head_unit
+        #audio_source pulse,bluez_source.04_52_C7_0C_C1_61.headset_head_unit
+        audio_player pulse,alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21
+        audio_source pulse,alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo
         audio_alert pulse,alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo
 
         module stun.so
