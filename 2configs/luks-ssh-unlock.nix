@@ -16,19 +16,12 @@ in
 
   # use network cfg like this:
   # networking.useDHCP = false;
-  # networking.interfaces."eth0".useDHCP = true;
+  # networking.interfaces."ensX".useDHCP = true;
   # (tested with networkd)
 
   # find your network driver module name using
   # `ls -l /sys/class/net/<devname>/device/driver`
   # and add it to boot.initrd.availableKernelModules
-
-  # rename your primary ethernet device to "eth0", because
-  # this is probably the name used inside the initrd.
-  # e.g.
-  #services.udev.extraRules = ''
-  #  SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="a8:a1:59:04:c6:f8", NAME="eth0"
-  #'';
 
   boot.initrd = {
     extraUtilsCommands = ''
