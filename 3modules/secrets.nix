@@ -53,9 +53,6 @@ in
       );
       script = ''
         echo setting up secrets...
-        mkdir -p /run/keys -m 0755
-        chmod 0755 /run/keys
-        chown root:keys /run/keys
         ${concatMapStringsSep "\n" (
         file: ''
           ${pkgs.coreutils}/bin/install \
