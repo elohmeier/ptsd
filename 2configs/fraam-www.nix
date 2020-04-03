@@ -14,7 +14,7 @@ let
   };
 
   phpPackage = pkgs.php;
-  phpEnv ={};
+  phpEnv = {};
 in
 {
   containers.wpjail = {
