@@ -5,21 +5,25 @@ import subprocess
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--ip", default="192.168.101.188")
+parser.add_argument("--arg")
 parser.add_argument("prog")
-parser.add_argument("arg")
 args = parser.parse_args()
 
 loc_map = {"/home/enno/": "Z:\\"}
 
 arg = args.arg
 
-for k, v in loc_map.items():
-    if arg.startswith(k):
-        arg = arg.replace(k, v)
-        break
+if arg:
+    for k, v in loc_map.items():
+        if arg.startswith(k):
+            arg = arg.replace(k, v)
+            break
 
-arg = arg.replace("/", "\\")
-data = [args.prog, arg]
+    arg = arg.replace("/", "\\")
+    data = [args.prog, arg]
+else:
+    data = [args.prog]
+
 print(data)
 
 p = subprocess.Popen(
@@ -48,4 +52,4 @@ except KeyboardInterrupt:
 
 # keep process/window running/open to see output,
 # will be hidden by file-manager by default.
-input()
+# input()

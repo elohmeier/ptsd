@@ -74,7 +74,7 @@ in
           "Desktop Entry" = {
             Name = "Excel (RDP)";
             Comment = "Edit file using Excel via RDP";
-            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"} %F";
+            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"} --arg %F";
             #Terminal = true; # uncomment to debug rdp-assi-client.py
             Type = "Application";
             MimeType = "application/vnd.ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.openxmlformats-officedocument.spreadsheetml.template;application/vnd.ms-excel.sheet.macroEnabled.12;application/vnd.ms-excel.template.macroEnabled.12;application/vnd.oasis.opendocument.spreadsheet;";
@@ -89,7 +89,7 @@ in
           "Desktop Entry" = {
             Name = "Word (RDP)";
             Comment = "Edit file using Word via RDP";
-            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"} %F";
+            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"} --arg %F";
             #Terminal = true; # uncomment to debug rdp-assi-client.py
             Type = "Application";
             MimeType = "application/msword;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.openxmlformats-officedocument.wordprocessingml.template;application/vnd.oasis.opendocument.text;";
@@ -104,7 +104,7 @@ in
           "Desktop Entry" = {
             Name = "PowerPoint (RDP)";
             Comment = "Edit file using PowerPoint via RDP";
-            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"} %F";
+            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"} --arg %F";
             #Terminal = true; # uncomment to debug rdp-assi-client.py
             Type = "Application";
             MimeType = "application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.oasis.opendocument.presentation;";
@@ -113,4 +113,10 @@ in
         onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
       };
   };
+
+  home.packages = [
+    (pkgs.writeBashBin "excel-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"}'')
+    (pkgs.writeBashBin "word-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}'')
+    (pkgs.writeBashBin "powerpoint-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"}'')
+  ];
 }
