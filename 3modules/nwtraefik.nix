@@ -38,6 +38,7 @@ in
               name = mkOption { type = types.str; };
               rule = mkOption { type = types.str; };
               auth = mkOption { type = types.attrs; default = {}; };
+              url = mkOption { type = types.str; default = ""; };
             };
           }
         );
@@ -141,7 +142,7 @@ in
                 svc: {
                   name = svc.name;
                   value = {
-                    servers.s1.url = "http://localhost:${toString cfg.ports."${svc.name}"}";
+                    servers.s1.url = if (svc.url != "") then svc.url else "http://localhost:${toString cfg.ports."${svc.name}"}";
                   };
                 }
               ) cfg.services
@@ -173,8 +174,8 @@ in
         ptsd.nwtelegraf.inputs.x509_cert = [
           {
             sources = [
-              "http://${config.networking.hostName}.${config.networking.domain}:${cfg.http}"
-              "https://${config.networking.hostName}.${config.networking.domain}:${cfg.httpsPort}"
+              "http://${config.networking.hostName}.${config.networking.domain}:${toString cfg.httpPort}"
+              "https://${config.networking.hostName}.${config.networking.domain}:${toString cfg.httpsPort}"
             ];
           }
         ];
