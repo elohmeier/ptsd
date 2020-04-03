@@ -16,6 +16,8 @@ with import <ptsd/lib>;
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
+
+    <ptsd/2configs/fraam-www.nix>
   ];
 
   # default: poweroff
@@ -116,5 +118,9 @@ with import <ptsd/lib>;
   networking.firewall.interfaces.virbr4 = {
     allowedTCPPorts = [ 445 139 ];
     allowedUDPPorts = [ 137 138 ];
+  };
+
+  ptsd.nwtraefik = {
+    enable = true;
   };
 }
