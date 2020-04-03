@@ -174,7 +174,6 @@ in
         ptsd.nwtelegraf.inputs.x509_cert = [
           {
             sources = [
-              "http://${config.networking.hostName}.${config.networking.domain}:${toString cfg.httpPort}"
               "https://${config.networking.hostName}.${config.networking.domain}:${toString cfg.httpsPort}"
             ];
           }
