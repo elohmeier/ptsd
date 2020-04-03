@@ -57,7 +57,7 @@ in
       #thunderbird
       sylpheed
 
-      #unstable.zoom-us
+      unstable.zoom-us
 
       pulseeffects
 
