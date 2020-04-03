@@ -51,8 +51,4 @@ in
   #     device = "/swapfile";
   #   }
   # ];
-
-  services.udev.extraRules = ''
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="96:00:00:4a:55:70", NAME="eth0"
-  '';
 }
