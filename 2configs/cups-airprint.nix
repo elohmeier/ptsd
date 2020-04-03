@@ -2,6 +2,9 @@
 
 with lib;
 
+let
+  lanDomain = "lan.nerdworks.de";
+in
 {
   system.activationScripts.lego-link-hostname = stringAfter [ "users" "groups" ]
     ''
@@ -59,7 +62,7 @@ with lib;
             <txt-record>rp=printers/MFC7440N</txt-record>
             <txt-record>printer-type=0x1044</txt-record>
             <txt-record>ty=Brother MFC-7360N, using brlaser v4</txt-record>
-            <txt-record>adminurl=ipps://${config.networking.hostName}.${config.networking.domain}/printers/MFC7440N</txt-record>
+            <txt-record>adminurl=ipps://${config.networking.hostName}.${lanDomain}/printers/MFC7440N</txt-record>
           </service>
         </service-group>
       '';
@@ -67,4 +70,8 @@ with lib;
 
     nssmdns = true;
   };
+
+  ptsd.lego.extraDomains = [
+    "${config.networking.hostName}.${lanDomain}"
+  ];
 }
