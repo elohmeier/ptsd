@@ -7,13 +7,11 @@
     #<ptsd/2configs/luks-ssh-unlock.nix>
   ];
 
-  boot.initrd.luks.devices = [
+  boot.initrd.luks.devices.root =
     {
-      name = "root";
       device = "/dev/sda2";
       preLVM = true;
-    }
-  ];
+    };
 
   fileSystems."/" = {
     device = "/dev/vg/root";

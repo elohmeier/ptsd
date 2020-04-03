@@ -9,13 +9,10 @@ let
 in
 {
   # You should configure `boot.initrd.luks.devices` for this to function, e.g.:
-  # boot.initrd.luks.devices = [
-  #   {
-  #     name = "myvg";
-  #     device = "/dev/sda2";
-  #     preLVM = true;
-  #   }
-  # ];
+  # boot.initrd.luks.devices.myvg = {
+  #   device = "/dev/sda2";
+  #   preLVM = true;
+  # };
 
   # use network cfg like this:
   # networking.useDHCP = false;

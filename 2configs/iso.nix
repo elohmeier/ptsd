@@ -22,7 +22,7 @@
   # override default installer behaviour and start sshd by default
   systemd.services.sshd.wantedBy = lib.mkOverride 40 [ "multi-user.target" ];
 
-  i18n.consoleKeyMap = "de-latin1";
+  console.keyMap = "de-latin1";
 
   services.resolved.enable = true;
   networking.wireless.enable = false;

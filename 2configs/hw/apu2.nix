@@ -16,5 +16,5 @@
 
   nix.maxJobs = lib.mkDefault 4;
 
-  i18n.consoleKeyMap = "de-latin1";
+  console.keyMap = "de-latin1";
 }

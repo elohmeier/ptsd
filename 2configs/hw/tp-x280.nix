@@ -105,5 +105,5 @@
     };
   };
 
-  i18n.consoleKeyMap = "de-latin1";
+  console.keyMap = "de-latin1";
 }

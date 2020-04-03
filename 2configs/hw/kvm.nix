@@ -22,5 +22,5 @@
   boot.loader.grub.version = 2;
   boot.loader.grub.device = "/dev/vda";
 
-  i18n.consoleKeyMap = "de-latin1";
+  console.keyMap = "de-latin1";
 }

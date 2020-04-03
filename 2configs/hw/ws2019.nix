@@ -104,7 +104,7 @@ in
 
   services.xserver.videoDrivers = [ "nvidia" ];
 
-  i18n.consoleKeyMap = "de-latin1";
+  console.keyMap = "de-latin1";
 
   # set DPI
   services.xserver.displayManager.sessionCommands = ''
