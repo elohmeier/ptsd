@@ -1,14 +1,11 @@
 { config, lib, pkgs, ... }:
 
+# we need at least linux kernel 5.3
+# ref. https://github.com/roadrunner2/macbook12-spi-driver/blob/touchbar-driver-hid-driver/README.md
 {
   imports = [
     <nixpkgs/nixos/modules/hardware/network/broadcom-43xx.nix>
   ];
-
-  # we need at least linux kernel 5.3
-  # ref. https://github.com/roadrunner2/macbook12-spi-driver/blob/touchbar-driver-hid-driver/README.md
-  # reference non-default kernel here for 19.09
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # TODO: test if kernelParams work.
   # applespi is required for keyboard/touchpad support

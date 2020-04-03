@@ -2,17 +2,11 @@
 
 let
   domain = "auth.nerdworks.de";
-
-  # required Go 1.13 not in 19.09
-  unstable = import <nixpkgs-unstable> {
-    config.packageOverrides = import ../5pkgs unstable;
-  };
 in
 {
   ptsd.acme-dns = {
 
     enable = true;
-    package = unstable.acme-dns;
 
     domain = "acme.nerdworks.de";
     nsname = domain;

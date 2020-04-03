@@ -37,7 +37,7 @@ sudo nixos-rebuild -I ptsd=$HOME/ptsd build
 To use the binary cache select a supported channel as the "nixpkgs" channel.
 
 Supported channels:
-* https://nixos.org/channels/nixos-19.09
+* https://nixos.org/channels/nixos-20.03
 * https://nixos.org/channels/nixos-unstable
 
 Use [Cachix](https://cachix.org/) to enable the binary cache by invoking 
