@@ -11,7 +11,7 @@
 
   boot.initrd = {
     availableKernelModules =
-      [ "ata_piix" "uhci_hcd" "virtio_pci" "sd_mod" "sr_mod" ];
+      [ "ata_piix" "uhci_hcd" "virtio_net" "virtio_pci" "sd_mod" "sr_mod" ];
   };
 
   nix.maxJobs = lib.mkDefault 1;
