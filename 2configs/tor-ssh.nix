@@ -30,8 +30,8 @@
       User = "tor";
       Type = "oneshot";
 
-      Restart = "on-failure";
-      RestartSec = "2min";
+      #Restart = "on-failure";
+      #RestartSec = "2min";
     };
   };
 }
