@@ -129,5 +129,7 @@ in
       '';
     };
     networking.firewall.allowedTCPPorts = [ 2812 ];
+
+    # TODO: add https://github.com/influxdata/telegraf/blob/v1.14.0/plugins/inputs/monit/README.md
   };
 }

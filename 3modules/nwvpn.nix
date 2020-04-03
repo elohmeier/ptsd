@@ -95,5 +95,7 @@ in
       };
 
     };
+
+    # TODO: add https://github.com/influxdata/telegraf/blob/v1.14.0/plugins/inputs/wireguard/README.md
   };
 }
