@@ -11,6 +11,7 @@ let
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt lib
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt *.nix
       black .
+      black src/*.pyw
     '';
     mk-drone-yml = "drone jsonnet --stream";
     mk-nwvpn-qr = "nix-build -E 'with import <nixpkgs> {overlays = [(import ./submodules/nix-writers/pkgs)];}; callPackage ./5pkgs/nwvpn-qr {}'";

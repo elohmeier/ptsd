@@ -1,5 +1,10 @@
 { config, lib, pkgs, ... }:
 
+let
+  rdp-assi = prog: pkgs.writeBash "rdp-assi" ''
+    ${pkgs.writePython3 "rdp-assi-client" {} (builtins.readFile ../../src/rdp-assi-client.py)} "${prog}" "$@"
+  '';
+in
 {
   xdg.dataFile = {
 
@@ -63,5 +68,49 @@
       onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
     };
 
+    "applications/excel-rdp.desktop" =
+      {
+        text = lib.generators.toINI {} {
+          "Desktop Entry" = {
+            Name = "Excel (RDP)";
+            Comment = "Edit file using Excel via RDP";
+            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"} %F";
+            #Terminal = true; # uncomment to debug rdp-assi-client.py
+            Type = "Application";
+            MimeType = "application/vnd.ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/vnd.openxmlformats-officedocument.spreadsheetml.template;application/vnd.ms-excel.sheet.macroEnabled.12;application/vnd.ms-excel.template.macroEnabled.12;application/vnd.oasis.opendocument.spreadsheet;";
+          };
+        };
+        onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
+      };
+
+    "applications/word-rdp.desktop" =
+      {
+        text = lib.generators.toINI {} {
+          "Desktop Entry" = {
+            Name = "Word (RDP)";
+            Comment = "Edit file using Word via RDP";
+            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"} %F";
+            #Terminal = true; # uncomment to debug rdp-assi-client.py
+            Type = "Application";
+            MimeType = "application/msword;application/vnd.openxmlformats-officedocument.wordprocessingml.document;application/vnd.openxmlformats-officedocument.wordprocessingml.template;application/vnd.oasis.opendocument.text;";
+          };
+        };
+        onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
+      };
+
+    "applications/powerpoint-rdp.desktop" =
+      {
+        text = lib.generators.toINI {} {
+          "Desktop Entry" = {
+            Name = "PowerPoint (RDP)";
+            Comment = "Edit file using PowerPoint via RDP";
+            Exec = "${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"} %F";
+            #Terminal = true; # uncomment to debug rdp-assi-client.py
+            Type = "Application";
+            MimeType = "application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.openxmlformats-officedocument.presentationml.template;application/vnd.oasis.opendocument.presentation;";
+          };
+        };
+        onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
+      };
   };
 }
