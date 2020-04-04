@@ -1,29 +1,6 @@
 ---
 kind: pipeline
 type: exec
-name: deploy apu1
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: fetch submodules
-  commands:
-  - git submodule update --init --recursive --remote
-
-- name: deploy apu1
-  commands:
-  - eval $(ssh-agent -s)
-  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name apu1 --arg secrets false --arg unstable false -A deploy -I /var/src)
-  environment:
-    SSH_KEY:
-      from_secret: ssh-key
-
----
-kind: pipeline
-type: exec
 name: deploy htz1
 
 platform:
@@ -86,29 +63,6 @@ steps:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
   - $(nix-build --no-out-link krops.nix --argstr name nas1 --arg secrets false --arg unstable false -A deploy -I /var/src)
-  environment:
-    SSH_KEY:
-      from_secret: ssh-key
-
----
-kind: pipeline
-type: exec
-name: deploy nuc1
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: fetch submodules
-  commands:
-  - git submodule update --init --recursive --remote
-
-- name: deploy nuc1
-  commands:
-  - eval $(ssh-agent -s)
-  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name nuc1 --arg secrets false --arg unstable false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key

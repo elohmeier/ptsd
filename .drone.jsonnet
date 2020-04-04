@@ -29,11 +29,11 @@ local DeployPipeline(hostname, populate_unstable) = {
 };
 
 [
-  DeployPipeline("apu1", false),
+  //DeployPipeline("apu1", false),
   DeployPipeline("htz1", true),
   DeployPipeline("htz2", true),
   DeployPipeline("nas1", false),
-  DeployPipeline("nuc1", false),
+  //DeployPipeline("nuc1", false),
   DeployPipeline("ws1", true)
 ]
 

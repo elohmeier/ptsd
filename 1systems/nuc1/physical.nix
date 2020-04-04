@@ -30,28 +30,28 @@
       fsType = "vfat";
     };
 
-  fileSystems."/mnt/int" =
-    {
-      device = "/dev/mapper/int_crypt";
-      fsType = "ext4";
-      encrypted = {
-        enable = true;
-        blkDev = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
-        keyFile = "/mnt-root/var/src/secrets/int-crypt-key";
-        label = "int_crypt";
-      };
-    };
+  # fileSystems."/mnt/int" =
+  #   {
+  #     device = "/dev/mapper/int_crypt";
+  #     fsType = "ext4";
+  #     encrypted = {
+  #       enable = true;
+  #       blkDev = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
+  #       keyFile = "/mnt-root/var/src/secrets/int-crypt-key";
+  #       label = "int_crypt";
+  #     };
+  #   };
 
   # zfs will automatically mount the subvolumes
-  fileSystems."/mnt/backup" =
-    {
-      device = "nw27"; # change the device name here when switching USB drives
-      fsType = "zfs";
-      options = [
-        "nofail"
-        "x-systemd.device-timeout=3s"
-      ];
-    };
+  # fileSystems."/mnt/backup" =
+  #   {
+  #     device = "nw27"; # change the device name here when switching USB drives
+  #     fsType = "zfs";
+  #     options = [
+  #       "nofail"
+  #       "x-systemd.device-timeout=3s"
+  #     ];
+  #   };
 
   swapDevices =
     [
