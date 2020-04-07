@@ -1,6 +1,3 @@
-[submodule "submodules/nix-writers"]
-	path = submodules/nix-writers
-	url = http://cgit.krebsco.de/nix-writers
 [submodule "submodules/krops"]
 	path = submodules/krops
 	url = https://cgit.krebsco.de/krops
