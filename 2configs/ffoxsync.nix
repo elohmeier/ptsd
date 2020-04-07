@@ -4,6 +4,9 @@ let
   domain = "gigs.nerdworks.de";
 in
 {
+  # identity.sync.tokenserver.uri
+  # https://gigs.nerdworks.de/token/1.0/sync/1.5
+
   services.firefox.syncserver = {
     enable = true;
     listen.port = config.ptsd.nwtraefik.ports.ffoxsync;
