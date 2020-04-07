@@ -60,7 +60,6 @@ let
     MFA_ENABLED = "\"false\"";
     ALLOW_STATISTICS_THROUGH_PUBLIC_API_ACCESS = "\"false\"";
     POLICY_COMPLIANT = "\"false\"";
-    REQUIRES_SUBSCRIPTION = "\"false\"";
   };
 in
 {
