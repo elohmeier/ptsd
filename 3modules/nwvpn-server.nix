@@ -41,9 +41,10 @@ in
 
     ptsd.secrets.files."nwvpn.key" = {
       owner = "systemd-network";
-      group-name = "systemd-network";
       mode = "0440";
     };
+
+    users.groups.keys.members = [ "systemd-network" ];
 
     systemd.network = {
       netdevs."10-${cfg.ifname}" = {
