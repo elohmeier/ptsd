@@ -46,6 +46,8 @@
   ];
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+
   # open the syncthing ports
   # https://docs.syncthing.net/users/firewall.html
   networking.firewall.allowedTCPPorts = [ 22000 ];
