@@ -6,8 +6,5 @@
   ];
   nixpkgs = {
     config.packageOverrides = import ./5pkgs pkgs;
-    overlays = [
-      (import ./submodules/nix-writers/pkgs)
-    ];
   };
 }

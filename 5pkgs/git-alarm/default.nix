@@ -1,7 +1,7 @@
-{ pkgs, stdenv, python3Packages, writeText, systemd }:
+{ writers, stdenv, python3Packages, writeText, systemd }:
 
 let
-  runGitAlarm = pkgs.writeDash "runGitAlarm" ''
+  runGitAlarm = writers.writeDash "runGitAlarm" ''
     ${systemd}/bin/systemctl --user start git-alarm.service
   '';
 in

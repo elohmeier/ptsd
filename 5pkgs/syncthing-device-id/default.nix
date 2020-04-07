@@ -1,6 +1,6 @@
-{ openssl, writePython2Bin }:
+{ openssl, writers }:
 
-writePython2Bin "syncthing-device-id" {
+writers.writePython2Bin "syncthing-device-id" {
   flakeIgnore = [
     "E203"
     "E501"

@@ -1,15 +1,15 @@
-{ pkgs }:
+{ writers, pass, qrencode }:
 
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
-pkgs.writeDashBin "nwvpn-qr" ''
+writers.writeDashBin "nwvpn-qr" ''
   set -e
   HOSTNAME="''${1?must provide hostname}"
   IP="''${2?must provide IP address}"
-  PASSWORD=$(${pkgs.pass}/bin/pass hosts/$HOSTNAME/nwvpn.key)
+  PASSWORD=$(${pass}/bin/pass hosts/$HOSTNAME/nwvpn.key)
 
-  ${pkgs.qrencode}/bin/qrencode -t ansiutf8 <<EOF
+  ${qrencode}/bin/qrencode -t ansiutf8 <<EOF
   [Interface]
   Address = $IP/24
   PrivateKey = $PASSWORD

@@ -1,16 +1,24 @@
-{ lib, pkgs, ... }:
+{ lib
+, writers
+, coreutils
+, mkpasswd
+, openssl
+}:
 
-pkgs.writeDashBin "hashPassword" ''
+let
+  path = lib.makeBinPath (
+    [
+      coreutils
+      mkpasswd
+      openssl
+    ]
+  );
+in
+writers.writeDashBin "hashPassword" ''
   # usage: hashPassword [...]
   set -euf
 
-  export PATH=${lib.makeBinPath (
-  with pkgs; [
-    coreutils
-    mkpasswd
-    openssl
-  ]
-)}
+  export PATH=${path}
 
   salt=$(openssl rand -base64 16 | tr -d '+=' | head -c 16)
   exec mkpasswd -m sha-512 -S "$salt" "$@"

@@ -135,7 +135,7 @@
   services.gnome3.gnome-keyring.enable = true;
 
   programs.xss-lock = let
-    notify-pre-lock = pkgs.writeDash "notify-pre-lock" ''    
+    notify-pre-lock = pkgs.writers.writeDash "notify-pre-lock" ''    
     ${pkgs.libnotify}/bin/notify-send "locking soon..."
   '';
   in

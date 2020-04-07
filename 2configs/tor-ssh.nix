@@ -18,7 +18,7 @@
         let
           hsfile = "/var/lib/tor/onion/ssh/hostname";
         in
-          pkgs.writeDash "telegram-announce-ssh" ''
+          pkgs.writers.writeDash "telegram-announce-ssh" ''
             set -efu
             until test -e ${hsfile}; do
               echo "waiting for ${hsfile}"
