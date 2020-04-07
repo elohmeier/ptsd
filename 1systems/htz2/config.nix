@@ -17,24 +17,24 @@
     useNetworkd = true;
     useDHCP = false;
     hostName = "htz2";
-  };
-
-  systemd.network = {
-    enable = true;
-    networks."99-main" = {
-      DHCP = "ipv4";
-      matchConfig = {
-        MACAddress = "96:00:00:2e:6c:29";
+    interfaces.ens3 = {
+      useDHCP = true;
+      ipv6 = {
+        addresses = [ { address = "2a01:4f8:c2c:b468::1"; prefixLength = 64; } ];
       };
-
-      address = [
-        "2a01:4f8:c2c:b468::1/64"
-      ];
-      routes = [
-        { routeConfig = { Gateway = "fe80::1"; }; }
-      ];
     };
   };
+
+  # prevents creation of the following route (`ip -6 route`):
+  # default dev lo proto static metric 1024 pref medium
+  systemd.network.networks."40-ens3".routes = [
+    { routeConfig = { Gateway = "fe80::1"; }; }
+  ];
+
+  # when not null, for whatever reason this fails with:
+  # cp: cannot stat '/var/src/secrets/initrd-ssh-key': No such file or directory
+  # builder for '/nix/store/dwlv0grq7lmjayl1kk1jhsvgfz5flbwk-extra-utils.drv' failed with exit code 1
+  boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
 
   ptsd.nwtraefik.enable = true;
 }

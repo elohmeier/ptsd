@@ -8,7 +8,6 @@
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/nerdworks-www.nix>
       <ptsd/2configs/nwgit.nix>
-      <ptsd/2configs/ffoxsync.nix>
       <ptsd/2configs/drone-ci.nix>
       <ptsd/2configs/wdplaner.nix>
 
@@ -54,11 +53,11 @@
 
   ptsd.nwtraefik = {
     enable = true;
-    #logLevel = "DEBUG";
   };
 
   # currently unused but configured domains
   ptsd.lego.extraDomains = [
+    "gigs.nerdworks.de"
     "kb.nerdworks.de"
     "wiki.nerdworks.de"
     "www-dev.nerdworks.de"
