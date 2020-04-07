@@ -96,6 +96,7 @@ in
 
   services.nextcloud = {
     enable = true;
+    package = pkgs.nextcloud18;
     hostName = domain;
     https = true;
     nginx.enable = true;
