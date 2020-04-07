@@ -60,6 +60,8 @@ in
 
     users.groups.nwstats = {};
 
+    users.groups.keys.members = [ "nwstats" ];
+
     ptsd.secrets.files."nwstats.cfg" = {
       owner = "nwstats";
     };
