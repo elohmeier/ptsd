@@ -30,4 +30,14 @@ stdenv.mkDerivation rec {
     "-DLIB_INSTALL_DIR=${placeholder "out"}/lib/obs"
     "-DSHARE_INSTALL_PREFIX=${placeholder "out"}/lib"
   ];
+
+  postInstall = ''
+    mv $out/lib/obs/obs-plugins $out/lib/obs-plugins
+    rm -rf $out/lib/obs
+
+    mkdir -p $out/lib/obs-plugins/v4l2sink/bin/64bit
+    mkdir -p $out/lib/obs-plugins/v4l2sink/data
+    mv $out/lib/obs-plugins/v4l2sink.so $out/lib/obs-plugins/v4l2sink/bin/64bit/v4l2sink.so
+    mv $out/lib/obs-plugins/v4l2sink/locale $out/lib/obs-plugins/v4l2sink/data/locale
+  '';
 }
