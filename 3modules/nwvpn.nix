@@ -56,9 +56,10 @@ in
 
     ptsd.secrets.files."${cfg.keyname}" = {
       owner = "systemd-network";
-      group-name = "systemd-network";
       mode = "0440";
     };
+
+    users.groups.keys.members = [ "systemd-network" ];
 
     systemd.network = {
 

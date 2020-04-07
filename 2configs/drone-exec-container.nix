@@ -8,7 +8,6 @@ in
     "drone-ci.env" = {};
     "nwvpn-drone.key" = {
       owner = "systemd-network";
-      group-name = "systemd-network";
       mode = "0440";
     };
   };
