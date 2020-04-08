@@ -4,12 +4,9 @@
   imports = [
     <ptsd>
     <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/3modules>
   ];
-
-  ptsd.nwtelegraf.enable = true;
 
   # Make sure zsh lands in /etc/shells
   # to not be affected by user not showing up in LightDM
@@ -21,10 +18,6 @@
   # as recommended in
   # https://github.com/rycee/home-manager/blob/master/modules/programs/zsh.nix
   environment.pathsToLink = [ "/share/zsh" ];
-
-  virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = false; # will be socket-activated
-  virtualisation.libvirtd.enable = true;
 
   ptsd.nwmonit.enable = lib.mkForce false;
 
@@ -40,18 +33,12 @@
     libnotify
     gnupg
     paperkey
-    home-manager
     lxqt.lxqt-policykit # provides a default authentification client for policykit
     nixpkgs-fmt
   ];
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-
-  # open the syncthing ports
-  # https://docs.syncthing.net/users/firewall.html
-  networking.firewall.allowedTCPPorts = [ 22000 ];
-  networking.firewall.allowedUDPPorts = [ 21027 ];
 
   systemd.user.services.pasystray = {
     description = "PulseAudio system tray";
@@ -99,7 +86,6 @@
     package = pkgs.pulseaudioFull; # for bluetooth
     support32Bit = true; # for Steam
   };
-  hardware.firmware = [ pkgs.broadcom-bt-firmware ]; # for the plugable USB stick
   services.blueman.enable = true;
 
   # improved version of the pkgs.blueman-provided user service
@@ -165,8 +151,6 @@
   users.groups.keys.members = [ config.users.users.mainUser.name ];
 
   fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab source-code-pro ];
-
-  #services.teamviewer.enable = true;
 
   # for betaflight-configurator firmware flashing
   # from https://github.com/betaflight/betaflight/wiki/Installing-Betaflight#platform-specific-linux

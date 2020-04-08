@@ -92,6 +92,13 @@ with import <ptsd/lib>;
     dataDir = "/home/enno/";
   };
 
+  # open the syncthing ports
+  # https://docs.syncthing.net/users/firewall.html
+  networking.firewall.allowedTCPPorts = [ 22000 ];
+  networking.firewall.allowedUDPPorts = [ 21027 ];
+
+  hardware.firmware = [ pkgs.broadcom-bt-firmware ]; # for the plugable USB stick
+
   services.samba = {
     enable = true;
     securityType = "user";
@@ -113,7 +120,10 @@ with import <ptsd/lib>;
     };
   };
 
-  environment.systemPackages = with pkgs; [ samba ];
+  environment.systemPackages = with pkgs; [
+    samba
+    home-manager
+  ];
 
   networking.firewall.interfaces.virbr4 = {
     allowedTCPPorts = [ 445 139 ];
@@ -123,4 +133,8 @@ with import <ptsd/lib>;
   ptsd.nwtraefik = {
     enable = true;
   };
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.enableOnBoot = false; # will be socket-activated
+  virtualisation.libvirtd.enable = true;
 }

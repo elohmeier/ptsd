@@ -80,6 +80,11 @@
     dataDir = "/home/enno/";
   };
 
+  # open the syncthing ports
+  # https://docs.syncthing.net/users/firewall.html
+  networking.firewall.allowedTCPPorts = [ 22000 ];
+  networking.firewall.allowedUDPPorts = [ 21027 ];
+
   services.logind.lidSwitch = "suspend-then-hibernate";
 
   services.udev.extraRules = ''
@@ -140,6 +145,7 @@
     powertop
     networkmanagerapplet
     samba
+    home-manager
   ];
 
   services.samba = {
@@ -167,4 +173,8 @@
     allowedTCPPorts = [ 445 139 ];
     allowedUDPPorts = [ 137 138 ];
   };
+
+  virtualisation.docker.enable = true;
+  virtualisation.docker.enableOnBoot = false; # will be socket-activated
+  virtualisation.libvirtd.enable = true;
 }
