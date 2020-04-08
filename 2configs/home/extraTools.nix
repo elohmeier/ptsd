@@ -77,8 +77,6 @@ in
       unstable.xmind
       transmission-gtk
 
-      chromium
-
       #thunderbird
       sylpheed
 
@@ -175,6 +173,15 @@ in
 
       sublime3
     ];
+
+  programs.chromium = {
+    enable = true;
+  };
+
+  programs.browserpass = {
+    enable = true;
+    browsers = [ "chromium" ];
+  };
 
   # fix font antialiasing in mucommander
   home.sessionVariables._JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";

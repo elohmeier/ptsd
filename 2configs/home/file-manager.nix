@@ -1,12 +1,21 @@
 { config, lib, pkgs, ... }:
 
 let
-  rdp-assi = prog: pkgs.writeBash "rdp-assi" ''
-    ${pkgs.writePython3 "rdp-assi-client" {} (builtins.readFile ../../src/rdp-assi-client.py)} "${prog}" "$@"
+  rdp-assi = prog: pkgs.writers.writeDash "rdp-assi" ''
+    ${pkgs.writers.writePython3 "rdp-assi-client" {} (builtins.readFile ../../src/rdp-assi-client.py)} "${prog}" "$@"
   '';
 in
 {
   xdg.dataFile = {
+
+    # not working
+    # "mime/application/vnd.jgraph.mxfile.xml".text = ''
+    #   <?xml version="1.0" encoding="utf-8"?>
+    #   <mime-type xmlns="http://www.freedesktop.org/standards/shared-mime-info" type="application/vnd.jgraph.mxfile">
+    #     <comment>JGraph MXFile</comment>
+    #     <glob pattern="*.drawio"/>
+    #   </mime-type>
+    # '';
 
     "file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI {} {
       "Desktop Entry" = {
@@ -115,8 +124,8 @@ in
   };
 
   home.packages = [
-    (pkgs.writeBashBin "excel-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"}'')
-    (pkgs.writeBashBin "word-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}'')
-    (pkgs.writeBashBin "powerpoint-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"}'')
+    (pkgs.writers.writeDashBin "excel-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"}'')
+    (pkgs.writers.writeDashBin "word-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}'')
+    (pkgs.writers.writeDashBin "powerpoint-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"}'')
   ];
 }

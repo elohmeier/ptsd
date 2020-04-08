@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  writeSong = pkgs.writeBash "write-current-song" ''
+  writeSong = pkgs.writers.writeDash "write-current-song" ''
     ${pkgs.playerctl}/bin/playerctl metadata --format '{{xesam:artist}} - {{xesam:title}}' > ${config.xdg.dataHome}/current_song.txt
     rc=$?; if [[ $rc != 0 ]]; then echo "" > ${config.xdg.dataHome}/current_song.txt; fi
   '';
