@@ -13,7 +13,6 @@ let
       autoStart = true;
       hostBridge = "br0";
       privateNetwork = true;
-      localAddress = values.localAddress;
       bindMounts = {
         "/run/keys" = {
           hostPath = "/run/keys";
@@ -39,6 +38,7 @@ let
               useHostResolvConf = false;
               nameservers = [ "8.8.8.8" "8.8.4.4" ];
               useNetworkd = true;
+              interfaces.eth0.useDHCP = true;
             };
 
             time.timeZone = "Europe/Berlin";
@@ -204,7 +204,6 @@ in
       root = "/var/lib/nextcloud/data/enno/files";
     in
       {
-        localAddress = "192.168.178.233/24";
         folders = {
           "${root}/Pocket" = {
             id = "hmekh-kgprn";
@@ -222,7 +221,6 @@ in
       root = "/var/lib/nextcloud/data/luisa/files";
     in
       {
-        localAddress = "192.168.178.234/24";
         folders = {
           "${root}/LuNo" = {
             id = "3ull9-9deg4";
