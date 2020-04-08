@@ -12,6 +12,7 @@ with import <ptsd/lib>;
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/dovecot.nix>
     <ptsd/2configs/drone-exec-container.nix>
+    <ptsd/2configs/syncthing.nix>
 
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
@@ -32,7 +33,7 @@ with import <ptsd/lib>;
 
   ptsd.vdi-container = {
     enable = true;
-    extIf = "virbr0";
+    extIf = "br0";
   };
 
   services.xserver.xrandrHeads = [
@@ -49,53 +50,13 @@ with import <ptsd/lib>;
     hostName = "ws1";
     useNetworkd = true;
     useDHCP = false;
-  };
 
-  systemd.network = {
-    enable = true;
-    networks = {
-      "99-main" = {
-        matchConfig = {
-          MACAddress = "00:d8:61:77:1c:77";
-        };
-        networkConfig = {
-          Bridge = "virbr0";
-        };
-      };
-      "virbr0" = {
-        DHCP = "yes";
-        #dhcpConfig = { UseDNS = false; };
-        #dns = ["192.168.178.10"];
-        matchConfig = {
-          Name = "virbr0";
-        };
-      };
-    };
-    netdevs = {
-      "virbr0" = {
-        netdevConfig = {
-          Name = "virbr0";
-          Kind = "bridge";
-        };
-      };
-    };
+    bridges.br0.interfaces = [ "enp39s0" ];
+    interfaces.br0.useDHCP = true;
   };
 
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [ brlaser ];
-
-  services.syncthing = {
-    enable = true;
-    user = "enno";
-    group = "users";
-    configDir = "/home/enno/.config/syncthing";
-    dataDir = "/home/enno/";
-  };
-
-  # open the syncthing ports
-  # https://docs.syncthing.net/users/firewall.html
-  networking.firewall.allowedTCPPorts = [ 22000 ];
-  networking.firewall.allowedUDPPorts = [ 21027 ];
 
   hardware.firmware = [ pkgs.broadcom-bt-firmware ]; # for the plugable USB stick
 
