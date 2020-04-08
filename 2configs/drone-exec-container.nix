@@ -14,10 +14,9 @@ in
 
   containers.drone = {
     autoStart = true;
-    enableTun = true;
+    hostBridge = "br0";
     privateNetwork = true;
-    hostAddress = "192.168.100.10";
-    localAddress = "192.168.100.99";
+    enableTun = true;
     bindMounts = {
       "/run/keys" = {
         hostPath = "/run/keys";
@@ -43,6 +42,7 @@ in
             useHostResolvConf = false;
             nameservers = [ "8.8.8.8" "8.8.4.4" ];
             useNetworkd = true;
+            interfaces.eth0.useDHCP = true;
           };
 
           ptsd.nwvpn = {
