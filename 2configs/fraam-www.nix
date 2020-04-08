@@ -19,9 +19,8 @@ in
 {
   containers.wpjail = {
     autoStart = true;
+    hostBridge = "br0";
     privateNetwork = true;
-    hostAddress = "192.168.0.1";
-    localAddress = "192.168.0.2";
     bindMounts = {
       "/var/lib/mysql" = {
         hostPath = "/home/enno/Downloads/wp_mysql";
@@ -47,6 +46,7 @@ in
             useHostResolvConf = false;
             nameservers = [ "8.8.8.8" "8.8.4.4" ];
             useNetworkd = true;
+            interfaces.eth0.useDHCP = true;
           };
 
           time.timeZone = "Europe/Berlin";
