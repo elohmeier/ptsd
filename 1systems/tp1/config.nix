@@ -9,6 +9,7 @@
     <ptsd/2configs/baseX.nix>
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/dovecot.nix>
+    <ptsd/2configs/syncthing.nix>
 
     <ptsd/2configs/xfce.nix>
     #<ptsd/2configs/themes/chicago95.nix>
@@ -71,19 +72,6 @@
 
   #  services.avahi.enable = true;
   services.avahi.enable = false;
-
-  services.syncthing = {
-    enable = true;
-    user = "enno";
-    group = "users";
-    configDir = "/home/enno/.config/syncthing";
-    dataDir = "/home/enno/";
-  };
-
-  # open the syncthing ports
-  # https://docs.syncthing.net/users/firewall.html
-  networking.firewall.allowedTCPPorts = [ 22000 ];
-  networking.firewall.allowedUDPPorts = [ 21027 ];
 
   services.logind.lidSwitch = "suspend-then-hibernate";
 
