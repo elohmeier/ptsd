@@ -203,7 +203,7 @@ in
       repos = mkOption {
         default = {
           nas1 = "borg-${config.networking.hostName}@nas1.host.nerdworks.de:.";
-          nuc1 = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:.";
+          #nuc1 = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:."; # deprovisioned
           #eee1 = "borg-${config.networking.hostName}@eee1.host.nerdworks.de:."; # temporarily unavailable
         };
         type = with types; attrsOf str;
@@ -214,7 +214,7 @@ in
   config = mkIf cfg.enable {
     services.borgbackup.jobs = mapAttrs' generateJob cfg.repos;
 
-    systemd.services = mapAttrs' mkInitRepoService cfg.repos;
+    #systemd.services = mapAttrs' mkInitRepoService cfg.repos;
 
     environment.variables = {
       BORG_REPO = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:.";
