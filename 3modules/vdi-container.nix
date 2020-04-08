@@ -76,14 +76,7 @@ in
       default = [];
       description = "Extra CA Certificates for Citrix Workspace";
     };
-    vpnHosts = mkOption {
-      type = types.attrs;
-      description = "Hosts to be made available over the VPN connection. Routes will be set and Hosts-File Entries will be added in the container.";
-    };
     vpnUsername = mkOption {
-      type = types.str;
-    };
-    vpnPassword = mkOption {
       type = types.str;
     };
     vpnUrl = mkOption {
@@ -147,8 +140,6 @@ in
             networking = {
               useHostResolvConf = false;
               nameservers = [ "8.8.8.8" "8.8.4.4" ]; # will be used for VPN DNS lookup
-
-              extraHosts = concatStringsSep "\n" (mapAttrsToList (ip: hostname: ip + " " + hostname) cfg.vpnHosts);
               useNetworkd = true;
             };
 
@@ -159,23 +150,19 @@ in
               supportedLocales = [ "${cfg.containerLocale}/UTF-8" ];
             };
 
-            # TODO: Allow systemctl without password, not working currently
-            #            security.sudo.extraRules = [
-            #              {
-            #                groups = [ "vpn" ];
-            #                commands = [ { command = "${pkgs.systemd}/bin/systemctl"; options = [ "NOPASSWD" ]; } ];
-            #              }
-            #            ];
-            #
-            #            users.groups.vpn = {};
-            #            users.users.mainUser.extraGroups = [ "vpn" ];
+            security.sudo.extraRules = lib.mkAfter [
+              {
+                users = [ config.users.users.mainUser.name ];
+                commands = [ { command = "${pkgs.openconnect}/bin/openconnect"; options = [ "NOPASSWD" "SETENV" ]; } ];
+              }
+            ];
 
             users.motd = ''
                           ** Welcome **
 
               1. Launch "${cfg.name}-xephyr" on the host
-              2. Use "sudo systemctl start vpn" to connect to the VPN.
-              3. Run "icewm-session" inside the container
+              2. Use "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}" to connect to the VPN.
+              3. Run "icewm-session" (inside the container)
               4. In Firefox: Login to the Firewall && Login to Citrix and open the connection file (e.g. from the browser)
               5. ????
               6. PROFIT!!!
@@ -183,31 +170,11 @@ in
 
             environment.systemPackages = with pkgs; [
               caWorkspace
+              dnsutils
               firefox
               openconnect
               icewm
             ];
-
-            systemd.services.vpn = {
-              description = "OpenConnect VPN connection";
-              requires = [ "network-online.target" ];
-              after = [ "network.target" "network-online.target" ];
-              path = with pkgs; [
-                nettools
-                inetutils
-              ];
-              serviceConfig = {
-                ExecStart = "${pkgs.bash}/bin/bash -c 'echo ${cfg.vpnPassword} | ${pkgs.openconnect}/bin/openconnect --user=${cfg.vpnUsername} --passwd-on-stdin ${cfg.vpnUrl}'";
-                Restart = "no";
-              };
-              postStart = ''
-                # Wait for tun0 to come up
-                while ! grep -q tun0 </proc/net/dev; do sleep 1; done
-
-                # Add routes
-                ${concatStringsSep "\n" (mapAttrsToList (ip: _: "${pkgs.iproute}/bin/ip route add " + ip + "/32 dev tun0") cfg.vpnHosts)}
-              '';
-            };
           };
     };
   };
