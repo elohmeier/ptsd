@@ -13,7 +13,6 @@ in
 
   boot.initrd.luks.devices.sysVG = {
     device = "${disk}-part2";
-    preLVM = true;
   };
 
   fileSystems."/" =

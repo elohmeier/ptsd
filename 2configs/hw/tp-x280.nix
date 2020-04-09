@@ -49,11 +49,6 @@
   nix.maxJobs = lib.mkDefault 8;
   powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
 
-  services.udev.extraRules = ''
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="8c:16:45:ba:e5:88", NAME="eth0"
-    SUBSYSTEM=="net", ACTION=="add", ATTR{address}=="c0:b6:f9:95:d0:e9", NAME="wlan0"
-  '';
-
   # sample to pass USB access to VM
   # see https://github.com/NixOS/nixpkgs/issues/27199
   # SUBSYSTEM=="usb", ATTR{idVendor}=="072f", ATTR{idProduct}=="90cc", GROUP="users", MODE="0777"

@@ -23,7 +23,7 @@ in
   ptsd.i3 = {
     showBatteryStatus = false;
     showWifiStatus = false;
-    ethIf = "virbr0";
+    ethIf = "br0";
   };
 
   home = {

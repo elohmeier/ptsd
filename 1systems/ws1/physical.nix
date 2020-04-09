@@ -12,8 +12,18 @@ in
 
   system.stateVersion = "19.09";
 
-  boot.initrd.luks.devices.p5 = {
-    device = "${disk}-part5";
+  boot.initrd.luks.devices = {
+    p5 = {
+      device = "${disk}-part5";
+    };
+
+    usbssd = {
+      device = "/dev/disk/by-id/usb-Inateck_NS1066_0123456789ABCDE-0:0-part1";
+      preLVM = false;
+      keyFile = "${vgPrefix}-usbssdkey";
+      keyFileSize = 4096;
+      fallbackToPassword = true;
+    };
   };
 
   fileSystems."/" =
