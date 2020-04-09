@@ -3,7 +3,7 @@
 {
   imports = [ <ptsd/2configs/darwin-base.nix> ];
 
-  users.users.enno.uid = 501;
+  users.users.enno.uid = 502;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
