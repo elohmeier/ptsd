@@ -3,6 +3,10 @@
 {
   imports = [ <ptsd/2configs/darwin-base.nix> ];
 
+  home-manager.users.enno = { pkgs, ... }: {
+    imports = [ <ptsd/2configs/darwin-home.nix> ];
+  };
+
   users.users.enno.uid = 502;
 
   # Used for backwards compatibility, please read the changelog before changing.

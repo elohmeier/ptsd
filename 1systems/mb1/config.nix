@@ -3,6 +3,15 @@
 {
   imports = [ <ptsd/2configs/darwin-base.nix> ];
 
+  home-manager.users.enno = { pkgs, ... }: {
+    imports = [ <ptsd/2configs/darwin-home.nix> ];
+
+    programs.gnupg.agent = {
+      enable = true;
+      enableSSHSupport = true;
+    };
+  };
+
   users.users.enno.uid = 501;
 
   # Used for backwards compatibility, please read the changelog before changing.

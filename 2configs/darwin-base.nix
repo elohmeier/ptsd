@@ -3,10 +3,6 @@
 {
   imports = [ <home-manager/nix-darwin> ];
 
-  home-manager.users.enno = { pkgs, ... }: {
-    imports = [ ./darwin-home.nix ];
-  };
-
   users.users.enno = {
     createHome = true;
     description = "Enno Lohmeier";
@@ -15,10 +11,6 @@
     shell = "${pkgs.zsh}/bin/zsh";
   };
 
+  programs.tmux.enable = true;
   programs.zsh.enable = true;
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
 }
