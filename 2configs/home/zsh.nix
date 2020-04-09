@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 with import <ptsd/lib>;
-
 let
   shellAliases = import ../aliases.nix;
 in

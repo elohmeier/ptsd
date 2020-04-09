@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.i3;
   i3font = "${cfg.font} ${toString cfg.fontSize}";

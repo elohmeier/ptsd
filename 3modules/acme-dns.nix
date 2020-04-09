@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.acme-dns;
   configOptions = {
@@ -32,7 +31,6 @@ let
       < ${pkgs.writeText "config.json" (builtins.toJSON configOptions)} \
       > $out
   '';
-
 in
 {
   options.ptsd.acme-dns = {

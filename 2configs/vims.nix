@@ -1,5 +1,4 @@
 { lib, python3, vimUtils, fetchFromGitHub, vim_configurable, vimPlugins }:
-
 let
   # TODO: setup black integration in vim
   py3 = python3.withPackages (

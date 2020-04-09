@@ -4,7 +4,6 @@
 , mkpasswd
 , openssl
 }:
-
 let
   path = lib.makeBinPath (
     [

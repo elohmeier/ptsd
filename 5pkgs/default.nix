@@ -1,6 +1,6 @@
 with import <ptsd/lib>;
-self: super: let
-
+self: super:
+let
   subdirsOf = path:
     mapAttrs (name: _: path + "/${name}")
       (filterAttrs (_: eq "directory") (readDir path));

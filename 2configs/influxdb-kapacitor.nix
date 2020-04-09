@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   domain = "influxdb.services.nerdworks.de";
   kapacitorSecrets = import <secrets/kapacitor.nix>;

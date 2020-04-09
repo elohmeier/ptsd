@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   postCreatePrometheus = name: ''
     TMP_FILE=`mktemp`

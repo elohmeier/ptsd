@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   gunicorn = pkgs.python3Packages.gunicorn;
   nwstats = pkgs.python3Packages.callPackage <ptsd/5pkgs/nwstats> {};

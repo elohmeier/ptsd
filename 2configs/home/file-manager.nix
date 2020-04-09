@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   rdp-assi = prog: pkgs.writers.writeDash "rdp-assi" ''
     ${pkgs.writers.writePython3 "rdp-assi-client" {} (builtins.readFile ../../src/rdp-assi-client.py)} "${prog}" "$@"

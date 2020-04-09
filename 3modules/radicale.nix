@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.radicale;
 
@@ -34,7 +33,6 @@ let
     .Radicale.tmp-*
   '';
 in
-
 {
 
   options = {

@@ -1,5 +1,4 @@
 { writers, stdenv, python3Packages, writeText, systemd }:
-
 let
   runGitAlarm = writers.writeDash "runGitAlarm" ''
     ${systemd}/bin/systemctl --user start git-alarm.service

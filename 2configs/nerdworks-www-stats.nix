@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   reportDir = "/var/www/nerdworks.de/report/";
 in

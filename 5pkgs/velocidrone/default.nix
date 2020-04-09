@@ -1,5 +1,4 @@
 { stdenv, requireFile, makeWrapper, unzip, zlib, fontconfig, freetype, openssl_1_0_2, xorg, glib, libGL, alsaLib, libpulseaudio, boost, qt5, makeDesktopItem, autoPatchelfHook, libxkbcommon, dbus, coreutils }:
-
 let
   deps = [
     alsaLib

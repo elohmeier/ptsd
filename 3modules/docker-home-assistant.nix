@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.dockerHomeAssistant;
   domain = "192.168.168.41";

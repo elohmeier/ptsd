@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 # Tools you probably would not add to an ISO image
-
 let
   unstable = import <nixpkgs-unstable> {
     config.allowUnfree = true;

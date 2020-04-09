@@ -9,7 +9,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.gitea;
   gitea = cfg.package;
@@ -75,7 +74,6 @@ let
     ${cfg.extraConfig}
   '';
 in
-
 {
   options = {
     ptsd.gitea = {

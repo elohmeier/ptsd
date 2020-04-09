@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   homeSecrets = import /run/keys/home-secrets.nix;
 in

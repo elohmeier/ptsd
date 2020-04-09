@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   domain = "hass.services.nerdworks.de";
 in

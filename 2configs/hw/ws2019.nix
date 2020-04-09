@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   unstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
 in
@@ -28,20 +27,21 @@ in
 
   nixpkgs.config = {
     allowUnfree = true;
-    packageOverrides = super: let
-      self = super.pkgs;
-    in
-      {
-        linuxPackages = unstable.linuxPackages_latest.extend (
-          self: super: {
-            nvidiaPackages = super.nvidiaPackages
-            // {
-              stable = unstable.linuxPackages_latest.nvidiaPackages.stable;
+    packageOverrides = super:
+      let
+        self = super.pkgs;
+      in
+        {
+          linuxPackages = unstable.linuxPackages_latest.extend (
+            self: super: {
+              nvidiaPackages = super.nvidiaPackages
+              // {
+                stable = unstable.linuxPackages_latest.nvidiaPackages.stable;
+              }
+              ;
             }
-            ;
-          }
-        );
-      };
+          );
+        };
   };
 
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations

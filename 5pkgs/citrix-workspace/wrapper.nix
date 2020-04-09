@@ -1,12 +1,8 @@
 { citrix_workspace, extraCerts ? [], timeZone ? "Europe/Berlin", symlinkJoin, writeText }:
-
 let
-
   mkCertCopy = certPath:
     "cp \"${certPath}\" $out/opt/citrix-icaclient/keystore/cacerts/";
-
 in
-
 if builtins.length extraCerts == 0 then citrix_workspace else symlinkJoin {
   name = "citrix-with-ptsd-config-and-extra-certs-${citrix_workspace.version}";
   paths = [ citrix_workspace ];

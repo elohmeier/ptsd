@@ -3,7 +3,8 @@
 , unstable ? false
 , secrets ? true
 , starget ? "root@${name}.host.nerdworks.de"
-}: let
+}:
+let
   #krops = (import <nixpkgs> {}).fetchgit {
   #  url = https://cgit.krebsco.de/krops/;
   #  rev = "v1.18.1";

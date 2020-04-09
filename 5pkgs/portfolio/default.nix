@@ -1,5 +1,4 @@
 { stdenv, glibc, gcc-unwrapped, autoPatchelfHook, fetchurl, libsecret, jre, makeWrapper, makeDesktopItem }:
-
 let
   metadata = assert stdenv.hostPlatform.system == "i686-linux" || stdenv.hostPlatform.system == "x86_64-linux";
     if stdenv.hostPlatform.system == "i686-linux" then

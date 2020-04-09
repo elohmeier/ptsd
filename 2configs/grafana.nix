@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   domain = "grafana.services.nerdworks.de";
   grafanaSecrets = import <secrets/grafana.nix>;

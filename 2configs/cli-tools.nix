@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   vims = pkgs.callPackage ./vims.nix {};
 in

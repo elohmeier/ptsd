@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   lanDomain = "lan.nerdworks.de";
 in

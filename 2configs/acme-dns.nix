@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   domain = "auth.nerdworks.de";
 in

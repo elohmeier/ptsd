@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   universe = import <ptsd/2configs/universe.nix>;
 

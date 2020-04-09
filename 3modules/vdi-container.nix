@@ -5,7 +5,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.vdi-container;
   xephyrWrapper = pkgs.writeShellScriptBin "${cfg.name}-xephyr" ''

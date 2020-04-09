@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   updateInterval = "30m";
 in

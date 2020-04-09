@@ -1,5 +1,4 @@
 { config, pkgs, ... }:
-
 let
   monicaSecrets = import <secrets/monica.nix>;
 

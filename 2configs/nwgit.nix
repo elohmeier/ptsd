@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   domain = "git.nerdworks.de";
   stateDir = "/var/lib/gitea";

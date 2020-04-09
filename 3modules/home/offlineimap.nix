@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.offlineimap;
   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };

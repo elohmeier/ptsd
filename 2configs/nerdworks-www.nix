@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   mynginx = pkgs.nginx.override {
     modules = with pkgs.nginxModules; [ fancyindex ];

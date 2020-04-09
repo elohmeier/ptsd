@@ -1,7 +1,5 @@
 { lib, pkgs, symlinkJoin, writeScriptBin, writeShellScriptBin, repos ? [], ... }:
-
 let
-
   penv =
     pkgs.python3.withPackages (pythonPackages: with pythonPackages; [ click ]);
 

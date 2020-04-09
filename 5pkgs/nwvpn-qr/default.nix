@@ -1,5 +1,4 @@
 { writers, pass, qrencode }:
-
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
