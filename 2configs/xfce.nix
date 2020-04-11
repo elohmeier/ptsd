@@ -2,7 +2,7 @@
 
 {
   services.xserver.desktopManager = {
-    default = "xfce";
+    defaultSession = "xfce";
     xfce = {
       enable = true;
     };

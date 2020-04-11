@@ -30,8 +30,6 @@
     videoDrivers = [ "modesetting" ];
   };
 
-  hardware.brightnessctl.enable = true;
-
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "hid_microsoft" ];
   boot.kernelModules = [ "kvm-intel" "dm-snapshot" ]; # tp_smapi is not yet compatible
