@@ -3,19 +3,7 @@ let
     config.allowUnfree = true;
   };
 
-  common = {
-    imports = [
-      <ptsd/2configs/home>
-      <ptsd/2configs/home/baseX.nix>
-      <ptsd/2configs/home/extraTools.nix>
-      <ptsd/2configs/home/xsession-i3.nix>
-    ];
-
-    ptsd.i3.fontSize = 12;
-    ptsd.urxvt.fontSize = 12;
-
-    home.packages = [ unstable.steam ];
-  };
+  common = import ./home-common.nix;
 in
 {
   dark = { lib, ... }: (

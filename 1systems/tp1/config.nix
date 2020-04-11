@@ -17,7 +17,20 @@
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
+
+    <home-manager/nixos>
   ];
+
+  home-manager = {
+    users.mainUser = { pkgs, ... }:
+      {
+        imports = [
+          ./home-common.nix
+        ];
+
+        ptsd.urxvt.theme = "solarized_light";
+      };
+  };
 
   #boot.plymouth.enable = true;
 
