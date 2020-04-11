@@ -1,13 +1,13 @@
-{ writers, borgbackup, targetHost, targetDomain ? "host.nerdworks.de" }:
+{ writers, borgbackup, pass, targetName, targetHost }:
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
-writers.writeDashBin "nwbackup-osx-${target}" ''
+writers.writeDashBin "nwbackup-osx-${targetName}" ''
   set -e
 
-  export BORG_REPO="borg-$(hostname)@${target}.${targetDomain}"
-  export BORG_PASSCOMMAND="${pass}/bin/pass hosts/$(hostname)/nwbackup.borgkey"
-  archiveName="$(hostname)-$(date +%Y-%m-%dT%H:%M:%S)"
+  export BORG_REPO="borg-$(hostname -s)@${targetHost}:."
+  export BORG_PASSCOMMAND="${pass}/bin/pass hosts/$(hostname -s)/nwbackup.borgkey"
+  archiveName="$(hostname -s)-$(date +%Y-%m-%dT%H:%M:%S)"
 
   ${borgbackup}/bin/borg create \
     --verbose \
@@ -26,5 +26,5 @@ writers.writeDashBin "nwbackup-osx-${target}" ''
     ::$archiveName \
     $HOME
 
-  ${pkgs.borgbackup}/bin/borg info "::$archiveName"
+  ${borgbackup}/bin/borg info "::$archiveName"
 ''
