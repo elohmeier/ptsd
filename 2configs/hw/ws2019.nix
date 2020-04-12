@@ -1,7 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  unstable = import <nixpkgs-unstable> { config.allowUnfree = true; };
-in
 {
   # Only 5Ghz Wifi with a low channel (like 40) is supported
   # See https://wiki.archlinux.org/index.php/Broadcom_wireless#No_5GHz_for_BCM4360_(14e4:43a0)_/_BCM43602_(14e4:43ba)_devices
@@ -32,11 +29,11 @@ in
         self = super.pkgs;
       in
         {
-          linuxPackages = unstable.linuxPackages_latest.extend (
+          linuxPackages = pkgs.linuxPackages_latest.extend (
             self: super: {
               nvidiaPackages = super.nvidiaPackages
               // {
-                stable = unstable.linuxPackages_latest.nvidiaPackages.stable;
+                stable = pkgs.linuxPackages_latest.nvidiaPackages.stable;
               }
               ;
             }
@@ -68,7 +65,6 @@ in
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
   boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
-  boot.zfs.enableUnstable = true;
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs = {
     autoScrub = { enable = true; };
