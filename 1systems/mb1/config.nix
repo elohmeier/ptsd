@@ -4,12 +4,24 @@
   imports = [ <ptsd/2configs/darwin-base.nix> ];
 
   home-manager.users.enno = { pkgs, ... }: {
-    imports = [ <ptsd/2configs/darwin-home.nix> ];
+    imports = [
+      <ptsd/2configs/darwin-home.nix>
+    ];
 
-    programs.gnupg.agent = {
-      enable = true;
-      enableSSHSupport = true;
-    };
+    home.packages = [
+      (
+        pkgs.callPackage ../../5pkgs/nwbackup-osx {
+          targetName = "nas1";
+          targetHost = "192.168.178.12";
+        }
+      )
+      pkgs.ncdu
+    ];
+  };
+
+  programs.gnupg.agent = {
+    enable = true;
+    enableSSHSupport = true;
   };
 
   users.users.enno.uid = 501;
