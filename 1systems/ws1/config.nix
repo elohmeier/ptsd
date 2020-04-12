@@ -19,7 +19,18 @@ with import <ptsd/lib>;
     <ptsd/2configs/home-secrets.nix>
 
     <ptsd/2configs/fraam-www.nix>
+
+    <home-manager/nixos>
   ];
+
+  home-manager = {
+    users.mainUser = { pkgs, ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
+  };
 
   # default: poweroff
   #services.logind.extraConfig = "HandlePowerKey=suspend";
