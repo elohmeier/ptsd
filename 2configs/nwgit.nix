@@ -72,7 +72,7 @@ in
     x509_cert = [
       {
         sources = [
-          "https://${domain}"
+          "https://${domain}:443"
         ];
       }
     ];

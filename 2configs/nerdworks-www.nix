@@ -71,8 +71,8 @@ in
     x509_cert = [
       {
         sources = [
-          "https://nerdworks.de"
-          "https://www.nerdworks.de"
+          "https://nerdworks.de:443"
+          "https://www.nerdworks.de:443"
         ];
       }
     ];
