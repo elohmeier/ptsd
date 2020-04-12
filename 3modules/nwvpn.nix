@@ -51,7 +51,7 @@ in
       ];
 
     environment.systemPackages = [ pkgs.wireguard ];
-    boot.extraModulePackages = [ config.boot.kernelPackages.wireguard ];
+    boot.extraModulePackages = lib.optional (lib.versionOlder config.boot.kernelPackages.kernel.version "5.6") config.boot.kernelPackages.wireguard;
 
     ptsd.secrets.files."${cfg.keyname}" = {
       owner = "systemd-network";
