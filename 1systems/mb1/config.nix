@@ -8,6 +8,8 @@ in
     <ptsd/2configs/darwin>
   ];
 
+  networking.hostName = "mb1";
+
   environment.systemPackages = [
     vims.small
   ];
