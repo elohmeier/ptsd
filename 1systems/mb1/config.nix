@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 
 let
-  vims = pkgs.callPackage <ptsd/2config/vims.nix> {};
+  vims = pkgs.callPackage <ptsd/2configs/vims.nix> {};
 in
 {
   imports = [
