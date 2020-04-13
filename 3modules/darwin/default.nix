@@ -1,4 +1,6 @@
 _:
 {
-  imports = [];
+  imports = [
+    ./nwbackup.nix
+  ];
 }
