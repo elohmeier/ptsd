@@ -1,30 +1,12 @@
 { config, pkgs, ... }:
 
+let
+  vims = pkgs.callPackage <ptsd/2config/vims.nix> {};
+in
 {
-  imports = [ <ptsd/2configs/darwin-base.nix> ];
+  imports = [];
 
-  home-manager.users.enno = { pkgs, ... }: {
-    imports = [
-      <ptsd/2configs/darwin-home.nix>
-    ];
-
-    home.packages = [
-      (
-        pkgs.callPackage ../../5pkgs/nwbackup-osx {
-          targetName = "nas1";
-          targetHost = "192.168.178.12";
-        }
-      )
-      pkgs.ncdu
-    ];
-  };
-
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
-
-  users.users.enno.uid = 501;
+  programs.zsh.enable = true;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
