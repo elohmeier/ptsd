@@ -3,6 +3,11 @@
 with lib;
 let
   cfg = config.ptsd.nwbackup;
+
+  mkExcludeFile = cfg:
+  # Write each exclude pattern to a new line
+    pkgs.writeText "excludefile" (concatStringsSep "\n" cfg.exclude);
+
   script = pkgs.writers.writeDashBin "nwbackup-nas1" ''
     set -e
 
@@ -16,14 +21,10 @@ let
       --show-rc \
       --compression auto,lzma,6 \
       --exclude-caches \
-      --exclude '/Users/*/.cache/*' \
-      --exclude '/Users/*/Applications/*' \
-      --exclude '/Users/*/Library/Caches/*' \
-      --exclude '/Users/*/.Trash/* ' \
-      --exclude '/Users/*/.DS_Store' \
+      --exclude-from ${mkExcludeFile cfg} \
       \
       ::$archiveName \
-      $HOME
+      ${escapeShellArgs cfg.paths}
   '';
   script-init = pkgs.writers.writeDashBin "nwbackup-nas1-init" ''
     ${pkgs.borgbackup}/bin/borg init -e repokey-blake2
@@ -40,6 +41,29 @@ in
       repo = mkOption {
         default = "borg-${config.networking.hostName}@192.168.178.12:.";
         type = types.str;
+      };
+      paths = mkOption {
+        type = with types; coercedTo str lib.singleton (listOf str);
+        description = "Path(s) to back up.";
+        example = "/home/user";
+      };
+      exclude = mkOption {
+        type = with types; listOf str;
+        description = ''
+          Exclude paths matching any of the given patterns. See
+          <command>borg help patterns</command> for pattern syntax.
+        '';
+        default = [
+          "/Users/*/.cache/*"
+          "/Users/*/Applications/*"
+          "/Users/*/Library/Caches/*"
+          "/Users/*/.Trash/*"
+          "/Users/*/.DS_Store"
+        ];
+        example = [
+          "/home/*/.cache"
+          "/nix"
+        ];
       };
     };
   };

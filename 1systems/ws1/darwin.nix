@@ -17,6 +17,10 @@
   ptsd.nwbackup = {
     enable = true;
     passCommand = "cat /Users/enno/nwbackup.borgkey";
+    paths = [
+      "/Users"
+      "/Volumes/OSXData" # Photos
+    ];
   };
 
   # Used for backwards compatibility, please read the changelog before changing.

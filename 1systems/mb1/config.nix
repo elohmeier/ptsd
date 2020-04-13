@@ -17,6 +17,9 @@ in
 
   ptsd.nwbackup = {
     enable = true;
+    paths = [
+      "/Users"
+    ];
   };
 
   programs.zsh.enable = true;
