@@ -58,7 +58,10 @@ in
           "/Users/*/Applications/*"
           "/Users/*/Library/Caches/*"
           "/Users/*/.Trash/*"
-          "/Users/*/.DS_Store"
+          "/*/.Trashes"
+          "/*/.DS_Store"
+          "/*/.Spotlight-V100"
+          "/*/.fseventsd"
         ];
         example = [
           "/home/*/.cache"
