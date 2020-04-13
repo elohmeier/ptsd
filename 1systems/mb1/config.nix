@@ -11,6 +11,7 @@ in
   networking.hostName = "mb1";
 
   environment.systemPackages = [
+    nixpkgs-fmt
     vims.small
   ];
 
