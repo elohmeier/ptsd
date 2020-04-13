@@ -4,7 +4,17 @@ let
   vims = pkgs.callPackage <ptsd/2config/vims.nix> {};
 in
 {
-  imports = [];
+  imports = [
+    <ptsd/2configs/darwin>
+  ];
+
+  environment.systemPackages = [
+    vims.small
+  ];
+
+  ptsd.nwbackup = {
+    enable = true;
+  };
 
   programs.zsh.enable = true;
 
