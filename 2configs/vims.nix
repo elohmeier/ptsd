@@ -57,20 +57,10 @@ let
     " fix nasty vim yaml defaults
     autocmd FileType yaml setlocal ts=2 sts=2 sw=2 expandtab indentkeys-=0# indentkeys-=<:>
   '';
-
-  # mitigate https://github.com/NixOS/nixpkgs/issues/47452
-  vim = vim_configurable.overrideAttrs (
-    oa:
-      {
-        configureFlags = lib.filter
-          (f: ! lib.hasPrefix "--enable-gui" f) oa.configureFlags;
-
-      }
-  );
 in
 {
   small = (
-    vim.override {
+    vim_configurable.override {
       # disable all the customizations, faster to build (vim from nix cache)
       #features = "huge";
       #guiSupport = "";
@@ -93,7 +83,7 @@ in
   };
 
   big = (
-    vim.override {
+    vim_configurable.override {
       #features = "huge";
       #guiSupport = "";
       #luaSupport = false;
