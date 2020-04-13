@@ -4,7 +4,6 @@ with import <ptsd/lib>;
 let
   sshPubKeys = import ./ssh-pubkeys.nix;
   authorizedKeys = [
-    sshPubKeys.sshPub.mb1
     sshPubKeys.sshPub.iph1_terminus
     sshPubKeys.sshPub.iph1_workingcopy
     sshPubKeys.sshPub.tp1
