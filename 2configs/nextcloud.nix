@@ -210,7 +210,7 @@ in
           };
           "${root}/LuNo" = {
             id = "3ull9-9deg4";
-            devices = [ "ws1" ];
+            devices = [ "ws1" "mb1" "tp2" ];
           };
         };
       };
@@ -223,22 +223,22 @@ in
         folders = {
           "${root}/LuNo" = {
             id = "3ull9-9deg4";
-            devices = [ "ws1" ];
+            devices = [ "tp2" "mb1" "ws1" ];
           };
 
           "${root}/Bilder" = {
             id = "ugmai-ti6vl";
-            devices = [ "tp2" ];
+            devices = [ "tp2" "mb1" ];
           };
 
           "${root}/Dokumente" = {
             id = "sqkfd-m9he7";
-            devices = [ "tp2" ];
+            devices = [ "tp2" "mb1" ];
           };
 
           "${root}/Musik" = {
             id = "zvffu-ff92z";
-            devices = [ "tp2" ];
+            devices = [ "tp2" "mb1" ];
           };
         };
       };
