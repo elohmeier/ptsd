@@ -25,6 +25,9 @@ let
       ::$archiveName \
       $HOME
   '';
+  script-init = pkgs.writers.writeDashBin "nwbackup-nas1-init" ''
+    ${pkgs.borgbackup}/bin/borg init -e repokey-blake2
+  '';
 in
 {
   options = {
@@ -45,6 +48,7 @@ in
 
     environment.systemPackages = [
       script
+      script-init
       pkgs.python3Packages.keyring
     ];
 

@@ -16,6 +16,7 @@
 
   ptsd.nwbackup = {
     enable = true;
+    passCommand = "cat /Users/enno/nwbackup.borgkey";
   };
 
   # Used for backwards compatibility, please read the changelog before changing.
