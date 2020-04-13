@@ -34,6 +34,7 @@ in
     geckodriver
     nixpkgs-fmt
     lorri
+    procps
   ];
 
   programs.direnv = {
