@@ -1,7 +1,10 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ <ptsd/2configs/darwin-base.nix> ];
+  imports = [
+    <ptsd/2configs/darwin>
+    <ptsd/2configs/darwin-base.nix>
+  ];
 
   home-manager.users.enno = { pkgs, ... }: {
     imports = [ <ptsd/2configs/darwin-home.nix> ];
