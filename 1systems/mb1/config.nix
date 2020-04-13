@@ -10,7 +10,7 @@ in
 
   networking.hostName = "mb1";
 
-  environment.systemPackages = [
+  environment.systemPackages = with pkgs; [
     nixpkgs-fmt
     vims.small
   ];
