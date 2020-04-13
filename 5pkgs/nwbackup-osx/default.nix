@@ -37,7 +37,6 @@ let
 
     ${borgbackup}/bin/borg init -e repokey-blake2
   '';
-
 in
 symlinkJoin rec {
   name = "nwbackup-osx";
