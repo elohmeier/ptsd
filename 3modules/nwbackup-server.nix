@@ -30,7 +30,7 @@ let
     nameValuePair "nwbackup-repo-${name}" {
       description = "Create BorgBackup repository ${name} directory";
       script = ''
-        if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '${cfg.zpool}${cfg.zfsPath}/${name}'; then
+        if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '^${cfg.zpool}${cfg.zfsPath}/${name}$'; then
           echo "zfs volume exists, skipping creation"
         else
           echo "creating zfs volume ${cfg.zpool}${cfg.zfsPath}/${name}"
@@ -66,7 +66,7 @@ let
   '';
 
   mkMigration = src: dest: ''
-    if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '${cfg.zpool}/${src}'; then
+    if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '^${cfg.zpool}/${src}$'; then
       echo "nwbackup-server: migrating ${cfg.zpool}/${src}"
       ${pkgs.zfs}/bin/zfs set mountpoint=${cfg.mountRoot}/${dest} ${cfg.zpool}/${src}
       ${pkgs.zfs}/bin/zfs rename ${cfg.zpool}/${src} ${cfg.zpool}${cfg.zfsPath}/${dest}
@@ -119,7 +119,7 @@ in
       in
         stringAfter [ "users" "groups" ] ''
 
-      if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '${cfg.zpool}${cfg.zfsPath}'; then
+      if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '^${cfg.zpool}${cfg.zfsPath}$'; then
         echo "nwbackup-server: zfs-root ${cfg.zpool}${cfg.zfsPath} exists, skipping creation"
       else
         echo "nwbackup-server: creating zfs-root ${cfg.zpool}${cfg.zfsPath}"
