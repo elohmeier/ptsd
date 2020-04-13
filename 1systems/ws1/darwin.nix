@@ -1,13 +1,23 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ <ptsd/2configs/darwin-base.nix> ];
+  imports = [
+    <ptsd/2configs/darwin>
+    <ptsd/2configs/darwin-base.nix>
+  ];
+
+  networking.hostName = "ws1-osx";
 
   home-manager.users.enno = { pkgs, ... }: {
     imports = [ <ptsd/2configs/darwin-home.nix> ];
   };
 
   users.users.enno.uid = 502;
+
+  ptsd.nwbackup = {
+    enable = true;
+    passCommand = "cat /Users/enno/nwbackup.borgkey";
+  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
