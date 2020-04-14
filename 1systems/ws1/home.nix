@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
-  homeSecrets = import /run/keys/home-secrets.nix;
+  #homeSecrets = import /run/keys/home-secrets.nix;
+  homeSecrets = import <client-secrets/home-secrets.nix>;
 in
 {
   imports = [
