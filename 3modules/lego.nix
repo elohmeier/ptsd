@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.ptsd.lego;
-  unit-script-post = pkgs.writeShellScriptBin "unit-script-lego-post" ''
+  unit-script-post = pkgs.writers.writeDashBin "unit-script-lego-post" ''
     set -e
 
     # set permissions
@@ -11,6 +11,10 @@ let
     ${pkgs.coreutils}/bin/mkdir -p "${cfg.home}/certificates"
     ${pkgs.coreutils}/bin/chown -R lego:lego "${cfg.home}/certificates"
     ${pkgs.coreutils}/bin/chmod -R ug=r,u+w,a+X "${cfg.home}/certificates"
+
+    # create a link with the hostname as filename, e.g. for cups
+    ${pkgs.coreutils}/bin/ln -sf ${config.networking.hostName}.${config.networking.domain}.crt "${cfg.home}/certificates/${config.networking.hostName}.crt"
+    ${pkgs.coreutils}/bin/ln -sf ${config.networking.hostName}.${config.networking.domain}.key "${cfg.home}/certificates/${config.networking.hostName}.key"
 
     # create a root-owned copy e.g. for PostgreSQL
     ${pkgs.rsync}/bin/rsync -avh --delete "${cfg.home}/certificates/" "${cfg.home}/certificates-root"

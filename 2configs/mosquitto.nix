@@ -16,8 +16,8 @@ with import <ptsd/lib>;
     ssl = {
       enable = true;
       cafile = "/etc/ssl/certs/ca-certificates.crt";
-      certfile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-      keyfile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+      certfile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
+      keyfile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
     };
     users = {
       hass = {

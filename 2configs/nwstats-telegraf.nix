@@ -1,9 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  ptsd.nwstats = {
-    enable = true;
-  };
+  ptsd.nobbofin-autofetch.enable = true;
+  ptsd.nwstats.enable = true;
 
   ptsd.nwtelegraf.inputs.http = [
     {

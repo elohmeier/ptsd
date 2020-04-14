@@ -21,8 +21,8 @@ in
     loginAccounts = {};
 
     certificateScheme = 1;
-    certificateFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-    keyFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+    certificateFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
+    keyFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
 
     backup.enable = true; # backup via rsnapshot
 

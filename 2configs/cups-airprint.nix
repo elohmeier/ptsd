@@ -5,12 +5,6 @@ let
   lanDomain = "lan.nerdworks.de";
 in
 {
-  system.activationScripts.lego-link-hostname = stringAfter [ "users" "groups" ]
-    ''
-      ${pkgs.coreutils}/bin/ln -sf ${config.networking.hostName}.${config.networking.domain}.crt /var/lib/lego/certificates/${config.networking.hostName}.crt
-      ${pkgs.coreutils}/bin/ln -sf ${config.networking.hostName}.${config.networking.domain}.key /var/lib/lego/certificates/${config.networking.hostName}.key
-    '';
-
   users.groups.lego.members = [ "cups" ];
 
   services.printing = {
@@ -20,7 +14,7 @@ in
     drivers = with pkgs; [ brlaser ];
     extraFilesConf = ''
       CreateSelfSignedCerts no
-      ServerKeychain /var/lib/lego/certificates
+      ServerKeychain ${config.ptsd.lego.home}/certificates
     '';
   };
 

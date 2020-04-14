@@ -103,8 +103,8 @@ in
                 } // lib.optionalAttrs config.ptsd.lego.enable {
                   certificates = [
                     {
-                      certFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-                      keyFile = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+                      certFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
+                      keyFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
                     }
                   ];
                 };

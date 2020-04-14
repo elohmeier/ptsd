@@ -55,6 +55,8 @@
     repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
   };
 
+  ptsd.lego.home = "/persist/var/lib/lego";
+
   #boot.plymouth.enable = true;
 
   #  # https://github.com/anbox/anbox/issues/253
