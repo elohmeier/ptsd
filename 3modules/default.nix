@@ -9,6 +9,7 @@ _:
     ./drone-server.nix
     ./gitea.nix
     ./lego.nix
+    ./nobbofin-autofetch.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
     ./nwmonit.nix
