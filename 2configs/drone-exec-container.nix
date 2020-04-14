@@ -4,12 +4,15 @@ let
 in
 {
   ptsd.secrets.files = {
-    "drone-ci.env" = {};
+    "drone-ci.env" = {
+      path = "/run/drone-runner-exec/drone-ci.env";
+    };
     "nwvpn-drone.key" = {
       owner = "systemd-network";
       mode = "0440";
     };
   };
+
 
   containers.drone = {
     autoStart = true;
@@ -17,14 +20,23 @@ in
     privateNetwork = true;
     enableTun = true;
     bindMounts = {
+
+      "/run/drone-runner-exec" = {
+        hostPath = "/run/drone-runner-exec";
+        isReadOnly = false;
+      };
+
+      # required for nwvpn
       "/run/keys" = {
         hostPath = "/run/keys";
         isReadOnly = true;
       };
+
       "/var/src/nixpkgs" = {
         hostPath = "/var/src/nixpkgs";
         isReadOnly = true;
       };
+
     };
 
     config =
@@ -78,8 +90,8 @@ in
               ProtectSystem = "full";
               DynamicUser = true;
               Restart = "on-failure";
-              EnvironmentFile = "/run/keys/drone-ci.env";
-              ReadOnlyPaths = "/run/keys/drone-ci.env";
+              EnvironmentFile = "/run/drone-runner-exec/drone-ci.env";
+              RuntimeDirectory = "drone-runner-exec";
               SupplementaryGroups = "docker";
             };
             environment = {
