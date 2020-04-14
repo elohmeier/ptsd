@@ -14,7 +14,7 @@
       ssl = required
     '';
     mailLocation = "maildir:~/Maildir/%u:LAYOUT=fs:INBOX=~/Maildir/%u/Inbox"; # mbsync compatible
-    sslServerCert = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-    sslServerKey = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+    sslServerCert = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
+    sslServerKey = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
   };
 }

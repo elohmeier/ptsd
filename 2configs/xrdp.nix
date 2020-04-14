@@ -5,8 +5,8 @@
 
   services.xrdp = {
     enable = true;
-    sslCert = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-    sslKey = "/var/lib/lego/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+    sslCert = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
+    sslKey = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
     defaultWindowManager = "${pkgs.i3}/bin/i3";
   };
   environment.systemPackages = [ pkgs.xterm pkgs.i3 ];
