@@ -28,7 +28,7 @@ in
   fileSystems."/" =
     {
       fsType = "tmpfs";
-      options = [ "size=2G" ];
+      options = [ "size=2G" "mode=1755" ];
     };
 
   fileSystems."/home" =
