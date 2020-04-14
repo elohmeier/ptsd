@@ -6,6 +6,7 @@ with import <ptsd/lib>;
     <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/nwhost.nix>
+    <ptsd/2configs/stateless-root.nix>
 
     <ptsd/2configs/baseX.nix>
     <ptsd/2configs/bs53lan.nix>
@@ -33,20 +34,7 @@ with import <ptsd/lib>;
       };
   };
 
-  ptsd.nwbackup = {
-    cacheDir = "/persist/var/cache/borg";
-    repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
-    paths = [
-      "/home"
-      "/persist"
-    ];
-  };
-
-  ptsd.secrets.files."nwbackup_id_ed25519" = {
-    path = "/root/.ssh/id_ed25519";
-  };
-
-  ptsd.lego.home = "/persist/var/lib/lego";
+  ptsd.nwbackup.repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
 
   # default: poweroff
   #services.logind.extraConfig = "HandlePowerKey=suspend";
