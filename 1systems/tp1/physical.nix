@@ -40,18 +40,6 @@ in
       fsType = "ext4";
     };
 
-  fileSystems."/var" =
-    {
-      device = "${vgPrefix}-var";
-      fsType = "ext4";
-    };
-
-  fileSystems."/var/log" =
-    {
-      device = "${vgPrefix}-var--log";
-      fsType = "ext4";
-    };
-
   fileSystems."/var/src" =
     {
       device = "${vgPrefix}-var--src";
@@ -77,12 +65,10 @@ in
 
   systemd.tmpfiles.rules = [
     "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
-    "L /var/lib/lego - - - - /persist/var/lib/lego"
     "L /var/lib/libvirt/qemu - - - - /persist/var/lib/libvirt/qemu"
   ];
 
   boot.initrd.postDeviceCommands = lib.mkAfter ''
-    ${pkgs.e2fsprogs}/bin/mkfs.ext4 -F ${vgPrefix}-root
-    ${pkgs.e2fsprogs}/bin/mkfs.ext4 -F ${vgPrefix}-var
+    ${pkgs.e2fsprogs}/bin/mkfs.ext4 ${vgPrefix}-root
   '';
 }
