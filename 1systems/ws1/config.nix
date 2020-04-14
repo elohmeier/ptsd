@@ -36,6 +36,10 @@ with import <ptsd/lib>;
   ptsd.nwbackup = {
     cacheDir = "/persist/var/cache/borg";
     repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
+    paths = [
+      "/home"
+      "/persist"
+    ];
   };
 
   ptsd.secrets.files."nwbackup_id_ed25519" = {
