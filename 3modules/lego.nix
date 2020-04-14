@@ -8,6 +8,7 @@ let
 
     # set permissions
     ${pkgs.coreutils}/bin/chmod 750 "${cfg.home}"
+    ${pkgs.coreutils}/bin/chown lego:lego "${cfg.home}"
     ${pkgs.coreutils}/bin/mkdir -p "${cfg.home}/certificates"
     ${pkgs.coreutils}/bin/chown -R lego:lego "${cfg.home}/certificates"
     ${pkgs.coreutils}/bin/chmod -R ug=r,u+w,a+X "${cfg.home}/certificates"
