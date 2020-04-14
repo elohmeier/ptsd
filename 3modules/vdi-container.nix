@@ -99,6 +99,8 @@ in
 
     environment.systemPackages = [ xephyrWrapper ];
 
+    systemd.services."container@${cfg.name}".serviceConfig.TimeoutStopSec = "10s";
+
     containers."${cfg.name}" = {
       autoStart = true;
       enableTun = true;
