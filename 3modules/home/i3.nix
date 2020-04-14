@@ -357,6 +357,24 @@ in
           opts.format = "/var %avail";
         };
 
+        disk_var_log = {
+          type = "disk";
+          name = "/var/log";
+          opts.format = "/var/log %avail";
+        };
+
+        disk_var_src = {
+          type = "disk";
+          name = "/var/src";
+          opts.format = "/var/src %avail";
+        };
+
+        disk_persist = {
+          type = "disk";
+          name = "/persist";
+          opts.format = "/persist %avail";
+        };
+
         disk_root = {
           type = "disk";
           name = "/";
@@ -406,7 +424,10 @@ in
         "ipv6"
         "disk /"
         "disk /home"
+        "disk /persist"
         "disk /var"
+        "disk /var/log"
+        "disk /var/src"
         "disk /nix"
       ] ++ optional cfg.showWifiStatus "wireless _first_"
       ++ [ "ethernet ${cfg.ethIf}" ]
