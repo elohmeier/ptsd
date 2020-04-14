@@ -12,6 +12,7 @@ with import <ptsd/lib>;
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/dovecot.nix>
     <ptsd/2configs/drone-exec-container.nix>
+    <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/syncthing.nix>
 
     <secrets-shared/nwsecrets.nix>
@@ -31,6 +32,13 @@ with import <ptsd/lib>;
         ];
       };
   };
+
+  ptsd.nwbackup = {
+    cacheDir = "/persist/var/cache/borg";
+    repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
+  };
+
+  ptsd.lego.home = "/persist/var/lib/lego";
 
   # default: poweroff
   #services.logind.extraConfig = "HandlePowerKey=suspend";
