@@ -1,3 +1,4 @@
+{ lib, pkgs, ... }:
 let
   disk = "/dev/disk/by-id/nvme-SAMSUNG_MZVLB512HAJQ-000L7_S3TNNF1K627058";
   vgPrefix = "/dev/disk/by-id/dm-name-p2vg";
@@ -79,4 +80,9 @@ in
     "L /var/lib/lego - - - - /persist/var/lib/lego"
     "L /var/lib/libvirt/qemu - - - - /persist/var/lib/libvirt/qemu"
   ];
+
+  boot.initrd.postDeviceCommands = lib.mkAfter ''
+    ${pkgs.e2fsprogs}/bin/mkfs.ext4 -F ${vgPrefix}-root
+    ${pkgs.e2fsprogs}/bin/mkfs.ext4 -F ${vgPrefix}-var
+  '';
 }
