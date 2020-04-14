@@ -80,9 +80,4 @@ in
     ];
 
   networking.hostId = "8c5598b5"; # required for zfs
-
-  systemd.tmpfiles.rules = [
-    "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
-    "L /var/lib/libvirt/qemu - - - - /persist/var/lib/libvirt/qemu"
-  ];
 }

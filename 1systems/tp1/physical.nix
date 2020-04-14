@@ -59,15 +59,6 @@ in
 
   networking.hostId = "d0ee5ec4";
 
-  environment.etc."NetworkManager/system-connections" = {
-    source = "/persist/etc/NetworkManager/system-connections/";
-  };
-
-  systemd.tmpfiles.rules = [
-    "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
-    "L /var/lib/libvirt/qemu - - - - /persist/var/lib/libvirt/qemu"
-  ];
-
   boot.initrd.postDeviceCommands = lib.mkAfter ''
     ${pkgs.e2fsprogs}/bin/mkfs.ext4 ${vgPrefix}-root
   '';
