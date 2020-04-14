@@ -130,11 +130,11 @@ let
       extraCreateArgs = "--stats --exclude-caches";
       environment = {
         BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
-      } // optionalAttrs cfg.moveCacheDir {
-        BORG_CACHE_DIR = "/var/cache/borg";
+      } // optionalAttrs (cfg.cacheDir != null) {
+        BORG_CACHE_DIR = cfg.cacheDir;
       };
       postCreate = postCreateTelegraf name;
-      readWritePaths = [ "/var/log" ] ++ optional cfg.moveCacheDir [ "/var/cache/borg" ];
+      readWritePaths = [ "/var/log" ] ++ optional (cfg.cacheDir != null) [ cfg.cacheDir ];
       prune.keep = {
         within = "1d"; # Keep all archives from the last day
         daily = 7;
@@ -165,8 +165,8 @@ let
         BORG_REPO = repoAddress;
         BORG_PASSCOMMAND = cfg.passCommand;
         BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
-      } // optionalAttrs cfg.moveCacheDir {
-        BORG_CACHE_DIR = "/var/cache/borg";
+      } // optionalAttrs (cfg.cacheDir != null) {
+        BORG_CACHE_DIR = cfg.cacheDir;
       };
       requires = [ "network.target" "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
@@ -213,9 +213,9 @@ in
         };
         type = with types; attrsOf str;
       };
-      moveCacheDir = mkOption {
-        default = false;
-        type = types.bool;
+      cacheDir = mkOption {
+        default = null;
+        type = lib.types.nullOr types.path;
       };
     };
   };
@@ -229,8 +229,8 @@ in
       BORG_REPO = "borg-${config.networking.hostName}@nas1.host.nerdworks.de:.";
       BORG_PASSCOMMAND = cfg.passCommand;
       BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
-    } // optionalAttrs cfg.moveCacheDir {
-      BORG_CACHE_DIR = "/var/cache/borg";
+    } // optionalAttrs (cfg.cacheDir != null) {
+      BORG_CACHE_DIR = cfg.cacheDir;
     };
 
     ptsd.nwtelegraf.inputs.file = [
