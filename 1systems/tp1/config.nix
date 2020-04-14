@@ -38,6 +38,10 @@
     repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
   };
 
+  ptsd.secrets.files."nwbackup_id_ed25519" = {
+    path = "/root/.ssh/id_ed25519";
+  };
+
   ptsd.lego.home = "/persist/var/lib/lego";
 
   #boot.plymouth.enable = true;

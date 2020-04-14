@@ -295,7 +295,7 @@
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGOhX8m3f1fpboga+H/uZeCUawyqur2dNBZwK6+ZaAlj ";
       borg.quota = "30G";
-      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDP3S2VosGfKnj7MRO29RodbVnpS0aH+MQfAUidTSYyx6lEoweAkOq6QSLTrQ5CxKH184S5cwfO3QAvuybqXZY+lQa2lELBOQLYU1E2ZU9cgtwlrpBYC3dM0WXAEh+mU2kEp8cSznUqBH/N126lx6gO9huik7s1lR0299ayseBXwMsizEDjBSA0gGGbKcYIxaqONtZcZf7721j04pwEG1GjWtKJ2dPtDbhf44NYh9F/fAWrUx5WljZ9SJBhBKeFOI9hNqUew/Hnbk1vG+KrCodLa2K5tdXYAt+fa6X7Y8fGRJRLTgffO6bZ+88M92pOjxkmmjNxEFEpLpYiEpIFIA8n root@nw30";
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPQxSpwUFYS2KFZSolG2zAWZdrLA3EMbr3zJpzG2P+vr nwbackup@tp1";
     };
 
     tp2 = {
@@ -320,7 +320,7 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxl5cu7JzupBVvcuT7hpAD2aPqGCDDV8ergHqeFinem ";
       syncthing.id = "463IXFR-CH3QL6E-REW64TF-JMGOCZX-VQN556L-MGWC5ER-CQFSW3B-7XLZ4AH";
       borg.quota = "50G";
-      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDA84/TA+U54faQA0Bgqiuw84JkK2503MhGS3LiJQ8+0uJzX7zWSre3f2LMLIVBEzpAXs4TpVUvEUXR5eOGIKxl+tC8xKO8jcN402aS397SyvYu5f+8EgftiQXMppsQ2hSCDbV5ra+dUxexZYNKF85UONJjTvop5ZqU08QvJ0B+GniD1I66btjwCmAwOW9FIxqeKXk6Odr1yVvSKiLtamN/EPIwV5hoJ/0rtFhxla454EF5UcMK8zyqEy05X7zbICLkJVqsA2cxnvqGg/rbfiqon7M+5zs1dpxNIXtRsVyhK7K2/cFjn/vXU+5HNfq9ADMQ/BHoEN6v2xEwyMyY0KTl root@ws1";
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEf6ThFU/I+qMVM/u5iNPB1Fgkn4Pk/Rr/FgzuHJAKy/ nwbackup@ws1";
     };
 
     ws1-drone = {
