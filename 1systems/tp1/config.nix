@@ -50,7 +50,10 @@
     ];
   };
 
-  ptsd.nwbackup.moveCacheDir = true;
+  ptsd.nwbackup = {
+    cacheDir = "/persist/var/cache/borg";
+    repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
+  };
 
   #boot.plymouth.enable = true;
 

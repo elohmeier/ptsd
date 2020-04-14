@@ -33,6 +33,12 @@ in
       fsType = "ext4";
     };
 
+  fileSystems."/persist" =
+    {
+      device = "${vgPrefix}-persist";
+      fsType = "ext4";
+    };
+
   fileSystems."/var" =
     {
       device = "${vgPrefix}-var";
@@ -42,6 +48,12 @@ in
   fileSystems."/var/log" =
     {
       device = "${vgPrefix}-var--log";
+      fsType = "ext4";
+    };
+
+  fileSystems."/var/src" =
+    {
+      device = "${vgPrefix}-var--src";
       fsType = "ext4";
     };
 
@@ -57,4 +69,14 @@ in
     ];
 
   networking.hostId = "d0ee5ec4";
+
+  environment.etc."NetworkManager/system-connections" = {
+    source = "/persist/etc/NetworkManager/system-connections/";
+  };
+
+  systemd.tmpfiles.rules = [
+    "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
+    "L /var/lib/lego - - - - /persist/var/lib/lego"
+    "L /var/lib/libvirt/qemu - - - - /persist/var/lib/libvirt/qemu"
+  ];
 }
