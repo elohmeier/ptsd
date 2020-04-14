@@ -149,10 +149,20 @@ rec {
   # build without switching to the new config (to test the build)
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A build_remote)
   build_remote =
-    pkgs.writeDash "build_remote" ''
+    pkgs.writers.writeDash "build_remote" ''
       set -efu
       ${populate}
       ${pkgs.krops.rebuild [ "dry-build" ] target}
+      ${pkgs.krops.build target}
+    '';
+
+  # build without switching to the new config (will be activated after next reboot)
+  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy_boot)
+  deploy_boot =
+    pkgs.writers.writeDash "deploy_boot" ''
+      set -efu
+      ${populate}
+      ${pkgs.krops.rebuild [ "boot" ] target}
       ${pkgs.krops.build target}
     '';
 }
