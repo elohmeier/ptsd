@@ -9,6 +9,8 @@ in
     mode = "0440";
   };
 
+  users.groups.keys.members = [ "radicale" ];
+
   ptsd.radicale = {
     enable = true;
     port = config.ptsd.nwtraefik.ports.radicale;
