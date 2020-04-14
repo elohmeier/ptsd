@@ -1,3 +1,7 @@
+let
+  disk = "/dev/disk/by-id/nvme-SAMSUNG_MZVLB512HAJQ-000L7_S3TNNF1K627058";
+  vgPrefix = "/dev/disk/by-id/dm-name-p2vg";
+in
 {
   imports =
     [
@@ -8,48 +12,48 @@
   system.stateVersion = "19.09";
 
   boot.initrd.luks.devices.p2 = {
-    device = "/dev/disk/by-id/nvme-SAMSUNG_MZVLB512HAJQ-000L7_S3TNNF1K627058-part2";
+    device = "${disk}-part2";
   };
 
   fileSystems."/" =
     {
-      device = "/dev/disk/by-id/dm-name-p2vg-root";
+      device = "${vgPrefix}-root";
       fsType = "ext4";
     };
 
   fileSystems."/home" =
     {
-      device = "/dev/disk/by-id/dm-name-p2vg-home";
+      device = "${vgPrefix}-home";
       fsType = "ext4";
     };
 
   fileSystems."/nix" =
     {
-      device = "/dev/disk/by-id/dm-name-p2vg-nix";
+      device = "${vgPrefix}-nix";
       fsType = "ext4";
     };
 
   fileSystems."/var" =
     {
-      device = "/dev/disk/by-id/dm-name-p2vg-var";
+      device = "${vgPrefix}-var";
       fsType = "ext4";
     };
 
   fileSystems."/var/log" =
     {
-      device = "/dev/disk/by-id/dm-name-p2vg-var--log";
+      device = "${vgPrefix}-var--log";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-id/nvme-SAMSUNG_MZVLB512HAJQ-000L7_S3TNNF1K627058-part1";
+      device = "${disk}-part1";
       fsType = "vfat";
     };
 
   swapDevices =
     [
-      { device = "/dev/disk/by-id/dm-name-p2vg-swap"; }
+      { device = "${vgPrefix}-swap"; }
     ];
 
   networking.hostId = "d0ee5ec4";
