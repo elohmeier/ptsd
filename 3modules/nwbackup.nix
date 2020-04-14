@@ -128,9 +128,13 @@ let
       doInit = false;
       exclude = cfg.exclude;
       extraCreateArgs = "--stats --exclude-caches";
-      environment = { BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes"; };
+      environment = {
+        BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+      } // optionalAttrs cfg.moveCacheDir {
+        BORG_CACHE_DIR = "/var/cache/borg";
+      };
       postCreate = postCreateTelegraf name;
-      readWritePaths = [ "/var/log" ];
+      readWritePaths = [ "/var/log" ] ++ optional cfg.moveCacheDir [ "/var/cache/borg" ];
       prune.keep = {
         within = "1d"; # Keep all archives from the last day
         daily = 7;
@@ -161,6 +165,8 @@ let
         BORG_REPO = repoAddress;
         BORG_PASSCOMMAND = cfg.passCommand;
         BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+      } // optionalAttrs cfg.moveCacheDir {
+        BORG_CACHE_DIR = "/var/cache/borg";
       };
       requires = [ "network.target" "network-online.target" ];
       wantedBy = [ "multi-user.target" ];
@@ -207,6 +213,10 @@ in
         };
         type = with types; attrsOf str;
       };
+      moveCacheDir = mkOption {
+        default = false;
+        type = types.bool;
+      };
     };
   };
 
@@ -216,9 +226,11 @@ in
     #systemd.services = mapAttrs' mkInitRepoService cfg.repos;
 
     environment.variables = {
-      BORG_REPO = "borg-${config.networking.hostName}@nuc1.host.nerdworks.de:.";
+      BORG_REPO = "borg-${config.networking.hostName}@nas1.host.nerdworks.de:.";
       BORG_PASSCOMMAND = cfg.passCommand;
       BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+    } // optionalAttrs cfg.moveCacheDir {
+      BORG_CACHE_DIR = "/var/cache/borg";
     };
 
     ptsd.nwtelegraf.inputs.file = [

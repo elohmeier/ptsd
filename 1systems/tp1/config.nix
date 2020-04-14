@@ -50,6 +50,8 @@
     ];
   };
 
+  ptsd.nwbackup.moveCacheDir = true;
+
   #boot.plymouth.enable = true;
 
   #  # https://github.com/anbox/anbox/issues/253
