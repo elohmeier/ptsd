@@ -21,3 +21,6 @@ nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/traefik-forward-auth
 
 echo "Building and pushing 5pkgs/acme-dns..."
 nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/acme-dns {}' | cachix push nerdworks
+
+echo "Building and pushing 5pkgs/portfolio..."
+nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/portfolio {}' | cachix push nerdworks

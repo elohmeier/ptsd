@@ -1,10 +1,16 @@
-{ stdenv, glibc, gcc-unwrapped, autoPatchelfHook, fetchurl, libsecret, jre, makeWrapper, makeDesktopItem }:
+{ stdenv
+, glibc
+, gcc-unwrapped
+, autoPatchelfHook
+, fetchurl
+, libsecret
+, openjdk12
+, makeWrapper
+, makeDesktopItem
+, webkitgtk
+, gtk3
+}:
 let
-  metadata = assert stdenv.hostPlatform.system == "i686-linux" || stdenv.hostPlatform.system == "x86_64-linux";
-    if stdenv.hostPlatform.system == "i686-linux" then
-      { arch = "x86"; sha256 = "1fdcapchg4zg25hn7kghf3i6hipw6cngn7v3cvnq2c9dndznvsxq"; }
-    else
-      { arch = "x86_64"; sha256 = "1ww5l0hpqpwxhl0rb52izvh6rv6zxlh07bpbm40xbr4nb4kpnyp5"; };
   desktopItem = makeDesktopItem {
     name = "Portfolio";
     exec = "portfolio";
@@ -13,14 +19,16 @@ let
     desktopName = "Portfolio Performance";
     categories = "Application;Office;";
   };
+
+  runtimeLibs = stdenv.lib.makeLibraryPath [ gtk3 webkitgtk ];
 in
 stdenv.mkDerivation rec {
   pname = "PortfolioPerformance";
-  version = "0.44.0";
+  version = "0.46.1";
 
   src = fetchurl {
-    url = "https://github.com/buchen/portfolio/releases/download/${version}/PortfolioPerformance-${version}-linux.gtk.${metadata.arch}.tar.gz";
-    sha256 = metadata.sha256;
+    url = "https://github.com/buchen/portfolio/releases/download/${version}/PortfolioPerformance-${version}-linux.gtk.x86_64.tar.gz";
+    sha256 = "1jc54pqrrsnj57q5i9vnfcq3jmy2gb8sdpbxpkn1dicbbf775k5h";
   };
 
   nativeBuildInputs = [
@@ -39,7 +47,8 @@ stdenv.mkDerivation rec {
     cp -av ./* $out/portfolio
 
     makeWrapper $out/portfolio/PortfolioPerformance $out/bin/portfolio \
-      --prefix PATH : ${jre}/bin
+      --prefix LD_LIBRARY_PATH : "${runtimeLibs}" \
+      --prefix PATH : ${openjdk12}/bin
 
     # Create desktop item
     mkdir -p $out/share/applications
@@ -53,5 +62,6 @@ stdenv.mkDerivation rec {
     homepage = "https://www.portfolio-performance.info/";
     license = licenses.epl10;
     maintainers = [ maintainers.elohmeier ];
+    platforms = [ "x86_64-linux" ];
   };
 }
