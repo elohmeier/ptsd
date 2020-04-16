@@ -148,6 +148,8 @@ in
       file-rename
 
       sublime3
+
+      teamviewer
     ];
 
   programs.chromium = {
