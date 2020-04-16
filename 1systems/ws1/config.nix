@@ -113,4 +113,9 @@ with import <ptsd/lib>;
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false; # will be socket-activated
   virtualisation.libvirtd.enable = true;
+
+  hardware.pulseaudio.extraConfig = ''
+    set-default-sink alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21
+    set-default-source alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo
+  '';
 }
