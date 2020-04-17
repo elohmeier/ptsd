@@ -13,6 +13,16 @@
       };
     };
 
+    and2 = {
+      # U.S. Handy
+      nets = {
+        dlrgvpn = {
+          ip4.addr = "191.18.21.2";
+          wireguard.pubkey = "/5uhmBD09M5MK0no5aURYjeUeHFelYSoyEbs9s1l1WI=";
+        };
+      };
+    };
+
     apu1 = {
       nets = {
         nwvpn = {
@@ -32,16 +42,23 @@
     };
 
     apu2 = {
+      # DLRG
       nets = {
         nwvpn = {
-          ip4.addr = "191.18.19.34"; # DLRG
+          ip4.addr = "191.18.19.34";
           aliases = [
             "apu2.nw"
           ];
           wireguard = {
-            pubkey = ''
-              eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=
-            '';
+            pubkey = "eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=";
+            networks = [ "192.168.168.0/24" ];
+          };
+        };
+
+        dlrgvpn = {
+          ip4.addr = "191.18.21.34";
+          wireguard = {
+            pubkey = "eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=";
             networks = [ "192.168.168.0/24" ];
           };
         };
@@ -71,9 +88,15 @@
     };
 
     iph1 = {
+      # 8+
       nets = {
         nwvpn = {
-          ip4.addr = "191.18.19.15"; # 8+
+          ip4.addr = "191.18.19.15";
+          wireguard.pubkey = "xs4hm1bIlQ5eB5JsjbVetOvsJZ8MSVO8jSQgIpcJcy0=";
+        };
+
+        dlrgvpn = {
+          ip4.addr = "191.18.21.15";
           wireguard.pubkey = "xs4hm1bIlQ5eB5JsjbVetOvsJZ8MSVO8jSQgIpcJcy0=";
         };
       };
@@ -256,16 +279,23 @@
     };
 
     rpi2 = {
+      # DLRG
       nets = {
         nwvpn = {
-          ip4.addr = "191.18.19.35"; # DLRG
+          ip4.addr = "191.18.19.35";
           aliases = [
             "rpi2.nw"
           ];
           wireguard = {
-            pubkey = ''
-              BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=
-            '';
+            pubkey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
+            networks = [ "192.168.178.0/24" ];
+          };
+        };
+
+        dlrgvpn = {
+          ip4.addr = "191.18.21.35";
+          wireguard = {
+            pubkey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
             networks = [ "192.168.178.0/24" ];
           };
         };
@@ -287,9 +317,12 @@
           aliases = [
             "tp1.nw"
           ];
-          wireguard.pubkey = ''
-            y6NCfYWUCR6aqoLsjqQRbfhz7rLqrtUOnY3HTWa0HFI=
-          '';
+          wireguard.pubkey = "y6NCfYWUCR6aqoLsjqQRbfhz7rLqrtUOnY3HTWa0HFI=";
+        };
+
+        dlrgvpn = {
+          ip4.addr = "191.18.21.30";
+          wireguard.pubkey = "y6NCfYWUCR6aqoLsjqQRbfhz7rLqrtUOnY3HTWa0HFI=";
         };
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
@@ -311,9 +344,12 @@
           aliases = [
             "ws1.nw"
           ];
-          wireguard.pubkey = ''
-            yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=
-          '';
+          wireguard.pubkey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
+        };
+
+        dlrgvpn = {
+          ip4.addr = "191.18.21.80";
+          wireguard.pubkey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
         };
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
