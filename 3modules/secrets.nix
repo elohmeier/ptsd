@@ -78,33 +78,6 @@ in
   };
 
   config = mkIf (cfg.files != {}) {
-
     systemd.services = mapAttrs' generateUnit cfg.files;
-
-
-    # system.activationScripts.setup-secrets = let
-    #   files = unique (
-    #     map (flip removeAttrs [ "_module" ])
-    #       (attrValues cfg.files)
-    #   );
-    #   script = ''
-    #     echo setting up secrets...
-    #     ${concatMapStringsSep "\n" (
-    #     file: ''
-    #       ${pkgs.coreutils}/bin/install \
-    #         -D \
-    #         --compare \
-    #         --verbose \
-    #         --mode=${escapeShellArg file.mode} \
-    #         --owner=${escapeShellArg file.owner} \
-    #         --group=${escapeShellArg file.group-name} \
-    #         ${escapeShellArg file.source-path} \
-    #         ${escapeShellArg file.path} \
-    #       || echo "failed to copy ${file.source-path} to ${file.path}"
-    #     ''
-    #   ) files}
-    #   '';
-    # in
-    #   stringAfter [ "specialfs" "users" "groups" ] "source ${pkgs.writeText "setup-secrets.sh" script}";
   };
 }
