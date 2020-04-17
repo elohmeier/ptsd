@@ -150,6 +150,7 @@ in
       sublime3
 
       teamviewer
+      discord
     ];
 
   programs.chromium = {
