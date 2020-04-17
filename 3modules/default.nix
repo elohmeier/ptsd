@@ -16,7 +16,6 @@ _:
     ./nwstats.nix
     ./nwtelegraf.nix
     ./nwtraefik.nix
-    ./nwvpn-server.nix
     ./radicale.nix
     ./samba-sonos.nix
     ./secrets.nix

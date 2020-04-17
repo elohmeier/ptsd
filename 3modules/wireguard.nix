@@ -13,7 +13,9 @@ let
     dependants = [ "systemd-networkd.service" ];
   };
 
-  generateNetdev = _: netcfg: nameValuePair
+  vpnClients = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
+
+  generateNetdev = netname: netcfg: nameValuePair
     "10-${netcfg.ifname}" {
     netdevConfig = {
       Name = "${netcfg.ifname}";
@@ -23,18 +25,32 @@ let
 
     wireguardConfig = {
       PrivateKeyFile = config.ptsd.secrets.files."${netcfg.keyname}".path;
+    } // optionalAttrs netcfg.server.enable {
+      ListenPort = netcfg.server.listenPort;
     };
 
-    wireguardPeers = [
-      {
-        wireguardPeerConfig = {
-          PublicKey = netcfg.publicKey;
-          AllowedIPs = netcfg.allowedIPs;
-          Endpoint = netcfg.endpoint;
-          PersistentKeepalive = netcfg.persistentKeepalive;
-        };
-      }
-    ];
+    wireguardPeers =
+      if netcfg.server.enable then (
+        map (
+          h: {
+            wireguardPeerConfig = {
+              PublicKey = h.nets.nwvpn.wireguard.pubkey;
+              AllowedIPs = [ "${h.nets.nwvpn.ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets.nwvpn.wireguard then h.nets.nwvpn.wireguard.networks else []);
+            };
+          }
+        ) (builtins.attrValues (vpnClients netname))
+      )
+      else
+        [
+          {
+            wireguardPeerConfig = {
+              PublicKey = netcfg.publicKey;
+              AllowedIPs = netcfg.allowedIPs;
+              Endpoint = netcfg.endpoint;
+              PersistentKeepalive = netcfg.persistentKeepalive;
+            };
+          }
+        ];
   };
 
   generateNetwork = _: netcfg: nameValuePair
@@ -45,6 +61,11 @@ let
     address = [
       "${netcfg.ip}/${toString netcfg.subnetMask}"
     ];
+  } // optionalAttrs netcfg.server.enable {
+    networkConfig = {
+      IPForward = "ipv4";
+      IPMasquerade = "yes";
+    };
   };
 in
 {
@@ -85,6 +106,18 @@ in
                 keyname = mkOption {
                   type = types.str;
                   default = "${config.ifname}.key";
+                };
+                server = mkOption {
+                  type = types.submodule {
+                    options = {
+                      enable = mkEnableOption "${config.ifname}-server";
+                      listenPort = mkOption {
+                        type = types.int;
+                        default = 55555;
+                      };
+                    };
+                  };
+                  default = {};
                 };
               };
             }
