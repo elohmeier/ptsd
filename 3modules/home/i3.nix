@@ -322,6 +322,15 @@ in
           };
         };
 
+        ethernet_nwvpn = {
+          type = "ethernet";
+          name = "nwvpn";
+          opts = {
+            format_up = "NVPN: %ip";
+            format_down = "NVPN: down";
+          };
+        };
+
         battery = {
           type = "battery";
           name = "all";
@@ -430,7 +439,7 @@ in
         "disk /var/src"
         "disk /nix"
       ] ++ optional cfg.showWifiStatus "wireless _first_"
-      ++ [ "ethernet ${cfg.ethIf}" ]
+      ++ [ "ethernet ${cfg.ethIf}" "ethernet nwvpn" ]
       ++ optional cfg.showBatteryStatus "battery all"
       ++ [
         "load"
