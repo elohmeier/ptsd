@@ -21,7 +21,9 @@ in
     envFile = config.ptsd.secrets.files."drone-ci.env".path;
   };
 
-  ptsd.secrets.files."drone-ci.env" = {};
+  ptsd.secrets.files."drone-ci.env" = {
+    dependants = [ "drone-server.service" ];
+  };
 
   ptsd.lego.extraDomains = [
     domain

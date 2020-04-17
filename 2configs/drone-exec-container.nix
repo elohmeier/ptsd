@@ -6,13 +6,14 @@ in
   ptsd.secrets.files = {
     "drone-ci.env" = {
       path = "/run/drone-runner-exec/drone-ci.env";
+      dependants = [ "container@drone.service" ];
     };
     "nwvpn-drone.key" = {
       owner = "systemd-network";
       mode = "0440";
+      dependants = [ "container@drone.service" ];
     };
   };
-
 
   containers.drone = {
     autoStart = true;
