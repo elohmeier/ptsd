@@ -16,13 +16,13 @@ _:
     ./nwstats.nix
     ./nwtelegraf.nix
     ./nwtraefik.nix
-    ./nwvpn.nix
     ./nwvpn-server.nix
     ./radicale.nix
     ./samba-sonos.nix
     ./secrets.nix
     ./traefik-forward-auth.nix
     ./vdi-container.nix
+    ./wireguard.nix
     ./wireguard-reresolve.nix
   ];
 }

@@ -95,4 +95,10 @@ in
   environment.systemPackages = with pkgs; [
     gitMinimal # required for krops
   ];
+
+  ptsd.wireguard.networks.nwvpn = {
+    publicKey = "UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=";
+    allowedIPs = [ "191.18.19.0/24" ];
+    endpoint = "159.69.186.234:55555";
+  };
 }

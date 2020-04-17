@@ -32,7 +32,7 @@ in
     "::1" = [ "${config.networking.hostName}.${config.networking.domain}" "${config.networking.hostName}" ];
   };
 
-  ptsd.nwvpn = {
+  ptsd.wireguard.networks.nwvpn = {
     enable = true;
     ip = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
   };

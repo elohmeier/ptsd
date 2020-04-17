@@ -57,7 +57,7 @@ in
             interfaces.eth0.useDHCP = true;
           };
 
-          ptsd.nwvpn = {
+          ptsd.wireguard.networks.nwvpn = {
             enable = true;
             ip = universe.hosts."ws1-drone".nets.nwvpn.ip4.addr;
             keyname = "nwvpn-drone.key";
