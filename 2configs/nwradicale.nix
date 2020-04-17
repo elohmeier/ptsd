@@ -4,12 +4,9 @@ let
 in
 {
   ptsd.secrets.files."radicale.htpasswd" = {
-    owner = "radicale";
-    group-name = "radicale";
-    mode = "0440";
+    path = "/run/radicale/radicale.htpasswd";
+    dependants = [ "radicale.service" ];
   };
-
-  users.groups.keys.members = [ "radicale" ];
 
   ptsd.radicale = {
     enable = true;

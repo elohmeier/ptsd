@@ -17,7 +17,7 @@ let
       };
 
       storage = {
-        filesystem_folder = "${cfg.dataDir}/collections";
+        filesystem_folder = "/var/lib/radicale/collections";
         hook = ''${pkgs.git}/bin/git add -A && (git diff --cached --quiet || ${pkgs.git}/bin/git commit -m "Changes by "%(user)s)'';
       };
 
@@ -38,10 +38,6 @@ in
   options = {
     ptsd.radicale = {
       enable = mkEnableOption "radicale";
-      dataDir = mkOption {
-        type = types.str;
-        default = "/var/lib/radicale";
-      };
       port = mkOption {
         type = types.int;
       };
@@ -54,23 +50,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    environment.systemPackages = [ pkgs.radicale2 pkgs.git ];
-
-    users.users = singleton
-      {
-        name = "radicale";
-        uid = config.ids.uids.radicale;
-        description = "radicale user";
-        home = cfg.dataDir;
-        createHome = true;
-        isSystemUser = true;
-      };
-
-    users.groups = singleton
-      {
-        name = "radicale";
-        gid = config.ids.gids.radicale;
-      };
+    environment.systemPackages = with pkgs; [ radicale2 ];
 
     systemd.services.radicale = {
       description = "A Simple Calendar and Contact Server";
@@ -78,27 +58,24 @@ in
       requires = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       preStart = ''
-        ${pkgs.coreutils}/bin/mkdir -p "${cfg.dataDir}/collections"
-        ${pkgs.git}/bin/git -C "${cfg.dataDir}/collections" init .
-        ${pkgs.coreutils}/bin/cp ${gitignore} "${cfg.dataDir}/collections/.gitignore"
-        ${pkgs.coreutils}/bin/chmod o+w "${cfg.dataDir}/collections/.gitignore"
+        ${pkgs.coreutils}/bin/mkdir -p "$STATE_DIRECTORY/collections"
+        ${pkgs.git}/bin/git -C "$STATE_DIRECTORY/collections" init .
+        ${pkgs.coreutils}/bin/cp ${gitignore} "$STATE_DIRECTORY/collections/.gitignore"
+        ${pkgs.coreutils}/bin/chmod o+w "$STATE_DIRECTORY/collections/.gitignore"
       '';
       serviceConfig = {
         ExecStart = "${pkgs.radicale2}/bin/radicale -C ${confFile}";
-        User = "radicale";
-        Group = "radicale";
+        DynamicUser = true;
+        StateDirectory = "radicale";
         Restart = "on-failure";
         # Deny other users access to the calendar data
         UMask = "0027";
         PrivateTmp = "true";
-        ProtectSystem = "strict";
+        ProtectSystem = "full";
         ProtectHome = "true";
         PrivateDevices = "true";
-        ProtectKernelTunables = "true";
-        ProtectKernelModules = "true";
-        ProtectControlGroups = "true";
         NoNewPrivileges = "true";
-        ReadWritePaths = cfg.dataDir;
+        RuntimeDirectory = "radicale";
       };
     };
   };
