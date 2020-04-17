@@ -4,6 +4,7 @@ with lib;
 let
   cfg = config.ptsd.wireguard;
   enabledNetworks = filterAttrs (_: v: v.enable) cfg.networks;
+  natForwardNetworks = filterAttrs (_: v: v.natForwardIf != "") enabledNetworks;
   universe = import <ptsd/2configs/universe.nix>;
 
   generateSecret = _: netcfg: nameValuePair
@@ -67,6 +68,25 @@ let
       IPMasquerade = "yes";
     };
   };
+
+  # network interface ordering has no effect, that's why we call them "A" and "B"
+  genNatForward = ifA: ifB: op: ''
+    ### ptsd.wireguard: configure NAT forwarding in both directions of a network interface pair ###
+    
+    # continue forwarding of established or related connections
+    iptables -${op} FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+
+    # forward A -> B
+    iptables -t nat -${op} POSTROUTING -o ${ifB} -j MASQUERADE
+    iptables -${op} FORWARD -i ${ifA} -o ${ifB} -j ACCEPT
+
+    # forward B -> A
+    iptables -t nat -${op} POSTROUTING -o ${ifA} -j MASQUERADE
+    iptables -${op} FORWARD -i ${ifB} -o ${ifA} -j ACCEPT
+  '';
+
+  genNatForwardUp = ifA: ifB: (genNatForward ifA ifB "A");
+  genNatForwardDown = ifA: ifB: (genNatForward ifA ifB "D");
 in
 {
   options = {
@@ -118,6 +138,15 @@ in
                   };
                   default = {};
                 };
+                natForwardIf = mkOption {
+                  description = ''
+                    if set to a network interface name, NAT rules will be set
+                    up to forward traffic (in both directions), e.g. to make
+                    remote networks accessible from the VPN.
+                  '';
+                  example = "eth0";
+                  default = "";
+                };
               };
             }
           )
@@ -148,7 +177,17 @@ in
       networks = mapAttrs' generateNetwork enabledNetworks;
     };
 
-    networking.firewall.allowedUDPPorts = mapAttrsToList (_: v: v.server.listenPort) (filterAttrs (_: v: v.server.enable) enabledNetworks);
+    networking.firewall = {
+      allowedUDPPorts = mapAttrsToList (_: v: v.server.listenPort) (filterAttrs (_: v: v.server.enable) enabledNetworks);
+    } // optionalAttrs (natForwardNetworks != {}) {
+      extraCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardUp netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
+      extraStopCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardDown netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
+    };
+
+    boot.kernel.sysctl = optionalAttrs (natForwardNetworks != {}) {
+      "net.ipv4.conf.all.forwarding" = true;
+      "net.ipv4.conf.default.forwarding" = true;
+    };
 
     # will query all wireguard interfaces by default
     ptsd.nwtelegraf.inputs.wireguard = [ {} ];
