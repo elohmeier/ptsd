@@ -38,7 +38,7 @@ in
       files = mkOption {
         type = types.attrsOf (
           types.submodule (
-            { name, ... }: {
+            { config, ... }: {
               options = {
                 name = mkOption {
                   type = types.str;
@@ -46,7 +46,7 @@ in
                 };
                 path = mkOption {
                   type = types.str;
-                  default = "/run/keys/${name}";
+                  default = "/run/keys/${config.name}";
                 };
                 mode = mkOption {
                   type = types.str;
@@ -62,7 +62,7 @@ in
                 };
                 source-path = mkOption {
                   type = types.str;
-                  default = toString <secrets> + "/${name}";
+                  default = toString <secrets> + "/${config.name}";
                 };
                 dependants = mkOption {
                   type = types.listOf types.str;
