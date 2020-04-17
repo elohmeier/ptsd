@@ -39,7 +39,7 @@ let
       // lib.optionalAttrs (cfg.inputs.http != []) { http = cfg.inputs.http; }
       // lib.optionalAttrs (cfg.inputs.http_response != []) { http_response = cfg.inputs.http_response; }
       // lib.optionalAttrs (cfg.inputs.influxdb != []) { influxdb = cfg.inputs.influxdb; }
-      // lib.optionalAttrs (cfg.inputs.wireguard != []) { wireguard = cfg.inputs.wireguard; }
+      // lib.optionalAttrs (cfg.inputs.wireguard != [] && (lib.versionAtLeast cfg.package.version "1.14")) { wireguard = cfg.inputs.wireguard; }
       // lib.optionalAttrs (cfg.inputs.x509_cert != []) { x509_cert = cfg.inputs.x509_cert; };
     };
 
