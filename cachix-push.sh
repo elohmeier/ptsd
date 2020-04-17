@@ -24,3 +24,6 @@ nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/acme-dns {}' | cachi
 
 echo "Building and pushing 5pkgs/portfolio..."
 nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/portfolio {}' | cachix push nerdworks
+
+echo "Building and pushing 5pkgs/telegraf..."
+nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/telegraf {}' | cachix push nerdworks
