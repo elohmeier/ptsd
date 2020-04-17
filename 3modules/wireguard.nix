@@ -113,7 +113,6 @@ in
                       enable = mkEnableOption "${config.ifname}-server";
                       listenPort = mkOption {
                         type = types.int;
-                        default = 55555;
                       };
                     };
                   };
@@ -148,6 +147,8 @@ in
       netdevs = mapAttrs' generateNetdev enabledNetworks;
       networks = mapAttrs' generateNetwork enabledNetworks;
     };
+
+    networking.firewall.allowedUDPPorts = mapAttrsToList (_: v: v.server.listenPort) (filterAttrs (_: v: v.server.enable) enabledNetworks);
 
     # will query all wireguard interfaces by default
     ptsd.nwtelegraf.inputs.wireguard = [ {} ];
