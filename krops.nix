@@ -1,6 +1,7 @@
 { name
 , desktop ? false
 , unstable ? false
+, mailserver ? false
 , secrets ? true
 , starget ? "root@${name}.host.nerdworks.de"
 }:
@@ -56,6 +57,16 @@ let
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
           url = https://github.com/NixOS/nixpkgs;
+        };
+      }
+    )
+
+    (
+      lib.optionalAttrs (mailserver) {
+        nixos-mailserver.git = {
+          clean.exclude = [ "/.version-suffix" ];
+          ref = (lib.importJSON ./nixos-mailserver.json).rev;
+          url = https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git;
         };
       }
     )
