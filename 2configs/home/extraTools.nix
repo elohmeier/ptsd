@@ -151,6 +151,8 @@ in
 
       teamviewer
       discord
+
+      unstable.rclone
     ];
 
   programs.chromium = {
