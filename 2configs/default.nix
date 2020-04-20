@@ -98,19 +98,20 @@ in
   ptsd.wireguard.networks = {
     dlrgvpn = {
       publicKey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
-      allowedIPs = [
-        "191.18.21.0/24"
-        "192.168.178.0/24"
-      ];
-      endpoint = "hvrhukr39ruezms4.myfritz.net:55557";
-      reresolveDns = true;
+      client = {
+        endpoint = "hvrhukr39ruezms4.myfritz.net:55557";
+        reresolveDns = true;
+        allowedIPs = [ "191.18.21.0/24" ];
+      };
       server.listenPort = 55557;
     };
 
     nwvpn = {
       publicKey = "UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=";
-      allowedIPs = [ "191.18.19.0/24" ];
-      endpoint = "159.69.186.234:55555";
+      client = {
+        endpoint = "159.69.186.234:55555";
+        allowedIPs = [ "191.18.19.0/24" ];
+      };
       server.listenPort = 55555;
     };
   };

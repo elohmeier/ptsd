@@ -5,7 +5,7 @@ let
   cfg = config.ptsd.wireguard;
   enabledNetworks = filterAttrs (_: v: v.enable) cfg.networks;
   natForwardNetworks = filterAttrs (_: v: v.natForwardIf != "") enabledNetworks;
-  reresolveDnsNetworks = filterAttrs (_: v: v.reresolveDns) enabledNetworks;
+  reresolveDnsNetworks = filterAttrs (_: v: v.client.reresolveDns) enabledNetworks;
   universe = import <ptsd/2configs/universe.nix>;
 
   generateSecret = _: netcfg: nameValuePair
@@ -33,8 +33,8 @@ let
         {
           wireguardPeerConfig = {
             PublicKey = netcfg.publicKey;
-            AllowedIPs = netcfg.allowedIPs;
-            Endpoint = netcfg.endpoint;
+            AllowedIPs = netcfg.client.allowedIPs;
+            Endpoint = netcfg.client.endpoint;
             PersistentKeepalive = netcfg.persistentKeepalive;
           };
         }
@@ -65,6 +65,7 @@ let
     address = [
       "${netcfg.ip}/${toString netcfg.subnetMask}"
     ];
+    routes = netcfg.routes;
   } // optionalAttrs netcfg.server.enable {
     networkConfig = {
       IPForward = "ipv4";
@@ -158,12 +159,6 @@ in
                 publicKey = mkOption {
                   type = types.str;
                 };
-                allowedIPs = mkOption {
-                  type = with types; listOf str;
-                };
-                endpoint = mkOption {
-                  type = types.str;
-                };
                 persistentKeepalive = mkOption {
                   type = types.int;
                   default = 21;
@@ -172,9 +167,22 @@ in
                   type = types.str;
                   default = "${config.ifname}.key";
                 };
-                reresolveDns = mkOption {
-                  type = types.bool;
-                  default = false;
+                client = mkOption {
+                  type = types.submodule {
+                    options = {
+                      endpoint = mkOption {
+                        type = types.str;
+                      };
+                      reresolveDns = mkOption {
+                        type = types.bool;
+                        default = false;
+                      };
+                      allowedIPs = mkOption {
+                        type = with types; listOf str;
+                      };
+                    };
+                  };
+                  default = {};
                 };
                 server = mkOption {
                   type = types.submodule {
@@ -195,6 +203,16 @@ in
                   '';
                   example = "eth0";
                   default = "";
+                };
+                routes = mkOption {
+                  description = ''
+                    systemd-networkd route configuration to apply to the network interface.
+                  '';
+                  type = types.listOf types.attrs;
+                  default = [];
+                  example = [
+                    { routeConfig = { Destination = "192.168.178.0/24"; }; }
+                  ];
                 };
               };
             }

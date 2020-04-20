@@ -16,6 +16,9 @@ in
     ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
     natForwardIf = "eth0";
     server.enable = true;
+    routes = [
+      { routeConfig = { Destination = "192.168.168.0/24"; }; }
+    ];
   };
 
   ptsd.nwbackup = {

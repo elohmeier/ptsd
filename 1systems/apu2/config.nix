@@ -20,6 +20,10 @@ in
     enable = true;
     ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
     natForwardIf = "br0";
+    client.allowedIPs = [ "192.168.178.0/24" ];
+    routes = [
+      { routeConfig = { Destination = "192.168.178.0/24"; }; }
+    ];
   };
 
   ptsd.dockerHomeAssistant.enable = true;
