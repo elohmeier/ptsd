@@ -15,7 +15,7 @@ in
     enable = true;
     ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
     natForwardIf = "eth0";
-    server.listenPort = 55557;
+    server.enable = true;
   };
 
   ptsd.nwbackup = {
