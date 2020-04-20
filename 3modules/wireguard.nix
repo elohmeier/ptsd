@@ -22,8 +22,8 @@ let
       map (
         h: {
           wireguardPeerConfig = {
-            PublicKey = h.nets.nwvpn.wireguard.pubkey;
-            AllowedIPs = [ "${h.nets.nwvpn.ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets.nwvpn.wireguard then h.nets.nwvpn.wireguard.networks else []);
+            PublicKey = h.nets."${netname}".wireguard.pubkey;
+            AllowedIPs = [ "${h.nets."${netname}".ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets."${netname}".wireguard then h.nets."${netname}".wireguard.networks else []);
           };
         }
       ) (builtins.attrValues (vpnClients netname))
