@@ -5,6 +5,7 @@ let
   cfg = config.ptsd.wireguard;
   enabledNetworks = filterAttrs (_: v: v.enable) cfg.networks;
   natForwardNetworks = filterAttrs (_: v: v.natForwardIf != "") enabledNetworks;
+  reresolveDnsNetworks = filterAttrs (_: v: v.reresolveDns) enabledNetworks;
   universe = import <ptsd/2configs/universe.nix>;
 
   generateSecret = _: netcfg: nameValuePair
@@ -15,6 +16,29 @@ let
   };
 
   vpnClients = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
+
+  generateWireguardPeers = netname: netcfg:
+    if netcfg.server.enable then (
+      map (
+        h: {
+          wireguardPeerConfig = {
+            PublicKey = h.nets.nwvpn.wireguard.pubkey;
+            AllowedIPs = [ "${h.nets.nwvpn.ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets.nwvpn.wireguard then h.nets.nwvpn.wireguard.networks else []);
+          };
+        }
+      ) (builtins.attrValues (vpnClients netname))
+    )
+    else
+      [
+        {
+          wireguardPeerConfig = {
+            PublicKey = netcfg.publicKey;
+            AllowedIPs = netcfg.allowedIPs;
+            Endpoint = netcfg.endpoint;
+            PersistentKeepalive = netcfg.persistentKeepalive;
+          };
+        }
+      ];
 
   generateNetdev = netname: netcfg: nameValuePair
     "10-${netcfg.ifname}" {
@@ -30,28 +54,7 @@ let
       ListenPort = netcfg.server.listenPort;
     };
 
-    wireguardPeers =
-      if netcfg.server.enable then (
-        map (
-          h: {
-            wireguardPeerConfig = {
-              PublicKey = h.nets.nwvpn.wireguard.pubkey;
-              AllowedIPs = [ "${h.nets.nwvpn.ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets.nwvpn.wireguard then h.nets.nwvpn.wireguard.networks else []);
-            };
-          }
-        ) (builtins.attrValues (vpnClients netname))
-      )
-      else
-        [
-          {
-            wireguardPeerConfig = {
-              PublicKey = netcfg.publicKey;
-              AllowedIPs = netcfg.allowedIPs;
-              Endpoint = netcfg.endpoint;
-              PersistentKeepalive = netcfg.persistentKeepalive;
-            };
-          }
-        ];
+    wireguardPeers = generateWireguardPeers netname netcfg;
   };
 
   generateNetwork = _: netcfg: nameValuePair
@@ -87,6 +90,48 @@ let
 
   genNatForwardUp = ifA: ifB: (genNatForward ifA ifB "A");
   genNatForwardDown = ifA: ifB: (genNatForward ifA ifB "D");
+
+  generateReresolveDnsUnit = netname: netcfg:
+    let
+      wireguardPeers = generateWireguardPeers netname netcfg;
+      peersWithEndpoint = filter (peer: hasAttrByPath [ "wireguardPeerConfig" "Endpoint" ] peer) wireguardPeers;
+    in
+      nameValuePair "wireguard-${netname}-reresolve"
+        {
+          description = "Reresolve WireGuard Tunnel - ${netname}";
+          requires = [ "network-online.target" ];
+          after = [ "network.target" "network-online.target" ];
+          path = with pkgs; [ wireguard-tools ];
+
+          # from https://git.zx2c4.com/WireGuard/tree/contrib/examples/reresolve-dns/reresolve-dns.sh
+          script = ''
+            INTERFACE="${netname}"
+
+            reset_peer_section() {
+              PUBLIC_KEY=""
+              ENDPOINT=""
+            }
+
+            process_peer() {
+              [[ -z $PUBLIC_KEY || -z $ENDPOINT ]] && return 0
+              [[ $(wg show "$INTERFACE" latest-handshakes) =~ ''${PUBLIC_KEY//+/\\+}\${"\t"}([0-9]+) ]] || return 0
+              (( ($(date +%s) - ''${BASH_REMATCH[1]}) > 135 )) || return 0
+              wg set "$INTERFACE" peer "$PUBLIC_KEY" endpoint "$ENDPOINT"
+              echo reloaded endpoint for peer $PUBLIC_KEY
+              reset_peer_section
+            }
+
+            ${concatMapStringsSep "\n" (
+            peer: ''
+              PUBLIC_KEY="${peer.wireguardPeerConfig.PublicKey}"
+              ENDPOINT="${peer.wireguardPeerConfig.Endpoint}"
+              process_peer;
+            ''
+          ) peersWithEndpoint}
+          '';
+
+          startAt = "minutely";
+        };
 in
 {
   options = {
@@ -126,6 +171,10 @@ in
                 keyname = mkOption {
                   type = types.str;
                   default = "${config.ifname}.key";
+                };
+                reresolveDns = mkOption {
+                  type = types.bool;
+                  default = false;
                 };
                 server = mkOption {
                   type = types.submodule {
@@ -191,5 +240,7 @@ in
 
     # will query all wireguard interfaces by default
     ptsd.nwtelegraf.inputs.wireguard = [ {} ];
+
+    systemd.services = mapAttrs' generateReresolveDnsUnit reresolveDnsNetworks;
   };
 }
