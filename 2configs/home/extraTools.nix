@@ -6,13 +6,18 @@ let
     config.allowUnfree = true;
     config.packageOverrides = import ../../5pkgs unstable;
   };
-  py3 = pkgs.python37;
+  py3 = pkgs.python37.override {
+    packageOverrides = self: super: rec {
+      nb_black = super.callPackage ../../5pkgs/nb_black {};
+    };
+  };
   pyenv = py3.withPackages (
     pythonPackages: with pythonPackages; [
       black
       jupyterlab
       lxml
       keyring
+      nb_black
       pdfminer
       pillow
       requests
@@ -151,6 +156,7 @@ in
 
       teamviewer
       discord
+      mediathekview
     ];
 
   programs.chromium = {
