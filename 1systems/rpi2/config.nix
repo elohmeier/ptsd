@@ -1,22 +1,34 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
-
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports = [
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
-
     <ptsd>
-
     <ptsd/2configs>
     <ptsd/2configs/nwhost-mini.nix>
-
     <secrets-shared/nwsecrets.nix>
   ];
 
-  networking.hostName = "rpi2";
-
-  ptsd.dlrgVpnHost = {
+  ptsd.wireguard.networks.dlrgvpn = {
     enable = true;
-    ip = "191.18.21.35";
+    ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+    natForwardIf = "eth0";
+    server.listenPort = 55557;
+  };
+
+  ptsd.nwbackup = {
+    enable = true;
+  };
+
+  # fix often full /boot directory
+  boot.loader.grub.configurationLimit = 2;
+
+  networking = {
+    useNetworkd = true;
+    useDHCP = false;
+    hostName = "rpi2";
+    interfaces.eth0.useDHCP = true;
   };
 }
