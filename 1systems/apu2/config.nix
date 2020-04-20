@@ -24,6 +24,10 @@ in
 
   ptsd.dockerHomeAssistant.enable = true;
 
+  ptsd.nwbackup = {
+    enable = true;
+  };
+
   networking = {
     useNetworkd = true;
     useDHCP = false;
