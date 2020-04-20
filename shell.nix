@@ -4,7 +4,7 @@ let
     mk-pretty = ''
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt 1systems
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt 2configs
-      find 3modules -name '*.nix' ! -name 'wireguard-reresolve.nix' -exec ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt {} \;
+      ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt 3modules
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt 4lib
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt 5pkgs
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt lib

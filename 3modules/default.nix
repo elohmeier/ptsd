@@ -3,8 +3,6 @@ _:
   imports = [
     ./acme-dns.nix
     ./alerta.nix
-    ./dlrg-vpn-client.nix
-    ./dlrg-vpn-host.nix
     ./docker-home-assistant.nix
     ./drone-server.nix
     ./gitea.nix
@@ -22,6 +20,5 @@ _:
     ./traefik-forward-auth.nix
     ./vdi-container.nix
     ./wireguard.nix
-    ./wireguard-reresolve.nix
   ];
 }
