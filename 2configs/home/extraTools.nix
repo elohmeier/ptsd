@@ -8,16 +8,16 @@ let
   };
   py3 = pkgs.python37.override {
     packageOverrides = self: super: rec {
-      nb_black = super.callPackage ../../5pkgs/nb_black {};
+      black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert {};
     };
   };
   pyenv = py3.withPackages (
     pythonPackages: with pythonPackages; [
       black
+      black_nbconvert
       jupyterlab
       lxml
       keyring
-      nb_black
       pdfminer
       pillow
       requests
