@@ -91,3 +91,9 @@ mkdir /mnt/var/src/.populate
 nix-env -iA nixos.pkgs.gitMinimal
 ```
 
+## Tips
+
+### Get predictable network interface name
+[as used by systemd](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/)
+e.g. `udevadm test-builtin net_id /sys/class/net/enp39s0`
+
