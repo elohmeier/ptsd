@@ -1,27 +1,47 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
-
+let
+  bridgeIfs = [
+    "enp1s0"
+    "enp2s0"
+    "enp3s0"
+  ];
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports = [
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
-
     <ptsd>
-
     <ptsd/2configs>
     <ptsd/2configs/nwhost-mini.nix>
-
     <secrets-shared/nwsecrets.nix>
   ];
 
-  ptsd.dlrgVpnClient = {
+  ptsd.wireguard.networks.dlrgvpn = {
     enable = true;
-    ip = "191.18.21.34";
+    ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+    natForwardIf = "br0";
   };
 
   ptsd.dockerHomeAssistant.enable = true;
 
   networking = {
+    useNetworkd = true;
+    useDHCP = false;
     hostName = "apu2";
-    bridges.br0.interfaces = [ "enp1s0" "enp2s0" "enp3s0" ];
+    bridges.br0.interfaces = bridgeIfs;
+    interfaces.br0.useDHCP = true;
   };
+
+  systemd.network.networks = builtins.listToAttrs (
+    map (
+      brName: {
+        name = "40-${brName}";
+        value = {
+          networkConfig = {
+            ConfigureWithoutCarrier = true;
+          };
+        };
+      }
+    ) bridgeIfs
+  );
 }
