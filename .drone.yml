@@ -16,7 +16,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name htz1 --arg secrets false --arg unstable true -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name htz1 --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -39,7 +39,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name htz2 --arg secrets false --arg unstable true -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name htz2 --arg secrets false --arg unstable true --arg mailserver true -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -62,7 +62,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name nas1 --arg secrets false --arg unstable false -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name nas1 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -85,7 +85,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name ws1 --arg secrets false --arg unstable true -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name ws1 --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key

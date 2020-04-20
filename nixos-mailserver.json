@@ -1,0 +1,7 @@
+{
+  "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver",
+  "rev": "289f71efe2250e1155b0c74d188699397ba641d8",
+  "date": "2019-12-15T14:29:16+01:00",
+  "sha256": "0lpz08qviccvpfws2nm83n7m2r8add2wvfg9bljx9yxx8107r919",
+  "fetchSubmodules": false
+}

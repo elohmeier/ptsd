@@ -157,6 +157,7 @@ in
       teamviewer
       discord
       mediathekview
+      unstable.rclone
     ];
 
   programs.chromium = {
