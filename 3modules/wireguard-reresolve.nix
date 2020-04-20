@@ -25,7 +25,7 @@ let
 
           process_peer() {
             [[ -z $PUBLIC_KEY || -z $ENDPOINT ]] && return 0
-            [[ $(wg show "$INTERFACE" latest-handshakes) =~ ^''${PUBLIC_KEY//+/\\+}\	([0-9]+)$ ]] || return 0
+            [[ $(wg show "$INTERFACE" latest-handshakes) =~ ''${PUBLIC_KEY//+/\\+}\	([0-9]+) ]] || return 0
             (( ($(date +%s) - ''${BASH_REMATCH[1]}) > 135 )) || return 0
             wg set "$INTERFACE" peer "$PUBLIC_KEY" endpoint "$ENDPOINT"
             echo reloaded endpoint for peer $PUBLIC_KEY
