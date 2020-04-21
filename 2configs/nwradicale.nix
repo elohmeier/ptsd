@@ -1,12 +1,15 @@
 { config, lib, pkgs, ... }:
 let
   domain = "mail.nerdworks.de";
+  monitoringSecrets = import <secrets/monitoring.nix>;
 in
 {
   ptsd.secrets.files."radicale.htpasswd" = {
     path = "/run/radicale/radicale.htpasswd";
     dependants = [ "radicale.service" ];
   };
+
+  systemd.services.radicale.partOf = [ "secret-radicale.htpasswd.service" ];
 
   ptsd.radicale = {
     enable = true;
@@ -32,6 +35,20 @@ in
       }
       {
         urls = [ "https://${domain}/.web" ];
+        headers =
+          let
+            basicAuthEncoded = builtins.readFile (
+              pkgs.runCommand "b64auth" {
+                preferLocalBuild = true;
+              } ''
+                echo "${monitoringSecrets.radicaleUsername}:${monitoringSecrets.radicalePassword}" \
+                base64 > $out
+              ''
+            );
+          in
+            {
+              Authorization = "Basic ${basicAuthEncoded}";
+            };
       }
     ];
     x509_cert = [
@@ -54,6 +71,8 @@ in
           port 443
           certificate valid > 30 days
           protocol https
+          username "${monitoringSecrets.radicaleUsername}"
+          password "${monitoringSecrets.radicalePassword}"
           request "/.web"
           then alert
     ''
