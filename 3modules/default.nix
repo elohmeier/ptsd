@@ -3,7 +3,6 @@ _:
   imports = [
     ./acme-dns.nix
     ./alerta.nix
-    ./docker-home-assistant.nix
     ./drone-server.nix
     ./gitea.nix
     ./lego.nix

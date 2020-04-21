@@ -12,7 +12,8 @@ in
   imports = [
     <ptsd>
     <ptsd/2configs>
-    <ptsd/2configs/nwhost-mini.nix>
+    <ptsd/2configs/cli-tools.nix>
+    <ptsd/2configs/nwhost.nix>
     <secrets-shared/nwsecrets.nix>
   ];
 
@@ -25,8 +26,6 @@ in
       { routeConfig = { Destination = "192.168.178.0/24"; }; }
     ];
   };
-
-  ptsd.dockerHomeAssistant.enable = true;
 
   ptsd.nwbackup = {
     enable = true;
@@ -52,4 +51,32 @@ in
       }
     ) bridgeIfs
   );
+
+  services.home-assistant = {
+    enable = true;
+    package = pkgs.nwhass;
+  };
+
+  networking.firewall.allowedTCPPorts = [ 8123 ];
+  networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } ]; # for pyhomematic
+
+  ptsd.nwtelegraf.inputs = {
+    http_response = [
+      {
+        urls = [ "http://192.168.168.41:8123" ];
+        response_string_match = "Home Assistant";
+      }
+    ];
+  };
+
+  ptsd.nwmonit.extraConfig = [
+    ''
+      check host 192.168.168.41 with address 192.168.168.41
+        if failed
+          port 8123
+          protocol http
+          content = "Home Assistant"
+        then alert
+    ''
+  ];
 }
