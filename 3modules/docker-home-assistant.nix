@@ -47,7 +47,7 @@ in
     ptsd.nwtelegraf.inputs = {
       http_response = [
         {
-          urls = [ "http://${domain}:${port}" ];
+          urls = [ "http://${domain}:${toString port}" ];
           response_string_match = "Home Assistant";
         }
       ];
@@ -57,7 +57,7 @@ in
       ''
         check host ${domain} with address ${domain}
           if failed
-            port ${port}
+            port ${toString port}
             protocol http
             content = "Home Assistant"
           then alert
