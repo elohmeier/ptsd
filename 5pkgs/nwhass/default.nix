@@ -10,7 +10,7 @@ home-assistant.override {
     ps.pyhomematic
     (ps.callPackage ../PyMetno {})
     ps.pynacl
-    ps.pysonos
+    #ps.pysonos # marked as broken as of 2020-04-21
     ps.ssdp
     ps.zeroconf
   ];
