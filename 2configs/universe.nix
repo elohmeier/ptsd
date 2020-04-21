@@ -186,6 +186,7 @@
 
     # Fraam WWW
     htz3 = {
+      domain = "host.fraam.de";
       nets = {
         www = {
           ip4.addr = "78.47.98.124";

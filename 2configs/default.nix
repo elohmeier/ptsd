@@ -75,7 +75,7 @@ in
     knownHosts = mapAttrs (
       hostname: hostcfg: {
         hostNames =
-          [ hostname "${hostname}.host.nerdworks.de" ]
+          [ hostname (if hasAttr "domain" hostcfg then "${hostname}.${hostcfg.domain}" else "${hostname}.host.nerdworks.de") ]
           ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
           ++ (mapAttrsToList (_: netcfg: netcfg.ip6.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip6" "addr" ] netcfg) hostcfg.nets))
           ++ (flatten (mapAttrsToList (_: netcfg: netcfg.aliases) (filterAttrs (_: netcfg: hasAttr "aliases" netcfg) hostcfg.nets)));
