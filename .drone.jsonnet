@@ -1,3 +1,10 @@
+local FetchSubmodules() = {
+  name: "fetch submodules",
+  commands: [
+    "git submodule update --init --recursive --remote"
+  ]
+};
+
 local Deploy(hostname, populate_unstable, populate_mailserver) = {
   name: "deploy " + hostname,
   commands: [
@@ -12,31 +19,35 @@ local Deploy(hostname, populate_unstable, populate_mailserver) = {
   }
 };
 
-local DeployPipeline(hostname, populate_unstable, populate_mailserver) = {
+local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=false, prebuild_hass=false) = {
   kind: "pipeline",
   type: "exec",
   name: "deploy " + hostname,
 
-  steps : [
-    {
-      name: "fetch submodules",
-      commands: [
-        "git submodule update --init --recursive --remote"
-      ]
-    },
+  steps : (
+    if prebuild_hass then [
+      {
+        name: "prebuild hass",
+        commands: [
+          "nix-copy-closure --to root@" + hostname + " $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}')"
+        ]
+      }
+    ] else []
+  ) + [
+    FetchSubmodules(),
     Deploy(hostname, populate_unstable, populate_mailserver)
   ]
 };
 
 [
-  //DeployPipeline("apu1", false, false),
-  DeployPipeline("apu2", false, false),
-  DeployPipeline("htz1", true, false),
-  DeployPipeline("htz2", true, true),
-  DeployPipeline("nas1", false, false),
-  //DeployPipeline("nuc1", false, false),
-  DeployPipeline("rpi2", false, false),
-  DeployPipeline("ws1", true, false)
+  //DeployPipeline("apu1"),
+  DeployPipeline("apu2", prebuild_hass=true),
+  DeployPipeline("htz1", populate_unstable=true),
+  DeployPipeline("htz2", populate_unstable=true, populate_mailserver=true),
+  DeployPipeline("nas1", prebuild_hass=true),
+  //DeployPipeline("nuc1"),
+  DeployPipeline("rpi2"),
+  DeployPipeline("ws1", populate_unstable=true)
 ]
 
 # Don't forget to run `make .drone.yml`

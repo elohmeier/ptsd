@@ -8,6 +8,10 @@ platform:
   arch: amd64
 
 steps:
+- name: prebuild hass
+  commands:
+  - nix-copy-closure --to root@apu2 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}')
+
 - name: fetch submodules
   commands:
   - git submodule update --init --recursive --remote
@@ -77,6 +81,10 @@ platform:
   arch: amd64
 
 steps:
+- name: prebuild hass
+  commands:
+  - nix-copy-closure --to root@nas1 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}')
+
 - name: fetch submodules
   commands:
   - git submodule update --init --recursive --remote
