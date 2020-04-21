@@ -30,10 +30,12 @@ local DeployPipeline(hostname, populate_unstable, populate_mailserver) = {
 
 [
   //DeployPipeline("apu1", false, false),
+  DeployPipeline("apu2", false, false),
   DeployPipeline("htz1", true, false),
   DeployPipeline("htz2", true, true),
   DeployPipeline("nas1", false, false),
   //DeployPipeline("nuc1", false, false),
+  DeployPipeline("rpi2", false, false),
   DeployPipeline("ws1", true, false)
 ]
 
