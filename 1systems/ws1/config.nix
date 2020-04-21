@@ -1,6 +1,9 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
 
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports = [
     <ptsd>
@@ -35,6 +38,16 @@ with import <ptsd/lib>;
   };
 
   ptsd.nwbackup.repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
+
+  ptsd.wireguard.networks.dlrgvpn = {
+    enable = true;
+    ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+    client.allowedIPs = [ "192.168.168.0/24" ];
+    routes = [
+      { routeConfig = { Destination = "192.168.168.0/24"; }; }
+    ];
+    keyname = "nwvpn.key";
+  };
 
   # default: poweroff
   #services.logind.extraConfig = "HandlePowerKey=suspend";
