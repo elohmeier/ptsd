@@ -25,7 +25,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name apu2 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name apu2 --argstr starget root@apu2.host.nerdworks.de --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -48,7 +48,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name htz1 --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name htz1 --argstr starget root@htz1.host.nerdworks.de --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -71,7 +71,30 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name htz2 --arg secrets false --arg unstable true --arg mailserver true -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name htz2 --argstr starget root@htz2.host.nerdworks.de --arg secrets false --arg unstable true --arg mailserver true -A deploy -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+---
+kind: pipeline
+type: exec
+name: deploy htz3
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
+
+- name: deploy htz3
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - $(nix-build --no-out-link krops.nix --argstr name htz3 --argstr starget root@htz3.host.fraam.de --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -103,7 +126,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name nas1 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name nas1 --argstr starget root@nas1.host.nerdworks.de --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -126,7 +149,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name rpi2 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name rpi2 --argstr starget root@rpi2.host.nerdworks.de --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -149,7 +172,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name ws1 --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
+  - $(nix-build --no-out-link krops.nix --argstr name ws1 --argstr starget root@ws1.host.nerdworks.de --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key

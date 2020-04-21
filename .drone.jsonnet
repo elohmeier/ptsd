@@ -18,7 +18,7 @@ local WrapSSH(name, commands) = {
   }
 };
 
-local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=false, prebuild_hass=false) = {
+local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=false, prebuild_hass=false, hostdomain="host.nerdworks.de") = {
   kind: "pipeline",
   type: "exec",
   name: "deploy " + hostname,
@@ -29,13 +29,13 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
     if prebuild_hass then [
       WrapSSH(
         "prebuild hass",
-        ["nix-copy-closure --to root@" + hostname + ".host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)"]
+        ["nix-copy-closure --to root@" + hostname + "." + hostdomain + " $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)"]
       )
     ] else []
   ) + [
     WrapSSH(
       "deploy " + hostname,
-      ["$(nix-build --no-out-link krops.nix --argstr name " + hostname + " --arg secrets false --arg unstable " + populate_unstable + " --arg mailserver " + populate_mailserver + " -A deploy -I /var/src)"]
+      ["$(nix-build --no-out-link krops.nix --argstr name " + hostname + " --argstr starget root@" + hostname + "." + hostdomain + " --arg secrets false --arg unstable " + populate_unstable + " --arg mailserver " + populate_mailserver + " -A deploy -I /var/src)"]
     )
   ]
 };
@@ -45,6 +45,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   DeployPipeline("apu2", prebuild_hass=true),
   DeployPipeline("htz1", populate_unstable=true),
   DeployPipeline("htz2", populate_unstable=true, populate_mailserver=true),
+  DeployPipeline("htz3", hostdomain="host.fraam.de"),
   DeployPipeline("nas1", prebuild_hass=true),
   //DeployPipeline("nuc1"),
   DeployPipeline("rpi2"),
