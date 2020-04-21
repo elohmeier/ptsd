@@ -10,7 +10,7 @@ platform:
 steps:
 - name: prebuild hass
   commands:
-  - nix-copy-closure --to root@apu2 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}')
+  - nix-copy-closure --to root@apu2 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
 
 - name: fetch submodules
   commands:
@@ -83,7 +83,7 @@ platform:
 steps:
 - name: prebuild hass
   commands:
-  - nix-copy-closure --to root@nas1 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}')
+  - nix-copy-closure --to root@nas1 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
 
 - name: fetch submodules
   commands:
