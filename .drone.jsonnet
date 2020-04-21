@@ -29,7 +29,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
       {
         name: "prebuild hass",
         commands: [
-          "nix-copy-closure --to root@" + hostname + " $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)"
+          "nix-copy-closure --to root@" + hostname + ".host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)"
         ]
       }
     ] else []
