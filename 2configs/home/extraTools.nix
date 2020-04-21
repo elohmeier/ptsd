@@ -35,6 +35,7 @@ in
     wine = wineStaging.override { wineBuild = "wine32"; };
   in
     [
+      sshfs
       pdftk
 
       unstable.vscodium
