@@ -97,3 +97,5 @@ nix-env -iA nixos.pkgs.gitMinimal
 [as used by systemd](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/)
 e.g. `udevadm test-builtin net_id /sys/class/net/enp39s0`
 
+### Quick deployment of package needing compilation
+`nix-copy-closure --to root@apu2 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}')`
