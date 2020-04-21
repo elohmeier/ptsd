@@ -5,11 +5,16 @@ local FetchSubmodules() = {
   ]
 };
 
-local Deploy(hostname, populate_unstable, populate_mailserver) = {
+local Deploy(hostname, populate_unstable, populate_mailserver, prebuild_hass) = {
   name: "deploy " + hostname,
   commands: [
     "eval $(ssh-agent -s)",
-    @"echo ""$SSH_KEY"" | tr -d '\r' | ssh-add -",
+    @"echo ""$SSH_KEY"" | tr -d '\r' | ssh-add -"
+  ] + (
+    if prebuild_hass then [
+      "nix-copy-closure --to root@" + hostname + ".host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)"
+    ] else []
+  ) + [
     "$(nix-build --no-out-link krops.nix --argstr name " + hostname + " --arg secrets false --arg unstable " + populate_unstable + " --arg mailserver " + populate_mailserver + " -A deploy -I /var/src)"
   ],
   environment: {
@@ -24,18 +29,9 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   type: "exec",
   name: "deploy " + hostname,
 
-  steps : (
-    if prebuild_hass then [
-      {
-        name: "prebuild hass",
-        commands: [
-          "nix-copy-closure --to root@" + hostname + ".host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)"
-        ]
-      }
-    ] else []
-  ) + [
+  steps : [
     FetchSubmodules(),
-    Deploy(hostname, populate_unstable, populate_mailserver)
+    Deploy(hostname, populate_unstable, populate_mailserver, prebuild_hass)
   ]
 };
 

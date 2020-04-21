@@ -8,10 +8,6 @@ platform:
   arch: amd64
 
 steps:
-- name: prebuild hass
-  commands:
-  - nix-copy-closure --to root@apu2.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
-
 - name: fetch submodules
   commands:
   - git submodule update --init --recursive --remote
@@ -20,6 +16,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - nix-copy-closure --to root@apu2.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
   - $(nix-build --no-out-link krops.nix --argstr name apu2 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
@@ -81,10 +78,6 @@ platform:
   arch: amd64
 
 steps:
-- name: prebuild hass
-  commands:
-  - nix-copy-closure --to root@nas1.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
-
 - name: fetch submodules
   commands:
   - git submodule update --init --recursive --remote
@@ -93,6 +86,7 @@ steps:
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - nix-copy-closure --to root@nas1.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
   - $(nix-build --no-out-link krops.nix --argstr name nas1 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
