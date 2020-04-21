@@ -12,11 +12,19 @@ steps:
   commands:
   - git submodule update --init --recursive --remote
 
-- name: deploy apu2
+- name: prebuild hass
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
   - nix-copy-closure --to root@apu2.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+- name: deploy apu2
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
   - $(nix-build --no-out-link krops.nix --argstr name apu2 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
@@ -82,11 +90,19 @@ steps:
   commands:
   - git submodule update --init --recursive --remote
 
-- name: deploy nas1
+- name: prebuild hass
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
   - nix-copy-closure --to root@nas1.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+- name: deploy nas1
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
   - $(nix-build --no-out-link krops.nix --argstr name nas1 --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
