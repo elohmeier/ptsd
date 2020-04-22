@@ -83,7 +83,13 @@
   hardware.pulseaudio = {
     enable = true;
     extraModules = [ pkgs.pulseaudio-modules-bt ];
-    package = pkgs.pulseaudioFull; # for bluetooth
+    # pulseAudioFull required for bluetooth audio support
+    package = pkgs.pulseaudioFull.overrideAttrs (
+      old: {
+        # mitigate https://pulseaudio-bugs.freedesktop.narkive.com/RfIRytly/pulseaudio-tickets-bug-96819-new-module-echo-cancel-aec-method-webrtc-parsing-mic-geometry-value-is-
+        patches = [ ./echo-cancel-make-webrtc-beamforming-parameter-parsing-locale-independent.patch ];
+      }
+    );
     support32Bit = true; # for Steam
   };
   services.blueman.enable = true;
