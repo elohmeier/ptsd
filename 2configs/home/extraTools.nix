@@ -159,6 +159,8 @@ in
       discord
       mediathekview
       unstable.rclone
+
+      unstable.tdesktop # telegram-desktop
     ];
 
   programs.chromium = {
