@@ -30,17 +30,15 @@
 , uuid
 , vector
 }:
-
 mkDerivation {
   pname = "pg-client";
   version = "0.1.0";
-
   src = fetchgit {
     url = "https://github.com/hasura/pg-client-hs.git";
-    sha256 = "11ajkz1kbjl5jbcbj0mxzf9vzhjn536d9a60dnl56dl6xvas0ndb";
-    rev = "bd21e66d8197af381a6c0b493e22d611ed1fa386";
+    sha256 = "1941gj5yp24kx0xb1nd774nwp5vnpsp6m83isqkwpyz9spl4sq7l";
+    rev = "70a849d09bea9461e72c5a5bbde06df65aab61c0";
+    fetchSubmodules = true;
   };
-
   libraryHaskellDepends = [
     aeson
     aeson-casing
@@ -66,7 +64,6 @@ mkDerivation {
     uuid
     vector
   ];
-
   testHaskellDepends = [ base ];
   benchmarkHaskellDepends = [
     base
@@ -82,7 +79,6 @@ mkDerivation {
     text
     text-builder
   ];
-
-  homepage = "https://github.com/hasura/pg-client-hs";
+  homepage = "https://github.com/hasura/platform";
   license = stdenv.lib.licenses.bsd3;
 }

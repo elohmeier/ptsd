@@ -11,17 +11,15 @@
 , th-lift-instances
 , unordered-containers
 }:
-
 mkDerivation {
   pname = "ci-info";
   version = "0.1.0.0";
-
   src = fetchgit {
     url = "https://github.com/hasura/ci-info-hs.git";
-    sha256 = "02qizvdpij1gaj24f6d271110sp0gwfkr4qvgxqx4r27hr7fw55n";
-    rev = "ad6df731584dc89b72a6e131687d37ef01714fe8";
+    sha256 = "0rn1799z4y7z1c6ijrr0gscarg25zmnfq0z9rrmk4ad727vf1ppc";
+    rev = "6af5a68450347a02295a9cd050d05a8b2f5c06ab";
+    fetchSubmodules = true;
   };
-
   libraryHaskellDepends = [
     aeson
     aeson-casing
@@ -32,11 +30,8 @@ mkDerivation {
     th-lift-instances
     unordered-containers
   ];
-
   libraryToolDepends = [ hpack ];
-
   prePatch = "hpack";
-
   homepage = "https://github.com/hasura/ci-info-hs#readme";
   license = stdenv.lib.licenses.mit;
 }

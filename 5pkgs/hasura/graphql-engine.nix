@@ -1,5 +1,4 @@
-{ lib
-, mkDerivation
+{ mkDerivation
 , aeson
 , aeson-casing
 , ansi-wl-pprint
@@ -16,23 +15,34 @@
 , case-insensitive
 , ci-info
 , containers
+, criterion
 , cryptonite
 , data-has
+, deepseq
+, dependent-map
+, dependent-sum
 , ekg-core
 , ekg-json
 , fast-logger
-, fetchFromGitHub
+, fetchgit
 , file-embed
 , filepath
+, generic-arbitrary
+, ghc-heap-view
 , graphql-parser
 , hashable
 , hspec
+, hspec-core
+, hspec-expectations-lifted
 , http-client
 , http-client-tls
 , http-types
+, immortal
 , insert-ordered-containers
 , jose
 , lens
+, lifted-async
+, lifted-base
 , list-t
 , mime-types
 , monad-control
@@ -40,6 +50,9 @@
 , monad-validate
 , mtl
 , mustache
+, mwc-probability
+, mwc-random
+, natural-transformation
 , network
 , network-uri
 , optparse-applicative
@@ -48,12 +61,16 @@
 , postgresql-binary
 , postgresql-libpq
 , process
+, profunctors
+, psqueues
+, QuickCheck
 , regex-tdfa
 , scientific
 , semver
 , shakespeare
 , split
 , Spock-core
+, stdenv
 , stm
 , stm-containers
 , string-conversions
@@ -62,11 +79,13 @@
 , text-builder
 , text-conversions
 , th-lift-instances
+, these
 , time
 , transformers
 , transformers-base
 , unix
 , unordered-containers
+, uri-encode
 , uuid
 , vector
 , wai
@@ -78,26 +97,18 @@
 , yaml
 , zlib
 }:
-
-mkDerivation rec {
+mkDerivation {
   pname = "graphql-engine";
   version = "1.0.0";
-
-  src = fetchFromGitHub {
-    owner = "hasura";
-    repo = "graphql-engine";
-    sha256 = "1rkw52rhwdkk82db2zf4pnzll5av3a76sjzpdkv0y3417ipiv6jg";
-    rev = "v${version}";
+  src = fetchgit {
+    url = "https://github.com/hasura/graphql-engine.git";
+    sha256 = "0v5fs4ma2vxs1bygp45j62jg68bk4skvnf8g9j81b6jydda18lzs";
+    rev = "ad07c06e5037f0deb83a2d3ccf1703df6cad1d35";
+    fetchSubmodules = true;
   };
-
-  postUnpack = "sourceRoot+=/server";
-  preBuild = "export VERSION=${version}";
-
+  postUnpack = "sourceRoot+=/server; echo source root reset to $sourceRoot";
   isLibrary = true;
   isExecutable = true;
-  doCheck = false;
-  doHaddock = false;
-
   libraryHaskellDepends = [
     aeson
     aeson-casing
@@ -117,18 +128,27 @@ mkDerivation rec {
     containers
     cryptonite
     data-has
+    deepseq
+    dependent-map
+    dependent-sum
     ekg-core
     ekg-json
     fast-logger
     file-embed
     filepath
+    generic-arbitrary
+    ghc-heap-view
     graphql-parser
     hashable
     http-client
+    http-client-tls
     http-types
+    immortal
     insert-ordered-containers
     jose
     lens
+    lifted-async
+    lifted-base
     list-t
     mime-types
     monad-control
@@ -144,6 +164,9 @@ mkDerivation rec {
     postgresql-binary
     postgresql-libpq
     process
+    profunctors
+    psqueues
+    QuickCheck
     regex-tdfa
     scientific
     semver
@@ -158,10 +181,13 @@ mkDerivation rec {
     text-builder
     text-conversions
     th-lift-instances
+    these
     time
     transformers
     transformers-base
+    unix
     unordered-containers
+    uri-encode
     uuid
     vector
     wai
@@ -173,42 +199,48 @@ mkDerivation rec {
     yaml
     zlib
   ];
-
   executableHaskellDepends = [
+    base
+    bytestring
+    pg-client
+    text
+    text-conversions
+  ];
+  testHaskellDepends = [
     aeson
     base
     bytestring
-    http-client
-    http-client-tls
-    lens
-    mtl
-    optparse-applicative
-    pg-client
-    stm
-    string-conversions
-    template-haskell
-    text
-    time
-    unix
-    unordered-containers
-    uuid
-    warp
-    wreq
-    yaml
-  ];
-
-  testHaskellDepends = [
-    base
     hspec
+    hspec-core
+    hspec-expectations-lifted
     http-client
     http-client-tls
+    lifted-base
+    monad-control
+    mtl
+    natural-transformation
     optparse-applicative
     pg-client
+    QuickCheck
     time
+    transformers-base
+    unordered-containers
   ];
-
+  benchmarkHaskellDepends = [
+    async
+    base
+    bytestring
+    criterion
+    deepseq
+    mwc-probability
+    mwc-random
+    split
+    text
+    vector
+  ];
+  doCheck = false;
   homepage = "https://www.hasura.io";
   description = "GraphQL API over Postgres";
-  license = lib.licenses.asl20;
-  maintainers = [ lib.maintainers.offline ];
+  license = stdenv.lib.licenses.asl20;
+  maintainers = with stdenv.lib.maintainers; [ offline ];
 }

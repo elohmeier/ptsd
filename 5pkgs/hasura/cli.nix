@@ -1,16 +1,16 @@
-{ buildGoPackage, hasura-graphql-engine }:
+{ buildGoModule, hasura-graphql-engine }:
 
-buildGoPackage rec {
+buildGoModule rec {
   name = "hasura-${version}";
   version = hasura-graphql-engine.version;
 
   src = hasura-graphql-engine.src;
+  modRoot = "./cli";
 
-  goPackagePath = "github.com/hasura/graphql-engine";
-  subPackages = [ "cli/cmd/hasura" ];
+  goPackagePath = "github.com/hasura/graphql-engine/cli";
+  subPackages = [ "cmd/hasura" ];
 
-  # generated using dep2nix inside `cli` folder
-  goDeps = ./deps.nix;
+  modSha256 = "GyA+J8maNtPfiUMVJhr7mN6SaYp+0b7NV8QXCWdDU4k=";
 
   buildFlagsArray = [
     ''-ldflags=
@@ -22,10 +22,9 @@ buildGoPackage rec {
 
   postInstall = ''
     mkdir -p $out/share/{bash-completion/completions,zsh/site-functions}
-
     export HOME=$PWD
-    $bin/bin/hasura completion bash > $out/share/bash-completion/completions/hasura
-    $bin/bin/hasura completion zsh > $out/share/zsh/site-functions/_hasura
+    $out/bin/hasura completion bash > $out/share/bash-completion/completions/hasura
+    $out/bin/hasura completion zsh > $out/share/zsh/site-functions/_hasura
   '';
 
   meta = {
