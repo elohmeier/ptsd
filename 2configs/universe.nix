@@ -210,10 +210,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.1";
-          wireguard.pubkey = "3SL8LpzYj4cncLpx3CEqOCmsQaJ45j9G51g41YNU+kw=";
-
-          # generated 2020-04-11:
-          #wireguard.pubkey = "tX3ZcAKc1WB/U7m6N5LQADcloBGCpeo55O3Ad/nEMjE=";
+          wireguard.pubkey = "tX3ZcAKc1WB/U7m6N5LQADcloBGCpeo55O3Ad/nEMjE=";
         };
       };
       borg.quota = "250G";
