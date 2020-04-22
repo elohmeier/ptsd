@@ -17,6 +17,7 @@ with import <ptsd/lib>;
     <ptsd/2configs/nwstats-telegraf.nix>
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/postgresql.nix>
+    <ptsd/2configs/prometheus/server.nix>
 
     <secrets-shared/nwsecrets.nix>
   ];
