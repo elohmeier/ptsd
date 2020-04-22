@@ -44,6 +44,7 @@ in
 
       slack-dark
 
+      unstable.jetbrains.idea-ultimate
       unstable.jetbrains.pycharm-professional
       unstable.jetbrains.goland
       unstable.vscodium
