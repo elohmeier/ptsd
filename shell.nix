@@ -12,6 +12,13 @@ let
       black .
       black src/*.pyw
     '';
+    mk-update = ''
+      ./update-home-manager.sh
+      ./update-nixos-hardware.sh
+      ./update-nixos-mailserver.sh
+      ./update-nixpkgs.sh
+      ./update-nixpkgs-unstable.sh
+    '';
     mk-drone-yml = "drone jsonnet --stream";
     mk-nwvpn-qr = "nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwvpn-qr {}'";
     mk-iso = "nix-build '<nixpkgs/nixos>' -A config.system.build.isoImage -I nixos-config=2configs/iso.nix -I /var/src -I ptsd=$(pwd)";
