@@ -11,6 +11,7 @@ with import <ptsd/lib>;
     <ptsd/2configs/influxdb-kapacitor.nix>
     <ptsd/2configs/grafana.nix>
     <ptsd/2configs/home-assistant.nix>
+    <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/monica-nginx.nix>
     <ptsd/2configs/mosquitto.nix>
     <ptsd/2configs/nwhost.nix>

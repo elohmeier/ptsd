@@ -12,6 +12,7 @@ in
     browsing = true;
     defaultShared = true;
     drivers = with pkgs; [ brlaser ];
+    startWhenNeeded = false;
     extraFilesConf = ''
       CreateSelfSignedCerts no
       ServerKeychain ${config.ptsd.lego.home}/certificates
