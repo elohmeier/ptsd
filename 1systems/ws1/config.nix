@@ -120,7 +120,7 @@ in
   };
 
   ptsd.nwtraefik = {
-    enable = true;
+    enable = false;
   };
 
   virtualisation.docker.enable = true;
@@ -132,4 +132,37 @@ in
     set-default-sink alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21
     set-default-source alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo.echo-cancel
   '';
+
+  # services.nginx = {
+  #   enable = true;
+
+  #   package = pkgs.nginx.override {
+  #     modules = with pkgs.nginxModules; [ fancyindex ];
+  #   };
+
+  #   commonHttpConfig = ''
+  #     charset UTF-8;
+  #   '';
+
+  #   virtualHosts = {
+
+  #     "192.168.178.116" = {
+  #       listen = [
+  #         {
+  #           addr = "192.168.178.116";
+  #           port = 80;
+  #         }
+  #       ];
+  #       locations."/" = {
+  #         alias = "/home/enno/Downloads/";
+  #         extraConfig = ''
+  #           fancyindex on;
+  #           fancyindex_exact_size off;
+  #         '';
+  #       };
+  #     };
+  #   };
+  # };
+
+  # networking.firewall.allowedTCPPorts = [ 80 ];
 }
