@@ -126,17 +126,14 @@
   security.pam.services.lightdm.enableGnomeKeyring = true;
   services.gnome3.gnome-keyring.enable = true;
 
-  programs.xss-lock = let
-    notify-pre-lock = pkgs.writers.writeDash "notify-pre-lock" ''    
-    ${pkgs.libnotify}/bin/notify-send "locking soon..."
-  '';
-  in
+  programs.xss-lock =
     {
       enable = true;
       lockerCommand = "${pkgs.nwlock}/bin/nwlock";
       extraOptions = [
         "-n"
-        "${notify-pre-lock}"
+        "${pkgs.nwlock}/libexec/xsecurelock/dimmer" # nwlock package wraps custom xsecurelock
+        "-l" # make sure not to allow machine suspend before the screen saver is active
       ];
     };
 

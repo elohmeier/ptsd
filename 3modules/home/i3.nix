@@ -256,11 +256,9 @@ in
       };
 
       initExtra = ''
-        # alert after 10 mins, lock 1 min after
-        xset s 600 60
-
-        # turn screen off after 12 mins
-        xset dpms 720
+        # will dim after 10 mins, lock 5 sec after.
+        # see xss-lock configuration for details.
+        xset s 600 5
       '';
     };
 

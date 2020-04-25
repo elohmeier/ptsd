@@ -1,9 +1,34 @@
-{ writers, xorg, imagemagick, gawk, i3lock }:
-writers.writeDashBin "nwlock" ''
-  XY=$(${xorg.xrandr}/bin/xrandr --current | grep '*' | \
-    uniq | head -n 1 | ${gawk}/bin/awk '{print $1}')
+{ writers, xorg, imagemagick, gawk, runCommand, xsecurelock, mpv, symlinkJoin }:
+let
+  myxsecurelock = xsecurelock.overrideAttrs (
+    old: {
+      buildInputs = old.buildInputs ++ [ mpv ];
 
-  ${imagemagick}/bin/convert ${<ci/os/Nerdworks_Hamburg_Logo_Web_Negativ_Weiss.png>} \
-    -background black -gravity center -extent $XY RGB:- | \
-    ${i3lock}/bin/i3lock --color=000000 --image /dev/stdin --raw "$XY:rgb"
-''
+      # nixpkgs' xsecurelock lacks mpv support, 
+      # we also remove xscreensaver support here.
+      configureFlags = [
+        "--with-pam-service-name=login"
+        "--with-mpv=${mpv}/bin/mpv"
+      ];
+    }
+  );
+
+  nwlock = writers.writeDashBin "nwlock" ''
+    TMPIMG=`mktemp --suffix=.png`
+    XY=$(${xorg.xrandr}/bin/xrandr --current | grep '*' | \
+      uniq | head -n 1 | ${gawk}/bin/awk '{print $1}')  
+    ${imagemagick}/bin/convert ${<ci/os/Nerdworks_Hamburg_Logo_Web_Negativ_Weiss.png>} \
+      -background black -gravity center -extent $XY $TMPIMG
+
+    XSECURELOCK_SAVER=saver_mpv \
+    XSECURELOCK_IMAGE_DURATION_SECONDS=9999999999999 \
+    XSECURELOCK_LIST_VIDEOS_COMMAND="echo $TMPIMG" \
+    ${myxsecurelock}/bin/xsecurelock
+    rm -f $TMPIMG
+  '';
+
+in
+symlinkJoin {
+  name = "xsecurelock-nwlock";
+  paths = [ myxsecurelock nwlock ];
+}
