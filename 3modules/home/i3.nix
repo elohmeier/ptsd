@@ -50,7 +50,7 @@ in
       windowManager.i3 =
         let
           modifier = config.xsession.windowManager.i3.config.modifier;
-          exit_mode = "exit: [l]ogout, [r]eboot, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
+          exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
           open_codium_mode = "codium: [n]obbofin, nix[p]kgs";
         in
           {
@@ -178,6 +178,7 @@ in
               modes."${exit_mode}" = {
                 "l" = ''exec i3-msg exit; mode "default"'';
                 "r" = ''exec systemctl reboot; mode "default"'';
+                "w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';
                 "s" = ''exec systemctl poweroff; mode "default"'';
                 "u" = ''exec systemctl suspend-then-hibernate; mode "default"'';
                 "p" = ''exec systemctl suspend; mode "default"'';
