@@ -106,6 +106,12 @@ in
         "read only" = "no";
         "guest ok" = "no";
       };
+      win = {
+        path = "/mnt/win";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
     };
   };
 
