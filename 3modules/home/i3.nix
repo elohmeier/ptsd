@@ -255,12 +255,6 @@ in
         package = pkgs.vanilla-dmz;
         name = "Vanilla-DMZ-AA";
       };
-
-      initExtra = ''
-        # will dim after 10 mins, lock 5 sec after.
-        # see xss-lock configuration for details.
-        xset s 600 5
-      '';
     };
 
     gtk = {

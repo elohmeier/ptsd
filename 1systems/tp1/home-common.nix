@@ -1,3 +1,5 @@
+{ pkgs, ... }:
+
 let
   unstable = import <nixpkgs-unstable> {
     config.allowUnfree = true;
@@ -20,4 +22,10 @@ in
   };
 
   home.packages = [ unstable.steam ];
+
+  xsession.initExtra = ''
+    # will dim after 10 mins, lock 5 sec after.
+    # see xss-lock configuration for details.
+    ${pkgs.xorg.xset}/bin/xset s 600 5
+  '';
 }

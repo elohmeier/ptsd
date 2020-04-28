@@ -35,4 +35,9 @@ in
     file.".baresip/contacts". text = homeSecrets.baresip_contacts;
     file.".baresip/uuid".text = ''2e3a60c7-c86f-af8f-591a-9d1903d9d5dc'';
   };
+
+  xsession.initExtra = ''
+    # disable screensaver
+    ${pkgs.xorg.xset}/bin/xset s off -dpms
+  '';
 }
