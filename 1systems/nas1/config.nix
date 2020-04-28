@@ -1,6 +1,9 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
 
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports = [
     <ptsd>
@@ -50,4 +53,32 @@ with import <ptsd/lib>;
     enable = true;
     mediaPath = "/tank/enc/media";
   };
+
+  services.nginx = {
+    enable = true;
+    package = pkgs.nginx.override {
+      modules = with pkgs.nginxModules; [ fancyindex ];
+    };
+    commonHttpConfig = ''
+      charset UTF-8;
+    '';
+    virtualHosts = {
+      "www.nerdworks.de" = {
+        listen = [
+          {
+            addr = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
+            port = 12345;
+          }
+        ];
+        locations."/" = {
+          alias = "/tank/enc/public-www/";
+          extraConfig = ''
+            fancyindex on;
+            fancyindex_exact_size off;
+          '';
+        };
+      };
+    };
+  };
+  networking.firewall.interfaces.nwvpn.allowedTCPPorts = [ 12345 ];
 }

@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports =
     [
@@ -51,6 +54,13 @@
 
   ptsd.nwtraefik = {
     enable = true;
+    services = [
+      {
+        name = "nas1-public-www";
+        rule = "Host:www.nerdworks.de;PathPrefix:/fpv";
+        url = "http://${universe.hosts.nas1.nets.nwvpn.ip4.addr}:12345";
+      }
+    ];
   };
 
   # currently unused but configured domains
