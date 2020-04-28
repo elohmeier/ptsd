@@ -24,7 +24,6 @@ in
 
       # For Fritz!Box supported Audio Codecs, checkout:
       # https://avm.de/service/fritzbox/fritzbox-7590/wissensdatenbank/publication/show/1008_Unterstutzte-Sprach-Codecs-bei-Internettelefonie
-      # TODO: fetch audio devices from cfg
       file.".baresip/config".text = ''
         poll_method epoll
         call_local_timeout 120
@@ -63,34 +62,5 @@ in
       '';
 
     };
-
-    # TODO: Implement address book generation
-    #    systemd.user.services.baresip-update-contacts = {
-    #      Unit = {
-    #        Description = "Update Baresip contact list";
-    #        Wants = [ "network-online.target" ];
-    #        Requires = [ "gpg-agent.service" ];
-    #      };
-    #
-    #      Service = {
-    #        Type = "oneshot";
-    #        ExecStart = "...";
-    #        TimeoutStartSec = "5min"; # kill if still alive after 5 minutes
-    #      };
-    #    };
-    #
-    #    systemd.user.timers.baresip-update-contacts = {
-    #      Unit = {
-    #        Description = "Update Baresip contact list Timer";
-    #        PartOf = [ "graphical-session.target" ];
-    #        WantedBy = [ "graphical-session.target" ];
-    #      };
-    #
-    #      Timer = {
-    #        OnBootSec = "2min";
-    #        OnUnitInactiveSec = "2min";
-    #      };
-    #    };
-
   };
 }
