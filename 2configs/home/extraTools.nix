@@ -24,6 +24,18 @@ let
       selenium
     ]
   );
+  dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
+  obs-studio = unstable.obs-studio.overrideAttrs (
+    old: {
+      nativeBuildInputs = old.nativeBuildInputs ++ [ unstable.addOpenGLRunpath ];
+      postFixup = lib.optionalString pkgs.stdenv.isLinux ''
+        # Set RUNPATH so that libcuda in /run/opengl-driver(-32)/lib can be found.
+        # See the explanation in addOpenGLRunpath.
+        addOpenGLRunpath $out/lib/lib*.so
+      '';
+    }
+  );
+  obs-v4l2sink = unstable.libsForQt5.callPackage ../../5pkgs/obs-v4l2sink { obs-studio = obs-studio; };
 in
 {
   imports = [
@@ -162,7 +174,16 @@ in
       unstable.rclone
 
       unstable.tdesktop # telegram-desktop
+
+
+      obs-studio
     ];
+
+  home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
+    rm -rf $HOME/.config/obs-studio/plugins
+    mkdir -p $HOME/.config/obs-studio/plugins
+    ln -sf ${obs-v4l2sink}/lib/obs-plugins/v4l2sink $HOME/.config/obs-studio/plugins/v4l2sink
+  '';
 
   programs.chromium = {
     enable = true;

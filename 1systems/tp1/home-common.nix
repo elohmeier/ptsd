@@ -16,11 +16,6 @@ in
   ptsd.i3.fontSize = 12;
   ptsd.urxvt.fontSize = 12;
 
-  ptsd.obs = {
-    enable = true;
-    nvidiaSupport = false;
-  };
-
   home.packages = [ unstable.steam ];
 
   xsession.initExtra = ''
