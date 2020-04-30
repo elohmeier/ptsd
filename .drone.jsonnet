@@ -45,7 +45,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   DeployPipeline('apu2', prebuild=['nwhass']),
   DeployPipeline('htz1', populate_unstable=true),
   DeployPipeline('htz2', populate_unstable=true, populate_mailserver=true),
-  DeployPipeline('htz3', hostdomain='host.fraam.de'),
+  DeployPipeline('htz3', hostdomain='host.fraam.de', prebuild=['traefik-forward-auth']),
   DeployPipeline('nas1', prebuild=['nwhass']),
   //DeployPipeline("nuc1"),
   DeployPipeline('rpi2'),
