@@ -12,7 +12,7 @@ steps:
   commands:
   - git submodule update --init --recursive --remote
 
-- name: prebuild hass
+- name: prebuild nwhass
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
@@ -113,7 +113,7 @@ steps:
   commands:
   - git submodule update --init --recursive --remote
 
-- name: prebuild hass
+- name: prebuild nwhass
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -

@@ -9,6 +9,7 @@ let
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt 5pkgs
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt lib
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt *.nix
+      ${pkgs.jsonnet}/bin/jsonnetfmt --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s -i .drone.jsonnet
       black .
       black src/*.pyw
     '';
