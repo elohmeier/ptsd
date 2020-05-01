@@ -52,7 +52,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   DeployPipeline('ws1', populate_unstable=true),
 ]
 
-// Don't forget to run `make .drone.yml`
+// Don't forget to run `mk-drone-yml`
 
 
 
