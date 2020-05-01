@@ -72,7 +72,7 @@ in
       unstable.xmind
       transmission-gtk
 
-      #thunderbird
+      thunderbird
       sylpheed
 
       unstable.zoom-us
