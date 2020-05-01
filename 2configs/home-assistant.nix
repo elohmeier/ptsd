@@ -19,7 +19,7 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "home-assistant";
-      rule = "Host:${domain}";
+      rule = "Host:${domain},nas1.lan.nerdworks.de";
     }
   ];
 
