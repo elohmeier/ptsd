@@ -120,6 +120,7 @@ in
             imports = [
               <ptsd>
               <ptsd/2configs>
+              <home-manager/nixos>
             ];
 
             boot.isContainer = true;
@@ -176,6 +177,34 @@ in
               openconnect
               icewm
             ];
+
+            home-manager = {
+              users.mainUser = { pkgs, ... }:
+                {
+                  # fixes missing gcroot & profile dir fail in home-manager
+                  # waits for https://github.com/rycee/home-manager/pull/1091
+                  home.extraBuilderCommands = "sed -i 's/| head -1)/| head -1 || true)/' $out/activate";
+
+                  gtk = {
+                    enable = true;
+                    font = {
+                      name = "DejaVu Sans 8";
+                      package = pkgs.dejavu_fonts;
+                    };
+                    iconTheme = {
+                      name = "Tango";
+                      package = pkgs.tango-icon-theme;
+                    };
+                    theme = {
+                      name = "Arc-Dark";
+                      package = pkgs.arc-theme;
+                    };
+                  };
+                };
+            };
+
+            programs.dconf.enable = true;
+            services.dbus.packages = [ pkgs.gnome3.dconf ];
           };
     };
   };
