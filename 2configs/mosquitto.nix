@@ -24,12 +24,14 @@ with import <ptsd/lib>;
         acl = [
           "topic readwrite stat/sonoff/#"
           "topic readwrite homeassistant/#"
+          "topic readwrite tasmota/#"
         ];
       };
       sonoff = {
         acl = [
           "topic readwrite stat/sonoff/#"
           "topic readwrite homeassistant/#"
+          "topic readwrite tasmota/#"
         ];
       };
     };
