@@ -18,7 +18,9 @@ home-assistant.override {
     )
     ps.google_api_python_client # for calendar integration
     ps.hass-nabucasa # required for mobile app
+    ps.gtts-token # for google tts
     ps.influxdb
+    ps.mutagen # for tts
     ps.paho-mqtt
     (ps.callPackage ../pyfritzhome {})
     (
