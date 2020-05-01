@@ -101,11 +101,6 @@
     };
   };
 
-  # profile dir is missing in NixOS ISO, this will create it for home-manager (which would fail without it)
-  systemd.tmpfiles.rules = [
-    "d '/nix/var/nix/profiles/per-user/${config.users.users.mainUser.name}' 0755 ${config.users.users.mainUser.name} root - -"
-  ];
-
   home-manager = {
     users.mainUser = { pkgs, ... }:
       {
@@ -115,6 +110,10 @@
           <ptsd/2configs/home/xsession-i3.nix>
         ];
         nixpkgs.config.allowUnfree = true;
+
+        # fixes missing gcroot & profile dir fail in home-manager
+        # waits for https://github.com/rycee/home-manager/pull/1091
+        home.extraBuilderCommands = "sed -i 's/| head -1)/| head -1 || true)/' $out/activate";
       };
   };
 
