@@ -21,7 +21,19 @@ home-assistant.override {
     ps.influxdb
     ps.paho-mqtt
     (ps.callPackage ../pyfritzhome {})
-    ps.pyhomematic
+    (
+      # use latest version
+      ps.pyhomematic.overrideAttrs (
+        old: rec {
+          pname = "pyhomematic";
+          version = "0.1.66";
+          src = ps.fetchPypi {
+            inherit pname version;
+            sha256 = "0yaxmnd0w1a6ckvc6rf0j2wmjd1x2f5dw1bbdzm1m2pf0s2dniph";
+          };
+        }
+      )
+    )
     (ps.callPackage ../PyMetno {})
     ps.pynacl
     (
