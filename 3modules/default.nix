@@ -4,6 +4,7 @@ _:
     ./acme-dns.nix
     ./alerta.nix
     ./drone-server.nix
+    ./fraam-www.nix
     ./gitea.nix
     ./lego.nix
     ./nobbofin-autofetch.nix

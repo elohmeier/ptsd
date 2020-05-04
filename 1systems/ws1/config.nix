@@ -23,7 +23,7 @@ in
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
 
-    <ptsd/2configs/fraam-www.nix>
+    #<ptsd/2configs/fraam-www.nix>
 
     <home-manager/nixos>
   ];
