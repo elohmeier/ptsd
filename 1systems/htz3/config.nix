@@ -8,7 +8,10 @@
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
 
-      <ptsd/2configs/google-protected-web.nix>
+
+      <ptsd/2configs/cli-tools.nix>
+
+      #<ptsd/2configs/google-protected-web.nix>
     ];
 
   networking = {
@@ -35,4 +38,19 @@
   boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
 
   ptsd.nwtraefik.enable = true;
+
+  ptsd.fraam-www = {
+    enable = true;
+    traefikFrontendRule = "Host:htz3.host.fraam.de";
+  };
+
+  ptsd.lego = {
+    enable = true;
+    domain = "${config.networking.hostName}.${config.networking.domain}";
+    extraDomains = [
+      "fraam.de"
+      "dev.fraam.de"
+      "www.fraam.de"
+    ];
+  };
 }
