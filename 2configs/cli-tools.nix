@@ -21,6 +21,7 @@ in
     ripgrep
     rmlint
     tig
+    tmux
     tree
     unzip
     vims.big
