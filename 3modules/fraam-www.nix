@@ -8,10 +8,10 @@ let
 
   poolConfig = {
     "pm" = "dynamic";
-    "pm.max_children" = 32;
-    "pm.start_servers" = 2;
-    "pm.min_spare_servers" = 2;
-    "pm.max_spare_servers" = 4;
+    "pm.max_children" = 40;
+    "pm.start_servers" = 15;
+    "pm.min_spare_servers" = 15;
+    "pm.max_spare_servers" = 25;
     "pm.max_requests" = 500;
   };
 
@@ -166,8 +166,6 @@ in
                       fastcgi_intercept_errors on;
                       fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
                       fastcgi_pass unix:${config.services.phpfpm.pools.wordpress.socket};
-                      fastcgi_param SERVER_NAME fraam.de;
-                      fastcgi_param HTTP_HOST fraam.de;
                       fastcgi_param HTTPS on;
                     '';
                   };
@@ -191,8 +189,17 @@ in
         name = "fraam-www";
         rule = cfg.traefikFrontendRule;
         url = "http://${cfg.containerAddress}:80";
+        auth.forward = {
+          address = "http://localhost:4181";
+          authResponseHeaders = [ "X-Forwarded-User" ];
+        };
       }
     ];
+
+    ptsd.traefik-forward-auth = {
+      enable = true;
+      envFile = toString <secrets/traefik-forward-auth.env>;
+    };
 
     system.activationScripts.initialize-fraam-www = stringAfter [ "users" "groups" ] ''
       mkdir -p ${cfg.mysqlPath}
