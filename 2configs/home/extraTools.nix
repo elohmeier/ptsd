@@ -177,6 +177,8 @@ in
 
 
       obs-studio
+
+      gnome3.evolution
     ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
