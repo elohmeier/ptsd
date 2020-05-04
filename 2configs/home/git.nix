@@ -4,6 +4,7 @@
 
   programs.git = {
     enable = true;
+    package = pkgs.gitMinimal;
     userName = "Enno Lohmeier";
     userEmail = "enno@nerdworks.de";
     signing = {

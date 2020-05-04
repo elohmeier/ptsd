@@ -56,7 +56,7 @@ in
 
       path = with pkgs; [
         openssh
-        git
+        gitMinimal
         (
           python3.withPackages
             (
