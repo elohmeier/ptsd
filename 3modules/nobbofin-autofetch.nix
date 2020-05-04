@@ -61,6 +61,7 @@ in
           python3.withPackages
             (
               pythonPackages: with pythonPackages; [
+                pdfminer
                 weasyprint
               ]
             )
