@@ -26,7 +26,7 @@ in
     ];
   };
 
-  networking.domain = "host.nerdworks.de";
+  networking.domain = if hasAttr "domain" universe.hosts."${config.networking.hostName}" then universe.hosts."${config.networking.hostName}".domain else "host.nerdworks.de";
 
   networking.hosts = {
     "127.0.0.1" = [ "${config.networking.hostName}.${config.networking.domain}" "${config.networking.hostName}" ];
