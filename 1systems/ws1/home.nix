@@ -11,7 +11,7 @@ in
     <ptsd/2configs/home/xsession-i3.nix>
   ];
 
-  ptsd.urxvt.theme = "solarized_light";
+  ptsd.urxvt.theme = "solarized_dark";
 
   ptsd.baresip = {
     enable = true;
