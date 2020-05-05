@@ -22,6 +22,10 @@ in
   options = {
     ptsd.fraam-www = {
       enable = mkEnableOption "fraam-www";
+      extIf = mkOption {
+        type = types.str;
+        description = "external network interface container traffic will be NATed over";
+      };
       containerAddress = mkOption {
         type = types.str;
         default = "192.168.100.15";
@@ -45,6 +49,14 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    networking = {
+      nat = {
+        enable = true;
+        internalInterfaces = [ "ve-+" ];
+        externalInterface = cfg.extIf;
+      };
+    };
 
     containers.wpjail = {
       autoStart = true;
@@ -108,6 +120,9 @@ in
               inherit group;
 
               phpPackage = phpPackage;
+              phpOptions = ''
+                memory_limit = 512M
+              '';
               phpEnv = phpEnv;
 
               settings = {

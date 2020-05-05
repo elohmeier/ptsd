@@ -42,6 +42,7 @@
   ptsd.fraam-www = {
     enable = true;
     traefikFrontendRule = "Host:htz3.host.fraam.de";
+    extIf = "ens3";
   };
 
   ptsd.lego = {
