@@ -99,7 +99,8 @@ in
     dlrgvpn = {
       publicKey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
       client = {
-        endpoint = "hvrhukr39ruezms4.myfritz.net:55557";
+        #endpoint = "hvrhukr39ruezms4.myfritz.net:55557"; # old 7490
+        endpoint = "letvjkxepuccuto1.myfritz.net:55557"; # new 7590
         reresolveDns = true;
         allowedIPs = [ "191.18.21.0/24" ];
       };
