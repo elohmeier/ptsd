@@ -54,4 +54,22 @@
       "www.fraam.de"
     ];
   };
+
+  users.users = {
+    sharath = {
+      name = "sharath";
+      isNormalUser = true;
+      home = "/home/sharath";
+      createHome = true;
+      useDefaultShell = true;
+      uid = 1001;
+      description = "Sharath Kumar Soudamalla";
+      extraGroups = [ "wheel" ];
+      openssh.authorizedKeys.keys = [
+        "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgT/DdIqnIHX1Fomu2AxL6U0GmCBSllqAdIGV6920IYR/CbRzkILxnLNEF109lWG4/xg/VamXHobcNLy3EecQBFZKYBbsFV4x6FRa/dd1dYUGFVu746NY+kiV1ienoAOjs7/eUuKr5poppQD7snfPY8+fC/lCOU2yooepxlAi+XzvBDtfY5B7Ws52K0I4K+Sgpoej7sy0UipQsia1VehvakZ5M7toUj7Vu8R/jMWRnC5yGD6nX1xTJniIy1xB/MGLFigQrHY1cLgBPDLQOvEIRykqZiCJHCcq0lQax8unBgWPgt4bEr4m7JX4lrgKoqk3HOqy5qs61IVrXnwmAdF0XQ== rsa-key-20200427"
+      ];
+    };
+  };
+
+  security.sudo.wheelNeedsPassword = false;
 }
