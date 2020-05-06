@@ -10,6 +10,7 @@ _:
     ./nobbofin-autofetch.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
+    ./nwlogrotate.nix
     ./nwmonit.nix
     ./nwstats.nix
     ./nwtelegraf.nix
