@@ -216,6 +216,23 @@ in
           };
         };
 
+        ptsd.nwlogrotate.configs = [
+          ''
+            /var/log/traefik/*.log {
+              daily
+              rotate 7
+              missingok
+              notifempty
+              compress
+              dateext
+              dateformat .%Y-%m-%d
+              postrotate
+                systemctl kill -s USR1 traefik.service
+              endscript
+            }
+          ''
+        ];
+
         ptsd.nwtelegraf.inputs.x509_cert = [
           {
             sources = [
