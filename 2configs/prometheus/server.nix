@@ -49,7 +49,16 @@ in
               };
             }
           ) (vpnNodes "nwvpn")
-        );
+        ) ++ [
+          {
+            targets = [
+              "192.168.178.3:9100"
+            ];
+            labels = {
+              alias = "wrt1";
+            };
+          }
+        ];
       }
       {
         job_name = "blackbox";
