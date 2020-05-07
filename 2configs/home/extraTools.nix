@@ -179,6 +179,9 @@ in
       obs-studio
 
       gnome3.evolution
+
+      go
+      delve
     ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
@@ -196,8 +199,13 @@ in
     browsers = [ "chromium" ];
   };
 
-  # fix font antialiasing in mucommander
-  home.sessionVariables._JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
+
+  home.sessionVariables = {
+    GOPATH = "/home/enno/go";
+
+    # fix font antialiasing in mucommander
+    _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
+  };
 
   programs.emacs.enable = true;
 
