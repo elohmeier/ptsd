@@ -8,6 +8,7 @@ in
 {
   imports = [
     ./i3status.nix
+    ./i3status-rust.nix
   ];
 
   options.ptsd.i3 = {
@@ -232,7 +233,9 @@ in
               bars = [
                 {
                   colors.background = "#181516";
-                  fonts = [ i3font ];
+                  fonts = [ "${i3font}" "FontAwesome ${toString cfg.fontSize}" ];
+
+                  statusCommand = "${config.ptsd.i3status-rust.package}/bin/i3status-rs ${config.xdg.configHome}/i3/status.toml";
                 }
               ];
             };
@@ -274,7 +277,6 @@ in
     };
 
     home.packages = with pkgs; [
-      i3status
       i3lock # only needed for config testing / man pages
       libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
       playerctl
@@ -289,7 +291,7 @@ in
     };
 
     ptsd.i3status = {
-      enable = true;
+      enable = false;
       blocks = {
         general.opts = {
           colors = true;
@@ -498,6 +500,160 @@ in
         "volume master"
         "tztime local"
       ];
+    };
+
+    ptsd.i3status-rust = {
+      enable = true;
+      config = {
+        theme = {
+          name = "solarized-dark";
+          overrides = {
+            idle_bg = "#181516";
+            idle_fg = "#ffffff";
+          };
+        };
+        icons = "awesome";
+        block = [
+          {
+            block = "pomodoro";
+            length = 25;
+            break_length = 5;
+            message = "Take a break!";
+            break_message = "Back to work!";
+            use_nag = true;
+          }
+          {
+            block = "custom";
+            command = "cat ${config.xdg.dataHome}/git-alarm.txt";
+            interval = 100;
+          }
+          {
+            block = "music";
+            player = "spotify";
+            buttons = [ "play" "next" ];
+          }
+          {
+            block = "temperature";
+            collapsed = false;
+            interval = 10;
+            good = 0;
+            idle = 55;
+            info = 65;
+            warning = 80;
+          }
+          {
+            block = "nvidia_gpu";
+            interval = 10;
+          }
+          {
+            # Logitech Mouse
+            block = "battery";
+            driver = "upower";
+            device = "hidpp_battery_0";
+            format = "L {percentage}%";
+            good = 60;
+            info = 40;
+            warning = 20;
+            critical = 10;
+          }
+          {
+            block = "disk_space";
+            path = "/";
+            alias = "/";
+            warning = 0.5;
+            alert = 0.1;
+          }
+          {
+            block = "disk_space";
+            path = "/home";
+            alias = "/home";
+            warning = 5;
+            alert = 1;
+          }
+          {
+            block = "disk_space";
+            path = "/persist";
+            alias = "/persist";
+            warning = 0.5;
+            alert = 0.2;
+          }
+          {
+            block = "disk_space";
+            path = "/var";
+            alias = "/var";
+            warning = 2;
+            alert = 1;
+          }
+          {
+            block = "disk_space";
+            path = "/var/lib/docker";
+            alias = "/var/lib/docker";
+            warning = 2;
+            alert = 1;
+          }
+          {
+            block = "disk_space";
+            path = "/var/lib/libvirt/images";
+            alias = "/var/lib/libvirt/images";
+            warning = 2;
+            alert = 1;
+          }
+          {
+            block = "disk_space";
+            path = "/var/log";
+            alias = "/var/log";
+            warning = 1;
+            alert = 0.5;
+          }
+          {
+            block = "disk_space";
+            path = "/var/src";
+            alias = "/var/src";
+            warning = 0.5;
+            alert = 0.2;
+          }
+          {
+            block = "disk_space";
+            path = "/nix";
+            alias = "/nix";
+            warning = 5;
+            alert = 1;
+          }
+          {
+            block = "net";
+            device = "nwvpn";
+            ip = true;
+            speed_up = false;
+            speed_down = false;
+            interval = 100;
+          }
+          # {
+          #   block = "cpu";
+          #   interval = 5;
+          # }
+          {
+            block = "load";
+            interval = 5;
+            format = "{1m}";
+          }
+          {
+            block = "memory";
+            display_type = "memory";
+            format_mem = "{Mup}%";
+            format_swap = "{SUp}%";
+            interval = 5;
+          }
+          {
+            block = "sound";
+          }
+          {
+
+            block = "time";
+            interval = 60;
+            format = "%a %F %R";
+          }
+        ];
+      };
     };
 
     # auto-hide the mouse cursor after inactivity

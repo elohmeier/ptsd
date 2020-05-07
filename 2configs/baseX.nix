@@ -35,6 +35,7 @@
     paperkey
     lxqt.lxqt-policykit # provides a default authentification client for policykit
     nixpkgs-fmt
+    lm_sensors
   ];
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
@@ -153,7 +154,14 @@
   users.groups.nitrokey.members = [ config.users.users.mainUser.name ];
   users.groups.keys.members = [ config.users.users.mainUser.name ];
 
-  fonts.fonts = with pkgs; [ myfonts win10fonts roboto roboto-slab source-code-pro ];
+  fonts.fonts = with pkgs; [
+    myfonts
+    win10fonts
+    roboto
+    roboto-slab
+    source-code-pro
+    font-awesome_4 # wait for https://github.com/greshake/i3status-rust/issues/598
+  ];
 
   # for betaflight-configurator firmware flashing
   # from https://github.com/betaflight/betaflight/wiki/Installing-Betaflight#platform-specific-linux
@@ -161,4 +169,6 @@
     # DFU (Internal bootloader for STM32 MCUs)
     ACTION=="add", SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="df11", MODE="0664", GROUP="dialout"
   '';
+
+  services.upower.enable = true;
 }
