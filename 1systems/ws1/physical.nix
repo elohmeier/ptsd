@@ -55,6 +55,12 @@ in
       fsType = "ext4";
     };
 
+  fileSystems."/var/lib/docker" =
+    {
+      device = "${vgPrefix}-var--lib--docker";
+      fsType = "ext4";
+    };
+
   fileSystems."/var/lib/libvirt/images" =
     {
       device = "${vgPrefix}-var--lib--libvirt--images";

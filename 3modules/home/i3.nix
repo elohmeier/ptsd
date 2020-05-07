@@ -359,6 +359,18 @@ in
           opts.format = "/var %avail";
         };
 
+        disk_var_lib_docker = {
+          type = "disk";
+          name = "/var/lib/docker";
+          opts.format = "/var/lib/docker %avail";
+        };
+
+        disk_var_lib_libvirt_images = {
+          type = "disk";
+          name = "/var/lib/libvirt/images";
+          opts.format = "/var/lib/libvirt/images %avail";
+        };
+
         disk_var_log = {
           type = "disk";
           name = "/var/log";
@@ -428,6 +440,8 @@ in
         "disk /home"
         "disk /persist"
         "disk /var"
+        "disk /var/lib/docker"
+        "disk /var/lib/libvirt/images"
         "disk /var/log"
         "disk /var/src"
         "disk /nix"
