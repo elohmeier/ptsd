@@ -330,6 +330,46 @@ in
           opts.format = "%status %percentage %remaining";
         };
 
+        cputemp_ws1_temp1 = {
+          type = "cpu_temperature";
+          name = "ws1_temp1";
+          opts = {
+            format = "C1: %degrees °C";
+            path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input";
+            max_threshold = 60;
+          };
+        };
+
+        cputemp_ws1_temp2 = {
+          type = "cpu_temperature";
+          name = "ws1_temp2";
+          opts = {
+            format = "C2: %degrees °C";
+            path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp2_input";
+            max_threshold = 60;
+          };
+        };
+
+        cputemp_ws1_temp3 = {
+          type = "cpu_temperature";
+          name = "ws1_temp3";
+          opts = {
+            format = "C3: %degrees °C";
+            path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp3_input";
+            max_threshold = 60;
+          };
+        };
+
+        cputemp_ws1_temp4 = {
+          type = "cpu_temperature";
+          name = "ws1_temp4";
+          opts = {
+            format = "C4: %degrees °C";
+            path = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp4_input";
+            max_threshold = 60;
+          };
+        };
+
         tztime = {
           type = "tztime";
           name = "local";
@@ -436,6 +476,10 @@ in
         "read_file gitalarm"
         "read_file current_song"
         "ipv6"
+        "cpu_temperature ws1_temp1"
+        "cpu_temperature ws1_temp2"
+        "cpu_temperature ws1_temp3"
+        "cpu_temperature ws1_temp4"
         "disk /"
         "disk /home"
         "disk /persist"
