@@ -1,10 +1,5 @@
 { pkgs, ... }:
 
-let
-  unstable = import <nixpkgs-unstable> {
-    config.allowUnfree = true;
-  };
-in
 {
   imports = [
     <ptsd/2configs/home>
@@ -16,7 +11,7 @@ in
   ptsd.i3.fontSize = 12;
   ptsd.urxvt.fontSize = 12;
 
-  home.packages = [ unstable.steam ];
+  home.packages = [ pkgs.steam ];
 
   xsession.initExtra = ''
     # will dim after 10 mins, lock 5 sec after.
