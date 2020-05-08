@@ -2,10 +2,6 @@
 
 # Tools you probably would not add to an ISO image
 let
-  unstable = import <nixpkgs-unstable> {
-    config.allowUnfree = true;
-    config.packageOverrides = import ../../5pkgs unstable;
-  };
   py3 = pkgs.python37.override {
     packageOverrides = self: super: rec {
       black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert {};
@@ -25,9 +21,9 @@ let
     ]
   );
   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
-  obs-studio = unstable.obs-studio.overrideAttrs (
+  obs-studio = pkgs.obs-studio.overrideAttrs (
     old: {
-      nativeBuildInputs = old.nativeBuildInputs ++ [ unstable.addOpenGLRunpath ];
+      nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.addOpenGLRunpath ];
       postFixup = lib.optionalString pkgs.stdenv.isLinux ''
         # Set RUNPATH so that libcuda in /run/opengl-driver(-32)/lib can be found.
         # See the explanation in addOpenGLRunpath.
@@ -35,7 +31,7 @@ let
       '';
     }
   );
-  obs-v4l2sink = unstable.libsForQt5.callPackage ../../5pkgs/obs-v4l2sink { obs-studio = obs-studio; };
+  obs-v4l2sink = pkgs.libsForQt5.callPackage ../../5pkgs/obs-v4l2sink { obs-studio = obs-studio; };
 in
 {
   imports = [
@@ -50,16 +46,15 @@ in
       sshfs
       pdftk
 
-      unstable.vscodium
       wine
       (winetricks.override { wine = wine; })
 
       slack-dark
 
-      unstable.jetbrains.idea-ultimate
-      unstable.jetbrains.pycharm-professional
-      unstable.jetbrains.goland
-      unstable.vscodium
+      jetbrains.idea-ultimate
+      jetbrains.pycharm-professional
+      jetbrains.goland
+      vscodium
       sqlitebrowser
       #filezilla
       libreoffice
@@ -69,13 +64,13 @@ in
       spotify
       xournalpp
       calibre
-      unstable.xmind
+      xmind
       transmission-gtk
 
       thunderbird
       sylpheed
 
-      unstable.zoom-us
+      zoom-us
 
       pulseeffects
 
@@ -101,16 +96,11 @@ in
       woeusb
       ffmpeg
 
-      # using unstable: "shakespeare" too old in 19.09
-      # disabled: see https://github.com/NixOS/nixpkgs/pull/75527#issuecomment-584187640
-      #unstable.hasura-graphql-engine
-      #unstable.hasura-cli
-
-      unstable.betaflight-configurator
+      betaflight-configurator
 
       (pidgin-with-plugins.override { plugins = [ telegram-purple ]; })
 
-      unstable.drone-cli
+      drone-cli
       openshift
       minishift
       neomutt
@@ -171,10 +161,14 @@ in
       teamviewer
       discord
       mediathekview
-      unstable.rclone
+      (pkgs.callPackage <nixpkgs-unstable/pkgs/applications/networking/sync/rclone> {})
 
-      unstable.tdesktop # telegram-desktop
-
+      # telegram-desktop
+      (
+        pkgs.qt5.callPackage <nixpkgs-unstable/pkgs/applications/networking/instant-messengers/telegram/tdesktop> {
+          tl-expected = (pkgs.callPackage <nixpkgs-unstable/pkgs/development/libraries/tl-expected> {});
+        }
+      )
 
       obs-studio
 
