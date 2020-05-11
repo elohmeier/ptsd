@@ -118,6 +118,7 @@ in
 
       (pidgin-with-plugins.override { plugins = [ telegram-purple ]; })
 
+      dbeaver
       drone-cli
       openshift
       minishift
