@@ -8,13 +8,13 @@
   ];
 
   systemd.services.wol-eth0 = {
-    description = "Wake-on-LAN for eth0";
+    description = "Wake-on-LAN for enp39s0";
     requires = [ "network.target" ];
     after = [ "network.target" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
       Type = "oneshot";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -s eth0 wol g"; # magicpacket
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp39s0 wol g"; # magicpacket
     };
   };
 
