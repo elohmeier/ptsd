@@ -6,17 +6,6 @@ let
       black
     ]
   );
-  vim-beancount = vimUtils.buildVimPluginFrom2Nix {
-    name = "vim-beancount";
-    pname = "vim-beancount";
-    version = "2017-10-28";
-    src = fetchFromGitHub {
-      owner = "nathangrigg";
-      repo = "vim-beancount";
-      rev = "8054352c43168ece62094dfc8ec510e347e19e3c";
-      sha256 = "0fd4fbdmhapdhjr3f9bhd4lqxzpdwwvpf64vyqwahkqn8hrrbc4m";
-    };
-  };
   vim-renamer = vimUtils.buildVimPluginFrom2Nix {
     pname = "vim-renamer";
     version = "2019-06-10";
@@ -37,14 +26,14 @@ let
       sha256 = "1fnv4vs3lngr3jn74p71dz5xgjlmy6qmr6xnfchx1k32bsidzjxj";
     };
   };
-  tabnine-vim = vimUtils.buildVimPluginFrom2Nix {
+  tabnine-vim = vimUtils.buildVimPluginFrom2Nix rec {
     pname = "tabnine-vim";
-    version = "2.11";
+    version = "2.8.2";
     src = fetchFromGitHub {
       owner = "zxqfl";
-      repo = "tabnine-vim";
-      rev = "f7be9252afe46fa480593bebdd154278b39baa06";
-      sha256 = "1jzpsrrdv53gji3sns1xaj3pq8f6bwssw5wwh9sccr9qdz6i6fwa";
+      repo = pname;
+      rev = version;
+      sha256 = "1rf27wf6il3gj2v05p9dg1j1p688f97zc959kf4wvf4dyxlv6v7x";
     };
   };
   commonrc = ''
@@ -112,12 +101,23 @@ in
         set encoding=utf-8
 
         " For mouse click in NERDTree
-        :set mouse=a
+        set mouse=a
         let g:NERDTreeMouseMode=3
+
+        " Change the default mapping and the default command to invoke CtrlP
+        let g:ctrlp_map = '<c-p>'
+        let g:ctrlp_cmd = 'CtrlP'
+
+        let g:airline_solarized_bg='dark'
+        " let g:airline_theme = 'powerlineish'
+        let g:airline_theme = 'solarized'
+        let g:airline_powerline_fonts = 1
+        let g:airline#extensions#tabline#enabled = 1
+        let g:airline#extensions#branch#enabled = 1
       '';
 
       packages.myVimPackage = with vimPlugins; {
-        start = [ vim-nix vim-beancount nerdtree nerdtree-git-plugin ale vim-renamer tabnine-vim vim-tickscript ];
+        start = [ vim-nix vim-beancount nerdtree nerdtree-git-plugin ale vim-renamer tabnine-vim vim-tickscript vim-airline vim-airline-themes ctrlp-vim fugitive ];
       };
     };
   };
