@@ -26,7 +26,7 @@ in
 
       "X-Action-Profile assign" = {
         MimeTypes = "application/pdf";
-        Exec = "i3-sensible-terminal -e /home/enno/nobbofin/assign-doc-fzf.py %f";
+        Exec = "i3-sensible-terminal -e /home/enno/repos/nobbofin/assign-doc-fzf.py %f";
       };
     };
 
