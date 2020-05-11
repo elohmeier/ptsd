@@ -1,8 +1,4 @@
 let
-  unstable = import <nixpkgs-unstable> {
-    config.allowUnfree = true;
-  };
-
   common = import ./home-common.nix;
 in
 {

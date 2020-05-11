@@ -5,6 +5,7 @@ let
     mapAttrs (name: _: path + "/${name}")
       (filterAttrs (_: eq "directory") (readDir path));
 in
+  # left for illustrative purposes
   #{
   #  burrow = self.callPackage ./burrow {};
   #}
@@ -12,9 +13,10 @@ mapAttrs (_: flip self.callPackage {})
   (
     filterAttrs (_: dir: pathExists (dir + "/default.nix"))
       (subdirsOf ./.)
-  ) // {
-  inherit (self.callPackage ./hasura {})
-    hasura-cli
-    hasura-graphql-engine
-    ;
-}
+  )
+# left for illustrative purposes
+#  // {
+# inherit (self.callPackage ./hasura {})
+#   hasura-cli
+#   hasura-graphql-engine
+# };

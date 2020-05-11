@@ -1,8 +1,5 @@
 { config, lib, pkgs, ... }:
 
-let
-  unstable = import <nixpkgs-unstable> {}; # for mu-repo
-in
 {
   systemd.user.services.git-alarm = {
     Unit = {
@@ -13,7 +10,7 @@ in
       Type = "oneshot";
       ExecStart = "${pkgs.git-alarm}/bin/git-alarm -o ${config.xdg.dataHome}/git-alarm.txt ${config.home.homeDirectory}/repos";
       TimeoutStartSec = "2min"; # kill if still alive after 2 minutes
-      Environment = "PATH=${pkgs.git}/bin:${unstable.mu-repo}/bin";
+      Environment = "PATH=${pkgs.git}/bin:${pkgs.mu-repo}/bin";
     };
   };
 
