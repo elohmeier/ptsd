@@ -5,11 +5,12 @@ let
     mapAttrs (name: _: path + "/${name}")
       (filterAttrs (_: eq "directory") (readDir path));
 in
-  # left for illustrative purposes
-  #{
-  #  burrow = self.callPackage ./burrow {};
-  #}
-mapAttrs (_: flip self.callPackage {})
+
+{
+  portfolio = self.callPackage ./portfolio {
+    jre = self.openjdk11;
+  };
+} // mapAttrs (_: flip self.callPackage {})
   (
     filterAttrs (_: dir: pathExists (dir + "/default.nix"))
       (subdirsOf ./.)

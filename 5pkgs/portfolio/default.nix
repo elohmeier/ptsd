@@ -4,7 +4,7 @@
 , autoPatchelfHook
 , fetchurl
 , libsecret
-, openjdk12
+, jre
 , makeWrapper
 , makeDesktopItem
 , webkitgtk
@@ -48,7 +48,7 @@ stdenv.mkDerivation rec {
 
     makeWrapper $out/portfolio/PortfolioPerformance $out/bin/portfolio \
       --prefix LD_LIBRARY_PATH : "${runtimeLibs}" \
-      --prefix PATH : ${openjdk12}/bin
+      --prefix PATH : ${jre}/bin
 
     # Create desktop item
     mkdir -p $out/share/applications
@@ -61,7 +61,7 @@ stdenv.mkDerivation rec {
     description = "A simple tool to calculate the overall performance of an investment portfolio.";
     homepage = "https://www.portfolio-performance.info/";
     license = licenses.epl10;
-    maintainers = [ maintainers.elohmeier ];
+    maintainers = with maintainers; [ elohmeier ];
     platforms = [ "x86_64-linux" ];
   };
 }
