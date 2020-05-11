@@ -160,7 +160,7 @@
     roboto
     roboto-slab
     source-code-pro
-    font-awesome_4 # wait for https://github.com/greshake/i3status-rust/issues/598
+    font-awesome_5
   ];
 
   # for betaflight-configurator firmware flashing
