@@ -22,46 +22,23 @@
   services.xserver.displayManager.lightdm.extraSeatDefaults =
     "greeter-setup-script=${pkgs.numlockx}/bin/numlockx on";
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    packageOverrides = super:
-      let
-        self = super.pkgs;
-      in
-        {
-          linuxPackages = pkgs.linuxPackages_latest.extend (
-            self: super: {
-              nvidiaPackages = super.nvidiaPackages
-              // {
-                stable = pkgs.linuxPackages_latest.nvidiaPackages.stable;
-              }
-              ;
-
-              # fix for 5.6 compat in 20.03, waits for https://github.com/NixOS/nixpkgs/pull/86440
-              broadcom_sta = super.broadcom_sta.overrideAttrs (
-                old: {
-                  patches = old.patches ++ [ ./patches/broadcom-sta-linux-5.6.patch ];
-                }
-              );
-
-              # fix for 5.6 compat in 20.03, waits for https://github.com/NixOS/nixpkgs/pull/86440
-              v4l2loopback = super.v4l2loopback.overrideAttrs (
-                old: rec {
-                  name = "v4l2loopback-${version}-${self.kernel.version}";
-                  version = "0.12.5";
-
-                  src = pkgs.fetchFromGitHub {
-                    owner = "umlaeute";
-                    repo = "v4l2loopback";
-                    rev = "v${version}";
-                    sha256 = "1qi4l6yam8nrlmc3zwkrz9vph0xsj1cgmkqci4652mbpbzigg7vn";
-                  };
-                }
-              );
-            }
-          );
-        };
-  };
+  # nixpkgs.config = {
+  #   allowUnfree = true;
+  #   packageOverrides = super:
+  #     let
+  #       self = super.pkgs;
+  #     in
+  #       {
+  #         linuxPackages = pkgs.linuxPackages_latest.extend (
+  #           self: super: {
+  #             nvidiaPackages = super.nvidiaPackages
+  #             // {
+  #               stable = pkgs.linuxPackages_latest.nvidiaPackages.stable;
+  #             };
+  #           }
+  #         );
+  #       };
+  # };
 
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
@@ -86,7 +63,7 @@
     "acpi_osi=Linux" # (try) fix shutdown bug
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
-  boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
+  # boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
   boot.supportedFilesystems = [ "zfs" ];
   services.zfs = {
     autoScrub = { enable = true; };
