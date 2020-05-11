@@ -94,7 +94,25 @@ in
       portfolio
 
       woeusb
-      ffmpeg
+      (
+        (
+          # waits for https://github.com/NixOS/nixpkgs/pull/87588
+          ffmpeg-full.overrideAttrs (
+            old: {
+              nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.addOpenGLRunpath ];
+              postFixup = ''
+                addOpenGLRunpath $out/lib/libavcodec.so*
+              '';
+            }
+          )
+        ).override {
+          nonfreeLicensing = true;
+          fdkaacExtlib = true;
+          ffplayProgram = false;
+          ffprobeProgram = false;
+          qtFaststartProgram = false;
+        }
+      )
 
       betaflight-configurator
 
