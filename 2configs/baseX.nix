@@ -160,7 +160,10 @@
     roboto
     roboto-slab
     source-code-pro
+
+    # required by i3status-rs
     font-awesome_5
+    powerline-fonts
   ];
 
   # for betaflight-configurator firmware flashing
