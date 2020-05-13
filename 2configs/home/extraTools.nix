@@ -2,6 +2,7 @@
 
 # Tools you probably would not add to an ISO image
 let
+  unstable = import <nixpkgs-unstable> {};
   py3 = pkgs.python37.override {
     packageOverrides = self: super: rec {
       black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert {};
@@ -180,7 +181,8 @@ in
       teamviewer
       discord
       mediathekview
-      (pkgs.callPackage <nixpkgs-unstable/pkgs/applications/networking/sync/rclone> {})
+      #(pkgs.callPackage <nixpkgs-unstable/pkgs/applications/networking/sync/rclone> {})
+      unstable.rclone
 
       # telegram-desktop
       (
