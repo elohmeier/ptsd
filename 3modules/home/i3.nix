@@ -553,17 +553,18 @@ in
             block = "nvidia_gpu";
             interval = 10;
           }
-          {
-            # Logitech Mouse
-            block = "battery";
-            driver = "upower";
-            device = "hidpp_battery_0";
-            format = "L {percentage}%";
-            good = 60;
-            info = 40;
-            warning = 20;
-            critical = 10;
-          }
+          # device won't be found always
+          # {
+          #   # Logitech Mouse
+          #   block = "battery";
+          #   driver = "upower";
+          #   device = "hidpp_battery_0";
+          #   format = "L {percentage}%";
+          #   good = 60;
+          #   info = 40;
+          #   warning = 20;
+          #   critical = 10;
+          # }
           {
             block = "disk_space";
             path = "/";
