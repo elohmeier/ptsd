@@ -133,10 +133,12 @@ in
   virtualisation.docker.enableOnBoot = false; # will be socket-activated
   virtualisation.libvirtd.enable = true;
 
+  # LG sink-volume of 13107 =~ 20%
   hardware.pulseaudio.extraConfig = ''
     load-module module-echo-cancel use_master_format=1 source_master=alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo sink_master=alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21 aec_method=webrtc aec_args="beamforming=1 mic_geometry=-0.04,0,0,0.04,0,0 noise_suppression=1 analog_gain_control=0 digital_gain_control=1 agc_start_volume=200"
     set-default-sink alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21
     set-default-source alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo.echo-cancel
+    set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo 13107
   '';
 
   # services.nginx = {
