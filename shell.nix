@@ -16,7 +16,7 @@ let
     mk-update = ''
       ./update-home-manager.sh
       ./update-nixos-hardware.sh
-      ./update-nixos-mailserver.sh
+      #./update-nixos-mailserver.sh
       ./update-nixpkgs.sh
       ./update-nixpkgs-unstable.sh
     '';
