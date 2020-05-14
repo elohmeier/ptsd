@@ -28,6 +28,9 @@ in
     <home-manager/nixos>
   ];
 
+  nix.trustedUsers = [ "root" "enno" ];
+  hardware.steam-hardware.enable = true;
+
   home-manager = {
     users.mainUser = { pkgs, ... }:
       {
@@ -118,6 +121,8 @@ in
   environment.systemPackages = with pkgs; [
     samba
     home-manager
+    steam
+    steam-run
   ];
 
   networking.firewall.interfaces.virbr4 = {
