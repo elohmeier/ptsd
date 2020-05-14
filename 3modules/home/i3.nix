@@ -522,14 +522,14 @@ in
         };
         icons = "awesome5";
         block = [
-          {
-            block = "pomodoro";
-            length = 25;
-            break_length = 5;
-            message = "Take a break!";
-            break_message = "Back to work!";
-            use_nag = true;
-          }
+          # {
+          #   block = "pomodoro";
+          #   length = 25;
+          #   break_length = 5;
+          #   message = "Take a break!";
+          #   break_message = "Back to work!";
+          #   use_nag = true;
+          # }
           {
             block = "custom";
             command = "cat ${config.xdg.dataHome}/git-alarm.txt";
