@@ -675,7 +675,17 @@ in
       settings = {
         global = {
           geometry = "300x5-30+50";
+          transparency = 10;
+          frame_color = "#eceff1";
+          font = "Source Code Pro ${toString cfg.fontSize}";
         };
+
+        urgency_normal = {
+          background = "#37474f";
+          foreground = "#eceff1";
+          timeout = 5;
+        };
+
         urgency_low.timeout = 1;
       };
     };
