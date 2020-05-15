@@ -206,11 +206,15 @@ in
         folders = {
           "${root}/Pocket" = {
             id = "hmekh-kgprn";
-            devices = [ "ws1" ];
+            devices = [ "ws1" ]; # TODO: add tp1
           };
           "${root}/LuNo" = {
             id = "3ull9-9deg4";
-            devices = [ "ws1" "mb1" "tp2" ];
+            devices = [ "ws1" "mb1" "tp2" ]; # TODO: add tp1
+          };
+          "${root}/Scans" = {
+            id = "ezjwj-xgnhe";
+            devices = [ "ws1" ]; # TODO: add tp1
           };
         };
       };
@@ -223,22 +227,23 @@ in
         folders = {
           "${root}/LuNo" = {
             id = "3ull9-9deg4";
-            devices = [ "tp2" "mb1" "ws1" ];
+            devices = [ "tp2" "mb1" "ws1" ]; # TODO: add tp1
           };
-
           "${root}/Bilder" = {
             id = "ugmai-ti6vl";
             devices = [ "tp2" "mb1" ];
           };
-
           "${root}/Dokumente" = {
             id = "sqkfd-m9he7";
             devices = [ "tp2" "mb1" ];
           };
-
           "${root}/Musik" = {
             id = "zvffu-ff92z";
             devices = [ "tp2" "mb1" ];
+          };
+          "${root}/Scans" = {
+            id = "dnryo-kz7io";
+            devices = [ "tp2" "mb1" "ws1" ]; # TODO: rm ws1
           };
         };
       };
