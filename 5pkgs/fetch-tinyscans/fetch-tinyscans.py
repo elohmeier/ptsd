@@ -13,7 +13,7 @@ DEFAULT_TIMEOUT = 3
 logger = logging.getLogger(__name__)
 
 
-def fetch_set(url: str, name: str, output_directory: Path):
+def fetch_set(url: str, name: str, output_directory: Path) -> bool:
     subidx = requests.get(url, timeout=DEFAULT_TIMEOUT)
     if subidx.status_code != 200:
         raise Exception("failed to fetch sub-index from %s" % url)
@@ -42,12 +42,13 @@ def fetch_set(url: str, name: str, output_directory: Path):
         f"PDF File {pdf_path} exists, overwrite it?"
     ):
         logger.info(f"PDF {pdf_path} skipped.")
-        return
+        return False
 
     images[0].save(
         pdf_path, "PDF", resolution=100.0, save_all=True, append_images=images[1:]
     )
     logger.info("PDF saved to %s", pdf_path)
+    return True
 
 
 @click.command(
@@ -66,6 +67,8 @@ def fetch_tinyscans(output_directory: str, debug: bool, ip: str):
         format="%(levelname)s: %(message)s",
         level=logging.DEBUG if debug else logging.INFO,
     )
+    fetched_ct = 0
+    skipped_ct = 0
 
     try:
         root = f"http://{ip}:10000/"
@@ -81,11 +84,16 @@ def fetch_tinyscans(output_directory: str, debug: bool, ip: str):
                 continue
 
             logger.debug("fetching %s from %s", name, root + href)
-            fetch_set(root + href, name, Path(output_directory))
+            if fetch_set(root + href, name, Path(output_directory)):
+                fetched_ct += 1
+            else:
+                skipped_ct += 1
     except ConnectionError:
         logger.error(
             "connection to TinyScanner app failed. Please make sure the device screen is on and the app is in the foreground."
         )
+    finally:
+        logger.info(f"fetched {fetched_ct} documents, skipped {skipped_ct} documents.")
 
 
 if __name__ == "__main__":
