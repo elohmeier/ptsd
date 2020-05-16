@@ -12,7 +12,8 @@ in
 
   environment.systemPackages = with pkgs; [
     nixpkgs-fmt
-    vims.small
+    #vims.small
+    vim
     fetch-tinyscans
   ];
 
