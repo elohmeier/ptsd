@@ -1,7 +1,7 @@
 {
   "url": "https://github.com/NixOS/nixos-hardware",
-  "rev": "8e8e65ba45e8374fcb6258f9606910a77b68dbe0",
-  "date": "2020-05-07T17:41:06+01:00",
-  "sha256": "00hp73cxn7cxba69wx64ydqr8bfx3lc1f3js9fiw5nz9yv8j4xk8",
+  "rev": "75a850cb3e02203d55fb958d0d8aca8176df83af",
+  "date": "2020-05-17T16:00:13+01:00",
+  "sha256": "0k4ki23513y4ql8rmfgq6y24gvrxwmnpa0x3fqmkg9xg3rrhzbn6",
   "fetchSubmodules": false
 }
