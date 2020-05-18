@@ -10,8 +10,6 @@ in
 
   networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } ]; # for pyhomematic
 
-  users.groups.lego.members = [ "hass" ];
-
   ptsd.lego.extraDomains = [
     domain
   ];
@@ -20,6 +18,14 @@ in
     {
       name = "home-assistant";
       rule = "Host:${domain},nas1.lan.nerdworks.de";
+    }
+  ];
+
+  services.postgresql.ensureDatabases = [ "home-assistant" ];
+  services.postgresql.ensureUsers = [
+    {
+      name = "hass";
+      ensurePermissions."DATABASE \"home-assistant\"" = "ALL PRIVILEGES";
     }
   ];
 
