@@ -127,6 +127,10 @@ in
 
                   #"XF86Calculator" = "exec i3-sensible-terminal -title bc -e ${pkgs.bc}/bin/bc -l";  # urxvt
                   "XF86Calculator" = "exec i3-sensible-terminal --title bc -e ${pkgs.bc}/bin/bc -l"; # alacritty
+                  "XF86HomePage" = "exec chromium";
+                  "XF86Search" = "exec chromium";
+                  "XF86Mail" = "exec evolution";
+                  "XF86Launch9" = "exec spotify"; # Label: 5
 
                   "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
                   "${modifier}+p" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
@@ -618,8 +622,8 @@ in
             block = "disk_space";
             path = "/var/src";
             alias = "/var/src";
-            warning = 0.5;
-            alert = 0.2;
+            warning = 0.3;
+            alert = 0.1;
           }
           {
             block = "disk_space";
