@@ -27,7 +27,12 @@
     "L /var/lib/libvirt/qemu - - - - /persist/var/lib/libvirt/qemu"
   ];
 
-  fileSystems = lib.optionalAttrs config.services.samba.enable {
+  fileSystems = {
+    "/var/lib/systemd" = {
+      device = "/persist/var/lib/systemd";
+      options = [ "bind" ];
+    };
+  } // lib.optionalAttrs config.services.samba.enable {
     "/var/lib/samba" =
       {
         device = "/persist/var/lib/samba";
