@@ -2,7 +2,9 @@
 
 # Tools you probably would not add to an ISO image
 let
-  unstable = import <nixpkgs-unstable> {};
+  unstable = import <nixpkgs-unstable> {
+    config.allowUnfree = true;
+  };
   py3 = pkgs.python37.override {
     packageOverrides = self: super: rec {
       black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert {};
@@ -62,7 +64,6 @@ in
       inkscape
       gimp
       #tor-browser-bundle-bin
-      spotify
       xournalpp
       calibre
       xmind
@@ -115,7 +116,18 @@ in
         }
       )
 
-      betaflight-configurator
+      (
+        betaflight-configurator.overrideAttrs (
+          old: rec {
+            pname = "betaflight-configurator";
+            version = "10.7.0-RC1";
+            src = fetchurl {
+              url = "https://github.com/betaflight/${pname}/releases/download/${version}/${pname}_${version}_linux64.zip";
+              sha256 = "03lj5in6r74c64qgwf92fn3n862lv5clsnkjpycc1gkvn1637jg7";
+            };
+          }
+        )
+      )
 
       (pidgin-with-plugins.override { plugins = [ telegram-purple ]; })
 
@@ -149,7 +161,7 @@ in
       syncthing
       imagemagick
       youtube-dl
-      spotify
+      unstable.spotify
       mpv
       drawio
       (pass.withExtensions (ext: [ ext.pass-import ]))
