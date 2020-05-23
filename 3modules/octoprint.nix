@@ -53,6 +53,10 @@ in
         default = {};
         description = "Extra options which are added to OctoPrint's YAML configuration file.";
       };
+      serialDevice = mkOption {
+        default = "/dev/ttyUSB0";
+        type = types.str;
+      };
     };
   };
 
@@ -82,8 +86,9 @@ in
         PrivateTmp = "true";
         ProtectSystem = "full";
         ProtectHome = "true";
-        PrivateDevices = "true";
         NoNewPrivileges = "true";
+        DeviceAllow = "${cfg.serialDevice} rw";
+        SupplementaryGroups = "dialout";
       };
     };
   };
