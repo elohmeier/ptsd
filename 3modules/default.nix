@@ -15,6 +15,7 @@ _:
     ./nwstats.nix
     ./nwtelegraf.nix
     ./nwtraefik.nix
+    ./octoprint.nix
     ./radicale.nix
     ./samba-sonos.nix
     ./secrets.nix
