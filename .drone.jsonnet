@@ -49,7 +49,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   // htz3 disabled for potential manual local changes
   //DeployPipeline('htz3', hostdomain='host.fraam.de', prebuild=['traefik-forward-auth']),
 
-  DeployPipeline('nas1', prebuild=['nwhass']),
+  DeployPipeline('nas1', populate_unstable=true, prebuild=['nwhass']),
   //DeployPipeline("nuc1"),
   DeployPipeline('rpi2'),
   DeployPipeline('ws1', populate_unstable=true),
