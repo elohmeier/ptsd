@@ -176,6 +176,7 @@ in
         nginx-monica = 10090;
         nginx-htz3 = 10091;
         nwgit = 10055;
+        octoprint = 10056;
         radicale = 5232;
       };
     }
