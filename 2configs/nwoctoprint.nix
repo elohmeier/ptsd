@@ -7,9 +7,11 @@ in
 {
   ptsd.octoprint = {
     enable = true;
-    package = (unstable.callPackage ../5pkgs/octoprint {});
     host = "127.0.0.1";
     port = config.ptsd.nwtraefik.ports.octoprint;
+
+    package = (unstable.callPackage ../5pkgs/octoprint {});
+    plugins = plugins: with plugins; [ bedlevelvisualizer ];
   };
 
   ptsd.lego.extraDomains = [
