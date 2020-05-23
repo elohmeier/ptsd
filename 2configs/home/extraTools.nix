@@ -209,6 +209,8 @@ in
 
       go
       delve
+
+      prusa-slicer
     ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
