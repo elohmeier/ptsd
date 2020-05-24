@@ -3,7 +3,9 @@
 # Tools you probably would not add to an ISO image
 let
   unstable = import <nixpkgs-unstable> {
-    config.allowUnfree = true;
+    config = {
+      allowUnfree = true;
+    };
   };
   py3 = pkgs.python37.override {
     packageOverrides = self: super: rec {
@@ -43,14 +45,14 @@ in
   ];
 
   home.packages = with pkgs; let
-    wine = wineStaging.override { wineBuild = "wine32"; };
+    mywine = wine.override { wineBuild = "wineWow"; wineRelease = "staging"; };
   in
     [
       sshfs
       pdftk
 
-      wine
-      (winetricks.override { wine = wine; })
+      mywine
+      (winetricks.override { wine = mywine; })
 
       slack-dark
 
@@ -211,6 +213,7 @@ in
       delve
 
       prusa-slicer
+      freecad
     ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
