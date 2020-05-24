@@ -39,6 +39,18 @@ in
       fsType = "ext4";
     };
 
+  fileSystems."/var/db/influxdb" =
+    {
+      device = "${vgPrefix}-var--db--influxdb";
+      fsType = "ext4";
+    };
+
+  fileSystems."/var/lib/prometheus2" =
+    {
+      device = "${vgPrefix}-var--lib--prometheus2";
+      fsType = "ext4";
+    };
+
   fileSystems."/var/log" =
     {
       device = "${vgPrefix}-var--log";
