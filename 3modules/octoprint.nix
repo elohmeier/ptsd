@@ -57,6 +57,9 @@ in
         default = "/dev/ttyUSB0";
         type = types.str;
       };
+      deviceService = mkOption {
+        type = types.str;
+      };
     };
   };
 
@@ -64,8 +67,10 @@ in
 
     systemd.services.octoprint = {
       description = "OctoPrint, web interface for 3D printers";
-      after = [ "network.target" ];
-      wantedBy = [ "multi-user.target" ];
+      after = [ "network.target" cfg.deviceService ];
+      #wantedBy = [ "multi-user.target" ];
+      wantedBy = [ cfg.deviceService ]; # hot-plug start service
+      bindsTo = [ cfg.deviceService ];
       path = [ pluginsEnv ];
 
       preStart = ''

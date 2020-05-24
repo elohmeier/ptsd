@@ -12,6 +12,7 @@ in
 
     package = (unstable.callPackage ../5pkgs/octoprint {});
     plugins = plugins: with plugins; [ bedlevelvisualizer ];
+    deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d7-1\\x2d7:1.0-ttyUSB0-tty-ttyUSB0.device";
   };
 
   ptsd.lego.extraDomains = [
