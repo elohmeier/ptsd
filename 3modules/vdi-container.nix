@@ -181,10 +181,6 @@ in
             home-manager = {
               users.mainUser = { pkgs, ... }:
                 {
-                  # fixes missing gcroot & profile dir fail in home-manager
-                  # waits for https://github.com/rycee/home-manager/pull/1091
-                  home.extraBuilderCommands = "sed -i 's/| head -1)/| head -1 || true)/' $out/activate";
-
                   gtk = {
                     enable = true;
                     font = {
