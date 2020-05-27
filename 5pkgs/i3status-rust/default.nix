@@ -2,16 +2,16 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "i3status-rust";
-  version = "2020-05-11";
+  version = "2020-05-24";
 
   src = fetchFromGitHub {
     owner = "greshake";
     repo = pname;
-    rev = "207497ad0987f969442e27376fedc12a80074a41";
-    sha256 = "1b74dnglnvvaavj6pcmmj4854ya2panvygvhn73sjxnwkb727hr3";
+    rev = "f642798369a617fd0ebf8b8efa92864695fa9fcb";
+    sha256 = "0cgvmwyx227hx57wkxzcrfb03alz710gv4h23hdb31j68lk6k08x";
   };
 
-  cargoSha256 = "0jdwcyw4bx7fcrscfarlvlbp2jaajmjabkw2a3w3ld07dchq0wb0";
+  cargoSha256 = "1g1k4fvpryr9fpbg6s3wfsr1z6ia8blsbysfdr6i50sbh796f2fz";
 
   nativeBuildInputs = [ pkgconfig ];
 
