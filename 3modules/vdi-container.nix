@@ -184,7 +184,7 @@ in
                   gtk = {
                     enable = true;
                     font = {
-                      name = "DejaVu Sans 8";
+                      name = "Iosevka Sans 8";
                       package = pkgs.dejavu_fonts;
                     };
                     iconTheme = {

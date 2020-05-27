@@ -28,7 +28,7 @@ in
     };
     font = mkOption {
       type = types.str;
-      default = "DejaVu Sans"; # TODO: expose package, e.g. for gtk
+      default = "Iosevka Sans"; # TODO: expose package, e.g. for gtk
     };
     fontSize = mkOption {
       type = types.int;
@@ -245,7 +245,7 @@ in
                 {
                   colors.background = "#181516";
                   # font size must be appended to the *last* item in this list
-                  fonts = [ "Source Code Pro for Powerline" "FontAwesome5Free" "FontAwesome5Brands ${toString cfg.fontSize}" ];
+                  fonts = [ "Iosevka" "FontAwesome5Free" "FontAwesome5Brands ${toString cfg.fontSize}" ];
 
                   statusCommand = "${config.ptsd.i3status-rust.package}/bin/i3status-rs ${config.xdg.configHome}/i3/status.toml";
                 }
@@ -276,7 +276,7 @@ in
       enable = true;
       font = {
         name = "${cfg.font} ${toString cfg.fontSize}";
-        package = pkgs.dejavu_fonts;
+        package = pkgs.iosevka;
       };
       iconTheme = {
         name = "Tango";
@@ -681,7 +681,7 @@ in
           geometry = "300x5-30+50";
           transparency = 10;
           frame_color = "#eceff1";
-          font = "Source Code Pro ${toString cfg.fontSize}";
+          font = "Iosevka ${toString cfg.fontSize}";
         };
 
         urgency_normal = {
