@@ -19,6 +19,7 @@ let
       jupyterlab
       lxml
       keyring
+      nbconvert
       pdfminer
       pillow
       requests
