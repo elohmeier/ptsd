@@ -15,11 +15,19 @@ in
     enable = mkEnableOption "i3 window manager";
     showBatteryStatus = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
     showWifiStatus = mkOption {
       type = types.bool;
       default = false;
+    };
+    showNvidiaGpuStatus = mkOption {
+      type = types.bool;
+      default = false;
+    };
+    extraDiskBlocks = mkOption {
+      type = with types; listOf attrs;
+      default = [];
     };
     ethIf = mkOption {
       type = types.str;
@@ -28,7 +36,7 @@ in
     };
     font = mkOption {
       type = types.str;
-      default = "DejaVu Sans"; # TODO: expose package, e.g. for gtk
+      default = "Iosevka Sans"; # TODO: expose package, e.g. for gtk
     };
     fontSize = mkOption {
       type = types.int;
@@ -245,7 +253,7 @@ in
                 {
                   colors.background = "#181516";
                   # font size must be appended to the *last* item in this list
-                  fonts = [ "Source Code Pro for Powerline" "FontAwesome5Free" "FontAwesome5Brands ${toString cfg.fontSize}" ];
+                  fonts = [ "Iosevka" "FontAwesome5Free" "FontAwesome5Brands ${toString cfg.fontSize}" ];
 
                   statusCommand = "${config.ptsd.i3status-rust.package}/bin/i3status-rs ${config.xdg.configHome}/i3/status.toml";
                 }
@@ -276,7 +284,7 @@ in
       enable = true;
       font = {
         name = "${cfg.font} ${toString cfg.fontSize}";
-        package = pkgs.dejavu_fonts;
+        package = pkgs.iosevka;
       };
       iconTheme = {
         name = "Tango";
@@ -553,10 +561,12 @@ in
             info = 65;
             warning = 80;
           }
+        ] ++ optional cfg.showNvidiaGpuStatus
           {
             block = "nvidia_gpu";
             interval = 10;
           }
+        ++ [
           # device won't be found always
           # {
           #   # Logitech Mouse
@@ -590,34 +600,7 @@ in
             warning = 0.5;
             alert = 0.2;
           }
-          {
-            block = "disk_space";
-            path = "/var";
-            alias = "/var";
-            warning = 2;
-            alert = 1;
-          }
-          {
-            block = "disk_space";
-            path = "/var/lib/docker";
-            alias = "/var/lib/docker";
-            warning = 2;
-            alert = 1;
-          }
-          {
-            block = "disk_space";
-            path = "/var/lib/libvirt/images";
-            alias = "/var/lib/libvirt/images";
-            warning = 2;
-            alert = 1;
-          }
-          {
-            block = "disk_space";
-            path = "/var/log";
-            alias = "/var/log";
-            warning = 1;
-            alert = 0.5;
-          }
+        ] ++ cfg.extraDiskBlocks ++ [
           {
             block = "disk_space";
             path = "/var/src";
@@ -632,6 +615,15 @@ in
             warning = 5;
             alert = 1;
           }
+        ] ++ optional cfg.showWifiStatus {
+          block = "net";
+          device = "wlp59s0";
+          ip = true;
+          speed_up = true;
+          speed_down = true;
+          interval = 5;
+        }
+        ++ [
           {
             block = "net";
             device = "nwvpn";
@@ -644,6 +636,13 @@ in
           #   block = "cpu";
           #   interval = 5;
           # }
+        ] ++ optional cfg.showBatteryStatus {
+          block = "battery";
+          #driver = "upower"
+          interval = 10;
+          format = "{percentage}% {time}";
+        }
+        ++ [
           {
             block = "load";
             interval = 5;
@@ -681,7 +680,7 @@ in
           geometry = "300x5-30+50";
           transparency = 10;
           frame_color = "#eceff1";
-          font = "Source Code Pro ${toString cfg.fontSize}";
+          font = "Iosevka ${toString cfg.fontSize}";
         };
 
         urgency_normal = {

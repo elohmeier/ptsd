@@ -8,7 +8,11 @@
     <ptsd/2configs/home/xsession-i3.nix>
   ];
 
-  ptsd.i3.fontSize = 12;
+  ptsd.i3 = {
+    showBatteryStatus = true;
+    showWifiStatus = true;
+    fontSize = 10;
+  };
   ptsd.urxvt.fontSize = 12;
 
   home.packages = [ pkgs.steam ];

@@ -46,7 +46,7 @@ in
   ];
 
   home.packages = with pkgs; let
-    mywine = wine.override { wineBuild = "wineWow"; wineRelease = "staging"; };
+    mywine = wine.override { wineBuild = "wine32"; wineRelease = "staging"; };
   in
     [
       sshfs
@@ -200,11 +200,13 @@ in
       unstable.rclone
 
       # telegram-desktop
-      (
-        pkgs.qt5.callPackage <nixpkgs-unstable/pkgs/applications/networking/instant-messengers/telegram/tdesktop> {
-          tl-expected = (pkgs.callPackage <nixpkgs-unstable/pkgs/development/libraries/tl-expected> {});
-        }
-      )
+      #(
+      #  pkgs.qt5.callPackage <nixpkgs-unstable/pkgs/applications/networking/instant-messengers/telegram/tdesktop> {
+      #    tl-expected = (pkgs.callPackage <nixpkgs-unstable/pkgs/development/libraries/tl-expected> {});
+      #  }
+      #)
+      # faster (build takes long on tp1)
+      unstable.tdesktop
 
       obs-studio
 

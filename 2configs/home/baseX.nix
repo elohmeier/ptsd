@@ -21,8 +21,8 @@
     settings = {
       font = {
         normal = {
-          family = "Source Code Pro for Powerline";
-          style = "Regular";
+          family = "Iosevka";
+          #style = "Regular";
         };
         size = 8;
       };

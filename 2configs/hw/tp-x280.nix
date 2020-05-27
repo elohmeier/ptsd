@@ -41,7 +41,7 @@
     # https://wiki.archlinux.org/index.php/Intel_graphics#Enable_GuC_/_HuC_firmware_loading
     "i915.enable_guc=2"
   ];
-  boot.kernelPackages = pkgs.linuxPackages_latest; # use the latest kernel
+
   boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
 
   nix.maxJobs = lib.mkDefault 8;

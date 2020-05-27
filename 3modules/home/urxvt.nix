@@ -13,7 +13,7 @@ in
     };
     font = mkOption {
       type = types.str;
-      default = "Consolas";
+      default = "Iosevka";
     };
     fontSize = mkOption {
       type = types.int;
