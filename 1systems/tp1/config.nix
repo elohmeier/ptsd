@@ -144,7 +144,6 @@
   };
 
   environment.systemPackages = with pkgs; [
-    (wineStaging.override { wineBuild = "wine32"; })
     powertop
     networkmanagerapplet
     samba
