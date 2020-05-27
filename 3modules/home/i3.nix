@@ -15,11 +15,19 @@ in
     enable = mkEnableOption "i3 window manager";
     showBatteryStatus = mkOption {
       type = types.bool;
-      default = true;
+      default = false;
     };
     showWifiStatus = mkOption {
       type = types.bool;
       default = false;
+    };
+    showNvidiaGpuStatus = mkOption {
+      type = types.bool;
+      default = false;
+    };
+    extraDiskBlocks = mkOption {
+      type = with types; listOf attrs;
+      default = [];
     };
     ethIf = mkOption {
       type = types.str;
@@ -553,10 +561,12 @@ in
             info = 65;
             warning = 80;
           }
+        ] ++ optional cfg.showNvidiaGpuStatus
           {
             block = "nvidia_gpu";
             interval = 10;
           }
+        ++ [
           # device won't be found always
           # {
           #   # Logitech Mouse
@@ -590,34 +600,7 @@ in
             warning = 0.5;
             alert = 0.2;
           }
-          {
-            block = "disk_space";
-            path = "/var";
-            alias = "/var";
-            warning = 2;
-            alert = 1;
-          }
-          {
-            block = "disk_space";
-            path = "/var/lib/docker";
-            alias = "/var/lib/docker";
-            warning = 2;
-            alert = 1;
-          }
-          {
-            block = "disk_space";
-            path = "/var/lib/libvirt/images";
-            alias = "/var/lib/libvirt/images";
-            warning = 2;
-            alert = 1;
-          }
-          {
-            block = "disk_space";
-            path = "/var/log";
-            alias = "/var/log";
-            warning = 1;
-            alert = 0.5;
-          }
+        ] ++ cfg.extraDiskBlocks ++ [
           {
             block = "disk_space";
             path = "/var/src";
@@ -632,6 +615,15 @@ in
             warning = 5;
             alert = 1;
           }
+        ] ++ optional cfg.showWifiStatus {
+          block = "net";
+          device = "wlp59s0";
+          ip = true;
+          speed_up = true;
+          speed_down = true;
+          interval = 5;
+        }
+        ++ [
           {
             block = "net";
             device = "nwvpn";
@@ -644,6 +636,13 @@ in
           #   block = "cpu";
           #   interval = 5;
           # }
+        ] ++ optional cfg.showBatteryStatus {
+          block = "battery";
+          #driver = "upower"
+          interval = 10;
+          format = "{percentage}% {time}";
+        }
+        ++ [
           {
             block = "load";
             interval = 5;

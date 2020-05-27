@@ -23,7 +23,38 @@ in
   ptsd.i3 = {
     showBatteryStatus = false;
     showWifiStatus = false;
+    showNvidiaGpuStatus = true;
     ethIf = "br0";
+    extraDiskBlocks = [
+      {
+        block = "disk_space";
+        path = "/var";
+        alias = "/var";
+        warning = 2;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/var/lib/docker";
+        alias = "/var/lib/docker";
+        warning = 2;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/var/lib/libvirt/images";
+        alias = "/var/lib/libvirt/images";
+        warning = 2;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/var/log";
+        alias = "/var/log";
+        warning = 1;
+        alert = 0.5;
+      }
+    ];
   };
 
   home = {
