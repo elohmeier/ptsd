@@ -11,6 +11,7 @@ in
     <ptsd/2configs/bs53lan.nix>
     <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/cups-airprint.nix>
+    <ptsd/2configs/dokuwiki.nix>
     <ptsd/2configs/influxdb-kapacitor.nix>
     <ptsd/2configs/grafana.nix>
     <ptsd/2configs/home-assistant.nix>

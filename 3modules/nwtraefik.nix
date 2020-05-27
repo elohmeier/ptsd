@@ -164,20 +164,21 @@ in
   config = mkMerge [
     {
       ptsd.nwtraefik.ports = {
-        acme-dns = 10049;
-        droneci = 10050;
-        ffoxsync = 10077;
-        grafana = 10089;
-        home-assistant = 8123;
-        influxdb = 10078;
-        kapacitor = 10079;
-        nerdworkswww = 1080;
-        nextcloud = 1082;
-        nginx-monica = 10090;
-        nginx-htz3 = 10091;
-        nwgit = 10055;
-        octoprint = 10056;
-        radicale = 5232;
+        acme-dns = 10001;
+        dokuwiki = 10002;
+        droneci = 10003;
+        ffoxsync = 10004;
+        grafana = 10005;
+        home-assistant = 8123; # TODO: update yaml like in octoprint module
+        influxdb = 10006;
+        kapacitor = 10007;
+        nerdworkswww = 10008;
+        nextcloud = 10009;
+        nginx-monica = 10010;
+        nginx-htz3 = 10011;
+        nwgit = 10012;
+        octoprint = 10013;
+        radicale = 10014;
       };
     }
     (
