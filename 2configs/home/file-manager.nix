@@ -58,6 +58,23 @@ in
       };
     };
 
+    "file-manager/actions/pdfduplex.desktop".text = lib.generators.toINI {} {
+      "Desktop Entry" = {
+        Type = "Action";
+        Name = "Convert A & B PDF to Duplex-PDF";
+        "Name[de]" = "Konvertiere A & B PDF zu Duplex-PDF";
+        Profiles = "pdfduplex;";
+      };
+
+      "X-Action-Profile pdfduplex" = {
+        MimeTypes = "application/pdf";
+        Exec = "${pkgs.pdfduplex}/bin/pdfduplex %F";
+        # for debugging:
+        # Exec = "${pkgs.alacritty}/bin/alacritty --hold -e ${pkgs.pdfduplex}/bin/pdfduplex %F";
+        SelectionCount = 2;
+      };
+    };
+
     "applications/vim.desktop" = {
       text = lib.generators.toINI {} {
         "Desktop Entry" = {
