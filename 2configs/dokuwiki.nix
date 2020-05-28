@@ -55,6 +55,7 @@ in
           # remember to clear the cache (/var/lib/dokuwiki/data/cache) when modifying plugins
           (pkgs.callPackage <ptsd/5pkgs/dokuwiki-plugin-dw2pdf> {})
           (pkgs.callPackage <ptsd/5pkgs/dokuwiki-plugin-nspages> {})
+          (pkgs.callPackage <ptsd/5pkgs/dokuwiki-plugin-pagebreak> {})
         ];
       };
     };
