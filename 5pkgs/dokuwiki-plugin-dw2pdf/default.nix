@@ -10,7 +10,7 @@ stdenv.mkDerivation rec {
     sha256 = "1pkn76ncra7ymdy58dk48415fqm29f2il809qbcp9cakclsv07rq";
   };
   installPhase = ''
-    mkdir -p $out/share/dokuwiki/lib/plugins/${pname}
-    cp -r * $out/share/dokuwiki/lib/plugins/${pname}
+    mkdir -p $out/share/dokuwiki/lib/plugins/dw2pdf
+    cp -r * $out/share/dokuwiki/lib/plugins/dw2pdf
   '';
 }
