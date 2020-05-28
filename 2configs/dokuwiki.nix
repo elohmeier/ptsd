@@ -40,6 +40,11 @@ in
         }
       ];
     };
-    aclUse = false;
+    aclUse = true;
+    acl = ''
+      * @ALL 0
+    '';
+    usersFile = <secrets/dokuwiki.users>;
+    superUser = "@staff";
   };
 }
