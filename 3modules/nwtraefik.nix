@@ -179,6 +179,7 @@ in
         nwgit = 10012;
         octoprint = 10013;
         radicale = 10014;
+        synapse = 10015;
       };
     }
     (
