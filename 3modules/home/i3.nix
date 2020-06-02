@@ -70,7 +70,8 @@ in
                 {
                   "${modifier}+Return" = "exec i3-sensible-terminal";
                   "${modifier}+Shift+q" = "kill";
-                  "${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
+                  #"${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
+                  "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -show drun";
 
                   "${modifier}+Left" = "focus left";
                   "${modifier}+Down" = "focus down";
@@ -294,6 +295,13 @@ in
         name = "Arc-Dark";
         package = pkgs.arc-theme;
       };
+    };
+
+    programs.rofi = {
+      enable = true;
+      font = "${cfg.font} ${toString cfg.fontSize}";
+      terminal = "${pkgs.alacritty}/bin/alacritty";
+      theme = "solarized_alternate";
     };
 
     home.packages = with pkgs; [
