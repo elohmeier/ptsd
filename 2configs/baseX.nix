@@ -1,5 +1,20 @@
 { config, lib, pkgs, ... }:
 
+let
+  # pulseAudioFull required for bluetooth audio support
+  pulseaudio = (
+    pkgs.pulseaudioFull.overrideAttrs (
+      old: {
+        patches = [
+          # mitigate https://pulseaudio-bugs.freedesktop.narkive.com/RfIRytly/pulseaudio-tickets-bug-96819-new-module-echo-cancel-aec-method-webrtc-parsing-mic-geometry-value-is-
+          ./patches/echo-cancel-make-webrtc-beamforming-parameter-parsing-locale-independent.patch
+        ];
+      }
+    )
+  ).override {
+    airtunesSupport = true;
+  };
+in
 {
   imports = [
     <ptsd>
@@ -29,6 +44,11 @@
     redshift
     pavucontrol
     pasystray
+    (
+      pulseaudio-dlna.override {
+        pulseaudio = pulseaudio;
+      }
+    )
     dunst
     libnotify
     gnupg
@@ -84,13 +104,7 @@
   hardware.pulseaudio = {
     enable = true;
     extraModules = [ pkgs.pulseaudio-modules-bt ];
-    # pulseAudioFull required for bluetooth audio support
-    package = pkgs.pulseaudioFull.overrideAttrs (
-      old: {
-        # mitigate https://pulseaudio-bugs.freedesktop.narkive.com/RfIRytly/pulseaudio-tickets-bug-96819-new-module-echo-cancel-aec-method-webrtc-parsing-mic-geometry-value-is-
-        patches = [ ./patches/echo-cancel-make-webrtc-beamforming-parameter-parsing-locale-independent.patch ];
-      }
-    );
+    package = pulseaudio;
     support32Bit = true; # for Steam
     zeroconf.discovery.enable = true;
   };
