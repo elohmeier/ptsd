@@ -22,6 +22,7 @@ home-assistant.override {
     ps.influxdb
     ps.mutagen # for tts
     ps.paho-mqtt
+    ps.pyicloud
     ps.psycopg2
     (ps.callPackage ../pyfritzhome {})
     (
