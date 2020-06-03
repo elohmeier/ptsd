@@ -107,6 +107,24 @@ in
     package = pulseaudio;
     support32Bit = true; # for Steam
     zeroconf.discovery.enable = true;
+
+    # better audio quality settings
+    # from https://medium.com/@gamunu/enable-high-quality-audio-on-linux-6f16f3fe7e1f
+    daemon.config = {
+
+      default-sample-format = "float32le";
+      default-sample-rate = lib.mkDefault 48000;
+      alternate-sample-rate = 44100;
+      default-sample-channels = 2;
+      default-channel-map = "front-left,front-right";
+      resample-method = "speex-float-10";
+      enable-lfe-remixing = "no";
+      high-priority = "yes";
+      nice-level = -11;
+      realtime-scheduling = "yes";
+      realtime-priority = 9;
+      rlimit-rtprio = 9;
+    };
   };
   services.blueman.enable = true;
 
