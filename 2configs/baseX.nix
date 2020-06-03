@@ -92,6 +92,7 @@
       }
     );
     support32Bit = true; # for Steam
+    zeroconf.discovery.enable = true;
   };
   services.blueman.enable = true;
 
