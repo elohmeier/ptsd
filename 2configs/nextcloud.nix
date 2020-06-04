@@ -204,6 +204,10 @@ in
     in
       {
         folders = {
+          "${root}/FPV" = {
+            id = "xxdwi-yom6n";
+            devices = [ "tp1" "ws1" "ws1-win10n" ];
+          };
           "${root}/Pocket" = {
             id = "hmekh-kgprn";
             devices = [ "tp1" "ws1" ];
