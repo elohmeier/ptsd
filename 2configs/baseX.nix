@@ -106,7 +106,6 @@ in
     extraModules = [ pkgs.pulseaudio-modules-bt ];
     package = pulseaudio;
     support32Bit = true; # for Steam
-    zeroconf.discovery.enable = true;
 
     # better audio quality settings
     # from https://medium.com/@gamunu/enable-high-quality-audio-on-linux-6f16f3fe7e1f
