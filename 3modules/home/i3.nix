@@ -553,7 +553,12 @@ in
           {
             block = "custom";
             command = "cat ${config.xdg.dataHome}/git-alarm.txt";
-            interval = 100;
+            interval = 5;
+
+            # cannot be triggered
+            # TODO: switch to custom_dbus (https://github.com/greshake/i3status-rust/pull/687)
+            #command = "${pkgs.git-alarm}/bin/git-alarm $HOME/repos";
+            #interval = 100;
           }
           {
             block = "music";

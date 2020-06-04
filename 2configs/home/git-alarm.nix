@@ -8,8 +8,9 @@
 
     Service = {
       Type = "oneshot";
+      # TODO: switch to custom_dbus (https://github.com/greshake/i3status-rust/pull/687)
       ExecStart = "${pkgs.git-alarm}/bin/git-alarm -o ${config.xdg.dataHome}/git-alarm.txt ${config.home.homeDirectory}/repos";
-      TimeoutStartSec = "2min"; # kill if still alive after 2 minutes
+      TimeoutStartSec = "30sec"; # kill if still alive after 30 seconds
       Environment = "PATH=${pkgs.git}/bin:${pkgs.mu-repo}/bin";
     };
   };
@@ -20,7 +21,7 @@
     };
 
     Timer = {
-      OnCalendar = "*:0/5";
+      OnCalendar = "*:0/5"; # every 5 minutes
       Unit = "git-alarm.service";
     };
 
