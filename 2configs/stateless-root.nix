@@ -14,6 +14,8 @@
     };
   };
 
+  security.dhparams.path = "/persist/var/lib/dhparams";
+
   ptsd.lego.home = "/persist/var/lib/lego";
 
   environment.etc = lib.optionalAttrs config.networking.networkmanager.enable {
