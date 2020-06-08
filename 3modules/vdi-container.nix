@@ -125,18 +125,30 @@ in
 
             boot.isContainer = true;
 
-            environment.variables = {
-              DISPLAY = cfg.xephyrDisplayId;
-              ICEWM_PRIVCFG = "/etc/X11/icewm";
-            };
-
-            environment.etc."X11/icewm/startup" = {
-              text = ''
-                ${pkgs.firefox}/bin/firefox \
-                  --no-remote \
-                  ${lib.concatMapStrings (x: " \"${x}\"") cfg.startupUrls}
-              '';
-              mode = "0755";
+            environment = {
+              etc."X11/icewm/startup" = {
+                text = ''
+                  ${pkgs.firefox}/bin/firefox \
+                    --no-remote \
+                    ${lib.concatMapStrings (x: " \"${x}\"") cfg.startupUrls}
+                '';
+                mode = "0755";
+              };
+              shellAliases = {
+                vpn = "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}";
+                iwm = "icewm-session";
+              };
+              systemPackages = with pkgs; [
+                caWorkspace
+                dnsutils
+                firefox
+                openconnect
+                icewm
+              ];
+              variables = {
+                DISPLAY = cfg.xephyrDisplayId;
+                ICEWM_PRIVCFG = "/etc/X11/icewm";
+              };
             };
 
             networking = {
@@ -163,20 +175,12 @@ in
                           ** Welcome **
 
               1. Launch "${cfg.name}-xephyr" on the host
-              2. Use "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}" to connect to the VPN.
-              3. Run "icewm-session" (inside the container)
+              2. Use "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}" (aliased to "vpn") to connect to the VPN.
+              3. Run "icewm-session" (aliased to "iwm", inside the container)
               4. In Firefox: Login to the Firewall && Login to Citrix and open the connection file (e.g. from the browser)
               5. ????
               6. PROFIT!!!
             '';
-
-            environment.systemPackages = with pkgs; [
-              caWorkspace
-              dnsutils
-              firefox
-              openconnect
-              icewm
-            ];
 
             home-manager = {
               users.mainUser = { pkgs, ... }:
