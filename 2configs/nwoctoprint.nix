@@ -10,8 +10,8 @@ in
     host = "127.0.0.1";
     port = config.ptsd.nwtraefik.ports.octoprint;
 
-    package = (unstable.callPackage ../5pkgs/octoprint {});
-    plugins = plugins: with plugins; [ bedlevelvisualizer ];
+    package = unstable.octoprint;
+    plugins = plugins: [ (plugins.callPackage ../5pkgs/octoprint-plugins/bedlevelvisualizer.nix {}) ];
     deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d7-1\\x2d7:1.0-ttyUSB0-tty-ttyUSB0.device";
   };
 

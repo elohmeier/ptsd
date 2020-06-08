@@ -1,2 +1,0 @@
-Copied from nixpkgs-unstable: 2de446e0b89681ac9896c03530ca7b69d966a3e9
-Added watchdog version override.
