@@ -48,6 +48,7 @@ in
     {
       name = "acme-dns";
       rule = "Host:${domain}";
+      entryAddresses = [ "www4" "www6" ];
     }
   ];
 

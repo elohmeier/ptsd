@@ -25,6 +25,7 @@ in
     {
       name = "radicale";
       rule = "Host:${domain}";
+      entryAddresses = [ "www4" "www6" ];
     }
   ];
 

@@ -1,11 +1,15 @@
 { config, lib, pkgs, ... }:
 
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports =
     [
       <ptsd>
       <ptsd/2configs>
       <ptsd/2configs/acme-dns.nix>
+      <ptsd/2configs/bitwarden.nix>
       <ptsd/2configs/mailserver.nix>
       <ptsd/2configs/matrix.nix>
       <ptsd/2configs/nwhost.nix>
@@ -37,5 +41,17 @@
   # builder for '/nix/store/dwlv0grq7lmjayl1kk1jhsvgfz5flbwk-extra-utils.drv' failed with exit code 1
   boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
 
-  ptsd.nwtraefik.enable = true;
+  ptsd.nwtraefik = {
+    enable = true;
+    acmeEntryAddress = "www4";
+    entryAddresses = {
+      www4 = universe.hosts."${config.networking.hostName}".nets.www.ip4.addr;
+      www6 = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]";
+      nwvpn = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
+
+      # added for local tls monitoring
+      loopback4 = "127.0.0.1";
+      loopback6 = "[::1]";
+    };
+  };
 }
