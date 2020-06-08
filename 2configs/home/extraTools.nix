@@ -250,7 +250,7 @@ in
     initExtra = ''
       # Johnnydecimal.com
       cjdfunction() {
-        pushd ~/Pocket/*/*/$${1}*
+        pushd ~/Pocket/*/*/''${1}*
       }
       export cjdfunction
       alias cjd="cjdfunction"
