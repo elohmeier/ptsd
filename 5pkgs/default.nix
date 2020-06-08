@@ -6,11 +6,7 @@ let
       (filterAttrs (_: eq "directory") (readDir path));
 in
 
-{
-  portfolio = self.callPackage ./portfolio {
-    jre = self.openjdk11;
-  };
-} // mapAttrs (_: flip self.callPackage {})
+mapAttrs (_: flip self.callPackage {})
   (
     filterAttrs (_: dir: pathExists (dir + "/default.nix"))
       (subdirsOf ./.)

@@ -96,7 +96,7 @@ in
       keepassxc
       xcalib
 
-      portfolio
+      unstable.portfolio
 
       woeusb
       (
