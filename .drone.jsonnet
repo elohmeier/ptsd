@@ -44,7 +44,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   //DeployPipeline("apu1"),
   //DeployPipeline('apu2', prebuild=['nwhass']),
   //DeployPipeline('htz1', populate_unstable=true),
-  //DeployPipeline('htz2', populate_unstable=true, populate_mailserver=true),
+  DeployPipeline('htz2', populate_unstable=true, populate_mailserver=true, prebuild=['bitwarden_rs']),
 
   // htz3 disabled for potential manual local changes
   //DeployPipeline('htz3', hostdomain='host.fraam.de', prebuild=['traefik-forward-auth']),

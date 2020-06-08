@@ -1,6 +1,38 @@
 ---
 kind: pipeline
 type: exec
+name: deploy htz2
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
+
+- name: prebuild bitwarden_rs
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - nix-copy-closure --to root@htz2.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/bitwarden_rs {}' -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+- name: deploy htz2
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - $(nix-build --no-out-link krops.nix --argstr name htz2 --argstr starget root@htz2.host.nerdworks.de --arg secrets false --arg unstable true --arg mailserver true -A deploy -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+---
+kind: pipeline
+type: exec
 name: deploy nas1
 
 platform:
