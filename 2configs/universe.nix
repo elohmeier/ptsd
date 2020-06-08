@@ -381,5 +381,9 @@
       borg.quota = "250G";
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnHw3Rr+9qGmEnjKmPvzh8rFi+2H8Ye4IEsyuoPWd1V enno@ws1-osx";
     };
+
+    ws1-win10n = {
+      syncthing.id = "OSIS6BW-MSSUBOX-2ASRHPY-ZBI6LHV-LS6KIZ3-6ZBFDMZ-KPUY2HS-U7SP4QU";
+    };
   };
 }
