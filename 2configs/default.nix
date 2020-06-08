@@ -43,13 +43,17 @@ in
     }
   ];
 
-  environment.shellAliases = import ./aliases.nix;
+  environment = {
+    shellAliases = import ./aliases.nix;
+    systemPackages = with pkgs; [
+      gitMinimal # required for krops
+    ];
+    variables = {
+      NIX_PATH = mkForce "secrets=/var/src/ptsd/null:/var/src";
+    };
+  };
 
   users.mutableUsers = false;
-
-  environment.variables = {
-    NIX_PATH = mkForce "secrets=/var/src/ptsd/null:/var/src";
-  };
 
   nix = {
     binaryCaches = [
@@ -90,10 +94,6 @@ in
         };
     };
   };
-
-  environment.systemPackages = with pkgs; [
-    gitMinimal # required for krops
-  ];
 
   ptsd.wireguard.networks = {
     dlrgvpn = {
