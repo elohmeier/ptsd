@@ -1,17 +1,27 @@
-{ stdenv, rustPlatform, fetchFromGitHub, pkgconfig, dbus, libpulseaudio }:
+{ stdenv, rustPlatform, fetchFromGitHub, fetchpatch, pkgconfig, dbus, libpulseaudio }:
 
 rustPlatform.buildRustPackage rec {
   pname = "i3status-rust";
-  version = "2020-06-04";
+  version = "0.14.0";
 
   src = fetchFromGitHub {
     owner = "greshake";
     repo = pname;
-    rev = "6ac6ee6f9a87e63136c6523208217633c4684a95";
-    sha256 = "1d58haln5lcaq7vwxndnxcjv3ayv93rpa5kwwsxwj2m7fvsf5zgp";
+    rev = "v${version}";
+    sha256 = "0d2xigm932x6pc9z24g5cg8xq2crd9n3wq1bwi96h35w799lagjg";
   };
 
-  cargoSha256 = "1g1k4fvpryr9fpbg6s3wfsr1z6ia8blsbysfdr6i50sbh796f2fz";
+  patches = [
+    # fix forgotten Cargo.lock update in 0.14.0 release
+    (
+      fetchpatch {
+        url = "https://github.com/greshake/i3status-rust/commit/7762a5c7ad668272fb8bb8409f12242094b032b8.patch";
+        sha256 = "097f6w91cn53cj1g3bbdqm9jjib5fkb3id91jqvq88h43x14b8zb";
+      }
+    )
+  ];
+
+  cargoSha256 = "098d08likpnycfb32s83vp0bphxf27k1gfcc26721fc9c8ah0lah";
 
   nativeBuildInputs = [ pkgconfig ];
 
