@@ -218,6 +218,8 @@ in
       prusa-slicer
       freecad
       bitwarden-cli
+
+      nbconvert
     ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
