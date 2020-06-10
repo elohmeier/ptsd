@@ -13,9 +13,6 @@
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/syncthing.nix>
 
-    <ptsd/2configs/xfce.nix>
-    #<ptsd/2configs/themes/chicago95.nix>
-
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
@@ -44,14 +41,6 @@
   #    enable = true;
   #  };
 
-
-  #nix.nixPath = [
-  #  "nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixos"
-  #  "nixos-config=/etc/nixos/configuration.nix"
-  #  "/nix/var/nix/profiles/per-user/root/channels"
-  #  "ptsd=/etc/nixos/ptsd"
-  #];
-
   # reduce the noise
   ptsd.nwtelegraf.enable = lib.mkForce false;
 
@@ -67,13 +56,6 @@
   };
 
   boot.tmpOnTmpfs = true;
-
-  #  services.dlrgvpn = {
-  #    # DNS resolution to Uwe will often fail after boot, so only enable when needed
-  #    enable = false;
-  #    vpnIP = "191.18.21.30";
-  #    vpnKey = "";
-  #  };
 
   services.printing.enable = true;
   nixpkgs.config.allowUnfree = true;
@@ -118,16 +100,6 @@
     wifi = {
       macAddress = "random";
       powersave = true;
-    };
-  };
-
-  systemd.network.networks = {
-    # 99-main will be removed in 20.03
-    # effectively disable all-matching 99-main here
-    "99-main" = {
-      matchConfig = {
-        MACAddress = "aa:bb:cc:dd:ee:ff";
-      };
     };
   };
 

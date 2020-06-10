@@ -26,7 +26,8 @@
   home.packages = with pkgs; [
     nixpkgs-fmt
     gnumake
-    (pass.withExtensions (ext: [ ext.pass-import ]))
+    #(pass.withExtensions (ext: [ ext.pass-import ]))
+    pass
     openssl
     efitools
     tpm2-tools

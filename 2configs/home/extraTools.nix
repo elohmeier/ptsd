@@ -51,13 +51,9 @@ in
     [
       sshfs
       pdftk
-
       mywine
       (winetricks.override { wine = mywine; })
-
       slack-dark
-
-      jetbrains.idea-ultimate
       jetbrains.pycharm-professional
       jetbrains.goland
       vscodium
@@ -71,33 +67,20 @@ in
       calibre
       xmind
       transmission-gtk
-
-      thunderbird
       sylpheed
-
       zoom-us
-
-      pulseeffects
-
-      #mucommander
+      #pulseeffects
       xorg.xev
       xorg.xhost
-
       gnome3.file-roller
       zathura
       zathura-single
       #nerdworks-motivation
       caffeine
       lguf-brightness
-
-      #nitrokey-app
-      #yubioath-desktop
-      #yubikey-manager-qt
       keepassxc
       xcalib
-
       unstable.portfolio
-
       woeusb
       (
         (
@@ -131,14 +114,10 @@ in
           }
         )
       )
-
-      (pidgin-with-plugins.override { plugins = [ telegram-purple ]; })
-
-      dbeaver
+      #dbeaver
       drone-cli
       openshift
       minishift
-      neomutt
       cachix
       pyenv
       virtmanager
@@ -146,17 +125,15 @@ in
       docker_compose
       #nvi # needed for virsh # broken in 20.03 as of 2020-04-03
       dnsmasq
-      mosh
       wireshark-qt
       freerdp
       screen
       sqlitebrowser
-      nixpkgs-fmt
       asciinema
       gnumake
       qrencode
-      nix-deploy
-      hcloud
+      #nix-deploy
+      #hcloud
       dep2nix
       xca
       gcolor3
@@ -167,58 +144,29 @@ in
       unstable.spotify
       mpv
       drawio
-      (pass.withExtensions (ext: [ ext.pass-import ]))
-      openssl
-      efitools
-      tpm2-tools
-      lorri
-      smartmontools
-      gptfdisk
-      gparted
-      efibootmgr
-      usbutils
-      wirelesstools
-      wpa_supplicant
-      inetutils
-      macchanger
-      p7zip
-      unrar
-      mosh
-      mkpasswd
       pcmanfm
       geckodriver
       smbclient
       mu-repo
       file-rename
-
-      sublime3
-
+      #sublime3
       teamviewer
       discord
       mediathekview
       #(pkgs.callPackage <nixpkgs-unstable/pkgs/applications/networking/sync/rclone> {})
       unstable.rclone
-
       # telegram-desktop
       #(
       #  pkgs.qt5.callPackage <nixpkgs-unstable/pkgs/applications/networking/instant-messengers/telegram/tdesktop> {
       #    tl-expected = (pkgs.callPackage <nixpkgs-unstable/pkgs/development/libraries/tl-expected> {});
       #  }
       #)
-      # faster (build takes long on tp1)
-      unstable.tdesktop
-
+      unstable.tdesktop # faster (build takes long on tp1)
       obs-studio
-
       gnome3.evolution
-
       go
       delve
-
-      prusa-slicer
-      freecad
       bitwarden-cli
-
       nbconvert
     ];
 
@@ -244,8 +192,6 @@ in
     # fix font antialiasing in mucommander
     _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
   };
-
-  programs.emacs.enable = true;
 
   nixpkgs.config.allowUnfree = true;
 
