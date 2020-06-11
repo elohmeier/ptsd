@@ -168,6 +168,7 @@ in
       delve
       bitwarden-cli
       nbconvert
+      peek
     ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
