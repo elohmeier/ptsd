@@ -26,6 +26,7 @@ in
     #<ptsd/2configs/fraam-www.nix>
 
     <home-manager/nixos>
+    <ptsd/2configs/xrdp.nix>
   ];
 
   nix.trustedUsers = [ "root" "enno" ];
