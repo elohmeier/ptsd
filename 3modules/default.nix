@@ -22,5 +22,6 @@ _:
     ./traefik-forward-auth.nix
     ./vdi-container.nix
     ./wireguard.nix
+    ./xrdp.nix
   ];
 }

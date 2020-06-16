@@ -27,6 +27,9 @@ in
     <ptsd/2configs/prometheus/server.nix>
 
     <secrets-shared/nwsecrets.nix>
+
+    <client-secrets/dbk/vdi.nix>
+    <ptsd/2configs/xrdp.nix>
   ];
 
   networking = {
@@ -55,6 +58,11 @@ in
   ptsd.nwbackup-server = {
     enable = true;
     zpool = "tank";
+  };
+
+  ptsd.vdi-container = {
+    enable = true;
+    extIf = "br0";
   };
 
   ptsd.samba-sonos = {
