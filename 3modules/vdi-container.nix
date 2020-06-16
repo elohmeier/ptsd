@@ -120,7 +120,7 @@ in
             imports = [
               <ptsd>
               <ptsd/2configs>
-              <home-manager/nixos>
+              #<home-manager/nixos>
             ];
 
             boot.isContainer = true;
@@ -178,33 +178,34 @@ in
               2. Use "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}" (aliased to "vpn") to connect to the VPN.
               3. Run "icewm-session" (aliased to "iwm", inside the container)
               4. In Firefox: Login to the Firewall && Login to Citrix and open the connection file (e.g. from the browser)
+                 URLs: ${lib.concatMapStrings (x: "\n${x}") cfg.startupUrls}
               5. ????
               6. PROFIT!!!
             '';
 
-            home-manager = {
-              users.mainUser = { pkgs, ... }:
-                {
-                  gtk = {
-                    enable = true;
-                    font = {
-                      name = "Iosevka Sans 8";
-                      package = pkgs.dejavu_fonts;
-                    };
-                    iconTheme = {
-                      name = "Tango";
-                      package = pkgs.tango-icon-theme;
-                    };
-                    theme = {
-                      name = "Arc-Dark";
-                      package = pkgs.arc-theme;
-                    };
-                  };
-                };
-            };
+            # home-manager = {
+            #   users.mainUser = { pkgs, ... }:
+            #     {
+            #       gtk = {
+            #         enable = true;
+            #         font = {
+            #           name = "Iosevka Sans 8";
+            #           package = pkgs.dejavu_fonts;
+            #         };
+            #         iconTheme = {
+            #           name = "Tango";
+            #           package = pkgs.tango-icon-theme;
+            #         };
+            #         theme = {
+            #           name = "Arc-Dark";
+            #           package = pkgs.arc-theme;
+            #         };
+            #       };
+            #     };
+            # };
 
-            programs.dconf.enable = true;
-            services.dbus.packages = [ pkgs.gnome3.dconf ];
+            # programs.dconf.enable = true;
+            # services.dbus.packages = [ pkgs.gnome3.dconf ];
           };
     };
   };
