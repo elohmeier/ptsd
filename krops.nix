@@ -3,6 +3,7 @@
 , unstable ? false
 , mailserver ? false
 , secrets ? true
+, client-secrets ? false
 , starget ? "root@${name}.host.nerdworks.de"
 }:
 let
@@ -72,12 +73,16 @@ let
     )
 
     (
-      lib.optionalAttrs desktop {
+      lib.optionalAttrs (client-secrets || desktop) {
         client-secrets.pass = {
           dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "clients";
         };
+      }
+    )
 
+    (
+      lib.optionalAttrs desktop {
         ci.git = {
           ref = "e3b62cd62ec0537716fb3d8af1242c6b470befee";
           url = "git@git.nerdworks.de:nerdworks/ci.git";
