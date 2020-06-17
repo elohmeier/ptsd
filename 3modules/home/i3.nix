@@ -134,7 +134,9 @@ in
                   "XF86HomePage" = "exec chromium";
                   "XF86Search" = "exec chromium";
                   "XF86Mail" = "exec evolution";
-                  "XF86Launch9" = "exec spotify"; # Label: 5
+                  "XF86Launch5" = "exec spotify"; # Label: 1
+                  "XF86Launch8" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo -5%"; # Label: 4
+                  "XF86Launch9" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo +5%"; # Label: 5
 
                   "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
                   "${modifier}+p" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
