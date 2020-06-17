@@ -178,7 +178,7 @@ in
               2. Use "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}" (aliased to "vpn") to connect to the VPN.
               3. Run "icewm-session" (aliased to "iwm", inside the container)
               4. In Firefox: Login to the Firewall && Login to Citrix and open the connection file (e.g. from the browser)
-                 URLs: ${lib.concatMapStrings (x: "\n${x}") cfg.startupUrls}
+                 URLs: ${lib.concatMapStrings (x: "\n   - ${x}") cfg.startupUrls}
               5. ????
               6. PROFIT!!!
             '';
