@@ -52,7 +52,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   DeployPipeline('nas1', populate_unstable=true, prebuild=['nwhass']),
   //DeployPipeline("nuc1"),
   //DeployPipeline('rpi2'),
-  DeployPipeline('ws1', populate_unstable=true),
+  //DeployPipeline('ws1', populate_unstable=true),
 ]
 
 // Don't forget to run `mk-drone-yml`
