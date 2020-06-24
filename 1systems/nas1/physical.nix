@@ -11,72 +11,80 @@ in
 
   system.stateVersion = "19.09";
 
-  boot.initrd.luks.devices.sysVG = {
-    device = "${disk}-part2";
+  boot = {
+    initrd.luks.devices.sysVG = {
+      device = "${disk}-part2";
+    };
+
+    loader = {
+      efi.canTouchEfiVariables = true;
+      systemd-boot = {
+        enable = true;
+        editor = false;
+        memtest86.enable = true;
+      };
+    };
+
+    tmpOnTmpfs = true;
+    supportedFilesystems = [ "zfs" ];
+    zfs.extraPools = [ "tank" ];
   };
 
-  fileSystems."/" =
-    {
-      device = "${vgPrefix}-root";
-      fsType = "ext4";
-    };
+  fileSystems = {
+    "/" =
+      {
+        device = "${vgPrefix}-root";
+        fsType = "ext4";
+      };
 
-  fileSystems."/home" =
-    {
-      device = "${vgPrefix}-home";
-      fsType = "ext4";
-    };
+    "/boot" =
+      {
+        device = "${disk}-part1";
+        fsType = "vfat";
+      };
 
-  fileSystems."/nix" =
-    {
-      device = "${vgPrefix}-nix";
-      fsType = "ext4";
-    };
+    "/home" =
+      {
+        device = "${vgPrefix}-home";
+        fsType = "ext4";
+      };
 
-  fileSystems."/var" =
-    {
-      device = "${vgPrefix}-var";
-      fsType = "ext4";
-    };
+    "/nix" =
+      {
+        device = "${vgPrefix}-nix";
+        fsType = "ext4";
+      };
 
-  fileSystems."/var/db/influxdb" =
-    {
-      device = "${vgPrefix}-var--db--influxdb";
-      fsType = "ext4";
-    };
+    "/var" =
+      {
+        device = "${vgPrefix}-var";
+        fsType = "ext4";
+      };
 
-  fileSystems."/var/lib/prometheus2" =
-    {
-      device = "${vgPrefix}-var--lib--prometheus2";
-      fsType = "ext4";
-    };
+    "/var/db/influxdb" =
+      {
+        device = "${vgPrefix}-var--db--influxdb";
+        fsType = "ext4";
+      };
 
-  fileSystems."/var/log" =
-    {
-      device = "${vgPrefix}-var--log";
-      fsType = "ext4";
-    };
+    "/var/lib/prometheus2" =
+      {
+        device = "${vgPrefix}-var--lib--prometheus2";
+        fsType = "ext4";
+      };
 
-  fileSystems."/boot" =
-    {
-      device = "${disk}-part1";
-      fsType = "vfat";
-    };
+    "/var/log" =
+      {
+        device = "${vgPrefix}-var--log";
+        fsType = "ext4";
+      };
+  };
 
   swapDevices =
     [
       { device = "${vgPrefix}-swap"; }
     ];
 
-  # Use the systemd-boot EFI boot loader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   powerManagement.cpuFreqGovernor = "powersave";
-
   networking.hostId = "1591AF90"; # required for zfs
-
-  boot.tmpOnTmpfs = true;
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.zfs.extraPools = [ "tank" ];
 }
