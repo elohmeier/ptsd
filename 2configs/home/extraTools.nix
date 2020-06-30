@@ -54,8 +54,9 @@ in
       mywine
       (winetricks.override { wine = mywine; })
       slack-dark
-      jetbrains.pycharm-professional
+      jetbrains.idea-ultimate
       jetbrains.goland
+      jetbrains.pycharm-professional
       vscodium
       sqlitebrowser
       #filezilla
