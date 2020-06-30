@@ -70,4 +70,23 @@ in
     "wiki.nerdworks.de"
     "www-dev.nerdworks.de"
   ];
+
+  security.acme = let
+    envFile = pkgs.writeText "lego-acme-dns.env" ''
+      ACME_DNS_STORAGE_PATH=/var/lib/acme/luisarichter.de/acme-dns-store.json
+      ACME_DNS_API_BASE=https://auth.nerdworks.de
+    '';
+  in
+    {
+      email = "elo-lenc@nerdworks.de";
+      acceptTerms = true;
+      certs = {
+        "luisarichter.de" = {
+          email = "office@luisarichter.de";
+          extraDomains = { "www.luisarichter.de" = null; };
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile;
+        };
+      };
+    };
 }
