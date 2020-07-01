@@ -13,6 +13,7 @@ in
       <ptsd/2configs/nwgit.nix>
       <ptsd/2configs/drone-ci.nix>
       <ptsd/2configs/wdplaner.nix>
+      <ptsd/2configs/prometheus/node.nix>
 
       # TODO: upgrade geoip update script
       # see https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/

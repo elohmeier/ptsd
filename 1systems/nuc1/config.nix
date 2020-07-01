@@ -8,6 +8,7 @@
       <ptsd/2configs/bs53lan.nix>
       <ptsd/2configs/nwhost.nix>
       <secrets-shared/nwsecrets.nix>
+      <ptsd/2configs/prometheus/node.nix>
     ];
 
   ptsd.nwbackup-server = {

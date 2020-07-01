@@ -25,6 +25,7 @@ in
     <ptsd/2configs/nwstats-telegraf.nix>
     <ptsd/2configs/postgresql.nix>
     <ptsd/2configs/prometheus/server.nix>
+    <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
 

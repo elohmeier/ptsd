@@ -9,6 +9,7 @@ in
     <ptsd/2configs>
     <ptsd/2configs/nwhost-mini.nix>
     <secrets-shared/nwsecrets.nix>
+    <ptsd/2configs/prometheus/node.nix>
   ];
 
   ptsd.wireguard.networks.dlrgvpn = {

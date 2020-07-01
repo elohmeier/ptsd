@@ -7,7 +7,6 @@ in
 {
   imports = [
     <ptsd/3modules>
-    <ptsd/2configs/prometheus/node.nix>
     <ptsd/2configs/tor-ssh.nix>
   ];
 
