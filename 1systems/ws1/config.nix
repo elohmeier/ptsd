@@ -62,8 +62,6 @@ in
     ${pkgs.coreutils}/bin/sleep 5
   '';
 
-  boot.tmpOnTmpfs = true;
-
   ptsd.vdi-container = {
     enable = true;
     extIf = "br0";

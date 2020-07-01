@@ -10,6 +10,8 @@ in
     <ptsd/2configs/tor-ssh.nix>
   ];
 
+  boot.tmpOnTmpfs = true;
+
   nix.gc = {
     automatic = true;
     options = "-d";

@@ -55,8 +55,6 @@
     script = "${pkgs.rfkill}/bin/rfkill block bluetooth";
   };
 
-  boot.tmpOnTmpfs = true;
-
   services.printing.enable = true;
   nixpkgs.config.allowUnfree = true;
   services.printing.drivers = with pkgs; [

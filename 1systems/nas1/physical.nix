@@ -25,7 +25,6 @@ in
       };
     };
 
-    tmpOnTmpfs = true;
     supportedFilesystems = [ "zfs" ];
     zfs.extraPools = [ "tank" ];
   };
