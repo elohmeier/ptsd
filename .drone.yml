@@ -1,6 +1,29 @@
 ---
 kind: pipeline
 type: exec
+name: deploy htz1
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
+
+- name: deploy htz1
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - $(nix-build --no-out-link krops.nix --argstr name htz1 --argstr starget root@htz1.host.nerdworks.de --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+---
+kind: pipeline
+type: exec
 name: deploy htz2
 
 platform:
@@ -26,6 +49,38 @@ steps:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
   - $(nix-build --no-out-link krops.nix --argstr name htz2 --argstr starget root@htz2.host.nerdworks.de --arg secrets false --arg unstable true --arg mailserver true -A deploy -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+---
+kind: pipeline
+type: exec
+name: deploy htz3
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: fetch submodules
+  commands:
+  - git submodule update --init --recursive --remote
+
+- name: prebuild 5pkgs/traefik-forward-auth
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - nix-copy-closure --to root@htz3.host.fraam.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/traefik-forward-auth {}' -I /var/src)
+  environment:
+    SSH_KEY:
+      from_secret: ssh-key
+
+- name: deploy htz3
+  commands:
+  - eval $(ssh-agent -s)
+  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+  - $(nix-build --no-out-link krops.nix --argstr name htz3 --argstr starget root@htz3.host.fraam.de --arg secrets false --arg unstable false --arg mailserver false -A deploy -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
