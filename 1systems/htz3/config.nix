@@ -35,13 +35,32 @@
   # builder for '/nix/store/dwlv0grq7lmjayl1kk1jhsvgfz5flbwk-extra-utils.drv' failed with exit code 1
   boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
 
-  ptsd.nwtraefik.enable = false;
+  ptsd.nwtraefik = {
+    enable = true;
+    acmeEnabled = false;
+    certificates = [
+      {
+        certFile = "/var/lib/acme/htz3.host.fraam.de/cert.pem";
+        keyFile = "/var/lib/acme/htz3.host.fraam.de/key.pem";
+      }
+      {
+        certFile = "/var/lib/acme/fraam.de/cert.pem";
+        keyFile = "/var/lib/acme/fraam.de/key.pem";
+      }
+      {
+        certFile = "/var/lib/acme/dev.fraam.de/cert.pem";
+        keyFile = "/var/lib/acme/dev.fraam.de/key.pem";
+      }
+    ];
+  };
 
   ptsd.fraam-www = {
     enable = false;
     traefikFrontendRule = "Host:htz3.host.fraam.de";
     extIf = "ens3";
   };
+
+  users.groups.lego = {};
 
   security.acme = let
     envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
@@ -58,6 +77,9 @@
           email = email;
           dnsProvider = "acme-dns";
           credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
+          group = "lego";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
         };
 
         "fraam.de" = {
@@ -65,12 +87,18 @@
           extraDomains = { "www.fraam.de" = null; };
           dnsProvider = "acme-dns";
           credentialsFile = envFile "fraam.de";
+          group = "lego";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
         };
 
         "dev.fraam.de" = {
           email = email;
           dnsProvider = "acme-dns";
           credentialsFile = envFile "dev.fraam.de";
+          group = "lego";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
         };
       };
     };

@@ -24,13 +24,7 @@ let
           "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
           "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
         ];
-      } // lib.optionalAttrs config.ptsd.lego.enable {
-        certificates = [
-          {
-            certFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-            keyFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
-          }
-        ];
+        certificates = cfg.certificates;
       };
     };
 
@@ -131,6 +125,24 @@ in
           ext6 = "2001:0db8:85a3:0000:0000:8a2e:0370:7334";
           vpn = "191.18.19.123";
         };
+      };
+
+      certificates = mkOption {
+        type = types.listOf (
+          types.submodule {
+            options = {
+              certFile = mkOption { type = types.str; };
+              keyFile = mkOption { type = types.str; };
+            };
+          }
+        );
+      } // lib.optionalAttrs config.ptsd.lego.enable {
+        default = [
+          {
+            certFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
+            keyFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+          }
+        ];
       };
 
       acmeEnabled = mkOption {
@@ -252,7 +264,6 @@ in
             ProtectSystem = "full";
             StateDirectory = "traefik";
             LogsDirectory = "traefik";
-          } // lib.optionalAttrs (config.ptsd.lego.enable) {
             SupplementaryGroups = "lego";
           };
         };
