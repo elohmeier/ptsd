@@ -18,10 +18,10 @@ local WrapSSH(name, commands) = {
   },
 };
 
-local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=false, prebuild=[], hostdomain='host.nerdworks.de') = {
+local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=false, prebuild=[], hostdomain='host.nerdworks.de', cmd='deploy') = {
   kind: 'pipeline',
   type: 'exec',
-  name: 'deploy ' + hostname,
+  name: cmd + ' ' + hostname,
 
   steps: [
            FetchSubmodules(),
@@ -35,7 +35,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
          + [
            WrapSSH(
              'deploy ' + hostname,
-             ['$(nix-build --no-out-link krops.nix --argstr name ' + hostname + ' --argstr starget root@' + hostname + '.' + hostdomain + ' --arg secrets false --arg unstable ' + populate_unstable + ' --arg mailserver ' + populate_mailserver + ' -A deploy -I /var/src)']
+             ['$(nix-build --no-out-link krops.nix --argstr name ' + hostname + ' --argstr starget root@' + hostname + '.' + hostdomain + ' --arg secrets false --arg unstable ' + populate_unstable + ' --arg mailserver ' + populate_mailserver + ' -A ' + cmd + ' -I /var/src)']
            ),
          ],
 };
@@ -49,7 +49,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
   DeployPipeline('nas1', populate_unstable=true, prebuild=['5pkgs/nwhass']),
   //DeployPipeline("nuc1"),
   //DeployPipeline('rpi2'),
-  //DeployPipeline('ws1', populate_unstable=true),
+  DeployPipeline('ws1', populate_unstable=true, cmd='deploy_boot'),
 ]
 
 // Don't forget to run `mk-drone-yml`
