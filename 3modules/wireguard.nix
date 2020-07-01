@@ -133,6 +133,9 @@ let
 
           startAt = "minutely";
         };
+
+  generateSysctlForward = _: netcfg: nameValuePair
+    "net.ipv4.conf.${netcfg.ifname}.forwarding" true;
 in
 {
   options = {
@@ -254,7 +257,7 @@ in
     boot.kernel.sysctl = optionalAttrs (natForwardNetworks != {}) {
       "net.ipv4.conf.all.forwarding" = true;
       "net.ipv4.conf.default.forwarding" = true;
-    };
+    } // (mapAttrs' generateSysctlForward (filterAttrs (_: v: v.server.enable) enabledNetworks));
 
     # will query all wireguard interfaces by default
     ptsd.nwtelegraf.inputs.wireguard = [ {} ];
