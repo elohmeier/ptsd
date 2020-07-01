@@ -50,12 +50,12 @@ Use [Cachix](https://cachix.org/) to enable the binary cache by invoking
 2. Boot from stick and connect via SSH (e.g. via torsocks).
 3. Prepare installation FS and mount to `/mnt`.
 3. Populate target using `$(nix-build --no-out-link krops.nix --argstr name HOSTNAME --argstr starget "root@IP/mnt/var/src" --arg desktop true -A populate)`.
-4. Build system remotely using `nix-build -I nixos-config=/mnt/var/src/ptsd/1systems/HOST/physical.nix -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --no-out-link --store /mnt`.
+4. Build system remotely using `nix-build -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --no-out-link --store /mnt`.
 5. Install the system using `nixos-install --system /nix/store/... --no-root-passwd`.
 6. Unmount everything and reboot.
 
 Extra Tipp:
-Build'n'install: `nixos-install --system $(nix-build --no-out-link -I nixos-config=/mnt/var/src/ptsd/1systems/HOST/physical.nix -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --no-out-link --store /mnt) --no-root-passwd`
+Build'n'install: `nixos-install --system $(nix-build --no-out-link -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --store /mnt) --no-root-passwd`
 
 ## Provision Hetzner VM
 
