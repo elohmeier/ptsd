@@ -12,11 +12,11 @@ steps:
   commands:
   - git submodule update --init --recursive --remote
 
-- name: prebuild bitwarden_rs
+- name: prebuild 6cipkgs/bitwarden_rs
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - nix-copy-closure --to root@htz2.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/bitwarden_rs {}' -I /var/src)
+  - nix-copy-closure --to root@htz2.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./6cipkgs/bitwarden_rs {}' -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
@@ -44,7 +44,7 @@ steps:
   commands:
   - git submodule update --init --recursive --remote
 
-- name: prebuild nwhass
+- name: prebuild 5pkgs/nwhass
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -

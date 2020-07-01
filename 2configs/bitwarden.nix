@@ -7,7 +7,7 @@ in
 {
   nixpkgs = {
     config.packageOverrides = pkgs: {
-      bitwarden_rs = unstable.bitwarden_rs; # redundant override, since package also overridden in 5pkgs
+      bitwarden_rs = unstable.bitwarden_rs;
       bitwarden_rs-vault = unstable.bitwarden_rs-vault;
     };
   };
