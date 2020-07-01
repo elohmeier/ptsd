@@ -55,7 +55,7 @@
   };
 
   ptsd.fraam-www = {
-    enable = false;
+    enable = true;
     traefikFrontendRule = "Host:htz3.host.fraam.de";
     extIf = "ens3";
   };
