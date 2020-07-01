@@ -8,9 +8,7 @@
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
 
-
-      <ptsd/2configs/cli-tools.nix>
-
+      #<ptsd/2configs/cli-tools.nix>
       #<ptsd/2configs/google-protected-web.nix>
     ];
 
@@ -37,23 +35,45 @@
   # builder for '/nix/store/dwlv0grq7lmjayl1kk1jhsvgfz5flbwk-extra-utils.drv' failed with exit code 1
   boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
 
-  ptsd.nwtraefik.enable = true;
+  ptsd.nwtraefik.enable = false;
 
   ptsd.fraam-www = {
-    enable = true;
+    enable = false;
     traefikFrontendRule = "Host:htz3.host.fraam.de";
     extIf = "ens3";
   };
 
-  ptsd.lego = {
-    enable = true;
-    domain = "${config.networking.hostName}.${config.networking.domain}";
-    extraDomains = [
-      "fraam.de"
-      "dev.fraam.de"
-      "www.fraam.de"
-    ];
-  };
+  security.acme = let
+    envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+      ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
+      ACME_DNS_API_BASE=https://auth.nerdworks.de
+    '';
+    email = "enno.lohmeier+letsencrypt@fraam.de";
+  in
+    {
+      email = email;
+      acceptTerms = true;
+      certs = {
+        "${config.networking.hostName}.${config.networking.domain}" = {
+          email = email;
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
+        };
+
+        "fraam.de" = {
+          email = email;
+          extraDomains = { "www.fraam.de" = null; };
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "fraam.de";
+        };
+
+        "dev.fraam.de" = {
+          email = email;
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "dev.fraam.de";
+        };
+      };
+    };
 
   users.users = {
     sharath = {
