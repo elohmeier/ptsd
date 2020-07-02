@@ -131,7 +131,7 @@ steps:
   commands:
   - git submodule update --init --recursive --remote
 
-- name: deploy ws1
+- name: deploy_boot ws1
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -

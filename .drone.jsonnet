@@ -34,7 +34,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
          ]
          + [
            WrapSSH(
-             'deploy ' + hostname,
+             cmd + ' ' + hostname,
              ['$(nix-build --no-out-link krops.nix --argstr name ' + hostname + ' --argstr starget root@' + hostname + '.' + hostdomain + ' --arg secrets false --arg unstable ' + populate_unstable + ' --arg mailserver ' + populate_mailserver + ' -A ' + cmd + ' -I /var/src)']
            ),
          ],
