@@ -24,7 +24,7 @@ in
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
 
-    #<ptsd/2configs/fraam-www.nix>
+    <ptsd/2configs/wordpress.nix>
 
     <home-manager/nixos>
     <ptsd/2configs/xrdp.nix>
@@ -84,6 +84,10 @@ in
 
     bridges.br0.interfaces = [ "enp39s0" ];
     interfaces.br0.useDHCP = true;
+
+    extraHosts = ''
+      78.47.98.124 dev.fraam.de
+    '';
   };
 
   services.printing.enable = true;

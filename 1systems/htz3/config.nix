@@ -22,6 +22,11 @@
         addresses = [ { address = "2a01:4f8:c0c:5dac::1"; prefixLength = 64; } ];
       };
     };
+
+    # set to let wget use local connection
+    extraHosts = ''
+      127.0.0.1 dev.fraam.de
+    '';
   };
 
   # prevents creation of the following route (`ip -6 route`):
@@ -56,7 +61,7 @@
 
   ptsd.fraam-www = {
     enable = true;
-    traefikFrontendRule = "Host:htz3.host.fraam.de";
+    traefikFrontendRule = "Host:dev.fraam.de";
     extIf = "ens3";
   };
 
