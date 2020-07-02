@@ -20,13 +20,13 @@ let
 
   source = lib.evalSource [
     {
-      nixpkgs.git = {
+      nixpkgs.git-shallow = {
         clean.exclude = [ "/.version-suffix" ];
         ref = (lib.importJSON ./nixpkgs.json).rev;
         url = https://github.com/NixOS/nixpkgs;
       };
 
-      nixos-hardware.git = {
+      nixos-hardware.git-shallow = {
         clean.exclude = [ "/.version-suffix" ];
         ref = (lib.importJSON ./nixos-hardware.json).rev;
         url = https://github.com/NixOS/nixos-hardware;
@@ -54,7 +54,7 @@ let
 
     (
       lib.optionalAttrs (unstable || desktop) {
-        nixpkgs-unstable.git = {
+        nixpkgs-unstable.git-shallow = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
           url = https://github.com/NixOS/nixpkgs;
@@ -64,7 +64,7 @@ let
 
     (
       lib.optionalAttrs (mailserver) {
-        nixos-mailserver.git = {
+        nixos-mailserver.git-shallow = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixos-mailserver.json).rev;
           url = https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git;
@@ -83,12 +83,12 @@ let
 
     (
       lib.optionalAttrs desktop {
-        ci.git = {
+        ci.git-shallow = {
           ref = "e3b62cd62ec0537716fb3d8af1242c6b470befee";
           url = "git@git.nerdworks.de:nerdworks/ci.git";
         };
 
-        home-manager.git = {
+        home-manager.git-shallow = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./home-manager.json).rev;
           url = https://github.com/rycee/home-manager;
@@ -160,6 +160,19 @@ rec {
     target = target // {
       sudo = true;
     };
+  };
+
+  populate_shallow = pkgs.populate {
+    source = lib.evalSource [
+      {
+        nixpkgs-shallow.git-shallow = {
+          clean.exclude = [ "/.version-suffix" ];
+          ref = (lib.importJSON ./nixpkgs.json).rev;
+          url = https://github.com/NixOS/nixpkgs;
+        };
+      }
+    ];
+    target = target;
   };
 
   # build without switching to the new config (to test the build)
