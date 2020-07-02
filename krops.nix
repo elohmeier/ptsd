@@ -20,16 +20,18 @@ let
 
   source = lib.evalSource [
     {
-      nixpkgs.git-shallow = {
+      nixpkgs.git = {
         clean.exclude = [ "/.version-suffix" ];
         ref = (lib.importJSON ./nixpkgs.json).rev;
         url = https://github.com/NixOS/nixpkgs;
+        shallow = true;
       };
 
-      nixos-hardware.git-shallow = {
+      nixos-hardware.git = {
         clean.exclude = [ "/.version-suffix" ];
         ref = (lib.importJSON ./nixos-hardware.json).rev;
         url = https://github.com/NixOS/nixos-hardware;
+        shallow = true;
       };
 
       ptsd.file = toString ./.;
@@ -54,20 +56,22 @@ let
 
     (
       lib.optionalAttrs (unstable || desktop) {
-        nixpkgs-unstable.git-shallow = {
+        nixpkgs-unstable.git = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
           url = https://github.com/NixOS/nixpkgs;
+          shallow = true;
         };
       }
     )
 
     (
       lib.optionalAttrs (mailserver) {
-        nixos-mailserver.git-shallow = {
+        nixos-mailserver.git = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixos-mailserver.json).rev;
           url = https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git;
+          shallow = true;
         };
       }
     )
@@ -83,15 +87,17 @@ let
 
     (
       lib.optionalAttrs desktop {
-        ci.git-shallow = {
-          ref = "e3b62cd62ec0537716fb3d8af1242c6b470befee";
+        ci.git = {
+          ref = "45fb55f3615a7613c4413c99320816e339735c70";
           url = "git@git.nerdworks.de:nerdworks/ci.git";
+          shallow = true;
         };
 
-        home-manager.git-shallow = {
+        home-manager.git = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./home-manager.json).rev;
           url = https://github.com/rycee/home-manager;
+          shallow = true;
         };
 
         secrets-eee1.pass = {
@@ -165,10 +171,11 @@ rec {
   populate_shallow = pkgs.populate {
     source = lib.evalSource [
       {
-        nixpkgs-shallow.git-shallow = {
+        nixpkgs-shallow.git = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixpkgs.json).rev;
           url = https://github.com/NixOS/nixpkgs;
+          shallow = true;
         };
       }
     ];
