@@ -115,7 +115,7 @@ in
           }
         )
       )
-      #dbeaver
+      dbeaver
       drone-cli
       openshift
       minishift
