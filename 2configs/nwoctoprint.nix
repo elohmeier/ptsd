@@ -15,6 +15,13 @@ in
     deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d3-1\\x2d3:1.0-ttyUSB0-tty-ttyUSB0.device";
   };
 
+  ptsd.mjpg-streamer = {
+    enable = true;
+    inputPlugin = "input_uvc.so -f 30 -r 1920x1080";
+    outputPlugin = "output_http.so -w @www@ -n -p ${toString config.ptsd.nwtraefik.ports.mjpg-streamer}";
+    deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d7-1\\x2d7:1.2-sound-card1.device";
+  };
+
   ptsd.lego.extraDomains = [
     domain
   ];
@@ -23,6 +30,10 @@ in
     {
       name = "octoprint";
       rule = "Host:${domain}";
+    }
+    {
+      name = "mjpg-streamer";
+      rule = "Host:${domain};PathPrefixStrip:/mjpg/";
     }
   ];
 }
