@@ -7,6 +7,7 @@ _:
     ./fraam-www.nix
     ./gitea.nix
     ./lego.nix
+    ./mjpg-streamer.nix
     ./nobbofin-autofetch.nix
     ./nwbackup.nix
     ./nwbackup-server.nix

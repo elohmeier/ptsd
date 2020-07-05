@@ -212,14 +212,15 @@ in
         home-assistant = 8123; # TODO: update yaml like in octoprint module
         influxdb = 10007;
         kapacitor = 10008;
-        nerdworkswww = 10009;
-        nextcloud = 10010;
-        nginx-monica = 10011;
-        nginx-htz3 = 10012;
-        nwgit = 10013;
-        octoprint = 10014;
-        radicale = 10015;
-        synapse = 10016;
+        mjpg-streamer = 10009;
+        nerdworkswww = 10010;
+        nextcloud = 10011;
+        nginx-monica = 10012;
+        nginx-htz3 = 10013;
+        nwgit = 10014;
+        octoprint = 10015;
+        radicale = 10016;
+        synapse = 10017;
       };
     }
     (
