@@ -58,7 +58,9 @@ in
         type = types.str;
       };
       deviceService = mkOption {
+        default = "";
         type = types.str;
+        description = "hot-plug start service";
       };
     };
   };
@@ -68,9 +70,7 @@ in
     systemd.services.octoprint = {
       description = "OctoPrint, web interface for 3D printers";
       after = [ "network.target" cfg.deviceService ];
-      #wantedBy = [ "multi-user.target" ];
-      wantedBy = [ cfg.deviceService ]; # hot-plug start service
-      bindsTo = [ cfg.deviceService ];
+      wantedBy = if cfg.deviceService == "" then [ "multi-user.target" ] else [ cfg.deviceService ];
       path = [ pluginsEnv ];
 
       preStart = ''
@@ -95,6 +95,8 @@ in
         DeviceAllow = "${cfg.serialDevice} rw";
         SupplementaryGroups = "dialout";
       };
+    } // lib.optionalAttrs (cfg.deviceService != "") {
+      bindsTo = [ cfg.deviceService ];
     };
   };
 }
