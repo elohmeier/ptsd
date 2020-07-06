@@ -54,7 +54,7 @@ let
               customFrameOptionsValue = "sameorigin";
               contentTypeNosniff = true;
               browserXSSFilter = true;
-              contentSecurityPolicy = "frame-ancestors 'self' https://*.nerdworks.de";
+              contentSecurityPolicy = cfg.contentSecurityPolicy;
               referrerPolicy = "no-referrer";
             };
           } // lib.optionalAttrs (svc.auth != {}) { auth = svc.auth; };
@@ -122,7 +122,7 @@ in
         };
         example = {
           ext4 = "123.123.123.123";
-          ext6 = "2001:0db8:85a3:0000:0000:8a2e:0370:7334";
+          ext6 = "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]";
           vpn = "191.18.19.123";
         };
       };
@@ -197,6 +197,11 @@ in
         type = types.package;
         description = "Traefik package to use.";
       };
+
+      contentSecurityPolicy = mkOption {
+        default = "frame-ancestors 'self' https://*.nerdworks.de";
+        type = types.str;
+      };
     };
   };
 
@@ -208,19 +213,21 @@ in
         dokuwiki = 10003;
         droneci = 10004;
         ffoxsync = 10005;
-        grafana = 10006;
+        fraam-wordpress = 10006;
+        fraam-wwwstatic = 10007;
+        grafana = 10008;
         home-assistant = 8123; # TODO: update yaml like in octoprint module
-        influxdb = 10007;
-        kapacitor = 10008;
-        mjpg-streamer = 10009;
-        nerdworkswww = 10010;
-        nextcloud = 10011;
-        nginx-monica = 10012;
-        nginx-htz3 = 10013;
-        nwgit = 10014;
-        octoprint = 10015;
-        radicale = 10016;
-        synapse = 10017;
+        influxdb = 10009;
+        kapacitor = 10010;
+        mjpg-streamer = 10011;
+        nerdworkswww = 10012;
+        nextcloud = 10013;
+        nginx-monica = 10014;
+        nginx-htz3 = 10015;
+        nwgit = 10016;
+        octoprint = 10017;
+        radicale = 10018;
+        synapse = 10019;
       };
     }
     (

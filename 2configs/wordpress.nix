@@ -67,7 +67,7 @@ in
         listen = [
           {
             addr = "0.0.0.0";
-            port = 81;
+            port = config.ptsd.nwtraefik.ports.fraam-wwwstatic;
           }
         ];
 
@@ -85,7 +85,7 @@ in
         listen = [
           {
             addr = "0.0.0.0";
-            port = 80;
+            port = config.ptsd.nwtraefik.ports.fraam-wordpress;
           }
         ];
 
@@ -134,5 +134,5 @@ in
     };
   };
 
-  networking.firewall.allowedTCPPorts = [ 80 81 ];
+  networking.firewall.allowedTCPPorts = [ config.ptsd.nwtraefik.ports.fraam-wordpress config.ptsd.nwtraefik.ports.fraam-wwwstatic ];
 }

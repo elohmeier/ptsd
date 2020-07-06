@@ -31,9 +31,6 @@ in
       wwwPath = mkOption {
         default = "/var/lib/fraam-www/www";
       };
-      traefikFrontendRule = mkOption {
-        default = "Host:www.fraam.de,fraam.de";
-      };
     };
   };
 
@@ -96,18 +93,28 @@ in
 
     ptsd.nwtraefik.services = [
       {
-        name = "fraam-wordpress";
-        rule = cfg.traefikFrontendRule;
-        url = "http://${cfg.containerAddress}:80";
-        # auth.forward = {
-        #   address = "http://localhost:4181";
-        #   authResponseHeaders = [ "X-Forwarded-User" ];
-        # };
+        name = "fraam-wordpress-auth";
+        rule = "Host:dev.fraam.de";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
+        auth.forward = {
+          address = "http://localhost:4181";
+          authResponseHeaders = [ "X-Forwarded-User" ];
+        };
+        entryAddresses = [ "www4" "www6" ];
       }
       {
-        name = "fraam-static";
-        rule = "Host:htz3.host.fraam.de";
-        url = "http://${cfg.containerAddress}:81";
+        # required for ../5pkgs/fraam-update-static-web access
+        # host entry to 127.0.0.1 needs to be set
+        name = "fraam-wordpress-local";
+        rule = "Host:dev.fraam.de";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
+        entryAddresses = [ "loopback4" ];
+      }
+      {
+        name = "fraam-wwwstatic";
+        rule = "Host:www.fraam.de,fraam.de";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wwwstatic}";
+        entryAddresses = [ "www4" "www6" ];
       }
     ];
 

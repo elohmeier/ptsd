@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports =
     [
@@ -19,7 +22,7 @@
     interfaces.ens3 = {
       useDHCP = true;
       ipv6 = {
-        addresses = [ { address = "2a01:4f8:c0c:5dac::1"; prefixLength = 64; } ];
+        addresses = [ { address = universe.hosts."${config.networking.hostName}".nets.www.ip6.addr; prefixLength = 64; } ];
       };
     };
 
@@ -43,25 +46,30 @@
   ptsd.nwtraefik = {
     enable = true;
     acmeEnabled = false;
+    contentSecurityPolicy = "frame-ancestors 'self' https://*.fraam.de";
     certificates = [
       {
         certFile = "/var/lib/acme/htz3.host.fraam.de/cert.pem";
         keyFile = "/var/lib/acme/htz3.host.fraam.de/key.pem";
       }
       {
-        certFile = "/var/lib/acme/fraam.de/cert.pem";
-        keyFile = "/var/lib/acme/fraam.de/key.pem";
-      }
-      {
         certFile = "/var/lib/acme/dev.fraam.de/cert.pem";
         keyFile = "/var/lib/acme/dev.fraam.de/key.pem";
       }
+      {
+        certFile = "/var/lib/acme/fraam.de/cert.pem";
+        keyFile = "/var/lib/acme/fraam.de/key.pem";
+      }
     ];
+    entryAddresses = {
+      www4 = universe.hosts."${config.networking.hostName}".nets.www.ip4.addr;
+      www6 = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]";
+      loopback4 = "127.0.0.1";
+    };
   };
 
   ptsd.fraam-www = {
     enable = true;
-    traefikFrontendRule = "Host:dev.fraam.de";
     extIf = "ens3";
   };
 
