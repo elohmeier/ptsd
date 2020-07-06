@@ -65,7 +65,7 @@ in
 
     # nginx config from https://www.nginx.com/resources/wiki/start/topics/recipes/wordpress/
     virtualHosts = {
-      "staticsite" = {
+      "fraam.de www.fraam.de" = {
         listen = [
           {
             addr = "0.0.0.0";
@@ -83,7 +83,7 @@ in
         };
       };
 
-      "wordpress" = {
+      "dev.fraam.de" = {
         listen = [
           {
             addr = "0.0.0.0";

@@ -24,7 +24,7 @@ in
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
 
-    <ptsd/2configs/wordpress.nix>
+    <ptsd/2configs/fraam-wordpress.nix>
 
     <home-manager/nixos>
     <ptsd/2configs/xrdp.nix>

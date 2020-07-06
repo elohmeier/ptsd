@@ -70,7 +70,7 @@ in
             imports = [
               <ptsd>
               <ptsd/2configs>
-              <ptsd/2configs/wordpress.nix>
+              <ptsd/2configs/fraam-wordpress.nix>
             ];
 
             boot.isContainer = true;
