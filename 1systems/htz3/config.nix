@@ -11,8 +11,7 @@ in
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
 
-      <ptsd/2configs/cli-tools.nix>
-      #<ptsd/2configs/google-protected-web.nix>
+      #<ptsd/2configs/cli-tools.nix>
     ];
 
   networking = {
