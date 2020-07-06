@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
 
+# listens on port 4181, cannot be changed as of
+# https://github.com/thomseddon/traefik-forward-auth/blob/eec62eb03a9c1538df07ff0f2a2a5fc6e757ac71/cmd/main.go
+
 with lib;
 let
   cfg = config.ptsd.traefik-forward-auth;
