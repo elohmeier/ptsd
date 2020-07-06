@@ -228,11 +228,10 @@ in
         nerdworkswww = 10012;
         nextcloud = 10013;
         nginx-monica = 10014;
-        nginx-htz3 = 10015;
-        nwgit = 10016;
-        octoprint = 10017;
-        radicale = 10018;
-        synapse = 10019;
+        nwgit = 10015;
+        octoprint = 10016;
+        radicale = 10017;
+        synapse = 10018;
       };
     }
     (
