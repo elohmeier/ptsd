@@ -43,6 +43,10 @@ in
   # builder for '/nix/store/dwlv0grq7lmjayl1kk1jhsvgfz5flbwk-extra-utils.drv' failed with exit code 1
   boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
 
+  ptsd.nwbackup = {
+    enable = true;
+  };
+
   ptsd.nwtraefik = {
     enable = true;
     acmeEnabled = false;

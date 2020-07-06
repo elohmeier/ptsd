@@ -25,6 +25,9 @@ in
       mysqlPath = mkOption {
         default = "/var/lib/fraam-www/mysql";
       };
+      mysqlBackupPath = mkOption {
+        default = "/var/lib/fraam-www/mysql-backup";
+      };
       staticPath = mkOption {
         default = "/var/lib/fraam-www/static";
       };
@@ -52,6 +55,10 @@ in
       bindMounts = {
         "/var/lib/mysql" = {
           hostPath = "${cfg.mysqlPath}";
+          isReadOnly = false;
+        };
+        "/var/lib/mysql-backup" = {
+          hostPath = "${cfg.mysqlBackupPath}";
           isReadOnly = false;
         };
         "/var/www/static" = {
@@ -88,6 +95,23 @@ in
               supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
             };
 
+            systemd.services.mysql-backup = {
+              description = "Backup WordPress MySQL database";
+              wantedBy = [ "multi-user.target" ];
+              requires = [ "mysql.service" ];
+              script = ''
+                ${pkgs.mariadb}/bin/mysqldump wordpress > /var/lib/mysql-backup/wordpress.sql
+              '';
+              serviceConfig = {
+                Type = "simple";
+                Restart = "on-failure";
+                PrivateTmp = true;
+                PrivateDevices = true;
+                ProtectHome = true;
+                ProtectSystem = "full";
+              };
+              startAt = "*-*-* 05:00:00";
+            };
           };
     };
 
@@ -125,6 +149,7 @@ in
 
     system.activationScripts.initialize-fraam-www = stringAfter [ "users" "groups" ] ''
       mkdir -p ${cfg.mysqlPath}
+      mkdir -p ${cfg.mysqlBackupPath}
       mkdir -p ${cfg.staticPath}
       mkdir -p ${cfg.wwwPath}
     '';
