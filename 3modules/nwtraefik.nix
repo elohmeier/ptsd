@@ -24,7 +24,12 @@ let
           "TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305"
           "TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305"
         ];
-        certificates = cfg.certificates;
+        certificates = map (
+          crt: {
+            certFile = crt.certFile;
+            keyFile = crt.keyFile;
+          }
+        ) cfg.certificates;
       };
     };
 
