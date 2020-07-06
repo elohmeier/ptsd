@@ -84,10 +84,6 @@ in
 
     bridges.br0.interfaces = [ "enp39s0" ];
     interfaces.br0.useDHCP = true;
-
-    extraHosts = ''
-      78.47.98.124 dev.fraam.de
-    '';
   };
 
   services.printing.enable = true;
