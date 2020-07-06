@@ -59,6 +59,8 @@ in
 
     commonHttpConfig = ''
       charset UTF-8;
+      types_hash_max_size 4096;
+      server_names_hash_bucket_size 128;
     '';
 
     # nginx config from https://www.nginx.com/resources/wiki/start/topics/recipes/wordpress/
