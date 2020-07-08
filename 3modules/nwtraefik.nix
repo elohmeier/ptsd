@@ -197,7 +197,17 @@ in
       };
 
       package = mkOption {
-        default = pkgs.traefik;
+        default = pkgs.traefik.overrideAttrs (
+          oldAttrs: rec {
+            version = "1.7-dev";
+            src = pkgs.fetchFromGitHub {
+              owner = "containous";
+              repo = "traefik";
+              rev = "fee89273a37f639ffc260983b0c3f8ff064570de";
+              sha256 = "1jvqsnywbmasdmfiwq55ss53m8xljladmv6mv4mr58kzjhlr9550";
+            };
+          }
+        );
         defaultText = "pkgs.traefik";
         type = types.package;
         description = "Traefik package to use.";

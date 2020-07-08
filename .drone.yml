@@ -76,11 +76,11 @@ steps:
     SSH_KEY:
       from_secret: ssh-key
 
-- name: prebuild 5pkgs/traefik
+- name: prebuild 6pkgs/traefik
   commands:
   - eval $(ssh-agent -s)
   - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - nix-copy-closure --to root@htz3.host.fraam.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/traefik {}' -I /var/src)
+  - nix-copy-closure --to root@htz3.host.fraam.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./6pkgs/traefik {}' -I /var/src)
   environment:
     SSH_KEY:
       from_secret: ssh-key
