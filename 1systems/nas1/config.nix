@@ -16,7 +16,7 @@ in
     <ptsd/2configs/grafana.nix>
     <ptsd/2configs/home-assistant.nix>
     <ptsd/2configs/mfc7440n.nix>
-    <ptsd/2configs/monica-nginx.nix>
+    <ptsd/2configs/monica.nix>
     <ptsd/2configs/mosquitto.nix>
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/nextcloud-vsftpd-scans.nix>

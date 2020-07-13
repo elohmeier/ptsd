@@ -157,7 +157,7 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "nginx-monica";
-      rule = "Host:${domain}";
+      rule = "Host(`${domain}`)";
     }
   ];
 
@@ -187,12 +187,6 @@ in
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}
-        if failed
-          port 80
-          protocol http
-          status = 302
-        then alert
-
         if failed
           port 443
           protocol https and certificate valid > 30 days          
