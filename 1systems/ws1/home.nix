@@ -30,8 +30,8 @@ in
         block = "disk_space";
         path = "/var";
         alias = "/var";
-        warning = 2;
-        alert = 1;
+        warning = 1;
+        alert = 0.5;
       }
       {
         block = "disk_space";
