@@ -90,7 +90,6 @@ in
       acceptTerms = true;
       certs = {
         "${config.networking.hostName}.${config.networking.domain}" = {
-          email = email;
           dnsProvider = "acme-dns";
           credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
           group = "lego";
@@ -99,7 +98,6 @@ in
         };
 
         "fraam.de" = {
-          email = email;
           extraDomains = { "www.fraam.de" = null; };
           dnsProvider = "acme-dns";
           credentialsFile = envFile "fraam.de";
@@ -109,7 +107,6 @@ in
         };
 
         "dev.fraam.de" = {
-          email = email;
           dnsProvider = "acme-dns";
           credentialsFile = envFile "dev.fraam.de";
           group = "lego";
