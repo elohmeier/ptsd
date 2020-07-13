@@ -43,7 +43,7 @@ in
       {
         name = "bitwarden";
         entryAddresses = [ "nwvpn" ];
-        rule = "Host:${domain}";
+        rule = "Host(`${domain}`)";
       }
     ];
   };

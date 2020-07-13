@@ -29,11 +29,11 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "octoprint";
-      rule = "Host:${domain}";
+      rule = "Host(`${domain}`)";
     }
     {
       name = "mjpg-streamer";
-      rule = "Host:${domain};PathPrefixStrip:/mjpg/";
+      rule = "Host(`${domain}`) && PathPrefixStrip(`/mjpg/`)";
     }
   ];
 }

@@ -24,7 +24,7 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "radicale";
-      rule = "Host:${domain}";
+      rule = "Host(`${domain}`)";
       entryAddresses = [ "www4" "www6" ];
     }
   ];

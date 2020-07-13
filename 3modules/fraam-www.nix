@@ -118,7 +118,7 @@ in
     ptsd.nwtraefik.services = [
       {
         name = "fraam-wordpress-auth";
-        rule = "Host:dev.fraam.de";
+        rule = "Host(`dev.fraam.de`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
         auth.forward = {
           address = "http://localhost:4181";
@@ -130,13 +130,13 @@ in
         # required for ../5pkgs/fraam-update-static-web access
         # host entry to 127.0.0.1 needs to be set
         name = "fraam-wordpress-local";
-        rule = "Host:dev.fraam.de";
+        rule = "Host(`dev.fraam.de`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
         entryAddresses = [ "loopback4" ];
       }
       {
         name = "fraam-wwwstatic";
-        rule = "Host:www.fraam.de,fraam.de";
+        rule = "Host(`www.fraam.de`) || Host(`fraam.de`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wwwstatic}";
         entryAddresses = [ "www4" "www6" ];
       }

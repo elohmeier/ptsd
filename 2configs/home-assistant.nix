@@ -17,7 +17,7 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "home-assistant";
-      rule = "Host:${domain},nas1.lan.nerdworks.de";
+      rule = "Host(`${domain}`) || Host(`nas1.lan.nerdworks.de`)";
     }
   ];
 
@@ -76,12 +76,6 @@ in
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}
-        if failed
-          port 80
-          protocol http
-          status = 302
-        then alert
-
         if failed
           port 443
           protocol https and certificate valid > 30 days          

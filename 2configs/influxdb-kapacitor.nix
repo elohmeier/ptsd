@@ -39,11 +39,11 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "influxdb";
-      rule = "Host:${domain}";
+      rule = "Host(`${domain}`)";
     }
     {
       name = "kapacitor";
-      rule = "Host:${domain};Path:/kapacitor";
+      rule = "Host(`${domain}`) && Path(`/kapacitor`)";
     }
   ];
 
@@ -73,12 +73,6 @@ in
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}
-        if failed
-          port 80
-          protocol http
-          status = 302
-        then alert
-
         if failed
           port 443
           protocol https request "/debug/vars" and certificate valid > 30 days

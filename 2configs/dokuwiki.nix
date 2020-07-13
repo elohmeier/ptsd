@@ -11,7 +11,7 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "dokuwiki";
-      rule = "Host:${domain}";
+      rule = "Host(`${domain}`)";
     }
   ];
 

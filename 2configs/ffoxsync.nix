@@ -19,7 +19,7 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "ffoxsync";
-      rule = "Host:${domain}";
+      rule = "Host(`${domain}`)";
     }
   ];
 
@@ -45,12 +45,6 @@ in
   ptsd.nwmonit.extraConfig = [
     ''
       check host ${domain} with address ${domain}
-        if failed
-          port 80
-          protocol http
-          status = 302
-        then alert
-
         if failed
           port 443
           certificate valid > 30 days
