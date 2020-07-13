@@ -48,15 +48,10 @@ in
     #package = mynginx;
   };
 
-  ptsd.lego.extraDomains = [
-    "nerdworks.de"
-    "www.nerdworks.de"
-  ];
-
   ptsd.nwtraefik.services = [
     {
       name = "nerdworkswww";
-      rule = "Host:nerdworks.de,www.nerdworks.de";
+      rule = "Host(`nerdworks.de`) || Host(`www.nerdworks.de`)";
     }
   ];
 
@@ -83,12 +78,6 @@ in
   ptsd.nwmonit.extraConfig = [
     ''
       check host www.nerdworks.de with address www.nerdworks.de
-        if failed
-          port 80
-          protocol http
-          status = 302
-        then alert
-
         if failed
           port 443
           protocol https and certificate valid > 30 days

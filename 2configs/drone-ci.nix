@@ -25,14 +25,21 @@ in
     dependants = [ "drone-server.service" ];
   };
 
-  ptsd.lego.extraDomains = [
-    domain
-  ];
-
   ptsd.nwtraefik.services = [
     {
       name = "droneci";
-      rule = "Host:${domain}";
+      rule = "Host(`${domain}`)";
     }
+  ];
+
+  ptsd.nwmonit.extraConfig = [
+    ''
+      check host ci.nerdworks.de with address ci.nerdworks.de
+        if failed
+          port 443
+          protocol https and certificate valid > 30 days
+          content = "Drone"
+        then alert
+    ''
   ];
 }

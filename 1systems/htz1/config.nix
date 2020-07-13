@@ -58,36 +58,64 @@ in
     services = [
       {
         name = "nas1-public-www";
-        rule = "Host:www.nerdworks.de;PathPrefix:/fpv";
+        rule = "Host(`www.nerdworks.de`) && PathPrefix(`/fpv`)";
         url = "http://${universe.hosts.nas1.nets.nwvpn.ip4.addr}:12345";
       }
     ];
+    certificates = let
+      crt = domain: {
+        certFile = "/var/lib/acme/${domain}/cert.pem";
+        keyFile = "/var/lib/acme/${domain}/key.pem";
+      };
+    in
+      [
+        (crt "nerdworks.de")
+        (crt "ci.nerdworks.de")
+        (crt "git.nerdworks.de")
+        (crt "luisarichter.de")
+      ];
   };
 
-  # currently unused but configured domains
-  ptsd.lego.extraDomains = [
-    "gigs.nerdworks.de"
-    "kb.nerdworks.de"
-    "wiki.nerdworks.de"
-    "www-dev.nerdworks.de"
-  ];
-
-  security.acme = let
-    envFile = pkgs.writeText "lego-acme-dns.env" ''
-      ACME_DNS_STORAGE_PATH=/var/lib/acme/luisarichter.de/acme-dns-store.json
+  security.acme.certs = let
+    envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+      ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
       ACME_DNS_API_BASE=https://auth.nerdworks.de
     '';
   in
     {
-      email = "elo-lenc@nerdworks.de";
-      acceptTerms = true;
-      certs = {
-        "luisarichter.de" = {
-          email = "office@luisarichter.de";
-          extraDomains = { "www.luisarichter.de" = null; };
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile;
-        };
+      "nerdworks.de" = {
+        extraDomains = { "www.nerdworks.de" = null; };
+        dnsProvider = "acme-dns";
+        credentialsFile = envFile "nerdworks.de";
+        group = "certs";
+        allowKeysForGroup = true;
+        postRun = "systemctl restart traefik.service";
+      };
+
+      "ci.nerdworks.de" = {
+        dnsProvider = "acme-dns";
+        credentialsFile = envFile "ci.nerdworks.de";
+        group = "certs";
+        allowKeysForGroup = true;
+        postRun = "systemctl restart traefik.service";
+      };
+
+      "git.nerdworks.de" = {
+        dnsProvider = "acme-dns";
+        credentialsFile = envFile "git.nerdworks.de";
+        group = "certs";
+        allowKeysForGroup = true;
+        postRun = "systemctl restart traefik.service";
+      };
+
+      "luisarichter.de" = {
+        email = "office@luisarichter.de";
+        extraDomains = { "www.luisarichter.de" = null; };
+        dnsProvider = "acme-dns";
+        credentialsFile = envFile "luisarichter.de";
+        group = "certs";
+        allowKeysForGroup = true;
+        postRun = "systemctl restart traefik.service";
       };
     };
 }

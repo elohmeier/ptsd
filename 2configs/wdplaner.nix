@@ -34,6 +34,4 @@
   networking.firewall.interfaces.nwvpn.allowedTCPPorts = [
     5432 # postgresql
   ];
-
-  ptsd.lego.extraDomains = [ "wrd.nerdworks.de" ];
 }
