@@ -130,10 +130,6 @@ in
     allowedUDPPorts = [ 137 138 ];
   };
 
-  ptsd.nwtraefik = {
-    enable = false;
-  };
-
   virtualisation.docker.enable = true;
   virtualisation.docker.enableOnBoot = false; # will be socket-activated
   virtualisation.libvirtd.enable = true;
