@@ -6,7 +6,6 @@ _:
     ./drone-server.nix
     ./fraam-www.nix
     ./gitea.nix
-    ./lego.nix
     ./mjpg-streamer.nix
     ./nobbofin-autofetch.nix
     ./nwbackup.nix
