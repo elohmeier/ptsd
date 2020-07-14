@@ -64,6 +64,7 @@
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
   # boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.supportedFilesystems = [ "zfs" ];
   # services.zfs = {
   #   autoScrub = { enable = true; };
