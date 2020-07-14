@@ -54,5 +54,39 @@ in
       loopback4 = "127.0.0.1";
       loopback6 = "[::1]";
     };
+    certificates = let
+      crt = domain: {
+        certFile = "/var/lib/acme/${domain}/cert.pem";
+        keyFile = "/var/lib/acme/${domain}/key.pem";
+      };
+    in
+      [
+        (crt "bitwarden.services.nerdworks.de")
+        (crt "mail.nerdworks.de")
+      ];
   };
+
+  security.acme.certs = let
+    envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+      ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
+      ACME_DNS_API_BASE=https://auth.nerdworks.de
+    '';
+  in
+    {
+      "bitwarden.services.nerdworks.de" = {
+        dnsProvider = "acme-dns";
+        credentialsFile = envFile "bitwarden.services.nerdworks.de";
+        group = "certs";
+        allowKeysForGroup = true;
+        postRun = "systemctl restart traefik.service";
+      };
+
+      "mail.nerdworks.de" = {
+        dnsProvider = "acme-dns";
+        credentialsFile = envFile "mail.nerdworks.de";
+        group = "certs";
+        allowKeysForGroup = true;
+        postRun = "systemctl restart traefik.service";
+      };
+    };
 }

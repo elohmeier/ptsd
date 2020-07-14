@@ -16,8 +16,8 @@ in
     loginAccounts = {};
 
     certificateScheme = 1;
-    certificateFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-    keyFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+    certificateFile = "/var/lib/acme/mail.nerdworks.de/cert.pem";
+    keyFile = "/var/lib/acme/mail.nerdworks.de/key.pem";
 
     backup.enable = true; # backup via rsnapshot
 
