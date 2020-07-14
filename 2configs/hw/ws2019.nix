@@ -64,14 +64,14 @@
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
   # boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
-  boot.supportedFilesystems = [ "zfs" ];
-  services.zfs = {
-    autoScrub = { enable = true; };
-    autoSnapshot = {
-      enable = true;
-      flags = "-k -p --utc";
-    };
-  };
+  # boot.supportedFilesystems = [ "zfs" ];
+  # services.zfs = {
+  #   autoScrub = { enable = true; };
+  #   autoSnapshot = {
+  #     enable = true;
+  #     flags = "-k -p --utc";
+  #   };
+  # };
 
   nix.maxJobs = lib.mkDefault 24;
   #powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
