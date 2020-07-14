@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  #users.groups.lego.members = [ "xrdp" ];
+  #users.groups.certs.members = [ "xrdp" ];
 
   ptsd.xrdp = {
     enable = true;

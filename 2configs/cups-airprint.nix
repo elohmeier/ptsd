@@ -5,8 +5,9 @@ let
   lanDomain = "lan.nerdworks.de";
 in
 {
-  users.groups.lego.members = [ "cups" ];
+  users.groups.certs.members = [ "cups" ];
 
+  # TODO: fix cert path
   services.printing = {
     enable = true;
     browsing = true;
@@ -15,7 +16,7 @@ in
     startWhenNeeded = false;
     extraFilesConf = ''
       CreateSelfSignedCerts no
-      ServerKeychain ${config.ptsd.lego.home}/certificates
+      ServerKeychain /TODO/certificates
     '';
   };
 
@@ -65,7 +66,8 @@ in
     nssmdns = true;
   };
 
-  ptsd.lego.extraDomains = [
-    "${config.networking.hostName}.${lanDomain}"
-  ];
+  # TODO
+  # ptsd.lego.extraDomains = [
+  #   "${config.networking.hostName}.${lanDomain}"
+  # ];
 }

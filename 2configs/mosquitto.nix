@@ -16,8 +16,8 @@ with import <ptsd/lib>;
     ssl = {
       enable = true;
       cafile = "/etc/ssl/certs/ca-certificates.crt";
-      certfile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-      keyfile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+      certfile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert.pem";
+      keyfile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem";
     };
     users = {
       hass = {
@@ -37,6 +37,6 @@ with import <ptsd/lib>;
     };
   };
 
-  users.groups.lego.members = [ "mosquitto" ];
+  users.groups.certs.members = [ "mosquitto" ];
   networking.firewall.allowedTCPPorts = [ 1883 8883 ];
 }

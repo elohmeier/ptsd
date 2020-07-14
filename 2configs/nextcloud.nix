@@ -142,10 +142,6 @@ in
     #};
   };
 
-  ptsd.lego.extraDomains = [
-    domain
-  ];
-
   ptsd.nwtraefik.services = [
     {
       name = "nextcloud";

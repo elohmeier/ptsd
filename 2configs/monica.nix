@@ -161,10 +161,6 @@ in
     }
   ];
 
-  ptsd.lego.extraDomains = [
-    domain
-  ];
-
   ptsd.nwtelegraf.inputs = {
     http_response = [
       {

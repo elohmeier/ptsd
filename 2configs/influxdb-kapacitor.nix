@@ -32,10 +32,6 @@ in
     wants = [ "influxdb" ];
   };
 
-  ptsd.lego.extraDomains = [
-    domain
-  ];
-
   ptsd.nwtraefik.services = [
     {
       name = "influxdb";

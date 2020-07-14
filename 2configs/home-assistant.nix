@@ -10,10 +10,6 @@ in
 
   networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } ]; # for pyhomematic
 
-  ptsd.lego.extraDomains = [
-    domain
-  ];
-
   ptsd.nwtraefik.services = [
     {
       name = "home-assistant";

@@ -57,10 +57,6 @@ in
     autoSnapshot.enable = true;
   };
 
-  ptsd.nwtraefik = {
-    enable = true;
-  };
-
   ptsd.nwbackup-server = {
     enable = true;
     zpool = "tank";
@@ -105,6 +101,25 @@ in
     };
   };
   networking.firewall.interfaces.nwvpn.allowedTCPPorts = [ 12345 ];
+
+  ptsd.nwtraefik = {
+    enable = true;
+    certificates = let
+      crt = domain: {
+        certFile = "/var/lib/acme/${domain}/cert.pem";
+        keyFile = "/var/lib/acme/${domain}/key.pem";
+      };
+    in
+      [
+        (crt "wiki.services.nerdworks.de")
+        (crt "influxdb.services.nerdworks.de")
+        (crt "grafana.services.nerdworks.de")
+        (crt "hass.services.nerdworks.de")
+        (crt "monica.services.nerdworks.de")
+        (crt "nextcloud.services.nerdworks.de")
+        (crt "octoprint.services.nerdworks.de")
+      ];
+  };
 
   security.acme = {
     certs = let

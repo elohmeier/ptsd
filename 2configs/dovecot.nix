@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  users.groups.lego = {
+  users.groups.certs = {
     members = [ "dovecot2" ];
   };
 

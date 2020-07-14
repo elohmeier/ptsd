@@ -7,8 +7,8 @@
     forceLocalDataSSL = true;
     userlistDeny = false;
     localUsers = true;
-    rsaKeyFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
-    rsaCertFile = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
+    rsaCertFile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert.pem";
+    rsaKeyFile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem";
     userlist = [ config.users.users.mainUser.name ];
     extraConfig = ''
       pasv_enable=Yes
@@ -22,5 +22,5 @@
     { from = 10090; to = 10100; }
   ];
 
-  users.groups.lego.members = [ "vsftpd" ];
+  users.groups.certs.members = [ "vsftpd" ];
 }
