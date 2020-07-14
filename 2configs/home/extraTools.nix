@@ -145,7 +145,6 @@ in
       unstable.spotify
       mpv
       drawio
-      pcmanfm
       geckodriver
       smbclient
       mu-repo
