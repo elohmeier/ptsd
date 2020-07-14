@@ -39,16 +39,16 @@ in
 
   };
 
-  # Chicken-Egg Problem - Don't use lego here!
-  # (Missing) Certificate will be issued by traefik on it's own, 
-  # see nwtraefik.nix.
-  # ptsd.lego.extraDomains = [ domain ];
-
   ptsd.nwtraefik.services = [
     {
       name = "acme-dns";
       rule = "Host(`${domain}`)";
       entryAddresses = [ "www4" "www6" ];
+
+      # Chicken-Egg Problem - Don't use lego here for the certificate fetching!
+      # (Missing) Certificate will be issued by traefik on it's own, 
+      # see nwtraefik.nix.
+      letsencrypt = true;
     }
   ];
 
