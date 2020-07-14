@@ -7,8 +7,8 @@
     package = pkgs.postgresql_11;
     extraConfig = ''
       ssl = on
-      ssl_cert_file = '${config.ptsd.lego.home}/certificates-root/${config.networking.hostName}.${config.networking.domain}.crt'
-      ssl_key_file = '${config.ptsd.lego.home}/certificates-root/${config.networking.hostName}.${config.networking.domain}.key'
+      ssl_cert_file = '/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert.pem'
+      ssl_key_file = '/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem'
 
       # only available starting from postgresql_12
       # ssl_min_protocol_version = TLSv1.3
@@ -23,5 +23,5 @@
     '';
   };
 
-  users.groups.lego.members = [ "postgres" ];
+  users.groups.certs.members = [ "postgres" ];
 }

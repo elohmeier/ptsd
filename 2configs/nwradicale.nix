@@ -17,10 +17,6 @@ in
     htpasswd = config.ptsd.secrets.files."radicale.htpasswd".path;
   };
 
-  ptsd.lego.extraDomains = [
-    domain
-  ];
-
   ptsd.nwtraefik.services = [
     {
       name = "radicale";

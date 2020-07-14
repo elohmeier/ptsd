@@ -6,8 +6,8 @@
   ptsd.xrdp = {
     enable = true;
     # disabled to use the self-signed certificate, seems to work better
-    #sslCert = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.crt";
-    #sslKey = "${config.ptsd.lego.home}/certificates/${config.networking.hostName}.${config.networking.domain}.key";
+    #sslCert = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert.pem";
+    #sslKey = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem";
     defaultWindowManager = "${pkgs.icewm}/bin/icewm";
   };
   environment.systemPackages = with pkgs; [ xterm xorg.xhost ];

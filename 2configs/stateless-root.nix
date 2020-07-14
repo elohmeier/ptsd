@@ -16,8 +16,6 @@
 
   security.dhparams.path = "/persist/var/lib/dhparams";
 
-  ptsd.lego.home = "/persist/var/lib/lego";
-
   environment.etc = lib.optionalAttrs config.networking.networkmanager.enable {
     "NetworkManager/system-connections" = {
       source = "/persist/etc/NetworkManager/system-connections/";
@@ -25,6 +23,7 @@
   };
 
   systemd.tmpfiles.rules = [
+    "L /var/lib/acme - - - - /persist/var/lib/acme"
     "L /var/lib/bluetooth - - - - /persist/var/lib/bluetooth"
     "L /var/lib/libvirt/qemu - - - - /persist/var/lib/libvirt/qemu"
   ];
