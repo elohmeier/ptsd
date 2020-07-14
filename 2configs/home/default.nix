@@ -46,4 +46,6 @@
     mosh
     mkpasswd
   ];
+
+  nixpkgs.config.allowUnfree = true; # required for unrar
 }
