@@ -235,9 +235,10 @@
           aliases = [
             "nas1.nw"
           ];
-          wireguard.pubkey = ''
-            52uBY3v3s7JE74MRVLepEx8vQliKCpzZteGXG0EhNGU=
-          '';
+          wireguard = {
+            pubkey = "52uBY3v3s7JE74MRVLepEx8vQliKCpzZteGXG0EhNGU=";
+            networks = [ "192.168.178.0/24" ];
+          };
         };
         bs53lan = {
           ip4.addr = "192.168.178.12";

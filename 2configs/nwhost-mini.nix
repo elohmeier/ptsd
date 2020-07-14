@@ -35,7 +35,7 @@ in
   };
 
   ptsd.wireguard.networks.nwvpn = {
-    enable = (hasAttr "nwvpn" universe.hosts."${config.networking.hostName}".nets);
+    enable = lib.mkDefault (hasAttr "nwvpn" universe.hosts."${config.networking.hostName}".nets);
     ip = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
   };
 
