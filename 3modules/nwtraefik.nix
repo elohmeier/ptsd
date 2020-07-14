@@ -68,7 +68,9 @@ let
               rule = svc.rule;
               service = svc.name;
               middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != {}) [ "${svc.name}-auth" ];
-              tls = {};
+              tls = lib.optionalAttrs svc.letsencrypt {
+                certResolver = "letsencrypt";
+              };
             };
             #       } // lib.optionalAttrs (svc.auth != {}) { auth = svc.auth; };
           }
@@ -114,18 +116,12 @@ let
       bufferingSize = 100;
     };
     entryPoints = (mapAttrs' generateHttpEntrypoint cfg.entryAddresses) // (mapAttrs' generateHttpsEntrypoint cfg.entryAddresses);
-
-    # } // optionalAttrs cfg.acmeEnabled {
-    #   # "Traefik will only try to generate a Let's encrypt certificate (thanks to HTTP-01 challenge) if the domain cannot be checked by the provided certificates."
-    #   # From: https://docs.traefik.io/v1.7/user-guide/examples/#onhostrule-option-and-provided-certificates-with-http-challenge
-    #   acme = {
-    #     email = "elo-lenc@nerdworks.de";
-    #     storage = "/var/lib/traefik/acme.json";
-    #     entryPoint = "${cfg.acmeEntryAddress}-https";
-    #     acmeLogging = true;
-    #     onHostRule = true;
-    #     httpChallenge.entryPoint = "${cfg.acmeEntryAddress}-http";
-    #   };
+  } // optionalAttrs cfg.acmeEnabled {
+    certificatesResolvers.letsencrypt.acme = {
+      email = "elo-lenc@nerdworks.de";
+      storage = "/var/lib/traefik/acme.json";
+      httpChallenge.entryPoint = "${cfg.acmeEntryAddress}-http";
+    };
   };
 
   migrateLogs = pkgs.writers.writeDash "migrate-traefik-logs" ''
@@ -184,15 +180,15 @@ in
         };
       };
 
-      # acmeEnabled = mkOption {
-      #   default = true;
-      #   type = types.bool;
-      # };
+      acmeEnabled = mkOption {
+        default = true;
+        type = types.bool;
+      };
 
-      # acmeEntryAddress = mkOption {
-      #   default = "any";
-      #   type = types.str;
-      # };
+      acmeEntryAddress = mkOption {
+        default = "any";
+        type = types.str;
+      };
 
       httpPort = mkOption {
         type = types.int;
@@ -224,6 +220,7 @@ in
               rule = mkOption { type = types.str; };
               auth = mkOption { type = types.attrs; default = {}; };
               url = mkOption { type = types.str; default = ""; };
+              letsencrypt = mkOption { type = types.bool; default = false; };
             };
           }
         );
@@ -276,10 +273,10 @@ in
     (
       mkIf cfg.enable {
         assertions = [
-          # {
-          #   assertion = cfg.acmeEnabled -> hasAttr cfg.acmeEntryAddress cfg.entryAddresses;
-          #   message = "ptsd.nwtraefik.acmeEntryAddress \"${cfg.acmeEntryAddress}\" has to be defined in ptsd.nwtraefik.entryAddresses";
-          # }
+          {
+            assertion = cfg.acmeEnabled -> hasAttr cfg.acmeEntryAddress cfg.entryAddresses;
+            message = "ptsd.nwtraefik.acmeEntryAddress \"${cfg.acmeEntryAddress}\" has to be defined in ptsd.nwtraefik.entryAddresses";
+          }
         ] ++ flatten (
           map (
             svc:
