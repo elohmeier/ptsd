@@ -115,47 +115,6 @@ steps:
 ---
 kind: pipeline
 type: exec
-name: deploy nas1
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: fetch submodules
-  commands:
-  - git submodule update --init --recursive --remote
-
-- name: prebuild 5pkgs/nwhass
-  commands:
-  - eval $(ssh-agent -s)
-  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - nix-copy-closure --to root@nas1.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}' -I /var/src)
-  environment:
-    SSH_KEY:
-      from_secret: ssh-key
-
-- name: prebuild 5pkgs/traefik
-  commands:
-  - eval $(ssh-agent -s)
-  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - nix-copy-closure --to root@nas1.host.nerdworks.de $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/traefik {}' -I /var/src)
-  environment:
-    SSH_KEY:
-      from_secret: ssh-key
-
-- name: deploy nas1
-  commands:
-  - eval $(ssh-agent -s)
-  - echo "$SSH_KEY" | tr -d '\r' | ssh-add -
-  - $(nix-build --no-out-link krops.nix --argstr name nas1 --argstr starget root@nas1.host.nerdworks.de --arg secrets false --arg unstable true --arg mailserver false -A deploy -I /var/src)
-  environment:
-    SSH_KEY:
-      from_secret: ssh-key
-
----
-kind: pipeline
-type: exec
 name: deploy_boot ws1
 
 platform:
