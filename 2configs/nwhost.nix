@@ -8,8 +8,6 @@ in
     <ptsd/2configs/nwhost-mini.nix>
   ];
 
-  users.groups.certs = {};
-
   security.acme = let
     envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
       ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
@@ -41,7 +39,6 @@ in
         hostCert
       ];
       defaultCertificate = hostCert;
-      groups = "certs";
     };
 
   ptsd.nwtelegraf.enable = true;

@@ -50,20 +50,17 @@ in
     enable = true;
     acmeEnabled = false;
     contentSecurityPolicy = "frame-ancestors 'self' https://*.fraam.de";
-    certificates = [
-      {
-        certFile = "/var/lib/acme/htz3.host.fraam.de/cert.pem";
-        keyFile = "/var/lib/acme/htz3.host.fraam.de/key.pem";
-      }
-      {
-        certFile = "/var/lib/acme/dev.fraam.de/cert.pem";
-        keyFile = "/var/lib/acme/dev.fraam.de/key.pem";
-      }
-      {
-        certFile = "/var/lib/acme/fraam.de/cert.pem";
-        keyFile = "/var/lib/acme/fraam.de/key.pem";
-      }
-    ];
+    certificates = let
+      crt = domain: {
+        certFile = "/var/lib/acme/${domain}/cert.pem";
+        keyFile = "/var/lib/acme/${domain}/key.pem";
+      };
+    in
+      [
+        (crt "htz3.host.fraam.de")
+        (crt "dev.fraam.de")
+        (crt "fraam.de")
+      ];
     entryAddresses = {
       www4 = universe.hosts."${config.networking.hostName}".nets.www.ip4.addr;
       www6 = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]";
@@ -75,8 +72,6 @@ in
     enable = true;
     extIf = "ens3";
   };
-
-  users.groups.lego = {};
 
   security.acme = let
     envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
@@ -92,7 +87,7 @@ in
         "${config.networking.hostName}.${config.networking.domain}" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
-          group = "lego";
+          group = "certs";
           allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
@@ -101,7 +96,7 @@ in
           extraDomains = { "www.fraam.de" = null; };
           dnsProvider = "acme-dns";
           credentialsFile = envFile "fraam.de";
-          group = "lego";
+          group = "certs";
           allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
@@ -109,7 +104,7 @@ in
         "dev.fraam.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "dev.fraam.de";
-          group = "lego";
+          group = "certs";
           allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };

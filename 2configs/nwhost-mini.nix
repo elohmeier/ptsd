@@ -46,6 +46,9 @@ in
     }
   ];
 
+  users.groups.certs = {};
+  ptsd.nwtraefik.groups = "certs";
+
   #ptsd.nwbackup = {
   #  enable = true;
   #};
