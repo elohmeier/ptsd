@@ -100,4 +100,70 @@ in
     };
   };
   networking.firewall.interfaces.nwvpn.allowedTCPPorts = [ 12345 ];
+
+  security.acme = {
+    certs = let
+      envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+        ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
+        ACME_DNS_API_BASE=https://auth.nerdworks.de
+      '';
+    in
+      {
+        "wiki.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "wiki.services.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "influxdb.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "influxdb.services.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "grafana.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "grafana.services.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "hass.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "hass.services.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "monica.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "monica.services.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "nextcloud.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "nextcloud.services.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "octoprint.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "octoprint.services.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+      };
+  };
 }
