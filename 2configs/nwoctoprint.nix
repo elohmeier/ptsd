@@ -22,10 +22,6 @@ in
     deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d7-1\\x2d7:1.2-sound-card1.device";
   };
 
-  ptsd.lego.extraDomains = [
-    domain
-  ];
-
   ptsd.nwtraefik.services = [
     {
       name = "octoprint";
@@ -33,7 +29,8 @@ in
     }
     {
       name = "mjpg-streamer";
-      rule = "Host(`${domain}`) && PathPrefixStrip(`/mjpg/`)";
+      rule = "Host(`${domain}`) && PathPrefix(`/mjpg/`)";
+      stripPrefixes = [ "/mjpg/" ];
     }
   ];
 }

@@ -67,7 +67,7 @@ let
               entryPoints = flatten (map (name: [ "${name}-http" "${name}-https" ]) svc.entryAddresses);
               rule = svc.rule;
               service = svc.name;
-              middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != {}) "${svc.name}-auth";
+              middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != {}) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != []) "${svc.name}-stripPrefix";
               tls = lib.optionalAttrs svc.letsencrypt {
                 certResolver = "letsencrypt";
               };
@@ -84,6 +84,15 @@ let
               value = svc.auth;
             }
           ) (filter (svc: svc.auth != {}) cfg.services)
+        )
+      ) // (
+        builtins.listToAttrs (
+          map (
+            svc: {
+              name = "${svc.name}-stripPrefix";
+              value = { stripPrefix.prefixes = svc.stripPrefixes; };
+            }
+          ) (filter (svc: svc.stripPrefixes != []) cfg.services)
         )
       ) // {
         securityHeaders.headers = {
@@ -231,6 +240,7 @@ in
               auth = mkOption { type = types.attrs; default = {}; };
               url = mkOption { type = types.str; default = ""; };
               letsencrypt = mkOption { type = types.bool; default = false; };
+              stripPrefixes = mkOption { type = types.listOf types.str; default = []; };
             };
           }
         );
@@ -269,7 +279,7 @@ in
         grafana = 10007;
         home-assistant = 8123; # TODO: update yaml like in octoprint module
         influxdb = 10008;
-        kapacitor = 1009;
+        kapacitor = 10009;
         mjpg-streamer = 10010;
         nerdworkswww = 10011;
         nextcloud = 10012;
