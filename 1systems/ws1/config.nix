@@ -44,14 +44,17 @@ in
 
   ptsd.nwbackup.repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
 
-  ptsd.wireguard.networks.dlrgvpn = {
-    enable = true;
-    ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
-    client.allowedIPs = [ "192.168.168.0/24" ];
-    routes = [
-      { routeConfig = { Destination = "192.168.168.0/24"; }; }
-    ];
-    keyname = "nwvpn.key";
+  ptsd.wireguard.networks = {
+    nwvpn.enable = false; # use routed network via nas1
+    dlrgvpn = {
+      enable = true;
+      ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+      client.allowedIPs = [ "192.168.168.0/24" ];
+      routes = [
+        { routeConfig = { Destination = "192.168.168.0/24"; }; }
+      ];
+      keyname = "nwvpn.key";
+    };
   };
 
   # default: poweroff
