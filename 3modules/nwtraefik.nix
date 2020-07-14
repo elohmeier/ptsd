@@ -67,24 +67,34 @@ let
               entryPoints = flatten (map (name: [ "${name}-http" "${name}-https" ]) svc.entryAddresses);
               rule = svc.rule;
               service = svc.name;
-              middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != {}) [ "${svc.name}-auth" ];
+              middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != {}) "${svc.name}-auth";
               tls = lib.optionalAttrs svc.letsencrypt {
                 certResolver = "letsencrypt";
               };
             };
-            #       } // lib.optionalAttrs (svc.auth != {}) { auth = svc.auth; };
           }
         ) cfg.services
       );
 
-      middlewares.securityHeaders.headers = {
-        STSSeconds = 315360000;
-        STSPreload = true;
-        customFrameOptionsValue = "sameorigin";
-        contentTypeNosniff = true;
-        browserXSSFilter = true;
-        contentSecurityPolicy = cfg.contentSecurityPolicy;
-        referrerPolicy = "no-referrer";
+      middlewares = (
+        builtins.listToAttrs (
+          map (
+            svc: {
+              name = "${svc.name}-auth";
+              value = svc.auth;
+            }
+          ) (filter (svc: svc.auth != {}) cfg.services)
+        )
+      ) // {
+        securityHeaders.headers = {
+          STSSeconds = 315360000;
+          STSPreload = true;
+          customFrameOptionsValue = "sameorigin";
+          contentTypeNosniff = true;
+          browserXSSFilter = true;
+          contentSecurityPolicy = cfg.contentSecurityPolicy;
+          referrerPolicy = "no-referrer";
+        };
       };
 
       services = builtins.listToAttrs (

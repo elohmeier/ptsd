@@ -120,7 +120,7 @@ in
         name = "fraam-wordpress-auth";
         rule = "Host(`dev.fraam.de`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
-        auth.forward = {
+        auth.forwardAuth = {
           address = "http://localhost:4181";
           authResponseHeaders = [ "X-Forwarded-User" ];
         };
