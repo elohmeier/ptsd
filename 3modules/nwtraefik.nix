@@ -4,21 +4,6 @@ with lib;
 let
   cfg = config.ptsd.nwtraefik;
 
-  generateHttpEntrypoint = name: address:
-    nameValuePair "${name}-http" {
-      address = "${address}:${toString cfg.httpPort}";
-      http.redirections.entryPoint = {
-        to = "${name}-https";
-        scheme = "https";
-        permanent = true;
-      };
-    };
-
-  generateHttpsEntrypoint = name: address:
-    nameValuePair "${name}-https" {
-      address = "${address}:${toString cfg.httpsPort}";
-    };
-
   configFile = fileName: configOptions: pkgs.runCommand fileName {
     buildInputs = [ pkgs.remarshal ];
     preferLocalBuild = true;
@@ -64,7 +49,7 @@ let
           svc: {
             name = svc.name;
             value = {
-              entryPoints = flatten (map (name: [ "${name}-http" "${name}-https" ]) svc.entryAddresses);
+              entryPoints = svc.entryPoints;
               rule = svc.rule;
               service = svc.name;
               middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != {}) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != []) "${svc.name}-stripPrefix";
@@ -137,12 +122,19 @@ let
       filePath = "/var/log/traefik/access.log";
       bufferingSize = 100;
     };
-    entryPoints = (mapAttrs' generateHttpEntrypoint cfg.entryAddresses) // (mapAttrs' generateHttpsEntrypoint cfg.entryAddresses);
+    entryPoints = mapAttrs' (
+      name: values:
+        nameValuePair name {
+          address = values.address;
+        } // lib.optionalAttrs (values.http != {}) {
+          http = values.http;
+        }
+    ) cfg.entryPoints;
   } // optionalAttrs cfg.acmeEnabled {
     certificatesResolvers.letsencrypt.acme = {
       email = "elo-lenc@nerdworks.de";
       storage = "/var/lib/traefik/acme.json";
-      httpChallenge.entryPoint = "${cfg.acmeEntryAddress}-http";
+      httpChallenge.entryPoint = "${cfg.acmeEntryPoint}";
     };
   };
 
@@ -165,17 +157,27 @@ in
         type = types.attrsOf types.int;
       };
 
-      entryAddresses = mkOption {
-        description = "Addresses to listen on HTTP/HTTPS ports. Used for entrypoint generation.";
-        type = types.attrsOf types.str;
-        default = {
-          any = "";
-        };
-        example = {
-          ext4 = "123.123.123.123";
-          ext6 = "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]";
-          vpn = "191.18.19.123";
-        };
+      entryPoints = mkOption {
+        description = "Entrypoints to listen on.";
+        type = types.attrsOf (
+          types.submodule (
+            { config, ... }: {
+              options = {
+                name = mkOption {
+                  type = types.str;
+                  default = config._module.args.name;
+                };
+                address = mkOption {
+                  type = types.str;
+                };
+                http = mkOption {
+                  type = types.attrs;
+                  default = {};
+                };
+              };
+            }
+          )
+        );
       };
 
       certificates = mkOption {
@@ -203,13 +205,13 @@ in
       };
 
       acmeEnabled = mkOption {
-        default = true;
+        default = false;
         type = types.bool;
       };
 
-      acmeEntryAddress = mkOption {
-        default = "any";
+      acmeEntryPoint = mkOption {
         type = types.str;
+        example = "www4-http";
       };
 
       httpPort = mkOption {
@@ -238,7 +240,7 @@ in
           types.submodule {
             options = {
               name = mkOption { type = types.str; };
-              entryAddresses = mkOption { type = types.listOf types.str; default = [ "any" ]; };
+              entryPoints = mkOption { type = types.listOf types.str; default = []; };
               rule = mkOption { type = types.str; };
               auth = mkOption { type = types.attrs; default = {}; };
               url = mkOption { type = types.str; default = ""; };
@@ -298,18 +300,18 @@ in
       mkIf cfg.enable {
         assertions = [
           {
-            assertion = cfg.acmeEnabled -> hasAttr cfg.acmeEntryAddress cfg.entryAddresses;
-            message = "ptsd.nwtraefik.acmeEntryAddress \"${cfg.acmeEntryAddress}\" has to be defined in ptsd.nwtraefik.entryAddresses";
+            assertion = cfg.acmeEnabled -> hasAttr cfg.acmeEntryPoint cfg.entryPoints;
+            message = "ptsd.nwtraefik.acmeEntryPoint \"${cfg.acmeEntryPoint}\" has to be defined in ptsd.nwtraefik.entryPoints";
           }
         ] ++ flatten (
           map (
             svc:
               map (
-                entryAddress: {
-                  assertion = hasAttr entryAddress cfg.entryAddresses;
-                  message = "ptsd.nwtraefik.services: entryAddress \"${entryAddress}\" used by service \"${svc.name}\" has to be defined in ptsd.nwtraefik.entryAddresses";
+                entryPoint: {
+                  assertion = hasAttr entryPoint cfg.entryPoints;
+                  message = "ptsd.nwtraefik.services: entryPoint \"${entryPoint}\" used by service \"${svc.name}\" has to be defined in ptsd.nwtraefik.entryPoints";
                 }
-              ) svc.entryAddresses
+              ) svc.entryPoints
           ) cfg.services
         );
 

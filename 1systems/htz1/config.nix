@@ -55,6 +55,30 @@ in
 
   ptsd.nwtraefik = {
     enable = true;
+    entryPoints = {
+      "www4-http" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
+        http.redirections.entryPoint = {
+          to = "www4-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "www4-https" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
+      };
+      "www6-http" = {
+        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
+        http.redirections.entryPoint = {
+          to = "www6-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "www6-https" = {
+        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
+      };
+    };
     services = [
       {
         name = "nas1-public-www";

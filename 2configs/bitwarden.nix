@@ -40,7 +40,7 @@ in
     services = [
       {
         name = "bitwarden";
-        entryAddresses = [ "nwvpn" ];
+        entryPoints = [ "nwvpn-http" "nwvpn-https" ];
         rule = "Host(`${domain}`)";
       }
     ];

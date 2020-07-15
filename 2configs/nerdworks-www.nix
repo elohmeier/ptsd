@@ -52,6 +52,7 @@ in
     {
       name = "nerdworkswww";
       rule = "Host(`nerdworks.de`) || Host(`www.nerdworks.de`)";
+      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
     }
   ];
 

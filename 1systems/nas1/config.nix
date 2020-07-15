@@ -104,6 +104,19 @@ in
 
   ptsd.nwtraefik = {
     enable = true;
+    entryPoints = {
+      "nwvpn-http" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
+        http.redirections.entryPoint = {
+          to = "nwvpn-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "nwvpn-https" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
+      };
+    };
     certificates = let
       crt = domain: {
         certFile = "/var/lib/acme/${domain}/cert.pem";

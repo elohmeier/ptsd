@@ -43,7 +43,7 @@ in
     {
       name = "acme-dns";
       rule = "Host(`${domain}`)";
-      entryAddresses = [ "www4" "www6" ];
+      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
 
       # Chicken-Egg Problem - Don't use lego here for the certificate fetching!
       # (Missing) Certificate will be issued by traefik on it's own, 

@@ -44,16 +44,46 @@ in
 
   ptsd.nwtraefik = {
     enable = true;
-    acmeEntryAddress = "www4";
-    entryAddresses = {
-      www4 = universe.hosts."${config.networking.hostName}".nets.www.ip4.addr;
-      www6 = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]";
-      nwvpn = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
+    entryPoints = {
+      "www4-http" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
+        http.redirections.entryPoint = {
+          to = "www4-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "www4-https" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
+      };
+      "www6-http" = {
+        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
+        http.redirections.entryPoint = {
+          to = "www6-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "www6-https" = {
+        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
+      };
+      "nwvpn-http" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
+        http.redirections.entryPoint = {
+          to = "nwvpn-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "nwvpn-https" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
+      };
 
       # added for local tls monitoring
-      loopback4 = "127.0.0.1";
-      loopback6 = "[::1]";
+      "loopback4-https".address = "127.0.0.1:443";
     };
+    acmeEnabled = true;
+    acmeEntryPoint = "www4-http";
     certificates = let
       crt = domain: {
         certFile = "/var/lib/acme/${domain}/cert.pem";
