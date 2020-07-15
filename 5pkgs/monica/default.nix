@@ -1,4 +1,4 @@
-{ stdenv, fetchurl }:
+{ stdenv, fetchurl, storagePath ? "/var/lib/monica/storage" }:
 
 stdenv.mkDerivation rec {
   pname = "monica";
@@ -9,8 +9,11 @@ stdenv.mkDerivation rec {
     sha256 = "1pdhggxhxqwvh7j319m6vr7500izgjdbp1q6d1da10f7vj9z9ym1";
   };
 
+  patches = [ ./monica-storage-path.path ];
+
   installPhase = ''
     mkdir -p "$out/share/monica"
     cp -R . "$out/share/monica"
+    ln -s "${storagePath}/app/public" "$out/share/monica/public/storage"
   '';
 }

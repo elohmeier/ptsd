@@ -14,7 +14,7 @@ let
     "pm.max_requests" = 500;
   };
   dataDir = "/var/lib/monica";
-  package = pkgs.monica;
+  package = pkgs.monica.override { storagePath = "${dataDir}/storage"; };
   domain = "monica.services.nerdworks.de";
 
   user = config.services.nginx.user;
@@ -25,6 +25,12 @@ let
     APP_ENV = "production";
     APP_DEBUG = "\"false\"";
     APP_KEY = "${appKey}";
+    APP_STORAGE_PATH = "${dataDir}/storage";
+    APP_SERVICES_CACHE = "${dataDir}/cache/services.php";
+    APP_PACKAGES_CACHE = "${dataDir}/cache/packages.php";
+    APP_CONFIG_CACHE = "${dataDir}/cache/config.php";
+    APP_ROUTES_CACHE = "${dataDir}/cache/routes-v7.php";
+    APP_EVENTS_CACHE = "${dataDir}/cache/events.php";
     HASH_SALT = "${hashSalt}";
     HASH_LENGTH = "18";
     APP_URL = "https://${domain}/";
@@ -76,6 +82,13 @@ in
     } // poolConfig;
   };
 
+  # Uncomment for debugging purposes.
+  # environment = {
+  #   systemPackages = [ phpPackage ];
+  #   sessionVariables = phpEnv;
+  # };
+  # Use `su nginx -s /run/current-system/sw/bin/bash` to switch to the nginx user.
+
   systemd.services."monica-init" = {
     enable = true;
     description = "Initialize Monica database and directory structure";
@@ -83,11 +96,29 @@ in
     wantedBy = [ "phpfpm-monica.service" ];
     path = [ phpPackage ];
     environment = phpEnv;
+
     script = ''
-      cp -R ${package}/share/monica/* "${dataDir}"
-      chmod -R 0755 "${dataDir}"
+      cd "${package}/share/monica/"
+
+      for i in *; do
+        if [ "$i" == "storage" ]; then
+          continue;
+        fi
+
+        rm -f "$STATE_DIRECTORY/$i"
+        ln -s "${package}/share/monica/$i" "$STATE_DIRECTORY/$i"
+      done
+
+      cd "$STATE_DIRECTORY"
+
+      mkdir -p cache
+      mkdir -p storage/framework/cache
+      mkdir -p storage/framework/sessions
+      mkdir -p storage/framework/views
+
       php artisan monica:update --force -vv
     '';
+
     serviceConfig = {
       User = user;
       Group = group;
@@ -95,14 +126,9 @@ in
       ProtectSystem = "full";
       Type = "oneshot";
       Restart = "no";
-      WorkingDirectory = dataDir;
+      StateDirectory = "monica";
     };
   };
-
-  system.activationScripts.monica = ''
-    mkdir -p "${dataDir}"
-    chown "${user}:${group}" "${dataDir}"
-  '';
 
   services.mysql = {
     enable = true;
@@ -158,6 +184,7 @@ in
     {
       name = "nginx-monica";
       rule = "Host(`${domain}`)";
+      entryPoints = [ "nwvpn-https" ];
     }
   ];
 
