@@ -111,9 +111,12 @@ let
           svc: {
             name = svc.name;
             value = {
-              loadBalancer.servers = [
-                { url = if (svc.url != "") then svc.url else "http://localhost:${toString cfg.ports."${svc.name}"}"; }
-              ];
+              loadBalancer = {
+                passHostHeader = svc.passHostHeader;
+                servers = [
+                  { url = if (svc.url != "") then svc.url else "http://localhost:${toString cfg.ports."${svc.name}"}"; }
+                ];
+              };
             };
           }
         ) cfg.services
@@ -241,6 +244,7 @@ in
               url = mkOption { type = types.str; default = ""; };
               letsencrypt = mkOption { type = types.bool; default = false; };
               stripPrefixes = mkOption { type = types.listOf types.str; default = []; };
+              passHostHeader = mkOption { type = types.bool; default = true; };
             };
           }
         );
