@@ -99,3 +99,6 @@ e.g. `udevadm test-builtin net_id /sys/class/net/enp39s0`
 
 ### Quick deployment of package needing compilation
 `nix-copy-closure --to root@apu2 $(nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwhass {}')`
+
+### Force cert renewal
+Add `security.acme.validMinDays = 999;` to your config and rebuild. Remember to remove it again...

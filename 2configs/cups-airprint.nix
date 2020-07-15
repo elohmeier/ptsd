@@ -3,24 +3,37 @@
 with lib;
 let
   lanDomain = "lan.nerdworks.de";
+  universe = import <ptsd/2configs/universe.nix>;
+
+  cups-tls = pkgs.runCommand "cups-tls" {} ''
+    mkdir -p $out
+    ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/fullchain.pem" "$out/${config.networking.hostName}.${config.networking.domain}.crt"
+    ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem" "$out/${config.networking.hostName}.${config.networking.domain}.key"  
+  '';
 in
 {
   users.groups.certs.members = [ "cups" ];
 
-  # TODO: fix cert path
+  security.acme.certs."${config.networking.hostName}.${config.networking.domain}" = {
+    extraDomains = { "${config.networking.hostName}.${lanDomain}" = null; };
+    postRun = "systemctl restart cups.service";
+  };
+
   services.printing = {
     enable = true;
     browsing = true;
     defaultShared = true;
     drivers = with pkgs; [ brlaser ];
     startWhenNeeded = false;
+    listenAddresses = [ "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631" ];
+    # allowFrom = [ "all" ]; # TODO: uncomment & delete local file in 20.09 (https://github.com/NixOS/nixpkgs/pull/86013)
     extraFilesConf = ''
       CreateSelfSignedCerts no
-      ServerKeychain /TODO/certificates
+      ServerKeychain ${cups-tls}
     '';
   };
 
-  networking.firewall = {
+  networking.firewall.interfaces.br0 = {
     allowedTCPPorts = [ 631 ];
     allowedUDPPorts = [ 631 ];
   };
@@ -65,9 +78,4 @@ in
 
     nssmdns = true;
   };
-
-  # TODO
-  # ptsd.lego.extraDomains = [
-  #   "${config.networking.hostName}.${lanDomain}"
-  # ];
 }

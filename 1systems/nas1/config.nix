@@ -156,14 +156,6 @@ in
       '';
     in
       {
-        "nas1.lan.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "nas1.lan.nerdworks.de";
-          group = "certs";
-          allowKeysForGroup = true;
-          postRun = "systemctl restart traefik.service";
-        };
-
         "wiki.services.nerdworks.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "wiki.services.nerdworks.de";
