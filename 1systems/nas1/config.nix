@@ -104,6 +104,17 @@ in
   ptsd.nwtraefik = {
     enable = true;
     entryPoints = {
+      "lan-http" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:80";
+        http.redirections.entryPoint = {
+          to = "lan-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "lan-https" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:443";
+      };
       "nwvpn-http" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
         http.redirections.entryPoint = {
@@ -115,6 +126,9 @@ in
       "nwvpn-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
       };
+
+      # added for local tls monitoring
+      "loopback6-https".address = "[::1]:443";
     };
     certificates = let
       crt = domain: {
@@ -123,6 +137,7 @@ in
       };
     in
       [
+        (crt "nas1.lan.nerdworks.de")
         (crt "wiki.services.nerdworks.de")
         (crt "influxdb.services.nerdworks.de")
         (crt "grafana.services.nerdworks.de")
@@ -141,6 +156,14 @@ in
       '';
     in
       {
+        "nas1.lan.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "nas1.lan.nerdworks.de";
+          group = "certs";
+          allowKeysForGroup = true;
+          postRun = "systemctl restart traefik.service";
+        };
+
         "wiki.services.nerdworks.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "wiki.services.nerdworks.de";
