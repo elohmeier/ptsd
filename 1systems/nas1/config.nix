@@ -8,7 +8,6 @@ in
   imports = [
     <ptsd>
     <ptsd/2configs>
-    <ptsd/2configs/bs53lan.nix>
     <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/cups-airprint.nix>
     <ptsd/2configs/dokuwiki.nix>

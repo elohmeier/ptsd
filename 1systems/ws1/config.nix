@@ -12,7 +12,6 @@ in
     <ptsd/2configs/stateless-root.nix>
 
     <ptsd/2configs/baseX.nix>
-    <ptsd/2configs/bs53lan.nix>
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/dovecot.nix>
     <ptsd/2configs/drone-exec-container.nix>
