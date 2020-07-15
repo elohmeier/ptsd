@@ -39,6 +39,11 @@ in
 
   };
 
+  networking.firewall.interfaces.ens3 = {
+    allowedTCPPorts = [ 53 ];
+    allowedUDPPorts = [ 53 ];
+  };
+
   ptsd.nwtraefik.services = [
     {
       name = "acme-dns";
