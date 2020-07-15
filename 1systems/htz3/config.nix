@@ -48,7 +48,6 @@ in
 
   ptsd.nwtraefik = {
     enable = true;
-    acmeEnabled = false;
     contentSecurityPolicy = "frame-ancestors 'self' https://*.fraam.de";
     certificates = let
       crt = domain: {
@@ -61,10 +60,32 @@ in
         (crt "dev.fraam.de")
         (crt "fraam.de")
       ];
-    entryAddresses = {
-      www4 = universe.hosts."${config.networking.hostName}".nets.www.ip4.addr;
-      www6 = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]";
-      loopback4 = "127.0.0.1";
+    entryPoints = {
+      "www4-http" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
+        http.redirections.entryPoint = {
+          to = "www4-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "www4-https" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
+      };
+      "www6-http" = {
+        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
+        http.redirections.entryPoint = {
+          to = "www6-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "www6-https" = {
+        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
+      };
+
+      # added for local tls monitoring
+      "loopback4-https".address = "127.0.0.1:443";
     };
   };
 
