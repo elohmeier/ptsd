@@ -103,18 +103,7 @@ in
         }
       )
 
-      (
-        betaflight-configurator.overrideAttrs (
-          old: rec {
-            pname = "betaflight-configurator";
-            version = "10.7.0-RC1";
-            src = fetchurl {
-              url = "https://github.com/betaflight/${pname}/releases/download/${version}/${pname}_${version}_linux64.zip";
-              sha256 = "03lj5in6r74c64qgwf92fn3n862lv5clsnkjpycc1gkvn1637jg7";
-            };
-          }
-        )
-      )
+      unstable.betaflight-configurator
       dbeaver
       drone-cli
       openshift
