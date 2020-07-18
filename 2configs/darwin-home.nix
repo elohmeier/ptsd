@@ -35,6 +35,7 @@ in
     nixpkgs-fmt
     lorri
     procps
+    osx-fix-alacritty # run this to fix unknown TERM error
   ];
 
   programs.direnv = {
