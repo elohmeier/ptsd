@@ -53,7 +53,7 @@ in
     startupUrls = mkOption {
       type = types.listOf (types.str);
       description = "URLs Firefox should open automatically after startup, e.g. Login web page for Firewalls etc.";
-      default = [];
+      default = [ ];
     };
     containerTimeZone = mkOption {
       type = types.str;
@@ -72,7 +72,7 @@ in
     };
     extraCerts = mkOption {
       type = types.listOf (types.str);
-      default = [];
+      default = [ ];
       description = "Extra CA Certificates for Citrix Workspace";
     };
     vpnUsername = mkOption {
@@ -116,97 +116,97 @@ in
 
       config =
         { config, pkgs, ... }:
-          {
-            imports = [
-              <ptsd>
-              <ptsd/2configs>
-              #<home-manager/nixos>
+        {
+          imports = [
+            <ptsd>
+            <ptsd/2configs>
+            #<home-manager/nixos>
+          ];
+
+          boot.isContainer = true;
+
+          environment = {
+            etc."X11/icewm/startup" = {
+              text = ''
+                ${pkgs.firefox}/bin/firefox \
+                  --no-remote \
+                  ${lib.concatMapStrings (x: " \"${x}\"") cfg.startupUrls}
+              '';
+              mode = "0755";
+            };
+            shellAliases = {
+              vpn = "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}";
+              iwm = "icewm-session";
+            };
+            systemPackages = with pkgs; [
+              caWorkspace
+              dnsutils
+              firefox
+              openconnect
+              icewm
             ];
-
-            boot.isContainer = true;
-
-            environment = {
-              etc."X11/icewm/startup" = {
-                text = ''
-                  ${pkgs.firefox}/bin/firefox \
-                    --no-remote \
-                    ${lib.concatMapStrings (x: " \"${x}\"") cfg.startupUrls}
-                '';
-                mode = "0755";
-              };
-              shellAliases = {
-                vpn = "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}";
-                iwm = "icewm-session";
-              };
-              systemPackages = with pkgs; [
-                caWorkspace
-                dnsutils
-                firefox
-                openconnect
-                icewm
-              ];
-              variables = {
-                DISPLAY = cfg.xephyrDisplayId;
-                ICEWM_PRIVCFG = "/etc/X11/icewm";
-              };
+            variables = {
+              DISPLAY = cfg.xephyrDisplayId;
+              ICEWM_PRIVCFG = "/etc/X11/icewm";
             };
-
-            networking = {
-              useHostResolvConf = false;
-              nameservers = [ "8.8.8.8" "8.8.4.4" ]; # will be used for VPN DNS lookup
-              useNetworkd = true;
-            };
-
-            time.timeZone = cfg.containerTimeZone;
-
-            i18n = {
-              defaultLocale = cfg.containerLocale;
-              supportedLocales = [ "${cfg.containerLocale}/UTF-8" ];
-            };
-
-            security.sudo.extraRules = lib.mkAfter [
-              {
-                users = [ config.users.users.mainUser.name ];
-                commands = [ { command = "${pkgs.openconnect}/bin/openconnect"; options = [ "NOPASSWD" "SETENV" ]; } ];
-              }
-            ];
-
-            users.motd = ''
-                          ** Welcome **
-
-              1. Launch "${cfg.name}-xephyr" on the host
-              2. Use "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}" (aliased to "vpn") to connect to the VPN.
-              3. Run "icewm-session" (aliased to "iwm", inside the container)
-              4. In Firefox: Login to the Firewall && Login to Citrix and open the connection file (e.g. from the browser)
-                 URLs: ${lib.concatMapStrings (x: "\n   - ${x}") cfg.startupUrls}
-              5. ????
-              6. PROFIT!!!
-            '';
-
-            # home-manager = {
-            #   users.mainUser = { pkgs, ... }:
-            #     {
-            #       gtk = {
-            #         enable = true;
-            #         font = {
-            #           name = "Iosevka Sans 8";
-            #           package = pkgs.dejavu_fonts;
-            #         };
-            #         iconTheme = {
-            #           name = "Tango";
-            #           package = pkgs.tango-icon-theme;
-            #         };
-            #         theme = {
-            #           name = "Arc-Dark";
-            #           package = pkgs.arc-theme;
-            #         };
-            #       };
-            #     };
-            # };
-
-            # programs.dconf.enable = true;
-            # services.dbus.packages = [ pkgs.gnome3.dconf ];
           };
+
+          networking = {
+            useHostResolvConf = false;
+            nameservers = [ "8.8.8.8" "8.8.4.4" ]; # will be used for VPN DNS lookup
+            useNetworkd = true;
+          };
+
+          time.timeZone = cfg.containerTimeZone;
+
+          i18n = {
+            defaultLocale = cfg.containerLocale;
+            supportedLocales = [ "${cfg.containerLocale}/UTF-8" ];
+          };
+
+          security.sudo.extraRules = lib.mkAfter [
+            {
+              users = [ config.users.users.mainUser.name ];
+              commands = [{ command = "${pkgs.openconnect}/bin/openconnect"; options = [ "NOPASSWD" "SETENV" ]; }];
+            }
+          ];
+
+          users.motd = ''
+                        ** Welcome **
+
+            1. Launch "${cfg.name}-xephyr" on the host
+            2. Use "sudo openconnect --user=${cfg.vpnUsername} ${cfg.vpnUrl}" (aliased to "vpn") to connect to the VPN.
+            3. Run "icewm-session" (aliased to "iwm", inside the container)
+            4. In Firefox: Login to the Firewall && Login to Citrix and open the connection file (e.g. from the browser)
+               URLs: ${lib.concatMapStrings (x: "\n   - ${x}") cfg.startupUrls}
+            5. ????
+            6. PROFIT!!!
+          '';
+
+          # home-manager = {
+          #   users.mainUser = { pkgs, ... }:
+          #     {
+          #       gtk = {
+          #         enable = true;
+          #         font = {
+          #           name = "Iosevka Sans 8";
+          #           package = pkgs.dejavu_fonts;
+          #         };
+          #         iconTheme = {
+          #           name = "Tango";
+          #           package = pkgs.tango-icon-theme;
+          #         };
+          #         theme = {
+          #           name = "Arc-Dark";
+          #           package = pkgs.arc-theme;
+          #         };
+          #       };
+          #     };
+          # };
+
+          # programs.dconf.enable = true;
+          # services.dbus.packages = [ pkgs.gnome3.dconf ];
+        };
     };
   };
 }

@@ -43,14 +43,14 @@ in
         type = types.package;
       };
       plugins = mkOption {
-        default = plugins: [];
+        default = plugins: [ ];
         defaultText = "plugins: []";
         example = literalExample "plugins: [ m3d-fio ]";
         description = "Additional plugins.";
       };
       extraConfig = mkOption {
         type = types.attrs;
-        default = {};
+        default = { };
         description = "Extra options which are added to OctoPrint's YAML configuration file.";
       };
       serialDevice = mkOption {

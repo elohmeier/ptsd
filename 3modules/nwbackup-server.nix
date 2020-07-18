@@ -15,7 +15,7 @@ let
       quotaArg = optionalString (client.borg.quota != null) "--storage-quota ${client.borg.quota}";
       serveCommand = "borg serve ${restrictedArg} ${appendOnlyArg} ${quotaArg}";
     in
-      ''command="${cdCommand} && ${serveCommand}",restrict ${key}'';
+    ''command="${cdCommand} && ${serveCommand}",restrict ${key}'';
 
   mkUsersConfig = name: client: {
     users."borg-${name}" = {
@@ -23,7 +23,7 @@ let
       useDefaultShell = true;
       group = "borg";
     };
-    groups."borg" = {};
+    groups."borg" = { };
   };
 
   mkRepoService = name: client:
@@ -117,7 +117,7 @@ in
           "ws1" = "ws1";
         };
       in
-        stringAfter [ "users" "groups" ] ''
+      stringAfter [ "users" "groups" ] ''
 
       if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '^${cfg.zpool}${cfg.zfsPath}$'; then
         echo "nwbackup-server: zfs-root ${cfg.zpool}${cfg.zfsPath} exists, skipping creation"

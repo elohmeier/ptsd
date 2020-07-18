@@ -66,18 +66,18 @@ in
                 };
                 dependants = mkOption {
                   type = types.listOf types.str;
-                  default = [];
+                  default = [ ];
                 };
               };
             }
           )
         );
-        default = {};
+        default = { };
       };
     };
   };
 
-  config = mkIf (cfg.files != {}) {
+  config = mkIf (cfg.files != { }) {
     systemd.services = mapAttrs' generateUnit cfg.files;
   };
 }

@@ -73,46 +73,46 @@ in
 
       config =
         { config, pkgs, ... }:
-          {
-            imports = [
-              <ptsd>
-              <ptsd/2configs>
-              <ptsd/2configs/fraam-wordpress.nix>
-            ];
+        {
+          imports = [
+            <ptsd>
+            <ptsd/2configs>
+            <ptsd/2configs/fraam-wordpress.nix>
+          ];
 
-            boot.isContainer = true;
+          boot.isContainer = true;
 
-            networking = {
-              useHostResolvConf = false;
-              nameservers = [ "8.8.8.8" "8.8.4.4" ];
-              useNetworkd = true;
-            };
-
-            time.timeZone = "Europe/Berlin";
-
-            i18n = {
-              defaultLocale = "de_DE.UTF-8";
-              supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-            };
-
-            systemd.services.mysql-backup = {
-              description = "Backup WordPress MySQL database";
-              wantedBy = [ "multi-user.target" ];
-              requires = [ "mysql.service" ];
-              script = ''
-                ${pkgs.mariadb}/bin/mysqldump wordpress > /var/lib/mysql-backup/wordpress.sql
-              '';
-              serviceConfig = {
-                Type = "simple";
-                Restart = "on-failure";
-                PrivateTmp = true;
-                PrivateDevices = true;
-                ProtectHome = true;
-                ProtectSystem = "full";
-              };
-              startAt = "*-*-* 05:00:00";
-            };
+          networking = {
+            useHostResolvConf = false;
+            nameservers = [ "8.8.8.8" "8.8.4.4" ];
+            useNetworkd = true;
           };
+
+          time.timeZone = "Europe/Berlin";
+
+          i18n = {
+            defaultLocale = "de_DE.UTF-8";
+            supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+          };
+
+          systemd.services.mysql-backup = {
+            description = "Backup WordPress MySQL database";
+            wantedBy = [ "multi-user.target" ];
+            requires = [ "mysql.service" ];
+            script = ''
+              ${pkgs.mariadb}/bin/mysqldump wordpress > /var/lib/mysql-backup/wordpress.sql
+            '';
+            serviceConfig = {
+              Type = "simple";
+              Restart = "on-failure";
+              PrivateTmp = true;
+              PrivateDevices = true;
+              ProtectHome = true;
+              ProtectSystem = "full";
+            };
+            startAt = "*-*-* 05:00:00";
+          };
+        };
     };
 
     ptsd.nwtraefik.services = [

@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   user = config.services.nginx.user;
   group = config.services.nginx.group;
@@ -14,7 +13,7 @@ let
   };
 
   phpPackage = pkgs.php;
-  phpEnv = {};
+  phpEnv = { };
 in
 {
 

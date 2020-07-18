@@ -1,4 +1,4 @@
-{ citrix_workspace, extraCerts ? [], timeZone ? "Europe/Berlin", symlinkJoin, writeText }:
+{ citrix_workspace, extraCerts ? [ ], timeZone ? "Europe/Berlin", symlinkJoin, writeText }:
 let
   mkCertCopy = certPath:
     "cp \"${certPath}\" $out/opt/citrix-icaclient/keystore/cacerts/";

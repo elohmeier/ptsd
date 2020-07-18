@@ -41,16 +41,18 @@ in
   };
 
   systemd.network.networks = builtins.listToAttrs (
-    map (
-      brName: {
-        name = "40-${brName}";
-        value = {
-          networkConfig = {
-            ConfigureWithoutCarrier = true;
+    map
+      (
+        brName: {
+          name = "40-${brName}";
+          value = {
+            networkConfig = {
+              ConfigureWithoutCarrier = true;
+            };
           };
-        };
-      }
-    ) bridgeIfs
+        }
+      )
+      bridgeIfs
   );
 
   services.home-assistant = {
@@ -59,7 +61,7 @@ in
   };
 
   networking.firewall.allowedTCPPorts = [ 8123 ];
-  networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } ]; # for pyhomematic
+  networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
 
   ptsd.nwtelegraf.inputs = {
     http_response = [

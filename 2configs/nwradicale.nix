@@ -35,17 +35,18 @@ in
         headers =
           let
             basicAuthEncoded = builtins.readFile (
-              pkgs.runCommand "b64auth" {
-                preferLocalBuild = true;
-              } ''
+              pkgs.runCommand "b64auth"
+                {
+                  preferLocalBuild = true;
+                } ''
                 echo "${monitoringSecrets.radicaleUsername}:${monitoringSecrets.radicalePassword}" \
                 base64 > $out
               ''
             );
           in
-            {
-              Authorization = "Basic ${basicAuthEncoded}";
-            };
+          {
+            Authorization = "Basic ${basicAuthEncoded}";
+          };
       }
     ];
     x509_cert = [

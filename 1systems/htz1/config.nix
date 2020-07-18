@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
@@ -35,7 +34,7 @@ in
     interfaces.ens3 = {
       useDHCP = true;
       ipv6 = {
-        addresses = [ { address = "2a01:4f8:c010:1adc::1"; prefixLength = 64; } ];
+        addresses = [{ address = "2a01:4f8:c010:1adc::1"; prefixLength = 64; }];
       };
     };
   };
@@ -86,12 +85,13 @@ in
         url = "http://${universe.hosts.nas1.nets.nwvpn.ip4.addr}:12345";
       }
     ];
-    certificates = let
-      crt = domain: {
-        certFile = "/var/lib/acme/${domain}/cert.pem";
-        keyFile = "/var/lib/acme/${domain}/key.pem";
-      };
-    in
+    certificates =
+      let
+        crt = domain: {
+          certFile = "/var/lib/acme/${domain}/cert.pem";
+          keyFile = "/var/lib/acme/${domain}/key.pem";
+        };
+      in
       [
         (crt "nerdworks.de")
         (crt "ci.nerdworks.de")
@@ -100,12 +100,13 @@ in
       ];
   };
 
-  security.acme.certs = let
-    envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
-      ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
-      ACME_DNS_API_BASE=https://auth.nerdworks.de
-    '';
-  in
+  security.acme.certs =
+    let
+      envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+        ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
+        ACME_DNS_API_BASE=https://auth.nerdworks.de
+      '';
+    in
     {
       "nerdworks.de" = {
         extraDomains = { "www.nerdworks.de" = null; };

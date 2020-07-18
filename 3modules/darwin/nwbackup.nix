@@ -5,7 +5,7 @@ let
   cfg = config.ptsd.nwbackup;
 
   mkExcludeFile = cfg:
-  # Write each exclude pattern to a new line
+    # Write each exclude pattern to a new line
     pkgs.writeText "excludefile" (concatStringsSep "\n" cfg.exclude);
 
   script = pkgs.writers.writeDashBin "nwbackup-nas1" ''
@@ -88,7 +88,7 @@ in
       script = "${script}/bin/nwbackup-nas1";
       serviceConfig = {
         ProcessType = "Interactive";
-        StartCalendarInterval = [ { Hour = 11; Minute = 0; } ];
+        StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
       };
     };
   };

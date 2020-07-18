@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
@@ -26,7 +25,7 @@ in
     interfaces.ens3 = {
       useDHCP = true;
       ipv6 = {
-        addresses = [ { address = "2a01:4f8:c2c:b468::1"; prefixLength = 64; } ];
+        addresses = [{ address = "2a01:4f8:c2c:b468::1"; prefixLength = 64; }];
       };
     };
   };
@@ -84,24 +83,26 @@ in
     };
     acmeEnabled = true;
     acmeEntryPoint = "www4-http";
-    certificates = let
-      crt = domain: {
-        certFile = "/var/lib/acme/${domain}/cert.pem";
-        keyFile = "/var/lib/acme/${domain}/key.pem";
-      };
-    in
+    certificates =
+      let
+        crt = domain: {
+          certFile = "/var/lib/acme/${domain}/cert.pem";
+          keyFile = "/var/lib/acme/${domain}/key.pem";
+        };
+      in
       [
         (crt "bitwarden.services.nerdworks.de")
         (crt "mail.nerdworks.de")
       ];
   };
 
-  security.acme.certs = let
-    envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
-      ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
-      ACME_DNS_API_BASE=https://auth.nerdworks.de
-    '';
-  in
+  security.acme.certs =
+    let
+      envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+        ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
+        ACME_DNS_API_BASE=https://auth.nerdworks.de
+      '';
+    in
     {
       "bitwarden.services.nerdworks.de" = {
         dnsProvider = "acme-dns";

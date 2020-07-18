@@ -3,7 +3,7 @@
 with lib;
 let
   gunicorn = pkgs.python3Packages.gunicorn;
-  nwstats = pkgs.python3Packages.callPackage <ptsd/5pkgs/nwstats> {};
+  nwstats = pkgs.python3Packages.callPackage <ptsd/5pkgs/nwstats> { };
   python = pkgs.python3Packages.python;
   cfg = config.ptsd.nwstats;
   configFile = pkgs.writeText "nwstats.cfg" ''
@@ -55,11 +55,12 @@ in
       after = [ "network.target" ];
       restartIfChanged = true;
 
-      environment = let
-        penv = python.buildEnv.override {
-          extraLibs = [ nwstats pkgs.python3Packages.setuptools ];
-        };
-      in
+      environment =
+        let
+          penv = python.buildEnv.override {
+            extraLibs = [ nwstats pkgs.python3Packages.setuptools ];
+          };
+        in
         {
           PYTHONPATH = "${penv}/${python.sitePackages}/";
           #NWSTATS_CONFIG = configFile;

@@ -1,24 +1,22 @@
 { pkgs, stdenv, lib, fetchFromGitHub, python3 }:
-
 let
-
   mkOverride = attrname: version: sha256:
-  self: super: {
-    "${attrname}" = super.${attrname}.overridePythonAttrs (
-      oldAttrs: {
-        inherit version;
-        src = oldAttrs.src.override {
-          pname = attrname;
-          inherit version sha256;
-        };
-      }
-    );
-  };
+    self: super: {
+      "${attrname}" = super.${attrname}.overridePythonAttrs (
+        oldAttrs: {
+          inherit version;
+          src = oldAttrs.src.override {
+            pname = attrname;
+            inherit version sha256;
+          };
+        }
+      );
+    };
 
   py = python3.override {
     self = py;
 
-    packageOverrides = lib.foldr lib.composeExtensions (self: super: {}) (
+    packageOverrides = lib.foldr lib.composeExtensions (self: super: { }) (
       [
         (mkOverride "click" "6.7" "02qkfpykbq35id8glfgwc38yc430427yd05z1wc5cnld8zgicmgi")
         (mkOverride "tqdm" "4.14.0" "13p82pqjnzch87xmsdk1k928bzgziy0qmpw04l942pqkgjspqjr8")
@@ -30,7 +28,7 @@ let
 
         (
           self: super: rec {
-            pyicloud-ipd = self.callPackage ../pyicloud-ipd {};
+            pyicloud-ipd = self.callPackage ../pyicloud-ipd { };
 
             schema = self.buildPythonPackage rec {
 
@@ -62,7 +60,7 @@ let
               checkInputs = with super; [ hypothesis mock ];
               buildInputs = with super; [ setuptools_scm ];
               propagatedBuildInputs = with super; [ attrs py setuptools six pluggy more-itertools atomicwrites ]
-              ++ (stdenv.lib.optional (!isPy3k) funcsigs);
+                ++ (stdenv.lib.optional (!isPy3k) funcsigs);
 
               checkPhase = ''
                 runHook preCheck
@@ -116,4 +114,4 @@ let
     );
   };
 in
-  with py.pkgs; toPythonApplication icloud-photos-downloader
+with py.pkgs; toPythonApplication icloud-photos-downloader

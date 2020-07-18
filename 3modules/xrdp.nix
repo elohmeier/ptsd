@@ -6,10 +6,10 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.xrdp;
-  confDir = pkgs.runCommand "xrdp.conf" { preferLocalBuild = true; } ''
+  confDir = pkgs.runCommand "xrdp.conf"
+    { preferLocalBuild = true; } ''
     mkdir $out
 
     cp ${cfg.package}/etc/xrdp/{km-*,xrdp,sesman,xrdp_keyboard}.ini $out
@@ -175,7 +175,7 @@ in
       isSystemUser = true;
       group = "xrdp";
     };
-    users.groups.xrdp = {};
+    users.groups.xrdp = { };
 
     security.pam.services.xrdp-sesman = { allowNullPassword = true; startSession = true; };
   };

@@ -24,17 +24,17 @@ let
     [database]
     DB_TYPE = ${cfg.database.type}
     ${optionalString (usePostgresql || useMysql) ''
-    HOST = ${if cfg.database.socket != null then cfg.database.socket else cfg.database.host + ":" + toString cfg.database.port}
-    NAME = ${cfg.database.name}
-    USER = ${cfg.database.user}
-    PASSWD = #dbpass#
-  ''}
+      HOST = ${if cfg.database.socket != null then cfg.database.socket else cfg.database.host + ":" + toString cfg.database.port}
+      NAME = ${cfg.database.name}
+      USER = ${cfg.database.user}
+      PASSWD = #dbpass#
+    ''}
     ${optionalString useSqlite ''
-    PATH = ${cfg.database.path}
-  ''}
+      PATH = ${cfg.database.path}
+    ''}
     ${optionalString usePostgresql ''
-    SSL_MODE = disable
-  ''}
+      SSL_MODE = disable
+    ''}
 
     [repository]
     ROOT = ${cfg.repositoryRoot}
@@ -67,9 +67,9 @@ let
     MAX_SIZE = 10
 
     ${optionalString (cfg.mailerPasswordFile != null) ''
-    [mailer]
-    PASSWD = #mailerpass#
-  ''}
+      [mailer]
+      PASSWD = #mailerpass#
+    ''}
 
     ${cfg.extraConfig}
   '';
@@ -278,7 +278,7 @@ in
       };
 
       disableRegistration = mkEnableOption "the registration lock"
-      // {
+        // {
         description = ''
           By default any user can create an account on this <literal>gitea</literal> instance.
           This can be disabled by using this option.
@@ -355,13 +355,14 @@ in
       wantedBy = [ "multi-user.target" ];
       path = [ gitea.bin pkgs.gitAndTools.git ];
 
-      preStart = let
-        runConfig = "${cfg.stateDir}/custom/conf/app.ini";
-        secretKey = "${cfg.stateDir}/custom/conf/secret_key";
-        jwtSecret = "${cfg.stateDir}/custom/conf/jwt_secret";
-        publicFolder = "${cfg.stateDir}/custom/public";
-        templatesFolder = "${cfg.stateDir}/custom/templates";
-      in
+      preStart =
+        let
+          runConfig = "${cfg.stateDir}/custom/conf/app.ini";
+          secretKey = "${cfg.stateDir}/custom/conf/secret_key";
+          jwtSecret = "${cfg.stateDir}/custom/conf/jwt_secret";
+          publicFolder = "${cfg.stateDir}/custom/public";
+          templatesFolder = "${cfg.stateDir}/custom/templates";
+        in
         ''
           # copy public folder static assets
           cp -f ${../src/gitea/public/robots.txt} ${publicFolder}/robots.txt
@@ -375,31 +376,31 @@ in
 
           # copy custom configuration and generate a random secret key if needed
           ${optionalString (cfg.useWizard == false) ''
-          cp -f ${configFile} ${runConfig}
+            cp -f ${configFile} ${runConfig}
 
-          if [ ! -e ${secretKey} ]; then
-              ${gitea.bin}/bin/gitea generate secret SECRET_KEY > ${secretKey}
-          fi
+            if [ ! -e ${secretKey} ]; then
+                ${gitea.bin}/bin/gitea generate secret SECRET_KEY > ${secretKey}
+            fi
 
-          if [ ! -e ${jwtSecret} ]; then
-              ${gitea.bin}/bin/gitea generate secret LFS_JWT_SECRET > ${jwtSecret}
-          fi
+            if [ ! -e ${jwtSecret} ]; then
+                ${gitea.bin}/bin/gitea generate secret LFS_JWT_SECRET > ${jwtSecret}
+            fi
 
-          KEY="$(head -n1 ${secretKey})"
-          DBPASS="$(head -n1 ${cfg.database.passwordFile})"
-          JWTSECRET="$(head -n1 ${jwtSecret})"
-          ${if (cfg.mailerPasswordFile == null) then ''
-          MAILERPASSWORD="#mailerpass#"
-        '' else ''
-          MAILERPASSWORD="$(head -n1 ${cfg.mailerPasswordFile} || :)"
-        ''}
-          sed -e "s,#secretkey#,$KEY,g" \
-              -e "s,#dbpass#,$DBPASS,g" \
-              -e "s,#jwtsecet#,$JWTSECET,g" \
-              -e "s,#mailerpass#,$MAILERPASSWORD,g" \
-              -i ${runConfig}
-          chmod 640 ${runConfig} ${secretKey} ${jwtSecret}
-        ''}
+            KEY="$(head -n1 ${secretKey})"
+            DBPASS="$(head -n1 ${cfg.database.passwordFile})"
+            JWTSECRET="$(head -n1 ${jwtSecret})"
+            ${if (cfg.mailerPasswordFile == null) then ''
+              MAILERPASSWORD="#mailerpass#"
+            '' else ''
+              MAILERPASSWORD="$(head -n1 ${cfg.mailerPasswordFile} || :)"
+            ''}
+            sed -e "s,#secretkey#,$KEY,g" \
+                -e "s,#dbpass#,$DBPASS,g" \
+                -e "s,#jwtsecet#,$JWTSECET,g" \
+                -e "s,#mailerpass#,$MAILERPASSWORD,g" \
+                -i ${runConfig}
+            chmod 640 ${runConfig} ${secretKey} ${jwtSecret}
+          ''}
 
           # update all hooks' binary paths
           HOOKS=$(find ${cfg.repositoryRoot} -mindepth 4 -maxdepth 6 -type f -wholename "*git/hooks/*")
@@ -443,10 +444,12 @@ in
       };
     };
 
-    users.groups.gitea = {};
+    users.groups.gitea = { };
 
-    warnings = optional (cfg.database.password != "")
-      ''config.ptsd.gitea.database.password will be stored as plaintext
+    warnings =
+      optional
+        (cfg.database.password != "")
+        ''config.ptsd.gitea.database.password will be stored as plaintext
         in the Nix store. Use database.passwordFile instead.'';
 
     # Create database passwordFile default when password is configured.

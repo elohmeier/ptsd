@@ -7,68 +7,67 @@ let
   domain = "nextcloud.services.nerdworks.de";
   nextcloudUid = 131; # unused as of 19.09, old docker uid
 
-  generateSyncthingContainer = name: values: nameValuePair "st-${name}"
-    {
-      autoStart = true;
-      hostBridge = "br0";
-      privateNetwork = true;
-      bindMounts = {
-        "/run/keys" = {
-          hostPath = "/run/keys";
-          isReadOnly = true;
+  generateSyncthingContainer = name: values: nameValuePair "st-${name}" {
+    autoStart = true;
+    hostBridge = "br0";
+    privateNetwork = true;
+    bindMounts = {
+      "/run/keys" = {
+        hostPath = "/run/keys";
+        isReadOnly = true;
+      };
+      "/var/lib/nextcloud/data/${name}" = {
+        hostPath = "/var/lib/nextcloud/data/${name}";
+        isReadOnly = false;
+      };
+    };
+
+    config =
+      { config, pkgs, ... }:
+      {
+        imports = [
+          <ptsd>
+          <ptsd/2configs>
+        ];
+
+        boot.isContainer = true;
+
+        networking = {
+          useHostResolvConf = false;
+          nameservers = [ "8.8.8.8" "8.8.4.4" ];
+          useNetworkd = true;
+          interfaces.eth0.useDHCP = true;
         };
-        "/var/lib/nextcloud/data/${name}" = {
-          hostPath = "/var/lib/nextcloud/data/${name}";
-          isReadOnly = false;
+
+        time.timeZone = "Europe/Berlin";
+
+        i18n = {
+          defaultLocale = "de_DE.UTF-8";
+          supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+        };
+
+        users.groups.nginx = { gid = config.ids.gids.nginx; };
+        users.users.nextcloud = {
+          uid = nextcloudUid;
+          isSystemUser = true;
+        };
+
+        services.syncthing = {
+          enable = true;
+
+          # mirror the nextcloud permissions
+          user = "nextcloud";
+          group = "nginx";
+
+          declarative = {
+            key = "/run/keys/syncthing-${name}.key";
+            cert = "/run/keys/syncthing-${name}.crt";
+            devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
+            folders = values.folders;
+          };
         };
       };
-
-      config =
-        { config, pkgs, ... }:
-          {
-            imports = [
-              <ptsd>
-              <ptsd/2configs>
-            ];
-
-            boot.isContainer = true;
-
-            networking = {
-              useHostResolvConf = false;
-              nameservers = [ "8.8.8.8" "8.8.4.4" ];
-              useNetworkd = true;
-              interfaces.eth0.useDHCP = true;
-            };
-
-            time.timeZone = "Europe/Berlin";
-
-            i18n = {
-              defaultLocale = "de_DE.UTF-8";
-              supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-            };
-
-            users.groups.nginx = { gid = config.ids.gids.nginx; };
-            users.users.nextcloud = {
-              uid = nextcloudUid;
-              isSystemUser = true;
-            };
-
-            services.syncthing = {
-              enable = true;
-
-              # mirror the nextcloud permissions
-              user = "nextcloud";
-              group = "nginx";
-
-              declarative = {
-                key = "/run/keys/syncthing-${name}.key";
-                cert = "/run/keys/syncthing-${name}.crt";
-                devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
-                folders = values.folders;
-              };
-            };
-          };
-    };
+  };
 in
 {
   services.postgresql.ensureDatabases = [ "nextcloud" ];
@@ -85,7 +84,7 @@ in
     after = [ "postgresql.service" ];
   };
 
-  ptsd.secrets.files."ncadmin-pw" = {};
+  ptsd.secrets.files."ncadmin-pw" = { };
 
   # this is not set inside nixpkgs for NextCloud as of 19.09
   users.users.nextcloud = {
@@ -180,18 +179,19 @@ in
   ];
 
   ptsd.secrets.files = {
-    "syncthing-enno.key" = {};
-    "syncthing-enno.crt" = {};
-    "syncthing-luisa.key" = {};
-    "syncthing-luisa.crt" = {};
+    "syncthing-enno.key" = { };
+    "syncthing-enno.crt" = { };
+    "syncthing-luisa.key" = { };
+    "syncthing-luisa.crt" = { };
   };
 
   containers = mapAttrs' generateSyncthingContainer {
 
     # device-id enno: 2U7PBTB-3AVWHDO-KKITN5S-JW5AKLX-2MLBQOR-PJDL2QH-BZZJBMD-DFX3MQI
-    "enno" = let
-      root = "/var/lib/nextcloud/data/enno/files";
-    in
+    "enno" =
+      let
+        root = "/var/lib/nextcloud/data/enno/files";
+      in
       {
         folders = {
           "${root}/FPV" = {
@@ -214,9 +214,10 @@ in
       };
 
     # device-id luisa: HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW
-    "luisa" = let
-      root = "/var/lib/nextcloud/data/luisa/files";
-    in
+    "luisa" =
+      let
+        root = "/var/lib/nextcloud/data/luisa/files";
+      in
       {
         folders = {
           "${root}/LuNo" = {

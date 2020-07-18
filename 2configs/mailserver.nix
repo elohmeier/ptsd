@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   fqdn = "htz2.host.nerdworks.de"; # has reverse DNS
 in
@@ -13,7 +12,7 @@ in
     fqdn = fqdn;
     domains = [ "nerdworks.de" "nerd-works.de" ];
 
-    loginAccounts = {};
+    loginAccounts = { };
 
     certificateScheme = 1;
     certificateFile = "/var/lib/acme/mail.nerdworks.de/cert.pem";

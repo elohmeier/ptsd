@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
-
 let
-  unstable = import <nixpkgs-unstable> {};
+  unstable = import <nixpkgs-unstable> { };
   domain = "bitwarden.services.nerdworks.de";
 in
 {

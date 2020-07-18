@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   rdp-assi = prog: pkgs.writers.writeDash "rdp-assi" ''
-    ${pkgs.writers.writePython3 "rdp-assi-client" {} (builtins.readFile ../../src/rdp-assi-client.py)} "${prog}" "$@"
+    ${pkgs.writers.writePython3 "rdp-assi-client" { } (builtins.readFile ../../src/rdp-assi-client.py)} "${prog}" "$@"
   '';
 in
 {
@@ -16,7 +16,8 @@ in
     #   </mime-type>
     # '';
 
-    "file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI {} {
+    "file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI
+      { } {
       "Desktop Entry" = {
         Type = "Action";
         Name = "Assign PDF to Nobbofin Transaction";
@@ -30,7 +31,8 @@ in
       };
     };
 
-    "file-manager/actions/sylpheed_attach.desktop".text = lib.generators.toINI {} {
+    "file-manager/actions/sylpheed_attach.desktop".text = lib.generators.toINI
+      { } {
       "Desktop Entry" = {
         Type = "Action";
         Name = "Send via E-Mail (Sylpheed)";
@@ -44,7 +46,8 @@ in
       };
     };
 
-    "file-manager/actions/pdf2svg.desktop".text = lib.generators.toINI {} {
+    "file-manager/actions/pdf2svg.desktop".text = lib.generators.toINI
+      { } {
       "Desktop Entry" = {
         Type = "Action";
         Name = "Convert PDF to SVG";
@@ -58,7 +61,8 @@ in
       };
     };
 
-    "file-manager/actions/pdfduplex.desktop".text = lib.generators.toINI {} {
+    "file-manager/actions/pdfduplex.desktop".text = lib.generators.toINI
+      { } {
       "Desktop Entry" = {
         Type = "Action";
         Name = "Convert A & B PDF to Duplex-PDF";
@@ -76,7 +80,8 @@ in
     };
 
     "applications/vim.desktop" = {
-      text = lib.generators.toINI {} {
+      text = lib.generators.toINI
+        { } {
         "Desktop Entry" = {
           Name = "Vim";
           Comment = "Edit text files in a console using Vim";
@@ -95,7 +100,8 @@ in
 
     "applications/excel-rdp.desktop" =
       {
-        text = lib.generators.toINI {} {
+        text = lib.generators.toINI
+          { } {
           "Desktop Entry" = {
             Name = "Excel (RDP)";
             Comment = "Edit file using Excel via RDP";
@@ -110,7 +116,8 @@ in
 
     "applications/word-rdp.desktop" =
       {
-        text = lib.generators.toINI {} {
+        text = lib.generators.toINI
+          { } {
           "Desktop Entry" = {
             Name = "Word (RDP)";
             Comment = "Edit file using Word via RDP";
@@ -125,7 +132,8 @@ in
 
     "applications/powerpoint-rdp.desktop" =
       {
-        text = lib.generators.toINI {} {
+        text = lib.generators.toINI
+          { } {
           "Desktop Entry" = {
             Name = "PowerPoint (RDP)";
             Comment = "Edit file using PowerPoint via RDP";

@@ -29,15 +29,17 @@ in
   };
 
   systemd.network.networks = builtins.listToAttrs (
-    map (
-      brName: {
-        name = "40-${brName}";
-        value = {
-          networkConfig = {
-            ConfigureWithoutCarrier = true;
+    map
+      (
+        brName: {
+          name = "40-${brName}";
+          value = {
+            networkConfig = {
+              ConfigureWithoutCarrier = true;
+            };
           };
-        };
-      }
-    ) bridgeIfs
+        }
+      )
+      bridgeIfs
   );
 }

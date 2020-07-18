@@ -1,6 +1,5 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
-
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
@@ -130,12 +129,13 @@ in
       # added for local tls monitoring
       "loopback6-https".address = "[::1]:443";
     };
-    certificates = let
-      crt = domain: {
-        certFile = "/var/lib/acme/${domain}/cert.pem";
-        keyFile = "/var/lib/acme/${domain}/key.pem";
-      };
-    in
+    certificates =
+      let
+        crt = domain: {
+          certFile = "/var/lib/acme/${domain}/cert.pem";
+          keyFile = "/var/lib/acme/${domain}/key.pem";
+        };
+      in
       [
         (crt "nas1.lan.nerdworks.de")
         (crt "wiki.services.nerdworks.de")
@@ -149,12 +149,13 @@ in
   };
 
   security.acme = {
-    certs = let
-      envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
-        ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
-        ACME_DNS_API_BASE=https://auth.nerdworks.de
-      '';
-    in
+    certs =
+      let
+        envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+          ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
+          ACME_DNS_API_BASE=https://auth.nerdworks.de
+        '';
+      in
       {
         "wiki.services.nerdworks.de" = {
           dnsProvider = "acme-dns";

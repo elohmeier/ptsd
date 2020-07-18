@@ -1,5 +1,4 @@
 { stdenv, fetchurl, unzip, makeDesktopItem, nwjs, wrapGAppsHook, gsettings-desktop-schemas, gtk3 }:
-
 let
   pname = "betaflight-blackbox-explorer";
   version = "3.5.0";

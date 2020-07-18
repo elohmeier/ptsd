@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> {} }:
+{ pkgs ? import <nixpkgs> { } }:
 
 # you need to comment out the #LD... lines in patcher/run.sh to get this working.
 (
