@@ -25,7 +25,7 @@
       ];
     };
 
-  swapDevices = [ { device = "/dev/sdb1"; } ];
+  swapDevices = [{ device = "/dev/sdb1"; }];
 
   networking.hostId = "614E1851"; # required for zfs
 

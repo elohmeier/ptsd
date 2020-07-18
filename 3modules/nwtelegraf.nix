@@ -24,34 +24,37 @@ let
         disk = {
           ignore_fs = [ "tmpfs" "devtmpfs" ];
         };
-        diskio = {};
-        interrupts = {};
-        kernel = {};
-        linux_sysctl_fs = {};
-        mem = {};
-        net = {};
-        netstat = {};
-        processes = {};
-        swap = {};
-        system = {};
-        systemd_units = {};
-        temp = {};
-      } // lib.optionalAttrs (cfg.inputs.file != []) { file = cfg.inputs.file; }
-      // lib.optionalAttrs (cfg.inputs.http != []) { http = cfg.inputs.http; }
-      // lib.optionalAttrs (cfg.inputs.http_response != []) { http_response = cfg.inputs.http_response; }
-      // lib.optionalAttrs (cfg.inputs.influxdb != []) { influxdb = cfg.inputs.influxdb; }
-      // lib.optionalAttrs (cfg.inputs.wireguard != [] && (lib.versionAtLeast cfg.package.version "1.14")) { wireguard = cfg.inputs.wireguard; }
-      // lib.optionalAttrs (cfg.inputs.x509_cert != []) { x509_cert = cfg.inputs.x509_cert; };
+        diskio = { };
+        interrupts = { };
+        kernel = { };
+        linux_sysctl_fs = { };
+        mem = { };
+        net = { };
+        netstat = { };
+        processes = { };
+        swap = { };
+        system = { };
+        systemd_units = { };
+        temp = { };
+      } // lib.optionalAttrs (cfg.inputs.file != [ ]) { file = cfg.inputs.file; }
+      // lib.optionalAttrs (cfg.inputs.http != [ ]) { http = cfg.inputs.http; }
+      // lib.optionalAttrs (cfg.inputs.http_response != [ ]) { http_response = cfg.inputs.http_response; }
+      // lib.optionalAttrs (cfg.inputs.influxdb != [ ]) { influxdb = cfg.inputs.influxdb; }
+      // lib.optionalAttrs (cfg.inputs.wireguard != [ ] && (lib.versionAtLeast cfg.package.version "1.14")) { wireguard = cfg.inputs.wireguard; }
+      // lib.optionalAttrs (cfg.inputs.x509_cert != [ ]) { x509_cert = cfg.inputs.x509_cert; };
     };
 
-  configFile = pkgs.runCommand "config.toml" {
-    buildInputs = [ pkgs.remarshal ];
-    preferLocalBuild = true;
-  } ''
-    remarshal -if json -of toml \
-      < ${pkgs.writeText "config.json" (builtins.toJSON configOptions)} \
-      > $out
-  '';
+  configFile =
+    pkgs.runCommand "config.toml"
+      {
+        buildInputs = [ pkgs.remarshal ];
+        preferLocalBuild = true;
+      } ''
+      remarshal -if json -of toml \
+        < ${pkgs.writeText "config.json"
+        (builtins.toJSON configOptions)} \
+        > $out
+    '';
 in
 {
 
@@ -67,12 +70,12 @@ in
         type = types.submodule {
           options = {
             # extend as needed
-            file = mkOption { type = types.listOf types.attrs; default = []; };
-            http = mkOption { type = types.listOf types.attrs; default = []; };
-            http_response = mkOption { type = types.listOf types.attrs; default = []; };
-            influxdb = mkOption { type = types.listOf types.attrs; default = []; };
-            wireguard = mkOption { type = types.listOf types.attrs; default = []; };
-            x509_cert = mkOption { type = types.listOf types.attrs; default = []; };
+            file = mkOption { type = types.listOf types.attrs; default = [ ]; };
+            http = mkOption { type = types.listOf types.attrs; default = [ ]; };
+            http_response = mkOption { type = types.listOf types.attrs; default = [ ]; };
+            influxdb = mkOption { type = types.listOf types.attrs; default = [ ]; };
+            wireguard = mkOption { type = types.listOf types.attrs; default = [ ]; };
+            x509_cert = mkOption { type = types.listOf types.attrs; default = [ ]; };
           };
         };
       };
@@ -96,7 +99,7 @@ in
         LimitNPROC = 512;
         LimitNOFILE = 1048576;
         NoNewPrivileges = true;
-      } // optionalAttrs (cfg.inputs.wireguard != []) {
+      } // optionalAttrs (cfg.inputs.wireguard != [ ]) {
         CapabilityBoundingSet = "CAP_NET_ADMIN CAP_NET_RAW";
         AmbientCapabilities = "CAP_NET_ADMIN CAP_NET_RAW";
       };

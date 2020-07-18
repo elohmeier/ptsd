@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  vims = pkgs.callPackage ./vims.nix {};
+  vims = pkgs.callPackage ./vims.nix { };
 in
 {
   environment.systemPackages = with pkgs; [

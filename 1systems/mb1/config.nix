@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 let
-  vims = pkgs.callPackage <ptsd/2configs/vims.nix> {};
-  fetch-tinyscans = pkgs.callPackage <ptsd/5pkgs/fetch-tinyscans> {};
+  vims = pkgs.callPackage <ptsd/2configs/vims.nix> { };
+  fetch-tinyscans = pkgs.callPackage <ptsd/5pkgs/fetch-tinyscans> { };
 in
 {
   imports = [

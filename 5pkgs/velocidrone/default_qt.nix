@@ -37,14 +37,13 @@ let
     comment = "Fast paced FPV drone racing action with multiplayer and offline modes!";
   };
 
-  src = requireFile
-    {
-      name = "velocidrone-debian-launcher.zip";
-      sha256 = "173fzs21czz07fijy36ybhsjiz73qw24zxd6ahm9v2clj4mfvgrv";
-      message = ''
-        nix-prefetch-url file://\$PWD/velocidrone-debian-launcher.zip
-      '';
-    };
+  src = requireFile {
+    name = "velocidrone-debian-launcher.zip";
+    sha256 = "173fzs21czz07fijy36ybhsjiz73qw24zxd6ahm9v2clj4mfvgrv";
+    message = ''
+      nix-prefetch-url file://\$PWD/velocidrone-debian-launcher.zip
+    '';
+  };
 
   launcherVersion = "1.5.1.0";
   launcherName = "patchkit-launcher-qt-${launcherVersion}";

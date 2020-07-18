@@ -5,7 +5,8 @@ let
   cfg = config.ptsd.radicale;
 
   confFile = pkgs.writeText "radicale.conf" (
-    generators.toINI {} {
+    generators.toINI
+      { } {
       server = {
         hosts = "127.0.0.1:${toString cfg.port}";
       };

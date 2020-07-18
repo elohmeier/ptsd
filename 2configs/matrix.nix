@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   domain = "matrix.nerdworks.de";
 in

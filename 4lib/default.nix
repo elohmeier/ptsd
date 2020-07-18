@@ -2,4 +2,4 @@
 
 with lib;
 
-rec {}
+rec { }

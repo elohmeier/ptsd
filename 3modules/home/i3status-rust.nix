@@ -5,12 +5,14 @@ let
   cfg = config.ptsd.i3status-rust;
 
   configFile =
-    pkgs.runCommand "i3status-config.toml" {
-      buildInputs = [ pkgs.remarshal ];
-      preferLocalBuild = true;
-    } ''
+    pkgs.runCommand "i3status-config.toml"
+      {
+        buildInputs = [ pkgs.remarshal ];
+        preferLocalBuild = true;
+      } ''
       remarshal -if json -of toml \
-        < ${pkgs.writeText "config.json" (builtins.toJSON cfg.config)} \
+        < ${pkgs.writeText "config.json"
+        (builtins.toJSON cfg.config)} \
         > $out
     '';
 in

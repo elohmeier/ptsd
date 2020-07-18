@@ -58,13 +58,12 @@ in
         openssh
         gitMinimal
         (
-          python3.withPackages
-            (
-              pythonPackages: with pythonPackages; [
-                pdfminer
-                weasyprint
-              ]
-            )
+          python3.withPackages (
+            pythonPackages: with pythonPackages; [
+              pdfminer
+              weasyprint
+            ]
+          )
         )
       ];
 
@@ -89,7 +88,7 @@ in
     };
 
     ptsd.secrets.files = {
-      "nobbofin.env" = {};
+      "nobbofin.env" = { };
     };
 
     systemd.timers.nobbofin-autofetch = {

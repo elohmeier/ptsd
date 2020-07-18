@@ -2,13 +2,15 @@ with import <ptsd/lib>;
 self: super:
 let
   subdirsOf = path:
-    mapAttrs (name: _: path + "/${name}")
+    mapAttrs
+      (name: _: path + "/${name}")
       (filterAttrs (_: eq "directory") (readDir path));
 in
-
-mapAttrs (_: flip self.callPackage {})
+mapAttrs
+  (_: flip self.callPackage { })
   (
-    filterAttrs (_: dir: pathExists (dir + "/default.nix"))
+    filterAttrs
+      (_: dir: pathExists (dir + "/default.nix"))
       (subdirsOf ./.)
   )
 # left for illustrative purposes

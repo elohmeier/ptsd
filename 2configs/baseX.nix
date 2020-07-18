@@ -1,5 +1,4 @@
 { config, lib, pkgs, ... }:
-
 let
   # pulseAudioFull required for bluetooth audio support
   pulseaudio = (

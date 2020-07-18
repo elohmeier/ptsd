@@ -12,12 +12,12 @@ in
     ptsd.nwlogrotate = {
       configs = mkOption {
         type = with types; listOf str;
-        default = [];
+        default = [ ];
       };
     };
   };
 
-  config = mkIf (cfg.configs != []) {
+  config = mkIf (cfg.configs != [ ]) {
 
     systemd.services.logrotate = {
       description = "logrotate service";

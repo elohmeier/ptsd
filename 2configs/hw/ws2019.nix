@@ -89,8 +89,8 @@
 
   hardware.opengl = {
     driSupport32Bit = true; # for Steam
-    extraPackages = with pkgs; [];
-    extraPackages32 = with pkgs.pkgsi686Linux; [];
+    extraPackages = with pkgs; [ ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [ ];
   };
 
   services.xserver.videoDrivers = [ "nvidia" ];

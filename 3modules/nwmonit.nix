@@ -14,7 +14,7 @@ let
       exit 1
     fi
   '';
-  smtp_to_telegram = pkgs.callPackage ../5pkgs/smtp-to-telegram {};
+  smtp_to_telegram = pkgs.callPackage ../5pkgs/smtp-to-telegram { };
 
   # service names must not start with "/", so we prefix them
   genFsCheck = path: ''
@@ -48,7 +48,7 @@ in
       };
       extraConfig = mkOption {
         type = with types; listOf str;
-        default = [];
+        default = [ ];
       };
     };
   };
@@ -57,7 +57,7 @@ in
 
     environment.systemPackages = [ smtp_to_telegram ];
 
-    users.users.smtp-to-telegram = {};
+    users.users.smtp-to-telegram = { };
 
     systemd.services.monit = {
       requires = [ "smtp-to-telegram.service" ];

@@ -6,45 +6,46 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   cfg = config.ptsd.xrdp;
-  confDir = pkgs.runCommand "xrdp.conf" { preferLocalBuild = true; } ''
-    mkdir $out
+  confDir =
+    pkgs.runCommand "xrdp.conf"
+      { preferLocalBuild = true; } ''
+      mkdir $out
 
-    cp ${cfg.package}/etc/xrdp/{km-*,xrdp,sesman,xrdp_keyboard}.ini $out
+      cp ${cfg.package}/etc/xrdp/{km-*,xrdp,sesman,xrdp_keyboard}.ini $out
 
-    cat > $out/startwm.sh <<EOF
-    #!/bin/sh
-    . /etc/profile
-    ${cfg.defaultWindowManager}
-    EOF
-    chmod +x $out/startwm.sh
+      cat > $out/startwm.sh <<EOF
+      #!/bin/sh
+      . /etc/profile
+      ${cfg.defaultWindowManager}
+      EOF
+      chmod +x $out/startwm.sh
 
-    substituteInPlace $out/xrdp.ini \
-      --replace "#rsakeys_ini=" "rsakeys_ini=/run/xrdp/rsakeys.ini" \
-      --replace "certificate=" "certificate=${cfg.sslCert}" \
-      --replace "key_file=" "key_file=${cfg.sslKey}" \
-      --replace LogFile=xrdp.log LogFile=/dev/null \
-      --replace EnableSyslog=true EnableSyslog=false
+      substituteInPlace $out/xrdp.ini \
+        --replace "#rsakeys_ini=" "rsakeys_ini=/run/xrdp/rsakeys.ini" \
+        --replace "certificate=" "certificate=${cfg.sslCert}" \
+        --replace "key_file=" "key_file=${cfg.sslKey}" \
+        --replace LogFile=xrdp.log LogFile=/dev/null \
+        --replace EnableSyslog=true EnableSyslog=false
 
-    substituteInPlace $out/sesman.ini \
-      --replace LogFile=xrdp-sesman.log LogFile=/dev/null \
-      --replace EnableSyslog=1 EnableSyslog=0
+      substituteInPlace $out/sesman.ini \
+        --replace LogFile=xrdp-sesman.log LogFile=/dev/null \
+        --replace EnableSyslog=1 EnableSyslog=0
     
-    cat >> $out/sesman.ini <<EOF
-    param=-extension
-    param=MIT-SHM
-    param=-extension
-    param=XTEST
-    EOF
+      cat >> $out/sesman.ini <<EOF
+      param=-extension
+      param=MIT-SHM
+      param=-extension
+      param=XTEST
+      EOF
 
-    # Ensure that clipboard works for non-ASCII characters
-    sed -i -e '/.*SessionVariables.*/ a\
-    LANG=${config.i18n.defaultLocale}\
-    LOCALE_ARCHIVE=${config.i18n.glibcLocales}/lib/locale/locale-archive
-    ' $out/sesman.ini
-  '';
+      # Ensure that clipboard works for non-ASCII characters
+      sed -i -e '/.*SessionVariables.*/ a\
+      LANG=${config.i18n.defaultLocale}\
+      LOCALE_ARCHIVE=${config.i18n.glibcLocales}/lib/locale/locale-archive
+      ' $out/sesman.ini
+    '';
 in
 {
 
@@ -175,7 +176,7 @@ in
       isSystemUser = true;
       group = "xrdp";
     };
-    users.groups.xrdp = {};
+    users.groups.xrdp = { };
 
     security.pam.services.xrdp-sesman = { allowNullPassword = true; startSession = true; };
   };

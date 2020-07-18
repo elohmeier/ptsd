@@ -5,7 +5,8 @@ with import <ptsd/lib>;
   imports = [
     {
       services.mosquitto.users =
-        mapAttrs (_: h: { hashedPassword = h; })
+        mapAttrs
+          (_: h: { hashedPassword = h; })
           (import <secrets/mosquittoHashedPasswords.nix>);
     }
   ];

@@ -46,7 +46,7 @@ in
     }
   ];
 
-  users.groups.certs = {};
+  users.groups.certs = { };
   ptsd.nwtraefik.groups = "certs";
 
   #ptsd.nwbackup = {

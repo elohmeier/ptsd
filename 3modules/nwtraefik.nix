@@ -4,12 +4,15 @@ with lib;
 let
   cfg = config.ptsd.nwtraefik;
 
-  configFile = fileName: configOptions: pkgs.runCommand fileName {
-    buildInputs = [ pkgs.remarshal ];
-    preferLocalBuild = true;
-  } ''
+  configFile = fileName: configOptions: pkgs.runCommand
+    fileName
+    {
+      buildInputs = [ pkgs.remarshal ];
+      preferLocalBuild = true;
+    } ''
     remarshal -if json -of toml \
-      < ${pkgs.writeText "config.json" (builtins.toJSON configOptions)} \
+      < ${pkgs.writeText "config.json"
+      (builtins.toJSON configOptions)} \
       > $out
   '';
 
@@ -33,51 +36,60 @@ let
           keyFile = cfg.defaultCertificate.keyFile;
         };
       };
-      certificates = map (
-        crt: {
-          certFile = crt.certFile;
-          keyFile = crt.keyFile;
-          stores = [ "default" ];
-        }
-      ) cfg.certificates;
+      certificates =
+        map
+          (
+            crt: {
+              certFile = crt.certFile;
+              keyFile = crt.keyFile;
+              stores = [ "default" ];
+            }
+          )
+          cfg.certificates;
     };
 
     http = {
 
       routers = builtins.listToAttrs (
-        map (
-          svc: {
-            name = svc.name;
-            value = {
-              entryPoints = svc.entryPoints;
-              rule = svc.rule;
-              service = svc.name;
-              middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != {}) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != []) "${svc.name}-stripPrefix";
-              tls = lib.optionalAttrs svc.letsencrypt {
-                certResolver = "letsencrypt";
+        map
+          (
+            svc: {
+              name = svc.name;
+              value = {
+                entryPoints = svc.entryPoints;
+                rule = svc.rule;
+                service = svc.name;
+                middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
+                tls = lib.optionalAttrs svc.letsencrypt {
+                  certResolver = "letsencrypt";
+                };
               };
-            };
-          }
-        ) cfg.services
+            }
+          )
+          cfg.services
       );
 
       middlewares = (
         builtins.listToAttrs (
-          map (
-            svc: {
-              name = "${svc.name}-auth";
-              value = svc.auth;
-            }
-          ) (filter (svc: svc.auth != {}) cfg.services)
+          map
+            (
+              svc: {
+                name = "${svc.name}-auth";
+                value = svc.auth;
+              }
+            )
+            (filter (svc: svc.auth != { }) cfg.services)
         )
       ) // (
         builtins.listToAttrs (
-          map (
-            svc: {
-              name = "${svc.name}-stripPrefix";
-              value = { stripPrefix.prefixes = svc.stripPrefixes; };
-            }
-          ) (filter (svc: svc.stripPrefixes != []) cfg.services)
+          map
+            (
+              svc: {
+                name = "${svc.name}-stripPrefix";
+                value = { stripPrefix.prefixes = svc.stripPrefixes; };
+              }
+            )
+            (filter (svc: svc.stripPrefixes != [ ]) cfg.services)
         )
       ) // {
         securityHeaders.headers = {
@@ -92,19 +104,21 @@ let
       };
 
       services = builtins.listToAttrs (
-        map (
-          svc: {
-            name = svc.name;
-            value = {
-              loadBalancer = {
-                passHostHeader = svc.passHostHeader;
-                servers = [
-                  { url = if (svc.url != "") then svc.url else "http://localhost:${toString cfg.ports."${svc.name}"}"; }
-                ];
+        map
+          (
+            svc: {
+              name = svc.name;
+              value = {
+                loadBalancer = {
+                  passHostHeader = svc.passHostHeader;
+                  servers = [
+                    { url = if (svc.url != "") then svc.url else "http://localhost:${toString cfg.ports."${svc.name}"}"; }
+                  ];
+                };
               };
-            };
-          }
-        ) cfg.services
+            }
+          )
+          cfg.services
       );
 
     };
@@ -122,14 +136,17 @@ let
       filePath = "/var/log/traefik/access.log";
       bufferingSize = 100;
     };
-    entryPoints = mapAttrs' (
-      name: values:
-        nameValuePair name {
-          address = values.address;
-        } // lib.optionalAttrs (values.http != {}) {
-          http = values.http;
-        }
-    ) cfg.entryPoints;
+    entryPoints =
+      mapAttrs'
+        (
+          name: values:
+            nameValuePair name {
+              address = values.address;
+            } // lib.optionalAttrs (values.http != { }) {
+              http = values.http;
+            }
+        )
+        cfg.entryPoints;
   } // optionalAttrs cfg.acmeEnabled {
     certificatesResolvers.letsencrypt.acme = {
       email = "elo-lenc@nerdworks.de";
@@ -172,7 +189,7 @@ in
                 };
                 http = mkOption {
                   type = types.attrs;
-                  default = {};
+                  default = { };
                 };
               };
             }
@@ -240,17 +257,17 @@ in
           types.submodule {
             options = {
               name = mkOption { type = types.str; };
-              entryPoints = mkOption { type = types.listOf types.str; default = []; };
+              entryPoints = mkOption { type = types.listOf types.str; default = [ ]; };
               rule = mkOption { type = types.str; };
-              auth = mkOption { type = types.attrs; default = {}; };
+              auth = mkOption { type = types.attrs; default = { }; };
               url = mkOption { type = types.str; default = ""; };
               letsencrypt = mkOption { type = types.bool; default = false; };
-              stripPrefixes = mkOption { type = types.listOf types.str; default = []; };
+              stripPrefixes = mkOption { type = types.listOf types.str; default = [ ]; };
               passHostHeader = mkOption { type = types.bool; default = true; };
             };
           }
         );
-        default = [];
+        default = [ ];
         example = [
           {
             name = "nerdworkswww";
@@ -304,15 +321,19 @@ in
             message = "ptsd.nwtraefik.acmeEntryPoint \"${cfg.acmeEntryPoint}\" has to be defined in ptsd.nwtraefik.entryPoints";
           }
         ] ++ flatten (
-          map (
-            svc:
-              map (
-                entryPoint: {
-                  assertion = hasAttr entryPoint cfg.entryPoints;
-                  message = "ptsd.nwtraefik.services: entryPoint \"${entryPoint}\" used by service \"${svc.name}\" has to be defined in ptsd.nwtraefik.entryPoints";
-                }
-              ) svc.entryPoints
-          ) cfg.services
+          map
+            (
+              svc:
+              map
+                (
+                  entryPoint: {
+                    assertion = hasAttr entryPoint cfg.entryPoints;
+                    message = "ptsd.nwtraefik.services: entryPoint \"${entryPoint}\" used by service \"${svc.name}\" has to be defined in ptsd.nwtraefik.entryPoints";
+                  }
+                )
+                svc.entryPoints
+            )
+            cfg.services
         );
 
         systemd.services.traefik = {

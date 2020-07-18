@@ -8,7 +8,7 @@ in
     package = pkgs.nwhass;
   };
 
-  networking.firewall.allowedTCPPortRanges = [ { from = 30000; to = 50000; } ]; # for pyhomematic
+  networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
 
   ptsd.nwtraefik.services = [
     {

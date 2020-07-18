@@ -1,4 +1,4 @@
-{ lib, pkgs, symlinkJoin, writeScriptBin, writeShellScriptBin, repos ? [], ... }:
+{ lib, pkgs, symlinkJoin, writeScriptBin, writeShellScriptBin, repos ? [ ], ... }:
 let
   penv =
     pkgs.python3.withPackages (pythonPackages: with pythonPackages; [ click ]);
@@ -10,7 +10,8 @@ let
       ZFS_PATH = "${pkgs.zfs}/bin/zfs"
       ZPOOL_PATH = "${pkgs.zfs}/bin/zpool"
     ''
-  ] (builtins.readFile ./init-backup-device.py);
+  ]
+    (builtins.readFile ./init-backup-device.py);
 
   script = writeScriptBin "init-backup-device" ''
     #!${penv}/bin/python3

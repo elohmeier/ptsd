@@ -24,7 +24,7 @@ in
 
       env = mkOption {
         type = types.attrs;
-        default = {};
+        default = { };
       };
     };
   };

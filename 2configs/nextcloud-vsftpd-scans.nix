@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-
 let
   # logins = pkgs.writeText "logins.txt" ''
   #   enno
@@ -10,9 +9,11 @@ let
   #   luisa
   # '';
   logins = <secrets/vsftpd-logins.txt>;
-  userDb = pkgs.runCommand "userDb.db" { preferLocalBuild = true; } ''
-    ${pkgs.db}/bin/db_load -T -t hash -f ${logins} $out
-  '';
+  userDb =
+    pkgs.runCommand "userDb.db"
+      { preferLocalBuild = true; } ''
+      ${pkgs.db}/bin/db_load -T -t hash -f ${logins} $out
+    '';
   cfg = {
     allow_writeable_chroot = "yes";
     anonymous_enable = "no";
@@ -36,7 +37,7 @@ let
     write_enable = "yes";
   };
   configFile = pkgs.writeText "vsftpd.conf" (
-    generators.toKeyValue {} cfg
+    generators.toKeyValue { } cfg
   );
 in
 {

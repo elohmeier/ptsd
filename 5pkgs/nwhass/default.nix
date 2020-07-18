@@ -24,7 +24,7 @@ home-assistant.override {
     ps.paho-mqtt
     ps.pyicloud
     ps.psycopg2
-    (ps.callPackage ../pyfritzhome {})
+    (ps.callPackage ../pyfritzhome { })
     (
       # use latest version
       ps.pyhomematic.overrideAttrs (
@@ -38,7 +38,7 @@ home-assistant.override {
         }
       )
     )
-    (ps.callPackage ../PyMetno {})
+    (ps.callPackage ../PyMetno { })
     ps.pynacl
     (
       # seems to work again as of 2020-05-01

@@ -5,11 +5,13 @@ let
   lanDomain = "lan.nerdworks.de";
   universe = import <ptsd/2configs/universe.nix>;
 
-  cups-tls = pkgs.runCommand "cups-tls" {} ''
-    mkdir -p $out
-    ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/fullchain.pem" "$out/${config.networking.hostName}.${config.networking.domain}.crt"
-    ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem" "$out/${config.networking.hostName}.${config.networking.domain}.key"  
-  '';
+  cups-tls =
+    pkgs.runCommand "cups-tls"
+      { } ''
+      mkdir -p $out
+      ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/fullchain.pem" "$out/${config.networking.hostName}.${config.networking.domain}.crt"
+      ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem" "$out/${config.networking.hostName}.${config.networking.domain}.key"  
+    '';
 in
 {
   users.groups.certs.members = [ "cups" ];

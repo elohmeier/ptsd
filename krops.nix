@@ -16,7 +16,7 @@ let
   krops = ./submodules/krops;
 
   lib = import "${krops}/lib";
-  pkgs = import "${krops}/pkgs" {};
+  pkgs = import "${krops}/pkgs" { };
 
   source = lib.evalSource [
     {

@@ -1,6 +1,5 @@
 with import <ptsd/lib>;
 { config, lib, pkgs, ... }:
-
 let
   universe = import <ptsd/2configs/universe.nix>;
 in

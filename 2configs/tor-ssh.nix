@@ -18,14 +18,14 @@
         let
           hsfile = "/var/lib/tor/onion/ssh/hostname";
         in
-          pkgs.writers.writeDash "telegram-announce-ssh" ''
-            set -efu
-            until test -e ${hsfile}; do
-              echo "waiting for ${hsfile}"
-              sleep 1
-            done
-            ${pkgs."telegram.sh"}/bin/telegram "SSH Hidden Service for ${config.networking.hostName} at $(cat ${hsfile})"
-          '';
+        pkgs.writers.writeDash "telegram-announce-ssh" ''
+          set -efu
+          until test -e ${hsfile}; do
+            echo "waiting for ${hsfile}"
+            sleep 1
+          done
+          ${pkgs."telegram.sh"}/bin/telegram "SSH Hidden Service for ${config.networking.hostName} at $(cat ${hsfile})"
+        '';
       PrivateTmp = true;
       User = "tor";
       Type = "oneshot";
