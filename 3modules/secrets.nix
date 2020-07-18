@@ -30,7 +30,6 @@ let
         Restart = "no";
       };
     };
-
 in
 {
   options = {

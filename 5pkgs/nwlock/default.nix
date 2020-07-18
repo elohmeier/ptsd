@@ -26,7 +26,6 @@ let
     ${myxsecurelock}/bin/xsecurelock
     rm -f $TMPIMG
   '';
-
 in
 symlinkJoin {
   name = "xsecurelock-nwlock";

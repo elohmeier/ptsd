@@ -19,10 +19,11 @@ let
           };
         }
       );
-  blackboxConfigFile = pkgs.runCommand "blackbox.yaml"
-    { preferLocalBuild = true; } ''
-    ${pkgs.remarshal}/bin/json2yaml -i ${blackboxConfigJSON} -o $out
-  '';
+  blackboxConfigFile =
+    pkgs.runCommand "blackbox.yaml"
+      { preferLocalBuild = true; } ''
+      ${pkgs.remarshal}/bin/json2yaml -i ${blackboxConfigJSON} -o $out
+    '';
 in
 {
   # access via localhost
