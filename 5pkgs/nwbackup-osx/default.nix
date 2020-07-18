@@ -1,8 +1,8 @@
-{ writers, symlinkJoin, borgbackup, pass, targetName, targetHost }:
+{ writeShellScriptBin, symlinkJoin, borgbackup, pass, targetName, targetHost }:
 let
   universe = import <ptsd/2configs/universe.nix>;
 
-  backup-script = writers.writeDashBin "nwbackup-osx-${targetName}" ''
+  backup-script = writeShellScriptBin "nwbackup-osx-${targetName}" ''
     set -e
 
     export BORG_REPO="borg-$(hostname -s)@${targetHost}:."
@@ -29,7 +29,7 @@ let
     ${borgbackup}/bin/borg info "::$archiveName"
   '';
 
-  init-script = writers.writeDashBin "nwbackup-osx-${targetName}-init" ''
+  init-script = writeShellScriptBin "nwbackup-osx-${targetName}-init" ''
     set -e
 
     export BORG_REPO="borg-$(hostname -s)@${targetHost}:."

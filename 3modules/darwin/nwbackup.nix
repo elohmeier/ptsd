@@ -8,7 +8,7 @@ let
     # Write each exclude pattern to a new line
     pkgs.writeText "excludefile" (concatStringsSep "\n" cfg.exclude);
 
-  script = pkgs.writers.writeDashBin "nwbackup-nas1" ''
+  script = pkgs.writeShellScriptBin "nwbackup-nas1" ''
     set -e
 
     archiveName="$(hostname -s)-$(date +%Y-%m-%dT%H:%M:%S)"
@@ -26,7 +26,7 @@ let
       ::$archiveName \
       ${escapeShellArgs cfg.paths}
   '';
-  script-init = pkgs.writers.writeDashBin "nwbackup-nas1-init" ''
+  script-init = pkgs.writeShellScriptBin "nwbackup-nas1-init" ''
     ${pkgs.borgbackup}/bin/borg init -e repokey-blake2
   '';
 in
