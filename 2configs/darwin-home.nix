@@ -35,7 +35,11 @@ in
     nixpkgs-fmt
     lorri
     procps
-    osx-fix-alacritty # run this to fix unknown TERM error
+    (pkgs.callPackage ../5pkgs/osx-fix-alacritty { }) # run this to fix unknown TERM error
+    rsync
+    mc
+    ncdu
+    ripgrep
   ];
 
   programs.direnv = {
