@@ -2,6 +2,11 @@
 let
   #homeSecrets = import /run/keys/home-secrets.nix;
   homeSecrets = import <client-secrets/home-secrets.nix>;
+  unstable = import <nixpkgs-unstable> {
+    config = {
+      allowUnfree = true;
+    };
+  };
 in
 {
   imports = [
@@ -62,7 +67,7 @@ in
     file.".baresip/uuid".text = ''2e3a60c7-c86f-af8f-591a-9d1903d9d5dc'';
 
     packages = with pkgs; [
-      prusa-slicer
+      unstable.prusa-slicer
       freecad
     ];
   };
