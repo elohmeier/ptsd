@@ -1,0 +1,12 @@
+diff --git a/hidclient.c b/hidclient.c
+index 5bd8ed4..4204cfa 100644
+--- a/hidclient.c
++++ b/hidclient.c
+@@ -102,7 +102,6 @@
+ #include <stdlib.h>
+ #include <string.h>
+ #include <unistd.h>
+-#include <stropts.h>
+ #include <sys/stat.h>
+ #include <sys/time.h>
+ #include <sys/types.h>

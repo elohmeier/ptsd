@@ -158,6 +158,7 @@ in
     bitwarden-cli
     nbconvert
     peek
+    hidclient
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
