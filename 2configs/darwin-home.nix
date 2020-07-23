@@ -47,6 +47,8 @@ in
     enableZshIntegration = true;
   };
 
+  programs.gpg.enable = true;
+
   home.sessionVariables = {
     EDITOR = "vim";
     PASSWORD_STORE_DIR = "/Users/enno/repos/password-store";
