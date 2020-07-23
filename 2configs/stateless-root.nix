@@ -40,4 +40,14 @@
         options = [ "bind" ];
       };
   };
+
+  system.activationScripts.initialize-persist-drive = lib.stringAfter [ "users" "groups" ] ''
+    mkdir -p /persist/etc/NetworkManager/system-connections/
+    mkdir -p /persist/var/cache/borg
+    mkdir -p /persist/var/lib/acme
+    mkdir -p /persist/var/lib/bluetooth
+    mkdir -p /persist/var/lib/libvirt/qemu
+    mkdir -p /persist/var/lib/samba
+    mkdir -p /persist/var/lib/systemd
+  '';
 }
