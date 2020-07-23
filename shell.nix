@@ -1,4 +1,4 @@
-{ pkgs ? import <nixpkgs> { } }:
+{ pkgs ? import <nixpkgs-unstable> { } }:
 let
   scripts = pkgs.lib.mapAttrsToList (name: value: pkgs.writeShellScriptBin name value) {
     mk-pretty = ''
