@@ -37,6 +37,7 @@ in
 
   environment.systemPackages = with pkgs; [
     git
+    zstd # can be removed in 20.09 (default there)
     gen-secrets
     syncthing-device-id
     nwvpn-qr
