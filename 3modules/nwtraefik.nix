@@ -369,22 +369,20 @@ in
           };
         };
 
-        ptsd.nwlogrotate.configs = [
-          ''
-            /var/log/traefik/*.log {
-              daily
-              rotate 7
-              missingok
-              notifempty
-              compress
-              dateext
-              dateformat .%Y-%m-%d
-              postrotate
-                systemctl kill -s USR1 traefik.service
-              endscript
-            }
-          ''
-        ];
+        ptsd.nwlogrotate.config = ''
+          /var/log/traefik/*.log {
+            daily
+            rotate 7
+            missingok
+            notifempty
+            compress
+            dateext
+            dateformat .%Y-%m-%d
+            postrotate
+              systemctl kill -s USR1 traefik.service
+            endscript
+          }
+        '';
 
         # we assume that traefik deployments will have a configured entrypoint listening on the loopback interface
         ptsd.nwtelegraf.inputs.x509_cert = [

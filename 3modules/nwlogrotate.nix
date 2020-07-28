@@ -3,21 +3,18 @@
 with lib;
 let
   cfg = config.ptsd.nwlogrotate;
-  logrotateConfig = pkgs.writeText "logrotate.conf" ''
-    ${lib.concatMapStrings (x: "\n${x}") cfg.configs}
-  '';
 in
 {
   options = {
     ptsd.nwlogrotate = {
-      configs = mkOption {
-        type = with types; listOf str;
-        default = [ ];
+      config = mkOption {
+        type = types.lines;
+        default = "";
       };
     };
   };
 
-  config = mkIf (cfg.configs != [ ]) {
+  config = mkIf (cfg.config != "") {
 
     systemd.services.logrotate = {
       description = "logrotate service";
@@ -25,7 +22,7 @@ in
       startAt = "daily";
 
       serviceConfig = {
-        ExecStart = "${pkgs.logrotate}/sbin/logrotate --state /var/lib/logrotate/state ${logrotateConfig}";
+        ExecStart = "${pkgs.logrotate}/sbin/logrotate --state /var/lib/logrotate/state ${pkgs.writeText "logrotate.conf" cfg.config}";
         NoNewPrivileges = true;
         PrivateTmp = true;
         PrivateDevices = true;
