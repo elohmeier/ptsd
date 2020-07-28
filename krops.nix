@@ -1,5 +1,6 @@
 { name
 , desktop ? false
+, snixpkgs ? "./nixpkgs.json"
 , unstable ? false
 , mailserver ? false
 , secrets ? true
@@ -22,7 +23,7 @@ let
     {
       nixpkgs.git = {
         clean.exclude = [ "/.version-suffix" ];
-        ref = (lib.importJSON ./nixpkgs.json).rev;
+        ref = (lib.importJSON snixpkgs).rev;
         url = https://github.com/NixOS/nixpkgs;
         shallow = true;
       };
