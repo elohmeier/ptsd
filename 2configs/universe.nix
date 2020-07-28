@@ -310,6 +310,22 @@
     # RPi-HomeMatic      
     #};
 
+    rpi4 = {
+      # RPi 4, KVM
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.42";
+          aliases = [
+            "rpi4.nw"
+          ];
+          wireguard.pubkey = "uDl6XZq9Fdld0VPp6vRPpaexoV4rBmpqK3hlDTSenmc=";
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPfSkbsHju/PLP527ghKEn/YlSHY8I8Y1fXVSkmUnLEE ";
+      syncthing.id = "7BIKFUR-AV4WN5J-UGPEVCW-2W3MNDP-AKNHCFJ-6LZABHY-KKICNRF-CMVDHQF";
+    };
+
     tp1 = {
       nets = {
         nwvpn = {
