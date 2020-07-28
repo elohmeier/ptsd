@@ -9,7 +9,7 @@ let
     text = ''
       DATABASE_URL = '${cfg.databaseUrl}'
       DATABASE_NAME = '${cfg.databaseName}'
-      LOG_FILE = '${cfg.logDir}/alertad.log'
+      LOG_FILE = '/var/log/alerta/alertad.log'
       LOG_FORMAT = '%(asctime)s - %(name)s - %(levelname)s - %(message)s'
       CORS_ORIGINS = [ ${concatMapStringsSep ", " (s: "\"" + s + "\"") cfg.corsOrigins} ];
       AUTH_REQUIRED = ${if cfg.authenticationRequired then "True" else "False"}
@@ -35,16 +35,9 @@ in
       description = "Address to bind to. The default is to bind to all addresses";
     };
 
-    logDir = mkOption {
-      type = types.path;
-      description = "Location where the logfiles are stored";
-      default = "/var/log/alerta";
-    };
-
     databaseUrl = mkOption {
       type = types.str;
       description = "URL of the MongoDB or PostgreSQL database to connect to";
-      default = "mongodb://localhost";
       example = "mongodb://localhost";
     };
 
@@ -82,19 +75,16 @@ in
 
     serverPackage = mkOption {
       type = types.package;
-      default = pkgs.python36Packages.alerta-server;
+      default = pkgs.python3Packages.alerta-server;
     };
 
     clientPackage = mkOption {
       type = types.package;
-      default = pkgs.python36Packages.alerta;
+      default = pkgs.python3Packages.alerta;
     };
   };
 
   config = mkIf cfg.enable {
-    systemd.tmpfiles.rules = [
-      "d '${cfg.logDir}' - alerta alerta - -"
-    ];
 
     systemd.services.alerta = {
       description = "Alerta Monitoring System";
@@ -105,20 +95,16 @@ in
       };
       serviceConfig = {
         ExecStart = "${cfg.serverPackage}/bin/alertad run --port ${toString cfg.port} --host ${cfg.bind}";
-        User = "alerta";
-        Group = "alerta";
+        DynamicUser = true;
+        LogsDirectory = "alerta";
+        Restart = "on-failure";
+        PrivateTmp = "true";
+        ProtectSystem = "full";
+        ProtectHome = "true";
+        NoNewPrivileges = "true";
       };
     };
 
     environment.systemPackages = [ cfg.clientPackage ];
-
-    users.users.alerta = {
-      uid = config.ids.uids.alerta;
-      description = "Alerta user";
-    };
-
-    users.groups.alerta = {
-      gid = config.ids.gids.alerta;
-    };
   };
 }
