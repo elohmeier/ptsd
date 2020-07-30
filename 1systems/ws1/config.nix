@@ -42,6 +42,27 @@ in
 
   ptsd.nwbackup.repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
 
+  services.avahi.enable = true;
+
+  networking = {
+    hostName = "ws1";
+    useNetworkd = true;
+    useDHCP = false;
+
+    bridges.br0.interfaces = [ "enp39s0" ];
+    interfaces.br0.useDHCP = true;
+  };
+
+  systemd.network.networks."40-br0".routes = [
+    {
+      routeConfig = {
+        Destination = "${universe.hosts.nas1.nets.nwvpn.ip4.addr}/32";
+        Gateway = universe.hosts.nas1.nets.bs53lan.ip4.addr;
+        GatewayOnLink = "yes";
+      };
+    }
+  ];
+
   ptsd.wireguard.networks = {
     dlrgvpn = {
       enable = true;
@@ -74,17 +95,6 @@ in
       # monitorConfig = ''Option "Rotate" "left"'';
     }
   ];
-
-  services.avahi.enable = true;
-
-  networking = {
-    hostName = "ws1";
-    useNetworkd = true;
-    useDHCP = false;
-
-    bridges.br0.interfaces = [ "enp39s0" ];
-    interfaces.br0.useDHCP = true;
-  };
 
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [ brlaser ];
