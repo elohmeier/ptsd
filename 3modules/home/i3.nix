@@ -414,6 +414,13 @@ in
             warning = 5;
             alert = 1;
           }
+          {
+            block = "disk_space";
+            path = "/tmp";
+            alias = "/tmp";
+            warning = 5;
+            alert = 1;
+          }
         ] ++ optional cfg.showWifiStatus {
           block = "net";
           device = "wlp59s0";
