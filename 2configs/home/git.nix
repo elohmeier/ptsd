@@ -1,10 +1,9 @@
 { config, pkgs, ... }:
 
 {
-
   programs.git = {
     enable = true;
-    package = pkgs.gitMinimal;
+    package = pkgs.git;
     userName = "Enno Lohmeier";
     userEmail = "enno@nerdworks.de";
     signing = {
@@ -12,5 +11,11 @@
       signByDefault = false;
     };
     ignores = [ "*~" "*.swp" ".ipynb_checkpoints/" ];
+    extraConfig = {
+      pull = {
+        rebase = false;
+        ff = "only";
+      };
+    };
   };
 }
