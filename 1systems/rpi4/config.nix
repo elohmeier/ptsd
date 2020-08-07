@@ -1,7 +1,7 @@
 { config, pkgs, ... }:
 let
   universe = import <ptsd/2configs/universe.nix>;
-  tinypilot = pkgs.python3Packages.callPackage <ptsd/5pkgs/tinypilot> { };
+  tinypilot = pkgs.python37Packages.callPackage <ptsd/5pkgs/tinypilot> { };
 in
 {
   imports = [
@@ -10,6 +10,8 @@ in
     <ptsd/2configs/nwhost-mini.nix>
     <secrets-shared/nwsecrets.nix>
     #<ptsd/2configs/prometheus/node.nix>
+
+    <secrets/wifi.nix>
   ];
 
   networking = {
@@ -17,8 +19,11 @@ in
     useDHCP = false;
     hostName = "rpi4";
     interfaces.eth0.useDHCP = true;
+    interfaces.wlan0.useDHCP = true;
 
     firewall.allowedTCPPorts = [ 8000 8080 ];
+
+    wireless.enable = true; # wpa_supplicant
   };
 
   systemd.services.tinypilot = {
