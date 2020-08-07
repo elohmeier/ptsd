@@ -1,6 +1,6 @@
 { name
 , desktop ? false
-, snixpkgs ? "./nixpkgs.json"
+, snixpkgs ? ./nixpkgs.json
 , unstable ? false
 , mailserver ? false
 , secrets ? true
