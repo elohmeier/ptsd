@@ -26,7 +26,12 @@ in
 
     <home-manager/nixos>
     <ptsd/2configs/xrdp.nix>
+
+    ./qemu.nix
   ];
+
+  qemu-user.arm = true;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix.trustedUsers = [ "root" "enno" ];
   hardware.steam-hardware.enable = true;

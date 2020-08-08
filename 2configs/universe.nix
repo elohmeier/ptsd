@@ -368,6 +368,10 @@
           ip4.addr = "191.18.21.80";
           wireguard.pubkey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
         };
+
+        bs53lan = {
+          ip4.addr = "192.168.178.218"; # DHCP (!)
+        };
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxl5cu7JzupBVvcuT7hpAD2aPqGCDDV8ergHqeFinem ";
