@@ -6,6 +6,7 @@
 , secrets ? true
 , client-secrets ? false
 , starget ? "root@${name}.host.nerdworks.de"
+, cross-secrets ? false
 }:
 let
   #krops = (import <nixpkgs> {}).fetchgit {
@@ -56,7 +57,7 @@ let
     )
 
     (
-      lib.optionalAttrs (unstable || desktop) {
+      lib.optionalAttrs unstable {
         nixpkgs-unstable.git = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
@@ -67,7 +68,7 @@ let
     )
 
     (
-      lib.optionalAttrs (mailserver) {
+      lib.optionalAttrs mailserver {
         nixos-mailserver.git = {
           clean.exclude = [ "/.version-suffix" ];
           ref = (lib.importJSON ./nixos-mailserver.json).rev;
@@ -78,7 +79,7 @@ let
     )
 
     (
-      lib.optionalAttrs (client-secrets || desktop) {
+      lib.optionalAttrs client-secrets {
         client-secrets.pass = {
           dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "clients";
@@ -100,10 +101,19 @@ let
           url = https://github.com/rycee/home-manager;
           shallow = true;
         };
+      }
+    )
 
+    (
+      lib.optionalAttrs cross-secrets {
         secrets-eee1.pass = {
           dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "hosts/eee1";
+        };
+
+        secrets-rpi4.pass = {
+          dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+          name = "hosts/rpi4";
         };
       }
     )
