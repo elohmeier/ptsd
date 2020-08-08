@@ -9,10 +9,38 @@ in
     <ptsd/2configs>
     <ptsd/2configs/nwhost-mini.nix>
     <secrets-shared/nwsecrets.nix>
-    #<ptsd/2configs/prometheus/node.nix>
+    <ptsd/2configs/prometheus/node.nix>
 
     <secrets/wifi.nix>
+
+    #<ptsd/2configs/cli-tools.nix>
+    <ptsd/2configs/bluetooth.nix>
+    <ptsd/2configs/baseX-minimal.nix>
+
+    <home-manager/nixos>
+    <ptsd/2configs/zsh-enable.nix>
   ];
+
+  home-manager = {
+    users.mainUser = { pkgs, ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
+  };
+
+  hardware.opengl = {
+    enable = true;
+    setLdLibraryPath = true;
+    package = pkgs.mesa_drivers;
+  };
+  hardware.deviceTree = {
+    base = pkgs.device-tree_rpi;
+    overlays = [ "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo" ];
+  };
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   networking = {
     useNetworkd = true;
@@ -23,46 +51,50 @@ in
 
     firewall.allowedTCPPorts = [ 8000 8080 ];
 
-    wireless.enable = true; # wpa_supplicant
-  };
-
-  systemd.services.tinypilot = {
-    description = "TinyPilot";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "networking.target" ];
-    environment = {
-      CORS_ORIGIN = "http://192.168.178.89:8000";
-      USE_RELOADER = "0";
-    };
-    serviceConfig = {
-      ExecStart = "${tinypilot}/bin/tinypilot";
-      DynamicUser = true;
-      Restart = "on-failure";
-      PrivateTmp = "true";
-      ProtectSystem = "full";
-      ProtectHome = "true";
-      NoNewPrivileges = "true";
+    # wpa_supplicant
+    wireless = {
+      enable = true;
+      interfaces = [ "wlan0" ];
     };
   };
 
-  systemd.services.ustreamer = {
-    description = "uStreamer";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "networking.target" ];
-    serviceConfig = {
-      #ExecStart = "${pkgs.ustreamer}/bin/ustreamer --host 0.0.0.0 --port 8080 --resolution 1920x1080 --format=uyvy --persistent --dv-timings --drop-same-frames=30";
-      ExecStart = "${pkgs.ustreamer}/bin/ustreamer --host 0.0.0.0 --port 8080 --resolution 1920x1080";
-      DynamicUser = true;
-      Restart = "on-failure";
-      PrivateTmp = "true";
-      ProtectSystem = "full";
-      ProtectHome = "true";
-      NoNewPrivileges = "true";
-      SupplementaryGroups = "video";
-    };
-  };
+  # systemd.services.tinypilot = {
+  #   description = "TinyPilot";
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "networking.target" ];
+  #   environment = {
+  #     CORS_ORIGIN = "http://192.168.178.89:8000";
+  #     USE_RELOADER = "0";
+  #   };
+  #   serviceConfig = {
+  #     ExecStart = "${tinypilot}/bin/tinypilot";
+  #     DynamicUser = true;
+  #     Restart = "on-failure";
+  #     PrivateTmp = "true";
+  #     ProtectSystem = "full";
+  #     ProtectHome = "true";
+  #     NoNewPrivileges = "true";
+  #   };
+  # };
 
-  environment.systemPackages = [ pkgs.ustreamer ];
+  # systemd.services.ustreamer = {
+  #   description = "uStreamer";
+  #   wantedBy = [ "multi-user.target" ];
+  #   after = [ "networking.target" ];
+  #   serviceConfig = {
+  #     #ExecStart = "${pkgs.ustreamer}/bin/ustreamer --host 0.0.0.0 --port 8080 --resolution 1920x1080 --format=uyvy --persistent --dv-timings --drop-same-frames=30";
+  #     ExecStart = "${pkgs.ustreamer}/bin/ustreamer --host 0.0.0.0 --port 8080 --resolution 1920x1080";
+  #     DynamicUser = true;
+  #     Restart = "on-failure";
+  #     PrivateTmp = "true";
+  #     ProtectSystem = "full";
+  #     ProtectHome = "true";
+  #     NoNewPrivileges = "true";
+  #     SupplementaryGroups = "video";
+  #   };
+  # };
+
+  # environment.systemPackages = [ pkgs.ustreamer ];
 
 
 

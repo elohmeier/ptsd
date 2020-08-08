@@ -6,13 +6,14 @@
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix> # required for wifi
   ];
 
-
   boot.loader.grub.enable = false;
   boot.loader.raspberryPi = {
     enable = true;
     version = 4;
     firmwareConfig = ''
       dtoverlay=dwc2
+      hdmi_enable_4kp60=1
+      gpu_mem=192
     '';
   };
   boot.kernelPackages = pkgs.linuxPackages_rpi4;
