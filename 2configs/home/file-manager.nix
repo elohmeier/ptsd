@@ -5,14 +5,6 @@ let
   '';
 in
 {
-  home.packages = with pkgs;
-    [
-      feh # image viewer
-      sxiv # image viewer
-      lxmenu-data # pcmanfm: show "installed applications"
-      shared_mime_info # pcmanfm: recognise different file types
-    ];
-
   xdg.dataFile = {
 
     # not working
@@ -155,9 +147,13 @@ in
       };
   };
 
-  home.packages = [
-    (pkgs.writers.writeDashBin "excel-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"}'')
-    (pkgs.writers.writeDashBin "word-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}'')
-    (pkgs.writers.writeDashBin "powerpoint-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"}'')
+  home.packages = with pkgs; [
+    (writers.writeDashBin "excel-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"}'')
+    (writers.writeDashBin "word-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\WINWORD.EXE"}'')
+    (writers.writeDashBin "powerpoint-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\POWERPNT.EXE"}'')
+    feh # image viewer
+    sxiv # image viewer
+    lxmenu-data # pcmanfm: show "installed applications"
+    shared_mime_info # pcmanfm: recognise different file types
   ];
 }
