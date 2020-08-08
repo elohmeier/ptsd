@@ -172,6 +172,13 @@ rec {
     target = target;
   };
 
+  populate_ptsd = pkgs.populate {
+    source = lib.evalSource [
+      { ptsd.file = toString ./.; }
+    ];
+    target = target;
+  };
+
   populate_sudo = pkgs.populate {
     source = source;
     target = target // {
