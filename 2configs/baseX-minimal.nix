@@ -13,21 +13,19 @@
       naturalScrolling = true;
     };
 
-    displayManager.defaultSession = "home-manager";
+    # displayManager.defaultSession = "home-manager";
 
-    desktopManager = {
-      xterm.enable = false;
-
-      session = [
-        {
-          name = "home-manager";
-          start = ''
-            ${pkgs.runtimeShell} $HOME/.xsession &
-            waitPID=$!
-          '';
-        }
-      ];
-    };
+    # desktopManager = {
+    #   session = [
+    #     {
+    #       name = "home-manager";
+    #       start = ''
+    #         ${pkgs.runtimeShell} $HOME/.xsession &
+    #         waitPID=$!
+    #       '';
+    #     }
+    #   ];
+    # };
   };
 
   programs.dconf.enable = true;
