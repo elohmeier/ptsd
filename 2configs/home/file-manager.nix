@@ -5,6 +5,14 @@ let
   '';
 in
 {
+  home.packages = with pkgs;
+    [
+      feh # image viewer
+      sxiv # image viewer
+      lxmenu-data # pcmanfm: show "installed applications"
+      shared_mime_info # pcmanfm: recognise different file types
+    ];
+
   xdg.dataFile = {
 
     # not working
