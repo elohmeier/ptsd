@@ -82,7 +82,7 @@
       caffeine
       lguf-brightness
       pcmanfm
-      vlc
+      mpv
     ];
 
   programs.browserpass = {

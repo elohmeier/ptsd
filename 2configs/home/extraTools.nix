@@ -132,7 +132,7 @@ in
     imagemagick
     youtube-dl
     unstable.spotify
-    mpv
+    vlc
     drawio
     geckodriver
     smbclient
