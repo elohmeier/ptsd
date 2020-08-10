@@ -309,6 +309,7 @@ in
       flameshot
       pcmanfm
       nwlock
+      ethtool
     ];
 
     home.sessionVariables = {
@@ -433,10 +434,14 @@ in
           {
             block = "net";
             device = "nwvpn";
-            ip = true;
-            speed_up = false;
-            speed_down = false;
+            format = "{ip}";
             interval = 100;
+          }
+          {
+            block = "net";
+            device = cfg.ethIf;
+            format = "{ip} {speed_up} {graph_up} {speed_down} {graph_down}";
+            interval = 5;
           }
           # {
           #   block = "cpu";
