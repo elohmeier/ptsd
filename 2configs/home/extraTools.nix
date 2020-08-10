@@ -159,6 +159,7 @@ in
     nbconvert
     peek
     hidclient
+    fava
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''

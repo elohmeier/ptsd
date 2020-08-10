@@ -22,10 +22,10 @@ in
         Type = "Action";
         Name = "Assign PDF to Nobbofin Transaction";
         "Name[de]" = "PDF Nobbofin-Transaktion zuordnen";
-        Profiles = "assign;";
+        Profiles = "nobbofin_assign_fzf;";
       };
 
-      "X-Action-Profile assign" = {
+      "X-Action-Profile nobbofin_assign_fzf" = {
         MimeTypes = "application/pdf";
         Exec = "i3-sensible-terminal -e /home/enno/repos/nobbofin/assign-doc-fzf.py %f";
       };
@@ -37,12 +37,44 @@ in
         Type = "Action";
         Name = "Send via E-Mail (Sylpheed)";
         "Name[de]" = "Per E-Mail senden (Sylpheed)";
-        Profiles = "attach;";
+        Profiles = "sylpheed_attach;";
+        Icon = "sylpheed";
       };
 
-      "X-Action-Profile attach" = {
-        MimeTypes = "*";
+      "X-Action-Profile sylpheed_attach" = {
+        MimeTypes = "all/allfiles";
         Exec = "sylpheed --attach %F";
+      };
+    };
+
+    "file-manager/actions/xdg_attach.desktop".text = lib.generators.toINI
+      { } {
+      "Desktop Entry" = {
+        Type = "Action";
+        Name = "Send via E-Mail (xdg-email)";
+        "Name[de]" = "Per E-Mail senden (xdg-email)";
+        Profiles = "xdg_attach;";
+        Icon = "evolution";
+      };
+
+      "X-Action-Profile xdg_attach" = {
+        MimeTypes = "all/allfiles";
+        Exec = "xdg-email --attach %F";
+      };
+    };
+
+    "file-manager/actions/codium.desktop".text = lib.generators.toINI
+      { } {
+      "Desktop Entry" = {
+        Type = "Action";
+        Name = "Open folder in VSCodium";
+        "Name[de]" = "Ordner in VSCodium öffnen";
+        Profiles = "codium;";
+      };
+
+      "X-Action-Profile codium" = {
+        MimeTypes = "inode/directory";
+        Exec = "codium %F";
       };
     };
 
@@ -77,6 +109,22 @@ in
         # Exec = "${pkgs.alacritty}/bin/alacritty --hold -e ${pkgs.pdfduplex}/bin/pdfduplex %F";
         SelectionCount = 2;
       };
+    };
+
+    "applications/fava.desktop" = {
+      text = lib.generators.toINI
+        { } {
+        "Desktop Entry" = {
+          Name = "Fava";
+          TryExec = "fava";
+          Exec = "fava %F";
+          Terminal = true;
+          Type = "Application";
+          StartupNotify = false;
+          MimeType = "text/plain;";
+        };
+      };
+      onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
     };
 
     "applications/vim.desktop" = {
