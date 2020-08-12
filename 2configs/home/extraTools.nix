@@ -160,6 +160,7 @@ in
     peek
     hidclient
     fava
+    unstable.AusweisApp2
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
