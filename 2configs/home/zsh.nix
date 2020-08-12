@@ -17,6 +17,7 @@ in
 
     zsh = {
       enable = true;
+      enableCompletion = true;
 
       initExtra = ''
         if [ "$TERM" != dumb ]; then
