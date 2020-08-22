@@ -38,6 +38,25 @@ let
     }
   );
   obs-v4l2sink = pkgs.libsForQt5.callPackage ../../5pkgs/obs-v4l2sink { obs-studio = obs-studio; };
+  my-ffmpeg =
+    (
+      # waits for https://github.com/NixOS/nixpkgs/pull/87588
+      pkgs.ffmpeg-full.overrideAttrs (
+        old: {
+          nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.addOpenGLRunpath ];
+          postFixup = ''
+            addOpenGLRunpath $out/lib/libavcodec.so*
+          '';
+        }
+      )
+    ).override {
+      nonfreeLicensing = true;
+      fdkaacExtlib = true;
+      ffplayProgram = false;
+      ffprobeProgram = false;
+      qtFaststartProgram = false;
+    }
+  ;
 in
 {
   imports = [
@@ -83,25 +102,7 @@ in
     xcalib
     unstable.portfolio
     woeusb
-    (
-      (
-        # waits for https://github.com/NixOS/nixpkgs/pull/87588
-        ffmpeg-full.overrideAttrs (
-          old: {
-            nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.addOpenGLRunpath ];
-            postFixup = ''
-              addOpenGLRunpath $out/lib/libavcodec.so*
-            '';
-          }
-        )
-      ).override {
-        nonfreeLicensing = true;
-        fdkaacExtlib = true;
-        ffplayProgram = false;
-        ffprobeProgram = false;
-        qtFaststartProgram = false;
-      }
-    )
+    my-ffmpeg
 
     unstable.betaflight-configurator
     dbeaver
@@ -161,6 +162,11 @@ in
     hidclient
     fava
     unstable.AusweisApp2
+    (
+      unstable.ffmpeg-normalize.override {
+        ffmpeg_3 = my-ffmpeg;
+      }
+    )
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
