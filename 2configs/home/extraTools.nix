@@ -167,6 +167,7 @@ in
         ffmpeg_3 = my-ffmpeg;
       }
     )
+    weatherbg
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''

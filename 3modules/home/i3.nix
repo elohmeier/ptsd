@@ -47,6 +47,10 @@ in
       description = "Pulseaudio speaker device name";
       default = "@DEFAULT_SINK@";
     };
+    openweathermapApiKey = mkOption {
+      type = types.str;
+      default = "";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -474,6 +478,17 @@ in
             block = "time";
             interval = 60;
             format = "%a %F %R";
+          }
+          {
+            block = "weather";
+            interval = 300;
+            format = "{weather} ({location}) {temp}°, {wind} m/s {direction}";
+            service = {
+              name = "openweathermap";
+              api_key = cfg.openweathermapApiKey;
+              city_id = "2928381"; # Pelzerhaken
+              units = "metric";
+            };
           }
         ];
       };
