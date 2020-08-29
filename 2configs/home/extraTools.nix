@@ -168,6 +168,7 @@ in
       }
     )
     weatherbg
+    shrinkpdf
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
