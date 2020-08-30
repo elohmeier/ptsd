@@ -30,7 +30,20 @@ in
 
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/xrdp.nix>
+
+    <ptsd/2configs/zsh-enable.nix>
+
+    <home-manager/nixos>
   ];
+
+  home-manager = {
+    users.mainUser = { pkgs, ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
+  };
 
   networking = {
     hostName = "nas1";
