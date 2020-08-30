@@ -6,26 +6,27 @@ let
 
   confFile = pkgs.writeText "radicale.conf" (
     generators.toINI
-      { } {
-      server = {
-        hosts = "127.0.0.1:${toString cfg.port}";
-      };
+      { }
+      {
+        server = {
+          hosts = "127.0.0.1:${toString cfg.port}";
+        };
 
-      auth = {
-        type = "htpasswd";
-        htpasswd_filename = cfg.htpasswd;
-        htpasswd_encryption = "bcrypt";
-      };
+        auth = {
+          type = "htpasswd";
+          htpasswd_filename = cfg.htpasswd;
+          htpasswd_encryption = "bcrypt";
+        };
 
-      storage = {
-        filesystem_folder = "/var/lib/radicale/collections";
-        hook = ''${pkgs.git}/bin/git add -A && (git diff --cached --quiet || ${pkgs.git}/bin/git commit -m "Changes by "%(user)s)'';
-      };
+        storage = {
+          filesystem_folder = "/var/lib/radicale/collections";
+          hook = ''${pkgs.git}/bin/git add -A && (git diff --cached --quiet || ${pkgs.git}/bin/git commit -m "Changes by "%(user)s)'';
+        };
 
-      logging = {
-        debug = "true";
-      };
-    }
+        logging = {
+          debug = "true";
+        };
+      }
   );
 
   gitignore = pkgs.writeText "gitignore" ''

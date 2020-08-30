@@ -9,27 +9,29 @@ let
   universe = import <ptsd/2configs/universe.nix>;
 
   generateSecret = _: netcfg: nameValuePair
-    netcfg.keyname {
-    owner = "systemd-network";
-    mode = "0440";
-    dependants = [ "systemd-networkd.service" ];
-  };
+    netcfg.keyname
+    {
+      owner = "systemd-network";
+      mode = "0440";
+      dependants = [ "systemd-networkd.service" ];
+    };
 
   vpnClients = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
 
   generateWireguardPeers = netname: netcfg:
-    if netcfg.server.enable then (
-      map
-        (
-          h: {
-            wireguardPeerConfig = {
-              PublicKey = h.nets."${netname}".wireguard.pubkey;
-              AllowedIPs = [ "${h.nets."${netname}".ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets."${netname}".wireguard then h.nets."${netname}".wireguard.networks else [ ]);
-            };
-          }
-        )
-        (builtins.attrValues (vpnClients netname))
-    )
+    if netcfg.server.enable then
+      (
+        map
+          (
+            h: {
+              wireguardPeerConfig = {
+                PublicKey = h.nets."${netname}".wireguard.pubkey;
+                AllowedIPs = [ "${h.nets."${netname}".ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets."${netname}".wireguard then h.nets."${netname}".wireguard.networks else [ ]);
+              };
+            }
+          )
+          (builtins.attrValues (vpnClients netname))
+      )
     else
       [
         {
@@ -43,33 +45,35 @@ let
       ];
 
   generateNetdev = netname: netcfg: nameValuePair
-    "10-${netcfg.ifname}" {
-    netdevConfig = {
-      Name = "${netcfg.ifname}";
-      Kind = "wireguard";
-      MTUBytes = "1300";
-    };
+    "10-${netcfg.ifname}"
+    {
+      netdevConfig = {
+        Name = "${netcfg.ifname}";
+        Kind = "wireguard";
+        MTUBytes = "1300";
+      };
 
-    wireguardConfig = {
-      PrivateKeyFile = config.ptsd.secrets.files."${netcfg.keyname}".path;
-    } // optionalAttrs netcfg.server.enable {
-      ListenPort = netcfg.server.listenPort;
-    };
+      wireguardConfig = {
+        PrivateKeyFile = config.ptsd.secrets.files."${netcfg.keyname}".path;
+      } // optionalAttrs netcfg.server.enable {
+        ListenPort = netcfg.server.listenPort;
+      };
 
-    wireguardPeers = generateWireguardPeers netname netcfg;
-  };
+      wireguardPeers = generateWireguardPeers netname netcfg;
+    };
 
   generateNetwork = _: netcfg:
     nameValuePair
-      "20-${netcfg.ifname}" {
-      matchConfig = {
-        Name = "${netcfg.ifname}";
-      };
-      address = [
-        "${netcfg.ip}/${toString netcfg.subnetMask}"
-      ];
-      routes = netcfg.routes;
-    } // optionalAttrs netcfg.server.enable {
+      "20-${netcfg.ifname}"
+      {
+        matchConfig = {
+          Name = "${netcfg.ifname}";
+        };
+        address = [
+          "${netcfg.ip}/${toString netcfg.subnetMask}"
+        ];
+        routes = netcfg.routes;
+      } // optionalAttrs netcfg.server.enable {
       networkConfig = {
         IPForward = "ipv4";
         IPMasquerade = "yes";
@@ -108,29 +112,31 @@ let
 
       # from https://git.zx2c4.com/WireGuard/tree/contrib/examples/reresolve-dns/reresolve-dns.sh
       script = ''
-        INTERFACE="${netname}"
+                INTERFACE="${netname}"
 
-        reset_peer_section() {
-          PUBLIC_KEY=""
-          ENDPOINT=""
-        }
+                reset_peer_section() {
+                  PUBLIC_KEY=""
+                  ENDPOINT=""
+                }
 
-        process_peer() {
-          [[ -z $PUBLIC_KEY || -z $ENDPOINT ]] && return 0
-          [[ $(wg show "$INTERFACE" latest-handshakes) =~ ''${PUBLIC_KEY//+/\\+}\${"\t"}([0-9]+) ]] || return 0
-          (( ($(date +%s) - ''${BASH_REMATCH[1]}) > 135 )) || return 0
-          wg set "$INTERFACE" peer "$PUBLIC_KEY" endpoint "$ENDPOINT"
-          echo reloaded endpoint for peer $PUBLIC_KEY
-          reset_peer_section
-        }
+                process_peer() {
+                  [[ -z $PUBLIC_KEY || -z $ENDPOINT ]] && return 0
+                  [[ $(wg show "$INTERFACE" latest-handshakes) =~ ''${PUBLIC_KEY//+/\\+}\${"\t"}([0-9]+) ]] || return 0
+                  (( ($(date +%s) - ''${BASH_REMATCH[1]}) > 135 )) || return 0
+                  wg set "$INTERFACE" peer "$PUBLIC_KEY" endpoint "$ENDPOINT"
+                  echo reloaded endpoint for peer $PUBLIC_KEY
+                  reset_peer_section
+                }
 
-        ${concatMapStringsSep "\n" (
-          peer: ''
-          PUBLIC_KEY="${peer.wireguardPeerConfig.PublicKey}"
-          ENDPOINT="${peer.wireguardPeerConfig.Endpoint}"
-          process_peer;
-        ''
-          ) peersWithEndpoint}
+                ${concatMapStringsSep "\n"
+        (
+                  peer: ''
+                  PUBLIC_KEY="${peer.wireguardPeerConfig.PublicKey}"
+                  ENDPOINT="${peer.wireguardPeerConfig.Endpoint}"
+                  process_peer;
+                ''
+                  )
+        peersWithEndpoint}
       '';
 
       startAt = "minutely";
@@ -257,10 +263,11 @@ in
       extraStopCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardDown netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
     };
 
-    boot.kernel.sysctl = optionalAttrs (natForwardNetworks != { }) {
-      "net.ipv4.conf.all.forwarding" = true;
-      "net.ipv4.conf.default.forwarding" = true;
-    } // (mapAttrs' generateSysctlForward (filterAttrs (_: v: v.server.enable) enabledNetworks));
+    boot.kernel.sysctl = optionalAttrs (natForwardNetworks != { })
+      {
+        "net.ipv4.conf.all.forwarding" = true;
+        "net.ipv4.conf.default.forwarding" = true;
+      } // (mapAttrs' generateSysctlForward (filterAttrs (_: v: v.server.enable) enabledNetworks));
 
     # will query all wireguard interfaces by default
     ptsd.nwtelegraf.inputs.wireguard = [{ }];
