@@ -71,7 +71,13 @@ in
       description = "OctoPrint, web interface for 3D printers";
       after = [ "network.target" cfg.deviceService ];
       wantedBy = if cfg.deviceService == "" then [ "multi-user.target" ] else [ cfg.deviceService ];
-      path = [ pluginsEnv ];
+      path = [
+        pluginsEnv
+
+        # Telegram plugin requirements for /gif functionality
+        pkgs.cpulimit
+        pkgs.ffmpeg
+      ];
 
       preStart = ''
         if [ -e "${stateDir}/config.yaml" ]; then

@@ -10,7 +10,11 @@ in
     port = config.ptsd.nwtraefik.ports.octoprint;
 
     package = unstable.octoprint;
-    plugins = plugins: [ (plugins.callPackage ../5pkgs/octoprint-plugins/bedlevelvisualizer.nix { }) plugins.printtimegenius ];
+    plugins = plugins: [
+      (plugins.callPackage ../5pkgs/octoprint-plugins/bedlevelvisualizer.nix { })
+      plugins.printtimegenius
+      (plugins.callPackage ../5pkgs/octoprint-plugins/telegram.nix { })
+    ];
     deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d3-1\\x2d3:1.0-ttyUSB0-tty-ttyUSB0.device";
   };
 
