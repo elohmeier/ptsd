@@ -140,7 +140,8 @@ let
       mapAttrs'
         (
           name: values:
-            nameValuePair name
+            nameValuePair
+              name
               {
                 address = values.address;
               } // lib.optionalAttrs (values.http != { }) {

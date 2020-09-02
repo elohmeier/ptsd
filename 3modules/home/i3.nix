@@ -370,10 +370,11 @@ in
           }
         ] ++
         optional
-          cfg.showNvidiaGpuStatus {
-          block = "nvidia_gpu";
-          interval = 10;
-        }
+          cfg.showNvidiaGpuStatus
+          {
+            block = "nvidia_gpu";
+            interval = 10;
+          }
         ++ [
           # device won't be found always
           # {

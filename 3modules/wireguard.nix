@@ -112,31 +112,31 @@ let
 
       # from https://git.zx2c4.com/WireGuard/tree/contrib/examples/reresolve-dns/reresolve-dns.sh
       script = ''
-                INTERFACE="${netname}"
+        INTERFACE="${netname}"
 
-                reset_peer_section() {
-                  PUBLIC_KEY=""
-                  ENDPOINT=""
-                }
+        reset_peer_section() {
+          PUBLIC_KEY=""
+          ENDPOINT=""
+        }
 
-                process_peer() {
-                  [[ -z $PUBLIC_KEY || -z $ENDPOINT ]] && return 0
-                  [[ $(wg show "$INTERFACE" latest-handshakes) =~ ''${PUBLIC_KEY//+/\\+}\${"\t"}([0-9]+) ]] || return 0
-                  (( ($(date +%s) - ''${BASH_REMATCH[1]}) > 135 )) || return 0
-                  wg set "$INTERFACE" peer "$PUBLIC_KEY" endpoint "$ENDPOINT"
-                  echo reloaded endpoint for peer $PUBLIC_KEY
-                  reset_peer_section
-                }
+        process_peer() {
+          [[ -z $PUBLIC_KEY || -z $ENDPOINT ]] && return 0
+          [[ $(wg show "$INTERFACE" latest-handshakes) =~ ''${PUBLIC_KEY//+/\\+}\${"\t"}([0-9]+) ]] || return 0
+          (( ($(date +%s) - ''${BASH_REMATCH[1]}) > 135 )) || return 0
+          wg set "$INTERFACE" peer "$PUBLIC_KEY" endpoint "$ENDPOINT"
+          echo reloaded endpoint for peer $PUBLIC_KEY
+          reset_peer_section
+        }
 
-                ${concatMapStringsSep "\n"
-        (
-                  peer: ''
-                  PUBLIC_KEY="${peer.wireguardPeerConfig.PublicKey}"
-                  ENDPOINT="${peer.wireguardPeerConfig.Endpoint}"
-                  process_peer;
-                ''
-                  )
-        peersWithEndpoint}
+        ${concatMapStringsSep "\n"
+          (
+          peer: ''
+              PUBLIC_KEY="${peer.wireguardPeerConfig.PublicKey}"
+              ENDPOINT="${peer.wireguardPeerConfig.Endpoint}"
+              process_peer;
+            ''
+          )
+          peersWithEndpoint}
       '';
 
       startAt = "minutely";
@@ -263,11 +263,13 @@ in
       extraStopCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardDown netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
     };
 
-    boot.kernel.sysctl = optionalAttrs (natForwardNetworks != { })
-      {
-        "net.ipv4.conf.all.forwarding" = true;
-        "net.ipv4.conf.default.forwarding" = true;
-      } // (mapAttrs' generateSysctlForward (filterAttrs (_: v: v.server.enable) enabledNetworks));
+    boot.kernel.sysctl =
+      optionalAttrs
+        (natForwardNetworks != { })
+        {
+          "net.ipv4.conf.all.forwarding" = true;
+          "net.ipv4.conf.default.forwarding" = true;
+        } // (mapAttrs' generateSysctlForward (filterAttrs (_: v: v.server.enable) enabledNetworks));
 
     # will query all wireguard interfaces by default
     ptsd.nwtelegraf.inputs.wireguard = [{ }];
