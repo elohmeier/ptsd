@@ -51,6 +51,10 @@ in
       type = types.str;
       default = "";
     };
+    todoistApiKey = mkOption {
+      type = types.str;
+      default = "";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -366,11 +370,10 @@ in
           }
         ] ++
         optional
-          cfg.showNvidiaGpuStatus
-          {
-            block = "nvidia_gpu";
-            interval = 10;
-          }
+          cfg.showNvidiaGpuStatus {
+          block = "nvidia_gpu";
+          interval = 10;
+        }
         ++ [
           # device won't be found always
           # {
@@ -471,8 +474,15 @@ in
             format_swap = "{SUp}%";
             interval = 5;
           }
+          #{
+          #  block = "sound";
+          #}
           {
-            block = "sound";
+            block = "custom";
+            command = "${pkgs.todoist-i3status}/bin/todoist-i3status -token ${cfg.todoistApiKey}";
+            on_click = "xdg-open https://todoist.com/app/";
+            json = true;
+            interval = 60;
           }
           {
 

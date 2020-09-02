@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   desktopSecrets = import <secrets-shared/desktop.nix>;
+  todoistSecrets = import <secrets/todoist.nix>;
 in
 {
   xsession.enable = true;
@@ -17,5 +18,6 @@ in
   ptsd.i3 = {
     enable = true;
     openweathermapApiKey = desktopSecrets.openweathermapApiKey;
+    todoistApiKey = todoistSecrets.todoistApiKey;
   };
 }
