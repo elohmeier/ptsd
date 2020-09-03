@@ -498,7 +498,8 @@ in
             service = {
               name = "openweathermap";
               api_key = cfg.openweathermapApiKey;
-              city_id = "2928381"; # Pelzerhaken
+              #city_id = "2928381"; # Pelzerhaken
+              city_id = "2911298"; # Hamburg
               units = "metric";
             };
           }
