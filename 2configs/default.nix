@@ -58,14 +58,15 @@ in
 
   users.mutableUsers = false;
 
-  nix = {
-    binaryCaches = [
-      "https://nerdworks.cachix.org"
-    ];
-    binaryCachePublicKeys = [
-      "nerdworks.cachix.org-1:mt3i8px0W2IFrZ+vs/xu3mawh+XJZFTlZ+eaxMpVr+A="
-    ];
-  };
+  # disabled because of nar fetch failures, see https://status.cachix.org/
+  # nix = {
+  #   binaryCaches = [
+  #     "https://nerdworks.cachix.org"
+  #   ];
+  #   binaryCachePublicKeys = [
+  #     "nerdworks.cachix.org-1:mt3i8px0W2IFrZ+vs/xu3mawh+XJZFTlZ+eaxMpVr+A="
+  #   ];
+  # };
 
   boot.initrd.network.ssh.authorizedKeys = authorizedKeys;
 
