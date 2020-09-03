@@ -169,6 +169,7 @@ in
     )
     weatherbg
     shrinkpdf
+    gitAndTools.hub
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
