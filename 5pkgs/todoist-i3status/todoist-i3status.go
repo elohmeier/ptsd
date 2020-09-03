@@ -3,13 +3,16 @@ package main
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"sort"
 	"time"
+
+	stripmd "github.com/writeas/go-strip-markdown"
 )
 
 // https://developer.todoist.com/rest/v1/#get-active-tasks
@@ -28,12 +31,29 @@ type Status struct {
 	Text  string `json:"text"`
 }
 
+func printStatus(s Status) error {
+	s.Text = stripmd.Strip(s.Text)                                                     // strip markdown
+	s.Text = regexp.MustCompile(`[^0-9a-zA-Z :öäüÖÄÜß]`).ReplaceAllString(s.Text, " ") // strip unwanted characters
+	s.Text = regexp.MustCompile(`\s+`).ReplaceAllString(s.Text, " ")                   // kill double spaces
+
+	res, err := json.Marshal(s)
+	if err == nil {
+		os.Stdout.Write(res)
+	}
+	return nil
+}
+
+func fatal(v ...interface{}) {
+	printStatus(Status{Icon: "tasks", State: "Idle", Text: fmt.Sprint(v...)})
+	os.Exit(1)
+}
+
 func main() {
 	token := flag.String("token", "", "api token for Todoist")
 	flag.Parse()
 
 	if *token == "" {
-		log.Fatal("Please set token using -token")
+		fatal("Please set token using -token")
 	}
 
 	todoistClient := http.Client{
@@ -43,19 +63,19 @@ func main() {
 	q := url.QueryEscape("(today|overdue)&(p1|p2)")
 	req, err := http.NewRequest(http.MethodGet, "https://api.todoist.com/rest/v1/tasks?filter="+q, nil)
 	if err != nil {
-		log.Fatal(err)
+		fatal(err)
 	}
 	req.Header.Set("Authorization", "Bearer "+*token)
 	res, getErr := todoistClient.Do(req)
 	if getErr != nil {
-		log.Fatal(getErr)
+		fatal(getErr)
 	}
 	if res.Body != nil {
 		defer res.Body.Close()
 	}
 	body, readErr := ioutil.ReadAll(res.Body)
 	if readErr != nil {
-		log.Fatal(readErr)
+		fatal(readErr)
 	}
 
 	var tasks []Task
@@ -64,6 +84,8 @@ func main() {
 	sort.SliceStable(tasks, func(i, j int) bool {
 		return tasks[i].Priority > tasks[j].Priority || tasks[i].Order < tasks[j].Order
 	})
+
+	//fmt.Printf("%#v", tasks[0])
 
 	i3status := Status{Icon: "tasks", State: "Idle", Text: ""}
 	if len(tasks) > 0 {
@@ -77,10 +99,8 @@ func main() {
 
 		i3status.Text = tasks[0].Content
 	}
-	i3res, err := json.Marshal(i3status)
+	err = printStatus(i3status)
 	if err != nil {
-		log.Fatal(err)
+		fatal(err)
 	}
-	//fmt.Printf("%#v", tasks)
-	os.Stdout.Write(i3res)
 }
