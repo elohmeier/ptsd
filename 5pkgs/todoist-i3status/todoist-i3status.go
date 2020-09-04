@@ -86,7 +86,7 @@ func main() {
 	var tasks []Task
 	json.Unmarshal(body, &tasks)
 
-	// Sort by Due Date ASC, Priority DESC, Order ASC
+	// Sort by Priority DESC, Due Date ASC, Order ASC
 	sort.SliceStable(tasks, func(i, j int) bool {
 		ti, erri := time.Parse("2006-01-02", tasks[i].Due.Date)
 		tj, errj := time.Parse("2006-01-02", tasks[j].Due.Date)
@@ -95,7 +95,7 @@ func main() {
 			return tasks[i].Priority > tasks[j].Priority || tasks[i].Order < tasks[j].Order
 		}
 
-		return ti.Unix() < tj.Unix() || tasks[i].Priority > tasks[j].Priority || tasks[i].Order < tasks[j].Order
+		return tasks[i].Priority > tasks[j].Priority || ti.Unix() < tj.Unix() || tasks[i].Order < tasks[j].Order
 	})
 
 	//fmt.Printf("%#v", tasks[0])
