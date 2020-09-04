@@ -15,13 +15,18 @@ import (
 	stripmd "github.com/writeas/go-strip-markdown"
 )
 
+type TaskDue struct {
+	Date string `json:"date"`
+}
+
 // https://developer.todoist.com/rest/v1/#get-active-tasks
 type Task struct {
-	Id       int    `json:"id"`
-	Order    int    `json:"order"`
-	Content  string `json:"content"`
-	Priority int    `json:"priority"`
-	Url      string `json:"url"`
+	Id       int     `json:"id"`
+	Order    int     `json:"order"`
+	Content  string  `json:"content"`
+	Priority int     `json:"priority"`
+	Due      TaskDue `json:"due"`
+	Url      string  `json:"url"`
 }
 
 // https://github.com/greshake/i3status-rust/blob/master/blocks.md#custom
@@ -81,8 +86,16 @@ func main() {
 	var tasks []Task
 	json.Unmarshal(body, &tasks)
 
+	// Sort by Due Date ASC, Priority DESC, Order ASC
 	sort.SliceStable(tasks, func(i, j int) bool {
-		return tasks[i].Priority > tasks[j].Priority || tasks[i].Order < tasks[j].Order
+		ti, erri := time.Parse("2006-01-02", tasks[i].Due.Date)
+		tj, errj := time.Parse("2006-01-02", tasks[j].Due.Date)
+
+		if erri != nil || errj != nil {
+			return tasks[i].Priority > tasks[j].Priority || tasks[i].Order < tasks[j].Order
+		}
+
+		return ti.Unix() < tj.Unix() || tasks[i].Priority > tasks[j].Priority || tasks[i].Order < tasks[j].Order
 	})
 
 	//fmt.Printf("%#v", tasks[0])
