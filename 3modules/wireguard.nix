@@ -149,6 +149,14 @@ in
 {
   options = {
     ptsd.wireguard = {
+      enableGlobalForwarding = mkOption
+        {
+          description = ''
+            configures IP forwarding e.g. for routing packets
+          '';
+          type = types.bool;
+          default = false;
+        };
       networks = mkOption {
         type = types.attrsOf (
           types.submodule (
@@ -264,8 +272,7 @@ in
     };
 
     boot.kernel.sysctl =
-      optionalAttrs
-        (natForwardNetworks != { })
+      optionalAttrs cfg.enableGlobalForwarding
         {
           "net.ipv4.conf.all.forwarding" = true;
           "net.ipv4.conf.default.forwarding" = true;

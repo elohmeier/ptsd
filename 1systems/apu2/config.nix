@@ -18,14 +18,17 @@ in
     <secrets-shared/nwsecrets.nix>
   ];
 
-  ptsd.wireguard.networks.dlrgvpn = {
-    enable = true;
-    ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
-    natForwardIf = "br0";
-    client.allowedIPs = [ "192.168.178.0/24" ];
-    routes = [
-      { routeConfig = { Destination = "192.168.178.0/24"; }; }
-    ];
+  ptsd.wireguard = {
+    enableGlobalForwarding = true;
+    networks.dlrgvpn = {
+      enable = true;
+      ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+      natForwardIf = "br0"; # not sure if really needed (is it routing or NATing?), kept for backward compatibility
+      client.allowedIPs = [ "192.168.178.0/24" ];
+      routes = [
+        { routeConfig = { Destination = "192.168.178.0/24"; }; }
+      ];
+    };
   };
 
   ptsd.nwbackup = {

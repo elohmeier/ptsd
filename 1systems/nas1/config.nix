@@ -59,9 +59,9 @@ in
   # not using DHCP here, because we might receive a different address than post-initrd.
   boot.kernelParams = [ "ip=192.168.178.12::192.168.178.1:255.255.255.0:${config.networking.hostName}:eno1:off" ];
 
-  # tunnel traffic into nwvpn
-  ptsd.wireguard.networks.nwvpn = {
-    natForwardIf = "br0";
+  # route traffic from/to nwvpn
+  ptsd.wireguard = {
+    enableGlobalForwarding = true;
   };
 
   services.zfs = {

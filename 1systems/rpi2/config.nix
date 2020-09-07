@@ -12,14 +12,17 @@ in
     <ptsd/2configs/prometheus/node.nix>
   ];
 
-  ptsd.wireguard.networks.dlrgvpn = {
-    enable = true;
-    ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
-    natForwardIf = "eth0";
-    server.enable = true;
-    routes = [
-      { routeConfig = { Destination = "192.168.168.0/24"; }; }
-    ];
+  ptsd.wireguard = {
+    enableGlobalForwarding = true;
+    networks.dlrgvpn = {
+      enable = true;
+      ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+      natForwardIf = "eth0"; # not sure if really needed (is it routing or NATing?), kept for backward compatibility
+      server.enable = true;
+      routes = [
+        { routeConfig = { Destination = "192.168.168.0/24"; }; }
+      ];
+    };
   };
 
   ptsd.nwbackup = {
