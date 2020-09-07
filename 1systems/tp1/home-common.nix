@@ -1,5 +1,8 @@
 { pkgs, ... }:
-
+let
+  baresipSecrets = import <secrets/baresip.nix>;
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports = [
     <ptsd/2configs/home>
@@ -22,4 +25,18 @@
     # see xss-lock configuration for details.
     ${pkgs.xorg.xset}/bin/xset s 600 5
   '';
+
+  ptsd.baresip = {
+    enable = true;
+    username = "tp1baresip";
+    registrar = "192.168.178.1";
+    password = baresipSecrets.password;
+    sipListen = "${universe.hosts.tp1.nets.nwvpn.ip4.addr}:5050";
+
+    # FBD
+    audioPlayer = "alsa_output.usb-Plantronics_Savi_8220-M_9C9BFA234CF842DDA69AFAA8BA1AF13E-01.analog-stereo";
+    audioSource = "alsa_input.usb-Plantronics_Savi_8220-M_9C9BFA234CF842DDA69AFAA8BA1AF13E-01.analog-stereo";
+
+    audioAlert = "alsa_output.pci-0000_00_1f.3.analog-stereo";
+  };
 }
