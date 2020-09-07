@@ -128,7 +128,6 @@ let
     global = {
       checkNewVersion = false;
       sendAnonymousUsage = false;
-      insecureSNI = false;
     };
     providers.file.filename = configFile "traefik-dynamic-config.toml" dynamicConfigOptions;
     log.level = cfg.logLevel;
