@@ -10,6 +10,7 @@ let
   py3 = pkgs.python37.override {
     packageOverrides = self: super: rec {
       black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert { };
+      davphonebook = super.callPackage ../../5pkgs/davphonebook { };
     };
   };
   pyenv = py3.withPackages (
@@ -170,6 +171,8 @@ in
     weatherbg
     shrinkpdf
     gitAndTools.hub
+
+    py3.pkgs.davphonebook
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
