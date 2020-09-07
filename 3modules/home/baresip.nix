@@ -13,7 +13,8 @@ in
     audioPlayer = mkOption { type = types.str; default = ""; };
     audioSource = mkOption { type = types.str; default = ""; };
     audioAlert = mkOption { type = types.str; default = ""; };
-    sipListen = mkOption { type = types.str; default = ""; example = "10.0.0.2:5050"; };
+    sipListen = mkOption { type = types.str; default = ""; example = "10.0.0.2:5060"; };
+    netInterface = mkOption { type = types.str; default = ""; example = "nwvpn"; };
   };
 
   config = mkIf cfg.enable {
@@ -51,7 +52,11 @@ in
         ''}
 
           ${optionalString (cfg.sipListen != "") ''
-          sip_listen              ${cfg.sipListen}
+          sip_listen ${cfg.sipListen}
+        ''}
+
+          ${optionalString (cfg.netInterface != "") ''
+          net_interface ${cfg.netInterface}
         ''}
 
           module stun.so

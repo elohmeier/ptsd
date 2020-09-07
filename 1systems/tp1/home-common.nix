@@ -31,7 +31,7 @@ in
     username = "tp1baresip";
     registrar = "192.168.178.1";
     password = baresipSecrets.password;
-    sipListen = "${universe.hosts.tp1.nets.nwvpn.ip4.addr}:5050";
+    netInterface = "nwvpn";
 
     # FBD
     audioPlayer = "alsa_output.usb-Plantronics_Savi_8220-M_9C9BFA234CF842DDA69AFAA8BA1AF13E-01.analog-stereo";
