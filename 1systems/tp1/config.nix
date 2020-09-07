@@ -12,6 +12,7 @@
     <ptsd/2configs/dovecot.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/syncthing.nix>
+    <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
     <client-secrets/dbk/vdi.nix>
