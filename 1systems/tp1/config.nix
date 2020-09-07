@@ -45,6 +45,8 @@
   # reduce the noise
   ptsd.nwtelegraf.enable = lib.mkForce false;
 
+  ptsd.wireguard.networks.nwvpn.client.allowedIPs = [ "192.168.178.0/24" ];
+
   ptsd.vdi-container = {
     enable = true;
     extIf = "wlan0";
