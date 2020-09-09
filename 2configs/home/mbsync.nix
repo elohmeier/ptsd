@@ -4,7 +4,7 @@
   accounts.email.accounts = {
     "enno" = {
       address = "enno@nerdworks.de";
-      realName = "Enno Lohmeier";
+      realName = "Enno Richter";
       primary = true;
       userName = "enno@nerdworks.de";
       #passwordCommand = "${pkgs.pass}/bin/pass mail/enno@nerdworks.de";

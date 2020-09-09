@@ -5,7 +5,7 @@
 
   users.users.enno = {
     createHome = true;
-    description = "Enno Lohmeier";
+    description = "Enno Richter";
     home = "/Users/enno";
     isHidden = false;
     shell = "${pkgs.zsh}/bin/zsh";

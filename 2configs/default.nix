@@ -37,7 +37,7 @@ in
           createHome = true;
           useDefaultShell = true;
           uid = 1000;
-          description = "Enno Lohmeier";
+          description = "Enno Richter";
           extraGroups =
             [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" "dialout" ];
           openssh.authorizedKeys.keys = authorizedKeys;
