@@ -173,6 +173,8 @@ in
     gitAndTools.hub
 
     py3.pkgs.davphonebook
+
+    teams
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
