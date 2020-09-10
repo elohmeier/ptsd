@@ -14,19 +14,6 @@
   services.fwupd.enable = true;
 
   services.xserver = {
-    #videoDrivers = [ "intel" ];
-    #deviceSection = ''
-    #  Option "Backlight" "intel_backlight"
-    #  Option "TripleBuffer" "true"
-    #  Option "TearFree" "true"
-    #  BusID "PCI:0:2:0"
-    #'';
-
-    # try the modesetting driver instead of xf86-video-intel
-    # (https://linux.die.net/man/4/modesetting)
-    # because there is a regression in combination with linux ~5.2
-    # causing firefox scrolling problems, see
-    # https://bbs.archlinux.org/viewtopic.php?id=247946 for details
     videoDrivers = [ "modesetting" ];
   };
 
