@@ -3,7 +3,6 @@
 with lib;
 let
   cfg = config.ptsd.i3;
-  i3font = "${cfg.font} ${toString cfg.fontSize}";
 in
 {
   options.ptsd.i3 = {
@@ -29,9 +28,13 @@ in
       default = "eth0";
       description = "for i3status";
     };
-    font = mkOption {
+    fontSans = mkOption {
       type = types.str;
       default = "Iosevka Sans"; # TODO: expose package, e.g. for gtk
+    };
+    fontMono = mkOption {
+      type = types.str;
+      default = "Iosevka";
     };
     fontSize = mkOption {
       type = types.int;
@@ -253,13 +256,13 @@ in
               "odiaeresis" = "resize grow width 10 px or 10 ppt";
             };
 
-            fonts = [ i3font ];
+            fonts = [ "${cfg.fontSans} ${toString cfg.fontSize}" ];
 
             bars = [
               {
                 colors.background = "#181516";
                 # font size must be appended to the *last* item in this list
-                fonts = [ "Iosevka" "FontAwesome5Free" "FontAwesome5Brands ${toString cfg.fontSize}" ];
+                fonts = [ cfg.fontMono "FontAwesome5Free" "FontAwesome5Brands ${toString cfg.fontSize}" ];
 
                 statusCommand = "${config.ptsd.i3status-rust.package}/bin/i3status-rs ${config.xdg.configHome}/i3/status.toml";
               }
@@ -289,7 +292,7 @@ in
     gtk = {
       enable = true;
       font = {
-        name = "${cfg.font} ${toString cfg.fontSize}";
+        name = "${cfg.fontSans} ${toString cfg.fontSize}";
         package = pkgs.iosevka;
       };
       iconTheme = {
@@ -304,7 +307,7 @@ in
 
     programs.rofi = {
       enable = true;
-      font = "${cfg.font} ${toString cfg.fontSize}";
+      font = "${cfg.fontSans} ${toString cfg.fontSize}";
       terminal = "${pkgs.alacritty}/bin/alacritty";
       theme = "solarized_alternate";
     };
@@ -519,7 +522,7 @@ in
           geometry = "300x5-30+50";
           transparency = 10;
           frame_color = "#eceff1";
-          font = "Iosevka ${toString cfg.fontSize}";
+          font = "${cfg.fontMono} ${toString cfg.fontSize}";
         };
 
         urgency_normal = {
