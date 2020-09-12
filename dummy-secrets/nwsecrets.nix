@@ -1,0 +1,3 @@
+{
+  ptsd.nwtelegraf.influxPassword = "";
+}
