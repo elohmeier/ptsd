@@ -77,8 +77,8 @@ in
       guiSupport = "";
       #luaSupport = false;
       #perlSupport = false;
-      pythonSupport = false;
-      #python = py3;
+      pythonSupport = true;
+      python = py3;
       rubySupport = false;
       #tclSupport = false;
       #netbeansSupport = false;
