@@ -28,17 +28,6 @@ let
     ]
   );
   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
-  obs-studio = pkgs.obs-studio.overrideAttrs (
-    old: {
-      nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.addOpenGLRunpath ];
-      postFixup = lib.optionalString pkgs.stdenv.isLinux ''
-        # Set RUNPATH so that libcuda in /run/opengl-driver(-32)/lib can be found.
-        # See the explanation in addOpenGLRunpath.
-        addOpenGLRunpath $out/lib/lib*.so
-      '';
-    }
-  );
-  obs-v4l2sink = pkgs.libsForQt5.callPackage ../../5pkgs/obs-v4l2sink { obs-studio = obs-studio; };
   my-ffmpeg =
     (
       # waits for https://github.com/NixOS/nixpkgs/pull/87588
@@ -180,7 +169,7 @@ in
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
     rm -rf $HOME/.config/obs-studio/plugins
     mkdir -p $HOME/.config/obs-studio/plugins
-    ln -sf ${obs-v4l2sink}/lib/obs-plugins/v4l2sink $HOME/.config/obs-studio/plugins/v4l2sink
+    ln -sf ${pkgs.obs-v4l2sink}/lib/obs-plugins/v4l2sink $HOME/.config/obs-studio/plugins/v4l2sink
   '';
 
   programs.chromium = {

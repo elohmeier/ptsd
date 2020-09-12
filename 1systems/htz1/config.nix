@@ -118,7 +118,6 @@ in
         dnsProvider = "acme-dns";
         credentialsFile = envFile "nerdworks.de";
         group = "certs";
-        allowKeysForGroup = true;
         postRun = "systemctl restart traefik.service";
       };
 
@@ -126,7 +125,6 @@ in
         dnsProvider = "acme-dns";
         credentialsFile = envFile "ci.nerdworks.de";
         group = "certs";
-        allowKeysForGroup = true;
         postRun = "systemctl restart traefik.service";
       };
 
@@ -134,7 +132,6 @@ in
         dnsProvider = "acme-dns";
         credentialsFile = envFile "git.nerdworks.de";
         group = "certs";
-        allowKeysForGroup = true;
         postRun = "systemctl restart traefik.service";
       };
 
@@ -144,7 +141,6 @@ in
         dnsProvider = "acme-dns";
         credentialsFile = envFile "luisarichter.de";
         group = "certs";
-        allowKeysForGroup = true;
         postRun = "systemctl restart traefik.service";
       };
     };

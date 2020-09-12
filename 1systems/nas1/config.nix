@@ -175,7 +175,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "wiki.services.nerdworks.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -183,7 +182,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "influxdb.services.nerdworks.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -191,7 +189,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "grafana.services.nerdworks.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -199,7 +196,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "hass.services.nerdworks.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -207,7 +203,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "monica.services.nerdworks.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -215,7 +210,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "nextcloud.services.nerdworks.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -223,7 +217,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "octoprint.services.nerdworks.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
       };

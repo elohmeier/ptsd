@@ -81,7 +81,6 @@ in
   home = {
     packages = with pkgs; [
       unstable.prusa-slicer
-      freecad
     ];
   };
 

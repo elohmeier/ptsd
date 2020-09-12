@@ -20,7 +20,6 @@ let
       ${cfg.xephyrDisplayId}
   '';
   caWorkspace = pkgs.callPackage <ptsd/5pkgs/citrix-workspace/wrapper.nix> {
-    citrix_workspace = cfg.citrixWorkspaceUnwrappedPackage;
     extraCerts = cfg.extraCerts;
   };
 in
@@ -63,12 +62,6 @@ in
     containerLocale = mkOption {
       type = types.str;
       default = "de_DE.UTF-8";
-    };
-    citrixWorkspaceUnwrappedPackage = mkOption {
-      default = pkgs.citrix_workspace_unwrapped;
-      type = types.package;
-      defaultText = "pkgs.citrix_workspace_unwrapped";
-      description = "Citrix Workspace (unwrapped) derivation to use. Extra CAs will be added to this.";
     };
     extraCerts = mkOption {
       type = types.listOf (types.str);

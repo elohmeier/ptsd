@@ -5,7 +5,7 @@ buildGoModule rec {
   version = "2019-03-28";
   goPackagePath = "github.com/drone-plugins/${pname}";
 
-  modSha256 = "09q51hziq34v3shfwpqc5m9arlw4fvkxzk97xaj7pz6d4323vc30";
+  vendorSha256 = "1h8yxby6s75sakdwm9ihm2jqv0z9qq7vkzd8wy45rbsk8aaav7y4";
 
   src = fetchFromGitHub {
     owner = "drone-plugins";

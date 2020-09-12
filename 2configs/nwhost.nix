@@ -23,7 +23,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
           group = "certs";
-          allowKeysForGroup = true;
           #dnsPropagationCheck = false;
         };
       };

@@ -55,7 +55,7 @@
   systemd.services.disable-bluetooth = {
     description = "Disable Bluetooth after boot to save energy";
     wantedBy = [ "multi-user.target" ];
-    script = "${pkgs.rfkill}/bin/rfkill block bluetooth";
+    script = "${pkgs.utillinux}/bin/rfkill block bluetooth";
   };
 
   services.printing.enable = true;

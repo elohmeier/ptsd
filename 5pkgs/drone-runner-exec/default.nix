@@ -5,7 +5,7 @@ buildGoModule rec {
   version = "1.0.0-beta.9";
   goPackagePath = "github.com/drone-runners/drone-runner-exec";
 
-  modSha256 = "068319irh0vqvly4ylbfhw6ap7i09vgsjnd17s066f4q02v29swk";
+  vendorSha256 = "1k16xg17my0zqc4w03v9y3v4780pg9mnkvaibw3191aimi02x5na";
 
   src = fetchFromGitHub {
     owner = "drone-runners";

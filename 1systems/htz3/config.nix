@@ -110,7 +110,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -119,7 +118,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "fraam.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
 
@@ -127,7 +125,6 @@ in
           dnsProvider = "acme-dns";
           credentialsFile = envFile "dev.fraam.de";
           group = "certs";
-          allowKeysForGroup = true;
           postRun = "systemctl restart traefik.service";
         };
       };

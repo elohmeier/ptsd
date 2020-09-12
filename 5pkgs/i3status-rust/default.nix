@@ -3,14 +3,14 @@
 rustPlatform.buildRustPackage rec {
   pname = "i3status-rust";
   #version = "0.14.1";
-  version = "2020-08-08";
+  version = "2020-09-08";
 
   src = fetchFromGitHub {
     owner = "greshake";
     repo = pname;
     #rev = "v${version}";
-    rev = "a91abe34cd7fb7479563636ae006df4dca1faefc";
-    sha256 = "1ibsvpaannf2y7hhscyavm8ggck6v5mc2in2j5a929v15vd7jyhn";
+    rev = "df1974dd313f6b50bf0f19f948698fc6cb20e8f3";
+    sha256 = "02q11a4ggackvdv8ls6cmiw5mjfnrb8505q4syfwfs0g5l4lhyjy";
   };
 
   # left as example for fetchpatch
@@ -24,7 +24,7 @@ rustPlatform.buildRustPackage rec {
   #   )
   # ];
 
-  cargoSha256 = "0ighgy9np6zcf0lhrdlwwib440zsszcl85wbp7k4w69pqag76rbw";
+  cargoSha256 = "1h1fjjp019b2gbmr0dhyd6d0kbzmf8l4zyan5c5hcmlajrdv10bi";
 
   nativeBuildInputs = [ pkgconfig ];
 

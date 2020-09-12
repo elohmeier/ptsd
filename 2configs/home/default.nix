@@ -48,4 +48,7 @@
   ];
 
   nixpkgs.config.allowUnfree = true; # required for unrar
+
+  # TODO: 20.09 compat
+  manual.manpages.enable = false;
 }

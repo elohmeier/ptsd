@@ -108,7 +108,6 @@ in
         dnsProvider = "acme-dns";
         credentialsFile = envFile "bitwarden.services.nerdworks.de";
         group = "certs";
-        allowKeysForGroup = true;
         postRun = "systemctl restart traefik.service";
       };
 
@@ -116,7 +115,6 @@ in
         dnsProvider = "acme-dns";
         credentialsFile = envFile "mail.nerdworks.de";
         group = "certs";
-        allowKeysForGroup = true;
         postRun = "systemctl restart traefik.service";
       };
     };
