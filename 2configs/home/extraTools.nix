@@ -44,7 +44,7 @@ in
       }
     )
     sshfs
-    pdftk
+    (pdftk.override { jre = openjdk11; })
     #mywine
     #(winetricks.override { wine = mywine; })
     #slack-dark
@@ -60,7 +60,7 @@ in
     #tor-browser-bundle-bin
     xournalpp
     #calibre
-    xmind
+    (xmind.override { jre = openjdk11; })
     transmission-gtk
     sylpheed
     zoom-us

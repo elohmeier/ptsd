@@ -1,4 +1,7 @@
-{ writers, pdftk }:
+{ writers, pdftk, openjdk11 }:
+let
+  mypdftk = (pdftk.override { jre = openjdk11; });
+in
 writers.writeDashBin "pdfduplex" ''
   A="''${1?must provide file A}"
   B="''${2?must provide file B}"
@@ -8,5 +11,5 @@ writers.writeDashBin "pdfduplex" ''
 
   DUP_fn="''${A_fn%.*}_''${B_fn}"
 
-  ${pdftk}/bin/pdftk A="$A" B="$B" shuffle A Bend-1 output "$DUP_fn"
+  ${mypdftk}/bin/pdftk A="$A" B="$B" shuffle A Bend-1 output "$DUP_fn"
 ''
