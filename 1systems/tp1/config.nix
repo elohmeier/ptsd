@@ -32,6 +32,23 @@
       };
   };
 
+  nix = {
+    buildMachines = [
+      {
+        hostName = "192.168.178.218";
+        sshUser = "enno";
+        sshKey = "/tmp/id_ed25519";
+        systems = [ "x86_64-linux" ];
+        maxJobs = 48;
+      }
+    ];
+    trustedUsers = [ "root" "enno" ];
+    distributedBuilds = true;
+    extraOptions = ''
+      builders-use-substitutes = true
+    '';
+  };
+
   #boot.plymouth.enable = true;
 
   #  # https://github.com/anbox/anbox/issues/253
