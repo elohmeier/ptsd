@@ -18,8 +18,10 @@ in
 
   fileSystems."/" =
     {
-      device = "${vgPrefix}-root";
-      fsType = "ext4";
+      #device = "${vgPrefix}-root";
+      #fsType = "ext4";
+      fsType = "tmpfs";
+      options = [ "size=500M" "mode=1755" ];
     };
 
   fileSystems."/home" =
@@ -60,7 +62,7 @@ in
   networking.hostId = "d0ee5ec4"; # required for zfs
   boot.kernelParams = [ "systemd.machine_id=5d2b800f3d82434b8f7a656d2e130e06" ];
 
-  boot.initrd.postDeviceCommands = lib.mkAfter ''
-    ${pkgs.e2fsprogs}/bin/mkfs.ext4 ${vgPrefix}-root
-  '';
+  #boot.initrd.postDeviceCommands = lib.mkAfter ''
+  #  ${pkgs.e2fsprogs}/bin/mkfs.ext4 ${vgPrefix}-root
+  #'';
 }
