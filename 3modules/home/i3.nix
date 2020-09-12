@@ -314,7 +314,8 @@ in
 
     home.packages = with pkgs; [
       i3lock # only needed for config testing / man pages
-      libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
+      # TODO: disabled for 20.09 until fix has landed in 20.09
+      #libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
       playerctl
       brightnessctl
       flameshot
