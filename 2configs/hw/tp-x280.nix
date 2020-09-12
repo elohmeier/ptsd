@@ -11,7 +11,7 @@
   };
 
   services.tlp.enable = true; # TLP Linux Advanced Power Management
-  services.fwupd.enable = true;
+  #services.fwupd.enable = true;
 
   services.xserver = {
     videoDrivers = [ "modesetting" ];
@@ -43,18 +43,18 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   hardware.opengl = {
-    driSupport32Bit = true; # for Steam
+    #driSupport32Bit = true; # for Steam
     extraPackages = with pkgs; [
       vaapiIntel
       libvdpau-va-gl
       vaapiVdpau
       intel-ocl
     ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [
-      vaapiIntel
-      libvdpau-va-gl
-      vaapiVdpau
-    ];
+    #extraPackages32 = with pkgs.pkgsi686Linux; [
+    #  vaapiIntel
+    #  libvdpau-va-gl
+    #  vaapiVdpau
+    #];
   };
 
   services.acpid = {

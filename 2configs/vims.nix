@@ -74,12 +74,12 @@ in
   big = (
     vim_configurable.override {
       #features = "huge";
-      #guiSupport = "";
+      guiSupport = "";
       #luaSupport = false;
       #perlSupport = false;
-      #pythonSupport = true;
+      pythonSupport = false;
       #python = py3;
-      #rubySupport = false;
+      rubySupport = false;
       #tclSupport = false;
       #netbeansSupport = false;
     }

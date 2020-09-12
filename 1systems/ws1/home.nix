@@ -2,11 +2,6 @@
 let
   baresipSecrets = import <secrets/baresip.nix>;
   homeSecrets = import <client-secrets/home-secrets.nix>;
-  unstable = import <nixpkgs-unstable> {
-    config = {
-      allowUnfree = true;
-    };
-  };
 in
 {
   imports = [
@@ -80,7 +75,9 @@ in
 
   home = {
     packages = with pkgs; [
-      unstable.prusa-slicer
+      prusa-slicer
+      #steam
+      #steam-run
     ];
   };
 

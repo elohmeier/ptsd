@@ -19,7 +19,7 @@ in
   hardware.pulseaudio = {
     enable = true;
     package = pulseaudio;
-    support32Bit = true; # for Steam
+    #support32Bit = true; # for Steam
 
     # better audio quality settings
     # from https://medium.com/@gamunu/enable-high-quality-audio-on-linux-6f16f3fe7e1f

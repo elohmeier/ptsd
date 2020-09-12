@@ -22,8 +22,6 @@ in
     <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
 
-    <ptsd/2configs/fraam-wordpress.nix>
-
     <home-manager/nixos>
     <ptsd/2configs/xrdp.nix>
 
@@ -36,7 +34,7 @@ in
   #boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix.trustedUsers = [ "root" "enno" ];
-  hardware.steam-hardware.enable = true;
+  #hardware.steam-hardware.enable = true;
 
   home-manager = {
     users.mainUser = { pkgs, ... }:
@@ -138,8 +136,6 @@ in
   environment.systemPackages = with pkgs; [
     samba
     home-manager
-    steam
-    steam-run
   ];
 
   networking.firewall.interfaces.virbr4 = {
@@ -201,4 +197,10 @@ in
   # };
 
   # networking.firewall.allowedTCPPorts = [ 80 ];
+
+  # TODO: really needed?!
+  # hardware.logitech.wireless = {
+  #   enable = true;
+  #   enableGraphical = true;
+  # };
 }

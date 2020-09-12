@@ -42,7 +42,7 @@
 
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
-  services.fwupd.enable = true;
+  #services.fwupd.enable = true;
 
   boot.initrd.availableKernelModules = [
     "nvme"
@@ -88,7 +88,7 @@
   hardware.cpu.amd.updateMicrocode = true;
 
   hardware.opengl = {
-    driSupport32Bit = true; # for Steam
+    #driSupport32Bit = true; # for Steam
     extraPackages = with pkgs; [ ];
     extraPackages32 = with pkgs.pkgsi686Linux; [ ];
   };

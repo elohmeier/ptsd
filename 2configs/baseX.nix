@@ -31,11 +31,6 @@
     redshift
     pavucontrol
     pasystray
-    (
-      pulseaudio-dlna.override {
-        pulseaudio = pulseaudio;
-      }
-    )
     dunst
     libnotify
     gnupg
@@ -70,12 +65,6 @@
       RestartSec = 3;
       Restart = "always";
     };
-  };
-
-
-  hardware.logitech.wireless = {
-    enable = true;
-    enableGraphical = true;
   };
 
   # yubikey

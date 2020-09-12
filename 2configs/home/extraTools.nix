@@ -2,11 +2,6 @@
 
 # Tools you probably would not add to an ISO image
 let
-  unstable = import <nixpkgs-unstable> {
-    config = {
-      allowUnfree = true;
-    };
-  };
   py3 = pkgs.python37.override {
     packageOverrides = self: super: rec {
       black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert { };
@@ -28,25 +23,6 @@ let
     ]
   );
   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
-  my-ffmpeg =
-    (
-      # waits for https://github.com/NixOS/nixpkgs/pull/87588
-      pkgs.ffmpeg-full.overrideAttrs (
-        old: {
-          nativeBuildInputs = old.nativeBuildInputs ++ [ pkgs.addOpenGLRunpath ];
-          postFixup = ''
-            addOpenGLRunpath $out/lib/libavcodec.so*
-          '';
-        }
-      )
-    ).override {
-      nonfreeLicensing = true;
-      fdkaacExtlib = true;
-      ffplayProgram = false;
-      ffprobeProgram = false;
-      qtFaststartProgram = false;
-    }
-  ;
 in
 {
   imports = [
@@ -58,23 +34,32 @@ in
     mywine = wine.override { wineBuild = "wine32"; wineRelease = "staging"; };
   in
   [
+    (
+      ffmpeg-full.override {
+        nonfreeLicensing = true;
+        fdkaacExtlib = true;
+        ffplayProgram = false;
+        ffprobeProgram = false;
+        qtFaststartProgram = false;
+      }
+    )
     sshfs
     pdftk
-    mywine
-    (winetricks.override { wine = mywine; })
-    slack-dark
-    jetbrains.idea-ultimate
-    jetbrains.goland
-    jetbrains.pycharm-professional
+    #mywine
+    #(winetricks.override { wine = mywine; })
+    #slack-dark
+    #jetbrains.idea-ultimate
+    #jetbrains.goland
+    #jetbrains.pycharm-professional
     vscodium
     sqlitebrowser
     #filezilla
-    libreoffice
+    libreoffice-fresh
     inkscape
     gimp
     #tor-browser-bundle-bin
     xournalpp
-    calibre
+    #calibre
     xmind
     transmission-gtk
     sylpheed
@@ -86,19 +71,16 @@ in
     zathura
     zathura-single
     #nerdworks-motivation
-    caffeine
     lguf-brightness
     keepassxc
     xcalib
-    unstable.portfolio
+    portfolio
     woeusb
-    my-ffmpeg
-
-    unstable.betaflight-configurator
+    betaflight-configurator
     dbeaver
     drone-cli
-    openshift
-    minishift
+    #openshift
+    #minishift
     cachix
     pyenv
     virtmanager
@@ -116,13 +98,13 @@ in
     #nix-deploy
     #hcloud
     dep2nix
-    xca
+    #xca
     gcolor3
     vlc
     syncthing
     imagemagick
     youtube-dl
-    unstable.spotify
+    spotify
     vlc
     drawio
     geckodriver
@@ -131,17 +113,10 @@ in
     file-rename
     #sublime3
     teamviewer
-    discord
+    #discord
     mediathekview
-    #(pkgs.callPackage <nixpkgs-unstable/pkgs/applications/networking/sync/rclone> {})
-    unstable.rclone
-    # telegram-desktop
-    #(
-    #  pkgs.qt5.callPackage <nixpkgs-unstable/pkgs/applications/networking/instant-messengers/telegram/tdesktop> {
-    #    tl-expected = (pkgs.callPackage <nixpkgs-unstable/pkgs/development/libraries/tl-expected> {});
-    #  }
-    #)
-    unstable.tdesktop # faster (build takes long on tp1)
+    rclone
+    tdesktop
     obs-studio
     gnome3.evolution
     go
@@ -151,19 +126,15 @@ in
     peek
     hidclient
     fava
-    unstable.AusweisApp2
-    (
-      unstable.ffmpeg-normalize.override {
-        ffmpeg_3 = my-ffmpeg;
-      }
-    )
+    AusweisApp2
+    ffmpeg-normalize
     weatherbg
     shrinkpdf
     gitAndTools.hub
-
     py3.pkgs.davphonebook
-
     teams
+    nix-tree
+    pssh
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
