@@ -88,6 +88,7 @@
   hardware.cpu.amd.updateMicrocode = true;
 
   hardware.opengl = {
+    enable = true;
     #driSupport32Bit = true; # for Steam
     extraPackages = with pkgs; [ ];
     extraPackages32 = with pkgs.pkgsi686Linux; [ ];
