@@ -9,7 +9,7 @@
 
     <ptsd/2configs/baseX.nix>
     <ptsd/2configs/themes/nerdworks.nix>
-    <ptsd/2configs/dovecot.nix>
+    #<ptsd/2configs/dovecot.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/syncthing.nix>
     <ptsd/2configs/prometheus/node.nix>
@@ -85,7 +85,6 @@
     splix
   ];
 
-  #  services.avahi.enable = true;
   services.avahi.enable = false;
 
   services.logind.lidSwitch = "suspend-then-hibernate";
