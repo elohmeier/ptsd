@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  #homeSecrets = import /run/keys/home-secrets.nix;
+  baresipSecrets = import <secrets/baresip.nix>;
   homeSecrets = import <client-secrets/home-secrets.nix>;
   unstable = import <nixpkgs-unstable> {
     config = {
@@ -23,7 +23,7 @@ in
     enable = true;
     username = "ws1linphone";
     registrar = "192.168.178.1";
-    password = homeSecrets.baresip_pw;
+    password = baresipSecrets.password;
 
     # QC35
     # audioPlayer = "bluez_sink.04_52_C7_0C_C1_61.headset_head_unit";
@@ -79,9 +79,6 @@ in
   };
 
   home = {
-    file.".baresip/contacts".text = homeSecrets.baresip_contacts;
-    file.".baresip/uuid".text = ''2e3a60c7-c86f-af8f-591a-9d1903d9d5dc'';
-
     packages = with pkgs; [
       unstable.prusa-slicer
       freecad
