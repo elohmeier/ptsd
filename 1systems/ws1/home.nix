@@ -9,8 +9,25 @@ in
     <ptsd/2configs/home/baseX.nix>
     <ptsd/2configs/home/extraTools.nix>
     <ptsd/2configs/home/weatherbg.nix>
+    <ptsd/2configs/home/sway.nix>
     <ptsd/2configs/home/xsession-i3.nix>
   ];
+
+  wayland.windowManager.sway = {
+    config.input = {
+      "1118:219:Microsoft_Natural___Ergonomic_Keyboard_4000" = {
+        xkb_layout = "de";
+      };
+
+      "1133:16507:Logitech_MX_Vertical" = {
+        natural_scroll = "enabled";
+      };
+    };
+    extraConfig = ''
+      output DP-3 pos 0 0 mode 3840x2160@59.997002Hz scale 2
+      output DP-4 pos 1920 0 mode 3840x2160@59.999001Hz scale 2
+    '';
+  };
 
   ptsd.urxvt.theme = "solarized_dark";
 
@@ -39,7 +56,46 @@ in
   ptsd.i3 = {
     showBatteryStatus = false;
     showWifiStatus = false;
-    showNvidiaGpuStatus = true;
+    showNvidiaGpuStatus = false;
+    ethIf = "br0";
+    extraDiskBlocks = [
+      {
+        block = "disk_space";
+        path = "/var";
+        alias = "/var";
+        warning = 1;
+        alert = 0.5;
+      }
+      {
+        block = "disk_space";
+        path = "/var/lib/docker";
+        alias = "/var/lib/docker";
+        warning = 2;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/var/lib/libvirt/images";
+        alias = "/var/lib/libvirt/images";
+        warning = 2;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/var/log";
+        alias = "/var/log";
+        warning = 1;
+        alert = 0.5;
+      }
+    ];
+    configureGtk = false;
+    configureRofi = false;
+  };
+
+  ptsd.sway = {
+    showBatteryStatus = false;
+    showWifiStatus = false;
+    showNvidiaGpuStatus = false;
     ethIf = "br0";
     extraDiskBlocks = [
       {
