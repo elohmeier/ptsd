@@ -12,14 +12,30 @@ in
     <ptsd/2configs/home/xsession-i3.nix>
   ];
 
+  wayland.windowManager.sway.config.input = {
+    "1:1:AT_Translated_Set_2_keyboard" = {
+      xkb_layout = "de";
+    };
+
+    "1739:0:Synaptics_TM3381-002" = {
+      natural_scroll = "enabled";
+    };
+  };
+
   ptsd.i3 = {
     showBatteryStatus = true;
     showWifiStatus = true;
     fontSize = 10;
+    configureGtk = false;
+    configureRofi = false;
   };
-  ptsd.urxvt.fontSize = 12;
+  ptsd.sway = {
+    showBatteryStatus = true;
+    showWifiStatus = true;
+    fontSize = 10;
+  };
 
-  home.packages = [ pkgs.steam ];
+  #home.packages = [ pkgs.steam ];
 
   xsession.initExtra = ''
     # will dim after 10 mins, lock 5 sec after.

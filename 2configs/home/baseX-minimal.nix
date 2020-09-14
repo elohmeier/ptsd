@@ -20,7 +20,7 @@
           family = "Iosevka";
           #style = "Regular";
         };
-        size = 8;
+        size = 12;
       };
 
       # Colors (Solarized Dark)
