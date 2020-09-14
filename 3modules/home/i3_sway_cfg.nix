@@ -126,7 +126,8 @@ in
 
       "${modifier}+Shift+Delete" = "exec ${pkgs.nwlock}/bin/nwlock";
       #"${modifier}+Shift+Return" = "exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";  # urxvt
-      "${modifier}+Shift+Return" = "exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\""; # alacritty
+      #"${modifier}+Shift+Return" = "exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\""; # alacritty
+      "${modifier}+Shift+Return" = "exec i3-sensible-terminal --directory \"`${pkgs.xcwd}/bin/xcwd`\""; # kitty
       "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
       "${modifier}+Shift+t" = "exec ${pkgs.pcmanfm}/bin/pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
 
@@ -139,7 +140,8 @@ in
       "XF86AudioMicMute" = mkIf (cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
       #"XF86Calculator" = "exec i3-sensible-terminal -title bc -e ${pkgs.bc}/bin/bc -l";  # urxvt
-      "XF86Calculator" = "exec i3-sensible-terminal --title bc -e ${pkgs.bc}/bin/bc -l"; # alacritty
+      #"XF86Calculator" = "exec i3-sensible-terminal --title bc -e ${pkgs.bc}/bin/bc -l"; # alacritty
+      "XF86Calculator" = "exec i3-sensible-terminal --title bc ${pkgs.bc}/bin/bc -l"; # kitty
       "XF86HomePage" = "exec chromium";
       "XF86Search" = "exec chromium";
       "XF86Mail" = "exec evolution";
@@ -185,8 +187,12 @@ in
       #"${modifier}+minus" = "split vertical;; exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
 
       # alacritty
-      "${modifier}+numbersign" = "split horizontal;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
-      "${modifier}+minus" = "split vertical;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+      #"${modifier}+numbersign" = "split horizontal;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+      #"${modifier}+minus" = "split vertical;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+
+      # kitty
+      "${modifier}+numbersign" = "split horizontal;; exec i3-sensible-terminal --directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+      "${modifier}+minus" = "split vertical;; exec i3-sensible-terminal --directory \"`${pkgs.xcwd}/bin/xcwd`\"";
 
       "${modifier}+a" = ''[class="Firefox"] scratchpad show'';
       "${modifier}+b" = ''[class="Firefox"] scratchpad show'';
@@ -298,7 +304,7 @@ in
   rofi = {
     enable = true;
     font = "${cfg.fontSans} ${toString cfg.fontSize}";
-    terminal = "${pkgs.alacritty}/bin/alacritty";
+    terminal = "${pkgs.kitty}/bin/kitty";
     theme = "solarized_alternate";
   };
 
