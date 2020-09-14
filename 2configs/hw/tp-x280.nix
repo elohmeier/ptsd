@@ -6,10 +6,6 @@
     <nixos-hardware/lenovo/thinkpad/x280>
   ];
 
-  environment.variables = {
-    WINIT_HIDPI_FACTOR = "0.9"; # for alacritty
-  };
-
   services.tlp.enable = true; # TLP Linux Advanced Power Management
   #services.fwupd.enable = true;
 
@@ -92,4 +88,29 @@
   };
 
   console.keyMap = "de-latin1";
+
+  # set DPI
+  # https://wiki.archlinux.org/index.php/HiDPI
+  services.xserver = {
+    xrandrHeads = [
+      {
+        output = "eDP-1";
+        primary = true;
+        monitorConfig = "DisplaySize 277 156"; # in millimeters
+      }
+    ];
+
+    # 176 is physical DPI, next two settings are only necessary if using DPI != 176
+    # since default 176 is calculated by above xrandrHeads configuration
+    dpi = 120; # 1.25x scale
+    displayManager.sessionCommands = ''
+      ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
+        Xft.dpi: 120
+      EOF
+    '';
+  };
+  console.font = "${pkgs.terminus_font}/share/consolefonts/ter-v18n.psf.gz";
+  environment.variables = {
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # honor screen DPI
+  };
 }

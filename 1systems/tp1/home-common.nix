@@ -25,14 +25,12 @@ in
   ptsd.i3 = {
     showBatteryStatus = true;
     showWifiStatus = true;
-    fontSize = 10;
     configureGtk = false;
     configureRofi = false;
   };
   ptsd.sway = {
     showBatteryStatus = true;
     showWifiStatus = true;
-    fontSize = 10;
   };
 
   #home.packages = [ pkgs.steam ];
