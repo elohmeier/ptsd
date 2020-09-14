@@ -33,9 +33,9 @@ in
       };
     };
 
-    gtk = i3_sway.gtk;
+    gtk = mkIf cfg.configureGtk i3_sway.gtk;
 
-    programs.rofi = i3_sway.rofi;
+    programs.rofi = mkIf cfg.configureRofi i3_sway.rofi;
 
     home.packages = with pkgs; [
       i3lock # only needed for config testing / man pages

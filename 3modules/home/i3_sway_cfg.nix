@@ -59,6 +59,14 @@ in
       type = types.str;
       default = "";
     };
+    configureGtk = mkOption {
+      type = types.bool;
+      default = true;
+    };
+    configureRofi = mkOption {
+      type = types.bool;
+      default = true;
+    };
   };
 
   inherit modifier;
