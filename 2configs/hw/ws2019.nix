@@ -58,7 +58,6 @@
     #"nordrand" # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1690085
     #"acpi_osi=Linux" # (try) fix shutdown bug
   ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
   # boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.supportedFilesystems = [ "zfs" ];
@@ -69,6 +68,14 @@
   #     flags = "-k -p --utc";
   #   };
   # };
+
+  # NVIDIA Driver
+  #boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
+  #services.xserver.videoDrivers = [ "nvidia" ];
+
+  # NOUVEAU Driver
+  boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   nix.maxJobs = lib.mkDefault 24;
   #powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
@@ -89,8 +96,6 @@
     extraPackages = with pkgs; [ ];
     extraPackages32 = with pkgs.pkgsi686Linux; [ ];
   };
-
-  services.xserver.videoDrivers = [ "nvidia" ];
 
   console.keyMap = "de-latin1";
 
