@@ -16,6 +16,7 @@ in
     mc
     ncdu
     nmap
+    nnn
     pwgen
     ripgrep
     rmlint
