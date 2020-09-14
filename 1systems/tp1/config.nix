@@ -1,5 +1,7 @@
 { config, lib, pkgs, ... }:
-
+let
+  universe = import <ptsd/2configs/universe.nix>;
+in
 {
   imports = [
     <ptsd>
@@ -35,7 +37,7 @@
   nix = {
     buildMachines = [
       {
-        hostName = "192.168.178.218";
+        hostName = universe.hosts.ws1.nets.bs53lan.ip4.addr;
         sshUser = "enno";
         sshKey = "/tmp/id_ed25519";
         systems = [ "x86_64-linux" ];

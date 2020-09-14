@@ -61,11 +61,11 @@ in
   nix = {
     binaryCaches = [
       "https://nerdworks.cachix.org"
-      "http://192.168.178.218:5000"
+      #"http://${universe.hosts.ws1.nets.bs53lan.ip4.addr}:5000"
     ];
     binaryCachePublicKeys = [
       "nerdworks.cachix.org-1:mt3i8px0W2IFrZ+vs/xu3mawh+XJZFTlZ+eaxMpVr+A="
-      "ws1.host.nerdworks.de-1:XFlt+Bmung8wck0dcTLmhJy4cuEc82zssAK1DBeEF5w="
+      #"ws1.host.nerdworks.de-1:XFlt+Bmung8wck0dcTLmhJy4cuEc82zssAK1DBeEF5w="
     ];
   };
 
