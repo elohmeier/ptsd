@@ -18,10 +18,6 @@
     };
   };
 
-  # turn on numlock in X11 by default
-  services.xserver.displayManager.lightdm.extraSeatDefaults =
-    "greeter-setup-script=${pkgs.numlockx}/bin/numlockx on";
-
   # nixpkgs.config = {
   #   allowUnfree = true;
   #   packageOverrides = super:
@@ -98,10 +94,19 @@
 
   console.keyMap = "de-latin1";
 
-  # set DPI
-  services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
-      Xft.dpi: 150
-    EOF
-  '';
+  services.xserver = {
+    # set DPI
+    dpi = 150;
+    displayManager = {
+      sessionCommands = ''
+        ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
+          Xft.dpi: 150
+        EOF
+      '';
+
+      # turn on numlock in X11 by default
+      lightdm.extraSeatDefaults =
+        "greeter-setup-script=${pkgs.numlockx}/bin/numlockx on";
+    };
+  };
 }
