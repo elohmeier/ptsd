@@ -83,23 +83,40 @@ in
   # default: poweroff
   #services.logind.extraConfig = "HandlePowerKey=suspend";
 
-  # compensate X11 shutdown problems, probably caused by nvidia driver
-  systemd.services.display-manager.postStop = ''
-    ${pkgs.coreutils}/bin/sleep 5
-  '';
-
   ptsd.vdi-container = {
     enable = true;
     extIf = "br0";
   };
 
-  services.xserver.xrandrHeads = [
-    { output = "DP-0"; primary = true; }
-    {
-      output = "USB-C-0";
-      # monitorConfig = ''Option "Rotate" "left"'';
-    }
-  ];
+  # *** NVIDIA Driver
+  # boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+  # services.xserver = {
+  #   videoDrivers = [ "nvidia" ];
+  #   xrandrHeads = [
+  #     { output = "DP-0"; primary = true; }
+  #     {
+  #       output = "USB-C-0";
+  #       # monitorConfig = ''Option "Rotate" "left"'';
+  #     }
+  #   ];
+  # };
+  # # compensate X11 shutdown problems, probably caused by nvidia driver
+  # systemd.services.display-manager.postStop = ''
+  #   ${pkgs.coreutils}/bin/sleep 5
+  # '';
+
+  # *** NOUVEAU Driver ***
+  services.xserver = {
+    videoDrivers = [ "modesetting" ];
+    xrandrHeads = [
+      { output = "DP-3"; primary = true; }
+      {
+        output = "DP-4";
+        # monitorConfig = ''Option "Rotate" "left"'';
+      }
+    ];
+  };
+
 
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [ brlaser ];

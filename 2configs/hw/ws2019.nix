@@ -69,13 +69,7 @@
   #   };
   # };
 
-  # NVIDIA Driver
-  #boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta config.boot.kernelPackages.nvidia_x11 ];
-  #services.xserver.videoDrivers = [ "nvidia" ];
-
-  # NOUVEAU Driver
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
-  services.xserver.videoDrivers = [ "modesetting" ];
 
   nix.maxJobs = lib.mkDefault 24;
   #powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
