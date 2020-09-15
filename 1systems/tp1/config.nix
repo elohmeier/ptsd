@@ -57,9 +57,11 @@ in
   #  # use:
   #  # sudo mkdir -p rootfs-overlay/system/usr/keychars
   #  # sudo cp Generic_de_DE.kcm rootfs-overlay/system/usr/keychars/anbox-keyboard.kcm
-  #  virtualisation.anbox = {
-  #    enable = true;
-  #  };
+  # virtualisation.anbox = {
+  #   enable = true;
+  # };
+  # programs.adb.enable = true;
+  # users.users.mainUser.extraGroups = [ "adbusers" ];
 
   # reduce the noise
   ptsd.nwtelegraf.enable = lib.mkForce false;

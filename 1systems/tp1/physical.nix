@@ -21,7 +21,7 @@ in
       #device = "${vgPrefix}-root";
       #fsType = "ext4";
       fsType = "tmpfs";
-      options = [ "size=500M" "mode=1755" ];
+      options = [ "size=2000M" "mode=1755" ];
     };
 
   fileSystems."/home" =
