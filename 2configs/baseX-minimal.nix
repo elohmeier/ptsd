@@ -28,8 +28,6 @@
     # };
   };
 
-  programs.dconf.enable = true;
-
   programs.xss-lock =
     {
       enable = true;

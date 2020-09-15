@@ -16,9 +16,11 @@
     desktopManager.xterm.enable = true;
   };
   security.pam.services.lightdm.enableGnomeKeyring = true;
-
-  services.dbus.packages = [ pkgs.gnome3.dconf ];
   services.gnome3.gnome-keyring.enable = true;
+
+  # required for evolution
+  programs.dconf.enable = true;
+  systemd.packages = [ pkgs.gnome3.evolution-data-server ];
 
   ptsd.nwmonit.enable = lib.mkForce false;
 
@@ -43,7 +45,6 @@
 
   # disabled to be able to use linuxPackages_latest
   # boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
-
 
   systemd.user.services.redshift = {
     description = "Screen color temperature manager";
