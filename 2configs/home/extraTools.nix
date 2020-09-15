@@ -135,6 +135,7 @@ in
     teams
     nix-tree
     pssh
+    screenkey
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
