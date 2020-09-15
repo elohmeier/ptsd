@@ -6,7 +6,6 @@ _:
     ./i3.nix
     ./i3status-rust.nix
     ./kitty.nix
-    ./offlineimap.nix
     ./sway.nix
     ./urxvt.nix
   ];
