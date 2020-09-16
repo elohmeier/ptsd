@@ -210,6 +210,10 @@ in
             id = "ezjwj-xgnhe";
             devices = [ "tp1" "ws1" ];
           };
+          "${root}/repos-ws1" = {
+            id = "jihdi-qxmi3";
+            devices = [ "tp1" "ws1" ];
+          };
         };
       };
 
