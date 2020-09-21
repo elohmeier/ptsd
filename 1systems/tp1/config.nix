@@ -119,10 +119,13 @@ in
     enable = true;
     dns = "systemd-resolved";
     wifi = {
+      backend = "iwd";
       macAddress = "random";
       powersave = true;
     };
   };
+
+  networking.wireless.iwd.enable = true;
 
   systemd.user.services.nm-applet = {
     description = "Network Manager applet";
