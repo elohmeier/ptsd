@@ -72,6 +72,11 @@ in
     inherit user;
     inherit group;
 
+    phpOptions = ''
+      extension = ${pkgs.phpPackages.imagick}/lib/php/extensions/imagick.so
+      date.timezone = "Europe/Berlin"
+    '';
+
     phpPackage = phpPackage;
     phpEnv = phpEnv;
 
