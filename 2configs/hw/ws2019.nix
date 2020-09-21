@@ -18,24 +18,6 @@
     };
   };
 
-  # nixpkgs.config = {
-  #   allowUnfree = true;
-  #   packageOverrides = super:
-  #     let
-  #       self = super.pkgs;
-  #     in
-  #       {
-  #         linuxPackages = pkgs.linuxPackages_latest.extend (
-  #           self: super: {
-  #             nvidiaPackages = super.nvidiaPackages
-  #             // {
-  #               stable = pkgs.linuxPackages_latest.nvidiaPackages.stable;
-  #             };
-  #           }
-  #         );
-  #       };
-  # };
-
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
   #services.fwupd.enable = true;
@@ -55,24 +37,12 @@
 
   boot.kernelParams = [
     "mitigations=off" # make linux fast again
-    #"nordrand" # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1690085
-    #"acpi_osi=Linux" # (try) fix shutdown bug
   ];
-  # boot.kernelPackages = pkgs.linuxPackages; # pkgs.linuxPackages is overridden, see nixpkgs.config in this file
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  # boot.supportedFilesystems = [ "zfs" ];
-  # services.zfs = {
-  #   autoScrub = { enable = true; };
-  #   autoSnapshot = {
-  #     enable = true;
-  #     flags = "-k -p --utc";
-  #   };
-  # };
 
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
 
   nix.maxJobs = lib.mkDefault 24;
-  #powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
 
   # sample to pass USB access to VM
   # see https://github.com/NixOS/nixpkgs/issues/27199
