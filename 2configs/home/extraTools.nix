@@ -136,7 +136,6 @@ in
     nix-tree
     pssh
     screenkey
-    nextcloud-client
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
