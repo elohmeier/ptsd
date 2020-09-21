@@ -5,7 +5,7 @@ let
     pkgs.pulseaudioFull.overrideAttrs (
       old: {
         patches = [
-          # mitigate https://pulseaudio-bugs.freedesktop.narkive.com/RfIRytly/pulseaudio-tickets-bug-96819-new-module-echo-cancel-aec-method-webrtc-parsing-mic-geometry-value-is-
+          # mitigate https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/89
           ./patches/echo-cancel-make-webrtc-beamforming-parameter-parsing-locale-independent.patch
         ];
       }
