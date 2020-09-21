@@ -2,7 +2,7 @@
 
 # Tools you probably would not add to an ISO image
 let
-  py3 = pkgs.python37.override {
+  py3 = pkgs.python3.override {
     packageOverrides = self: super: rec {
       black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert { };
       davphonebook = super.callPackage ../../5pkgs/davphonebook { };
