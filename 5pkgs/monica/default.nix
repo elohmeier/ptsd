@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname = "monica";
-  version = "2.18.0";
+  version = "2.19.1";
 
   src = fetchurl {
     url = "https://github.com/monicahq/monica/releases/download/v${version}/monica-v${version}.tar.bz2";
-    sha256 = "1pdhggxhxqwvh7j319m6vr7500izgjdbp1q6d1da10f7vj9z9ym1";
+    sha256 = "0m4gnacm0dvpbnh42y9wvr27l6vqn95ybb6b09c82bgqjcff02k3";
   };
 
   patches = [ ./monica-storage-path.path ];
