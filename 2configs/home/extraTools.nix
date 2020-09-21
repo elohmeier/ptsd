@@ -181,6 +181,7 @@ in
       evil-org
       magit
       org
+      solarized-theme
     ];
   };
 
