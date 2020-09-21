@@ -136,6 +136,7 @@ in
     nix-tree
     pssh
     screenkey
+    nextcloud-client
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
@@ -176,5 +177,14 @@ in
 
   programs.emacs = {
     enable = true;
+    extraPackages = epkgs: with epkgs; [
+      evil
+      evil-org
+      magit
+      org
+    ];
   };
+
+  # Link emacs config to well-known path
+  home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/init.el;
 }
