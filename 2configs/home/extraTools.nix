@@ -173,4 +173,8 @@ in
       alias cjd="cjdfunction"
     '';
   };
+
+  programs.emacs = {
+    enable = true;
+  };
 }
