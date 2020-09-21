@@ -39,6 +39,11 @@ in
     };
   };
 
+  environment.systemPackages = with pkgs; [
+    pavucontrol
+    pasystray
+  ];
+
   systemd.user.services.pasystray = lib.mkIf config.services.xserver.enable {
     description = "PulseAudio system tray";
     partOf = [ "graphical-session.target" ];

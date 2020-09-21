@@ -31,8 +31,6 @@
     syncthing-device-id
     nwvpn-qr
     redshift
-    pavucontrol
-    pasystray
     dunst
     libnotify
     gnupg
