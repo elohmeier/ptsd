@@ -43,8 +43,7 @@
   ];
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
-  # disabled to be able to use linuxPackages_latest
-  # boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
   systemd.user.services.redshift = {
     description = "Screen color temperature manager";
