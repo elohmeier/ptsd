@@ -457,6 +457,10 @@ in
     }
     ++ [
       {
+        block = "custom_dbus";
+        name = "SyncthingStatus";
+      }
+      {
         block = "load";
         interval = 5;
         format = "{1m}";
