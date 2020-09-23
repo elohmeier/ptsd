@@ -65,6 +65,18 @@
     };
   };
 
+  # TODO: use only with sway or i3
+  systemd.user.services.syncthing-dbus-status = {
+    description = "Syncthing status for i3status-rs via dbus";
+    partOf = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.syncthing-dbus-status}/bin/syncthing-dbus-status";
+      RestartSec = 3;
+      Restart = "always";
+    };
+  };
+
   # yubikey
   services.udev.packages = [ pkgs.libu2f-host pkgs.yubikey-personalization ];
   services.pcscd.enable = true;
