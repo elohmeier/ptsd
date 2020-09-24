@@ -32,7 +32,9 @@ in
       ssh = {
         enable = true;
         port = 2222;
-        hostECDSAKey = lib.mkDefault (toString <secrets> + "/initrd-ssh-key");
+        hostKeys = [
+          (toString <secrets/ssh.id_ed25519>)
+        ];
       };
       postCommands = ''
         echo "unlock" >> /root/.profile
