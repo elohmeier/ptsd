@@ -250,6 +250,20 @@
       borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2g2ga5+52k9vQwbX204VK+ZXEb9dIhbicRe1bZXunDS00MI/kvC1NnLrKpZSJmtieyRBSnYkWkWsejFMKe9TWuTQqd5wceFIASr7bUVInoxQazpYaC07H4wkx1uoeKZqCvQfJD/BCIrPQfXnm8lOwMPWKhAml0wnOPo3EOIFffW5vszxi2RRRLh4af1Azs2pd6/9E+TJnA4foOTgAA1dQEou1X+0eLCEtEwjJFPLNFRVOImXfB4dZ0mke/WTae5DUfUuT4Guz0uf11VYeG1iCorcOLk/0w+LcP4aJMllK3znXQHc/Olm+Og+l4MpRsJTZRke23k+GSgf31BPbvGJJ root@nas1";
     };
 
+    nas1-drone = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.43";
+          aliases = [
+            "nas1-drone.nw"
+          ];
+          wireguard.pubkey = "uFM+8UBkuBH5ZB+uJ0F/cOsihzNDdW0QydLwxgMIrjM=";
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBKcgKKJ3qYg1yDlfFZ/TJgB+4QFvAplGtd9cXJWMie3 ";
+      syncthing.id = "QJMS5H5-ZPQ4QXO-OWCNW6J-D5GV2OG-3OSD7PP-PI3EXHO-5GE7JQP-4JKFHQC";
+    };
 
     nuc1 = {
       nets = {
