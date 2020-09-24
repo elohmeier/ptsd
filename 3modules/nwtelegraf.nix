@@ -34,7 +34,6 @@ let
         processes = { };
         swap = { };
         system = { };
-        systemd_units = { };
         temp = { };
       } // lib.optionalAttrs (cfg.inputs.file != [ ]) { file = cfg.inputs.file; }
       // lib.optionalAttrs (cfg.inputs.http != [ ]) { http = cfg.inputs.http; }
