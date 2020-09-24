@@ -114,7 +114,7 @@ in
     in
     {
       "nerdworks.de" = {
-        extraDomains = { "www.nerdworks.de" = null; };
+        extraDomainNames = [ "www.nerdworks.de" ];
         dnsProvider = "acme-dns";
         credentialsFile = envFile "nerdworks.de";
         group = "certs";
@@ -137,7 +137,7 @@ in
 
       "luisarichter.de" = {
         email = "office@luisarichter.de";
-        extraDomains = { "www.luisarichter.de" = null; };
+        extraDomainNames = [ "www.luisarichter.de" ];
         dnsProvider = "acme-dns";
         credentialsFile = envFile "luisarichter.de";
         group = "certs";

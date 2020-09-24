@@ -17,7 +17,7 @@ in
   users.groups.certs.members = [ "cups" ];
 
   security.acme.certs."${config.networking.hostName}.${config.networking.domain}" = {
-    extraDomains = { "${config.networking.hostName}.${lanDomain}" = null; };
+    extraDomainNames = [ "${config.networking.hostName}.${lanDomain}" ];
     postRun = "systemctl restart cups.service";
   };
 

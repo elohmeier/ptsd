@@ -114,7 +114,7 @@ in
         };
 
         "fraam.de" = {
-          extraDomains = { "www.fraam.de" = null; };
+          extraDomainNames = [ "www.fraam.de" ];
           dnsProvider = "acme-dns";
           credentialsFile = envFile "fraam.de";
           group = "certs";

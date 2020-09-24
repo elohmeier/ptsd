@@ -94,10 +94,9 @@ in
 
   services.nextcloud = {
     enable = true;
-    package = pkgs.nextcloud18;
+    package = pkgs.nextcloud19;
     hostName = domain;
     https = true;
-    nginx.enable = true;
     caching = {
       apcu = true;
       redis = true;
