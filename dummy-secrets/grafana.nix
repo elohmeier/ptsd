@@ -1,0 +1,1 @@
+{adminUser="";adminPassword="";influxPassword="";}
