@@ -5,7 +5,7 @@ buildGoModule rec {
   version = "2019-09-14";
   goPackagePath = "github.com/KostyaEsmukov/smtp_to_telegram";
 
-  modSha256 = "0q2v74vnclpywjr3pjr03panayqac60i6as87pcyfzmr7ani0wmb";
+  vendorSha256 = "0q2v74vnclpywjr3pjr03panayqac60i6as87pcyfzmr7ani0wmb";
 
   src = fetchFromGitHub {
     owner = "KostyaEsmukov";

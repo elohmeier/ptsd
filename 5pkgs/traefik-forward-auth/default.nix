@@ -5,7 +5,7 @@ buildGoModule rec {
   version = "2.2.0";
   goPackagePath = "github.com/thomseddon/${pname}";
 
-  modSha256 = "1618j7lydmrjd3d8bfcbfadvadyc5g9pdpnp63xrxmgkizybvz64";
+  vendorSha256 = "1618j7lydmrjd3d8bfcbfadvadyc5g9pdpnp63xrxmgkizybvz64";
 
   src = fetchFromGitHub {
     owner = "thomseddon";

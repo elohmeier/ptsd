@@ -5,7 +5,7 @@ buildGoModule rec {
   version = "2019-10-29";
   goPackagePath = "github.com/linkedin/Burrow";
 
-  modSha256 = "0fvwykc9x85libwa9q8cbkh3926yzkf9gj0awq9q1jj47jvb975i";
+  vendorSha256 = "0fvwykc9x85libwa9q8cbkh3926yzkf9gj0awq9q1jj47jvb975i";
 
   src = fetchFromGitHub {
     owner = "linkedin";

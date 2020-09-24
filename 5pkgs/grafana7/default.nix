@@ -18,7 +18,7 @@ buildGoModule rec {
     sha256 = "1x6b61rsflj9dbj0r9wj1wgp4lqwa1q21s3x7ws50scqhq1m3xmk";
   };
 
-  modSha256 = "07mx47xmshy7ixjz34zdm9yhfx54iwsv8k02n9lv3kn6qx5axkmk";
+  vendorSha256 = "07mx47xmshy7ixjz34zdm9yhfx54iwsv8k02n9lv3kn6qx5axkmk";
 
   postPatch = ''
     substituteInPlace pkg/cmd/grafana-server/main.go \
