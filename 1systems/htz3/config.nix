@@ -36,11 +36,6 @@ in
     { routeConfig = { Gateway = "fe80::1"; }; }
   ];
 
-  # when not null, for whatever reason this fails with:
-  # cp: cannot stat '/var/src/secrets/initrd-ssh-key': No such file or directory
-  # builder for '/nix/store/dwlv0grq7lmjayl1kk1jhsvgfz5flbwk-extra-utils.drv' failed with exit code 1
-  boot.initrd.network.ssh.hostECDSAKey = lib.mkForce null;
-
   ptsd.nwbackup = {
     enable = true;
   };
