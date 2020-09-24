@@ -20,7 +20,31 @@ let
   user = config.services.nginx.user;
   group = config.services.nginx.group;
 
-  phpPackage = pkgs.php;
+  # see https://github.com/monicahq/monica/blob/master/docs/installation/providers/generic.md#prerequisites
+  phpPackage = pkgs.php.withExtensions ({ all, ... }: with all;[
+    bcmath
+    curl
+    filter
+    gd
+    gmp
+    iconv
+    imagick
+    intl
+    json
+    mbstring
+    mysqli
+    opcache
+    openssl
+    pdo
+    pdo_mysql
+    redis
+    session
+    sodium
+    tokenizer
+    xml
+    zip
+  ]);
+
   phpEnv = {
     APP_ENV = "production";
     APP_DEBUG = "\"false\"";
@@ -73,7 +97,6 @@ in
     inherit group;
 
     phpOptions = ''
-      extension = ${pkgs.phpPackages.imagick}/lib/php/extensions/imagick.so
       date.timezone = "Europe/Berlin"
     '';
 
