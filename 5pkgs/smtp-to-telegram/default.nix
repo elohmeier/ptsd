@@ -2,15 +2,14 @@
 
 buildGoModule rec {
   pname = "smtp_to_telegram";
-  version = "2019-09-14";
-  goPackagePath = "github.com/KostyaEsmukov/smtp_to_telegram";
+  version = "2020-05-09";
 
-  vendorSha256 = "0q2v74vnclpywjr3pjr03panayqac60i6as87pcyfzmr7ani0wmb";
+  vendorSha256 = "1lfabrh5skaffqsx1zh5g5prd9i3s9w734994mwal7cn18hzdfxb";
 
   src = fetchFromGitHub {
     owner = "KostyaEsmukov";
-    repo = "smtp_to_telegram";
-    rev = "308618c4a4b3ad1459a261b26414cb251325fd69";
-    sha256 = "0l7mn63kgwp25m95l5yvyr0hzfqphhjd7jd43m9l845zr9rg13jf";
+    repo = pname;
+    rev = "8092fc365b902d160d3e3de6ceb7ca67a17392d0";
+    sha256 = "074xpxs4jkc9g9sl82jzi7sg9szccjv6b0yaqa8pcwl2hgc0l8kh";
   };
 }
