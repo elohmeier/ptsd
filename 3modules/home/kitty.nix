@@ -44,6 +44,11 @@ in
         color14 = "#93a1a1";
         color15 = "#fdf6e3";
       };
+
+      keybindings = {
+        "ctrl+plus" = "change_font_size all +2.0";
+        "ctrl+minus" = "change_font_size all -2.0";
+      };
     };
 
     home.sessionVariables = {
