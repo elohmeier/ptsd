@@ -69,6 +69,10 @@ in
     }
   ];
 
+  # IP is reserved in DHCP server for us.
+  # not using DHCP here, because we might receive a different address than post-initrd.
+  boot.kernelParams = [ "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off" ];
+
   ptsd.wireguard.networks = {
     dlrgvpn = {
       enable = true;
