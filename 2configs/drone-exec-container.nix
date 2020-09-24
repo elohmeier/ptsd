@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 let
+  hostconfig = config;
   universe = import <ptsd/2configs/universe.nix>;
 in
 {
@@ -64,7 +65,7 @@ in
 
         ptsd.wireguard.networks.nwvpn = {
           enable = true;
-          ip = universe.hosts."ws1-drone".nets.nwvpn.ip4.addr;
+          ip = universe.hosts."${hostconfig.networking.hostName}-drone".nets.nwvpn.ip4.addr;
           keyname = "nwvpn-drone.key";
         };
 
@@ -82,7 +83,7 @@ in
           wantedBy = [ "multi-user.target" ];
           requires = [ "network.target" ];
           after = [ "network.target" "network-online.target" ];
-          path = with pkgs; [ gitMinimal nix openssh docker drone-gitea-release ];
+          path = with pkgs; [ gitMinimal nix openssh docker drone-gitea-release drone-telegram ];
           serviceConfig = {
             ExecStart = "${pkgs.drone-runner-exec}/bin/drone-runner-exec";
             StartLimitInterval = 86400;
