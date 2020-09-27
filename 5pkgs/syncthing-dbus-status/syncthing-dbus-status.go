@@ -135,7 +135,12 @@ func formatByteCountBinary(b int64) string {
 
 func updateI3Status(rateOut int64, rateIn int64) error {
 	objName := "SyncthingStatus"
-	return dbusI3rsSetStatus(objName, fmt.Sprintf("ST ⬆%s/s ⬇%s/s", formatByteCountBinary(rateOut), formatByteCountBinary(rateIn)), "", "Idle")
+	state := "Idle"
+	// 1kB threshold
+	if (rateOut > 1024) || (rateIn > 1024) {
+		state = "Info"
+	}
+	return dbusI3rsSetStatus(objName, fmt.Sprintf("ST ⬆%s/s ⬇%s/s", formatByteCountBinary(rateOut), formatByteCountBinary(rateIn)), "", state)
 }
 
 func setStatus(oldStatus stStatus, newStatus stStatus) error {
