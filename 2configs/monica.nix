@@ -24,6 +24,7 @@ let
   phpPackage = pkgs.php.withExtensions ({ all, ... }: with all;[
     bcmath
     curl
+    fileinfo
     filter
     gd
     gmp
