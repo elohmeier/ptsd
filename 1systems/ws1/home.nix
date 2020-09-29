@@ -88,8 +88,6 @@ in
         alert = 0.5;
       }
     ];
-    configureGtk = false;
-    configureRofi = false;
   };
 
   ptsd.sway = {
@@ -127,6 +125,8 @@ in
         alert = 0.5;
       }
     ];
+    configureGtk = false;
+    configureRofi = false;
   };
 
   home = {
