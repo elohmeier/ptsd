@@ -13,9 +13,9 @@ in
 
     <secrets/wifi.nix>
 
-    # <ptsd/2configs/cli-tools.nix>
+    <ptsd/2configs/cli-tools.nix>
     # <ptsd/2configs/bluetooth.nix>
-    # <ptsd/2configs/baseX-minimal.nix>
+    <ptsd/2configs/baseX-minimal.nix>
 
     <home-manager/nixos>
     <ptsd/2configs/zsh-enable.nix>
@@ -25,6 +25,7 @@ in
     users.mainUser = { pkgs, ... }:
       {
         imports = [
+          <ptsd/2configs/home>
           <ptsd/2configs/home/git.nix>
           <ptsd/2configs/home/vim.nix>
           <ptsd/2configs/home/zsh.nix>
@@ -36,34 +37,32 @@ in
   };
 
   nix = {
-    maxJobs = 4;
-    buildMachines = [
-      {
-        hostName = universe.hosts.ws1.nets.bs53lan.ip4.addr;
-        sshUser = "enno";
-        sshKey = "/tmp/id_ed25519";
-        systems = [ "x86_64-linux" "aarch64-linux" ];
-        maxJobs = 48;
-      }
-    ];
+    #    buildMachines = [
+    #      {
+    #        hostName = universe.hosts.ws1.nets.bs53lan.ip4.addr;
+    #        sshUser = "enno";
+    #        sshKey = "/tmp/id_ed25519";
+    #        systems = [ "x86_64-linux" "aarch64-linux" ];
+    #        maxJobs = 48;
+    #      }
+    #    ];
     trustedUsers = [ "root" "enno" ];
-    distributedBuilds = true;
-    extraOptions = ''
-      builders-use-substitutes = true
-    '';
+    #    distributedBuilds = true;
+    #    extraOptions = ''
+    #      builders-use-substitutes = true
+    #    '';
   };
 
-  # hardware.opengl = {
-  #   enable = true;
-  #   setLdLibraryPath = true;
-  #   package = pkgs.mesa_drivers;
-  # };
-  # hardware.deviceTree = {
-  #   base = pkgs.device-tree_rpi;
-  #   overlays = [ "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo" ];
-  # };
-  # services.xserver.displayManager.startx.enable = true;
-  # services.xserver.videoDrivers = [ "modesetting" ];
+  hardware.opengl = {
+    enable = true;
+    setLdLibraryPath = true;
+    package = pkgs.mesa_drivers;
+  };
+  hardware.deviceTree = {
+    overlays = [ "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo" ];
+  };
+  services.xserver.displayManager.startx.enable = true;
+  services.xserver.videoDrivers = [ "modesetting" ];
 
   networking = {
     useNetworkd = true;
@@ -80,6 +79,9 @@ in
       interfaces = [ "wlan0" ];
     };
   };
+
+  # allow hot-plug
+  systemd.network.networks."40-eth0".networkConfig.ConfigureWithoutCarrier = true;
 
   # systemd.services.tinypilot = {
   #   description = "TinyPilot";

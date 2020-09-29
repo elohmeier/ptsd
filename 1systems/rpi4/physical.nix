@@ -32,7 +32,6 @@
     };
   };
 
-  environment.noXlibs = true;
   documentation = {
     enable = false;
     man.enable = false;
