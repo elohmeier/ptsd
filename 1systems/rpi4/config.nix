@@ -36,6 +36,7 @@ in
   };
 
   nix = {
+    maxJobs = 4;
     buildMachines = [
       {
         hostName = universe.hosts.ws1.nets.bs53lan.ip4.addr;
