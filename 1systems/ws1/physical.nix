@@ -81,7 +81,7 @@ in
     {
       device = "${disk}-part4";
       fsType = "ntfs-3g";
-      options = [ "nofail" ];
+      options = [ "nofail" "remove_hiberfile" ];
     };
 
   swapDevices =
