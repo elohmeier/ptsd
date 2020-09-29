@@ -107,6 +107,7 @@
         imports = [
           <ptsd/2configs/home>
           <ptsd/2configs/home/baseX.nix>
+          <ptsd/2configs/home/gpg.nix>
           <ptsd/2configs/home/xsession-i3.nix>
         ];
         nixpkgs.config.allowUnfree = true;

@@ -8,6 +8,7 @@ in
     <ptsd/2configs/home>
     <ptsd/2configs/home/baseX.nix>
     <ptsd/2configs/home/extraTools.nix>
+    <ptsd/2configs/home/gpg.nix>
     <ptsd/2configs/home/sway.nix>
     <ptsd/2configs/home/xsession-i3.nix>
   ];
