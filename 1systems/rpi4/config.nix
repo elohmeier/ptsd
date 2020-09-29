@@ -13,9 +13,9 @@ in
 
     <secrets/wifi.nix>
 
-    <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/bluetooth.nix>
-    <ptsd/2configs/baseX-minimal.nix>
+    # <ptsd/2configs/cli-tools.nix>
+    # <ptsd/2configs/bluetooth.nix>
+    # <ptsd/2configs/baseX-minimal.nix>
 
     <home-manager/nixos>
     <ptsd/2configs/zsh-enable.nix>
@@ -25,7 +25,12 @@ in
     users.mainUser = { pkgs, ... }:
       {
         imports = [
-          ./home.nix
+          <ptsd/2configs/home/git.nix>
+          <ptsd/2configs/home/vim.nix>
+          <ptsd/2configs/home/zsh.nix>
+
+          # <ptsd/2configs/home/baseX-minimal.nix>
+          # <ptsd/2configs/home/xsession-i3.nix>
         ];
       };
   };
@@ -47,17 +52,17 @@ in
     '';
   };
 
-  hardware.opengl = {
-    enable = true;
-    setLdLibraryPath = true;
-    package = pkgs.mesa_drivers;
-  };
-  hardware.deviceTree = {
-    base = pkgs.device-tree_rpi;
-    overlays = [ "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo" ];
-  };
-  services.xserver.displayManager.startx.enable = true;
-  services.xserver.videoDrivers = [ "modesetting" ];
+  # hardware.opengl = {
+  #   enable = true;
+  #   setLdLibraryPath = true;
+  #   package = pkgs.mesa_drivers;
+  # };
+  # hardware.deviceTree = {
+  #   base = pkgs.device-tree_rpi;
+  #   overlays = [ "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo" ];
+  # };
+  # services.xserver.displayManager.startx.enable = true;
+  # services.xserver.videoDrivers = [ "modesetting" ];
 
   networking = {
     useNetworkd = true;
