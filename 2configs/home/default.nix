@@ -29,13 +29,10 @@
     #(pass.withExtensions (ext: [ ext.pass-import ]))
     pass
     openssl
-    efitools
-    tpm2-tools
     lorri
     smartmontools
     gptfdisk
     gparted
-    efibootmgr
     usbutils
     wirelesstools
     wpa_supplicant

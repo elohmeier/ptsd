@@ -145,6 +145,9 @@ in
     networkmanagerapplet
     samba
     home-manager
+    efibootmgr
+    efitools
+    tpm2-tools
   ];
 
   services.samba = {

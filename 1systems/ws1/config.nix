@@ -159,6 +159,9 @@ in
   environment.systemPackages = with pkgs; [
     samba
     home-manager
+    efibootmgr
+    efitools
+    tpm2-tools
   ];
 
   networking.firewall.interfaces.virbr4 = {

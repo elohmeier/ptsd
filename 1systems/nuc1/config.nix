@@ -41,4 +41,10 @@
   };
 
   ptsd.nwbackup.paths = [ "/mnt/int" ];
+
+  home.packages = with pkgs; [
+    efibootmgr
+    efitools
+    tpm2-tools
+  ];
 }
