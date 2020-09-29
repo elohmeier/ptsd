@@ -2,6 +2,7 @@
 let
   unstable = import <nixpkgs-unstable> { };
   domain = "octoprint.services.nerdworks.de";
+  v4l-utils-nogui = pkgs.v4l-utils.override { withGUI = false; };
 in
 {
   ptsd.octoprint = {
@@ -17,6 +18,8 @@ in
     ];
     deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d3-1\\x2d3:1.0-ttyUSB0-tty-ttyUSB0.device";
   };
+
+  environment.systemPackages = [ v4l-utils-nogui ];
 
   ptsd.mjpg-streamer = {
     enable = true;
