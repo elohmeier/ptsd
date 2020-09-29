@@ -136,6 +136,7 @@ in
     nix-tree
     pssh
     screenkey
+    v4l-utils
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
