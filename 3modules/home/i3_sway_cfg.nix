@@ -142,8 +142,8 @@ in
       #"XF86Calculator" = "exec i3-sensible-terminal -title bc -e ${pkgs.bc}/bin/bc -l";  # urxvt
       #"XF86Calculator" = "exec i3-sensible-terminal --title bc -e ${pkgs.bc}/bin/bc -l"; # alacritty
       "XF86Calculator" = "exec i3-sensible-terminal --title bc ${pkgs.bc}/bin/bc -l"; # kitty
-      "XF86HomePage" = "exec chromium";
-      "XF86Search" = "exec chromium";
+      "XF86HomePage" = "exec firefox";
+      "XF86Search" = "exec firefox";
       "XF86Mail" = "exec evolution";
       "XF86Launch5" = "exec spotify"; # Label: 1
       "XF86Launch8" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo -5%"; # Label: 4
