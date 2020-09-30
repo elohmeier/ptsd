@@ -190,14 +190,15 @@ in
           #format = "{ip}"; # disabled to be compatible with 0.14.1
           interval = 100;
         }
-        ++ optional
+      ]
+      ++ optional
         (cfg.ethIf != "")
         {
           block = "net";
           device = cfg.ethIf;
           #format = "{ip} {speed_up} {graph_up} {speed_down} {graph_down}"; # disabled to be compatible with 0.14.1
           interval = 5;
-        }
+        } ++ [
         # {
         #   block = "cpu";
         #   interval = 5;
