@@ -436,13 +436,13 @@ in
       {
         block = "net";
         device = "nwvpn";
-        format = "{ip}";
+        #format = "{ip}"; # disabled to be compatible with 0.14.1
         interval = 100;
       }
       {
         block = "net";
         device = cfg.ethIf;
-        format = "{ip} {speed_up} {graph_up} {speed_down} {graph_down}";
+        #format = "{ip} {speed_up} {graph_up} {speed_down} {graph_down}"; # disabled to be compatible with 0.14.1
         interval = 5;
       }
       # {
