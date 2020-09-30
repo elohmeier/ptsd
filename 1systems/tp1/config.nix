@@ -36,20 +36,20 @@ in
   };
 
   nix = {
-    buildMachines = [
-      {
-        hostName = universe.hosts.ws1.nets.bs53lan.ip4.addr;
-        sshUser = "enno";
-        sshKey = "/tmp/id_ed25519";
-        systems = [ "x86_64-linux" ];
-        maxJobs = 48;
-      }
-    ];
+    # buildMachines = [
+    #   {
+    #     hostName = universe.hosts.ws1.nets.bs53lan.ip4.addr;
+    #     sshUser = "enno";
+    #     sshKey = "/tmp/id_ed25519";
+    #     systems = [ "x86_64-linux" ];
+    #     maxJobs = 48;
+    #   }
+    # ];
     trustedUsers = [ "root" "enno" ];
-    distributedBuilds = true;
-    extraOptions = ''
-      builders-use-substitutes = true
-    '';
+    # distributedBuilds = true;
+    # extraOptions = ''
+    #   builders-use-substitutes = true
+    # '';
   };
 
   #boot.plymouth.enable = true;
