@@ -54,6 +54,8 @@ in
     audioAlert = "alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo";
   };
 
+  ptsd.kitty.enable = true;
+
   ptsd.i3 = {
     configureGtk = true;
     configureRofi = true;

@@ -23,6 +23,7 @@ in
     };
   };
 
+  ptsd.kitty.enable = true;
   ptsd.i3 = {
     configureGtk = true;
     configureRofi = true;

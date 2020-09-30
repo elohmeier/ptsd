@@ -132,5 +132,12 @@ in
       };
 
     home.packages = [ pkgs.xsel ]; # required by urxvt clipboard integration
+
+    home.sessionVariables = {
+      TERMINAL = "urxvt";
+    };
+
+    ptsd.i3.terminalConfig = "urxvt";
+    programs.rofi.terminal = "${pkgs.rxvt_unicode-with-plugins}/bin/urxvt";
   };
 }

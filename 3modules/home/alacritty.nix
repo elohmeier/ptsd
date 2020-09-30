@@ -70,5 +70,8 @@ in
     home.sessionVariables = {
       TERMINAL = "alacritty";
     };
+
+    ptsd.i3.terminalConfig = "alacritty";
+    programs.rofi.terminal = "${pkgs.alacritty}/bin/alacritty";
   };
 }

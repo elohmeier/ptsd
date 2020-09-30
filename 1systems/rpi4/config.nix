@@ -30,6 +30,8 @@ in
           <ptsd/2configs/home/xsession-i3.nix>
         ];
 
+        ptsd.urxvt.enable = true;
+
         ptsd.i3status-rust = {
           ethIf = "eth0";
           wifiIf = "wlan0";

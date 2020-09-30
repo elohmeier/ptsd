@@ -56,5 +56,8 @@ in
     };
 
     programs.zsh.shellAliases.icat = "kitty +kitten icat";
+
+    ptsd.i3.terminalConfig = "kitty";
+    programs.rofi.terminal = "${pkgs.kitty}/bin/kitty";
   };
 }

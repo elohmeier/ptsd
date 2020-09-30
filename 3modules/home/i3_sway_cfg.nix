@@ -4,6 +4,15 @@ with lib;
 let
   exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
   open_codium_mode = "codium: [n]obbofin, nix[p]kgs";
+
+  terminalConfigs = {
+    alacritty = prog: dir: "alacritty${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+    kitty = prog: dir: "kitty${if dir != "" then " --directory \"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
+    urxvt = prog: dir: "urxvt${if dir != "" then " -cd \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+    xterm = prog: dir: "xterm${if prog != "" then " -e ${prog}" else ""}"; # xterm does not support working directory switching
+  };
+
+  term = terminalConfigs.${cfg.terminalConfig};
 in
 {
   options = {
@@ -38,12 +47,16 @@ in
       type = types.bool;
       default = true;
     };
+    terminalConfig = mkOption {
+      type = types.str;
+      default = "xterm";
+    };
   };
 
   inherit modifier;
   keybindings =
     {
-      "${modifier}+Return" = "exec i3-sensible-terminal";
+      "${modifier}+Return" = "exec ${term "" ""}";
       "${modifier}+Shift+q" = "kill";
       #"${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
       "${modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -show combi";
@@ -96,9 +109,7 @@ in
       "${modifier}+r" = "mode resize";
 
       "${modifier}+Shift+Delete" = "exec ${pkgs.nwlock}/bin/nwlock";
-      #"${modifier}+Shift+Return" = "exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";  # urxvt
-      #"${modifier}+Shift+Return" = "exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\""; # alacritty
-      "${modifier}+Shift+Return" = "exec i3-sensible-terminal --directory \"`${pkgs.xcwd}/bin/xcwd`\""; # kitty
+      "${modifier}+Shift+Return" = "exec ${term "" "`${pkgs.xcwd}/bin/xcwd`"}";
       "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
       "${modifier}+Shift+t" = "exec ${pkgs.pcmanfm}/bin/pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
 
@@ -110,9 +121,7 @@ in
       "XF86AudioRaiseVolume" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
       "XF86AudioMicMute" = mkIf (cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
-      #"XF86Calculator" = "exec i3-sensible-terminal -title bc -e ${pkgs.bc}/bin/bc -l";  # urxvt
-      #"XF86Calculator" = "exec i3-sensible-terminal --title bc -e ${pkgs.bc}/bin/bc -l"; # alacritty
-      "XF86Calculator" = "exec i3-sensible-terminal --title bc ${pkgs.bc}/bin/bc -l"; # kitty
+      "XF86Calculator" = "exec ${term "${pkgs.bc}/bin/bc -l" ""}";
       "XF86HomePage" = "exec firefox";
       "XF86Search" = "exec firefox";
       "XF86Mail" = "exec evolution";
@@ -153,17 +162,8 @@ in
 
       "${modifier}+Shift+e" = ''mode "${exit_mode}"'';
 
-      # urxvt
-      #"${modifier}+numbersign" = "split horizontal;; exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
-      #"${modifier}+minus" = "split vertical;; exec i3-sensible-terminal -cd \"`${pkgs.xcwd}/bin/xcwd`\"";
-
-      # alacritty
-      #"${modifier}+numbersign" = "split horizontal;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
-      #"${modifier}+minus" = "split vertical;; exec i3-sensible-terminal --working-directory \"`${pkgs.xcwd}/bin/xcwd`\"";
-
-      # kitty
-      "${modifier}+numbersign" = "split horizontal;; exec i3-sensible-terminal --directory \"`${pkgs.xcwd}/bin/xcwd`\"";
-      "${modifier}+minus" = "split vertical;; exec i3-sensible-terminal --directory \"`${pkgs.xcwd}/bin/xcwd`\"";
+      "${modifier}+numbersign" = "split horizontal;; exec ${term "" "`${pkgs.xcwd}/bin/xcwd`"}";
+      "${modifier}+minus" = "split vertical;; exec ${term "" "`${pkgs.xcwd}/bin/xcwd`"}";
 
       "${modifier}+a" = ''[class="Firefox"] scratchpad show'';
       "${modifier}+b" = ''[class="Firefox"] scratchpad show'';
@@ -275,7 +275,6 @@ in
   rofi = {
     enable = true;
     font = "${cfg.fontSans} ${toString cfg.fontSize}";
-    terminal = "${pkgs.kitty}/bin/kitty";
     theme = "solarized_alternate";
   };
 
