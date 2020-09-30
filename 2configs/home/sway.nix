@@ -15,7 +15,10 @@ in
 
   ptsd.sway = {
     enable = true;
+  };
+
+  ptsd.i3status-rust = {
+    enable = true;
     openweathermapApiKey = desktopSecrets.openweathermapApiKey;
-    todoistApiKey = todoistSecrets.todoistApiKey;
   };
 }
