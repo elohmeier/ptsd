@@ -7,7 +7,6 @@ in
 {
   imports = [
     <ptsd/2configs/home>
-    <ptsd/2configs/home/baseX.nix>
     <ptsd/2configs/home/extraTools.nix>
     <ptsd/2configs/home/gpg.nix>
     <ptsd/2configs/home/weatherbg.nix>
@@ -145,8 +144,12 @@ in
       #steam
       #steam-run
       lguf-brightness
+      pdfduplex
+      pdf2svg
     ];
   };
+
+  ptsd.pcmanfm.enableRdpAssistant = true;
 
   xsession.initExtra = ''
     # disable screensaver

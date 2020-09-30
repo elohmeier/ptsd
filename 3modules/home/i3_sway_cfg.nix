@@ -111,7 +111,7 @@ in
       "${modifier}+Shift+Delete" = "exec ${pkgs.nwlock}/bin/nwlock";
       "${modifier}+Shift+Return" = "exec ${term "" "`${pkgs.xcwd}/bin/xcwd`"}";
       "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
-      "${modifier}+Shift+t" = "exec ${pkgs.pcmanfm}/bin/pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
+      "${modifier}+Shift+t" = "exec pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
 
       "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%+";
       "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 5%-";
@@ -282,7 +282,6 @@ in
     # TODO: disabled for 20.09 until fix has landed in 20.09 (https://github.com/NixOS/nixpkgs/pull/97965)
     #libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
     playerctl
-    pcmanfm
     ethtool
   ];
 

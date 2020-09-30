@@ -7,7 +7,6 @@ in
 {
   imports = [
     <ptsd/2configs/home>
-    <ptsd/2configs/home/baseX.nix>
     <ptsd/2configs/home/extraTools.nix>
     <ptsd/2configs/home/gpg.nix>
     <ptsd/2configs/home/sway.nix>
@@ -74,7 +73,11 @@ in
       }];
   };
 
-  #home.packages = [ pkgs.steam ];
+  home.packages = with pkgs;[
+    # steam
+    pdfduplex
+    pdf2svg
+  ];
 
   xsession.initExtra = ''
     # will dim after 10 mins, lock 5 sec after.
