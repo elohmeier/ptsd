@@ -475,13 +475,13 @@ in
       #{
       #  block = "sound";
       #}
-      {
-        block = "custom";
-        command = "${pkgs.todoist-i3status}/bin/todoist-i3status -token ${cfg.todoistApiKey}";
-        on_click = "xdg-open https://todoist.com/app/";
-        json = true;
-        interval = 60;
-      }
+    ] ++ optional (cfg.todoistApiKey != "") {
+      block = "custom";
+      command = "${pkgs.todoist-i3status}/bin/todoist-i3status -token ${cfg.todoistApiKey}";
+      on_click = "xdg-open https://todoist.com/app/";
+      json = true;
+      interval = 60;
+    } ++ [
       {
 
         block = "time";
