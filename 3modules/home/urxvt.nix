@@ -79,7 +79,6 @@ in
       in
       {
         enable = true;
-        package = pkgs.rxvt_unicode-with-plugins;
         extraConfig = {
           saveLines = 100000;
 
@@ -138,6 +137,6 @@ in
     };
 
     ptsd.i3.terminalConfig = "urxvt";
-    programs.rofi.terminal = "${pkgs.rxvt_unicode-with-plugins}/bin/urxvt";
+    programs.rofi.terminal = "${config.programs.urxvt.package}/bin/urxvt";
   };
 }
