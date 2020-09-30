@@ -137,6 +137,7 @@ in
     pssh
     screenkey
     v4l-utils
+    hydra-check
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
