@@ -6,6 +6,7 @@ _:
     ./i3.nix
     ./i3status-rust.nix
     ./kitty.nix
+    ./pcmanfm.nix
     ./sway.nix
     ./urxvt.nix
   ];
