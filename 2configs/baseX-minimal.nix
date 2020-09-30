@@ -1,7 +1,5 @@
 { pkgs, ... }:
 {
-  imports = [ ];
-
   services.xserver = {
     enable = true;
 
@@ -27,6 +25,9 @@
     #   ];
     # };
   };
+
+  environment.systemPackages =
+    [ pkgs.libinput ];
 
   programs.xss-lock =
     {
