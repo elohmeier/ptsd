@@ -66,7 +66,6 @@ in
 
   ptsd.i3status-rust = {
     showBatteryStatus = false;
-    showWifiStatus = false;
     showNvidiaGpuStatus = false;
     ethIf = "br0";
     extraDiskBlocks = [

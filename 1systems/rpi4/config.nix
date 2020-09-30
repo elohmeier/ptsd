@@ -30,6 +30,11 @@ in
           # <ptsd/2configs/home/xsession-i3.nix>
         ];
       };
+
+    ptsd.i3status-rust = {
+      ethIf = "eth0";
+      wifiIf = "wlan0";
+    };
   };
 
   nix = {

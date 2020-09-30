@@ -33,7 +33,7 @@ in
   };
   ptsd.i3status-rust = {
     showBatteryStatus = true;
-    showWifiStatus = true;
+    wifiIf = "wlp59s0";
     extraDiskBlocks = [{
       block = "disk_space";
       path = "/home";

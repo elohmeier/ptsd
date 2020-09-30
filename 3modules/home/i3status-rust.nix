@@ -75,10 +75,6 @@ in
       type = types.bool;
       default = false;
     };
-    showWifiStatus = mkOption {
-      type = types.bool;
-      default = false;
-    };
     showNvidiaGpuStatus = mkOption {
       type = types.bool;
       default = false;
@@ -89,8 +85,11 @@ in
     };
     ethIf = mkOption {
       type = types.str;
-      default = "eth0";
-      description = "for i3status";
+      default = "";
+    };
+    wifiIf = mkOption {
+      type = types.str;
+      default = "";
     };
     openweathermapApiKey = mkOption {
       type = types.str;
@@ -176,7 +175,7 @@ in
         }
 
       ] ++ cfg.extraDiskBlocks
-      ++ optional cfg.showWifiStatus {
+      ++ optional (cfg.wifiIf != "") {
         block = "net";
         device = "wlp59s0";
         ip = true;
@@ -191,6 +190,8 @@ in
           #format = "{ip}"; # disabled to be compatible with 0.14.1
           interval = 100;
         }
+        ++ optional
+        (cfg.ethIf != "")
         {
           block = "net";
           device = cfg.ethIf;
