@@ -36,7 +36,6 @@ in
       [
         xorg.xev
         xorg.xhost
-        gnome3.file-roller
         zathura
         zathura-single
         caffeine
