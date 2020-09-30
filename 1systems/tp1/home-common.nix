@@ -24,14 +24,51 @@ in
   };
 
   ptsd.i3 = {
-    showBatteryStatus = true;
-    showWifiStatus = true;
+    configureGtk = true;
+    configureRofi = true;
   };
   ptsd.sway = {
-    showBatteryStatus = true;
-    showWifiStatus = true;
     configureGtk = false;
     configureRofi = false;
+  };
+  ptsd.i3status-rust = {
+    showBatteryStatus = true;
+    showWifiStatus = true;
+    extraDiskBlocks = [{
+      block = "disk_space";
+      path = "/home";
+      alias = "/home";
+      warning = 5;
+      alert = 1;
+    }
+      {
+        block = "disk_space";
+        path = "/persist";
+        alias = "/persist";
+        warning = 0.5;
+        alert = 0.2;
+      }
+      {
+        block = "disk_space";
+        path = "/var/src";
+        alias = "/var/src";
+        warning = 0.3;
+        alert = 0.1;
+      }
+      {
+        block = "disk_space";
+        path = "/nix";
+        alias = "/nix";
+        warning = 5;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/tmp";
+        alias = "/tmp";
+        warning = 5;
+        alert = 1;
+      }];
   };
 
   #home.packages = [ pkgs.steam ];

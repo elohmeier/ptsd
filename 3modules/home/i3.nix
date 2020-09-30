@@ -48,11 +48,6 @@ in
 
     home.sessionVariables = i3_sway.home_session_variables;
 
-    ptsd.i3status-rust = {
-      enable = true;
-      config = i3_sway.i3status-rust_config;
-    };
-
     # auto-hide the mouse cursor after inactivity
     services.unclutter = {
       enable = true;

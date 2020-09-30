@@ -55,48 +55,35 @@ in
   };
 
   ptsd.i3 = {
-    showBatteryStatus = false;
-    showWifiStatus = false;
-    showNvidiaGpuStatus = false;
-    ethIf = "br0";
-    extraDiskBlocks = [
-      {
-        block = "disk_space";
-        path = "/var";
-        alias = "/var";
-        warning = 1;
-        alert = 0.5;
-      }
-      {
-        block = "disk_space";
-        path = "/var/lib/docker";
-        alias = "/var/lib/docker";
-        warning = 2;
-        alert = 1;
-      }
-      {
-        block = "disk_space";
-        path = "/var/lib/libvirt/images";
-        alias = "/var/lib/libvirt/images";
-        warning = 2;
-        alert = 1;
-      }
-      {
-        block = "disk_space";
-        path = "/var/log";
-        alias = "/var/log";
-        warning = 1;
-        alert = 0.5;
-      }
-    ];
+    configureGtk = true;
+    configureRofi = true;
   };
 
   ptsd.sway = {
+    configureGtk = false;
+    configureRofi = false;
+  };
+
+  ptsd.i3status-rust = {
     showBatteryStatus = false;
     showWifiStatus = false;
     showNvidiaGpuStatus = false;
     ethIf = "br0";
     extraDiskBlocks = [
+      {
+        block = "disk_space";
+        path = "/home";
+        alias = "/home";
+        warning = 5;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/persist";
+        alias = "/persist";
+        warning = 0.5;
+        alert = 0.2;
+      }
       {
         block = "disk_space";
         path = "/var";
@@ -125,9 +112,28 @@ in
         warning = 1;
         alert = 0.5;
       }
+      {
+        block = "disk_space";
+        path = "/var/src";
+        alias = "/var/src";
+        warning = 0.3;
+        alert = 0.1;
+      }
+      {
+        block = "disk_space";
+        path = "/nix";
+        alias = "/nix";
+        warning = 5;
+        alert = 1;
+      }
+      {
+        block = "disk_space";
+        path = "/tmp";
+        alias = "/tmp";
+        warning = 5;
+        alert = 1;
+      }
     ];
-    configureGtk = false;
-    configureRofi = false;
   };
 
   home = {
