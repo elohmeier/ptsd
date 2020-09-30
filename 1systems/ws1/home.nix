@@ -2,6 +2,7 @@
 let
   baresipSecrets = import <secrets/baresip.nix>;
   homeSecrets = import <client-secrets/home-secrets.nix>;
+  todoistSecrets = import <secrets/todoist.nix>;
 in
 {
   imports = [
@@ -67,6 +68,7 @@ in
   };
 
   ptsd.i3status-rust = {
+    todoistApiKey = todoistSecrets.todoistApiKey;
     showBatteryStatus = false;
     showNvidiaGpuStatus = false;
     ethIf = "br0";
@@ -142,6 +144,7 @@ in
       prusa-slicer
       #steam
       #steam-run
+      lguf-brightness
     ];
   };
 

@@ -19,7 +19,6 @@
       zathura
       zathura-single
       caffeine
-      lguf-brightness
       pcmanfm
       mpv
     ];

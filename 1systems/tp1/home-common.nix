@@ -2,6 +2,7 @@
 let
   baresipSecrets = import <secrets/baresip.nix>;
   universe = import <ptsd/2configs/universe.nix>;
+  todoistSecrets = import <secrets/todoist.nix>;
 in
 {
   imports = [
@@ -33,6 +34,7 @@ in
     configureRofi = false;
   };
   ptsd.i3status-rust = {
+    todoistApiKey = todoistSecrets.todoistApiKey;
     showBatteryStatus = true;
     wifiIf = "wlp59s0";
     extraDiskBlocks = [{
