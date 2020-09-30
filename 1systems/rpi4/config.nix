@@ -26,15 +26,16 @@ in
       {
         imports = [
           <ptsd/2configs/home>
-          # <ptsd/2configs/home/baseX.nix>
-          # <ptsd/2configs/home/xsession-i3.nix>
+          <ptsd/2configs/home/baseX.nix>
+          <ptsd/2configs/home/xsession-i3.nix>
         ];
-      };
 
-    ptsd.i3status-rust = {
-      ethIf = "eth0";
-      wifiIf = "wlan0";
-    };
+        ptsd.i3status-rust = {
+          ethIf = "eth0";
+          wifiIf = "wlan0";
+        };
+
+      };
   };
 
   nix = {
