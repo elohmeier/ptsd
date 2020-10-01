@@ -113,7 +113,10 @@ in
   #   };
   # };
 
-  # environment.systemPackages = [ pkgs.ustreamer ];
+  environment.systemPackages = [
+    # pkgs.ustreamer
+    pkgs.raspberrypi-tools
+  ];
 
 
 
