@@ -4,6 +4,6 @@ buildGoModule rec {
   pname = "todoist-i3status";
   version = "dev";
   goPackagePath = "github.com/elohmeier/${pname}";
-  vendorSha256 = "0xm9h8jds59qf93fmg8q7m61ijm36lmhycpdxy9g9imlyldhmxji";
+  vendorSha256 = "0sjjj9z1dhilhpc8pq4154czrb79z9cm044jvn75kxcjv6v5l2m5";
   src = ./.;
 }
