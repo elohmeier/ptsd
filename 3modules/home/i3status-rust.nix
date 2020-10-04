@@ -115,29 +115,6 @@ in
       };
       icons = "awesome5";
       block = [
-        # {
-        #   block = "pomodoro";
-        #   length = 25;
-        #   break_length = 5;
-        #   message = "Take a break!";
-        #   break_message = "Back to work!";
-        #   use_nag = true;
-        # }
-        {
-          block = "custom";
-          command = "cat ${config.xdg.dataHome}/git-alarm.txt";
-          interval = 5;
-
-          # cannot be triggered
-          # TODO: switch to custom_dbus (https://github.com/greshake/i3status-rust/pull/687)
-          #command = "${pkgs.git-alarm}/bin/git-alarm $HOME/repos";
-          #interval = 100;
-        }
-        {
-          block = "music";
-          player = "spotify";
-          buttons = [ "play" "next" ];
-        }
         {
           block = "temperature";
           collapsed = false;
@@ -147,6 +124,11 @@ in
           info = 65;
           warning = 80;
         }
+        {
+          block = "music";
+          player = "spotify";
+          buttons = [ "play" "next" ];
+        }
       ] ++ optional
         cfg.showNvidiaGpuStatus
         {
@@ -154,6 +136,42 @@ in
           interval = 10;
         }
       ++ [
+        # {
+        #   block = "pomodoro";
+        #   length = 25;
+        #   break_length = 5;
+        #   message = "Take a break!";
+        #   break_message = "Back to work!";
+        #   use_nag = true;
+        # }
+        {
+          block = "weather";
+          interval = 300;
+          format = "{weather} ({location}) {temp}°, {wind} m/s {direction}";
+          service = {
+            name = "openweathermap";
+            api_key = cfg.openweathermapApiKey;
+            #city_id = "2928381"; # Pelzerhaken
+            city_id = "2911298"; # Hamburg
+            units = "metric";
+          };
+        }
+      ] ++ optional (cfg.todoistApiKey != "") {
+        block = "custom";
+        command = "${pkgs.todoist-i3status}/bin/todoist-i3status -token ${cfg.todoistApiKey}";
+        on_click = "xdg-open https://todoist.com/app/";
+        json = true;
+        interval = 60;
+      } ++ [{
+        block = "custom";
+        command = "cat ${config.xdg.dataHome}/git-alarm.txt";
+        interval = 5;
+
+        # cannot be triggered
+        # TODO: switch to custom_dbus (https://github.com/greshake/i3status-rust/pull/687)
+        #command = "${pkgs.git-alarm}/bin/git-alarm $HOME/repos";
+        #interval = 100;
+      }
         # device won't be found always
         # {
         #   # Logitech Mouse
@@ -172,9 +190,7 @@ in
           alias = "/";
           warning = 0.5;
           alert = 0.1;
-        }
-
-      ] ++ cfg.extraDiskBlocks
+        }] ++ cfg.extraDiskBlocks
       ++ optional (cfg.wifiIf != "") {
         block = "net";
         device = "wlp59s0";
@@ -203,13 +219,6 @@ in
         #   block = "cpu";
         #   interval = 5;
         # }
-      ] ++ optional cfg.showBatteryStatus {
-        block = "battery";
-        #driver = "upower"
-        interval = 10;
-        format = "{percentage}% {time}";
-      }
-      ++ [
         {
           block = "custom_dbus";
           name = "SyncthingStatus";
@@ -222,37 +231,26 @@ in
         {
           block = "memory";
           display_type = "memory";
-          format_mem = "{Mup}%";
-          format_swap = "{SUp}%";
+          format_mem = "{MFg}%";
+          format_swap = "{SFg}%";
           interval = 5;
         }
         #{
         #  block = "sound";
         #}
-      ] ++ optional (cfg.todoistApiKey != "") {
-        block = "custom";
-        command = "${pkgs.todoist-i3status}/bin/todoist-i3status -token ${cfg.todoistApiKey}";
-        on_click = "xdg-open https://todoist.com/app/";
-        json = true;
-        interval = 60;
-      } ++ [
+
+      ] ++ optional cfg.showBatteryStatus {
+        block = "battery";
+        #driver = "upower"
+        interval = 10;
+        format = "{percentage}% {time}";
+      }
+      ++ [
         {
 
           block = "time";
           interval = 60;
           format = "%a %F %R";
-        }
-        {
-          block = "weather";
-          interval = 300;
-          format = "{weather} ({location}) {temp}°, {wind} m/s {direction}";
-          service = {
-            name = "openweathermap";
-            api_key = cfg.openweathermapApiKey;
-            #city_id = "2928381"; # Pelzerhaken
-            city_id = "2911298"; # Hamburg
-            units = "metric";
-          };
         }
       ];
     };

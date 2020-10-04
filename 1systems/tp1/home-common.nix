@@ -40,35 +40,35 @@ in
     extraDiskBlocks = [{
       block = "disk_space";
       path = "/home";
-      alias = "/home";
+      alias = "/h";
       warning = 5;
       alert = 1;
     }
       {
         block = "disk_space";
         path = "/persist";
-        alias = "/persist";
+        alias = "/p";
         warning = 0.5;
         alert = 0.2;
       }
       {
         block = "disk_space";
         path = "/var/src";
-        alias = "/var/src";
+        alias = "/v/s";
         warning = 0.3;
         alert = 0.1;
       }
       {
         block = "disk_space";
         path = "/nix";
-        alias = "/nix";
+        alias = "/n";
         warning = 5;
         alert = 1;
       }
       {
         block = "disk_space";
         path = "/tmp";
-        alias = "/tmp";
+        alias = "/t";
         warning = 5;
         alert = 1;
       }];
