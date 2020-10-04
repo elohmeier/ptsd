@@ -109,6 +109,7 @@ in
       dbname = "nextcloud";
       adminuser = "ncadmin";
       adminpassFile = config.ptsd.secrets.files."ncadmin-pw".path;
+      trustedProxies = [ "127.0.0.1" ];
     };
   };
 
@@ -140,12 +141,24 @@ in
     #};
   };
 
-  ptsd.nwtraefik.services = [
-    {
-      name = "nextcloud";
-      rule = "Host(`${domain}`)";
-    }
-  ];
+  ptsd.nwtraefik = {
+    middlewares."nextcloud-redirectregex" =
+      {
+        redirectRegex = {
+          permanent = true;
+          regex = "https://(.*)/.well-known/(card|cal)dav";
+          replacement = ''https://''${1}/remote.php/dav/'';
+        };
+      };
+
+    services = [
+      {
+        name = "nextcloud";
+        rule = "Host(`${domain}`)";
+        extraMiddlewares = [ "nextcloud-redirectregex" ];
+      }
+    ];
+  };
 
   ptsd.nwtelegraf.inputs = {
     http_response = [

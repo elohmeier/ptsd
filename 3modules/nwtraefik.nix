@@ -59,7 +59,7 @@ let
                 entryPoints = svc.entryPoints;
                 rule = svc.rule;
                 service = svc.name;
-                middlewares = [ "securityHeaders" ] ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
+                middlewares = [ "securityHeaders" ] ++ svc.extraMiddlewares ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
                 tls = lib.optionalAttrs svc.letsencrypt {
                   certResolver = "letsencrypt";
                 };
@@ -69,7 +69,7 @@ let
           cfg.services
       );
 
-      middlewares = (
+      middlewares = cfg.middlewares // (
         builtins.listToAttrs (
           map
             (
@@ -265,6 +265,7 @@ in
               letsencrypt = mkOption { type = types.bool; default = false; };
               stripPrefixes = mkOption { type = types.listOf types.str; default = [ ]; };
               passHostHeader = mkOption { type = types.bool; default = true; };
+              extraMiddlewares = mkOption { type = types.listOf types.str; default = [ ]; };
             };
           }
         );
@@ -275,6 +276,11 @@ in
             rule = "Host(`www.nerdworks.de`)";
           }
         ];
+      };
+
+      middlewares = mkOption {
+        default = { };
+        type = types.attrs;
       };
 
       package = mkOption {
