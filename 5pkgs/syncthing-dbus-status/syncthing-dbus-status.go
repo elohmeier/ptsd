@@ -5,6 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"os/user"
@@ -133,8 +134,7 @@ func formatByteCountBinary(b int64) string {
 	return fmt.Sprintf("%.1f %ciB", float64(b)/float64(div), "KMGTPE"[exp])
 }
 
-func updateI3Status(rateOut int64, rateIn int64) error {
-	objName := "SyncthingStatus"
+func updateI3Status(objName string, rateOut int64, rateIn int64) error {
 	state := "Idle"
 	// 1kB threshold
 	if (rateOut > 1024) || (rateIn > 1024) {
@@ -143,12 +143,12 @@ func updateI3Status(rateOut int64, rateIn int64) error {
 	return dbusI3rsSetStatus(objName, fmt.Sprintf("ST ⬆%s/s ⬇%s/s", formatByteCountBinary(rateOut), formatByteCountBinary(rateIn)), "", state)
 }
 
-func setStatus(oldStatus stStatus, newStatus stStatus) error {
+func setStatus(objName string, oldStatus stStatus, newStatus stStatus) error {
 	layout := "2006-01-02T15:04:05.999999999-07:00"
 	tOld, errOld := time.Parse(layout, oldStatus.Total.At)
 	tNew, errNew := time.Parse(layout, newStatus.Total.At)
 	if errOld != nil || errNew != nil {
-		err := updateI3Status(0, 0)
+		err := updateI3Status(objName, 0, 0)
 		if err != nil {
 			return err
 		}
@@ -158,7 +158,7 @@ func setStatus(oldStatus stStatus, newStatus stStatus) error {
 	rateOut := calcRate(oldStatus.Total.OutBytesTotal, newStatus.Total.OutBytesTotal, tOld, tNew)
 	rateIn := calcRate(oldStatus.Total.InBytesTotal, newStatus.Total.InBytesTotal, tOld, tNew)
 
-	err := updateI3Status(rateOut, rateIn)
+	err := updateI3Status(objName, rateOut, rateIn)
 	if err != nil {
 		return err
 	}
@@ -167,25 +167,29 @@ func setStatus(oldStatus stStatus, newStatus stStatus) error {
 }
 
 func main() {
+	objName := "SyncthingStatus"
+
 	user, err := user.Current()
 	if err != nil {
-		panic(err)
+		dbusI3rsSetStatus(objName, "ST n/a", "", "Idle")
+		log.Fatal(err)
 	}
 	apiKey, err := readSynchtingAPIKey(user.HomeDir + "/.config/syncthing/config.xml")
 	if err != nil {
-		panic(err)
+		dbusI3rsSetStatus(objName, "ST n/a", "", "Idle")
+		log.Fatal(err)
 	}
 	fmt.Println(fmt.Sprintf("Syncthing API-Key: %s", apiKey))
 
 	// flush with empty data on startup
-	err = setStatus(stStatus{}, stStatus{})
+	err = setStatus(objName, stStatus{}, stStatus{})
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	oldStatus, err := readSynchtingStatus(apiKey)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	ticker := time.NewTicker(5 * time.Second)
@@ -195,11 +199,11 @@ func main() {
 
 		newStatus, err := readSynchtingStatus(apiKey)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
-		err = setStatus(oldStatus, newStatus)
+		err = setStatus(objName, oldStatus, newStatus)
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		oldStatus = newStatus
 	}
