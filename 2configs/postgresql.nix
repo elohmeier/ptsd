@@ -6,9 +6,9 @@
     enableTCPIP = true;
     package = pkgs.postgresql_11;
     settings = {
-      ssl = "on";
-      ssl_cert_file = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert.pem";
-      ssl_key_file = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem";
+      # ssl = "on";
+      # ssl_cert_file = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert-root.pem";
+      # ssl_key_file = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key-root.pem";
 
       # only available starting from postgresql_12
       # ssl_min_protocol_version = "TLSv1.3";

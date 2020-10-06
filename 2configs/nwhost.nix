@@ -24,6 +24,11 @@ in
           credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
           group = "certs";
           #dnsPropagationCheck = false;
+          postRun = ''
+            cp cert.pem cert-root.pem
+            cp key.pem key-root.pem
+            chown root:root cert-root.pem key-root.pem
+          '';
         };
       };
     };
