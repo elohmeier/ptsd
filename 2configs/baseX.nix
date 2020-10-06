@@ -50,7 +50,6 @@
     serviceConfig = {
       ExecStart = "${pkgs.redshift}/bin/redshift";
       RestartSec = 3;
-      Restart = "always";
     };
   };
 
@@ -61,7 +60,6 @@
     serviceConfig = {
       ExecStart = "${pkgs.flameshot}/bin/flameshot";
       RestartSec = 3;
-      Restart = "always";
     };
   };
 
@@ -73,7 +71,6 @@
     serviceConfig = {
       ExecStart = "${pkgs.syncthing-dbus-status}/bin/syncthing-dbus-status";
       RestartSec = 3;
-      Restart = "always";
     };
   };
 
