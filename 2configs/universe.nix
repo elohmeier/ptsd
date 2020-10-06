@@ -182,6 +182,7 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC8oMXFMl21K1NNVQJpjgY8TAJb0qGZ9GmL6H+aZqDbq ";
       borg.quota = "2G";
       borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDzkkNcPp0uXsZRsu2hXu2h/LfeOffvwldQT1XweECjV6MR0+fDcJnJrTHcRmBxxWBXlOhV6skCJFW711qoknzW+3tHTpHbzrBLI/hFXjH2eN7Bxb0kObNwl6vAWv7zhvjOVJ5pRPnDkChiJ8AJczgS8Natt9R5J0BPrMi47QCmsuh5K8Qig43gf1HXulSLbfQ1vo429B5aSFXqszJ9Ma7muHjHxOQYnj4Hn3fUoYgdggQvUTqq/WQR8VYmh8cb28iTbNvRbq3lgxT0Wah4CcBn11ozMgDKL1g+H2kmLjgywmdMGm9sbm0efHEi9BaWbx13aoz1LiOruss0UFUyk/rf root@htz2";
+      syncthing.id = "WYSYYAE-AKYEVZX-Q5TZWDH-JMF2IKQ-E5UT5MC-4LD32VA-ENUC3UJ-YMDS2QD";
     };
 
     # Fraam WWW
@@ -265,6 +266,14 @@
       syncthing.id = "QJMS5H5-ZPQ4QXO-OWCNW6J-D5GV2OG-3OSD7PP-PI3EXHO-5GE7JQP-4JKFHQC";
     };
 
+    nas1-st-enno = {
+      syncthing.id = "2U7PBTB-3AVWHDO-KKITN5S-JW5AKLX-2MLBQOR-PJDL2QH-BZZJBMD-DFX3MQI";
+    };
+
+    nas1-st-luisa = {
+      syncthing.id = "HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW";
+    };
+
     nuc1 = {
       nets = {
         nwvpn = {
@@ -281,6 +290,7 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4xuAXx1Vjcseg5mvoSUt2MijZbSSwTsq/sD2OmU36a ";
       borg.quota = "500G";
       borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDuxU6nPLddW9UjPMlY2/8Xh+ttt5PUm7yvOXJzXdmZI8JKdqLZ6hnOQVCRStPMROosXmR9guaLNIkOIaThrOGCbe0B4qM4XU9Pt4KihJIpzCN1A/O+icTB5oZ/kwsjEzQBLUFRoDxayzRJHOUdNKNhOA+H+QtWBWBaZhLBcZYijAM1juLiqIcRdnKJ5RKBezQjeR3fV/fRffn2fHVEU2Gw+GRTlP9/y3RkQKOC3HhuFbi2ymHRVRsHqBLYakOaTrl2phl5lwlIH09tJQax30I9uq26JZscj20nFRCDqzx0yjSiYTz7I0L5R1Z1L2wzhlF89mz+QE+eHbhjtxz9QY3F root@nw10";
+      syncthing.id = "JRPLJ2H-X35YSUU-VMCW6FX-B2VQB5P-WUAI2KA-CXKOPFD-C24XJN7-YAR2EAG";
     };
 
     rpi1 = {
@@ -362,6 +372,10 @@
       syncthing.id = "MQ7BT6T-BLL6LCW-P4RGFQC-WGJIM2U-2X3267C-B2IZPUR-JDPTV66-OXGR5AA";
     };
 
+    tp1-win10 = {
+      syncthing.id = "MWJZUVD-RGYIRRT-ROVVL2D-Y3S7C2C-YHIPUOT-CAECKLE-IVQ6DM4-U5EGOAZ";
+    };
+
     tp2 = {
       borg.quota = "80G";
       borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZtjfzDqnTVFhvv8PcwNka8QNZpBsDgWd7jdJTwANyzCAEMGEeKkK2GtVafgvewrm6FHxc2mYvFiQGSNz8nsPHMBIOP4Y3vc6olswZo3uh3Cvpqda8JDljhihECkBo0G6q+Zy3sayBrz6evKLh3yCiNYPAxSmfcEFZExbFVbUBcfkLxYvTc3WvZ4/YWwNUvMPoqQacP05eu5v2OWMPhleh616Hvr3aTLTjG4gsVbp5htHXX8CsfKjFnVrDZ0UcgmEowrCwiO7YCrjpieFrGLa+aMuUH4ehFGyJnjNB1DMT3bzvaZFNkcysiPyVmbZCX9IaOI6CfJoCibu2lMDGOdOP luisa richter@DESKTOP-7EM0MN5";
@@ -416,10 +430,21 @@
       # syncthing.id = "5DAUFLB-CABKC4I-QSKX66C-ZYIBND4-DMCFOAK-5YACRCH-I6U4DUY-XIVOIQ2";
       borg.quota = "250G";
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnHw3Rr+9qGmEnjKmPvzh8rFi+2H8Ye4IEsyuoPWd1V enno@ws1-osx";
+      syncthing.id = "L27FGVQ-K4CEIS4-6D24HBK-RIJKAR6-GCVAWO6-3KSIJW3-L7BZNBQ-7GGL2QC";
     };
+
+    # kvm
+    ws1-win10 =
+      {
+        syncthing.id = "UAFAYNS-NP6HYNY-JQ3CGPD-AUZHOEC-ZSEXAHP-PUOALXX-CNOMWWN-MVUKWQR";
+      };
 
     ws1-win10n = {
       syncthing.id = "OSIS6BW-MSSUBOX-2ASRHPY-ZBI6LHV-LS6KIZ3-6ZBFDMZ-KPUY2HS-U7SP4QU";
+    };
+
+    ext-arvid = {
+      syncthing.id = "Z7HYCDN-UQA4KQC-ZW6M4QG-2FQ3VVL-HPVIQYB-26OOJZM-2TO7FVN-OXKFBQX";
     };
   };
 }

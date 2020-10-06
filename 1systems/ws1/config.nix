@@ -16,7 +16,6 @@ in
     <ptsd/2configs/drone-exec-container.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/nextcloud-client.nix>
-    <ptsd/2configs/syncthing.nix>
     <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
@@ -229,4 +228,41 @@ in
   #   enable = true;
   #   enableGraphical = true;
   # };
+
+  ptsd.nwsyncthing = {
+    enable = true;
+
+    folders = {
+      "/home/enno/FPV" = {
+        id = "xxdwi-yom6n";
+        devices = [ "nas1-st-enno" "tp1" ];
+      };
+      "/home/enno/LuNo" = {
+        id = "3ull9-9deg4";
+        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "nuc1" "tp1" "tp2" ];
+      };
+      "/home/enno/Pocket" = {
+        id = "hmekh-kgprn";
+        devices = [ "htz2" "nas1-st-enno" "nuc1" "tp1" "tp1-win10" "ws1-win10" ];
+      };
+      "/home/enno/Scans" = {
+        id = "ezjwj-xgnhe";
+        devices = [ "nas1-st-enno" ];
+      };
+      "/home/enno/Scans-Luisa" = {
+        id = "dnryo-kz7io";
+        devices = [ "nas1-st-luisa" ];
+      };
+      "/home/enno/Templates" = {
+        id = "gnwqu-yt7qc";
+        devices = [ "nas1-st-enno" "tp1" ];
+      };
+      "/home/enno/repos" = {
+        id = "jihdi-qxmi3";
+        devices = [ "nas1-st-enno" "tp1" ];
+        type = "sendonly";
+        label = "repos-ws1";
+      };
+    };
+  };
 }
