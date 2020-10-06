@@ -3,6 +3,7 @@ _:
   imports = [
     ./acme-dns.nix
     ./alerta.nix
+    ./cups-airprint.nix
     ./drone-server.nix
     ./fraam-www.nix
     ./gitea.nix

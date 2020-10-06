@@ -1,12 +1,13 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
-#let
-# bridgeIfs = [
-#   "enp1s0"
-#   "enp2s0"
-#   "enp3s0"
-# ];
-#in
+let
+  # bridgeIfs = [
+  #   "enp1s0"
+  #   "enp2s0"
+  #   "enp3s0"
+  # ];
+  wifiSecrets = import <secrets/wifi.nix>;
+in
 {
   # INFO: Remember there is an unused drive /dev/sda2 (/srv) installed.
 
@@ -45,8 +46,8 @@ with import <ptsd/lib>;
     firewall = {
       interfaces.enp2s0.allowedUDPPorts = [ 67 68 546 547 ];
       interfaces.wlp4s0 = {
-        allowedUDPPorts = [ 53 67 68 546 547 631 ];
-        allowedTCPPorts = [ 53 631 ];
+        allowedTCPPorts = [ 53 631 445 139 ];
+        allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
       };
 
       # useful for debugging
@@ -87,7 +88,7 @@ with import <ptsd/lib>;
     enable = true;
     interface = "wlp4s0";
     ssid = "fraam";
-    wpaPassphrase = ""; # TODO
+    wpaPassphrase = wifiSecrets.passphrase;
     countryCode = "DE";
     extraConfig = ''
       wpa_pairwise=CCMP
@@ -123,19 +124,22 @@ with import <ptsd/lib>;
     ];
   };
 
-  services.printing = {
+  ptsd.cups-airprint = {
     enable = true;
-    browsing = true;
-    defaultShared = true;
-    drivers = with pkgs; [ brlaser ];
-    startWhenNeeded = false;
-    #listenAddresses = [ "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631" ];
-    listenAddresses = [ "192.168.123.1:631" ];
-    allowFrom = [ "all" ];
-    #extraFilesConf = ''
-    #  CreateSelfSignedCerts no
-    #  ServerKeychain ${cups-tls}
-    #'';
+    listenAddress = "192.168.123.1:631";
+    printerName = "HL5380DN";
   };
 
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
+      security = user
+      hosts allow = 192.168.123.0/24
+      hosts deny = 0.0.0.0/0
+    '';
+  };
 }
