@@ -24,6 +24,10 @@ in
     };
   };
 
+  xsession.windowManager.i3.extraConfig = ''
+    exec ${pkgs.xorg.xinput}/bin/xinput disable "Synaptics TM3381-002"
+  '';
+
   ptsd.kitty.enable = true;
   ptsd.i3 = {
     configureGtk = true;

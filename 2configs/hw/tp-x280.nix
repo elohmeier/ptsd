@@ -6,6 +6,16 @@
     <nixos-hardware/lenovo/thinkpad/x280>
   ];
 
+  # WIP (needs more testing)
+  # environment.etc."libinput/touchpad.quirks".text = lib.generators.toINI { } {
+  #   "Touchpad pressure override" = {
+  #     MatchUdevType = "touchpad";
+  #     MatchName = "Synaptics TM3381-002";
+  #     MatchDMIModalias = "dmi:*svnLENOVO:*:pvrThinkPadX280*";
+  #     AttrPressureRange = "80:30";
+  #   };
+  # };
+
   services.tlp.enable = true; # TLP Linux Advanced Power Management
   #services.fwupd.enable = true;
 
