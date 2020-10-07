@@ -1,12 +1,7 @@
 with import <ptsd/lib>;
 { config, pkgs, ... }:
 let
-  # bridgeIfs = [
-  #   "enp1s0"
-  #   "enp2s0"
-  #   "enp3s0"
-  # ];
-  wifiSecrets = import <secrets/wifi.nix>;
+  netcfg = import <secrets/netcfg.nix>;
 in
 {
   # INFO: Remember there is an unused drive /dev/sda2 (/srv) installed.
@@ -24,11 +19,11 @@ in
     useNetworkd = true;
     useDHCP = false;
     hostName = "apu1";
-    #bridges.br0.interfaces = bridgeIfs;
+    vlans.vlanppp = {
+      id = 7; # BNG
+      interface = "enp1s0";
+    };
     interfaces = {
-      #br0 = {
-      #  useDHCP = true;
-      #};
 
       # DSL WAN
       enp1s0.ipv4.addresses = [{ address = "192.168.1.2"; prefixLength = 24; }];
@@ -42,6 +37,10 @@ in
       };
 
       wlp4s0.ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
+
+      vlanppp = {
+        useDHCP = false;
+      };
     };
     firewall = {
       interfaces.enp2s0.allowedUDPPorts = [ 67 68 546 547 ];
@@ -51,9 +50,9 @@ in
       };
 
       # useful for debugging
-      #logRefusedPackets = true;
-      #logRefusedUnicastsOnly = false;
-      #logReversePathDrops = true;
+      logRefusedPackets = true;
+      logRefusedUnicastsOnly = false;
+      logReversePathDrops = true;
     };
     nat = {
       enable = true;
@@ -62,33 +61,12 @@ in
     };
   };
 
-  #systemd.network.networks.enp1s0.networkConfig.ConfigureWithoutCarrier = true;
-
-  # systemd.network.networks = builtins.listToAttrs (
-  #   map
-  #     (
-  #       brName: {
-  #         name = "40-${brName}";
-  #         value = {
-  #           networkConfig = {
-  #             ConfigureWithoutCarrier = true;
-  #           };
-  #         };
-  #       }
-  #     )
-  #     bridgeIfs
-  # );
-
-  # hardware.firmware = [
-  #   pkgs.rtlwifi_new-firmware
-  # ];
-
   # TODO: update with https://wiki.gentoo.org/wiki/Hostapd
   services.hostapd = {
     enable = true;
     interface = "wlp4s0";
     ssid = "fraam";
-    wpaPassphrase = wifiSecrets.passphrase;
+    wpaPassphrase = netcfg.wifi.passphrase;
     countryCode = "DE";
     extraConfig = ''
       wpa_pairwise=CCMP
@@ -142,4 +120,27 @@ in
       hosts deny = 0.0.0.0/0
     '';
   };
+
+  services.pppd = {
+    enable = true;
+    peers.telekom = {
+      enable = true;
+      autostart = true;
+      config = ''
+        plugin rp-pppoe.so vlanppp
+        name "${netcfg.dsl.username}"
+        noipdefault
+        persist
+        noauth
+        debug
+      '';
+    };
+  };
+  environment.etc."ppp/chap-secrets" =
+    {
+      text = ''"${netcfg.dsl.username}" * "${netcfg.dsl.password}" *'';
+      mode = "0400";
+    };
+
+  environment.systemPackages = with pkgs; [ tmux htop ];
 }
