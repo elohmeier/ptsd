@@ -98,8 +98,12 @@ in
     netInterface = "nwvpn";
 
     # FBD
-    audioPlayer = "alsa_output.usb-Plantronics_Savi_8220-M_9C9BFA234CF842DDA69AFAA8BA1AF13E-01.analog-stereo";
-    audioSource = "alsa_input.usb-Plantronics_Savi_8220-M_9C9BFA234CF842DDA69AFAA8BA1AF13E-01.analog-stereo";
+    # audioPlayer = "alsa_output.usb-Plantronics_Savi_8220-M_9C9BFA234CF842DDA69AFAA8BA1AF13E-01.analog-stereo";
+    # audioSource = "alsa_input.usb-Plantronics_Savi_8220-M_9C9BFA234CF842DDA69AFAA8BA1AF13E-01.analog-stereo";
+
+    # QC35
+    audioPlayer = "bluez_sink.04_52_C7_0C_C1_61.headset_head_unit";
+    audioSource = "bluez_source.04_52_C7_0C_C1_61.headset_head_unit";
 
     audioAlert = "alsa_output.pci-0000_00_1f.3.analog-stereo";
   };
