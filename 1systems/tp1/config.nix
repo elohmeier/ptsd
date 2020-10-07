@@ -89,7 +89,7 @@ in
     splix
   ];
 
-  services.avahi.enable = false;
+  services.avahi.enable = true;
 
   services.logind.lidSwitch = "suspend-then-hibernate";
 
