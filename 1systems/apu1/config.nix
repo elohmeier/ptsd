@@ -38,7 +38,6 @@ in
 
       wlp4s0 = {
         ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
-        # ipv6.addresses
       };
 
       vlanppp = {
@@ -53,9 +52,9 @@ in
       };
 
       # useful for debugging
-      logRefusedPackets = true;
-      logRefusedUnicastsOnly = false;
-      logReversePathDrops = true;
+      # logRefusedPackets = true;
+      # logRefusedUnicastsOnly = false;
+      # logReversePathDrops = true;
     };
     nat = {
       enable = true;
@@ -68,11 +67,39 @@ in
   systemd.network.networks = {
     "40-vlanppp".networkConfig.LinkLocalAddressing = "no";
     "40-enp0s18f2u1".dhcpV4Config.UseRoutes = false; # existing default routes will prevent ppp0 from creating a default route
-    # "40-wlp4s0".networkConfig = {
-    #   IPv6PrefixDelegation = "dhcpv6";
-    #   IPv6DuplicateAddressDetection = 1;
-    #   IPv6PrivacyExtensions = lib.mkForce "no";
-    # };
+    "40-wlp4s0" = {
+      networkConfig = {
+        IPv6AcceptRA = false;
+        IPv6PrefixDelegation = "dhcpv6";
+        IPv6DuplicateAddressDetection = 1;
+        IPv6PrivacyExtensions = lib.mkForce "no";
+        # DHCPServer = true; # ipv4, see dhcpServerConfig below. disabled in favour of dnsmasq.
+      };
+      ipv6PrefixDelegationConfig = {
+        RouterLifetimeSec = 300; # required as otherwise no RA's are being emitted
+      };
+      # dhcpServerConfig = {
+      #   PoolOffset = 100;
+      #   PoolSize = 20;
+      #   EmitDNS = "yes";
+      #   DNS = "8.8.8.8";
+      # };
+    };
+    "40-ppp0" = {
+      name = "ppp0";
+      networkConfig = {
+        DHCP = "ipv6";
+        IPv6AcceptRA = "yes";
+        KeepConfiguration = "yes"; # accept config set by pppd
+      };
+      dhcpV6Config = {
+        ForceDHCPv6PDOtherInformation = "yes";
+      };
+    };
+  };
+
+  boot.kernel.sysctl = {
+    "net.ipv6.conf.all.forwarding" = true;
   };
 
   services.hostapd = {
@@ -86,6 +113,7 @@ in
     '';
   };
 
+  # IPv6 prefix delegation is handled by systemd-networkd
   services.dnsmasq = {
     enable = true;
     servers = [ "8.8.8.8" "8.8.4.4" ];
@@ -96,9 +124,6 @@ in
       # don't send bogus requests out on the internets
       bogus-priv
 
-      # Enable dnsmasq's IPv6 Router Advertisement feature
-      enable-ra
-
       # printer net
       dhcp-range=enp2s0,192.168.2.10,192.168.2.150,12h
 
@@ -107,7 +132,6 @@ in
 
       # wifi
       dhcp-range=wlp4s0,192.168.123.10,192.168.123.150,12h
-      #dhcp-range=wlp4s0,::1,::ffff,constructor:ppp0,ra-names,slaac,12h
 
       dhcp-authoritative
       cache-size=5000
@@ -159,26 +183,30 @@ in
       config = ''
         plugin rp-pppoe.so vlanppp
 
-        # The name of user
+        # Login settings.
         name "${netcfg.dsl.username}"
-
-        # If "noipdefault" is given the peer will have to supply an IP address
-        noipdefault
-
-        # Enable the IPv6CP and IPv6 protocols
-        +ipv6
-
-        # Add a default route to the system routing tables, using the peer as the gateway
-        defaultroute
-
-        # Add a default IPv6 route to the system routing tables, using the peer as the gateway
-        defaultroute6
-
-        # Do not exit after a connection is terminated; instead try to reopen the connection
-        persist
-
-        # Do not require the peer to authenticate itself
         noauth
+        hide-password
+
+        # Connection settings.
+        persist
+        maxfail 0
+        holdoff 5
+ 
+        # LCP settings.
+        lcp-echo-interval 10
+        lcp-echo-failure 3
+        
+        # PPPoE compliant settings.
+        noaccomp
+        default-asyncmap
+        mtu 1492
+
+        # IP settings.
+        noipdefault
+        defaultroute
+        +ipv6
+        defaultroute6
 
         # Increase debugging level
         # debug
