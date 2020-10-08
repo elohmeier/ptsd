@@ -192,4 +192,31 @@ in
     };
 
   environment.systemPackages = with pkgs; [ tmux htop ];
+
+  # compensate flaky ppp connection
+  systemd.services.reboot-daily = {
+    description = "Reboot every morning";
+    startAt = "*-*-* 03:30:00";
+    serviceConfig = {
+      ExecStart = "${pkgs.systemd}/bin/systemctl --force reboot";
+    };
+  };
+
+  users.users = {
+    wilko = {
+      name = "wilko";
+      isNormalUser = true;
+      home = "/home/wilko";
+      createHome = true;
+      useDefaultShell = true;
+      uid = 1001;
+      description = "Wilko Volckens";
+      extraGroups = [ "wheel" ];
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMJMj7eNfwFmUF3bQmJazSzrMie7nMPze7DKpRZuMMRl wilkosthinkpad@DESKTOP-9RR661R"
+      ];
+    };
+  };
+
+  security.sudo.wheelNeedsPassword = false;
 }

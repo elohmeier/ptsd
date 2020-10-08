@@ -32,7 +32,6 @@ with import <ptsd/lib>;
 
   systemd.services.reboot-weekly = {
     description = "Reboot every week";
-    wantedBy = [ "multi-user.target" ];
     startAt = "weekly";
     serviceConfig = {
       ExecStart = "${pkgs.systemd}/bin/systemctl --force reboot";
