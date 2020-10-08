@@ -247,4 +247,7 @@ in
   };
 
   security.sudo.wheelNeedsPassword = false;
+
+  # workaround AirPrint printer not showing up after boot
+  systemd.services.avahi-daemon.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 15";
 }
