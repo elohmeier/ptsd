@@ -25,7 +25,7 @@ in
           type = types.str;
         };
       listenAddress = mkOption {
-        #default = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631";
+        default = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631";
         type = types.str;
       };
       printerName = mkOption {
@@ -57,11 +57,6 @@ in
         ServerKeychain ${cups-tls}
       '';
     };
-
-    # networking.firewall.interfaces.br0 = {
-    #   allowedTCPPorts = [ 631 ];
-    #   allowedUDPPorts = [ 631 ];
-    # };
 
     services.avahi = {
       enable = true;

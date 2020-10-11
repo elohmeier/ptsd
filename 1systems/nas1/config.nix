@@ -8,7 +8,6 @@ in
     <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/cups-airprint.nix>
     <ptsd/2configs/dokuwiki.nix>
     <ptsd/2configs/drone-exec-container.nix>
     <ptsd/2configs/influxdb-kapacitor.nix>
@@ -54,6 +53,15 @@ in
     # Bridge is used for Nextcloud-Syncthing-Containers
     bridges.br0.interfaces = [ "eno1" ];
     interfaces.br0.useDHCP = true;
+
+
+    firewall.interfaces = {
+      br0 = {
+        allowedTCPPorts = [ 631 ];
+        allowedUDPPorts = [ 631 ];
+      };
+      nwvpn.allowedTCPPorts = [ 12345 ]; # fpv folder share
+    };
   };
 
   # IP is reserved in DHCP server for us.
@@ -100,7 +108,7 @@ in
         listen = [
           {
             addr = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
-            port = 12345;
+            port = 12345; # fpv folder share
           }
         ];
         locations."/" = {
@@ -113,7 +121,6 @@ in
       };
     };
   };
-  networking.firewall.interfaces.nwvpn.allowedTCPPorts = [ 12345 ];
 
   ptsd.nwtraefik = {
     enable = true;
@@ -221,5 +228,11 @@ in
           postRun = "systemctl restart traefik.service";
         };
       };
+  };
+
+  ptsd.cups-airprint = {
+    enable = true;
+    printerName = "MFC7440N";
+    listenAddress = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631";
   };
 }
