@@ -118,9 +118,7 @@ in
         ${lib.concatMapStrings (fs: "\n${genFsCheck fs}") (builtins.attrNames config.fileSystems)}
       
         check system $HOST
-          if loadavg (1min) per core > 2 for 15 cycles then alert
-          if loadavg (5min) per core > 1.5 for 10 cycles then alert
-          if loadavg (15min) per core > 1 for 8 cycles then alert
+          if loadavg (15min) per core > 2 for 8 cycles then alert
           if cpu usage > 90% for 10 cycles then alert
           if memory usage > 70% for 5 cycles then alert
           if swap usage > 20% for 10 cycles then alert
