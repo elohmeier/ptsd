@@ -23,6 +23,7 @@
 
     <ptsd>
     <ptsd/2configs>
+    <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/tor-ssh.nix>
 
     <secrets-shared/nwsecrets.nix>
@@ -80,12 +81,8 @@
 
   console.keyMap = "de-latin1";
 
-  services.resolved.enable = true;
+  networking.networkmanager.enable = true;
   networking.wireless.enable = false;
-  networking.networkmanager = {
-    enable = true;
-    dns = "systemd-resolved";
-  };
 
   home-manager = {
     users.mainUser = { pkgs, ... }:

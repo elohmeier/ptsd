@@ -82,12 +82,8 @@
 
   console.keyMap = "de-latin1";
 
-  services.resolved.enable = true;
+  networking.networkmanager.enable = true;
   networking.wireless.enable = false;
-  networking.networkmanager = {
-    enable = true;
-    dns = "systemd-resolved";
-  };
 
   systemd.user.services.nm-applet = {
     description = "Network Manager applet";
