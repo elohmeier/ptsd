@@ -95,6 +95,10 @@
 
     # required by i3status-rs
     font-awesome_5
+
+    hunspellDicts.de-de
+    hunspellDicts.en-gb-large
+    hunspellDicts.en-us-large
   ];
 
   # for betaflight-configurator firmware flashing
