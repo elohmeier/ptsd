@@ -9,6 +9,7 @@ in
     bridge-utils
     file
     htop
+    httpserve
     iftop
     iotop
     jq
