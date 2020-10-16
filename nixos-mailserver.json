@@ -1,10 +1,3 @@
 {
-  "url": "https://gitlab.com/simple-nixos-mailserver/nixos-mailserver",
-  "rev": "c415bbb58422c967cf979780a962e4048da018b0",
-  "date": "2020-07-18T10:07:53+02:00",
-  "path": "/nix/store/w55m4yy0x62nlz5j7vmxlff2mrzgh927-nixos-mailserver",
-  "sha256": "02k25bh4pg31cx40ri4ynjw65ahy0mmj794hi5i1yn48j56vdbkj",
-  "fetchSubmodules": false,
-  "deepClone": false,
-  "leaveDotGit": false
+  "rev": "c415bbb58422c967cf979780a962e4048da018b0"
 }
