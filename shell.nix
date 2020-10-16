@@ -15,11 +15,11 @@ let
       ${pkgs.python3Packages.black}/bin/black $ROOT/src/*.pyw
     '';
     mk-update = ''
-      ./update-home-manager.sh
-      ./update-nixos-hardware.sh
-      ./update-nixos-mailserver.sh
-      ./update-nixpkgs.sh
-      ./update-nixpkgs-unstable.sh
+      ./update-gitref.sh home-manager https://github.com/rycee/home-manager master
+      ./update-gitref.sh nixos-hardware https://github.com/NixOS/nixos-hardware master
+      ./update-gitref.sh nixos-mailserver https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git nixos-20.03
+      ./update-gitref.sh nixpkgs https://github.com/NixOS/nixpkgs nixos-20.09
+      ./update-gitref.sh nixpkgs-unstable https://github.com/NixOS/nixpkgs nixos-unstable
     '';
     mk-dummy = ''
       HOSTNAME="''${1?must provide hostname}"
