@@ -18,8 +18,12 @@ in
   config = mkIf cfg.enable {
 
     ptsd.secrets.files = {
-      "syncthing.key" = { };
-      "syncthing.crt" = { };
+      "syncthing.key" = {
+        dependants = [ "syncthing.service" ];
+      };
+      "syncthing.crt" = {
+        dependants = [ "syncthing.service" ];
+      };
     };
 
     services.syncthing = {
