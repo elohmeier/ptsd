@@ -14,6 +14,7 @@ in
     iotop
     jq
     killall
+    libfaketime
     mc
     ncdu
     nmap
