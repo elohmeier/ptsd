@@ -220,6 +220,10 @@ in
         id = "ezjwj-xgnhe";
         devices = [ "nas1-st-enno" "ws1" ];
       };
+      "/home/enno/Templates" = {
+        id = "gnwqu-yt7qc";
+        devices = [ "nas1-st-enno" "ws1" ];
+      };
       "/home/enno/repos-ws1" = {
         id = "jihdi-qxmi3";
         devices = [ "nas1-st-enno" "ws1" ];
