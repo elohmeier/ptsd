@@ -38,6 +38,16 @@
     lxqt.lxqt-policykit # provides a default authentification client for policykit
     nixpkgs-fmt
     lm_sensors
+
+    aspell
+    aspellDicts.de
+    aspellDicts.en
+    aspellDicts.en-computers
+    aspellDicts.en-science
+
+    hunspellDicts.de-de
+    hunspellDicts.en-gb-large
+    hunspellDicts.en-us-large
   ];
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
@@ -95,10 +105,6 @@
 
     # required by i3status-rs
     font-awesome_5
-
-    hunspellDicts.de-de
-    hunspellDicts.en-gb-large
-    hunspellDicts.en-us-large
   ];
 
   # for betaflight-configurator firmware flashing
