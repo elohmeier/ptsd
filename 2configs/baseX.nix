@@ -74,12 +74,12 @@
   };
 
   # TODO: use only with sway or i3
-  systemd.user.services.syncthing-dbus-status = {
+  systemd.user.services.i3status-syncthing = {
     description = "Syncthing status for i3status-rs via dbus";
     partOf = [ "graphical-session.target" ];
     wantedBy = [ "graphical-session.target" ];
     serviceConfig = {
-      ExecStart = "${pkgs.syncthing-dbus-status}/bin/syncthing-dbus-status";
+      ExecStart = "${pkgs.i3status-tools}/bin/i3status-syncthing";
       RestartSec = 3;
     };
   };

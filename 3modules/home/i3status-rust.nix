@@ -158,7 +158,7 @@ in
         }
       ] ++ optional (cfg.todoistApiKey != "") {
         block = "custom";
-        command = "${pkgs.todoist-i3status}/bin/todoist-i3status -token ${cfg.todoistApiKey}";
+        command = "${pkgs.i3status-tools}/bin/i3status-todoist -token ${cfg.todoistApiKey}";
         on_click = "xdg-open https://todoist.com/app/";
         json = true;
         interval = 60;
