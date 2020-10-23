@@ -13,7 +13,7 @@ in
   boot.tmpOnTmpfs = true;
 
   nix.gc = {
-    automatic = true;
+    automatic = lib.mkDefault true;
     options = "-d";
   };
 

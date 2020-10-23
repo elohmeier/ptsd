@@ -40,7 +40,7 @@ in
   ptsd.i3status-rust = {
     todoistApiKey = todoistSecrets.todoistApiKey;
     showBatteryStatus = true;
-    wifiIf = "wlp59s0";
+    wifiIf = "wlan0";
     extraDiskBlocks = [{
       block = "disk_space";
       path = "/home";

@@ -71,7 +71,6 @@ in
     zathura
     zathura-single
     #nerdworks-motivation
-    lguf-brightness
     keepassxc
     xcalib
     portfolio

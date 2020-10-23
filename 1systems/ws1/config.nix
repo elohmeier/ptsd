@@ -168,9 +168,17 @@ in
     allowedUDPPorts = [ 137 138 ];
   };
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = false; # will be socket-activated
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    docker = {
+      enable = true;
+      enableOnBoot = false; # will be socket-activated
+    };
+    libvirtd = {
+      enable = true;
+      qemuPackage = pkgs.qemu_kvm;
+      qemuRunAsRoot = false; # TODO: test permissions
+    };
+  };
 
   hardware.pulseaudio = {
     daemon.config = {

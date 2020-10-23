@@ -9,14 +9,14 @@ in
     <ptsd/2configs/nwhost-mini.nix>
   ];
 
-  ptsd.nwtelegraf.enable = true;
+  ptsd.nwtelegraf.enable = lib.mkDefault true;
 
   ptsd.nwmonit = {
-    enable = true;
+    enable = lib.mkDefault true;
   };
 
   ptsd.nwbackup = {
-    enable = true;
+    enable = lib.mkDefault true;
   };
 
   environment.systemPackages = [
@@ -26,8 +26,8 @@ in
     pkgs.tmux
   ];
 
-  programs.mosh.enable = true;
-  services.fail2ban.enable = true;
+  programs.mosh.enable = lib.mkDefault true;
+  services.fail2ban.enable = lib.mkDefault true;
 
   system.fsPackages = [ pkgs.ntfs3g ];
 }

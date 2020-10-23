@@ -34,6 +34,8 @@ in
       };
   };
 
+  nix.gc.automatic = false;
+
   #   services.vsftpd = {
   #     enable = true;
   #     #forceLocalLoginsSSL = true;
@@ -72,8 +74,6 @@ in
     # '';
   };
 
-  #boot.plymouth.enable = true;
-
   #  # https://github.com/anbox/anbox/issues/253
   #  # use:
   #  # sudo mkdir -p rootfs-overlay/system/usr/keychars
@@ -85,7 +85,7 @@ in
   # users.users.mainUser.extraGroups = [ "adbusers" ];
 
   # reduce the noise
-  ptsd.nwtelegraf.enable = lib.mkForce false;
+  ptsd.nwtelegraf.enable = false;
 
   ptsd.wireguard.networks.nwvpn.client.allowedIPs = [ "192.168.178.0/24" ];
 
@@ -196,9 +196,17 @@ in
     allowedUDPPorts = [ 137 138 ];
   };
 
-  virtualisation.docker.enable = true;
-  virtualisation.docker.enableOnBoot = false; # will be socket-activated
-  virtualisation.libvirtd.enable = true;
+  virtualisation = {
+    docker = {
+      enable = true;
+      enableOnBoot = false; # will be socket-activated
+    };
+    libvirtd = {
+      enable = true;
+      qemuPackage = pkgs.qemu_kvm;
+      qemuRunAsRoot = false; # TODO: test permissions
+    };
+  };
 
   ptsd.nwsyncthing = {
     enable = true;
