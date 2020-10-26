@@ -137,6 +137,7 @@ in
     screenkey
     v4l-utils
     hydra-check
+    dfeet
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
