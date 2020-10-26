@@ -1,63 +1,66 @@
 { config, pkgs, ... }:
-
+let
+  disk = "/dev/disk/by-id/ata-Samsung_SSD_840_EVO_120GB_mSATA_S1KTNEADC05687F";
+  vgPrefix = "/dev/sysvg";
+in
 {
   imports = [
     ./config.nix
     <ptsd/2configs/hw/nuc.nix>
   ];
 
+  system.stateVersion = "20.09";
+
+  boot.initrd.luks.devices.p2 = {
+    device = "${disk}-part2";
+  };
+
   fileSystems."/" =
     {
-      device = "nw10/root";
-      fsType = "zfs";
-    };
-
-  fileSystems."/tmp" =
-    {
-      device = "nw10/tmp";
-      fsType = "zfs";
+      fsType = "tmpfs";
+      options = [ "size=1000M" "mode=1755" ];
     };
 
   fileSystems."/home" =
     {
-      device = "nw10/home";
-      fsType = "zfs";
+      device = "${vgPrefix}/home";
+      fsType = "ext4";
+    };
+
+  fileSystems."/nix" =
+    {
+      device = "${vgPrefix}/nix";
+      fsType = "ext4";
+    };
+
+  fileSystems."/persist" =
+    {
+      device = "${vgPrefix}/persist";
+      fsType = "ext4";
+    };
+
+  fileSystems."/var/src" =
+    {
+      device = "${vgPrefix}/var-src";
+      fsType = "ext4";
     };
 
   fileSystems."/boot" =
     {
-      device = "/dev/disk/by-uuid/0CB4-6539";
+      device = "${disk}-part1";
       fsType = "vfat";
     };
 
-  # fileSystems."/mnt/int" =
-  #   {
-  #     device = "/dev/mapper/int_crypt";
-  #     fsType = "ext4";
-  #     encrypted = {
-  #       enable = true;
-  #       blkDev = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
-  #       keyFile = "/mnt-root/var/src/secrets/int-crypt-key";
-  #       label = "int_crypt";
-  #     };
-  #   };
-
-  # zfs will automatically mount the subvolumes
-  # fileSystems."/mnt/backup" =
-  #   {
-  #     device = "nw27"; # change the device name here when switching USB drives
-  #     fsType = "zfs";
-  #     options = [
-  #       "nofail"
-  #       "x-systemd.device-timeout=3s"
-  #     ];
-  #   };
-
   swapDevices =
     [
-      { device = "/dev/disk/by-uuid/81d2bce5-8319-4110-a718-ea506b27b536"; }
+      { device = "${vgPrefix}/swap"; }
     ];
 
   networking.hostId = "A621BDF3"; # needed for zfs
+  boot.kernelParams = [ "systemd.machine_id=5f0d47f06a0a486b82690748870e24b6" ];
 
+  boot.loader = {
+    systemd-boot.enable = true;
+    efi.canTouchEfiVariables = true;
+  };
 }
