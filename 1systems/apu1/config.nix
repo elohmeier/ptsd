@@ -51,6 +51,9 @@ in
         allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
       };
 
+      # reduce noise coming from ppp if
+      logRefusedConnections = false;
+
       # useful for debugging
       # logRefusedPackets = true;
       # logRefusedUnicastsOnly = false;
@@ -213,6 +216,7 @@ in
       '';
     };
   };
+
   environment.etc."ppp/chap-secrets" =
     {
       text = ''"${netcfg.dsl.username}" * "${netcfg.dsl.password}" *'';
@@ -222,13 +226,13 @@ in
   environment.systemPackages = with pkgs; [ tmux htop ];
 
   # compensate flaky ppp connection
-  systemd.services.reboot-daily = {
-    description = "Reboot every morning";
-    startAt = "*-*-* 03:30:00";
-    serviceConfig = {
-      ExecStart = "${pkgs.systemd}/bin/systemctl --force reboot";
-    };
-  };
+  # systemd.services.reboot-daily = {
+  #   description = "Reboot every morning";
+  #   startAt = "*-*-* 03:30:00";
+  #   serviceConfig = {
+  #     ExecStart = "${pkgs.systemd}/bin/systemctl --force reboot";
+  #   };
+  # };
 
   users.users = {
     wilko = {
@@ -250,4 +254,6 @@ in
 
   # workaround AirPrint printer not showing up after boot
   systemd.services.avahi-daemon.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 15";
+
+  programs.mosh.enable = true;
 }
