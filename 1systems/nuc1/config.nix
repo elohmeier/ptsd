@@ -10,8 +10,8 @@
 
       <ptsd/2configs/baseX.nix>
       <ptsd/2configs/themes/nerdworks.nix>
-      #<ptsd/2configs/nextcloud-client.nix>
-      #<ptsd/2configs/prometheus/node.nix>
+      <ptsd/2configs/nextcloud-client.nix>
+      <ptsd/2configs/prometheus/node.nix>
 
       <secrets-shared/nwsecrets.nix>
       <client-secrets/dbk/vdi.nix>
@@ -29,15 +29,6 @@
       };
   };
 
-  # ptsd.nwbackup-server = {
-  #   enable = true;
-  #   zpool = "nw27";
-  # };
-
-  # environment.variables = {
-  #   KAPACITOR_URL = "https://nuc1.host.nerdworks.de:9092";
-  # };
-
   networking = {
     useDHCP = false;
     useNetworkd = true;
@@ -49,30 +40,16 @@
     ConfigureWithoutCarrier = true;
   };
 
-  # boot.kernelParams = [ "ip=192.168.178.10::192.168.178.1:255.255.255.0:${config.networking.hostName}:eno1:off" ];
-
-  # boot.initrd.network = {
-  #   enable = true;
-  #   ssh = {
-  #     enable = true;
-  #     port = 2222;
-  #     hostECDSAKey = toString <secrets> + "/initrd-ssh-key";
-  #   };
-  #   postCommands = ''
-  #     echo "zfs load-key -a; killall zfs" >> /root/.profile
-  #   '';
-  # };
-
-  # ptsd.nwbackup.paths = [ "/mnt/int" ];
-
-  services.resolved = {
-    enable = true;
-    dnssec = "false";
+  ptsd.wireguard.networks.nwvpn = {
+    # SIP
+    client.allowedIPs = [ "192.168.178.1/32" ];
+    routes = [
+      { routeConfig = { Destination = "192.168.178.1/32"; }; }
+    ];
   };
 
   networking.networkmanager = {
     enable = true;
-    dns = "systemd-resolved";
     wifi = {
       backend = "iwd";
       macAddress = "random";
@@ -99,4 +76,34 @@
     };
   };
 
+  ptsd.nwtelegraf.enable = false;
+
+  ptsd.vdi-container = {
+    enable = true;
+    extIf = "wlan0";
+  };
+
+  services.printing.enable = true;
+  services.avahi.enable = true;
+
+  ptsd.nwsyncthing = {
+    enable = true;
+    folders = {
+      "/home/enno/Pocket" = {
+        id = "hmekh-kgprn";
+        devices = [ "htz2" "nas1-st-enno" "nuc1" "tp1" "tp1-win10" "ws1" "ws1-win10" ];
+      };
+      "/home/enno/Templates" = {
+        id = "gnwqu-yt7qc";
+        devices = [ "nas1-st-enno" "tp1" "ws1" ];
+      };
+    };
+  };
+
+  services.xserver.xrandrHeads = [
+    {
+      output = "HDMI-2";
+      primary = true; # fixes missing tray in i3bar
+    }
+  ];
 }

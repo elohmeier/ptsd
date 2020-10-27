@@ -222,7 +222,7 @@ in
       };
       "/home/enno/Pocket" = {
         id = "hmekh-kgprn";
-        devices = [ "htz2" "nas1-st-enno" "nuc1" "tp1" "tp1-win10" "ws1-win10" ];
+        devices = [ "htz2" "nas1-st-enno" "nuc1" "tp1-win10" "ws1-win10" ];
       };
       "/home/enno/Scans" = {
         id = "ezjwj-xgnhe";
@@ -230,7 +230,7 @@ in
       };
       "/home/enno/Templates" = {
         id = "gnwqu-yt7qc";
-        devices = [ "nas1-st-enno" "ws1" ];
+        devices = [ "nas1-st-enno" "nuc1" "ws1" ];
       };
       "/home/enno/repos-ws1" = {
         id = "jihdi-qxmi3";

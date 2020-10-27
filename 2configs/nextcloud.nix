@@ -212,7 +212,7 @@ in
           };
           "${root}/Pocket" = {
             id = "hmekh-kgprn";
-            devices = [ "tp1" "ws1" ];
+            devices = [ "nuc1" "tp1" "ws1" ];
           };
           "${root}/LuNo" = {
             id = "3ull9-9deg4";
@@ -224,7 +224,7 @@ in
           };
           "${root}/Templates" = {
             id = "gnwqu-yt7qc";
-            devices = [ "tp1" "ws1" ];
+            devices = [ "nuc1" "tp1" "ws1" ];
           };
           "${root}/repos-ws1" = {
             id = "jihdi-qxmi3";
