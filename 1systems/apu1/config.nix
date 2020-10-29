@@ -31,14 +31,15 @@ in
       # Printer
       enp2s0.ipv4.addresses = [{ address = "192.168.2.1"; prefixLength = 24; }];
 
+      # nuc1
+      enp3s0.ipv4.addresses = [{ address = "192.168.124.1"; prefixLength = 24; }];
+
       # LTE WAN
       enp0s18f2u1 = {
         useDHCP = true;
       };
 
-      wlp4s0 = {
-        ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
-      };
+      wlp4s0.ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
 
       vlanppp = {
         useDHCP = false;
@@ -46,6 +47,10 @@ in
     };
     firewall = {
       interfaces.enp2s0.allowedUDPPorts = [ 67 68 546 547 ];
+      interfaces.enp3s0 = {
+        allowedTCPPorts = [ 53 631 445 139 ];
+        allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
+      };
       interfaces.wlp4s0 = {
         allowedTCPPorts = [ 53 631 445 139 ];
         allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
@@ -63,13 +68,42 @@ in
       enable = true;
       #externalInterface = "enp0s18f2u1";
       externalInterface = "ppp0";
-      internalInterfaces = [ "wlp4s0" ];
+      internalInterfaces = [ "enp3s0" "wlp4s0" ];
     };
   };
 
   systemd.network.networks = {
     "40-vlanppp".networkConfig.LinkLocalAddressing = "no";
     "40-enp0s18f2u1".dhcpV4Config.UseRoutes = false; # existing default routes will prevent ppp0 from creating a default route
+    "40-enp1s0" = {
+      networkConfig = {
+        ConfigureWithoutCarrier = true;
+      };
+    };
+    "40-enp2s0" = {
+      networkConfig = {
+        ConfigureWithoutCarrier = true;
+      };
+    };
+    "40-enp3s0" = {
+      networkConfig = {
+        ConfigureWithoutCarrier = true;
+        IPv6AcceptRA = false;
+        IPv6PrefixDelegation = "dhcpv6";
+        IPv6DuplicateAddressDetection = 1;
+        IPv6PrivacyExtensions = lib.mkForce "no";
+        # DHCPServer = true; # ipv4, see dhcpServerConfig below. disabled in favour of dnsmasq.
+      };
+      ipv6PrefixDelegationConfig = {
+        RouterLifetimeSec = 300; # required as otherwise no RA's are being emitted
+      };
+      # dhcpServerConfig = {
+      #   PoolOffset = 100;
+      #   PoolSize = 20;
+      #   EmitDNS = "yes";
+      #   DNS = "8.8.8.8";
+      # };
+    };
     "40-wlp4s0" = {
       networkConfig = {
         IPv6AcceptRA = false;
@@ -121,7 +155,7 @@ in
     enable = true;
     servers = [ "8.8.8.8" "8.8.4.4" ];
     extraConfig = ''
-      interface=wlp4s0,enp2s0
+      interface=wlp4s0,enp2s0,enp3s0
       bind-interfaces
 
       # don't send bogus requests out on the internets
@@ -135,6 +169,9 @@ in
 
       # wifi
       dhcp-range=wlp4s0,192.168.123.10,192.168.123.150,12h
+
+      # nuc1
+      dhcp-range=enp3s0,192.168.124.10,192.168.124.150,12h
 
       dhcp-authoritative
       cache-size=5000

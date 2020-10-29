@@ -80,7 +80,8 @@
 
   ptsd.vdi-container = {
     enable = true;
-    extIf = "wlan0";
+    #extIf = "wlan0";
+    extIf = "eno1";
   };
 
   services.printing.enable = true;
