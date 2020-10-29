@@ -1,17 +1,18 @@
-package main
+package todoist
 
 import (
 	"encoding/json"
-	"flag"
 	"io/ioutil"
-	"log"
 	"net/http"
 	"net/url"
 	"regexp"
 	"sort"
 	"time"
 
-	"git.nerdworks.de/nerdworks/ptsd/5pkgs/i3status-tools/i3dbus"
+	"barista.run/bar"
+	"barista.run/base/value"
+	"barista.run/outputs"
+	"barista.run/timing"
 	stripmd "github.com/writeas/go-strip-markdown"
 )
 
@@ -21,12 +22,12 @@ type taskDue struct {
 
 // https://developer.todoist.com/rest/v1/#get-active-tasks
 type task struct {
-	Id       int     `json:"id"`
+	ID       int     `json:"id"`
 	Order    int     `json:"order"`
 	Content  string  `json:"content"`
 	Priority int     `json:"priority"`
 	Due      taskDue `json:"due"`
-	Url      string  `json:"url"`
+	URL      string  `json:"url"`
 	I3State  string
 }
 
@@ -94,27 +95,71 @@ func cleanupTaskContent(s string) string {
 	return s
 }
 
-func main() {
-	token := flag.String("token", "", "api token for Todoist")
-	flag.Parse()
-
-	if *token == "" {
-		log.Fatal("Please set token using -token")
+func (t *task) Info() Info {
+	return Info{
+		CurrentTaskContent:  t.Content,
+		CurrentTaskPriority: t.Priority,
 	}
+}
 
-	ticker := time.NewTicker(5 * time.Second)
-	defer ticker.Stop()
+// Info holds statistics about Todoist
+type Info struct {
+	CurrentTaskContent  string
+	CurrentTaskPriority int
+}
+
+// Module represents a Todoist Barista Module
+type Module struct {
+	apiToken   string
+	scheduler  *timing.Scheduler
+	outputFunc value.Value // of func(Info) bar.Output
+}
+
+// New creates a Todoist module, fetching current tasks periodically
+func New(apiToken string) *Module {
+	m := &Module{
+		apiToken:  apiToken,
+		scheduler: timing.NewScheduler(),
+	}
+	m.RefreshInterval(1 * time.Minute)
+	m.Output(func(info Info) bar.Output {
+		return outputs.Text(info.CurrentTaskContent)
+	})
+	return m
+}
+
+// Stream starts the module.
+func (m *Module) Stream(sink bar.Sink) {
+	apiToken := m.apiToken
+	ct, err := fetchCurrentTask(apiToken)
+	if sink.Error(err) {
+		return
+	}
+	outf := m.outputFunc.Get().(func(Info) bar.Output)
+	nextOutputFunc, done := m.outputFunc.Subscribe()
+	defer done()
 	for {
-		<-ticker.C // blocking, waits for tick
-
-		currentTask, err := fetchCurrentTask(*token)
-		if err != nil {
-			log.Printf("%+v", err)
-		} else {
-			err = i3dbus.SetStatus("TodoistStatus", currentTask.Content, "tasks", currentTask.I3State)
-			if err != nil {
-				log.Fatal(err)
-			}
+		if sink.Error(err) {
+			return
+		}
+		sink.Output(outf(ct.Info()))
+		select {
+		case <-nextOutputFunc:
+			outf = m.outputFunc.Get().(func(Info) bar.Output)
+		case <-m.scheduler.C:
+			ct, err = fetchCurrentTask(apiToken)
 		}
 	}
+}
+
+// Output sets the output format for the module.
+func (m *Module) Output(outputFunc func(Info) bar.Output) *Module {
+	m.outputFunc.Set(outputFunc)
+	return m
+}
+
+// RefreshInterval sets the interval between Todoist status updates.
+func (m *Module) RefreshInterval(interval time.Duration) *Module {
+	m.scheduler.Every(interval)
+	return m
 }

@@ -121,6 +121,7 @@ in
     go
     go-bindata
     delve
+    gofumpt
     bitwarden-cli
     nbconvert
     peek

@@ -7,7 +7,7 @@ in
 
   imports = [
     <ptsd/3modules/home>
-    <ptsd/2configs/home/git-alarm.nix>
+    #<ptsd/2configs/home/git-alarm.nix> # TODO: Port to nwi3status
   ];
 
   nixpkgs = {
@@ -19,7 +19,7 @@ in
     enable = true;
   };
 
-  ptsd.i3status-rust = {
+  ptsd.nwi3status = {
     enable = true;
     openweathermapApiKey = desktopSecrets.openweathermapApiKey;
   };

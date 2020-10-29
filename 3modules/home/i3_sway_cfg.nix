@@ -27,7 +27,7 @@ in
     };
     fontSize = mkOption {
       type = types.int;
-      default = 8;
+      default = 10;
     };
     primaryMicrophone = mkOption {
       type = with types; nullOr str;
@@ -237,9 +237,9 @@ in
   bars = [
     {
       colors.background = "#181516";
-      # font size must be appended to the *last* item in this list
-      fonts = [ cfg.fontMono "FontAwesome5Free" "FontAwesome5Brands ${toString cfg.fontSize}" ];
-      statusCommand = "${config.ptsd.i3status-rust.package}/bin/i3status-rs ${config.xdg.configHome}/i3/status.toml";
+      # font size must be appended to the *last* item in this list, see https://developer.gnome.org/pango/stable/pango-Fonts.html#pango-font-description-from-string
+      fonts = [ cfg.fontMono "Material Design Icons" "Typicons" "Font Awesome 5 Free" "Font Awesome 5 Brands ${toString cfg.fontSize}" ];
+      statusCommand = "exec ${pkgs.nwi3status}/bin/nwi3status";
     }
   ];
 

@@ -31,7 +31,7 @@ in
 
         ptsd.urxvt.enable = true;
 
-        ptsd.i3status-rust = {
+        ptsd.nwi3status = {
           ethIf = "eth0";
           wifiIf = "wlan0";
         };

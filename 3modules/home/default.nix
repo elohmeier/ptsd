@@ -4,8 +4,8 @@ _:
     ./alacritty.nix
     ./baresip.nix
     ./i3.nix
-    ./i3status-rust.nix
     ./kitty.nix
+    ./nwi3status.nix
     ./pcmanfm.nix
     ./sway.nix
     ./urxvt.nix

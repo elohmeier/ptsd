@@ -17,7 +17,7 @@ in
     enable = true;
   };
 
-  ptsd.i3status-rust = {
+  ptsd.nwi3status = {
     enable = true;
     openweathermapApiKey = desktopSecrets.openweathermapApiKey;
   };

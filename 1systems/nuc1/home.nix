@@ -37,7 +37,7 @@ in
     configureRofi = false;
   };
 
-  ptsd.i3status-rust = {
+  ptsd.nwi3status = {
     todoistApiKey = todoistSecrets.todoistApiKey;
     showBatteryStatus = false;
     showNvidiaGpuStatus = false;

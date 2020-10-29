@@ -37,7 +37,7 @@ in
     configureGtk = false;
     configureRofi = false;
   };
-  ptsd.i3status-rust = {
+  ptsd.nwi3status = {
     todoistApiKey = todoistSecrets.todoistApiKey;
     showBatteryStatus = true;
     wifiIf = "wlan0";

@@ -94,8 +94,10 @@
     source-code-pro
     win10fonts
 
-    # required by i3status-rs
+    # required by nwi3status
     font-awesome_5
+    material-design-icons
+    typicons
   ];
 
   # for betaflight-configurator firmware flashing
