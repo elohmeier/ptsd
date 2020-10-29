@@ -100,10 +100,17 @@
     };
   };
 
-  services.xserver.xrandrHeads = [
-    {
-      output = "HDMI-2";
-      primary = true; # fixes missing tray in i3bar
-    }
-  ];
+  services.xserver = {
+
+    # turn on numlock in X11 by default
+    displayManager.lightdm.extraSeatDefaults =
+      "greeter-setup-script=${pkgs.numlockx}/bin/numlockx on";
+
+    xrandrHeads = [
+      {
+        output = "HDMI-2";
+        primary = true; # fixes missing tray in i3bar
+      }
+    ];
+  };
 }
