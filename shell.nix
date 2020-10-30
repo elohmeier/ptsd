@@ -2,6 +2,7 @@
 let
   scripts = pkgs.lib.mapAttrsToList (name: value: pkgs.writeShellScriptBin name value) {
     mk-pretty = ''
+      set -e
       ROOT=$(${pkgs.git}/bin/git rev-parse --show-toplevel)
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/1systems
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/2configs
@@ -13,6 +14,7 @@ let
       ${pkgs.jsonnet}/bin/jsonnetfmt --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s -i $ROOT/.drone.jsonnet
       ${pkgs.python3Packages.black}/bin/black $ROOT/.
       ${pkgs.python3Packages.black}/bin/black $ROOT/src/*.pyw
+      ${pkgs.go}/bin/gofmt -w $ROOT/5pkgs
     '';
     mk-update = ''
       ./update-gitref.sh home-manager https://github.com/rycee/home-manager master
