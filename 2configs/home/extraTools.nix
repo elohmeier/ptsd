@@ -119,6 +119,7 @@ in
     obs-studio
     gnome3.evolution
     go
+    go-bindata
     delve
     bitwarden-cli
     nbconvert
