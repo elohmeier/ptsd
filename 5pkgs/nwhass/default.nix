@@ -15,7 +15,7 @@ home-assistant.override {
     ps.mutagen # for tts
     ps.netdisco # required by pyfritzhome
     ps.paho-mqtt
-    ps.pyicloud
+    # ps.pyicloud # disabled because of annoying popups 2020-10-30
     ps.pyipp
     ps.psycopg2
     ps.pyfritzhome
