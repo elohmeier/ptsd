@@ -235,4 +235,13 @@ in
     printerName = "MFC7440N";
     listenAddress = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631";
   };
+
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemuPackage = pkgs.qemu_kvm;
+      qemuRunAsRoot = false;
+    };
+  };
+
 }
