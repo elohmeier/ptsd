@@ -157,11 +157,14 @@ in
           };
         }
       ] ++ optional (cfg.todoistApiKey != "") {
-        block = "custom";
-        command = "${pkgs.i3status-tools}/bin/i3status-todoist -token ${cfg.todoistApiKey}";
-        on_click = "xdg-open https://todoist.com/app/";
-        json = true;
-        interval = 60;
+        # block = "custom";
+        # command = "${pkgs.i3status-tools}/bin/i3status-todoist -token ${cfg.todoistApiKey}";
+        # on_click = "xdg-open https://todoist.com/app/";
+        # json = true;
+        # interval = 60;
+
+        block = "custom_dbus";
+        name = "TodoistStatus";
       } ++ [{
         block = "custom";
         command = "cat ${config.xdg.dataHome}/git-alarm.txt";
@@ -254,5 +257,32 @@ in
         }
       ];
     };
+
+    systemd.user.services.i3status-syncthing = {
+      Unit = {
+        Description = "Syncthing status for i3status-rs via dbus";
+        PartOf = [ "graphical-session.target" ];
+        WantedBy = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.i3status-tools}/bin/i3status-syncthing";
+        RestartSec = 3;
+        Restart = "on-failure";
+      };
+    };
+
+    systemd.user.services.i3status-todoist = mkIf (cfg.todoistApiKey != "") {
+      Unit = {
+        Description = "Todoist status for i3status-rs via dbus";
+        PartOf = [ "graphical-session.target" ];
+        WantedBy = [ "graphical-session.target" ];
+      };
+      Service = {
+        ExecStart = "${pkgs.i3status-tools}/bin/i3status-todoist -token ${cfg.todoistApiKey}";
+        RestartSec = 3;
+        Restart = "on-failure";
+      };
+    };
+
   };
 }

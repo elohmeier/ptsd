@@ -60,6 +60,7 @@
     serviceConfig = {
       ExecStart = "${pkgs.redshift}/bin/redshift";
       RestartSec = 3;
+      Restart = "on-failure";
     };
   };
 
@@ -70,17 +71,7 @@
     serviceConfig = {
       ExecStart = "${pkgs.flameshot}/bin/flameshot";
       RestartSec = 3;
-    };
-  };
-
-  # TODO: use only with sway or i3
-  systemd.user.services.i3status-syncthing = {
-    description = "Syncthing status for i3status-rs via dbus";
-    partOf = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.i3status-tools}/bin/i3status-syncthing";
-      RestartSec = 3;
+      Restart = "on-failure";
     };
   };
 

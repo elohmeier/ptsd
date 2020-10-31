@@ -17,16 +17,18 @@ func Notify(title string, message string) error {
 	return nil
 }
 
-func SetStatus(objName string, message string, icon string, state string) error {
+func SetStatus(objName string, text string, icon string, state string) error {
 	// see https://github.com/greshake/i3status-rust/blob/master/blocks.md#custom-dbus
 	// for icons see https://github.com/greshake/i3status-rust/blob/master/src/icons.rs
+	// states: Idle, Info, Good, Warning, Critical
+	// setting icon or state requires i3status-rust > v0.14.1
 
 	conn, err := dbus.SessionBus()
 	if err != nil {
 		return err
 	}
 	obj := conn.Object("i3.status.rs", dbus.ObjectPath("/"+objName))
-	call := obj.Call("i3.status.rs.SetStatus", 0, message, icon, state)
+	call := obj.Call("i3.status.rs.SetStatus", 0, text, icon, state)
 	if call.Err != nil {
 		return call.Err
 	}
