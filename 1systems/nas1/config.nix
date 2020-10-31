@@ -64,6 +64,25 @@ in
     };
   };
 
+  systemd.network = {
+    netdevs = {
+      "40-ff" = {
+        netdevConfig = {
+          Name = "ff";
+          Kind = "bridge";
+        };
+      };
+    };
+    networks = {
+      "40-ff" = {
+        matchConfig.Name = "ff";
+        networkConfig = {
+          ConfigureWithoutCarrier = true;
+        };
+      };
+    };
+  };
+
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
   boot.kernelParams = [ "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:eno1:off" ];
@@ -242,6 +261,44 @@ in
       qemuPackage = pkgs.qemu_kvm;
       qemuRunAsRoot = false;
     };
+  };
+
+  containers.ff = {
+    autoStart = true;
+    hostBridge = "ff";
+    privateNetwork = true;
+    bindMounts = {
+      "/tank/enc/roms" = {
+        hostPath = "/tank/enc/roms";
+        isReadOnly = false;
+      };
+    };
+
+    config =
+      { config, pkgs, ... }:
+      {
+        imports = [
+          <ptsd>
+          <ptsd/2configs>
+        ];
+
+        boot.isContainer = true;
+
+        networking = {
+          useHostResolvConf = false;
+          useNetworkd = true;
+          interfaces.eth0.useDHCP = true;
+        };
+
+        time.timeZone = "Europe/Berlin";
+
+        i18n = {
+          defaultLocale = "de_DE.UTF-8";
+          supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+        };
+
+        environment.systemPackages = with pkgs; [ tmux rtorrent ];
+      };
   };
 
 }
