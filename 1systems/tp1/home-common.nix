@@ -82,6 +82,9 @@ in
     # steam
     pdfduplex
     pdf2svg
+    mupen64plus
+    wine
+    winetricks
   ];
 
   xsession.initExtra = ''
