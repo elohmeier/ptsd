@@ -82,9 +82,16 @@ in
     # steam
     pdfduplex
     pdf2svg
+    epsxe
     mupen64plus
     wine
     winetricks
+    pcsx2
+  ];
+
+  # epsxe
+  nixpkgs.config.permittedInsecurePackages = [
+    "openssl-1.0.2u"
   ];
 
   xsession.initExtra = ''

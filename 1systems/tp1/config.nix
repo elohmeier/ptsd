@@ -208,6 +208,9 @@ in
     };
   };
 
+  # for PCSX2
+  fonts.fontconfig.cache32Bit = true;
+
   ptsd.nwsyncthing = {
     enable = true;
 
