@@ -11,8 +11,18 @@ in
 
   system.stateVersion = "20.09";
 
-  boot.initrd.luks.devices.p2 = {
-    device = "${disk}-part2";
+  boot = {
+
+    initrd.luks.devices.p2 = {
+      device = "${disk}-part2";
+    };
+    kernelParams = [ "systemd.machine_id=5f0d47f06a0a486b82690748870e24b6" ];
+    loader = {
+      systemd-boot.enable = true;
+      efi.canTouchEfiVariables = true;
+    };
+    supportedFilesystems = [ "zfs" ];
+    zfs.extraPools = [ "nw28" ];
   };
 
   fileSystems."/" =
@@ -57,10 +67,4 @@ in
     ];
 
   networking.hostId = "A621BDF3"; # needed for zfs
-  boot.kernelParams = [ "systemd.machine_id=5f0d47f06a0a486b82690748870e24b6" ];
-
-  boot.loader = {
-    systemd-boot.enable = true;
-    efi.canTouchEfiVariables = true;
-  };
 }

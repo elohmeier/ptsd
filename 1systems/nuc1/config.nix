@@ -114,4 +114,11 @@
       }
     ];
   };
+
+  services.zfs.autoScrub.enable = true;
+
+  ptsd.nwbackup-server = {
+    enable = true;
+    zpool = "nw28";
+  };
 }
