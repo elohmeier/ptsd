@@ -95,7 +95,7 @@ in
     systemd.services."container@${cfg.name}".serviceConfig.TimeoutStopSec = "10s";
 
     containers."${cfg.name}" = {
-      autoStart = true;
+      autoStart = false;
       enableTun = true;
       privateNetwork = true;
       hostAddress = cfg.hostAddress;
