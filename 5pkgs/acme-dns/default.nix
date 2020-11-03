@@ -11,6 +11,6 @@ buildGoModule rec {
     sha256 = "1v2k8kfws4a0hmi1almmdjd6rdihbr3zifji623wwnml00mjrplf";
   };
 
-  vendorSha256 = "08y2v0na856wmc7mwjlnqqlbd22p7a7ichzqgcbl8zdzy6b7cbn8";
+  vendorSha256 = "0ys87vm5c6h1nrwbwa620qmxdhccfvgjci27p9v4gllgrgnicscd";
   goPackagePath = "github.com/joohoi/acme-dns";
 }
