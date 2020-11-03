@@ -264,7 +264,7 @@ in
   };
 
   containers.ff = {
-    autoStart = true;
+    autoStart = false;
     hostBridge = "ff";
     privateNetwork = true;
     bindMounts = {
