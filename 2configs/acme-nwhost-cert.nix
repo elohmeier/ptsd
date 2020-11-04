@@ -18,9 +18,10 @@
           group = "certs";
           #dnsPropagationCheck = false;
           postRun = ''
-            cp cert.pem cert-root.pem
-            cp key.pem key-root.pem
-            chown root:root cert-root.pem key-root.pem
+            cp cert.pem cert-postgresql.pem
+            cp key.pem key-postgresql.pem
+            chown postgres:postgres cert-postgresql.pem key-postgresql.pem
+            chmod 600 cert-postgresql.pem key-postgresql.pem
           '';
         };
       };
