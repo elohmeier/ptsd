@@ -165,6 +165,7 @@ in
       dhcp-range=enp2s0,192.168.2.10,192.168.2.150,12h
 
       # fixed ip for printer
+      # TODO: switch to systemd-networkd https://github.com/systemd/systemd/pull/15556
       dhcp-host=enp2s0,00:1b:a9:f9:e3:41,192.168.2.2,12h
 
       # wifi
