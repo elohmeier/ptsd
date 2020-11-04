@@ -9,7 +9,13 @@ let
     plugins.curalegacy.cura_engine = "${pkgs.curaengine_stable}/bin/CuraEngine";
     server.host = cfg.host;
     server.port = cfg.port;
-    webcam.ffmpeg = "${pkgs.ffmpeg.bin}/bin/ffmpeg";
+    webcam = {
+      ffmpeg = "${pkgs.ffmpeg.bin}/bin/ffmpeg";
+    } // lib.optionalAttrs (cfg.webcamStreamUrl != "") {
+      stream = cfg.webcamStreamUrl;
+    } // lib.optionalAttrs (cfg.webcamSnapshotUrl != "") {
+      snapshot = cfg.webcamStreamUrl;
+    };
   };
 
   fullConfig = recursiveUpdate cfg.extraConfig baseConfig;
@@ -61,6 +67,14 @@ in
         default = "";
         type = types.str;
         description = "hot-plug start service";
+      };
+      webcamStreamUrl = mkOption {
+        default = "";
+        type = types.str;
+      };
+      webcamSnapshotUrl = mkOption {
+        default = "";
+        type = types.str;
       };
     };
   };
