@@ -23,7 +23,7 @@
     enable = true;
     matchBlocks = {
       "ws1-osx" = {
-        hostname = "192.168.178.71";
+        hostname = "192.168.178.61";
         forwardAgent = true;
         extraOptions.RemoteForward = "/Users/enno/.gnupg/S.gpg-agent /run/user/1000/gnupg/S.gpg-agent.extra";
       };
