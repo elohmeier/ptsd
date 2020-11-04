@@ -86,7 +86,6 @@ in
     mupen64plus
     wine
     winetricks
-    pcsx2
   ];
 
   # epsxe
