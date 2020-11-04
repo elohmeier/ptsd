@@ -10,7 +10,7 @@ in
   mailserver = {
     enable = true;
     fqdn = fqdn;
-    domains = [ "nerdworks.de" "nerd-works.de" ];
+    domains = [ "nerdworks.de" "nerd-works.de" "ennolohmeier.de" ];
 
     loginAccounts = { };
 
