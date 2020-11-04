@@ -39,8 +39,7 @@ in
 
     home.packages = with pkgs; [
       i3lock # only needed for config testing / man pages
-      # TODO: disabled for 20.09 until fix has landed in 20.09 (https://github.com/NixOS/nixpkgs/pull/97965)
-      #libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE      
+      libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
       brightnessctl
       flameshot
       nwlock
