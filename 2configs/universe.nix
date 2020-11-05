@@ -446,5 +446,9 @@
     ext-arvid = {
       syncthing.id = "Z7HYCDN-UQA4KQC-ZW6M4QG-2FQ3VVL-HPVIQYB-26OOJZM-2TO7FVN-OXKFBQX";
     };
+
+    ext-stefan = {
+      syncthing.id = "LRSIJOJ-VDYM3PR-RULNIWS-LFP4NO5-ENQNAEK-BMFLTVH-VG6BVCI-EJ27KQV";
+    };
   };
 }

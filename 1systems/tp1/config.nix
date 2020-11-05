@@ -216,9 +216,14 @@ in
         id = "xxdwi-yom6n";
         devices = [ "htz2" "nas1-st-enno" "tp1-win10" "ws1" "ws1-win10" "ws1-win10n" ];
       };
+      "/home/enno/Hörspiele" = {
+        id = "rqnvn-lmhcm";
+        devices = [ "ext-arvid" "nas1-st-enno" ];
+        type = "sendonly";
+      };
       "/home/enno/LuNo" = {
         id = "3ull9-9deg4";
-        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "nuc1" "tp2" "ws1" ];
+        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "tp2" "ws1" ];
       };
       "/home/enno/Pocket" = {
         id = "hmekh-kgprn";

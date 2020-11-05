@@ -210,6 +210,11 @@ in
             id = "xxdwi-yom6n";
             devices = [ "tp1" "ws1" "ws1-win10n" ];
           };
+          "${root}/Hörspiele" = {
+            id = "rqnvn-lmhcm";
+            devices = [ "ext-arvid" "tp1" ];
+            type = "receiveonly";
+          };
           "${root}/Pocket" = {
             id = "hmekh-kgprn";
             devices = [ "nuc1" "tp1" "ws1" ];
