@@ -1,16 +1,15 @@
 { stdenv, fetchFromGitHub }:
 
 stdenv.mkDerivation rec {
-  pname = "dokuwiki-plugin-dw2pdf";
-  version = "2020-05-11";
+  name = "dw2pdf";
   src = fetchFromGitHub {
     owner = "splitbrain";
-    repo = pname;
-    rev = "${version}";
+    repo = "dokuwiki-plugin-dw2pdf";
+    rev = "2020-05-11";
     sha256 = "1pkn76ncra7ymdy58dk48415fqm29f2il809qbcp9cakclsv07rq";
   };
   installPhase = ''
-    mkdir -p $out/share/dokuwiki/lib/plugins/dw2pdf
-    cp -r * $out/share/dokuwiki/lib/plugins/dw2pdf
+    mkdir -p $out
+    cp -r * $out/
   '';
 }

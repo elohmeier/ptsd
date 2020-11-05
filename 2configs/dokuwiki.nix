@@ -10,54 +10,10 @@ in
     }
   ];
 
-  # nixpkgs = {
-  #   config.packageOverrides = pkgs: {
-  #     dokuwiki = pkgs.symlinkJoin {
-  #       name = "dokuwiki-with-plugins";
-  #       paths = [
-  #         (
-  #           pkgs.dokuwiki.overrideAttrs (
-  #             old: rec {
-  #               # original preload plus DOKU_PLUGIN definition
-  #               preload = pkgs.writeText "preload.php" ''
-  #                 <?php
-
-  #                   $config_cascade = array(
-  #                     'acl' => array(
-  #                       'default'   => getenv('DOKUWIKI_ACL_AUTH_CONFIG'),
-  #                     ),
-  #                     'plainauth.users' => array(
-  #                       'default'   => getenv('DOKUWIKI_USERS_AUTH_CONFIG'),
-  #                       'protected' => "" // not used by default
-  #                     ),
-  #                   );
-
-  #                   define('DOKU_PLUGIN', getenv('DOKUWIKI_PLUGINS_DIR'));
-  #               '';
-
-  #               installPhase = ''
-  #                 mkdir -p $out/share/dokuwiki
-  #                 cp -r * $out/share/dokuwiki
-  #                 cp ${preload} $out/share/dokuwiki/inc/preload.php
-  #                 cp ${old.phpLocalConfig} $out/share/dokuwiki/conf/local.php
-  #                 cp ${old.phpPluginsLocalConfig} $out/share/dokuwiki/conf/plugins.local.php
-  #               '';
-  #             }
-  #           )
-  #         )
-
-  #         # remember to clear the cache (/var/lib/dokuwiki/data/cache) when modifying plugins
-  #         (pkgs.callPackage <ptsd/5pkgs/dokuwiki-plugin-dw2pdf> { })
-  #         (pkgs.callPackage <ptsd/5pkgs/dokuwiki-plugin-nspages> { })
-  #         (pkgs.callPackage <ptsd/5pkgs/dokuwiki-plugin-pagebreak> { })
-  #       ];
-  #     };
-  #   };
-  # };
-
   ptsd.secrets.files."dokuwiki.users" = {
-    owner = "nginx";
+    owner = "dokuwiki";
   };
+  users.groups.keys.members = [ "dokuwiki" ];
 
   services.dokuwiki.nwwiki = {
     enable = true;
@@ -93,7 +49,4 @@ in
       dokuwiki-plugin-pagebreak
     ];
   };
-  # services.phpfpm.pools.dokuwiki.phpEnv = {
-  #   DOKUWIKI_PLUGINS_DIR = "${pkgs.dokuwiki}/share/dokuwiki/lib/plugins/";
-  # };
 }

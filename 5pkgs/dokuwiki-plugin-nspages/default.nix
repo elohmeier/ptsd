@@ -1,8 +1,7 @@
 { stdenv, fetchFromGitHub }:
 
 stdenv.mkDerivation rec {
-  pname = "dokuwiki-plugin-nspages";
-  version = "2020-05-23";
+  name = "nspages";
   src = fetchFromGitHub {
     owner = "gturri";
     repo = "nspages";
@@ -10,7 +9,7 @@ stdenv.mkDerivation rec {
     sha256 = "1npfrjwwy4hzzp5ibwk3pgq49wy9av04i889g59c2ysznw16l57d";
   };
   installPhase = ''
-    mkdir -p $out/share/dokuwiki/lib/plugins/nspages
-    cp -r * $out/share/dokuwiki/lib/plugins/nspages
+    mkdir -p $out
+    cp -r * $out/
   '';
 }
