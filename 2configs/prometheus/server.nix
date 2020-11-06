@@ -38,7 +38,7 @@ in
     scrapeConfigs = [
       {
         job_name = "node";
-        scrape_interval = "10s";
+        scrape_interval = "60s";
 
         # scrape all nwvpn hosts
         static_configs = (
@@ -67,7 +67,7 @@ in
       }
       {
         job_name = "blackbox";
-        scrape_interval = "10s";
+        scrape_interval = "60s";
         metrics_path = "/probe";
         params.module = [ "https_2xx" ];
         static_configs = [
