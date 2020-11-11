@@ -196,6 +196,18 @@ in
     allowedUDPPorts = [ 137 138 ];
   };
 
+  ptsd.wireguard.networks = {
+    dlrgvpn = {
+      enable = true;
+      ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+      client.allowedIPs = [ "192.168.168.0/24" ];
+      routes = [
+        { routeConfig = { Destination = "192.168.168.0/24"; }; }
+      ];
+      keyname = "nwvpn.key";
+    };
+  };
+
   virtualisation = {
     docker = {
       enable = true;
