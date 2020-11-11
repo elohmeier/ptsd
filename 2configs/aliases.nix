@@ -12,6 +12,7 @@
   gc = "git commit";
   gco = "git checkout";
   gd = "git diff";
+  gl = "git log";
   gp = "git pull";
   gpp = "git push";
   gf = "git fetch";
