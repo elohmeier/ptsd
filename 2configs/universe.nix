@@ -111,6 +111,8 @@
       };
     };
 
+    iph3 = { }; # 12 Mini
+
     ipd1 = {
       nets = {
         nwvpn = {

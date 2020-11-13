@@ -3,7 +3,6 @@ package syncthing
 import (
 	"encoding/json"
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -12,8 +11,10 @@ import (
 
 	"barista.run/bar"
 	"barista.run/base/value"
+	"barista.run/format"
 	"barista.run/outputs"
 	"barista.run/timing"
+	"github.com/martinlindhe/unit"
 )
 
 func readSynchtingAPIKey(path string) (string, error) {
@@ -87,21 +88,8 @@ func readSynchtingStatus(apiKey string) (stStatus, error) {
 	return status, nil
 }
 
-func calcRate(iOld int64, iNew int64, tOld time.Time, tNew time.Time) int64 {
-	return (iNew - iOld) / int64(tNew.Sub(tOld).Seconds())
-}
-
-func formatByteCountBinary(b int64) string {
-	const unit = 1024
-	if b < unit {
-		return fmt.Sprintf("%d B", b)
-	}
-	div, exp := int64(unit), 0
-	for n := b / unit; n >= unit; n /= unit {
-		div *= unit
-		exp++
-	}
-	return fmt.Sprintf("%.1f %ciB", float64(b)/float64(div), "KMGTPE"[exp])
+func calcRate(iOld int64, iNew int64, tOld time.Time, tNew time.Time) unit.Datarate {
+	return unit.Datarate((iNew - iOld) / int64(tNew.Sub(tOld).Seconds()))
 }
 
 func (stCur *stStatus) CalcInfo(stPrev stStatus) Info {
@@ -113,15 +101,14 @@ func (stCur *stStatus) CalcInfo(stPrev stStatus) Info {
 	}
 
 	return Info{
-		RateOut: calcRate(stPrev.Total.OutBytesTotal, stCur.Total.OutBytesTotal, tOld, tNew),
-		RateIn:  calcRate(stPrev.Total.InBytesTotal, stCur.Total.InBytesTotal, tOld, tNew),
+		Tx: calcRate(stPrev.Total.OutBytesTotal, stCur.Total.OutBytesTotal, tOld, tNew),
+		Rx: calcRate(stPrev.Total.InBytesTotal, stCur.Total.InBytesTotal, tOld, tNew),
 	}
 }
 
 // Info holds statistics about a Syncthing instance
 type Info struct {
-	RateIn  int64
-	RateOut int64
+	Rx, Tx unit.Datarate
 }
 
 // Module represents a Syncthing Barista module
@@ -143,8 +130,8 @@ func New() *Module {
 		scheduler: timing.NewScheduler(),
 	}
 	m.RefreshInterval(10 * time.Second)
-	m.Output(func(info Info) bar.Output {
-		return outputs.Textf("⬆%s/s ⬇%s/s", formatByteCountBinary(info.RateOut), formatByteCountBinary(info.RateIn))
+	m.Output(func(i Info) bar.Output {
+		return outputs.Textf("⬆%s ⬇%s", format.IByterate(i.Tx), format.IByterate(i.Rx))
 	})
 	return m
 }

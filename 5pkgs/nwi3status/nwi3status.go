@@ -379,7 +379,14 @@ func main() {
 				ConcatText(format.IByterate(r.Total()))
 		})
 
-	syncthing := syncthing.New()
+	syncthing := syncthing.New().
+		Output(func(i syncthing.Info) bar.Output {
+			return outputs.Pango(
+				pango.Icon("fa-upload").Alpha(0.5), spacer, pango.Textf("%7s", format.Byterate(i.Tx)),
+				pango.Text(" ").Small(),
+				pango.Icon("fa-download").Alpha(0.5), spacer, pango.Textf("%7s", format.Byterate(i.Rx)),
+			)
+		})
 
 	mainModal := modal.New()
 	if conf.TodoistAPIKey != "" {
