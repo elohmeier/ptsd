@@ -23,6 +23,7 @@ let
     ]
   );
   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
+  desktopSecrets = import <secrets-shared/desktop.nix>;
 in
 {
   imports = [
@@ -140,6 +141,7 @@ in
     v4l-utils
     hydra-check
     dfeet
+    gcalcli
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
@@ -191,4 +193,9 @@ in
 
   # Link emacs config to well-known path
   home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/init.el;
+
+  home.file.".gcalclirc".text = ''
+    --client-id=${desktopSecrets.gcalcli.clientId}
+    --client-secret=${desktopSecrets.gcalcli.clientSecret}
+  '';
 }
