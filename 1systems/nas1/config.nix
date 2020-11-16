@@ -36,6 +36,8 @@ in
     <home-manager/nixos>
   ];
 
+  ptsd.nobbofin-autofetch.enable = true;
+
   home-manager = {
     users.mainUser = { pkgs, ... }:
       {
