@@ -41,3 +41,5 @@
 (require 'nix-mode)
 (add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
 
+(require 'evil)
+(evil-mode 1)
