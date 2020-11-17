@@ -186,6 +186,7 @@ in
       evil
       evil-org
       magit
+      neotree
       org
       solarized-theme
     ];
