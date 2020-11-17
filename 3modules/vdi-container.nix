@@ -113,7 +113,7 @@ in
           imports = [
             <ptsd>
             <ptsd/2configs>
-            #<home-manager/nixos>
+            <home-manager/nixos>
           ];
 
           boot.isContainer = true;
@@ -176,29 +176,13 @@ in
             6. PROFIT!!!
           '';
 
-          # home-manager = {
-          #   users.mainUser = { pkgs, ... }:
-          #     {
-          #       gtk = {
-          #         enable = true;
-          #         font = {
-          #           name = "Iosevka Sans 8";
-          #           package = pkgs.dejavu_fonts;
-          #         };
-          #         iconTheme = {
-          #           name = "Tango";
-          #           package = pkgs.tango-icon-theme;
-          #         };
-          #         theme = {
-          #           name = "Arc-Dark";
-          #           package = pkgs.arc-theme;
-          #         };
-          #       };
-          #     };
-          # };
-
-          # programs.dconf.enable = true;
-          # services.dbus.packages = [ pkgs.gnome3.dconf ];
+          home-manager = {
+            users.mainUser = { pkgs, ... }:
+              {
+                # prevent eula dialog
+                home.file.".ICAClient/.eula_accepted".text = '''';
+              };
+          };
         };
     };
   };
