@@ -10,7 +10,10 @@ in
     <ptsd/2configs/home/extraTools.nix>
     <ptsd/2configs/home/firefox.nix>
     <ptsd/2configs/home/gpg.nix>
-    <ptsd/2configs/home/sway.nix>
+
+    # disabled, waiting for https://github.com/nix-community/home-manager/pull/1614
+    # <ptsd/2configs/home/sway.nix>
+
     <ptsd/2configs/home/xsession-i3.nix>
   ];
 
