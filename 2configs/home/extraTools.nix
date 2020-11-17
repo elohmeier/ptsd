@@ -185,6 +185,7 @@ in
     extraPackages = epkgs: with epkgs; [
       evil
       evil-org
+      go-mode
       magit
       neotree
       nix-mode
