@@ -6,7 +6,6 @@ _:
     ./cups-airprint.nix
     ./drone-server.nix
     ./fraam-www.nix
-    ./gitea.nix
     ./mjpg-streamer.nix
     ./nobbofin-autofetch.nix
     ./nwbackup.nix
