@@ -187,6 +187,7 @@ in
       evil-org
       magit
       neotree
+      nix-mode
       org
       solarized-theme
     ];

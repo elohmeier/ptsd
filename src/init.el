@@ -38,3 +38,6 @@
 (require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
 
+(require 'nix-mode)
+(add-to-list 'auto-mode-alist '("\\.nix\\'" . nix-mode))
+
