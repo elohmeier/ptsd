@@ -90,7 +90,7 @@ func readSynchtingStatus(apiKey string) (stStatus, error) {
 
 func calcRate(iOld int64, iNew int64, tOld time.Time, tNew time.Time) unit.Datarate {
 	// handle division by zero
-	if tNew.Sub(tOld).Seconds() == 0 {
+	if int64(tNew.Sub(tOld).Seconds()) == 0 {
 		return unit.Datarate(0)
 	}
 	return unit.Datarate((iNew - iOld) / int64(tNew.Sub(tOld).Seconds()))
