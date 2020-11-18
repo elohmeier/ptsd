@@ -121,4 +121,16 @@
     enable = true;
     zpool = "nw28";
   };
+
+  virtualisation = {
+    docker = {
+      enable = true;
+      enableOnBoot = false;
+    };
+    libvirtd = {
+      enable = true;
+      qemuPackage = pkgs.qemu_kvm;
+      qemuRunAsRoot = false;
+    };
+  };
 }
