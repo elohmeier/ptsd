@@ -183,6 +183,8 @@ in
   programs.emacs = {
     enable = true;
     extraPackages = epkgs: with epkgs; [
+      company
+      company-tabnine
       evil
       evil-org
       go-mode
@@ -191,6 +193,7 @@ in
       nix-mode
       org
       solarized-theme
+      yaml-mode
     ];
   };
 
