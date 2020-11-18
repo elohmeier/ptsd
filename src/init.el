@@ -61,3 +61,7 @@
 
 ;; Number the candidates (use M-1, M-2 etc to select completions).
 (setq company-show-numbers t)
+
+(require 'dockerfile-mode)
+(add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-mode))
+

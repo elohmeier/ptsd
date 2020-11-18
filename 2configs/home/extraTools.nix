@@ -185,6 +185,7 @@ in
     extraPackages = epkgs: with epkgs; [
       company
       company-tabnine
+      dockerfile-mode
       evil
       evil-org
       go-mode
