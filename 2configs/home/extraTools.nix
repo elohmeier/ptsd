@@ -16,6 +16,7 @@ let
       lxml
       keyring
       nbconvert
+      pandas
       pdfminer
       pillow
       requests
@@ -142,6 +143,7 @@ in
     hydra-check
     dfeet
     gcalcli
+    anki
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
