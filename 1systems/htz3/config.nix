@@ -79,7 +79,7 @@ in
         address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
       };
 
-      # added for local tls monitoring
+      # added for local tls monitoring & fraam-update-static-web script
       "loopback4-https".address = "127.0.0.1:443";
     };
   };
@@ -95,7 +95,7 @@ in
         ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
         ACME_DNS_API_BASE=https://auth.nerdworks.de
       '';
-      email = "enno.lohmeier+letsencrypt@fraam.de";
+      email = "enno.richter+letsencrypt@fraam.de";
     in
     {
       email = email;
@@ -119,6 +119,20 @@ in
         "dev.fraam.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "dev.fraam.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "id.fraam.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "id.fraam.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "git.fraam.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "git.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
