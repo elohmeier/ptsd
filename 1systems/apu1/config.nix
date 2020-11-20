@@ -23,6 +23,7 @@ in
       id = 7; # BNG
       interface = "enp1s0";
     };
+    bridges.brlan.interfaces = [ "enp3s0" "wlp4s0" ];
     interfaces = {
 
       # DSL WAN
@@ -31,15 +32,12 @@ in
       # Printer
       enp2s0.ipv4.addresses = [{ address = "192.168.2.1"; prefixLength = 24; }];
 
-      # nuc1
-      enp3s0.ipv4.addresses = [{ address = "192.168.124.1"; prefixLength = 24; }];
-
       # LTE WAN
       enp0s18f2u1 = {
         useDHCP = true;
       };
 
-      wlp4s0.ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
+      brlan.ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
 
       vlanppp = {
         useDHCP = false;
@@ -47,11 +45,7 @@ in
     };
     firewall = {
       interfaces.enp2s0.allowedUDPPorts = [ 67 68 546 547 ];
-      interfaces.enp3s0 = {
-        allowedTCPPorts = [ 53 631 445 139 ];
-        allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
-      };
-      interfaces.wlp4s0 = {
+      interfaces.brlan = {
         allowedTCPPorts = [ 53 631 445 139 ];
         allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
       };
@@ -68,7 +62,7 @@ in
       enable = true;
       #externalInterface = "enp0s18f2u1";
       externalInterface = "ppp0";
-      internalInterfaces = [ "enp3s0" "wlp4s0" ];
+      internalInterfaces = [ "brlan" ];
     };
   };
 
@@ -85,26 +79,7 @@ in
         ConfigureWithoutCarrier = true;
       };
     };
-    "40-enp3s0" = {
-      networkConfig = {
-        ConfigureWithoutCarrier = true;
-        IPv6AcceptRA = false;
-        IPv6PrefixDelegation = "dhcpv6";
-        IPv6DuplicateAddressDetection = 1;
-        IPv6PrivacyExtensions = lib.mkForce "no";
-        # DHCPServer = true; # ipv4, see dhcpServerConfig below. disabled in favour of dnsmasq.
-      };
-      ipv6PrefixDelegationConfig = {
-        RouterLifetimeSec = 300; # required as otherwise no RA's are being emitted
-      };
-      # dhcpServerConfig = {
-      #   PoolOffset = 100;
-      #   PoolSize = 20;
-      #   EmitDNS = "yes";
-      #   DNS = "8.8.8.8";
-      # };
-    };
-    "40-wlp4s0" = {
+    "40-brlan" = {
       networkConfig = {
         IPv6AcceptRA = false;
         IPv6PrefixDelegation = "dhcpv6";
@@ -155,7 +130,7 @@ in
     enable = true;
     servers = [ "8.8.8.8" "8.8.4.4" ];
     extraConfig = ''
-      interface=wlp4s0,enp2s0,enp3s0
+      interface=brlan,enp2s0
       bind-interfaces
 
       # don't send bogus requests out on the internets
@@ -168,11 +143,8 @@ in
       # TODO: switch to systemd-networkd https://github.com/systemd/systemd/pull/15556
       dhcp-host=enp2s0,00:1b:a9:f9:e3:41,192.168.2.2,12h
 
-      # wifi
-      dhcp-range=wlp4s0,192.168.123.10,192.168.123.150,12h
-
-      # nuc1
-      dhcp-range=enp3s0,192.168.124.10,192.168.124.150,12h
+      # wifi/nuc1
+      dhcp-range=brlan,192.168.123.10,192.168.123.150,12h
 
       dhcp-authoritative
       cache-size=5000
