@@ -65,3 +65,7 @@
 (require 'dockerfile-mode)
 (add-to-list 'auto-mode-alist '("\\Dockerfile\\'" . dockerfile-mode))
 
+(global-set-key (kbd "<f5>") #'deadgrep)
+
+;; Disable evil in term mode (e.g. fixes C-r in zsh)
+(evil-set-initial-state 'term-mode 'emacs)

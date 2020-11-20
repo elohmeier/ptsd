@@ -187,6 +187,7 @@ in
     extraPackages = epkgs: with epkgs; [
       company
       company-tabnine
+      deadgrep
       dockerfile-mode
       evil
       evil-org
