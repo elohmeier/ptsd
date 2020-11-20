@@ -124,7 +124,7 @@ in
           address = "http://localhost:4181";
           authResponseHeaders = [ "X-Forwarded-User" ];
         };
-        entryAddresses = [ "www4" "www6" ];
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
       {
         # required for ../5pkgs/fraam-update-static-web access
@@ -132,13 +132,13 @@ in
         name = "fraam-wordpress-local";
         rule = "Host(`dev.fraam.de`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
-        entryAddresses = [ "loopback4" ];
+        entryPoints = [ "loopback4-https" ];
       }
       {
         name = "fraam-wwwstatic";
         rule = "Host(`www.fraam.de`) || Host(`fraam.de`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wwwstatic}";
-        entryAddresses = [ "www4" "www6" ];
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
     ];
 
