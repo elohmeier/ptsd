@@ -1,6 +1,5 @@
 { config, pkgs, ... }:
 let
-  unstable = import <nixpkgs-unstable> { };
   domain = "octoprint.services.nerdworks.de";
   v4l-utils-nogui = pkgs.v4l-utils.override { withGUI = false; };
 in
@@ -10,7 +9,7 @@ in
     host = "127.0.0.1";
     port = config.ptsd.nwtraefik.ports.octoprint;
 
-    package = unstable.octoprint;
+    package = pkgs.octoprint;
     plugins = plugins: [
       (plugins.callPackage ../5pkgs/octoprint-plugins/bedlevelvisualizer.nix { })
       plugins.printtimegenius
