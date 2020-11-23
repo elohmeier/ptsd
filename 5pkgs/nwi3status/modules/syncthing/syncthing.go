@@ -69,7 +69,8 @@ func readSynchtingStatus(apiKey string) (stStatus, error) {
 
 	res, err := apiClient.Do(req)
 	if err != nil {
-		return stStatus{}, err
+		// not running syncthing shouldn't propagate as error
+		return stStatus{}, nil
 	}
 
 	if res.Body != nil {
