@@ -92,7 +92,6 @@ in
         pkgs.cpulimit
         pkgs.ffmpeg
       ];
-
       preStart = ''
         if [ -e "${stateDir}/config.yaml" ]; then
           ${pkgs.yaml-merge}/bin/yaml-merge "${stateDir}/config.yaml" "${cfgUpdate}" > "${stateDir}/config.yaml.tmp"
@@ -115,6 +114,7 @@ in
         DeviceAllow = "${cfg.serialDevice} rw";
         SupplementaryGroups = "dialout";
       };
+      restartIfChanged = false;
     } // lib.optionalAttrs (cfg.deviceService != "") {
       bindsTo = [ cfg.deviceService ];
     };
