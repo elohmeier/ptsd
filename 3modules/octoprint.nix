@@ -14,7 +14,7 @@ let
     } // lib.optionalAttrs (cfg.webcamStreamUrl != "") {
       stream = cfg.webcamStreamUrl;
     } // lib.optionalAttrs (cfg.webcamSnapshotUrl != "") {
-      snapshot = cfg.webcamStreamUrl;
+      snapshot = cfg.webcamSnapshotUrl;
     };
   };
 
