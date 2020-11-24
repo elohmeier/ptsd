@@ -125,4 +125,16 @@ in
       server.listenPort = 55555;
     };
   };
+
+  security.polkit.extraConfig = ''
+    /* Allow admins to login into machines or manage systemd units without password */
+    polkit.addRule(function(action, subject) {
+      if ((action.id == "org.freedesktop.machine1.login" ||
+           action.id == "org.freedesktop.systemd1.manage-units") &&
+          subject.isInGroup("wheel"))
+      {
+        return polkit.Result.YES;
+      }
+    });
+  '';
 }
