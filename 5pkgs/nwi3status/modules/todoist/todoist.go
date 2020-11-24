@@ -44,7 +44,8 @@ func fetchCurrentTask(token string) (task, error) {
 	req.Header.Set("Authorization", "Bearer "+token)
 	res, err := todoistClient.Do(req)
 	if err != nil {
-		return task{}, err
+		// failing connection shouldn't propagate as error
+		return task{}, nil
 	}
 	if res.Body != nil {
 		defer res.Body.Close()
