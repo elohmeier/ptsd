@@ -111,7 +111,20 @@
       };
     };
 
-    iph3 = { }; # 12 Mini
+    iph3 = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.44"; # 12 Mini
+          aliases = [
+            "iph3.nw"
+          ];
+          wireguard.pubkey = "F//4NrmUWnSFTTIMSG/6iQAi50Yc4rVVEA3M9JBRfHQ=";
+        };
+      };
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGJjBtV0lwSjIvGRIyBcF3YfAdvlIURTp0xWJxcKZ83b ";
+      syncthing.id = "SCFQ5CF-6VROBCX-HHYLBCJ-E3YYBOT-4NXQAQT-2CM5GXP-GBSIDWG-KGS3BQU";
+    };
 
     ipd1 = {
       nets = {
