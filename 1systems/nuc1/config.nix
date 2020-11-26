@@ -76,8 +76,6 @@
     };
   };
 
-  ptsd.nwtelegraf.enable = false;
-
   ptsd.vdi-container = {
     enable = true;
     #extIf = "wlan0";

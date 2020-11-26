@@ -9,8 +9,6 @@ in
     <ptsd/2configs/nwhost-mini.nix>
   ];
 
-  ptsd.nwtelegraf.enable = lib.mkDefault true;
-
   ptsd.nwmonit = {
     enable = lib.mkDefault true;
   };

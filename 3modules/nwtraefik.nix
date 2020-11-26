@@ -392,13 +392,14 @@ in
         '';
 
         # we assume that traefik deployments will have a configured entrypoint listening on the loopback interface
-        ptsd.nwtelegraf.inputs.x509_cert = [
-          {
-            sources = [
-              "https://${config.networking.hostName}.${config.networking.domain}:${toString cfg.httpsPort}"
-            ];
-          }
-        ];
+        # TODO: prometheus-migrate
+        # ptsd.nwtelegraf.inputs.x509_cert = [
+        #   {
+        #     sources = [
+        #       "https://${config.networking.hostName}.${config.networking.domain}:${toString cfg.httpsPort}"
+        #     ];
+        #   }
+        # ];
 
       }
     )

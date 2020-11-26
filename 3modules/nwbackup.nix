@@ -133,7 +133,7 @@ let
       } // optionalAttrs (cfg.cacheDir != null) {
         BORG_CACHE_DIR = cfg.cacheDir;
       };
-      postCreate = postCreateTelegraf name;
+      postCreate = postCreatePrometheus name;
       readWritePaths = [ "/var/log" ] ++ optional (cfg.cacheDir != null) [ cfg.cacheDir ];
       prune.keep = {
         within = "1d"; # Keep all archives from the last day
@@ -233,11 +233,12 @@ in
       BORG_CACHE_DIR = cfg.cacheDir;
     };
 
-    ptsd.nwtelegraf.inputs.file = [
-      {
-        files = [ "/var/log/borg_backup_*.iql" ];
-        data_format = "influx";
-      }
-    ];
+    # TODO: prometheus-migrate
+    # ptsd.nwtelegraf.inputs.file = [
+    #   {
+    #     files = [ "/var/log/borg_backup_*.iql" ];
+    #     data_format = "influx";
+    #   }
+    # ];
   };
 }

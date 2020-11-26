@@ -56,25 +56,26 @@ in
     }
   ];
 
-  ptsd.nwtelegraf.inputs = {
-    http_response = [
-      {
-        urls = [ "http://www.nerdworks.de" "http://nerdworks.de" "https://nerdworks.de" ];
-      }
-      {
-        urls = [ "https://www.nerdworks.de" ];
-        response_string_match = "Nerdworks Hamburg unterstützt Unternehmen bei";
-      }
-    ];
-    x509_cert = [
-      {
-        sources = [
-          "https://nerdworks.de:443"
-          "https://www.nerdworks.de:443"
-        ];
-      }
-    ];
-  };
+  # TODO: prometheus-migrate
+  # ptsd.nwtelegraf.inputs = {
+  #   http_response = [
+  #     {
+  #       urls = [ "http://www.nerdworks.de" "http://nerdworks.de" "https://nerdworks.de" ];
+  #     }
+  #     {
+  #       urls = [ "https://www.nerdworks.de" ];
+  #       response_string_match = "Nerdworks Hamburg unterstützt Unternehmen bei";
+  #     }
+  #   ];
+  #   x509_cert = [
+  #     {
+  #       sources = [
+  #         "https://nerdworks.de:443"
+  #         "https://www.nerdworks.de:443"
+  #       ];
+  #     }
+  #   ];
+  # };
 
   ptsd.nwmonit.extraConfig = [
     ''

@@ -14,7 +14,6 @@ _:
     ./nwmonit.nix
     ./nwstats.nix
     ./nwsyncthing.nix
-    ./nwtelegraf.nix
     ./nwtraefik.nix
     ./octoprint.nix
     ./radicale.nix

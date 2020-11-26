@@ -10,7 +10,6 @@ in
     <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/dokuwiki.nix>
     <ptsd/2configs/drone-exec-container.nix>
-    <ptsd/2configs/influxdb-kapacitor.nix>
     <ptsd/2configs/grafana.nix>
     <ptsd/2configs/home-assistant.nix>
     <ptsd/2configs/mfc7440n.nix>
@@ -21,7 +20,6 @@ in
     #<ptsd/2configs/nwalerta.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/nwoctoprint.nix>
-    <ptsd/2configs/nwstats-telegraf.nix>
     <ptsd/2configs/postgresql.nix>
     <ptsd/2configs/prometheus/server.nix>
     <ptsd/2configs/prometheus/node.nix>

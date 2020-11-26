@@ -279,7 +279,8 @@ in
         } // (mapAttrs' generateSysctlForward (filterAttrs (_: v: v.server.enable) enabledNetworks));
 
     # will query all wireguard interfaces by default
-    ptsd.nwtelegraf.inputs.wireguard = [{ }];
+    # TODO: prometheus-migrate
+    #ptsd.nwtelegraf.inputs.wireguard = [{ }];
 
     systemd.services = mapAttrs' generateReresolveDnsUnit reresolveDnsNetworks;
   };

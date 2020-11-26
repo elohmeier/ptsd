@@ -57,20 +57,21 @@ in
     }
   ];
 
-  ptsd.nwtelegraf.inputs = {
-    http_response = [
-      {
-        urls = [ "http://${domain}" "https://${domain}/update" ];
-      }
-    ];
-    x509_cert = [
-      {
-        sources = [
-          "https://${domain}:443"
-        ];
-      }
-    ];
-  };
+  # TODO: prometheus-migrate
+  # ptsd.nwtelegraf.inputs = {
+  #   http_response = [
+  #     {
+  #       urls = [ "http://${domain}" "https://${domain}/update" ];
+  #     }
+  #   ];
+  #   x509_cert = [
+  #     {
+  #       sources = [
+  #         "https://${domain}:443"
+  #       ];
+  #     }
+  #   ];
+  # };
 
   ptsd.nwmonit.extraConfig = [
     ''

@@ -76,9 +76,6 @@
   # console less cumbersome if the machine has a public IP.
   networking.firewall.logRefusedConnections = lib.mkDefault false;
 
-  # reduce the noise
-  ptsd.nwtelegraf.enable = lib.mkForce false;
-
   console.keyMap = "de-latin1";
 
   networking.networkmanager.enable = true;

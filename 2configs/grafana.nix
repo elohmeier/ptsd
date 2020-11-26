@@ -51,24 +51,25 @@ in
     }
   ];
 
-  ptsd.nwtelegraf.inputs = {
-    http_response = [
-      {
-        urls = [ "http://${domain}" ];
-      }
-      {
-        urls = [ "https://${domain}/login" ];
-        response_string_match = "Grafana";
-      }
-    ];
-    x509_cert = [
-      {
-        sources = [
-          "https://${domain}:443"
-        ];
-      }
-    ];
-  };
+  # TODO: prometheus-migrate
+  # ptsd.nwtelegraf.inputs = {
+  #   http_response = [
+  #     {
+  #       urls = [ "http://${domain}" ];
+  #     }
+  #     {
+  #       urls = [ "https://${domain}/login" ];
+  #       response_string_match = "Grafana";
+  #     }
+  #   ];
+  #   x509_cert = [
+  #     {
+  #       sources = [
+  #         "https://${domain}:443"
+  #       ];
+  #     }
+  #   ];
+  # };
 
   ptsd.nwmonit.extraConfig = [
     ''

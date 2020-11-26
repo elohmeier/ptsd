@@ -66,14 +66,15 @@ in
   networking.firewall.allowedTCPPorts = [ 8123 ];
   networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
 
-  ptsd.nwtelegraf.inputs = {
-    http_response = [
-      {
-        urls = [ "http://192.168.168.41:8123" ];
-        response_string_match = "Home Assistant";
-      }
-    ];
-  };
+  # TODO: prometheus-migrate
+  # ptsd.nwtelegraf.inputs = {
+  #   http_response = [
+  #     {
+  #       urls = [ "http://192.168.168.41:8123" ];
+  #       response_string_match = "Home Assistant";
+  #     }
+  #   ];
+  # };
 
   ptsd.nwmonit.extraConfig = [
     ''

@@ -51,24 +51,25 @@ in
   };
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 8123 ];
 
-  ptsd.nwtelegraf.inputs = {
-    http_response = [
-      {
-        urls = [ "http://${domain}" ];
-      }
-      {
-        urls = [ "https://${domain}" ];
-        response_string_match = "Home Assistant";
-      }
-    ];
-    x509_cert = [
-      {
-        sources = [
-          "https://${domain}:443"
-        ];
-      }
-    ];
-  };
+  # TODO: prometheus-migrate
+  # ptsd.nwtelegraf.inputs = {
+  #   http_response = [
+  #     {
+  #       urls = [ "http://${domain}" ];
+  #     }
+  #     {
+  #       urls = [ "https://${domain}" ];
+  #       response_string_match = "Home Assistant";
+  #     }
+  #   ];
+  #   x509_cert = [
+  #     {
+  #       sources = [
+  #         "https://${domain}:443"
+  #       ];
+  #     }
+  #   ];
+  # };
 
   ptsd.nwmonit.extraConfig = [
     ''
