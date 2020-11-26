@@ -18,6 +18,18 @@
         expunge = "both";
       };
     };
+
+    # lieer WIP
+
+    "fraam" = {
+      address = "enno.richter@fraam.de";
+      realName = "Enno Richter";
+      flavor = "gmail.com";
+      lieer = {
+        enable = true;
+      };
+      notmuch = { enable = true; };
+    };
   };
 
   programs.mbsync = {
@@ -27,4 +39,6 @@
   services.mbsync = {
     enable = true;
   };
+
+  programs.lieer.enable = true;
 }
