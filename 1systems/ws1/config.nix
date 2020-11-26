@@ -12,7 +12,6 @@ in
 
     <ptsd/2configs/baseX.nix>
     <ptsd/2configs/themes/nerdworks.nix>
-    #<ptsd/2configs/dovecot.nix>
     <ptsd/2configs/drone-exec-container.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/nextcloud-client.nix>

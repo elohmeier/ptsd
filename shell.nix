@@ -19,7 +19,6 @@ let
     mk-update = ''
       ./update-gitref.sh home-manager https://github.com/rycee/home-manager master
       ./update-gitref.sh nixos-hardware https://github.com/NixOS/nixos-hardware master
-      ./update-gitref.sh nixos-mailserver https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git nixos-20.09
       ./update-gitref.sh nixpkgs https://github.com/NixOS/nixpkgs nixos-20.09
       ./update-gitref.sh nixpkgs-unstable https://github.com/NixOS/nixpkgs nixos-unstable
     '';

@@ -69,17 +69,6 @@ let
     )
 
     (
-      lib.optionalAttrs mailserver {
-        nixos-mailserver.git = {
-          clean.exclude = [ "/.version-suffix" ];
-          ref = (lib.importJSON ./nixos-mailserver.json).rev;
-          url = https://gitlab.com/simple-nixos-mailserver/nixos-mailserver.git;
-          shallow = true;
-        };
-      }
-    )
-
-    (
       lib.optionalAttrs client-secrets {
         client-secrets.pass = {
           dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";

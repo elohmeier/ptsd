@@ -9,10 +9,8 @@ in
       <ptsd/2configs>
       <ptsd/2configs/acme-dns.nix>
       <ptsd/2configs/bitwarden.nix>
-      <ptsd/2configs/mailserver.nix>
       <ptsd/2configs/matrix.nix>
       <ptsd/2configs/nwhost.nix>
-      <ptsd/2configs/nwradicale.nix>
       <ptsd/2configs/prometheus/node.nix>
 
       <secrets-shared/nwsecrets.nix>

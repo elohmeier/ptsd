@@ -12,7 +12,6 @@ _:
     ./nwbackup-server.nix
     ./nwlogrotate.nix
     ./nwmonit.nix
-    ./nwstats.nix
     ./nwsyncthing.nix
     ./nwtraefik.nix
     ./octoprint.nix
