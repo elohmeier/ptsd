@@ -397,6 +397,21 @@
       syncthing.id = "C2VUVFV-UJCUDXQ-2VDNU5W-Z33GXGZ-2YG5R7Z-A2NLRO3-7QQEG2B-47JHLAF";
     };
 
+    wrt2 = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.45";
+          aliases = [
+            "wrt2.nw"
+          ];
+          wireguard.pubkey = "edW3MrRctb1Yed5fHRiSPcDMdvCU/zZpLG1CBqiFY0k=";
+        };
+      };
+      #ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPsWy/P+07j1BCt/y7mIHsxCf5p58fiyLLM2gnrjXDn7 ";
+      #syncthing.id = "JGZOJNY-YNPRJSK-OMQ5BPK-S3RHB55-SI4OSZ3-XEYCKBL-CCJKYX2-NVKAUAQ";
+    };
+
     ws1 = {
       nets = {
         nwvpn = {
