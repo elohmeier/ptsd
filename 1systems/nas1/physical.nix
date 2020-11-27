@@ -60,11 +60,10 @@ in
         fsType = "ext4";
       };
 
-    "/var/db/influxdb" =
-      {
-        device = "${vgPrefix}-var--db--influxdb";
-        fsType = "ext4";
-      };
+    "/var/lib/private/octoprint" = {
+      device = "${vgPrefix}-var--lib--private--octoprint";
+      fsType = "ext4";
+    };
 
     "/var/lib/prometheus2" =
       {

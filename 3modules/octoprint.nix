@@ -118,5 +118,11 @@ in
     } // lib.optionalAttrs (cfg.deviceService != "") {
       bindsTo = [ cfg.deviceService ];
     };
+
+    # size restrict tmp directory to mitigate timelapse jpeg errors
+    fileSystems."/var/lib/private/octoprint/timelapse/tmp" = {
+      fsType = "tmpfs";
+      options = [ "size=500M" "mode=1755" ];
+    };
   };
 }
