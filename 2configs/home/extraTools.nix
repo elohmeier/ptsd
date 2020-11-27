@@ -149,7 +149,7 @@ in
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
     rm -rf $HOME/.config/obs-studio/plugins
     mkdir -p $HOME/.config/obs-studio/plugins
-    ln -sf ${pkgs.obs-v4l2sink}/lib/obs-plugins/v4l2sink $HOME/.config/obs-studio/plugins/v4l2sink
+    ln -sf ${pkgs.obs-v4l2sink}/share/obs/obs-plugins/v4l2sink $HOME/.config/obs-studio/plugins/v4l2sink
   '';
 
   programs.chromium = {
