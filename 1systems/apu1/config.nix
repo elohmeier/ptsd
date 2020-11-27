@@ -115,7 +115,7 @@ in
   };
 
   services.hostapd = {
-    enable = true;
+    enable = false;
     interface = "wlp4s0";
     ssid = "fraam";
     wpaPassphrase = netcfg.wifi.passphrase;
@@ -148,6 +148,9 @@ in
 
       dhcp-authoritative
       cache-size=5000
+
+      # don't consider /etc/hosts
+      no-hosts
     '';
   };
 
