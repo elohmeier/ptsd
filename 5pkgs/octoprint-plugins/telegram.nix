@@ -8,7 +8,7 @@ buildPythonPackage rec {
     owner = "fabianonline";
     repo = "OctoPrint-Telegram";
     rev = version;
-    sha256 = "1pvdzd36rnlds4cp5azhzv0cgcjcc6xsnank7nrcxfgzzvs4cllc";
+    sha256 = "1v12m1bxd6l7wd3nr1gjqfh0pzllr8m8gn74s9ni3g0zf0a0x21m";
   };
 
   doCheck = false;
