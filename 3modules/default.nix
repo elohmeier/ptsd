@@ -2,7 +2,7 @@ _:
 {
   imports = [
     ./acme-dns.nix
-    ./alerta.nix
+    ./alertmanager-bot.nix
     ./cups-airprint.nix
     ./drone-server.nix
     ./fraam-www.nix

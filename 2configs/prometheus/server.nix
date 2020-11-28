@@ -101,5 +101,37 @@ in
       enable = true;
       configFile = blackboxConfigFile;
     };
+
+    alertmanager = {
+      enable = true;
+      listenAddress = "127.0.0.1";
+      webExternalUrl = "https://nas1.host.nerdworks.de/alerts";
+      configuration = {
+        route = {
+          group_by = [ "alertname" "alias" ];
+          receiver = "nwadmins";
+        };
+        receivers = [{
+          name = "nwadmins";
+          webhook_configs = [{
+            url = "http://127.0.0.1:16320";
+            send_resolved = true;
+          }];
+        }];
+      };
+    };
+
+    rules = [ ];
+  };
+
+  ptsd.alertmanager-bot = {
+    enable = true;
+    listenAddress = "127.0.0.1:16320";
+    templatePath = ./telegram.tmpl;
+    envFile = config.ptsd.secrets.files."alertmanager-bot.env".path;
+  };
+
+  ptsd.secrets.files."alertmanager-bot.env" = {
+    dependants = [ "alertmanager-bot.service" ];
   };
 }
