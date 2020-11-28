@@ -2,13 +2,13 @@
 
 buildPythonPackage rec {
   pname = "OctoPrintPlugin-BedLevelVisualizer";
-  version = "0.1.13";
+  version = "1.0.0";
 
   src = fetchFromGitHub {
     owner = "jneilliii";
     repo = "OctoPrint-BedLevelVisualizer";
     rev = version;
-    sha256 = "0cn8zwcrxbdn7qqma4291x89bz4y3cmk6x52pa2awambzj565lfq";
+    sha256 = "1j7xs4laidbnvz7090b5qyl1qxb4ddvmr0kv5a7nn3wdyjlvw16f";
   };
 
   doCheck = false;

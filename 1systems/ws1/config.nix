@@ -27,6 +27,16 @@ in
     ./qemu.nix
   ];
 
+  ptsd.octoprint =
+    {
+      enable = true;
+      plugins = plugins: [
+        (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
+        (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bltouch.nix> { })
+        plugins.printtimegenius
+      ];
+    };
+
   # TODO: 20.09 compat
   # https://github.com/cleverca22/nixos-configs/issues/6
   #qemu-user.arm = true;
