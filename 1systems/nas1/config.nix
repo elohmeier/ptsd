@@ -167,7 +167,7 @@ in
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
       };
 
-      # added for local tls monitoring
+      # added for local tls monitoring & alertmanager
       "loopback6-https".address = "[::1]:443";
     };
     certificates =

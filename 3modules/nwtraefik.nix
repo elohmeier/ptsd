@@ -301,23 +301,24 @@ in
     {
       ptsd.nwtraefik.ports = {
         acme-dns = 10001;
-        bitwarden = 10002;
-        dokuwiki = 10003;
-        droneci = 10004;
-        fraam-wordpress = 10005;
-        fraam-wwwstatic = 10006;
-        grafana = 10007;
+        alertmanager = 10002;
+        bitwarden = 10003;
+        dokuwiki = 10004;
+        droneci = 10005;
+        fraam-wordpress = 10006;
+        fraam-wwwstatic = 10007;
+        grafana = 10008;
         home-assistant = 8123; # TODO: update yaml like in octoprint module
-        influxdb = 10008;
-        kapacitor = 10009;
-        mjpg-streamer = 10010;
-        nerdworkswww = 10011;
-        nextcloud = 10012;
-        nginx-monica = 10013;
-        nwgit = 10014;
-        octoprint = 10015;
-        radicale = 10016;
-        synapse = 10017;
+        influxdb = 10009;
+        kapacitor = 10010;
+        mjpg-streamer = 10011;
+        nerdworkswww = 10012;
+        nextcloud = 10013;
+        nginx-monica = 10014;
+        nwgit = 10015;
+        octoprint = 10016;
+        radicale = 10017;
+        synapse = 10018;
       };
     }
     (

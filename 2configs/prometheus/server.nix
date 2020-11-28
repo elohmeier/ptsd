@@ -105,7 +105,8 @@ in
     alertmanager = {
       enable = true;
       listenAddress = "127.0.0.1";
-      webExternalUrl = "https://nas1.host.nerdworks.de/alerts";
+      port = config.ptsd.nwtraefik.ports.alertmanager;
+      webExternalUrl = "https://nas1.host.nerdworks.de/";
       configuration = {
         route = {
           group_by = [ "alertname" "alias" ];
@@ -122,6 +123,16 @@ in
     };
 
     rules = [ ];
+  };
+
+  ptsd.nwtraefik = {
+    services = [
+      {
+        name = "alertmanager";
+        entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
+        rule = "Host(`nas1.host.nerdworks.de`)";
+      }
+    ];
   };
 
   ptsd.alertmanager-bot = {
