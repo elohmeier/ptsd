@@ -156,6 +156,7 @@ in
         name = "nextcloud";
         rule = "Host(`${domain}`)";
         extraMiddlewares = [ "nextcloud-redirectregex" ];
+        entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
       }
     ];
   };

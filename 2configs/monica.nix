@@ -213,7 +213,7 @@ in
     {
       name = "nginx-monica";
       rule = "Host(`${domain}`)";
-      entryPoints = [ "nwvpn-https" ];
+      entryPoints = [ "nwvpn-https" "loopback6-https" ];
     }
   ];
 

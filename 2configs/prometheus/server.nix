@@ -73,7 +73,7 @@ in
         static_configs = [
           {
             targets = [
-              "https://auth.nerdworks.de/update"
+              #"https://auth.nerdworks.de/update" # TODO: expect HTTP 405
               "https://git.nerdworks.de"
               "https://grafana.services.nerdworks.de"
               "https://hass.services.nerdworks.de"

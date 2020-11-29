@@ -17,7 +17,6 @@ in
     <ptsd/2configs/mosquitto.nix>
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/nextcloud-vsftpd-scans.nix>
-    #<ptsd/2configs/nwalerta.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/nwoctoprint.nix>
     <ptsd/2configs/postgresql.nix>
