@@ -73,9 +73,13 @@ in
         static_configs = [
           {
             targets = [
+              "https://auth.nerdworks.de/update"
+              "https://git.nerdworks.de"
               "https://grafana.services.nerdworks.de"
               "https://hass.services.nerdworks.de"
+              "https://monica.services.nerdworks.de"
               "https://nextcloud.services.nerdworks.de"
+              "https://octoprint.services.nerdworks.de"
               "https://www.nerdworks.de"
             ];
           }

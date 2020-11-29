@@ -14,7 +14,7 @@ in
     {
       name = "home-assistant";
       rule = "Host(`${domain}`) || Host(`nas1.lan.nerdworks.de`)";
-      entryPoints = [ "nwvpn-http" "nwvpn-https" "lan-http" "lan-https" ];
+      entryPoints = [ "nwvpn-http" "nwvpn-https" "lan-http" "lan-https" "loopback6-https" ];
     }
   ];
 
