@@ -119,7 +119,7 @@ in
   # '';
 
   # *** NOUVEAU Driver ***
-  boot.kernelPackages = pkgs.linuxPackages_latest; # required as of 20.09 (linux 5.8 instead of 5.4)
+  boot.kernelPackages = pkgs.linuxPackages_5_8; # required as of 20.09 (linux 5.8 instead of 5.4)
   services.xserver = {
     videoDrivers = [ "modesetting" ];
     xrandrHeads = [
