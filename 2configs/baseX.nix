@@ -108,4 +108,5 @@
   '';
 
   services.upower.enable = true;
+  services.lorri.enable = true;
 }
