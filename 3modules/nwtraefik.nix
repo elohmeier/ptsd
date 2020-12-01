@@ -141,11 +141,11 @@ let
           name: values:
             nameValuePair
               name
-              {
+              ({
                 address = values.address;
               } // lib.optionalAttrs (values.http != { }) {
-              http = values.http;
-            }
+                http = values.http;
+              })
         )
         cfg.entryPoints;
   } // optionalAttrs cfg.acmeEnabled {
@@ -230,16 +230,6 @@ in
       acmeEntryPoint = mkOption {
         type = types.str;
         example = "www4-http";
-      };
-
-      httpPort = mkOption {
-        type = types.int;
-        default = 80;
-      };
-
-      httpsPort = mkOption {
-        type = types.int;
-        default = 443;
       };
 
       logLevel = mkOption {
@@ -373,7 +363,7 @@ in
 
         networking = {
           firewall = {
-            allowedTCPPorts = [ cfg.httpPort cfg.httpsPort ];
+            allowedTCPPorts = [ 80 443 ];
           };
         };
 
