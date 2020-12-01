@@ -126,7 +126,26 @@ in
       };
     };
 
-    rules = [ ];
+    rules = [
+      (builtins.toJSON {
+        groups = [{
+          name = "nwenv";
+          rules = [
+            {
+              alert = "DiskSpace20%Free";
+              for = "30m";
+              expr = "node_filesystem_avail_bytes/node_filesystem_size_bytes < 0.2";
+              labels.severity = "warning";
+              annotations = {
+                summary = "{{ $labels.alias }} disk {{ $labels.mountpoint }} full";
+                url = "https://grafana.services.nerdworks.de/d/hb7fSE0Zz/1-node-exporter-for-prometheus-dashboard-en-v20191102?orgId=1&var-hostname={{ $labels.alias }}";
+                description = ''The disk {{ $labels.mountpoint }} of host {{ $labels.alias }} has {{ $value | printf "%.2f" }}% free disk space remaining.'';
+              };
+            }
+          ];
+        }];
+      })
+    ];
   };
 
   ptsd.nwtraefik = {
