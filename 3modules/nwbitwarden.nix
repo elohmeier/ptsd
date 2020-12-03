@@ -16,6 +16,9 @@ in
         type = with types; listOf str;
         default = [ "nwvpn-http" "nwvpn-https" ];
       };
+      extraConfig = mkOption {
+        type = types.attrs;
+      };
     };
   };
 
@@ -31,7 +34,7 @@ in
         rocketPort = toString config.ptsd.nwtraefik.ports.bitwarden; # listen port
         rocketLog = "critical";
         databaseUrl = "postgresql:///bitwarden";
-      };
+      } // cfg.extraConfig;
     };
 
     # ensure that postgres is running *before* running bitwarden_rs

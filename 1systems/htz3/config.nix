@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   universe = import <ptsd/2configs/universe.nix>;
+  bwSecrets = import <secrets/bitwarden.nix>;
 in
 {
   imports =
@@ -175,5 +176,17 @@ in
     enable = true;
     domain = "vault.fraam.de";
     entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" "loopback4-https" ];
+    extraConfig = {
+      adminToken = bwSecrets.adminToken;
+      smtpHost = "smtp-relay.gmail.com";
+      smtpPort = 587;
+      smtpSSL = true;
+      smtpFrom = "vault@fraam.de";
+      # smtpFromName = "fraam Vault"; # not working
+      signupsAllowed = false;
+      signupsDomainsWhitelist = "fraam.de";
+      signupsVerify = true;
+      enableEmail2Fa = true;
+    };
   };
 }
