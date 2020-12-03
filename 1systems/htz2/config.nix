@@ -8,7 +8,6 @@ in
       <ptsd>
       <ptsd/2configs>
       <ptsd/2configs/acme-dns.nix>
-      <ptsd/2configs/bitwarden.nix>
       <ptsd/2configs/matrix.nix>
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/prometheus/node.nix>
@@ -87,6 +86,11 @@ in
         (crt "bitwarden.services.nerdworks.de")
         (crt "mail.nerdworks.de")
       ];
+  };
+
+  ptsd.nwbitwarden = {
+    enable = true;
+    domain = "bitwarden.services.nerdworks.de";
   };
 
   security.acme.certs =
