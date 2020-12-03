@@ -42,6 +42,7 @@ in
 
   ptsd.nwtraefik = {
     enable = true;
+    #logLevel = "DEBUG";
     contentSecurityPolicy = "frame-ancestors 'self' https://*.fraam.de";
     certificates =
       let
@@ -54,6 +55,8 @@ in
         (crt "htz3.host.fraam.de")
         (crt "dev.fraam.de")
         (crt "fraam.de")
+        (crt "git.fraam.de")
+        (crt "vault.fraam.de")
       ];
     entryPoints = {
       "www4-http" = {
@@ -136,6 +139,15 @@ in
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
+
+        "vault.fraam.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "vault.fraam.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
+        # remember to add new certs to the traefik cert list :-)
       };
     };
 
@@ -156,4 +168,12 @@ in
   # };
 
   # security.sudo.wheelNeedsPassword = false;
+
+  environment.systemPackages = with pkgs; [ tmux htop mc ];
+
+  ptsd.nwbitwarden = {
+    enable = true;
+    domain = "vault.fraam.de";
+    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" "loopback4-https" ];
+  };
 }
