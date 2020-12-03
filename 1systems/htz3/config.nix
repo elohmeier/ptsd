@@ -189,4 +189,6 @@ in
       enableEmail2Fa = true;
     };
   };
+
+  services.fail2ban.enable = true;
 }

@@ -63,5 +63,13 @@ in
         }
       ];
     };
+
+    # TODO: configure as in
+    # https://github.com/dani-garcia/bitwarden_rs/wiki/Fail2Ban-Setup
+    # services.fail2ban.jails = {
+    #   bitwarden_rs = { 
+
+    #   };
+    # };
   };
 }
