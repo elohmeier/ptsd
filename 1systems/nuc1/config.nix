@@ -29,21 +29,21 @@
       };
   };
 
-  # ptsd.nwtraefik = {
-  #   enable = true;
-  #   entryPoints = {
-  #     "loopback6-http" = {
-  #       address = "[::1]:80";
-  #       http.redirections.entryPoint = {
-  #         to = "loopback6-https";
-  #         scheme = "https";
-  #         permanent = true;
-  #       };
-  #     };
-  #     "loopback6-https".address = "[::1]:443";
-  #   };
-  #   logLevel = "debug";
-  # };
+  ptsd.nwtraefik = {
+    enable = true;
+    entryPoints = {
+      "loopback6-http" = {
+        address = "[::1]:80";
+        http.redirections.entryPoint = {
+          to = "loopback6-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "loopback6-https".address = "[::1]:443";
+    };
+    #logLevel = "debug";
+  };
 
   networking = {
     useDHCP = false;
@@ -146,5 +146,11 @@
       qemuPackage = pkgs.qemu_kvm;
       qemuRunAsRoot = false;
     };
+  };
+
+  ptsd.fraam-gitlab = {
+    enable = true;
+    extIf = "wlan0";
+    domain = "nuc1.host.nerdworks.de";
   };
 }

@@ -5,6 +5,7 @@ _:
     ./alertmanager-bot.nix
     ./cups-airprint.nix
     ./drone-server.nix
+    ./fraam-gitlab.nix
     ./fraam-www.nix
     ./mjpg-streamer.nix
     ./nobbofin-autofetch.nix
