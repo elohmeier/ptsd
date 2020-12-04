@@ -278,10 +278,6 @@ in
           "net.ipv4.conf.default.forwarding" = true;
         } // (mapAttrs' generateSysctlForward (filterAttrs (_: v: v.server.enable) enabledNetworks));
 
-    # will query all wireguard interfaces by default
-    # TODO: prometheus-migrate
-    #ptsd.nwtelegraf.inputs.wireguard = [{ }];
-
     systemd.services = mapAttrs' generateReresolveDnsUnit reresolveDnsNetworks;
   };
 }

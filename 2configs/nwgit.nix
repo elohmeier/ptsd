@@ -68,34 +68,4 @@ in
     }
   ];
 
-  # TODO: prometheus-migrate
-  # ptsd.nwtelegraf.inputs = {
-  #   http_response = [
-  #     {
-  #       urls = [ "http://${domain}" ];
-  #     }
-  #     {
-  #       urls = [ "https://${domain}" ];
-  #       response_string_match = "Gitea - Git with a cup of tea";
-  #     }
-  #   ];
-  #   x509_cert = [
-  #     {
-  #       sources = [
-  #         "https://${domain}:443"
-  #       ];
-  #     }
-  #   ];
-  # };
-
-  ptsd.nwmonit.extraConfig = [
-    ''
-      check host ${domain} with address ${domain}
-        if failed
-          port 443
-          protocol https and certificate valid > 30 days
-          content = "Gitea - Git with a cup of tea"
-        then alert
-    ''
-  ];
 }

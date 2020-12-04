@@ -57,32 +57,4 @@ in
     }
   ];
 
-  # TODO: prometheus-migrate
-  # ptsd.nwtelegraf.inputs = {
-  #   http_response = [
-  #     {
-  #       urls = [ "http://${domain}" "https://${domain}/update" ];
-  #     }
-  #   ];
-  #   x509_cert = [
-  #     {
-  #       sources = [
-  #         "https://${domain}:443"
-  #       ];
-  #     }
-  #   ];
-  # };
-
-  ptsd.nwmonit.extraConfig = [
-    ''
-      check host ${domain} with address ${domain}
-        if failed
-          port 443
-          certificate valid > 30 days
-          protocol https
-          request "/update"
-          status = 405
-        then alert
-    ''
-  ];
 }

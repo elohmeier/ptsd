@@ -33,8 +33,8 @@ in
     systemd.services.alertmanager-bot = {
       description = "Telegram bot for Prometheus Alertmanager";
       wantedBy = [ "multi-user.target" ];
-      requires = [ "network.target" ];
-      after = [ "network.target" ];
+      requires = [ "network.target" "alertmanager.service" ];
+      after = [ "network.target" "alertmanager.service" ];
       serviceConfig = {
         ExecStart = ''${pkgs.alertmanager-bot}/bin/alertmanager-bot \
         --alertmanager.url="${cfg.alertmanagerUrl}" --log.level=info \
