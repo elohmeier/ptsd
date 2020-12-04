@@ -38,8 +38,26 @@ in
         xorg.xhost
         zathura
         zathura-single
+        (makeDesktopItem {
+          name = "zathura";
+          desktopName = "Zathura";
+          exec = "${pkgs.zathura}/bin/zathura %f";
+          mimeType = "application/pdf";
+          type = "Application";
+        })
         caffeine
         mpv
       ];
+  };
+
+  xdg.mimeApps = {
+    enable = true;
+
+    # verify using `xdg-mime query default <mimetype>`
+    defaultApplications = {
+      "application/pdf" = [ "zathura.desktop" ];
+      "image/gif" = [ "sxiv.desktop" ];
+      "inode/directory" = [ "pcmanfm.desktop" ];
+    };
   };
 }
