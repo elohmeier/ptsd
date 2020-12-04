@@ -5,11 +5,8 @@ let
   sshPubKeys = import ./ssh-pubkeys.nix;
   authorizedKeys = [
     sshPubKeys.sshPub.ipd1_terminus
-    sshPubKeys.sshPub.ipd1_workingcopy
     sshPubKeys.sshPub.iph1_terminus
-    sshPubKeys.sshPub.iph1_workingcopy
-    sshPubKeys.sshPub.tp1
-    sshPubKeys.sshPub.ws1
+    sshPubKeys.sshPub.iph3_terminus
     sshPubKeys.sshPub.enno_yubi41
     sshPubKeys.sshPub.enno_yubi49
     sshPubKeys.sshPub.drone_exec_runner_ws1
