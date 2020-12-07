@@ -163,6 +163,17 @@ in
           }
         ];
       })
+      (blackboxGenericScrapeConfig // {
+        job_name = "blackbox_http_drone";
+        params.module = [ "http_drone" ];
+        static_configs = [
+          {
+            targets = [
+              "https://ci.nerdworks.de"
+            ];
+          }
+        ];
+      })
     ];
 
     exporters.blackbox = {
@@ -260,6 +271,17 @@ in
               fail_if_not_ssl = true;
               fail_if_body_not_matches_regexp = [
                 "Monica – personal relationship manager"
+              ];
+            };
+          };
+
+          http_drone = {
+            prober = "http";
+            timeout = "2s";
+            http = {
+              fail_if_not_ssl = true;
+              fail_if_body_not_matches_regexp = [
+                "Drone"
               ];
             };
           };

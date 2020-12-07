@@ -9,10 +9,6 @@ in
     <ptsd/2configs/nwhost-mini.nix>
   ];
 
-  ptsd.nwmonit = {
-    enable = lib.mkDefault true;
-  };
-
   ptsd.nwbackup = {
     enable = lib.mkDefault true;
   };

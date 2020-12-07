@@ -22,8 +22,6 @@
   programs.dconf.enable = true;
   systemd.packages = [ pkgs.gnome3.evolution-data-server ];
 
-  ptsd.nwmonit.enable = lib.mkForce false;
-
   environment.systemPackages = with pkgs; [
     git
     zstd # can be removed in 20.09 (default there)

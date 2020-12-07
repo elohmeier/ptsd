@@ -14,7 +14,6 @@ _:
     ./nwbackup-server.nix
     ./nwbitwarden.nix
     ./nwlogrotate.nix
-    ./nwmonit.nix
     ./nwsyncthing.nix
     ./nwtraefik.nix
     ./octoprint.nix

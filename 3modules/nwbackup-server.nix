@@ -58,13 +58,6 @@ let
       wantedBy = [ "multi-user.target" ];
     };
 
-  mkMonitConfig = name: _: ''
-    check filesystem borg-${name} with path ${cfg.mountRoot}/${name}
-      if space usage > 90% then alert
-      if inode usage > 90% then alert
-
-  '';
-
   mkMigration = src: dest: ''
     if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '^${cfg.zpool}/${src}$'; then
       echo "nwbackup-server: migrating ${cfg.zpool}/${src}"
@@ -98,7 +91,6 @@ in
   config = mkIf cfg.enable {
     users = mkMerge (mapAttrsToList mkUsersConfig backupClients);
     environment.systemPackages = [ pkgs.borgbackup ];
-    ptsd.nwmonit.extraConfig = mapAttrsToList mkMonitConfig backupClients;
 
     systemd.services = mapAttrs' mkRepoService backupClients;
 
