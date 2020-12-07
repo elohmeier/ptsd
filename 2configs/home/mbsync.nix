@@ -37,7 +37,7 @@
   };
 
   services.mbsync = {
-    enable = true;
+    enable = false;
   };
 
   programs.lieer.enable = true;
