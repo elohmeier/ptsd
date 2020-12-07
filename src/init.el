@@ -69,3 +69,6 @@
 
 ;; Disable evil in term mode (e.g. fixes C-r in zsh)
 (evil-set-initial-state 'term-mode 'emacs)
+
+(custom-set-faces
+ '(default ((t (:family "Cozette" :foundry "slavfox" :slant normal :weight normal :height 98 :width normal)))))

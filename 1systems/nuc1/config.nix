@@ -29,6 +29,12 @@
       };
   };
 
+  # fonts.fontconfig = {
+  #   antialias = false;
+  #   hinting.enable = false;
+  #   subpixel.rgba = "none";
+  # };
+
   ptsd.nwtraefik = {
     enable = true;
     entryPoints = {

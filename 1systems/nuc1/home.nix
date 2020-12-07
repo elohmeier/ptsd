@@ -25,16 +25,14 @@ in
     audioAlert = "alsa_output.pci-0000_00_03.0.hdmi-stereo-extra1";
   };
 
-  ptsd.kitty.enable = true;
-
+  ptsd.alacritty = {
+    enable = true;
+    fontName = "Cozette";
+  };
   ptsd.i3 = {
     configureGtk = true;
     configureRofi = true;
-  };
-
-  ptsd.sway = {
-    configureGtk = false;
-    configureRofi = false;
+    fontMono = "Cozette";
   };
 
   ptsd.nwi3status = {

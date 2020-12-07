@@ -39,13 +39,13 @@ in
   ptsd.i3 = {
     configureGtk = true;
     configureRofi = true;
-    fontName = "ProggyCleanTT";
+    fontMono = "ProggyCleanTT";
     fontSize = 9;
   };
   ptsd.sway = {
     configureGtk = false;
     configureRofi = false;
-    fontName = "ProggyCleanTT";
+    fontMono = "ProggyCleanTT";
     fontSize = 9;
   };
   ptsd.nwi3status = {
