@@ -45,7 +45,7 @@ in
 
 
     containers.gitlab = {
-      autoStart = true;
+      autoStart = false;
       privateNetwork = true;
       hostAddress = cfg.hostAddress;
       localAddress = cfg.containerAddress;
@@ -104,20 +104,6 @@ in
           };
         };
     };
-
-    # HACK: gitaly in nixos-20.09 requires git 2.29, which isn't yet in 20.09.
-    # Remove when https://github.com/NixOS/nixpkgs/pull/104896 is merged.
-    nixpkgs.overlays = [
-      (self: super: {
-        git = super.git.overrideAttrs (old: rec {
-          version = "2.29.2";
-          src = self.fetchurl {
-            url = "https://www.kernel.org/pub/software/scm/git/git-${version}.tar.xz";
-            sha256 = "1h87yv117ypnc0yi86941089c14n91gixk8b6shj2y35prp47z7j";
-          };
-        });
-      })
-    ];
 
     ptsd.nwtraefik = {
       services = [
