@@ -7,6 +7,10 @@ in
 {
   options.ptsd.alacritty = {
     enable = mkEnableOption "alacritty";
+    fontName = mkOption {
+      type = types.str;
+      default = "Iosevka";
+    };
     fontSize = mkOption {
       type = types.int;
       default = 8;
@@ -20,8 +24,7 @@ in
       settings = {
         font = {
           normal = {
-            family = "Iosevka";
-            #style = "Regular";
+            family = cfg.fontName;
           };
           size = cfg.fontSize;
         };

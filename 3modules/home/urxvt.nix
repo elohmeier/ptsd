@@ -11,7 +11,7 @@ in
       type = types.str;
       default = "solarized_dark";
     };
-    font = mkOption {
+    fontName = mkOption {
       type = types.str;
       default = "Iosevka";
     };
@@ -94,8 +94,8 @@ in
           termName = "xterm";
         } // themes."${cfg.theme}";
         fonts = [
-          "xft:${cfg.font}:size=${toString cfg.fontSize}"
-          "xft:${cfg.font}:size=${toString cfg.fontSize}:bold"
+          "xft:${cfg.fontName}:size=${toString cfg.fontSize}"
+          "xft:${cfg.fontName}:size=${toString cfg.fontSize}:bold"
         ];
         keybindings = {
           # font size

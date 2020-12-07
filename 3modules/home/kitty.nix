@@ -18,6 +18,19 @@ in
   };
 
   config = mkIf cfg.enable {
+    nixpkgs.overlays = [
+      (self: super: {
+        kitty = super.kitty.overrideAttrs (old: {
+          patches = [
+            (self.fetchurl
+              {
+                url = "https://aur.archlinux.org/cgit/aur.git/plain/Allow-bitmap-fonts.patch?h=kitty-bitmap";
+                sha256 = "1dpimfczjwygc4inqmd5zkcij9gnw6rm9pj4pz27ll52zbj65c7w";
+              })
+          ];
+        });
+      })
+    ];
 
     programs.kitty = {
       enable = true;
