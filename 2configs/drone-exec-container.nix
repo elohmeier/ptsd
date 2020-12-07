@@ -7,12 +7,12 @@ in
   ptsd.secrets.files = {
     "drone-ci.env" = {
       path = "/run/drone-runner-exec/drone-ci.env";
-      dependants = [ "container@drone.service" ];
+      #dependants = [ "container@drone.service" ];
     };
     "nwvpn-drone.key" = {
       owner = "systemd-network";
       mode = "0440";
-      dependants = [ "container@drone.service" ];
+      #dependants = [ "container@drone.service" ];
     };
   };
 
@@ -39,12 +39,13 @@ in
         isReadOnly = true;
       };
 
-      "/var/src/nixpkgs-unstable" = {
-        hostPath = "/var/src/nixpkgs-unstable";
-        isReadOnly = true;
-      };
+      # "/var/src/nixpkgs-unstable" = {
+      #   hostPath = "/var/src/nixpkgs-unstable";
+      #   isReadOnly = true;
+      # };
 
     };
+    ephemeral = true;
 
     config =
       { config, pkgs, ... }:
