@@ -57,6 +57,7 @@ in
     defaultApplications = {
       "application/pdf" = [ "zathura.desktop" ];
       "image/gif" = [ "sxiv.desktop" ];
+      "image/jpeg" = [ "sxiv.desktop" ];
       "inode/directory" = [ "pcmanfm.desktop" ];
       "text/html" = [ "firefox.desktop" ];
       "x-scheme-handler/http" = [ "firefox.desktop" ];
