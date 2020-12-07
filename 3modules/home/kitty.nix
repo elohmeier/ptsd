@@ -7,6 +7,10 @@ in
 {
   options.ptsd.kitty = {
     enable = mkEnableOption "kitty";
+    fontName = mkOption {
+      type = types.str;
+      default = "Iosevka";
+    };
     fontSize = mkOption {
       type = types.int;
       default = 8;
@@ -17,7 +21,7 @@ in
 
     programs.kitty = {
       enable = true;
-      font.name = "Iosevka ${toString cfg.fontSize}";
+      font.name = cfg.fontName;
 
       # solarized dark
       # source: https://github.com/kovidgoyal/kitty/issues/897#issuecomment-419220650
@@ -43,6 +47,8 @@ in
         color13 = "#6c71c4";
         color14 = "#93a1a1";
         color15 = "#fdf6e3";
+
+        font_size = cfg.fontSize;
       };
 
       keybindings = {
