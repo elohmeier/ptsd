@@ -87,6 +87,7 @@
   users.groups.keys.members = [ config.users.users.mainUser.name ];
 
   fonts.fonts = with pkgs; [
+    cozette
     iosevka
     myfonts
     proggyfonts
