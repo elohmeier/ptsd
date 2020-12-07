@@ -302,7 +302,7 @@ in
           rules = [
             {
               alert = "DiskSpace20%Free";
-              expr = "node_filesystem_avail_bytes/node_filesystem_size_bytes < 0.2";
+              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes < 0.2'';
               for = "30m";
               labels.severity = "warning";
               annotations = {
