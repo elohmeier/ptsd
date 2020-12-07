@@ -175,6 +175,26 @@ in
     ];
   };
 
+  systemd.services.mysql-backup-monica = {
+    description = "Backup Monica MySQL database";
+    wantedBy = [ "multi-user.target" ];
+    requires = [ "mysql.service" ];
+    script = ''
+      mkdir -p /var/lib/mysql-backup
+      ${pkgs.mariadb}/bin/mysqldump monica > /var/lib/mysql-backup/monica.sql
+      chmod 600 /var/lib/mysql-backup/monica.sql
+    '';
+    serviceConfig = {
+      Type = "simple";
+      Restart = "on-failure";
+      PrivateTmp = true;
+      PrivateDevices = true;
+      ProtectHome = true;
+      ProtectSystem = "full";
+    };
+    startAt = "*-*-* 05:00:00";
+  };
+
   services.nginx = {
     enable = true;
 
