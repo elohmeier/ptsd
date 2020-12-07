@@ -8,6 +8,7 @@ _:
     ./fraam-gitlab.nix
     ./fraam-www.nix
     ./mjpg-streamer.nix
+    ./monica.nix
     ./nobbofin-autofetch.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
