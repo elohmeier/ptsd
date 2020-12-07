@@ -89,6 +89,7 @@
   fonts.fonts = with pkgs; [
     iosevka
     myfonts
+    proggyfonts
     roboto
     roboto-slab
     source-code-pro

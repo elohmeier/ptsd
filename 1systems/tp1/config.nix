@@ -90,10 +90,16 @@ in
     extIf = "wlan0";
   };
 
-  systemd.services.disable-bluetooth = {
-    description = "Disable Bluetooth after boot to save energy";
-    wantedBy = [ "multi-user.target" ];
-    script = "${pkgs.utillinux}/bin/rfkill block bluetooth";
+  # systemd.services.disable-bluetooth = {
+  #   description = "Disable Bluetooth after boot to save energy";
+  #   wantedBy = [ "multi-user.target" ];
+  #   script = "${pkgs.utillinux}/bin/rfkill block bluetooth";
+  # };
+
+  fonts.fontconfig = {
+    antialias = false;
+    hinting.enable = false;
+    subpixel.rgba = "none";
   };
 
   services.printing.enable = true;
