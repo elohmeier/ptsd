@@ -131,6 +131,12 @@
       {
         output = "HDMI-2";
         primary = true; # fixes missing tray in i3bar
+        #monitorConfig = ''Option "Position" "0 360"'';
+        monitorConfig = ''Option "Position" "0 0"'';
+      }
+      {
+        output = "HDMI-1";
+        monitorConfig = ''Option "Position" "1920 0"'';
       }
     ];
   };
