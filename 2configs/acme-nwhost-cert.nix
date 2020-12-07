@@ -17,12 +17,6 @@
           credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
           group = "certs";
           #dnsPropagationCheck = false;
-          postRun = ''
-            cp cert.pem cert-postgresql.pem
-            cp key.pem key-postgresql.pem
-            chown postgres:postgres cert-postgresql.pem key-postgresql.pem
-            chmod 600 cert-postgresql.pem key-postgresql.pem
-          '';
         };
       };
     };
