@@ -38,7 +38,7 @@ in
         if [ ! -d nobbofin ]; then
           git clone git@git.nerdworks.de:enno/nobbofin.git
         else
-          git -C nobbofin pull
+          git -C nobbofin pull --rebase
         fi
 
         cd nobbofin
