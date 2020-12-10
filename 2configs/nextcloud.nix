@@ -131,14 +131,22 @@ in
     startAt = "daily";
 
     script = ''
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/FPV
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Hörspiele
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Pocket
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/LuNo
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Scans
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Templates
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/LuNo
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Bilder
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Dokumente
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Musik
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Scans
     '';
 
-    # wait for 20.03, sudo is optional there
-    #serviceConfig = {
-    #  User = "nextcloud";
-    #};
+    serviceConfig = {
+      User = "nextcloud";
+    };
   };
 
   ptsd.nwtraefik = {
