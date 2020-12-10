@@ -282,4 +282,15 @@ in
       };
     };
   };
+
+  hardware.pulseaudio.package = (
+    pkgs.pulseaudioFull.overrideAttrs (
+      old: {
+        patches = [
+          # mitigate https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/89
+          ../../2configs/patches/echo-cancel-make-webrtc-beamforming-parameter-parsing-locale-independent.patch
+        ];
+      }
+    )
+  );
 }

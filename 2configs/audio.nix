@@ -1,24 +1,10 @@
 { config, lib, pkgs, ... }:
-let
-  # pulseAudioFull required for bluetooth audio support
-  pulseaudio = (
-    pkgs.pulseaudioFull.overrideAttrs (
-      old: {
-        patches = [
-          # mitigate https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/89
-          ./patches/echo-cancel-make-webrtc-beamforming-parameter-parsing-locale-independent.patch
-        ];
-      }
-    )
-  ).override {
-    airtunesSupport = true;
-  };
-in
+
 {
   sound.enable = true;
   hardware.pulseaudio = {
     enable = true;
-    package = pulseaudio;
+    package = lib.mkDefault pkgs.pulseaudioFull; # pulseAudioFull required for bluetooth audio support
     #support32Bit = true; # for Steam
 
     # better audio quality settings
