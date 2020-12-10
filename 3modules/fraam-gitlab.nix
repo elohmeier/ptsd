@@ -76,9 +76,11 @@ in
             supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
           };
 
-          # create user using https://docs.gitlab.com/12.10/ee/security/reset_root_password.html
-          # and https://nixos.org/manual/nixos/stable/index.html#module-services-gitlab
-          # use user.activate! and user.admin = true, then user.save!
+          # steps to o create an initial admin user:
+          # 1. create user using webinterface
+          # 2. open console using `sudo -u gitlab -H gitlab-rails console -e production`
+          # 3. select user using `user = User.where(id: 1).first`
+          # 4. use `user.activate!` and `user.admin = true`, then `user.save!`
 
           services.gitlab =
             {
