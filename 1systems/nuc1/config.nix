@@ -136,7 +136,10 @@
       }
       {
         output = "HDMI-1";
-        monitorConfig = ''Option "Position" "1920 0"'';
+        monitorConfig = ''
+          Option "Position" "1920 0"
+          Option "PreferredMode" "2560x1440"
+        '';
       }
     ];
   };
