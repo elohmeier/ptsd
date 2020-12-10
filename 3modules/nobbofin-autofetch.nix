@@ -50,7 +50,7 @@ in
           --imap-folder-prefix "INBOX."
       
         git add .
-        git commit -m "nobbofin-autofetch: imported e-mails"
+        git diff-index --quiet HEAD || git commit -m "nobbofin-autofetch: imported e-mails"
         git push
       '';
 
