@@ -56,6 +56,7 @@ in
     # verify using `xdg-mime query default <mimetype>`
     defaultApplications = {
       "application/pdf" = [ "zathura.desktop" ];
+      "text/plain" = [ "vim.desktop" ];
       "image/gif" = [ "sxiv.desktop" ];
       "image/jpeg" = [ "sxiv.desktop" ];
       "image/png" = [ "sxiv.desktop" ];
