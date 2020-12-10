@@ -304,7 +304,7 @@
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4xuAXx1Vjcseg5mvoSUt2MijZbSSwTsq/sD2OmU36a ";
       borg.quota = "500G";
-      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDuxU6nPLddW9UjPMlY2/8Xh+ttt5PUm7yvOXJzXdmZI8JKdqLZ6hnOQVCRStPMROosXmR9guaLNIkOIaThrOGCbe0B4qM4XU9Pt4KihJIpzCN1A/O+icTB5oZ/kwsjEzQBLUFRoDxayzRJHOUdNKNhOA+H+QtWBWBaZhLBcZYijAM1juLiqIcRdnKJ5RKBezQjeR3fV/fRffn2fHVEU2Gw+GRTlP9/y3RkQKOC3HhuFbi2ymHRVRsHqBLYakOaTrl2phl5lwlIH09tJQax30I9uq26JZscj20nFRCDqzx0yjSiYTz7I0L5R1Z1L2wzhlF89mz+QE+eHbhjtxz9QY3F root@nw10";
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDS/pkSGKKq3Z77nzubQ1PTjszGlg8bHXA/EroVBOJBq root@nuc1";
       syncthing.id = "J5JHNBN-YZYVP3A-ROFYSWJ-NIWXSUW-FDSGNUB-6UO47NL-LIGRLDM-RMSZBAQ";
     };
 
