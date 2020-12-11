@@ -29,6 +29,12 @@ in
         type = with types; listOf str;
         default = [ "loopback6-http" "loopback6-https" ];
       };
+      dataPath = mkOption {
+        default = "/var/lib/fraam-gitlab";
+      };
+      memLimit = mkOption {
+        default = "1G";
+      };
     };
   };
 
@@ -43,13 +49,21 @@ in
       };
     };
 
-
     containers.gitlab = {
       autoStart = false;
       privateNetwork = true;
       hostAddress = cfg.hostAddress;
       localAddress = cfg.containerAddress;
-      bindMounts = { };
+      bindMounts = {
+        "/var/gitlab" = {
+          hostPath = "${cfg.dataPath}/gitlab";
+          isReadOnly = false;
+        };
+        "/var/lib/postgresql" = {
+          hostPath = "${cfg.dataPath}/postgresql";
+          isReadOnly = false;
+        };
+      };
       ephemeral = true;
 
       config =
@@ -66,7 +80,7 @@ in
             useHostResolvConf = false;
             nameservers = [ "8.8.8.8" "8.8.4.4" ];
             useNetworkd = true;
-            firewall.allowedTCPPorts = [ 80 ];
+            firewall.allowedTCPPorts = [ 80 ]; # for nginx
           };
 
           time.timeZone = "Europe/Berlin";
@@ -85,12 +99,33 @@ in
           services.gitlab =
             {
               enable = true;
+              host = cfg.domain;
+              port = 443;
+              https = true;
               initialRootPasswordFile = pkgs.writeText "gitlab-initialRootPasswordFile" "todo";
               secrets = {
                 secretFile = pkgs.writeText "gitlab-secretFile" "todo";
                 dbFile = pkgs.writeText "gitlab-dbFile" "todo";
                 otpFile = pkgs.writeText "gitlab-otpFile" "todo";
                 jwsFile = pkgs.writeText "gitlab-jwsFile" "todo";
+              };
+              smtp = {
+                enable = true;
+                address = "smtp-relay.gmail.com";
+                port = 587;
+                domain = cfg.domain;
+              };
+              extraConfig = {
+                gitlab = {
+                  default_projects_features = {
+                    issues = false;
+                    merge_requests = true;
+                    wiki = false;
+                    snippets = false;
+                    builds = true;
+                    container_registry = false;
+                  };
+                };
               };
             };
 
@@ -107,6 +142,8 @@ in
         };
     };
 
+    systemd.services."container@gitlab".serviceConfig.MemoryMax = cfg.memLimit;
+
     ptsd.nwtraefik = {
       services = [
         {
@@ -117,5 +154,10 @@ in
         }
       ];
     };
+
+    system.activationScripts.initialize-fraam-gitlab = stringAfter [ "users" "groups" ] ''
+      mkdir -p ${cfg.dataPath}/gitlab
+      mkdir -p ${cfg.dataPath}/postgresql
+    '';
   };
 }
