@@ -33,6 +33,11 @@
       device = "/persist/var/lib/systemd";
       options = [ "bind" ];
     };
+    "/var/lib/systemd/coredump" =
+      {
+        fsType = "tmpfs";
+        options = [ "size=100M" "mode=1644" ];
+      };
   } // lib.optionalAttrs config.services.samba.enable {
     "/var/lib/samba" =
       {
