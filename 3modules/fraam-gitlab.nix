@@ -33,7 +33,7 @@ in
         default = "/var/lib/fraam-gitlab";
       };
       memLimit = mkOption {
-        default = "1G";
+        default = "2G";
       };
     };
   };
@@ -55,6 +55,10 @@ in
       hostAddress = cfg.hostAddress;
       localAddress = cfg.containerAddress;
       bindMounts = {
+        "/var/secrets/gitlab" = {
+          hostPath = toString <secrets/gitlab>;
+          isReadOnly = true;
+        };
         "/var/gitlab" = {
           hostPath = "${cfg.dataPath}/gitlab";
           isReadOnly = false;
@@ -80,7 +84,10 @@ in
             useHostResolvConf = false;
             nameservers = [ "8.8.8.8" "8.8.4.4" ];
             useNetworkd = true;
-            firewall.allowedTCPPorts = [ 80 ]; # for nginx
+            firewall.allowedTCPPorts = [
+              80 # for nginx
+              3807 # sidekiq monitoring
+            ];
           };
 
           time.timeZone = "Europe/Berlin";
@@ -102,12 +109,12 @@ in
               host = cfg.domain;
               port = 443;
               https = true;
-              initialRootPasswordFile = pkgs.writeText "gitlab-initialRootPasswordFile" "todo";
+              initialRootPasswordFile = "/var/secrets/gitlab/initialRootPassword";
               secrets = {
-                secretFile = pkgs.writeText "gitlab-secretFile" "todo";
-                dbFile = pkgs.writeText "gitlab-dbFile" "todo";
-                otpFile = pkgs.writeText "gitlab-otpFile" "todo";
-                jwsFile = pkgs.writeText "gitlab-jwsFile" "todo";
+                secretFile = "/var/secrets/gitlab/secret";
+                dbFile = "/var/secrets/gitlab/db";
+                otpFile = "/var/secrets/gitlab/otp";
+                jwsFile = "/var/secrets/gitlab/jws";
               };
               smtp = {
                 enable = true;
@@ -117,6 +124,8 @@ in
               };
               extraConfig = {
                 gitlab = {
+                  email_display_name = "fraam GitLab";
+                  email_reply_to = "noreply@fraam.de";
                   default_projects_features = {
                     issues = false;
                     merge_requests = true;
@@ -124,6 +133,13 @@ in
                     snippets = false;
                     builds = true;
                     container_registry = false;
+                  };
+                  monitoring = {
+                    ip_whitelist = [ "${cfg.hostAddress}/32" ];
+                    sidekiq_exporter = {
+                      address = cfg.containerAddress;
+                      port = 3807;
+                    };
                   };
                 };
               };
