@@ -202,6 +202,7 @@ in
           "*.pyc"
           "/var/lib/libvirt"
           "/var/lib/docker"
+          "/var/lib/octoprint/timelapse"
         ];
         type = with types; listOf str;
       };
