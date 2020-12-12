@@ -10,6 +10,7 @@ in
       <ptsd/2configs>
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
+      <ptsd/2configs/prometheus/node.nix>
 
       #<ptsd/2configs/cli-tools.nix>
     ];
@@ -82,6 +83,17 @@ in
       "www6-https" = {
         address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
       };
+      "nwvpn-http" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
+        http.redirections.entryPoint = {
+          to = "nwvpn-https";
+          scheme = "https";
+          permanent = true;
+        };
+      };
+      "nwvpn-https" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
+      };
 
       # added for local tls monitoring & fraam-update-static-web script
       "loopback4-https".address = "127.0.0.1:443";
@@ -91,6 +103,13 @@ in
   ptsd.fraam-www = {
     enable = true;
     extIf = "ens3";
+  };
+
+  ptsd.fraam-gitlab = {
+    enable = true;
+    extIf = "ens3";
+    domain = "git.fraam.de";
+    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
   };
 
   security.acme =

@@ -33,7 +33,7 @@ in
         default = "/var/lib/fraam-gitlab";
       };
       memLimit = mkOption {
-        default = "2G";
+        default = "4G";
       };
     };
   };
@@ -55,7 +55,7 @@ in
       hostAddress = cfg.hostAddress;
       localAddress = cfg.containerAddress;
       bindMounts = {
-        "/var/secrets/gitlab" = {
+        "/var/src/secrets/gitlab" = {
           hostPath = toString <secrets/gitlab>;
           isReadOnly = true;
         };
@@ -69,6 +69,7 @@ in
         };
       };
       ephemeral = true;
+      timeoutStartSec = "5min"; # gitlab takes a while to start up
 
       config =
         { config, pkgs, ... }:
@@ -86,7 +87,8 @@ in
             useNetworkd = true;
             firewall.allowedTCPPorts = [
               80 # for nginx
-              3807 # sidekiq monitoring
+              3807 # gitlab monitoring
+              9100 # prometheus node exporter
             ];
           };
 
@@ -96,6 +98,38 @@ in
             defaultLocale = "de_DE.UTF-8";
             supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
           };
+
+          ptsd.secrets.files = {
+            "gitlab-initialRootPassword" = {
+              owner = "gitlab";
+              source-path = toString <secrets/gitlab/initialRootPassword>;
+            };
+            "gitlab-secret" = {
+              owner = "gitlab";
+              source-path = toString <secrets/gitlab/secret>;
+            };
+            "gitlab-db" = {
+              owner = "gitlab";
+              source-path = toString <secrets/gitlab/db>;
+            };
+            "gitlab-otp" = {
+              owner = "gitlab";
+              source-path = toString <secrets/gitlab/otp>;
+            };
+            "gitlab-jws" = {
+              owner = "gitlab";
+              source-path = toString <secrets/gitlab/jws>;
+            };
+            "gitlab-google-app-id" = {
+              owner = "gitlab";
+              source-path = toString <secrets/gitlab/google-app-id>;
+            };
+            "gitlab-google-app-secret" = {
+              owner = "gitlab";
+              source-path = toString <secrets/gitlab/google-app-secret>;
+            };
+          };
+          users.groups.keys.members = [ "gitlab" ];
 
           # steps to o create an initial admin user:
           # 1. create user using webinterface
@@ -109,18 +143,18 @@ in
               host = cfg.domain;
               port = 443;
               https = true;
-              initialRootPasswordFile = "/var/secrets/gitlab/initialRootPassword";
+              initialRootPasswordFile = config.ptsd.secrets.files."gitlab-initialRootPassword".path;
               secrets = {
-                secretFile = "/var/secrets/gitlab/secret";
-                dbFile = "/var/secrets/gitlab/db";
-                otpFile = "/var/secrets/gitlab/otp";
-                jwsFile = "/var/secrets/gitlab/jws";
+                secretFile = config.ptsd.secrets.files."gitlab-secret".path;
+                dbFile = config.ptsd.secrets.files."gitlab-db".path;
+                otpFile = config.ptsd.secrets.files."gitlab-otp".path;
+                jwsFile = config.ptsd.secrets.files."gitlab-jws".path;
               };
               smtp = {
                 enable = true;
                 address = "smtp-relay.gmail.com";
                 port = 587;
-                domain = cfg.domain;
+                domain = "fraam.de";
               };
               extraConfig = {
                 gitlab = {
@@ -142,6 +176,21 @@ in
                     };
                   };
                 };
+                omniauth = {
+                  enabled = true;
+                  auto_sign_in_with_provider = "google_oauth2";
+                  allow_single_sign_on = [ "google_oauth2" ];
+                  block_auto_created_users = false;
+                  providers = [{
+                    name = "google_oauth2";
+                    app_id = { _secret = config.ptsd.secrets.files."gitlab-google-app-id".path; };
+                    app_secret = { _secret = config.ptsd.secrets.files."gitlab-google-app-secret".path; };
+                    args = {
+                      access_type = "offline";
+                      approval_prompt = "";
+                    };
+                  }];
+                };
               };
             };
 
@@ -152,15 +201,52 @@ in
             recommendedOptimisation = true;
             recommendedProxySettings = true;
             virtualHosts."${cfg.domain}" = {
-              locations."/".proxyPass = "http://unix:/run/gitlab/gitlab-workhorse.socket";
+              locations."/" = {
+                proxyPass = "http://unix:/run/gitlab/gitlab-workhorse.socket";
+                extraConfig = ''
+                  proxy_set_header X-Forwarded-Proto https;
+                '';
+              };
             };
+          };
+
+          services.prometheus.exporters.node = {
+            enable = true;
+            listenAddress = cfg.containerAddress;
+            enabledCollectors = [
+              "conntrack"
+              "diskstats"
+              "entropy"
+              "filefd"
+              "filesystem"
+              "loadavg"
+              "mdadm"
+              "meminfo"
+              "netdev"
+              "netstat"
+              "stat"
+              "time"
+              "vmstat"
+              "systemd"
+              "logind"
+              "interrupts"
+              "ksmd"
+            ];
           };
         };
     };
 
-    systemd.services."container@gitlab".serviceConfig.MemoryMax = cfg.memLimit;
+    systemd.services."container@gitlab".serviceConfig = {
+      CPUWeight = 20;
+      MemoryMax = cfg.memLimit;
+    };
 
     ptsd.nwtraefik = {
+      entryPoints = {
+        "nwvpn-gitlab-monitoring" = {
+          address = "${config.ptsd.wireguard.networks.nwvpn.ip}:9102";
+        };
+      };
       services = [
         {
           url = "http://${cfg.containerAddress}:80";
@@ -168,7 +254,16 @@ in
           entryPoints = cfg.entryPoints;
           rule = "Host(`${cfg.domain}`)";
         }
+        {
+          url = "http://${cfg.containerAddress}:3807";
+          name = "gitlab-monitoring";
+          entryPoints = [ "nwvpn-gitlab-monitoring" ];
+        }
       ];
+    };
+
+    networking = {
+      firewall.interfaces.nwvpn.allowedTCPPorts = [ 9102 ]; # gitlab metrics port
     };
 
     system.activationScripts.initialize-fraam-gitlab = stringAfter [ "users" "groups" ] ''
