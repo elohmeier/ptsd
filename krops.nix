@@ -7,7 +7,6 @@
 , secrets ? false
 , client-secrets ? false
 , starget ? "root@${name}.host.nerdworks.de"
-, cross-secrets ? false
 }:
 let
   #krops = (import <nixpkgs> {}).fetchgit {
@@ -94,20 +93,6 @@ let
           ref = (lib.importJSON ./home-manager.json).rev;
           url = https://github.com/rycee/home-manager;
           shallow = true;
-        };
-      }
-    )
-
-    (
-      lib.optionalAttrs cross-secrets {
-        secrets-eee1.pass = {
-          dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
-          name = "hosts/eee1";
-        };
-
-        secrets-rpi4.pass = {
-          dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
-          name = "hosts/rpi4";
         };
       }
     )
