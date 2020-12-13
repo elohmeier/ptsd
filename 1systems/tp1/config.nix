@@ -96,11 +96,11 @@ in
   #   script = "${pkgs.utillinux}/bin/rfkill block bluetooth";
   # };
 
-  fonts.fontconfig = {
-    antialias = false;
-    hinting.enable = false;
-    subpixel.rgba = "none";
-  };
+  # fonts.fontconfig = {
+  #   antialias = false;
+  #   hinting.enable = false;
+  #   subpixel.rgba = "none";
+  # };
 
   services.printing.enable = true;
   nixpkgs.config.allowUnfree = true;

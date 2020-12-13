@@ -31,22 +31,18 @@ in
     exec ${pkgs.xorg.xinput}/bin/xinput disable "Synaptics TM3381-002"
   '';
 
-  ptsd.kitty = {
+  ptsd.alacritty = {
     enable = true;
-    fontName = "ProggyCleanTT";
-    fontSize = 9;
+    fontName = "Cozette";
   };
   ptsd.i3 = {
     configureGtk = true;
     configureRofi = true;
-    fontMono = "ProggyCleanTT";
-    fontSize = 9;
+    fontMono = "Cozette";
   };
   ptsd.sway = {
     configureGtk = false;
     configureRofi = false;
-    fontMono = "ProggyCleanTT";
-    fontSize = 9;
   };
   ptsd.nwi3status = {
     todoistApiKey = todoistSecrets.todoistApiKey;
