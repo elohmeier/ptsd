@@ -101,35 +101,35 @@ in
 
           ptsd.secrets.files = {
             "gitlab-initialRootPassword" = {
-              owner = "gitlab";
+              owner = config.services.gitlab.user;
               source-path = toString <secrets/gitlab/initialRootPassword>;
             };
             "gitlab-secret" = {
-              owner = "gitlab";
+              owner = config.services.gitlab.user;
               source-path = toString <secrets/gitlab/secret>;
             };
             "gitlab-db" = {
-              owner = "gitlab";
+              owner = config.services.gitlab.user;
               source-path = toString <secrets/gitlab/db>;
             };
             "gitlab-otp" = {
-              owner = "gitlab";
+              owner = config.services.gitlab.user;
               source-path = toString <secrets/gitlab/otp>;
             };
             "gitlab-jws" = {
-              owner = "gitlab";
+              owner = config.services.gitlab.user;
               source-path = toString <secrets/gitlab/jws>;
             };
             "gitlab-google-app-id" = {
-              owner = "gitlab";
+              owner = config.services.gitlab.user;
               source-path = toString <secrets/gitlab/google-app-id>;
             };
             "gitlab-google-app-secret" = {
-              owner = "gitlab";
+              owner = config.services.gitlab.user;
               source-path = toString <secrets/gitlab/google-app-secret>;
             };
           };
-          users.groups.keys.members = [ "gitlab" ];
+          users.groups.keys.members = [ config.services.gitlab.user ];
 
           # steps to o create an initial admin user:
           # 1. create user using webinterface
@@ -143,6 +143,8 @@ in
               host = cfg.domain;
               port = 443;
               https = true;
+              user = "git"; # will be the user in the generated ssh urls
+              databaseUsername = "git"; # must match the above username
               initialRootPasswordFile = config.ptsd.secrets.files."gitlab-initialRootPassword".path;
               secrets = {
                 secretFile = config.ptsd.secrets.files."gitlab-secret".path;
