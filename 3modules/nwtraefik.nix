@@ -347,9 +347,10 @@ in
           serviceConfig = {
             ExecStart = ''${cfg.package}/bin/traefik --configfile=${configFile "traefik-static-conf.toml" staticConfigOptions}'';
             ExecStartPre = "+${migrateLogs}";
-            Type = "simple";
             DynamicUser = true;
-            Restart = "on-failure";
+            Type = "notify";
+            WatchdogSec = "1s";
+            Restart = "always";
             StartLimitInterval = 86400;
             StartLimitBurst = 5;
             AmbientCapabilities = "cap_net_bind_service";
@@ -360,10 +361,25 @@ in
             PrivateTmp = true;
             PrivateDevices = true;
             ProtectHome = true;
-            ProtectSystem = "full";
+            ProtectSystem = "strict";
             StateDirectory = "traefik";
             LogsDirectory = "traefik";
             SupplementaryGroups = cfg.groups;
+            ProtectControlGroups = true;
+            ProtectClock = true;
+            ProtectHostname = true;
+            ProtectKernelLogs = true;
+            ProtectKernelModules = true;
+            ProtectKernelTunables = true;
+            LockPersonality = true;
+            MemoryDenyWriteExecute = true;
+            RestrictAddressFamilies = "AF_INET AF_INET6";
+            RestrictNamespaces = true;
+            DevicePolicy = "closed";
+            RestrictRealtime = true;
+            SystemCallFilter = "@system-service";
+            SystemCallErrorNumber = "EPERM";
+            SystemCallArchitectures = "native";
           };
         };
 
