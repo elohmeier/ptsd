@@ -122,7 +122,7 @@ let
       );
 
     };
-  };
+  } // cfg.extraDynamicConfig;
 
   staticConfigOptions = {
     global = {
@@ -289,6 +289,11 @@ in
       contentSecurityPolicy = mkOption {
         default = "frame-ancestors 'self' https://*.nerdworks.de";
         type = types.str;
+      };
+
+      extraDynamicConfig = mkOption {
+        type = types.attrs;
+        default = { };
       };
     };
   };
