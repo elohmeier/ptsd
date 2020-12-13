@@ -25,6 +25,9 @@ in
         addresses = [{ address = "2a01:4f8:c2c:b468::1"; prefixLength = 64; }];
       };
     };
+
+    # reduce noise coming from www if
+    firewall.logRefusedConnections = false;
   };
 
   # prevents creation of the following route (`ip -6 route`):

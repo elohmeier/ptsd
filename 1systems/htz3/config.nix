@@ -30,6 +30,9 @@ in
     extraHosts = ''
       127.0.0.1 dev.fraam.de
     '';
+
+    # reduce noise coming from www if
+    firewall.logRefusedConnections = false;
   };
 
   # prevents creation of the following route (`ip -6 route`):
