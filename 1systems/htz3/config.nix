@@ -42,6 +42,8 @@ in
     enable = true;
   };
 
+  services.openssh.ports = [ 1022 ]; # use non-standard ssh port to be able to forward standard port to gitlab container
+
   ptsd.nwtraefik = {
     enable = true;
     #logLevel = "DEBUG";

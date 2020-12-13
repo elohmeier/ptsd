@@ -50,7 +50,7 @@ in
     };
 
     containers.gitlab = {
-      autoStart = false;
+      autoStart = true;
       privateNetwork = true;
       hostAddress = cfg.hostAddress;
       localAddress = cfg.containerAddress;
@@ -130,6 +130,13 @@ in
             };
           };
           users.groups.keys.members = [ config.services.gitlab.user ];
+
+          services.openssh.hostKeys = [
+            {
+              path = (toString <secrets/gitlab/ssh.id_ed25519>);
+              type = "ed25519";
+            }
+          ];
 
           # steps to o create an initial admin user:
           # 1. create user using webinterface
@@ -248,6 +255,9 @@ in
         "nwvpn-gitlab-monitoring" = {
           address = "${config.ptsd.wireguard.networks.nwvpn.ip}:9102";
         };
+        "ssh" = {
+          address = ":22";
+        };
       };
       services = [
         {
@@ -262,10 +272,25 @@ in
           entryPoints = [ "nwvpn-gitlab-monitoring" ];
         }
       ];
+      extraDynamicConfig = {
+        tcp = {
+          routers.ssh = {
+            entryPoints = [ "ssh" ];
+            rule = "HostSNI(`*`)";
+            service = "gitlab-ssh";
+          };
+          services = {
+            gitlab-ssh.loadBalancer.servers = [{
+              address = "${cfg.containerAddress}:22";
+            }];
+          };
+        };
+      };
     };
 
     networking = {
       firewall.interfaces.nwvpn.allowedTCPPorts = [ 9102 ]; # gitlab metrics port
+      firewall.allowedTCPPorts = [ 22 ];
     };
 
     system.activationScripts.initialize-fraam-gitlab = stringAfter [ "users" "groups" ] ''
