@@ -30,6 +30,11 @@ in
     fsType = "ext4";
   };
 
+  fileSystems."/var/lib/fraam-gitlab" = {
+    device = "${vgPrefix}-var--lib--fraam--gitlab";
+    fsType = "ext4";
+  };
+
   fileSystems."/var/log" = {
     device = "${vgPrefix}-var--log";
     fsType = "ext4";
