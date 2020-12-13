@@ -37,10 +37,35 @@ in
       } // cfg.extraConfig;
     };
 
-    # ensure that postgres is running *before* running bitwarden_rs
     systemd.services.bitwarden_rs = {
+      # ensure that postgres is running *before* running bitwarden_rs
       requires = [ "postgresql.service" ];
       after = [ "postgresql.service" ];
+
+      # additional hardening
+      serviceConfig = {
+        CapabilityBoundingSet = "cap_net_bind_service";
+        # TODO: evaluate socket with PrivateNetwork like in https://www.freedesktop.org/software/systemd/man/systemd-socket-proxyd.html
+        #PrivateNetwork = true;
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        RestrictAddressFamilies = "AF_INET AF_INET6";
+        RestrictNamespaces = true;
+        DevicePolicy = "closed";
+        RestrictRealtime = true;
+        SystemCallFilter = "@system-service";
+        SystemCallErrorNumber = "EPERM";
+        SystemCallArchitectures = "native";
+        RestrictSUIDSGID = true;
+        NoNewPrivileges = true;
+        IPAddressAllow = "localhost";
+      };
     };
 
     services.postgresql = {
