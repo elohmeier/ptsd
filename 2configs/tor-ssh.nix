@@ -1,7 +1,10 @@
 { config, pkgs, ... }: {
   services.tor = {
     enable = true;
-    client.enable = true;
+    client = {
+      enable = true;
+      privoxy.enable = false;
+    };
     hiddenServices.ssh.map = [
       { port = 22; }
     ];
