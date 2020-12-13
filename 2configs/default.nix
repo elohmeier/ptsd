@@ -85,9 +85,12 @@ in
           hostname: hostcfg: {
             hostNames =
               [ hostname (if hasAttr "domain" hostcfg then "${hostname}.${hostcfg.domain}" else "${hostname}.host.nerdworks.de") ]
-              ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
-              ++ (mapAttrsToList (_: netcfg: netcfg.ip6.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip6" "addr" ] netcfg) hostcfg.nets))
-              ++ (flatten (mapAttrsToList (_: netcfg: netcfg.aliases) (filterAttrs (_: netcfg: hasAttr "aliases" netcfg) hostcfg.nets)));
+              ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (netname: netcfg: netname == "nwvpn" && hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
+              # below additions not always useful, e.g. gitlab-container on htz3 with different ssh-key used only on same public ip - so we only use the above nwvpn ip for now and below manual definitions
+              # ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
+              # ++ (mapAttrsToList (_: netcfg: netcfg.ip6.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip6" "addr" ] netcfg) hostcfg.nets))
+              # ++ (flatten (mapAttrsToList (_: netcfg: netcfg.aliases) (filterAttrs (_: netcfg: hasAttr "aliases" netcfg) hostcfg.nets)))
+            ;
             publicKey = hostcfg.ssh.pubkey;
           }
         )
@@ -98,6 +101,14 @@ in
             hostNames = [ "github.com" ];
             publicKey = "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==";
           };
+        "nwgit" = {
+          hostNames = [ universe.hosts.htz1.nets.www.ip4.addr universe.hosts.htz1.nets.www.ip6.addr ] ++ universe.hosts.htz1.nets.www.aliases;
+          publicKey = universe.hosts.htz1.ssh.pubkey;
+        };
+        "fraamgit" = {
+          hostNames = [ universe.hosts.htz3.nets.www.ip4.addr universe.hosts.htz3.nets.www.ip6.addr ] ++ universe.hosts.htz3.nets.www.aliases;
+          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKqi/Ley5IzAX4+x7446j/mEKFekN4pdfYSxesxO48LP";
+        };
       };
   };
 

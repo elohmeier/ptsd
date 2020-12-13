@@ -207,6 +207,7 @@
         www = {
           ip4.addr = "78.47.98.124";
           ip6.addr = "2a01:4f8:c0c:5dac::1";
+          aliases = [ "git.fraam.de" ];
         };
         nwvpn = {
           ip4.addr = "191.18.19.41";
