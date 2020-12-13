@@ -57,13 +57,12 @@ let
               name = svc.name;
               value = {
                 entryPoints = svc.entryPoints;
+                rule = svc.rule;
                 service = svc.name;
                 middlewares = [ "securityHeaders" ] ++ svc.extraMiddlewares ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
                 tls = lib.optionalAttrs svc.letsencrypt {
                   certResolver = "letsencrypt";
                 };
-              } // optionalAttrs (svc.rule != "") {
-                rule = svc.rule;
               };
             }
           )
@@ -256,7 +255,7 @@ in
             options = {
               name = mkOption { type = types.str; };
               entryPoints = mkOption { type = types.listOf types.str; default = [ ]; };
-              rule = mkOption { type = types.str; default = ""; };
+              rule = mkOption { type = types.str; default = "Host(`*`)"; };
               auth = mkOption { type = types.attrs; default = { }; };
               url = mkOption { type = types.str; default = ""; };
               letsencrypt = mkOption { type = types.bool; default = false; };
