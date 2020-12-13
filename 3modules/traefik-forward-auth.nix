@@ -46,10 +46,26 @@ in
         AmbientCapabilities = "cap_net_bind_service";
         NoNewPrivileges = true;
         DynamicUser = true;
-        #StateDirectory = "traefik-forward-auth"; # not needed?
         Restart = "on-failure";
         EnvironmentFile = cfg.envFile;
         ReadOnlyPaths = cfg.envFile;
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        RestrictAddressFamilies = "AF_INET AF_INET6";
+        RestrictNamespaces = true;
+        DevicePolicy = "closed";
+        RestrictRealtime = true;
+        SystemCallFilter = "@system-service";
+        SystemCallErrorNumber = "EPERM";
+        SystemCallArchitectures = "native";
+        RestrictSUIDSGID = true;
+        IPAddressAllow = "localhost";
       };
       environment = {
         LOG_LEVEL = "warn";
