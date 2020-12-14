@@ -13,31 +13,36 @@ in
 
     <secrets/wifi.nix>
 
-    <ptsd/2configs/cli-tools.nix>
+    # <ptsd/2configs/cli-tools.nix>
     # <ptsd/2configs/bluetooth.nix>
-    <ptsd/2configs/baseX.nix>
+    # <ptsd/2configs/baseX.nix>
 
     <home-manager/nixos>
     <ptsd/2configs/zsh-enable.nix>
   ];
 
-  home-manager = {
-    users.mainUser = { pkgs, ... }:
-      {
-        imports = [
-          <ptsd/2configs/home>
-          <ptsd/2configs/home/xsession-i3.nix>
-        ];
-
-        ptsd.urxvt.enable = true;
-
-        ptsd.nwi3status = {
-          ethIf = "eth0";
-          wifiIf = "wlan0";
-        };
-
-      };
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
   };
+
+  # home-manager = {
+  #   users.mainUser = { pkgs, ... }:
+  #     {
+  #       imports = [
+  #         # <ptsd/2configs/home>
+  #         # <ptsd/2configs/home/xsession-i3.nix>
+  #       ];
+
+  #       # ptsd.urxvt.enable = true;
+
+  #       ptsd.nwi3status = {
+  #         ethIf = "eth0";
+  #         wifiIf = "wlan0";
+  #       };
+
+  #     };
+  # };
 
   nix = {
     #    buildMachines = [
@@ -55,8 +60,6 @@ in
     #      builders-use-substitutes = true
     #    '';
   };
-
-  hardware.opengl.enable = true;
 
   networking = {
     useNetworkd = true;
@@ -113,9 +116,17 @@ in
   #   };
   # };
 
-  environment.systemPackages = [
-    # pkgs.ustreamer
-    pkgs.raspberrypi-tools
+  environment.systemPackages = with pkgs; [
+    # ustreamer
+
+    htop
+    mc
+    ncdu
+    nnn
+    tmux
+    tree
+    unzip
+    wget
   ];
 
 
