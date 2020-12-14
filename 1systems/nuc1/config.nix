@@ -162,10 +162,4 @@
       qemuRunAsRoot = false;
     };
   };
-
-  ptsd.fraam-gitlab = {
-    enable = true;
-    extIf = "wlan0";
-    domain = "nuc1.host.nerdworks.de";
-  };
 }
