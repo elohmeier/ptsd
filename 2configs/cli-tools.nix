@@ -28,5 +28,26 @@ in
     unzip
     vims.big
     wget
+
+    nixpkgs-fmt
+    gnumake
+    #(pass.withExtensions (ext: [ ext.pass-import ]))
+    pass
+    openssl
+    lorri
+    smartmontools
+    gptfdisk
+    gparted
+    usbutils
+    wirelesstools
+    wpa_supplicant
+    inetutils
+    macchanger
+    p7zip
+    unrar
+    mosh
+    mkpasswd
   ];
+
+  nixpkgs.config.allowUnfree = true; # required for unrar
 }
