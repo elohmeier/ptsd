@@ -17,28 +17,29 @@ in
       provision = {
         enable = true;
         datasources = [
-          {
-            name = "InfluxDB Telegraf";
-            type = "influxdb";
-            isDefault = true;
-            database = "telegraf";
-            user = "grafana";
-            password = grafanaSecrets.influxPassword;
-            url = "https://influxdb.services.nerdworks.de";
-          }
-          {
-            name = "InfluxDB Home Assistant";
-            type = "influxdb";
-            isDefault = false;
-            database = "hass";
-            user = "grafana";
-            password = grafanaSecrets.influxPassword;
-            url = "https://influxdb.services.nerdworks.de";
-          }
+          # {
+          #   name = "InfluxDB Telegraf";
+          #   type = "influxdb";
+          #   isDefault = true;
+          #   database = "telegraf";
+          #   user = "grafana";
+          #   password = grafanaSecrets.influxPassword;
+          #   url = "https://influxdb.services.nerdworks.de";
+          # }
+          # {
+          #   name = "InfluxDB Home Assistant";
+          #   type = "influxdb";
+          #   isDefault = false;
+          #   database = "hass";
+          #   user = "grafana";
+          #   password = grafanaSecrets.influxPassword;
+          #   url = "https://influxdb.services.nerdworks.de";
+          # }
           {
             name = "Prometheus";
             type = "prometheus";
             url = "http://localhost:9090";
+            isDefault = true;
           }
         ];
       };
