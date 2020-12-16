@@ -107,7 +107,13 @@ in
     youtube-dl
     spotify
     vlc
-    drawio
+    (drawio.overrideAttrs (oldAttrs: {
+      # fix wrong file handling in default desktop file for file manager integration
+      patchPhase = ''
+        substituteInPlace usr/share/applications/drawio.desktop \
+          --replace 'drawio %U' 'drawio %f'
+      '';
+    }))
     geckodriver
     smbclient
     mu-repo

@@ -46,6 +46,19 @@
     hunspellDicts.de-de
     hunspellDicts.en-gb-large
     hunspellDicts.en-us-large
+
+    (writeTextFile {
+      name = "drawio-mimetype";
+      text = ''
+        <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+          <mime-type type="application/vnd.jgraph.mxfile">
+            <comment>draw.io Diagram</comment>
+            <glob pattern="*.drawio" case-sensitive="true"/>
+          </mime-type>
+        </mime-info>
+      '';
+      destination = "/share/mime/packages/drawio.xml";
+    })
   ];
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
