@@ -35,6 +35,11 @@ in
     firewall.logRefusedConnections = false;
   };
 
+  services.journald.extraConfig = ''
+    SystemMaxUse=1G
+    RuntimeMaxUse=1G
+  '';
+
   # prevents creation of the following route (`ip -6 route`):
   # default dev lo proto static metric 1024 pref medium
   systemd.network.networks."40-ens3".routes = [
