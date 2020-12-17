@@ -70,8 +70,6 @@ in
     xorg.xev
     xorg.xhost
     gnome3.file-roller
-    zathura
-    zathura-single
     #nerdworks-motivation
     keepassxc
     xcalib

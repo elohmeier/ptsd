@@ -160,6 +160,7 @@ in
       {
         name = "HL5380DN";
         deviceUri = "socket://192.168.2.2:9100";
+        # TODO: use generic pcl, works better
         model = "drv:///brlaser.drv/br5030.ppd";
         ppdOptions = {
           PageSize = "A4";
