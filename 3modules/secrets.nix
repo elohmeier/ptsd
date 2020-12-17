@@ -4,8 +4,13 @@ with lib;
 let
   cfg = config.ptsd.secrets;
 
+  # Escape as required by: https://www.freedesktop.org/software/systemd/man/systemd.unit.html
+  escapeUnitName = name:
+    lib.concatMapStrings (s: if lib.isList s then "-" else s)
+      (builtins.split "[^a-zA-Z0-9_.\\-]+" name);
+
   generateUnit = name: file:
-    nameValuePair "secret-${name}" {
+    nameValuePair "secret-${escapeUnitName name}" {
       description = "secret: ${name}";
       wantedBy = [ "multi-user.target" ];
       before = file.dependants;
