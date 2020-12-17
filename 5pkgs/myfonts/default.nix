@@ -5,7 +5,7 @@ stdenv.mkDerivation {
 
   src = fetchurl {
     url = "https://www.nerdworks.de/dl/fonts.tgz";
-    sha256 = "875cff57f73ba497298f6792cc5425d77d91c3f833eb8200e2cb8c60a0185568";
+    sha256 = "1vsawm8n6vxi4zr1w2gmham80kv4mlsffqszqafqgnfrwzcb499w";
   };
 
   dontPatchShebangs = true;
