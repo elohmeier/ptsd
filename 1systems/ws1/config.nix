@@ -189,6 +189,13 @@ in
     };
   };
 
+  ptsd.pulseaudio.virtualAudioMixin = {
+    enable = true;
+    microphone = "alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo";
+    speakers = "alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21";
+    argArgs = "beamforming=1 mic_geometry=-0.04,0,0,0.04,0,0 noise_suppression=1 analog_gain_control=0 digital_gain_control=1 agc_start_volume=200";
+  };
+
   hardware.pulseaudio = {
     daemon.config = {
       # fix choppy audio when starting pavucontrol
@@ -196,40 +203,16 @@ in
       default-sample-rate = lib.mkForce 44100;
     };
 
-    # Virtual audio mixin into mic audio config
-    # from https://wiki.archlinux.org/index.php/PulseAudio/Examples#Mixing_additional_audio_into_the_microphone's_audio
-    # Symbology: (Application), {Audio source}, [Audio sink], {m} = Monitor of audio sink
-    #
-    # {Microphone}
-    #    ||                                             Input
-    # {mic_ec} -------------> [vsink_fx_mic]{m} ------------> (Voice chat)
-    #             Loopback               ^                         |
-    #                            Loopback|                   Output|
-    #                                    |                         |
-    #              Output                |      Loopback           v
-    # (Soundboard) ---------> [vsink_fx]{m} ----------------> [spk_ec]
-    #                                                            ||
-    #                                                         [Speakers]
-
     # LG sink-volume of 13107 =~ 20%
     extraConfig =
       let
-        speaker = "alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo";
+        speakers = "alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo";
         headphone = "alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21";
-        microphone = "alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo";
       in
       ''
-        load-module module-echo-cancel use_master_format=1 source_master=${microphone} source_name=mic_ec source_properties=device.description=mic_ec sink_master=${headphone} sink_name=spk_ec sink_properties=device.description=spk_ec aec_method=webrtc aec_args="beamforming=1 mic_geometry=-0.04,0,0,0.04,0,0 noise_suppression=1 analog_gain_control=0 digital_gain_control=1 agc_start_volume=200"
-        set-sink-volume ${speaker} 13107
-        set-sink-mute ${speaker} 0
-        set-sink-mute ${headphone} 0
-        load-module module-null-sink sink_name=vsink_fx     sink_properties=device.description=vsink_fx
-        load-module module-null-sink sink_name=vsink_fx_mic sink_properties=device.description=vsink_fx_mic
-        load-module module-loopback latency_msec=30 adjust_time=3 source=mic_ec           sink=vsink_fx_mic
-        load-module module-loopback latency_msec=30 adjust_time=3 source=vsink_fx.monitor sink=vsink_fx_mic
-        load-module module-loopback latency_msec=30 adjust_time=3 source=vsink_fx.monitor sink=spk_ec
-        set-default-source vsink_fx_mic.monitor
-        set-default-sink   spk_ec
+        set-sink-volume ${speakers} 13107
+        set-sink-mute ${speakers} 0
+        set-sink-mute ${headphone} 0        
       '';
   };
 

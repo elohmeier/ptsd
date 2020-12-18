@@ -17,6 +17,7 @@ _:
     ./nwsyncthing.nix
     ./nwtraefik.nix
     ./octoprint.nix
+    ./pulseaudio.nix
     ./radicale.nix
     ./samba-sonos.nix
     ./secrets.nix

@@ -162,4 +162,10 @@
       qemuRunAsRoot = false;
     };
   };
+
+  ptsd.pulseaudio.virtualAudioMixin = {
+    enable = true;
+    microphone = "alsa_input.usb-Plantronics_Plantronics_Voyager_Base_CD_f169d9bb77a148e4b7e910d4a64d4e15-00.mono-fallback";
+    speakers = "alsa_output.usb-Plantronics_Plantronics_Voyager_Base_CD_f169d9bb77a148e4b7e910d4a64d4e15-00.analog-stereo";
+  };
 }
