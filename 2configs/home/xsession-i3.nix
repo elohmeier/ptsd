@@ -61,11 +61,11 @@ in
       "image/jpeg" = [ "sxiv.desktop" ];
       "image/png" = [ "sxiv.desktop" ];
       "inode/directory" = [ "pcmanfm.desktop" ];
-      "text/html" = [ "firefox.desktop" ];
-      "x-scheme-handler/http" = [ "firefox.desktop" ];
-      "x-scheme-handler/https" = [ "firefox.desktop" ];
-      "x-scheme-handler/about" = [ "firefox.desktop" ];
-      "x-scheme-handler/unknown" = [ "firefox.desktop" ];
+      "text/html" = [ "chromium.desktop" "firefox.desktop" ];
+      "x-scheme-handler/http" = [ "chromium.desktop" "firefox.desktop" ];
+      "x-scheme-handler/https" = [ "chromium.desktop" "firefox.desktop" ];
+      "x-scheme-handler/about" = [ "chromium.desktop" "firefox.desktop" ];
+      "x-scheme-handler/unknown" = [ "chromium.desktop" "firefox.desktop" ];
       "x-scheme-handler/msteams" = [ "teams.desktop" ];
       "application/vnd.jgraph.mxfile" = [ "drawio.desktop" ];
     };
