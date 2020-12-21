@@ -42,6 +42,46 @@
     "vm.dirty_background_ratio" = 50;
   };
 
+  hardware.printers = {
+    ensureDefaultPrinter = "HL5380DN";
+    ensurePrinters = [
+      {
+        name = "HL5380DN";
+        deviceUri = "socket://192.168.1.2:9100";
+        model = "drv:///sample.drv/generpcl.ppd";
+        ppdOptions = {
+          PageSize = "A4";
+          Resolution = "600dpi";
+          InputSlot = "Auto";
+          MediaType = "PLAIN";
+        };
+      }
+    ];
+  };
+
+  ptsd.cups-airprint = {
+    enable = true;
+    lanDomain = "lan";
+    listenAddress = "192.168.1.121:631";
+    printerName = "HL5380DN";
+  };
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
+      security = user
+      hosts allow = 192.168.1.0/24
+      hosts deny = 0.0.0.0/0
+    '';
+  };
+
+  # workaround AirPrint printer not showing up after boot
+  systemd.services.avahi-daemon.serviceConfig.ExecStartPre = "${pkgs.coreutils}/bin/sleep 15";
+
   # fonts.fontconfig = {
   #   antialias = false;
   #   hinting.enable = false;
@@ -69,6 +109,12 @@
     useNetworkd = true;
     hostName = "nuc1";
     interfaces.eno1.useDHCP = true;
+
+    firewall.interfaces.wlan0 = {
+      # samba/cups ports
+      allowedTCPPorts = [ 631 445 139 ];
+      allowedUDPPorts = [ 631 137 138 ];
+    };
   };
 
   systemd.network.networks."40-eno1".networkConfig = {
