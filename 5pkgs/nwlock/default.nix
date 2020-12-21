@@ -1,4 +1,4 @@
-{ writers, xorg, imagemagick, gawk, runCommand, xsecurelock, mpv, symlinkJoin, nerdworks-artwork }:
+{ writers, xorg, imagemagick, gawk, runCommand, xsecurelock, mpv, symlinkJoin, nerdworks-artwork, imageName ? "Nerdworks_Hamburg_Logo_Web_Negativ_Weiss.png" }:
 let
   myxsecurelock = xsecurelock.overrideAttrs (
     old: {
@@ -17,7 +17,7 @@ let
     TMPIMG=`mktemp --suffix=.png`
     XY=$(${xorg.xrandr}/bin/xrandr --current | grep '*' | \
       uniq | head -n 1 | ${gawk}/bin/awk '{print $1}')  
-    ${imagemagick}/bin/convert ${nerdworks-artwork}/Nerdworks_Hamburg_Logo_Web_Negativ_Weiss.png \
+    ${imagemagick}/bin/convert "${nerdworks-artwork}/${imageName}" \
       -background black -gravity center -extent $XY $TMPIMG
 
     XSECURELOCK_SAVER=saver_mpv \

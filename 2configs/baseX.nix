@@ -6,7 +6,6 @@
     <ptsd/2configs/baseX-minimal.nix>
     <ptsd/2configs/bluetooth.nix>
     <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/zsh-enable.nix>
     <ptsd/3modules>
   ];

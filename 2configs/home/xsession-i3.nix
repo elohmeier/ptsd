@@ -10,6 +10,16 @@ in
     #<ptsd/2configs/home/git-alarm.nix> # TODO: Port to nwi3status
   ];
 
+  services.screen-locker = {
+    enable = true;
+    # lockCmd = "${pkgs.nwlock}/bin/nwlock";
+    # xssLockExtraOptions = [
+    #   "-n"
+    #   "${pkgs.nwlock}/libexec/xsecurelock/dimmer" # nwlock package wraps custom xsecurelock
+    #   "-l" # make sure not to allow machine suspend before the screen saver is active
+    # ];
+  };
+
   nixpkgs = {
     config.allowUnfree = true;
     config.packageOverrides = import ../../5pkgs pkgs;

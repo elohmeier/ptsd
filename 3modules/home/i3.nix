@@ -42,7 +42,6 @@ in
       libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
       brightnessctl
       flameshot
-      nwlock
     ] ++ i3_sway.packages;
 
     home.sessionVariables = i3_sway.home_session_variables;

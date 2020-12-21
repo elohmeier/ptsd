@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 let
-  nwlock = pkgs.nwlock.override { imageName = "Nerdworks_Hamburg_Logo_Web_Negativ_Weiss.png"; };
+  nwlock = pkgs.nwlock.override { imageName = "fraam_weiss.png"; };
 in
 {
   services.xserver.displayManager.lightdm = {
@@ -8,7 +8,7 @@ in
 
     # move login box to bottom left and add logo
     greeters.gtk.extraConfig = ''
-      default-user-image=${pkgs.nerdworks-artwork}/Logo_Farbe_Ohne_Schrift_500.png
+      default-user-image=${pkgs.nerdworks-artwork}/fraam_steuerrad_500.png
       position=42 -42
     '';
   };

@@ -51,6 +51,10 @@ in
       type = types.str;
       default = "xterm";
     };
+    lockCmd = mkOption {
+      type = types.str;
+      default = "${pkgs.i3lock}/bin/i3lock";
+    };
   };
 
   inherit modifier;
@@ -108,7 +112,7 @@ in
 
       "${modifier}+r" = "mode resize";
 
-      "${modifier}+Shift+Delete" = "exec ${pkgs.nwlock}/bin/nwlock";
+      "${modifier}+Shift+Delete" = "exec ${cfg.lockCmd}";
       "${modifier}+Shift+Return" = "exec ${term "" "`${pkgs.xcwd}/bin/xcwd`"}";
       "${modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
       "${modifier}+Shift+t" = "exec pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";

@@ -28,15 +28,4 @@
 
   environment.systemPackages =
     [ pkgs.libinput ];
-
-  programs.xss-lock =
-    {
-      enable = true;
-      lockerCommand = "${pkgs.nwlock}/bin/nwlock";
-      extraOptions = [
-        "-n"
-        "${pkgs.nwlock}/libexec/xsecurelock/dimmer" # nwlock package wraps custom xsecurelock
-        "-l" # make sure not to allow machine suspend before the screen saver is active
-      ];
-    };
 }
