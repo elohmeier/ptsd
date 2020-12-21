@@ -9,7 +9,7 @@
   };
 
   ptsd.secrets.files = lib.optionalAttrs config.ptsd.nwbackup.enable {
-    "nwbackup_id_ed25519" = {
+    "nwbackup.id_ed25519" = {
       path = "/root/.ssh/id_ed25519";
     };
   };
