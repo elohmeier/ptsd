@@ -29,6 +29,19 @@
       };
   };
 
+  # set low priority for nix daemon to ensure desktop responsiveness while updating
+  nix = {
+    daemonNiceLevel = 19;
+    daemonIONiceLevel = 7;
+  };
+
+  boot.kernel.sysctl = {
+    # set higher than usual dirty/writeback ratio to be able to 
+    # buffer sysupgrade in ram and keep desktop responsiveness
+    "vm.dirty_ratio" = 75;
+    "vm.dirty_background_ratio" = 50;
+  };
+
   # fonts.fontconfig = {
   #   antialias = false;
   #   hinting.enable = false;
