@@ -4,16 +4,6 @@ with lib;
 let
   cfg = config.ptsd.cups-airprint;
   universe = import <ptsd/2configs/universe.nix>;
-
-  cups-tls =
-    pkgs.runCommand "cups-tls"
-      { } ''
-      mkdir -p $out
-      ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/fullchain.pem" "$out/${config.networking.hostName}.${config.networking.domain}.crt"
-      ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem" "$out/${config.networking.hostName}.${config.networking.domain}.key"
-      ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/fullchain.pem" "$out/${config.networking.hostName}.crt"
-      ln -s "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem" "$out/${config.networking.hostName}.key"
-    '';
 in
 {
   options = {
@@ -37,24 +27,16 @@ in
 
   config = mkIf cfg.enable {
 
-    users.groups.certs.members = [ "cups" ];
-
-    security.acme.certs."${config.networking.hostName}.${config.networking.domain}" = {
-      extraDomainNames = [ "${config.networking.hostName}.${cfg.lanDomain}" ];
-      postRun = "systemctl restart cups.service";
-    };
-
     services.printing = {
       enable = true;
       browsing = true;
       defaultShared = true;
-      drivers = with pkgs; [ brlaser ];
       startWhenNeeded = false;
-      listenAddresses = [ cfg.listenAddress ];
+      listenAddresses = [ "127.0.0.1:631" "::1:631" cfg.listenAddress ];
       allowFrom = [ "all" ];
+      # self-signed certificate works for AirPrint and will be accepted by iOS clients
       extraFilesConf = ''
-        CreateSelfSignedCerts no
-        ServerKeychain ${cups-tls}
+        CreateSelfSignedCerts yes 
       '';
     };
 
