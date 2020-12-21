@@ -1,11 +1,14 @@
-{ stdenv, imagemagick, fetchurl, width ? 4096, height ? 2304 }:
+{ stdenv, imagemagick, fetchgit, width ? 4096, height ? 2304 }:
+
 stdenv.mkDerivation rec {
-  name = "nerdworks-artwork";
+  pname = "nerdworks-artwork";
+  version = "1.0.0";
 
-  src = <ci>;
-
-  dontUnpack = true;
-
+  src = fetchgit {
+    url = "https://nas1.host.nerdworks.de:448/git/ci.git";
+    rev = version;
+    sha256 = "1qbh262a5sz4hixbffsj75y08z9ddphsxwv40r9wvmd5qw9gw3r0";
+  };
   buildInputs = [ imagemagick ];
   installPhase = ''
     mkdir -p "$out/scaled"

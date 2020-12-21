@@ -71,7 +71,10 @@ in
         allowedTCPPorts = [ 631 ];
         allowedUDPPorts = [ 631 ];
       };
-      nwvpn.allowedTCPPorts = [ 12345 ]; # fpv folder share
+      nwvpn.allowedTCPPorts = [
+        12345 # fpv folder share
+        448 # traefik/gitweb
+      ];
     };
   };
 
@@ -123,8 +126,16 @@ in
     mediaPath = "/tank/enc/media";
   };
 
+  # for git-http-backend
+  services.fcgiwrap.enable = true;
+
   services.nginx = {
     enable = true;
+    gitweb = {
+      enable = true;
+      location = "/git";
+      virtualHost = "nas1.host.nerdworks.de";
+    };
     package = pkgs.nginx.override {
       modules = with pkgs.nginxModules; [ fancyindex ];
     };
@@ -134,6 +145,28 @@ in
       server_names_hash_bucket_size 128;
     '';
     virtualHosts = {
+      "nas1.host.nerdworks.de" = {
+        listen = [{ addr = "127.0.0.1"; port = config.ptsd.nwtraefik.ports.gitweb; }];
+
+        # as in https://fishilico.github.io/generic-config/etc-server/web/gitweb.html#nginx-configuration
+        locations = {
+          "~ ^/git/.*\\.git/objects/([0-9a-f]+/[0-9a-f]+|pack/pack-[0-9a-f]+.(pack|idx))$" = {
+            root = "/srv/git";
+          };
+
+          "~ ^/(.*\\.git/(HEAD|info/refs|objects/info/.*|git-upload-pack))$" = {
+            extraConfig = ''
+              rewrite ^/git(/.*)$ $1 break;
+              fastcgi_pass unix:/run/fcgiwrap.sock;
+              fastcgi_param SCRIPT_FILENAME     ${pkgs.git}/bin/git-http-backend;
+              fastcgi_param PATH_INFO           $uri;
+              fastcgi_param GIT_PROJECT_ROOT    /srv/git;
+              fastcgi_param GIT_HTTP_EXPORT_ALL "";
+              include ${pkgs.nginx}/conf/fastcgi_params;
+            '';
+          };
+        };
+      };
       "www.nerdworks.de" = {
         listen = [
           {
@@ -154,6 +187,13 @@ in
 
   ptsd.nwtraefik = {
     enable = true;
+    services = [
+      {
+        name = "gitweb";
+        entryPoints = [ "nwvpn-gitweb" ];
+        rule = "Host(`nas1.host.nerdworks.de`)";
+      }
+    ];
     entryPoints = {
       "lan-http" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:80";
@@ -176,6 +216,9 @@ in
       };
       "nwvpn-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
+      };
+      "nwvpn-gitweb" = {
+        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:448";
       };
 
       # added for local tls monitoring & alertmanager

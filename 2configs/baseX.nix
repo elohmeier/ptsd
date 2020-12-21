@@ -100,7 +100,7 @@
   fonts.fonts = with pkgs; [
     cozette
     iosevka
-    myfonts
+    nwfonts
     proggyfonts
     roboto
     roboto-slab

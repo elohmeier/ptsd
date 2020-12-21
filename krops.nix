@@ -1,6 +1,5 @@
 { name
 , snixpkgs ? ./nixpkgs.json
-, ci ? false
 , home-manager ? false
 , unstable ? false
 , mailserver ? false
@@ -72,16 +71,6 @@ let
         client-secrets.pass = {
           dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "clients";
-        };
-      }
-    )
-
-    (
-      lib.optionalAttrs ci {
-        ci.git = {
-          ref = "45fb55f3615a7613c4413c99320816e339735c70";
-          url = "git@git.nerdworks.de:nerdworks/ci.git";
-          shallow = true;
         };
       }
     )

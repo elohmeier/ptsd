@@ -320,6 +320,7 @@ in
         octoprint = 10016;
         radicale = 10017;
         synapse = 10018;
+        gitweb = 10019;
       };
     }
     (
