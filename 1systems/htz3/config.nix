@@ -8,6 +8,7 @@ in
     [
       <ptsd>
       <ptsd/2configs>
+      <ptsd/2configs/hardened.nix>
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
       <ptsd/2configs/prometheus/node.nix>

@@ -7,6 +7,7 @@ in
     [
       <ptsd>
       <ptsd/2configs>
+      <ptsd/2configs/hardened.nix>
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/nerdworks-www.nix>
       <ptsd/2configs/nwgit.nix>

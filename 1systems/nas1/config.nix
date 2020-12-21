@@ -11,6 +11,7 @@ in
     <ptsd/2configs/dokuwiki.nix>
     <ptsd/2configs/drone-exec-container.nix>
     <ptsd/2configs/grafana.nix>
+    <ptsd/2configs/hardened.nix>
     <ptsd/2configs/home-assistant.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/mosquitto.nix>
