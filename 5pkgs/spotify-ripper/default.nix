@@ -1,6 +1,18 @@
-{ python3Packages, fetchFromGitHub }:
+{ python3Packages
+, fetchFromGitHub
+, makeWrapper
+, flac
+, sox
+, faac
+, vorbis-tools
+, opusTools
+, lame
+, fdk-aac-encoder
+, ffmpeg
+}:
 
-python3Packages.buildPythonApplication rec {
+python3Packages.buildPythonApplication
+rec {
   pname = "spotify-ripper";
   version = "2.16";
 
@@ -23,4 +35,11 @@ python3Packages.buildPythonApplication rec {
     schedule
     spotipy
   ];
+
+  nativeBuildInputs = [ makeWrapper ];
+
+  postInstall = ''
+    wrapProgram $out/bin/spotify-ripper \
+      --set PATH "$out/bin:${flac}/bin:${sox}/bin:${faac}/bin:${vorbis-tools}/bin:${opusTools}/bin:${lame}/bin:${fdk-aac-encoder}/bin:${ffmpeg}/bin"
+  '';
 }
