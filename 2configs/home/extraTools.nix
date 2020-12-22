@@ -148,6 +148,7 @@ in
     dfeet
     gcalcli
     anki
+    kakoune
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
