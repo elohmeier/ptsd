@@ -46,7 +46,7 @@ in
   environment = {
     shellAliases = import ./aliases.nix;
     systemPackages = with pkgs; [
-      gitMinimal # required for krops
+      git # required for krops
       kitty.terminfo
     ];
     variables = {

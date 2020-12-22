@@ -84,7 +84,7 @@ in
           wantedBy = [ "multi-user.target" ];
           requires = [ "network.target" ];
           after = [ "network.target" "network-online.target" ];
-          path = with pkgs; [ gitMinimal nix openssh docker drone-gitea-release drone-telegram ];
+          path = with pkgs; [ git nix openssh docker drone-gitea-release drone-telegram ];
           serviceConfig = {
             ExecStart = "${pkgs.drone-runner-exec}/bin/drone-runner-exec";
             StartLimitInterval = 86400;
