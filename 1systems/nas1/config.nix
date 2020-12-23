@@ -132,6 +132,17 @@ in
   # for git-http-backend
   services.fcgiwrap.enable = true;
 
+  services.gitweb.extraConfig = ''
+    # stylesheet to use
+    @stylesheets = ("/git/static/gitweb.css");
+
+    # javascript code for gitweb
+    $javascript = "/git/static/gitweb.js";
+
+    # logo to use
+    $logo = "/git/static/git-logo.png";
+  '';
+
   services.nginx = {
     enable = true;
     gitweb = {
