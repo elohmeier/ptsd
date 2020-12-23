@@ -147,6 +147,7 @@ in
       enable = true;
       description = "Initialize Monica database and directory structure";
       requires = [ "mysql.service" ];
+      after = [ "mysql.service" ];
       wantedBy = [ "phpfpm-monica.service" ];
       path = [ phpPackage ];
       environment = phpEnv;
@@ -204,6 +205,7 @@ in
       description = "Backup Monica MySQL database";
       wantedBy = [ "multi-user.target" ];
       requires = [ "mysql.service" ];
+      after = [ "mysql.service" ];
       script = ''
         mkdir -p /var/lib/mysql-backup
         ${pkgs.mariadb}/bin/mysqldump monica > /var/lib/mysql-backup/monica.sql
