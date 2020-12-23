@@ -12,6 +12,7 @@ in
 
   services.screen-locker = {
     enable = true;
+    lockCmd = lib.mkDefault "${pkgs.i3lock}/bin/i3lock";
     # lockCmd = "${pkgs.nwlock}/bin/nwlock";
     # xssLockExtraOptions = [
     #   "-n"
