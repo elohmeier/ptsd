@@ -251,12 +251,12 @@ in
         id = "gnwqu-yt7qc";
         devices = [ "nas1-st-enno" "nuc1" "ws1" ];
       };
-      "/home/enno/repos-ws1" = {
-        id = "jihdi-qxmi3";
-        devices = [ "nas1-st-enno" "ws1" ];
-        type = "receiveonly";
-        label = "repos-ws1";
-      };
+      # "/home/enno/repos-ws1" = {
+      #   id = "jihdi-qxmi3";
+      #   devices = [ "nas1-st-enno" "ws1" ];
+      #   type = "receiveonly";
+      #   label = "repos-ws1";
+      # };
     };
   };
 }
