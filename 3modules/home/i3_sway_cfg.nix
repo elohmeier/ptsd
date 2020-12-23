@@ -3,7 +3,7 @@
 with lib;
 let
   exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
-  open_codium_mode = "codium: [n]obbofin, nix[p]kgs";
+  open_codium_mode = "codium: [p]tsd, nobbo[f]in, [n]ixpkgs";
 
   terminalConfigs = {
     alacritty = prog: dir: "alacritty${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
@@ -178,8 +178,9 @@ in
 
   modes = {
     "${open_codium_mode}" = {
-      "n" = ''exec codium /home/enno/repos/nobbofin; mode "default"'';
-      "p" = ''exec codium /home/enno/repos/nixpkgs; mode "default"'';
+      "n" = ''exec codium /home/enno/repos/nixpkgs; mode "default"'';
+      "p" = ''exec codium /home/enno/repos/ptsd; mode "default"'';
+      "f" = ''exec codium /home/enno/repos/nobbofin; mode "default"'';
       "Escape" = ''mode "default"'';
       "Return" = ''mode "default"'';
     };
