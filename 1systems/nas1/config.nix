@@ -68,7 +68,10 @@ in
 
     firewall.interfaces = {
       br0 = {
-        allowedTCPPorts = [ 631 ];
+        allowedTCPPorts = [
+          631 # cups
+          448 # traefik/gitweb
+        ];
         allowedUDPPorts = [ 631 ];
       };
       nwvpn.allowedTCPPorts = [
