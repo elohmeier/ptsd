@@ -33,7 +33,10 @@ in
         enable = true;
         port = 2222;
         hostKeys = [
-          (toString <secrets/ssh.id_ed25519>)
+          # configure path explicitely to have correct configuration
+          # when built under /mnt (e.g. in installer-situation)
+          # (toString <secrets/ssh.id_ed25519>)
+          "/var/src/secrets/ssh.id_ed25519"
         ];
       };
       postCommands = ''

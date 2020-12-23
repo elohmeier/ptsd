@@ -41,7 +41,10 @@ in
 
   services.openssh.hostKeys = [
     {
-      path = (toString <secrets/ssh.id_ed25519>);
+      # configure path explicitely to have correct configuration
+      # when built under /mnt (e.g. in installer-situation)
+      # path = (toString <secrets/ssh.id_ed25519>);
+      path = "/var/src/secrets/ssh.id_ed25519";
       type = "ed25519";
     }
   ];
