@@ -74,11 +74,19 @@
 
   fileSystems = {
     "/boot" = {
-      device = "/dev/disk/by-label/NIXOS_BOOT";
+      # sdcard
+      # device = "/dev/disk/by-label/NIXOS_BOOT";
+
+      # usb drive
+      device = "/dev/sda1";
       fsType = "vfat";
     };
     "/" = {
-      device = "/dev/disk/by-label/NIXOS_SD";
+      # sdcard
+      # device = "/dev/disk/by-label/NIXOS_SD";
+
+      # usb drive
+      device = "/dev/sda2";
       fsType = "ext4";
     };
   };
