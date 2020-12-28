@@ -7,6 +7,8 @@ in
   imports = [
     <ptsd>
     <ptsd/2configs>
+    <ptsd/2configs/awscli.nix>
+    <ptsd/2configs/gcalcli.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/stateless-root.nix>
 
