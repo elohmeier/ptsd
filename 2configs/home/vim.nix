@@ -11,7 +11,6 @@ in
   home.packages = [ vims.big ];
 
   programs.tmux = {
-    enable = true;
     plugins = [
       {
         plugin = pkgs.tmuxPlugins.vim-tmux-navigator;
