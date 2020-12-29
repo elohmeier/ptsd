@@ -8,6 +8,7 @@ in
     [
       <ptsd>
       <ptsd/2configs>
+      <ptsd/2configs/gitlab-runner-hcloud.nix>
       <ptsd/2configs/hardened.nix>
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
@@ -108,6 +109,7 @@ in
 
       # added for local tls monitoring & fraam-update-static-web script
       "loopback4-https".address = "127.0.0.1:443";
+      "loopback6-https".address = "[::1]:443";
     };
   };
 
@@ -120,7 +122,7 @@ in
     enable = true;
     extIf = "ens3";
     domain = "git.fraam.de";
-    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" "loopback4-https" "loopback6-https" ];
   };
 
   security.acme =
