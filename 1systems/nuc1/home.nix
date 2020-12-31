@@ -10,9 +10,29 @@ in
     <ptsd/2configs/home/extraTools.nix>
     <ptsd/2configs/home/firefox.nix>
     <ptsd/2configs/home/gpg.nix>
+    <ptsd/2configs/home/sway.nix>
     <ptsd/2configs/home/weatherbg.nix>
     <ptsd/2configs/home/xsession-i3.nix>
   ];
+
+  ptsd.sway = {
+    configureGtk = false;
+    configureRofi = false;
+    trayOutput = "HDMI-A-2";
+  };
+
+  wayland.windowManager.sway.config = {
+    # use `swaymsg -t get_inputs`
+    input = {
+      "1130:45200:Cherry_USB_keyboard" = {
+        xkb_layout = "de";
+      };
+
+      "1118:203:PixArt_Microsoft_USB_Optical_Mouse" = {
+        natural_scroll = "enabled";
+      };
+    };
+  };
 
   ptsd.baresip = {
     enable = true;
