@@ -137,6 +137,7 @@ in
     };
 
     ptsd.i3.terminalConfig = "urxvt";
+    ptsd.sway.terminalConfig = "urxvt";
     programs.rofi.terminal = "${config.programs.urxvt.package}/bin/urxvt";
   };
 }

@@ -75,6 +75,7 @@ in
     };
 
     ptsd.i3.terminalConfig = "alacritty";
+    ptsd.sway.terminalConfig = "alacritty";
     programs.rofi.terminal = "${pkgs.alacritty}/bin/alacritty";
   };
 }
