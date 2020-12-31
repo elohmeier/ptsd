@@ -31,7 +31,10 @@
       };
   };
 
-  programs.sway.enable = true;
+  # TODO: merge with 2configs/home/sway.nix
+  programs.sway = {
+    enable = true;
+  };
 
   # set low priority for nix daemon to ensure desktop responsiveness while updating
   nix = {
