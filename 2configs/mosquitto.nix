@@ -23,16 +23,19 @@ with import <ptsd/lib>;
     users = {
       hass = {
         acl = [
-          "topic readwrite stat/sonoff/#"
+          "topic readwrite cmnd/#"
+          "topic readwrite stat/#"
+          "topic readwrite tele/#"
           "topic readwrite homeassistant/#"
-          "topic readwrite tasmota/#"
         ];
       };
+      # see https://tasmota.github.io/docs/MQTT/#mqtt-topic-definition
       sonoff = {
         acl = [
-          "topic readwrite stat/sonoff/#"
+          "topic readwrite cmnd/#"
+          "topic readwrite stat/#"
+          "topic readwrite tele/#"
           "topic readwrite homeassistant/#"
-          "topic readwrite tasmota/#"
         ];
       };
     };
