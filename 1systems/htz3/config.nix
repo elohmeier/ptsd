@@ -17,6 +17,9 @@ in
       #<ptsd/2configs/cli-tools.nix>
     ];
 
+  # TODO: troubleshoot
+  security.apparmor.enable = false;
+
   networking = {
     useNetworkd = true;
     useDHCP = false;

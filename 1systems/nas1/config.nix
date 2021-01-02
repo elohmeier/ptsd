@@ -18,7 +18,8 @@ in
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/nextcloud-vsftpd-scans.nix>
     <ptsd/2configs/nwhost.nix>
-    <ptsd/2configs/nwoctoprint.nix>
+    # TODO: fix tmp folder error
+    #<ptsd/2configs/nwoctoprint.nix>
     <ptsd/2configs/postgresql.nix>
     <ptsd/2configs/prometheus/server.nix>
     <ptsd/2configs/prometheus/node.nix>
