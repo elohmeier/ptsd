@@ -1,14 +1,14 @@
-{ config, pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
   services.tor = {
     enable = true;
     client = {
       enable = true;
-      privoxy.enable = false;
     };
     hiddenServices.ssh.map = [
       { port = 22; }
     ];
   };
+  services.privoxy.enable = lib.mkForce false;
 
   systemd.services.tor-ssh-announce = {
     description = "Announce hidden ssh in Telegram";
