@@ -24,6 +24,7 @@ let
     ]
   );
   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
+  unstable = import <nixpkgs-unstable> { };
 in
 {
   imports = [
@@ -147,6 +148,7 @@ in
     dfeet
     anki
     kakoune
+    unstable.noisetorch # unstable has newer version than 20.09
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
