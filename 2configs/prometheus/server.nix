@@ -69,7 +69,8 @@ in
         static_configs = [
           {
             targets = [
-              "https://octoprint.services.nerdworks.de"
+              # TODO: unsilence
+              #"https://octoprint.services.nerdworks.de"
               "https://vault.fraam.de"
             ];
           }
