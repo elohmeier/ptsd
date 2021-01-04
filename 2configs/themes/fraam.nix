@@ -4,7 +4,7 @@ let
 in
 {
   services.xserver.displayManager.lightdm = {
-    background = "${pkgs.nerdworks-artwork}/scaled/wallpaper-n3.png";
+    background = "${pkgs.nerdworks-artwork}/scaled/wallpaper-fraam-2021.png";
 
     # move login box to bottom left and add logo
     greeters.gtk.extraConfig = ''
@@ -29,6 +29,10 @@ in
         ptsd.i3.lockCmd = "${nwlock}/bin/nwlock";
         ptsd.sway.lockCmd = "${nwlock}/bin/nwlock";
         home.packages = [ nwlock ];
+
+        wayland.windowManager.sway.extraConfig = ''
+          output "*" bg ${pkgs.nerdworks-artwork}/scaled/wallpaper-fraam-2021.png fill
+        '';
       };
   };
 }

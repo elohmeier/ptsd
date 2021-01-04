@@ -32,9 +32,7 @@ in
           bars = i3_sway.bars;
         };
 
-      extraConfig = i3_sway.extraConfig + ''
-        output "*" bg ${pkgs.nerdworks-artwork}/scaled/wallpaper-n3.png fill
-      '';
+      extraConfig = i3_sway.extraConfig;
     };
 
     gtk = mkIf cfg.configureGtk i3_sway.gtk;
