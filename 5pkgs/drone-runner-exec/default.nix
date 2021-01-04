@@ -3,7 +3,6 @@
 buildGoModule rec {
   pname = "drone-runner-exec";
   version = "1.0.0-beta.9";
-  goPackagePath = "github.com/drone-runners/drone-runner-exec";
 
   vendorSha256 = "1k16xg17my0zqc4w03v9y3v4780pg9mnkvaibw3191aimi02x5na";
 

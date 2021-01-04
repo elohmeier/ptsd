@@ -2,7 +2,6 @@
 
 buildGoModule rec {
   name = "nwi3status";
-  goPackagePath = "git.nerdworks.de/nerdworks/ptsd/5pkgs/${name}";
   vendorSha256 = "0kvszm70lpbapdn15sj4b04mhvxg459axq04pikqbv3p6x26wf19";
   src = ./.;
   nativeBuildInputs = [ makeWrapper ];

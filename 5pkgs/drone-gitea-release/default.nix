@@ -3,7 +3,6 @@
 buildGoModule rec {
   pname = "drone-gitea-release";
   version = "2019-03-28";
-  goPackagePath = "github.com/drone-plugins/${pname}";
 
   vendorSha256 = "1h8yxby6s75sakdwm9ihm2jqv0z9qq7vkzd8wy45rbsk8aaav7y4";
 

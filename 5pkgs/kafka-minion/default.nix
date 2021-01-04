@@ -3,7 +3,6 @@
 buildGoModule rec {
   pname = "kafka-minion";
   version = "1.0.0";
-  goPackagePath = "github.com/cloudworkz/kafka-minion";
 
   vendorSha256 = "0a11p2h2f1qi2b2df62vjd1s0gvx10ma752ipyy64zdsba8qh75l";
 

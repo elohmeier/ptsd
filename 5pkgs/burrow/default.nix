@@ -3,7 +3,6 @@
 buildGoModule rec {
   pname = "Burrow";
   version = "2019-10-29";
-  goPackagePath = "github.com/linkedin/Burrow";
 
   vendorSha256 = "0fvwykc9x85libwa9q8cbkh3926yzkf9gj0awq9q1jj47jvb975i";
 

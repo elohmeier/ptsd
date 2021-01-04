@@ -3,7 +3,6 @@
 buildGoModule rec {
   pname = "traefik-forward-auth";
   version = "2.2.0";
-  goPackagePath = "github.com/thomseddon/${pname}";
 
   vendorSha256 = "031g9ldpnmwxhxgnbnzn5slxsy75mprzdwsk1svnpd3lsz8h29mr";
 
