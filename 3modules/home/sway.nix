@@ -30,6 +30,14 @@ in
           window.commands = i3_sway.window_commands;
           fonts = i3_sway.fonts;
           bars = i3_sway.bars;
+
+          # use `swaymsg -t get_inputs`
+          input = {
+            "*" = {
+              natural_scroll = "enabled";
+              xkb_layout = "de";
+            };
+          };
         };
 
       extraConfig = i3_sway.extraConfig;

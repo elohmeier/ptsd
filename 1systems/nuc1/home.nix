@@ -21,19 +21,6 @@ in
     trayOutput = "HDMI-A-2";
   };
 
-  wayland.windowManager.sway.config = {
-    # use `swaymsg -t get_inputs`
-    input = {
-      "1130:45200:Cherry_USB_keyboard" = {
-        xkb_layout = "de";
-      };
-
-      "1118:203:PixArt_Microsoft_USB_Optical_Mouse" = {
-        natural_scroll = "enabled";
-      };
-    };
-  };
-
   ptsd.baresip = {
     enable = true;
     username = "nuc1baresip";

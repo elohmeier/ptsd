@@ -16,15 +16,6 @@ in
   ];
 
   wayland.windowManager.sway = {
-    config.input = {
-      "1118:219:Microsoft_Natural___Ergonomic_Keyboard_4000" = {
-        xkb_layout = "de";
-      };
-
-      "1133:16507:Logitech_MX_Vertical" = {
-        natural_scroll = "enabled";
-      };
-    };
     extraConfig = ''
       output DP-3 pos 0 0 mode 3840x2160@59.997002Hz scale 2
       output DP-4 pos 1920 0 mode 3840x2160@59.999001Hz scale 2

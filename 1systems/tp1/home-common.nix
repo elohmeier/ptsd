@@ -17,16 +17,6 @@ in
     <ptsd/2configs/home/xsession-i3.nix>
   ];
 
-  wayland.windowManager.sway.config.input = {
-    "1:1:AT_Translated_Set_2_keyboard" = {
-      xkb_layout = "de";
-    };
-
-    "1739:0:Synaptics_TM3381-002" = {
-      natural_scroll = "enabled";
-    };
-  };
-
   xsession.windowManager.i3.extraConfig = ''
     exec ${pkgs.xorg.xinput}/bin/xinput disable "Synaptics TM3381-002"
   '';
