@@ -13,9 +13,9 @@ in
 
     <secrets/wifi.nix>
 
-    # <ptsd/2configs/cli-tools.nix>
+    <ptsd/2configs/cli-tools.nix>
     # <ptsd/2configs/bluetooth.nix>
-    # <ptsd/2configs/baseX.nix>
+    <ptsd/2configs/baseX.nix>
 
     <home-manager/nixos>
     <ptsd/2configs/zsh-enable.nix>
@@ -26,23 +26,23 @@ in
     dnssec = "false";
   };
 
-  # home-manager = {
-  #   users.mainUser = { pkgs, ... }:
-  #     {
-  #       imports = [
-  #         # <ptsd/2configs/home>
-  #         # <ptsd/2configs/home/xsession-i3.nix>
-  #       ];
+  home-manager = {
+    users.mainUser = { pkgs, ... }:
+      {
+        imports = [
+          <ptsd/2configs/home>
+          <ptsd/2configs/home/xsession-i3.nix>
+        ];
 
-  #       # ptsd.urxvt.enable = true;
+        #       # ptsd.urxvt.enable = true;
 
-  #       ptsd.nwi3status = {
-  #         ethIf = "eth0";
-  #         wifiIf = "wlan0";
-  #       };
+        #       ptsd.nwi3status = {
+        #         ethIf = "eth0";
+        #         wifiIf = "wlan0";
+        #       };
 
-  #     };
-  # };
+      };
+  };
 
   nix = {
     #    buildMachines = [

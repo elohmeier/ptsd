@@ -21,6 +21,9 @@
     # dtoverlay=dwc2
 
     # hdmi_enable_4kp60=1
+
+    # not yet supported
+    # uboot.enable = true;
   };
   boot.kernelPackages = pkgs.linuxPackages_rpi4;
   # boot.kernelModules = [ "dwc2" ];
@@ -74,23 +77,23 @@
   # };
   services.xserver.videoDrivers = [ "modesetting" ];
 
+  boot.supportedFilesystems = [ "vfat" ];
+
   fileSystems = {
     "/boot" = {
       # sdcard
-      device = "/dev/disk/by-label/NIXOS_BOOT";
+      #device = "/dev/disk/by-label/NIXOS_BOOT";
 
       # usb drive
-      #device = "/dev/sda1";
-      #device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
+      device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
       fsType = "vfat";
     };
     "/" = {
       # sdcard
-      device = "/dev/disk/by-label/NIXOS_SD";
+      #device = "/dev/disk/by-label/NIXOS_SD";
 
       # usb drive
-      #device = "/dev/sda2";
-      #device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part2";
+      device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part2";
       fsType = "ext4";
     };
   };
