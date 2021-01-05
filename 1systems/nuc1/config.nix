@@ -16,7 +16,6 @@
       <ptsd/2configs/prometheus/node.nix>
 
       <secrets-shared/nwsecrets.nix>
-      <client-secrets/dbk/vdi.nix>
       <ptsd/2configs/home-secrets.nix>
 
       <home-manager/nixos>
@@ -171,12 +170,6 @@
       RestartSec = 3;
       Restart = "always";
     };
-  };
-
-  ptsd.vdi-container = {
-    enable = true;
-    extIf = "wlan0";
-    #extIf = "eno1";
   };
 
   services.printing.enable = true;

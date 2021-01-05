@@ -27,8 +27,7 @@ in
 
     <secrets-shared/nwsecrets.nix>
 
-    <client-secrets/dbk/vdi.nix>
-    <ptsd/2configs/xrdp.nix>
+    #<ptsd/2configs/xrdp.nix>
 
     <ptsd/2configs/zsh-enable.nix>
 
@@ -119,11 +118,6 @@ in
   ptsd.nwbackup-server = {
     enable = true;
     zpool = "tank";
-  };
-
-  ptsd.vdi-container = {
-    enable = true;
-    extIf = "br0";
   };
 
   ptsd.samba-sonos = {

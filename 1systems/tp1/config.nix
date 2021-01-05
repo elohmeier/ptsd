@@ -18,7 +18,6 @@ in
     <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
-    <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
 
     <home-manager/nixos>
@@ -86,11 +85,6 @@ in
   # users.users.mainUser.extraGroups = [ "adbusers" ];
 
   ptsd.wireguard.networks.nwvpn.client.allowedIPs = [ "192.168.178.0/24" ];
-
-  ptsd.vdi-container = {
-    enable = true;
-    extIf = "wlan0";
-  };
 
   # systemd.services.disable-bluetooth = {
   #   description = "Disable Bluetooth after boot to save energy";

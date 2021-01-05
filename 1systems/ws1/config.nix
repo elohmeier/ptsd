@@ -20,7 +20,6 @@ in
     <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
-    <client-secrets/dbk/vdi.nix>
     <ptsd/2configs/home-secrets.nix>
 
     <home-manager/nixos>
@@ -97,11 +96,6 @@ in
 
   # default: poweroff
   #services.logind.extraConfig = "HandlePowerKey=suspend";
-
-  ptsd.vdi-container = {
-    enable = true;
-    extIf = "br0";
-  };
 
   # *** NVIDIA Driver
   # boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
