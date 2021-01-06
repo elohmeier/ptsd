@@ -63,6 +63,10 @@ in
           hostPath = "${cfg.dataPath}/gitlab";
           isReadOnly = false;
         };
+        "/var/gitlab/state/log" = {
+          hostPath = "/var/log/gitlab";
+          isReadOnly = false;
+        };
         "/var/lib/postgresql" = {
           hostPath = "${cfg.dataPath}/postgresql";
           isReadOnly = false;
@@ -242,6 +246,20 @@ in
               "ksmd"
             ];
           };
+
+          ptsd.nwlogrotate.config = ''
+            /var/gitlab/state/log/*.log {
+                su ${config.services.gitlab.user} ${config.services.gitlab.group}
+                daily
+                rotate 7
+                missingok
+                notifempty
+                compress
+                dateext
+                dateformat .%Y-%m-%d
+                copytruncate
+            }
+          '';
         };
     };
 
@@ -296,6 +314,8 @@ in
     system.activationScripts.initialize-fraam-gitlab = stringAfter [ "users" "groups" ] ''
       mkdir -p ${cfg.dataPath}/gitlab
       mkdir -p ${cfg.dataPath}/postgresql
+      mkdir -p /var/log/gitlab
+      chown -R ${toString config.ids.uids.gitlab}:${toString config.ids.gids.gitlab} /var/log/gitlab
     '';
   };
 }
