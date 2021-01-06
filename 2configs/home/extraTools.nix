@@ -149,6 +149,7 @@ in
     anki
     kakoune
     unstable.noisetorch # unstable has newer version than 20.09
+    sqlmap
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
