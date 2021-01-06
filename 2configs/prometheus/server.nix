@@ -175,6 +175,17 @@ in
           }
         ];
       })
+      (blackboxGenericScrapeConfig // {
+        job_name = "blackbox_http_gitlab";
+        params.module = [ "http_gitlab" ];
+        static_configs = [
+          {
+            targets = [
+              "https://git.fraam.de"
+            ];
+          }
+        ];
+      })
     ];
 
     exporters.blackbox = {
@@ -283,6 +294,23 @@ in
               fail_if_not_ssl = true;
               fail_if_body_not_matches_regexp = [
                 "Drone"
+              ];
+            };
+          };
+
+          http_gitlab = {
+            prober = "http";
+            timeout = "2s";
+            http = {
+              method = "HEAD";
+              fail_if_not_ssl = true;
+              valid_status_codes = [ 302 ];
+              no_follow_redirects = true;
+              fail_if_header_not_matches = [
+                {
+                  header = "Location";
+                  regexp = "https://.+/users/sign_in";
+                }
               ];
             };
           };
