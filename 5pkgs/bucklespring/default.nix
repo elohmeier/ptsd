@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, openal, alure, libX11, libXtst, pkg-config, libinput, useLibInput ? false }:
+{ stdenv, fetchFromGitHub, openal, alure, libX11, libXtst, pkg-config, libinput, makeWrapper, useLibInput ? false }:
 
 stdenv.mkDerivation rec {
   pname = "bucklespring";
@@ -15,10 +15,14 @@ stdenv.mkDerivation rec {
 
   makeFlags = stdenv.lib.optionals useLibInput [ "libinput=1" ];
 
-  # todo: wrapper/set BUCKLESPRING_WAV_DIR
+  nativeBuildInputs = [ makeWrapper ];
+
   installPhase = ''
     mkdir -p $out/bin
     cp buckle $out/bin/buckle
+
+    wrapProgram $out/bin/buckle \
+      --set BUCKLESPRING_WAV_DIR "$out/share/buckle/wav"
 
     mkdir -p $out/share/buckle/wav
     cp wav/*.wav $out/share/buckle/wav/
