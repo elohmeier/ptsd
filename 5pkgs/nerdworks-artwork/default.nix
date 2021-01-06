@@ -2,12 +2,12 @@
 
 stdenv.mkDerivation rec {
   pname = "nerdworks-artwork";
-  version = "1.1.0";
+  version = "1.1.1";
 
   src = fetchgit {
     url = "https://nas1.host.nerdworks.de:448/git/ci.git";
     rev = version;
-    sha256 = "10qzjnqi76xma528kj6wf0ksij732d1wcv6r67g14n7b8rvj00sw";
+    sha256 = "0w7ijiff9plfsfg365i6mj7v1vcnz9i76n3hm93cwqnjiaz5yhnf";
   };
   buildInputs = [ imagemagick ];
   installPhase = ''
@@ -20,6 +20,10 @@ stdenv.mkDerivation rec {
     ${imagemagick}/bin/convert $src/os/wallpaper-fraam-2021-4096.png -resize \
       ${toString width}x${toString height}^ \
       "$out/scaled/wallpaper-fraam-2021.png"
+
+    ${imagemagick}/bin/convert $src/os/wallpaper-fraam-2021-dark-4096.png -resize \
+      ${toString width}x${toString height}^ \
+      "$out/scaled/wallpaper-fraam-2021-dark.png"
 
     ${imagemagick}/bin/convert $src/os/win10lock.png -resize \
       ${toString width}x${toString height}^ \
