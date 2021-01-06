@@ -353,13 +353,13 @@ in
           rules = [
             {
               alert = "DiskSpace20%Free";
-              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes < 0.2'';
+              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes * 100 < 20'';
               for = "30m";
               labels.severity = "warning";
               annotations = {
                 summary = "{{ $labels.alias }} disk {{ $labels.mountpoint }} full";
                 url = "https://grafana.services.nerdworks.de/d/hb7fSE0Zz/1-node-exporter-for-prometheus-dashboard-en-v20191102?orgId=1&var-hostname={{ $labels.alias }}";
-                description = ''The disk {{ $labels.mountpoint }} of host {{ $labels.alias }} has {{ $value | printf "%.2f" }}% free disk space remaining.'';
+                description = ''The disk {{ $labels.mountpoint }} of host {{ $labels.alias }} has {{ $value | printf "%.1f" }}% free disk space remaining.'';
               };
             }
             {
@@ -384,12 +384,12 @@ in
             }
             {
               alert = "TLSCertExpiringSoon";
-              expr = "probe_ssl_earliest_cert_expiry - time() < 86400 * 30";
+              expr = "probe_ssl_earliest_cert_expiry - time() < 86400 * 28";
               for = "10m";
               labels.severity = "warning";
               annotations = {
                 summary = "Certificate for {{ $labels.instance }} expiring soon";
-                description = "Certificate is about to expire in less than 30 days.";
+                description = "Certificate is about to expire in less than 28 days.";
               };
             }
           ];
