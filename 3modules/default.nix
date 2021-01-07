@@ -9,6 +9,7 @@ _:
     ./fraam-www.nix
     ./mjpg-streamer.nix
     ./monica.nix
+    ./mosquitto.nix
     ./nobbofin-autofetch.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
