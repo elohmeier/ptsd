@@ -12,12 +12,18 @@ in
   imports = [
     <ptsd>
     <ptsd/2configs>
-    <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/hardened.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/prometheus/node.nix>
     <secrets-shared/nwsecrets.nix>
   ];
+
+  environment.systemPackages = with pkgs; [ htop tmux vim ];
+
+  ptsd.mosquitto = {
+    enable = true;
+    hostIP = "192.168.168.41";
+  };
 
   ptsd.wireguard = {
     enableGlobalForwarding = true;
@@ -77,16 +83,16 @@ in
   #   ];
   # };
 
-  ptsd.nwmonit.extraConfig = [
-    ''
-      check host 192.168.168.41 with address 192.168.168.41
-        if failed
-          port 8123
-          protocol http
-          content = "Home Assistant"
-        then alert
-    ''
-  ];
+  #ptsd.nwmonit.extraConfig = [
+  #  ''
+  #    check host 192.168.168.41 with address 192.168.168.41
+  #      if failed
+  #        port 8123
+  #        protocol http
+  #        content = "Home Assistant"
+  #      then alert
+  #  ''
+  #];
 
   services.nginx = {
     enable = true;

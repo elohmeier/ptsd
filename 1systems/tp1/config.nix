@@ -196,7 +196,7 @@ in
 
   ptsd.wireguard.networks = {
     dlrgvpn = {
-      enable = true;
+      enable = false;
       ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
       client.allowedIPs = [ "192.168.168.0/24" ];
       routes = [

@@ -14,7 +14,6 @@ in
     <ptsd/2configs/hardened.nix>
     <ptsd/2configs/home-assistant.nix>
     <ptsd/2configs/mfc7440n.nix>
-    <ptsd/2configs/mosquitto.nix>
     <ptsd/2configs/nextcloud.nix>
     <ptsd/2configs/nextcloud-vsftpd-scans.nix>
     <ptsd/2configs/nwhost.nix>
@@ -33,6 +32,11 @@ in
 
     <home-manager/nixos>
   ];
+
+  ptsd.mosquitto = {
+    enable = true;
+    hostIP = "192.168.178.12";
+  };
 
   ptsd.monica =
     let
@@ -363,6 +367,18 @@ in
 
         environment.systemPackages = with pkgs; [ tmux rtorrent ];
       };
+  };
+
+  systemd.nspawn = {
+    mydebian = {
+      execConfig = {
+        Hostname = "mydebian";
+        PrivateUsers = false;
+      };
+      networkConfig = {
+        Bridge = "br0";
+      };
+    };
   };
 
 }
