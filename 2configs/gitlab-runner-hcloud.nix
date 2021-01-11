@@ -29,6 +29,8 @@
       hcloud = {
         executor = "docker+machine";
         registrationConfigFile = config.ptsd.secrets.files.gitlab-runner-registration.path;
+
+        # run `nix-shell -p gitlab-runner --run "gitlab-runner register --help"` to view available options
         registrationFlags = [
           "--docker-image docker:stable"
           "--machine-machine-driver hetzner"
@@ -36,6 +38,7 @@
           "--machine-machine-options hetzner-api-token=$HETZNER_API_TOKEN"
           "--machine-machine-options hetzner-image=ubuntu-20.04"
           "--machine-machine-options hetzner-server-type=cx31"
+          "--machine-idle-time 300"
 
           # workaround https://github.com/docker/machine/issues/4858
           "--machine-machine-options engine-install-url=https://releases.rancher.com/install-docker/19.03.9.sh"
