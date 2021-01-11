@@ -74,17 +74,6 @@
     };
   };
 
-  systemd.user.services.flameshot = {
-    description = "Screenshot Tool";
-    partOf = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.flameshot}/bin/flameshot";
-      RestartSec = 3;
-      Restart = "on-failure";
-    };
-  };
-
   # yubikey
   services.udev.packages = [ pkgs.libu2f-host pkgs.yubikey-personalization ];
   services.pcscd.enable = true;

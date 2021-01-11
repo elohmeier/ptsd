@@ -21,6 +21,18 @@ in
     # ];
   };
 
+  systemd.user.services.flameshot = {
+    Unit = {
+      Description = "Screenshot Tool";
+    };
+
+    Service = {
+      ExecStart = "${pkgs.flameshot}/bin/flameshot";
+      RestartSec = 3;
+      Restart = "on-failure";
+    };
+  };
+
   nixpkgs = {
     config.allowUnfree = true;
     config.packageOverrides = import ../../5pkgs pkgs;
@@ -28,6 +40,7 @@ in
 
   ptsd.i3 = {
     enable = true;
+    screenshotCommand = "exec ${pkgs.flameshot}/bin/flameshot gui";
   };
 
   ptsd.nwi3status = {
@@ -58,6 +71,7 @@ in
         })
         caffeine
         mpv
+        flameshot
       ];
   };
 

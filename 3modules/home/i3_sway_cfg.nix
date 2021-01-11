@@ -60,6 +60,10 @@ in
       default = "primary";
       description = "Where to output tray.";
     };
+    screenshotCommand = mkOption {
+      type = types.str;
+      default = "";
+    };
   };
 
   inherit modifier;
@@ -176,9 +180,9 @@ in
 
       "${modifier}+a" = ''[class="Firefox"] scratchpad show'';
       "${modifier}+b" = ''[class="Firefox"] scratchpad show'';
-
+    } // optionalAttrs (cfg.screenshotCommand != "") {
       # Take a screenshot
-      "${modifier}+Ctrl+Shift+4" = "exec flameshot gui";
+      "${modifier}+Ctrl+Shift+4" = cfg.screenshotCommand;
     };
 
   modes = {
