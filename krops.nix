@@ -35,7 +35,15 @@ let
         shallow = true;
       };
 
-      ptsd.file = toString ./.;
+      ptsd.file = {
+        path = toString ./.;
+        filters = [
+          {
+            type = "exclude";
+            pattern = ".git/";
+          }
+        ];
+      };
 
       nixos-config.symlink = "ptsd/1systems/${name}/physical.nix";
     }
