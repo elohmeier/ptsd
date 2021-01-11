@@ -239,15 +239,4 @@
     microphone = "alsa_input.usb-046d_HD_Pro_Webcam_C920_3A87F0DF-02.analog-stereo";
     aecArgs = "beamforming=1 mic_geometry=-0.04,0,0,0.04,0,0 noise_suppression=1 analog_gain_control=0 digital_gain_control=1 agc_start_volume=200";
   };
-
-  hardware.pulseaudio.package = (
-    pkgs.pulseaudioFull.overrideAttrs (
-      old: {
-        patches = [
-          # mitigate https://gitlab.freedesktop.org/pulseaudio/pulseaudio/-/issues/89
-          ../../2configs/patches/echo-cancel-make-webrtc-beamforming-parameter-parsing-locale-independent.patch
-        ];
-      }
-    )
-  );
 }
