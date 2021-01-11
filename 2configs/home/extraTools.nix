@@ -151,7 +151,7 @@ in
     kakoune
     unstable.noisetorch # unstable has newer version than 20.09
     sqlmap
-    bucklespring
+    mumble
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
