@@ -36,6 +36,7 @@ in
             "*" = {
               natural_scroll = "enabled";
               xkb_layout = "de";
+              xkb_numlock = "enabled";
             };
           };
         };
