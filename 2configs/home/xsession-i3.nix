@@ -79,15 +79,15 @@ in
       "x-scheme-handler/unknown" = [ "chromium.desktop" "firefox.desktop" ];
       "x-scheme-handler/msteams" = [ "teams.desktop" ];
       "application/vnd.jgraph.mxfile" = [ "drawio.desktop" ];
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" = [ "libreoffice.desktop" ];
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "libreoffice.desktop" ];
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation" = [ "libreoffice.desktop" ];
-      "application/msexcel" = [ "libreoffice.desktop" ];
-      "application/msword" = [ "libreoffice.desktop" ];
-      "application/mspowerpoint" = [ "libreoffice.desktop" ];
-      "application/vnd.oasis.opendocument.text" = [ "libreoffice.desktop" ];
-      "application/vnd.oasis.opendocument.spreadsheet" = [ "libreoffice.desktop" ];
-      "application/vnd.oasis.opendocument.presentation" = [ "libreoffice.desktop" ];
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "writer.desktop" ];
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" = [ "calc.desktop" ];
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation" = [ "impress.desktop" ];
+      "application/msword" = [ "writer.desktop" ];
+      "application/msexcel" = [ "calc.desktop" ];
+      "application/mspowerpoint" = [ "impress.desktop" ];
+      "application/vnd.oasis.opendocument.text" = [ "writer.desktop" ];
+      "application/vnd.oasis.opendocument.spreadsheet" = [ "calc.desktop" ];
+      "application/vnd.oasis.opendocument.presentation" = [ "impress.desktop" ];
     };
   };
 }
