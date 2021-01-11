@@ -74,7 +74,14 @@ in
     #nerdworks-motivation
     keepassxc
     xcalib
-    portfolio
+    # TODO: rm when https://github.com/NixOS/nixpkgs/pull/108976 is merged
+    (portfolio.overrideAttrs (old: rec {
+      version = "0.50.0";
+      src = fetchurl {
+        url = "https://github.com/buchen/portfolio/releases/download/${version}/PortfolioPerformance-${version}-linux.gtk.x86_64.tar.gz";
+        sha256 = "1jq4if5hx3fwag1dz38sj87av2na1kv4c36hai1gyz9w5qhjv7j8";
+      };
+    }))
     woeusb
     betaflight-configurator
     dbeaver
