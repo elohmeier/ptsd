@@ -36,15 +36,16 @@ in
     mywine = wine.override { wineBuild = "wine32"; wineRelease = "staging"; };
   in
   [
-    (
-      ffmpeg-full.override {
-        nonfreeLicensing = true;
-        fdkaacExtlib = true;
-        ffplayProgram = false;
-        ffprobeProgram = false;
-        qtFaststartProgram = false;
-      }
-    )
+    #(
+    #  ffmpeg-full.override {
+    #    nonfreeLicensing = true;
+    #    fdkaacExtlib = true;
+    #    ffplayProgram = false;
+    #    ffprobeProgram = false;
+    #    qtFaststartProgram = false;
+    #  }
+    #)
+    ffmpeg-full
     sshfs
     (pdftk.override { jre = openjdk11; })
     #mywine
