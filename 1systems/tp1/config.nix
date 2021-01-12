@@ -11,7 +11,6 @@ in
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/stateless-root.nix>
 
-    <ptsd/2configs/baseX.nix>
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/nextcloud-client.nix>
@@ -21,7 +20,18 @@ in
     <ptsd/2configs/home-secrets.nix>
 
     <home-manager/nixos>
+
+
+    # TODO: needed???
+    <ptsd/2configs/audio.nix>
+    <ptsd/2configs/bluetooth.nix>
+    <ptsd/2configs/cli-tools.nix>
+    <ptsd/2configs/zsh-enable.nix>
   ];
+
+  ptsd.desktop = {
+    enableI3 = true;
+  };
 
   home-manager = {
     users.mainUser = { pkgs, ... }:

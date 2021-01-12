@@ -4,6 +4,7 @@ _:
     ./acme-dns.nix
     ./alertmanager-bot.nix
     ./cups-airprint.nix
+    ./desktop.nix
     ./drone-server.nix
     ./fraam-gitlab.nix
     ./fraam-www.nix
