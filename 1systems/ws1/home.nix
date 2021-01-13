@@ -11,8 +11,6 @@ in
     <ptsd/2configs/home/firefox.nix>
     <ptsd/2configs/home/gpg.nix>
     <ptsd/2configs/home/weatherbg.nix>
-    #<ptsd/2configs/home/sway.nix>
-    <ptsd/2configs/home/xsession-i3.nix>
   ];
 
   wayland.windowManager.sway = {

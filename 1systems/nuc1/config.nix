@@ -10,7 +10,6 @@
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/stateless-root.nix>
 
-      <ptsd/2configs/baseX.nix>
       <ptsd/2configs/themes/fraam.nix>
       <ptsd/2configs/nextcloud-client.nix>
       <ptsd/2configs/prometheus/node.nix>
@@ -19,6 +18,12 @@
       <ptsd/2configs/home-secrets.nix>
 
       <home-manager/nixos>
+
+      # TODO: needed???
+      <ptsd/2configs/audio.nix>
+      <ptsd/2configs/bluetooth.nix>
+      <ptsd/2configs/cli-tools.nix>
+      <ptsd/2configs/zsh-enable.nix>
     ];
 
   home-manager = {
@@ -28,6 +33,11 @@
           ./home.nix
         ];
       };
+  };
+
+  ptsd.desktop = {
+    # TODO: replace with sway
+    enableI3 = true;
   };
 
   # TODO: merge with 2configs/home/sway.nix
