@@ -10,7 +10,7 @@
       key = "0x807BC3355DA0F069";
       signByDefault = false;
     };
-    ignores = [ "*~" "*.swp" ".ipynb_checkpoints/" ".vscode/" ];
+    ignores = [ "*~" "*.swp" ".ipynb_checkpoints/" ];
     extraConfig = {
       pull = {
         rebase = false;
