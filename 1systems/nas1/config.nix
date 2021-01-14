@@ -36,6 +36,7 @@ in
   ptsd.mosquitto = {
     enable = true;
     hostIP = "192.168.178.12";
+    tasmotaUsername = "sonoff";
   };
 
   ptsd.monica =

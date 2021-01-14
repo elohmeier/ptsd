@@ -12,6 +12,10 @@ in
       hostIP = mkOption {
         type = types.str;
       };
+      tasmotaUsername = mkOption {
+        type = types.str;
+        default = "tasmota";
+      };
     };
   };
 
@@ -37,14 +41,14 @@ in
           hashedPassword = secrets.hass;
         };
         # see https://tasmota.github.io/docs/MQTT/#mqtt-topic-definition
-        tasmota = {
+        "${cfg.tasmotaUsername}" = {
           acl = [
             "topic readwrite cmnd/#"
             "topic readwrite stat/#"
             "topic readwrite tele/#"
             "topic readwrite homeassistant/#"
           ];
-          hashedPassword = secrets.tasmota;
+          hashedPassword = secrets."${cfg.tasmotaUsername}";
         };
       };
     };
