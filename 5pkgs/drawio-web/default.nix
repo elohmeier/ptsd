@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
   '';
 
   installPhase = ''
-    mkdir -p $out
-    unzip build/draw.war -d $out/
+    mkdir -p $out/webapps/draw
+    unzip build/draw.war -d $out/webapps/draw
   '';
 }
