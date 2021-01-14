@@ -28,7 +28,8 @@ in
     netInterface = "nwvpn";
     audioPlayer = "alsa_output.usb-Plantronics_Plantronics_Voyager_Base_CD_f169d9bb77a148e4b7e910d4a64d4e15-00.analog-stereo";
     #audioSource = "alsa_input.usb-Plantronics_Plantronics_Voyager_Base_CD_f169d9bb77a148e4b7e910d4a64d4e15-00.mono-fallback";
-    audioSource = "vsink_fx_mic.monitor"; # AEC
+    #audioSource = "vsink_fx_mic.monitor"; # AEC
+    audioSource = "nui_mic_remap";
     audioAlert = "alsa_output.pci-0000_00_03.0.hdmi-stereo-extra1";
   };
 
