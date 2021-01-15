@@ -151,7 +151,7 @@ let
       "${cfg.modifier}+b" = ''[class="Firefox"] scratchpad show'';
 
       # Take a screenshot
-      "${cfg.modifier}+Ctrl+Shift+4" = if cfg.mode == "sway" then ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy'' else "exec ${pkgs.flameshot}/bin/flameshot gui";
+      "${cfg.modifier}+Ctrl+Shift+4" = if cfg.mode == "sway" then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png'' else "exec ${pkgs.flameshot}/bin/flameshot gui";
     };
 
   modes = {
@@ -279,14 +279,6 @@ in
         description = "Pulseaudio speaker device name";
         default = "@DEFAULT_SINK@";
       };
-      configureGtk = mkOption {
-        type = types.bool;
-        default = true;
-      };
-      configureRofi = mkOption {
-        type = types.bool;
-        default = true;
-      };
       terminalConfig = mkOption {
         type = types.strMatching "alacritty|kitty|urxvt|xterm";
         default = "xterm";
@@ -294,10 +286,6 @@ in
       lockCmd = mkOption {
         type = types.str;
         default = "${pkgs.i3lock}/bin/i3lock";
-      };
-      screenshotCommand = mkOption {
-        type = types.str;
-        default = "";
       };
       trayOutput = mkOption {
         type = types.str;
@@ -518,6 +506,9 @@ in
             ] ++ optionals (cfg.mode == "sway") [
               swaylock
               qt5.qtwayland
+              grim
+              slurp
+              wl-clipboard
             ];
 
 
