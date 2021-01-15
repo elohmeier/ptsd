@@ -112,7 +112,17 @@ rec {
   deploy_ptsd =
     pkgs.krops.writeDeploy "deploy_ptsd" {
       source = lib.evalSource [
-        { ptsd.file = toString ./.; }
+        {
+          ptsd.file = {
+            path = toString ./.;
+            filters = [
+              {
+                type = "exclude";
+                pattern = ".git/";
+              }
+            ];
+          };
+        }
         (
           lib.optionalAttrs secrets {
             secrets.pass = {
@@ -150,7 +160,17 @@ rec {
 
   populate_ptsd = pkgs.populate {
     source = lib.evalSource [
-      { ptsd.file = toString ./.; }
+      {
+        ptsd.file = {
+          path = toString ./.;
+          filters = [
+            {
+              type = "exclude";
+              pattern = ".git/";
+            }
+          ];
+        };
+      }
     ];
     target = target;
   };
