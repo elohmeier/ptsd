@@ -10,30 +10,12 @@ in
     <ptsd/2configs/home/extraTools.nix>
     <ptsd/2configs/home/firefox.nix>
     <ptsd/2configs/home/gpg.nix>
-
-    # disabled, waiting for https://github.com/nix-community/home-manager/pull/1614
-    # <ptsd/2configs/home/sway.nix>
-
-    <ptsd/2configs/home/xsession-i3.nix>
   ];
 
   xsession.windowManager.i3.extraConfig = ''
     exec ${pkgs.xorg.xinput}/bin/xinput disable "Synaptics TM3381-002"
   '';
 
-  ptsd.alacritty = {
-    enable = true;
-    fontName = "Cozette";
-  };
-  ptsd.i3 = {
-    configureGtk = true;
-    configureRofi = true;
-    fontMono = "Cozette";
-  };
-  ptsd.sway = {
-    configureGtk = false;
-    configureRofi = false;
-  };
   ptsd.nwi3status = {
     todoistApiKey = todoistSecrets.todoistApiKey;
     showBatteryStatus = true;

@@ -7,9 +7,11 @@ in
     <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/awscli.nix>
+    <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/gcalcli.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/stateless-root.nix>
+    <ptsd/2configs/zsh-enable.nix>
 
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/mfc7440n.nix>
@@ -20,17 +22,13 @@ in
     <ptsd/2configs/home-secrets.nix>
 
     <home-manager/nixos>
-
-
-    # TODO: needed???
-    <ptsd/2configs/audio.nix>
-    <ptsd/2configs/bluetooth.nix>
-    <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/zsh-enable.nix>
   ];
 
   ptsd.desktop = {
-    enableI3 = true;
+    enable = true;
+    mode = "sway";
+    fontMono = "Cozette";
+    terminalConfig = "alacritty";
   };
 
   home-manager = {
@@ -39,8 +37,6 @@ in
         imports = [
           ./home-common.nix
         ];
-
-        ptsd.urxvt.theme = "solarized_light";
       };
   };
 
