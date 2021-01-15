@@ -172,7 +172,7 @@ let
     };
 
     "${exit_mode}" = {
-      "l" = ''exec i3-msg exit; mode "default"'';
+      "l" = ''exec ${if cfg.mode == "i3" then "i3-msg" else "swaymsg"} exit; mode "default"'';
       "r" = ''exec systemctl reboot; mode "default"'';
       "w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';
       "s" = ''exec systemctl poweroff; mode "default"'';
