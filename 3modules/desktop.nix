@@ -8,27 +8,27 @@ let
   open_codium_mode = "codium: [p]tsd, nobbo[f]in, [n]ixpkgs";
 
   terminalConfigs = {
-    alacritty = {
+    alacritty = rec {
       binary = "${pkgs.alacritty}/bin/alacritty";
-      exec = prog: dir: "alacritty${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+      exec = prog: dir: "${binary}${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
       extraPackages = [ ];
       extraAliases = { };
     };
-    kitty = {
+    kitty = rec {
       binary = "${pkgs.kitty}/bin/kitty";
-      exec = prog: dir: "kitty${if dir != "" then " --directory \"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
+      exec = prog: dir: "${binary}${if dir != "" then " --directory \"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
       extraPackages = [ ];
       extraAliases.icat = "kitty +kitten icat";
     };
-    urxvt = {
+    urxvt = rec {
       binary = "${config.programs.urxvt.package}/bin/urxvt";
-      exec = prog: dir: "urxvt${if dir != "" then " -cd \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+      exec = prog: dir: "${binary}${if dir != "" then " -cd \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
       extraPackages = [ pkgs.xsel ]; # required by urxvt clipboard integration
       extraAliases = { };
     };
-    xterm = {
+    xterm = rec {
       binary = "${pkgs.xterm}/bin/xterm";
-      exec = prog: dir: "xterm${if prog != "" then " -e ${prog}" else ""}"; # xterm does not support working directory switching
+      exec = prog: dir: "${binary}${if prog != "" then " -e ${prog}" else ""}"; # xterm does not support working directory switching
       extraPackages = [ ];
       extraAliases = { };
     };
@@ -38,7 +38,7 @@ let
 
   lockCmd =
     if cfg.lockImage != "" then
-      (if cfg.mode == "i3" then "${pkgs.nwlock}/bin/nwlock ${cfg.lockImage}" else "${pkgs.swaylock}/bin/swaylock --image ${cfg.lockImage} --color 000000")
+      (if cfg.mode == "i3" then ''${pkgs.nwlock}/bin/nwlock "${cfg.lockImage}"'' else ''${pkgs.swaylock}/bin/swaylock --image "${cfg.lockImage}" --scaling center --color 000000'')
     else
       (if cfg.mode == "i3" then "${pkgs.i3lock}/bin/i3lock" else "${pkgs.swaylock}/bin/swaylock --color 000000");
 
