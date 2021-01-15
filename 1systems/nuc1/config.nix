@@ -88,14 +88,14 @@
       hosts allow = 192.168.1.0/24
       hosts deny = 0.0.0.0/0
     '';
-    # shares = {
-    #   home = {
-    #     path = "/home/enno";
-    #     browseable = "yes";
-    #     "read only" = "no";
-    #     "guest ok" = "no";
-    #   };
-    # };
+    shares = {
+      home = {
+        path = "/home/enno";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+    };
   };
 
   # workaround AirPrint printer not showing up after boot
