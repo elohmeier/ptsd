@@ -36,13 +36,11 @@
   };
 
   ptsd.desktop = {
-    # TODO: replace with sway
-    enableI3 = true;
-  };
-
-  # TODO: merge with 2configs/home/sway.nix
-  programs.sway = {
     enable = true;
+    mode = "sway";
+    trayOutput = "HDMI-A-2";
+    terminalConfig = "alacritty";
+    fontMono = "Cozette";
   };
 
   # set low priority for nix daemon to ensure desktop responsiveness while updating

@@ -10,15 +10,7 @@ in
     <ptsd/2configs/home/extraTools.nix>
     <ptsd/2configs/home/firefox.nix>
     <ptsd/2configs/home/gpg.nix>
-    <ptsd/2configs/home/sway.nix>
-    <ptsd/2configs/home/weatherbg.nix>
   ];
-
-  ptsd.sway = {
-    configureGtk = false;
-    configureRofi = false;
-    trayOutput = "HDMI-A-2";
-  };
 
   ptsd.baresip = {
     enable = true;
@@ -31,16 +23,6 @@ in
     #audioSource = "vsink_fx_mic.monitor"; # AEC
     audioSource = "nui_mic_remap";
     audioAlert = "alsa_output.pci-0000_00_03.0.hdmi-stereo-extra1";
-  };
-
-  ptsd.alacritty = {
-    enable = true;
-    fontName = "Cozette";
-  };
-  ptsd.i3 = {
-    configureGtk = true;
-    configureRofi = true;
-    fontMono = "Cozette";
   };
 
   ptsd.nwi3status = {

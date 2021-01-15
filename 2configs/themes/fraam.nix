@@ -13,6 +13,8 @@ in
     '';
   };
 
+  ptsd.desktop.lockCmd = "${nwlock}/bin/nwlock";
+
   home-manager = {
     users.mainUser = { pkgs, ... }:
       {
@@ -26,8 +28,6 @@ in
           ];
         };
 
-        ptsd.i3.lockCmd = "${nwlock}/bin/nwlock";
-        ptsd.sway.lockCmd = "${nwlock}/bin/nwlock";
         home.packages = [ nwlock ];
 
         wayland.windowManager.sway.extraConfig = ''
