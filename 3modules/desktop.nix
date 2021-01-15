@@ -348,6 +348,9 @@ in
     systemd.packages = [ pkgs.gnome3.evolution-data-server ];
 
     environment.systemPackages = with pkgs; [
+      pavucontrol
+      pasystray
+
       libinput
       git
       zstd # can be removed in 20.09 (default there)
@@ -438,6 +441,68 @@ in
 
     services.upower.enable = true;
     services.lorri.enable = true;
+
+    sound.enable = true;
+
+    systemd.user.services.pasystray = {
+      description = "PulseAudio system tray";
+      partOf = [ "graphical-session.target" ];
+      wantedBy = [ "graphical-session.target" ];
+      path = [ pkgs.pavucontrol ];
+      serviceConfig = {
+        # Workaround from https://github.com/NixOS/nixpkgs/issues/7329 to make GTK-Themes work
+        ExecStart = "${pkgs.bash}/bin/bash -c 'source ${config.system.build.setEnvironment}; exec ${pkgs.pasystray}/bin/pasystray'";
+        RestartSec = 3;
+        Restart = "always";
+      };
+    };
+
+    hardware = {
+      bluetooth = {
+        enable = true;
+        package = pkgs.bluezFull;
+      };
+
+      pulseaudio = {
+        enable = true;
+        package = lib.mkDefault pkgs.pulseaudioFull; # pulseAudioFull required for bluetooth audio support
+        #support32Bit = true; # for Steam
+
+        # better audio quality settings
+        # from https://medium.com/@gamunu/enable-high-quality-audio-on-linux-6f16f3fe7e1f
+        daemon.config = {
+          default-sample-format = "float32le";
+          default-sample-rate = lib.mkDefault 48000;
+          alternate-sample-rate = 44100;
+          default-sample-channels = 2;
+          default-channel-map = "front-left,front-right";
+          resample-method = "speex-float-10";
+          enable-lfe-remixing = "no";
+          high-priority = "yes";
+          nice-level = -11;
+          realtime-scheduling = "yes";
+          realtime-priority = 9;
+          rlimit-rtprio = 9;
+        };
+
+        extraModules = [ pkgs.pulseaudio-modules-bt ];
+      };
+    };
+
+    services.blueman.enable = true;
+
+    # improved version of the pkgs.blueman-provided user service
+    systemd.user.services.blueman-applet-nw = {
+      description = "Bluetooth management applet";
+      partOf = [ "graphical-session.target" ];
+      wantedBy = [ "graphical-session.target" ];
+      serviceConfig = {
+        # Workaround from https://github.com/NixOS/nixpkgs/issues/7329 to make GTK-Themes work
+        ExecStart = "${pkgs.bash}/bin/bash -c 'source ${config.system.build.setEnvironment}; exec ${pkgs.blueman}/bin/blueman-applet'";
+        RestartSec = 3;
+        Restart = "always";
+      };
+    };
 
     programs.sway = mkIf (cfg.mode == "sway") {
       enable = true;
