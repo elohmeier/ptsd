@@ -36,6 +36,11 @@ let
 
   term = terminalConfigs.${cfg.terminalConfig};
 
+  lockCmd =
+    if cfg.lockImage != "" then
+      (if cfg.mode == "i3" then "${pkgs.nwlock}/bin/nwlock ${cfg.lockImage}" else "${pkgs.swaylock}/bin/swaylock --image ${cfg.lockImage} --color 000000")
+    else
+      (if cfg.mode == "i3" then "${pkgs.i3lock}/bin/i3lock" else "${pkgs.swaylock}/bin/swaylock --color 000000");
 
   cwdCmd = if cfg.mode == "i3" then "${pkgs.xcwd}/bin/xcwd" else "${pkgs.swaycwd}/bin/swaycwd";
 
@@ -93,6 +98,7 @@ let
 
       "${cfg.modifier}+r" = "mode resize";
 
+      "${cfg.modifier}+Shift+Delete" = "exec ${lockCmd}";
       "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${cwdCmd}`"}";
       "${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
       "${cfg.modifier}+Shift+t" = "exec pcmanfm \"`${cwdCmd}`\"";
@@ -285,22 +291,26 @@ in
         type = types.strMatching "alacritty|kitty|urxvt|xterm";
         default = "xterm";
       };
-      lockCmd = mkOption {
-        type = types.str;
-        default = "${pkgs.i3lock}/bin/i3lock";
-      };
       trayOutput = mkOption {
         type = types.str;
         default = "primary";
         description = "Where to output tray.";
       };
-      barExtraConfig = mkOption {
-        type = types.str;
-        default = "";
-      };
       modifier = mkOption {
         type = types.str;
         default = "Mod4";
+      };
+      backgroundImage = mkOption {
+        type = types.str;
+        default = "";
+      };
+      lockImage = mkOption {
+        type = types.str;
+        default = "";
+      };
+      userImage = mkOption {
+        type = types.str;
+        default = "";
       };
     };
   };
@@ -318,6 +328,16 @@ in
       };
 
       desktopManager.xterm.enable = true;
+
+      displayManager.lightdm = {
+        background = mkIf (cfg.backgroundImage != "") cfg.backgroundImage;
+
+        # move login box to bottom left and add logo
+        greeters.gtk.extraConfig = mkIf (cfg.userImage != "") ''
+          default-user-image=${cfg.userImage}
+          position=42 -42
+        '';
+      };
     };
 
     security.pam.services.lightdm.enableGnomeKeyring = true;
@@ -463,13 +483,12 @@ in
 
             services.screen-locker = {
               enable = true;
-              lockCmd = lib.mkDefault "${pkgs.i3lock}/bin/i3lock";
-              # lockCmd = "${pkgs.nwlock}/bin/nwlock";
-              # xssLockExtraOptions = [
-              #   "-n"
-              #   "${pkgs.nwlock}/libexec/xsecurelock/dimmer" # nwlock package wraps custom xsecurelock
-              #   "-l" # make sure not to allow machine suspend before the screen saver is active
-              # ];
+              lockCmd = lockCmd;
+              xssLockExtraOptions = mkIf (cfg.mode == "i3") [
+                "-n"
+                "${pkgs.nwlock}/libexec/xsecurelock/dimmer" # nwlock package wraps custom xsecurelock
+                "-l" # make sure not to allow machine suspend before the screen saver is active
+              ];
             };
 
             systemd.user.services.flameshot = mkIf (cfg.mode == "i3") {
@@ -504,6 +523,7 @@ in
               xorg.xhost
               flameshot
               i3lock # only needed for config testing / man pages
+              nwlock
               brightnessctl
             ] ++ optionals (cfg.mode == "sway") [
               swaylock
@@ -608,7 +628,9 @@ in
                   };
                 };
 
-              extraConfig = extraConfig;
+              extraConfig = extraConfig + optionalString (cfg.backgroundImage != "") ''
+                output "*" bg ${cfg.backgroundImage} fill              
+              '';
             };
 
             programs.alacritty = mkIf (cfg.terminalConfig == "alacritty") {
