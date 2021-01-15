@@ -16,6 +16,9 @@ in
   ptsd.sway = {
     enable = true;
     screenshotCommand = ''exec ${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy'';
+    barExtraConfig = ''
+      icon_theme Tango
+    '';
   };
 
   ptsd.nwi3status = {
