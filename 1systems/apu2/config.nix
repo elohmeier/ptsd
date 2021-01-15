@@ -70,7 +70,11 @@ in
     package = pkgs.nwhass;
   };
 
-  networking.firewall.allowedTCPPorts = [ 8123 ];
+  networking.firewall.allowedTCPPorts = [
+    8123 # hass
+    config.mosquitto.port
+    config.mosquitto.ssl.port
+  ];
   networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
 
   # TODO: prometheus-migrate

@@ -9,26 +9,33 @@ in
   options = {
     ptsd.mosquitto = {
       enable = mkEnableOption "mosquitto";
-      hostIP = mkOption {
+      interface = mkOption {
         type = types.str;
       };
       tasmotaUsername = mkOption {
         type = types.str;
         default = "tasmota";
       };
+      certDomain = mkOption {
+        type = types.str;
+        default = "${config.networking.hostName}.${config.networking.domain}";
+        description = "certificate beneath /var/lib/acme/";
+      };
     };
   };
 
   # generate pw file using e.g. `nix-shell -p mosquitto --run "mosquitto_passwd -c -b pw tasmota $(pass mosquitto/dlrg/tasmota)"`
   config = mkIf cfg.enable {
+
     services.mosquitto = {
       enable = true;
-      host = cfg.hostIP;
+      allowAnonymous = false;
+      checkPasswords = true;
       ssl = {
         enable = true;
         cafile = "/etc/ssl/certs/ca-certificates.crt";
-        certfile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert.pem";
-        keyfile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem";
+        certfile = "/var/lib/acme/${cfg.certDomain}/cert.pem";
+        keyfile = "/var/lib/acme/${cfg.certDomain}/key.pem";
       };
       users = {
         hass = {
@@ -51,9 +58,16 @@ in
           hashedPassword = secrets."${cfg.tasmotaUsername}";
         };
       };
+      extraConf = ''
+        bind_interface ${cfg.interface}
+      '';
     };
 
     users.groups.certs.members = [ "mosquitto" ];
-    networking.firewall.allowedTCPPorts = [ 1883 8883 ];
+
+    systemd.services.mosquitto.serviceConfig = {
+      CapabilityBoundingSet = "cap_net_bind_service";
+      AmbientCapabilities = "cap_net_bind_service";
+    };
   };
 }

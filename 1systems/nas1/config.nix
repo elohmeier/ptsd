@@ -77,6 +77,8 @@ in
         allowedTCPPorts = [
           631 # cups
           448 # traefik/gitweb
+          config.mosquitto.port
+          config.mosquitto.ssl.port
         ];
         allowedUDPPorts = [ 631 ];
       };

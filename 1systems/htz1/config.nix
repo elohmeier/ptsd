@@ -144,4 +144,10 @@ in
         postRun = "systemctl restart traefik.service";
       };
     };
+
+  ptsd.mosquitto = {
+    enable = true;
+    certDomain = "nerdworks.de";
+    interface = "ens3";
+  };
 }
