@@ -36,6 +36,9 @@ let
 
   term = terminalConfigs.${cfg.terminalConfig};
 
+
+  cwdCmd = if cfg.mode == "i3" then "${pkgs.xcwd}/bin/xcwd" else "${pkgs.swaycwd}/bin/swaycwd";
+
   keybindings =
     {
       "${cfg.modifier}+Return" = "exec ${term.exec "" ""}";
@@ -90,10 +93,9 @@ let
 
       "${cfg.modifier}+r" = "mode resize";
 
-      "${cfg.modifier}+Shift+Delete" = "exec ${cfg.lockCmd}";
-      "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${pkgs.xcwd}/bin/xcwd`"}";
-      "${cfg.modifier}+Shift+c" = "exec codium \"`${pkgs.xcwd}/bin/xcwd`\"";
-      "${cfg.modifier}+Shift+t" = "exec pcmanfm \"`${pkgs.xcwd}/bin/xcwd`\"";
+      "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${cwdCmd}`"}";
+      "${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
+      "${cfg.modifier}+Shift+t" = "exec pcmanfm \"`${cwdCmd}`\"";
 
       "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
       "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
@@ -144,8 +146,8 @@ let
 
       "${cfg.modifier}+Shift+e" = ''mode "${exit_mode}"'';
 
-      "${cfg.modifier}+numbersign" = "split horizontal;; exec ${term.exec "" "`${pkgs.xcwd}/bin/xcwd`"}";
-      "${cfg.modifier}+minus" = "split vertical;; exec ${term.exec "" "`${pkgs.xcwd}/bin/xcwd`"}";
+      "${cfg.modifier}+numbersign" = "split horizontal;; exec ${term.exec "" "`${cwdCmd}`"}";
+      "${cfg.modifier}+minus" = "split vertical;; exec ${term.exec "" "`${cwdCmd}`"}";
 
       "${cfg.modifier}+a" = ''[class="Firefox"] scratchpad show'';
       "${cfg.modifier}+b" = ''[class="Firefox"] scratchpad show'';
