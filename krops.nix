@@ -1,6 +1,6 @@
 { name
 , snixpkgs ? ./nixpkgs.json
-, home-manager ? false
+, home-manager ? true
 , unstable ? false
 , mailserver ? false
 , secrets ? false

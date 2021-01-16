@@ -20,8 +20,6 @@ in
     '';
   };
 
-  ptsd.urxvt.theme = "solarized_dark";
-
   ptsd.baresip = {
     enable = true;
     username = "ws1linphone";
@@ -43,18 +41,6 @@ in
     audioSource = "vsink_fx_mic.monitor";
 
     audioAlert = "alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo";
-  };
-
-  ptsd.kitty.enable = true;
-
-  ptsd.i3 = {
-    configureGtk = true;
-    configureRofi = true;
-  };
-
-  ptsd.sway = {
-    configureGtk = false;
-    configureRofi = false;
   };
 
   ptsd.nwi3status = {

@@ -8,9 +8,11 @@ in
     <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/awscli.nix>
+    <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/gcalcli.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/stateless-root.nix>
+    <ptsd/2configs/zsh-enable.nix>
 
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/drone-exec-container.nix>
@@ -25,17 +27,11 @@ in
     <ptsd/2configs/xrdp.nix>
 
     ./qemu.nix
-
-
-    # TODO: needed???
-    <ptsd/2configs/audio.nix>
-    <ptsd/2configs/bluetooth.nix>
-    <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/zsh-enable.nix>
   ];
 
   ptsd.desktop = {
-    enableI3 = true;
+    enable = true;
+    mode = "i3";
   };
 
   ptsd.octoprint =
