@@ -3,8 +3,6 @@
 with lib;
 let
   cfg = config.ptsd.mosquitto;
-  secrets = import <secrets/mosquittoHashedPasswords.nix>;
-
 
   users = {
     hass = {
@@ -63,7 +61,6 @@ in
     };
   };
 
-  # generate pw file using e.g. `nix-shell -p mosquitto --run "mosquitto_passwd -c -b pw tasmota $(pass mosquitto/dlrg/tasmota)"`
   config = mkIf cfg.enable {
 
     # workaround https://github.com/eclipse/mosquitto/issues/1999
@@ -79,85 +76,57 @@ in
       });
     };
 
+    # generate passwd file using e.g. `nix-shell -p mosquitto --run "mosquitto_passwd -c -b pw tasmota $(pass mosquitto/dlrg/tasmota)"`
     ptsd.secrets.files."mosquitto.passwd" = { };
 
-    # TODO: generate passwd file
-    systemd.services.mosquitto = {
-      description = "Mosquitto MQTT Broker Daemon";
-      wantedBy = [ "multi-user.target" ];
-      after = [ "network.target" ];
-      serviceConfig = {
-        Type = "notify";
-        NotifyAccess = "main";
-        ExecStart = "${pkgs.mosquitto}/bin/mosquitto -c ${mosquittoConf}";
-        ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
-        DynamicUser = true;
-        Restart = "always";
-        AmbientCapabilities = "cap_net_bind_service";
-        CapabilityBoundingSet = "cap_net_bind_service";
-        NoNewPrivileges = true;
-        LimitNPROC = 64;
-        LimitNOFILE = 64;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        ProtectHome = true;
-        ProtectSystem = "strict";
-        StateDirectory = "mosquitto";
-        SupplementaryGroups = "certs";
-        ProtectControlGroups = true;
-        ProtectClock = true;
-        ProtectHostname = true;
-        ProtectKernelLogs = true;
-        ProtectKernelModules = true;
-        ProtectKernelTunables = true;
-        LockPersonality = true;
-        MemoryDenyWriteExecute = true;
-        RestrictAddressFamilies = "AF_INET AF_INET6";
-        RestrictNamespaces = true;
-        DevicePolicy = "closed";
-        RestrictRealtime = true;
-        SystemCallFilter = "@system-service";
-        SystemCallErrorNumber = "EPERM";
-        SystemCallArchitectures = "native";
+    systemd.services.mosquitto =
+      let
+        copyPasswd = pkgs.writers.writeDash "copy-mosquitto-passwd" ''
+          cp ${config.ptsd.secrets.files."mosquitto.passwd".path} /var/lib/mosquitto/passwd
+          chmod 400 /var/lib/mosquitto/passwd
+        '';
+      in
+      {
+        description = "Mosquitto MQTT Broker Daemon";
+        wantedBy = [ "multi-user.target" ];
+        after = [ "network.target" ];
+        serviceConfig = {
+          Type = "notify";
+          NotifyAccess = "main";
+          ExecStartPre = "+${copyPasswd}";
+          ExecStart = "${pkgs.mosquitto}/bin/mosquitto -c ${mosquittoConf}";
+          ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
+          DynamicUser = true;
+          Restart = "always";
+          AmbientCapabilities = "cap_net_bind_service";
+          CapabilityBoundingSet = "cap_net_bind_service";
+          NoNewPrivileges = true;
+          LimitNPROC = 64;
+          LimitNOFILE = 64;
+          PrivateTmp = true;
+          PrivateDevices = true;
+          ProtectHome = true;
+          ProtectSystem = "strict";
+          StateDirectory = "mosquitto";
+          SupplementaryGroups = "certs";
+          ProtectControlGroups = true;
+          ProtectClock = true;
+          ProtectHostname = true;
+          ProtectKernelLogs = true;
+          ProtectKernelModules = true;
+          ProtectKernelTunables = true;
+          LockPersonality = true;
+          MemoryDenyWriteExecute = true;
+          RestrictAddressFamilies = "AF_INET AF_INET6";
+          RestrictNamespaces = true;
+          DevicePolicy = "closed";
+          RestrictRealtime = true;
+          SystemCallFilter = "@system-service";
+          SystemCallErrorNumber = "EPERM";
+          SystemCallArchitectures = "native";
+        };
       };
-    };
 
-    #    services.mosquitto = {
-    #      enable = true;
-    #      allowAnonymous = false;
-    #      checkPasswords = true;
-    #      ssl = {
-    #        enable = true;
-    #        cafile = "/etc/ssl/certs/ca-certificates.crt";
-    #        certfile = "/var/lib/acme/${cfg.certDomain}/cert.pem";
-    #        keyfile = "/var/lib/acme/${cfg.certDomain}/key.pem";
-    #      };
-    #      users = {
-    #        hass = {
-    #          acl = [
-    #            "topic readwrite cmnd/#"
-    #            "topic readwrite stat/#"
-    #            "topic readwrite tele/#"
-    #            "topic readwrite homeassistant/#"
-    #          ];
-    #          hashedPassword = secrets.hass;
-    #        };
-    #        # see https://tasmota.github.io/docs/MQTT/#mqtt-topic-definition
-    #        "${cfg.tasmotaUsername}" = {
-    #          acl = [
-    #            "topic readwrite cmnd/#"
-    #            "topic readwrite stat/#"
-    #            "topic readwrite tele/#"
-    #            "topic readwrite homeassistant/#"
-    #          ];
-    #          hashedPassword = secrets."${cfg.tasmotaUsername}";
-    #        };
-    #      };
-    #      extraConf = ''
-    #        bind_interface ${cfg.interface}
-    #      '';
-    #    };
-    #
-    #    users.groups.certs.members = [ "mosquitto" ];
+    networking.firewall.interfaces."${cfg.interface}".allowedTCPPorts = [ 8883 ];
   };
 }
