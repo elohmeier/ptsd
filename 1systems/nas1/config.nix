@@ -35,8 +35,10 @@ in
 
   ptsd.mosquitto = {
     enable = true;
-    hostIP = "192.168.178.12";
+    interfaces = [ "lo" "br0" ];
     tasmotaUsername = "sonoff";
+    listenPlain = true;
+    listenSSL = true;
   };
 
   ptsd.monica =
@@ -77,8 +79,8 @@ in
         allowedTCPPorts = [
           631 # cups
           448 # traefik/gitweb
-          config.mosquitto.port
-          config.mosquitto.ssl.port
+          config.ptsd.mosquitto.portPlain
+          config.ptsd.mosquitto.portSSL
         ];
         allowedUDPPorts = [ 631 ];
       };
