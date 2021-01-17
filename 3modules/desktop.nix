@@ -289,7 +289,7 @@ in
       };
       terminalConfig = mkOption {
         type = types.strMatching "alacritty|kitty|urxvt|xterm";
-        default = "xterm";
+        default = "alacritty";
       };
       trayOutput = mkOption {
         type = types.str;

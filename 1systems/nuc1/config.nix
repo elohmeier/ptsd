@@ -35,7 +35,6 @@
     enable = true;
     mode = "sway";
     trayOutput = "HDMI-A-2";
-    terminalConfig = "alacritty";
     fontMono = "Cozette";
   };
 

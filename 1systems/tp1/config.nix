@@ -28,7 +28,6 @@ in
     enable = true;
     mode = "sway";
     fontMono = "Cozette";
-    terminalConfig = "alacritty";
     trayOutput = "eDP-1";
   };
 
