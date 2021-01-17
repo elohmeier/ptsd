@@ -12,9 +12,11 @@ in
     <ptsd/2configs/home/gpg.nix>
   ];
 
+  # disable touchpad
   xsession.windowManager.i3.extraConfig = ''
     exec ${pkgs.xorg.xinput}/bin/xinput disable "Synaptics TM3381-002"
   '';
+  wayland.windowManager.sway.config.input."1739:0:Synaptics_TM3381-002".events = "disabled";
 
   ptsd.nwi3status = {
     todoistApiKey = todoistSecrets.todoistApiKey;
