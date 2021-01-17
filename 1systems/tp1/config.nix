@@ -13,7 +13,7 @@ in
     <ptsd/2configs/stateless-root.nix>
     <ptsd/2configs/zsh-enable.nix>
 
-    <ptsd/2configs/themes/nerdworks.nix>
+    <ptsd/2configs/themes/fraam.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/nextcloud-client.nix>
     <ptsd/2configs/prometheus/node.nix>
