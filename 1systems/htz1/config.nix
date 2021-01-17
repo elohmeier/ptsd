@@ -148,6 +148,8 @@ in
   ptsd.mosquitto = {
     enable = true;
     certDomain = "nerdworks.de";
-    interface = "ens3";
+    listeners = [
+      { interface = "ens3"; ssl = true; }
+    ];
   };
 }

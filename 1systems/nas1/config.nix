@@ -35,10 +35,13 @@ in
 
   ptsd.mosquitto = {
     enable = true;
-    interfaces = [ "lo" "br0" ];
+    listeners = [
+      { interface = "lo"; }
+      { interface = "lo"; ssl = true; }
+      { interface = "br0"; }
+      { interface = "br0"; ssl = true; }
+    ];
     tasmotaUsername = "sonoff";
-    listenPlain = true;
-    listenSSL = true;
   };
 
   ptsd.monica =

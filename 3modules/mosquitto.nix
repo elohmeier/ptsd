@@ -29,20 +29,15 @@ let
       "user ${n}\n" + (concatStringsSep "\n" c.acl))
     users));
 
-  listenerConf = concatStrings (map
-    (interface: ''
-      ${optionalString cfg.listenPlain ''
-        listener ${toString cfg.portPlain}
-        bind_interface ${interface}
-      ''}
-      ${optionalString cfg.listenSSL ''
-        listener ${toString cfg.portSSL}
-        bind_interface ${interface}
-        cafile /etc/ssl/certs/ca-certificates.crt
-        certfile /var/lib/acme/${cfg.certDomain}/cert.pem
-        keyfile /var/lib/acme/${cfg.certDomain}/key.pem
-      ''}'')
-    cfg.interfaces);
+  genListenerConf = l: ''
+    listener ${if l.ssl then toString cfg.portSSL else toString cfg.portPlain}${optionalString (l.address != "") " ${l.address}"}
+    ${optionalString (l.interface != "") "bind_interface ${l.interface}"}
+    ${optionalString l.ssl ''
+    cafile /etc/ssl/certs/ca-certificates.crt
+    certfile /var/lib/acme/${cfg.certDomain}/cert.pem
+    keyfile /var/lib/acme/${cfg.certDomain}/key.pem
+    ''}
+  '';
 
   mosquittoConf = pkgs.writeText "mosquitto.conf" ''
     acl_file ${aclFile}
@@ -51,16 +46,13 @@ let
     persistence_file /var/lib/mosquitto/mosquitto.db
     allow_anonymous false
 
-    ${listenerConf}
+    ${concatStringsSep "\n" (map genListenerConf cfg.listeners)}
   '';
 in
 {
   options = {
     ptsd.mosquitto = {
       enable = mkEnableOption "mosquitto";
-      interfaces = mkOption {
-        type = with types; listOf str;
-      };
       tasmotaUsername = mkOption {
         type = types.str;
         default = "tasmota";
@@ -70,21 +62,32 @@ in
         default = "${config.networking.hostName}.${config.networking.domain}";
         description = "certificate beneath /var/lib/acme/";
       };
-      listenPlain = mkOption {
-        type = types.bool;
-        default = false;
-      };
       portPlain = mkOption {
         type = types.int;
         default = 1883;
       };
-      listenSSL = mkOption {
-        type = types.bool;
-        default = true;
-      };
       portSSL = mkOption {
         type = types.int;
         default = 8883;
+      };
+      listeners = mkOption {
+        type = types.listOf (types.submodule {
+          options = {
+            interface = mkOption {
+              type = types.str;
+              default = "";
+            };
+            address = mkOption {
+              type = types.str;
+              default = "";
+            };
+            ssl = mkOption {
+              type = types.bool;
+              default = false;
+            };
+          };
+        });
+        default = [ ];
       };
     };
   };

@@ -22,7 +22,10 @@ in
 
   ptsd.mosquitto = {
     enable = true;
-    hostIP = "192.168.168.41";
+    listeners = [{
+      interface = "br0";
+      address = "192.168.168.41";
+    }];
   };
 
   ptsd.wireguard = {
@@ -72,8 +75,7 @@ in
 
   networking.firewall.allowedTCPPorts = [
     8123 # hass
-    config.mosquitto.port
-    config.mosquitto.ssl.port
+    config.ptsd.mosquitto.portPlain
   ];
   networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
 
