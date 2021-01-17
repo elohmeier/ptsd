@@ -164,18 +164,6 @@
     tpm2-tools
   ];
 
-  systemd.user.services.nm-applet = {
-    description = "Network Manager applet";
-    partOf = [ "graphical-session.target" ];
-    wantedBy = [ "graphical-session.target" ];
-    path = [ pkgs.dbus ];
-    serviceConfig = {
-      ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
-      RestartSec = 3;
-      Restart = "always";
-    };
-  };
-
   services.printing.enable = true;
   services.avahi.enable = true;
 

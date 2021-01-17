@@ -405,6 +405,18 @@ in
       };
     };
 
+    systemd.user.services.nm-applet = mkIf config.networking.networkmanager.enable {
+      description = "Network Manager applet";
+      partOf = [ "graphical-session.target" ];
+      wantedBy = [ "graphical-session.target" ];
+      path = [ pkgs.dbus ];
+      serviceConfig = {
+        ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
+        RestartSec = 3;
+        Restart = "always";
+      };
+    };
+
     # yubikey
     services.udev.packages = [ pkgs.libu2f-host pkgs.yubikey-personalization ];
     services.pcscd.enable = true;
