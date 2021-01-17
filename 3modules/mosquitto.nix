@@ -29,25 +29,37 @@ let
       "user ${n}\n" + (concatStringsSep "\n" c.acl))
     users));
 
+  listenerConf = concatStrings (map
+    (interface: ''
+      ${optionalString cfg.listenPlain ''
+        listener ${toString cfg.portPlain}
+        bind_interface ${interface}
+      ''}
+      ${optionalString cfg.listenSSL ''
+        listener ${toString cfg.portSSL}
+        bind_interface ${interface}
+        cafile /etc/ssl/certs/ca-certificates.crt
+        certfile /var/lib/acme/${cfg.certDomain}/cert.pem
+        keyfile /var/lib/acme/${cfg.certDomain}/key.pem
+      ''}'')
+    cfg.interfaces);
+
   mosquittoConf = pkgs.writeText "mosquitto.conf" ''
     acl_file ${aclFile}
     password_file /var/lib/mosquitto/passwd
     persistence true
     persistence_file /var/lib/mosquitto/mosquitto.db
     allow_anonymous false
-    listener 8883
-    bind_interface ${cfg.interface}
-    cafile /etc/ssl/certs/ca-certificates.crt
-    certfile /var/lib/acme/${cfg.certDomain}/cert.pem
-    keyfile /var/lib/acme/${cfg.certDomain}/key.pem
+
+    ${listenerConf}
   '';
 in
 {
   options = {
     ptsd.mosquitto = {
       enable = mkEnableOption "mosquitto";
-      interface = mkOption {
-        type = types.str;
+      interfaces = mkOption {
+        type = with types; listOf str;
       };
       tasmotaUsername = mkOption {
         type = types.str;
@@ -58,12 +70,29 @@ in
         default = "${config.networking.hostName}.${config.networking.domain}";
         description = "certificate beneath /var/lib/acme/";
       };
+      listenPlain = mkOption {
+        type = types.bool;
+        default = false;
+      };
+      portPlain = mkOption {
+        type = types.int;
+        default = 1883;
+      };
+      listenSSL = mkOption {
+        type = types.bool;
+        default = true;
+      };
+      portSSL = mkOption {
+        type = types.int;
+        default = 8883;
+      };
     };
   };
 
   config = mkIf cfg.enable {
 
     # workaround https://github.com/eclipse/mosquitto/issues/1999
+    # TODO: remove in 21.03/21.05?
     nixpkgs.config.packageOverrides = pkgs: {
       mosquitto = pkgs.mosquitto.overrideAttrs (oldAttrs: rec {
         version = "2.0.5";
@@ -126,7 +155,5 @@ in
           SystemCallArchitectures = "native";
         };
       };
-
-    networking.firewall.interfaces."${cfg.interface}".allowedTCPPorts = [ 8883 ];
   };
 }
