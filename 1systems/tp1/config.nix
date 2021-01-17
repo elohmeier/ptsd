@@ -29,6 +29,7 @@ in
     mode = "sway";
     fontMono = "Cozette";
     terminalConfig = "alacritty";
+    trayOutput = "eDP-1";
   };
 
   home-manager = {
