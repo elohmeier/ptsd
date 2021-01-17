@@ -352,8 +352,8 @@ in
           name = "nwenv";
           rules = [
             {
-              alert = "DiskSpace20%Free";
-              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes * 100 < 20'';
+              alert = "DiskSpace10%Free";
+              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes * 100 < 10'';
               for = "30m";
               labels.severity = "warning";
               annotations = {
