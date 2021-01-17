@@ -152,4 +152,6 @@ in
       { interface = "ens3"; ssl = true; }
     ];
   };
+
+  networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.ptsd.mosquitto.portSSL ];
 }
