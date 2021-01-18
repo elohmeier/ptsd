@@ -389,6 +389,8 @@ in
     ] ++ optionals (cfg.mode == "i3") [
       redshift
       dunst
+    ] ++ optionals config.networking.networkmanager.enable [
+      networkmanagerapplet
     ];
     services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
@@ -411,7 +413,7 @@ in
       wantedBy = [ "graphical-session.target" ];
       path = [ pkgs.dbus ];
       serviceConfig = {
-        ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet";
+        ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
         RestartSec = 3;
         Restart = "always";
       };
@@ -518,6 +520,7 @@ in
 
     programs.sway = mkIf (cfg.mode == "sway") {
       enable = true;
+      wrapperFeatures.gtk = true;
     };
 
     home-manager =
