@@ -198,10 +198,6 @@ let
     };
   };
 
-  startup = [
-    { command = "i3-msg workspace 1"; notification = false; }
-  ];
-
   # to get the class of a window run `xprop WM_CLASS` and click on the window
   window_commands = [
     # not working
@@ -311,6 +307,10 @@ in
       userImage = mkOption {
         type = types.str;
         default = "";
+      };
+      hideCursorIdleSec = mkOption {
+        type = types.int;
+        default = 1;
       };
     };
   };
@@ -532,8 +532,6 @@ in
               #<ptsd/2configs/home/git-alarm.nix> # TODO: Port to nwi3status
             ];
 
-            # TODO: Terminal config
-
             xsession = mkIf (cfg.mode == "i3") {
               enable = true;
 
@@ -544,7 +542,9 @@ in
                     modifier = cfg.modifier;
                     keybindings = keybindings;
                     modes = modes;
-                    startup = startup;
+                    startup = [
+                      { command = "i3-msg workspace 1"; notification = false; }
+                    ];
                     window.commands = window_commands;
                     fonts = fonts;
                     bars = bars;
@@ -611,9 +611,11 @@ in
             ];
 
 
-            # auto-hide the mouse cursor after inactivity
+            # auto-hide the mouse cursor after inactivity on i3/X11
+            # sway has "hide_cursor" configuration option
             services.unclutter = mkIf (cfg.mode == "i3") {
               enable = true;
+              timeout = cfg.hideCursorIdleSec;
             };
 
             # TODO: check if it also works for sway?
@@ -690,7 +692,6 @@ in
                   modifier = cfg.modifier;
                   keybindings = keybindings;
                   modes = modes;
-                  #startup = startup;
                   window.commands = window_commands;
                   fonts = fonts;
                   bars = bars;
@@ -705,8 +706,10 @@ in
                   };
                 };
 
-              extraConfig = extraConfig + optionalString (cfg.backgroundImage != "") ''
-                output "*" bg ${cfg.backgroundImage} fill              
+              extraConfig = extraConfig + ''
+                seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
+              '' + optionalString (cfg.backgroundImage != "") ''
+                output "*" bg ${cfg.backgroundImage} fill
               '';
             };
 
