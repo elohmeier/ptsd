@@ -27,6 +27,11 @@
         forwardAgent = true;
         extraOptions.RemoteForward = "/Users/enno/.gnupg/S.gpg-agent /run/user/1000/gnupg/S.gpg-agent.extra";
       };
+
+      "htz3-1022" = {
+        hostname = "191.18.19.41";
+        port = 1022;
+      };
     };
   };
 }
