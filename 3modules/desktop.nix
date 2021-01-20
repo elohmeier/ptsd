@@ -839,8 +839,8 @@ in
                   termName = "xterm";
                 } // themes."${cfg.theme}";
                 fonts = [
-                  "xft:${cfg.fontName}:size=${toString cfg.fontSize}"
-                  "xft:${cfg.fontName}:size=${toString cfg.fontSize}:bold"
+                  "xft:${cfg.fontMono}:size=${toString cfg.fontSize}"
+                  "xft:${cfg.fontMono}:size=${toString cfg.fontSize}:bold"
                 ];
                 keybindings = {
                   # font size
@@ -877,7 +877,7 @@ in
 
             programs.kitty = mkIf (cfg.terminalConfig == "kitty") {
               enable = true;
-              font.name = cfg.fontName;
+              font.name = cfg.fontMono;
 
               # solarized dark
               # source: https://github.com/kovidgoyal/kitty/issues/897#issuecomment-419220650
