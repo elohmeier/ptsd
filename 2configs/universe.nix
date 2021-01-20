@@ -69,6 +69,23 @@
       borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKmKohBpSvpZE8UJHhE0sh1bNedclcMfx4vrRt5x2BbbYqZkaDi8XgV0MN4YccsAUE4zBypsMflWy/gsCSowc0VuOwuvpz/+NIg2NQLsvgkcdszLNQG7Ikuj7E9J1dXfWzpDLL9ZCRToCAuwfC8H/3oNLfMSI/FmtfFyBOPQt0i+PzDSpNh/vW+zrBSWxRaaaXJc9JXh1xVg0AeyhtyfQAi9SLCECmLRZ/aDWGWu/41DgQQbMvUfSPYM38Z8s817g/QHnHvb+JLjULr7otOWUE69VvEHsWSWwkLr+wouvZP9ExDrEm7vEL6wcJiV3MdJKW1ziKIJ7NbfFDVYTiYW/3 root@nw34";
     };
 
+    apu3 = {
+      # SVB
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.47";
+          aliases = [
+            "apu3.nw"
+          ];
+          wireguard.pubkey = "rZ3/TTTxZCIHqRP8+s9yyGgh8PV+4XL07WhC6pubrTs=";
+        };
+      };
+      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQksFDH60CvwLh6mBkMqMpjH+CG5yzt1wvwWGSF+clI ";
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIER5LHYQ/MckDcnay4ZU8WLlkPwKubOX7tSWw8mbpyKB ";
+      syncthing.id = "QWH3PPM-K2IUQWD-5ETD5UZ-JNBNST5-YAC6623-Z3346LS-EBGIUFP-IHECRQD";
+    };
+
     eee1 = {
       nets = {
         nwvpn = {
