@@ -389,7 +389,7 @@ in
     ] ++ optionals (cfg.mode == "i3") [
       redshift
       dunst
-    ] ++ optionals config.networking.networkmanager.enable [
+    ] ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
       networkmanagerapplet
     ];
     services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
@@ -407,7 +407,7 @@ in
       };
     };
 
-    systemd.user.services.nm-applet = mkIf config.networking.networkmanager.enable {
+    systemd.user.services.nm-applet = mkIf (config.networking.networkmanager.enable && cfg.mode == "i3") {
       description = "Network Manager applet";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -458,7 +458,7 @@ in
 
     sound.enable = true;
 
-    systemd.user.services.pasystray = {
+    systemd.user.services.pasystray = mkIf (cfg.mode == "i3") {
       description = "PulseAudio system tray";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -506,7 +506,7 @@ in
     services.blueman.enable = true;
 
     # improved version of the pkgs.blueman-provided user service
-    systemd.user.services.blueman-applet-nw = {
+    systemd.user.services.blueman-applet-nw = mkIf (cfg.mode == "i3") {
       description = "Bluetooth management applet";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -711,6 +711,7 @@ in
 
               extraConfig = extraConfig + ''
                 seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
+                mouse_warping none
               '' + optionalString (cfg.backgroundImage != "") ''
                 output "*" bg ${cfg.backgroundImage} fill
               '';
