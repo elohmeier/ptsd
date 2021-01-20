@@ -32,6 +32,7 @@ in
   ptsd.desktop = {
     enable = true;
     mode = "i3";
+    terminalConfig = "kitty";
   };
 
   ptsd.octoprint =
