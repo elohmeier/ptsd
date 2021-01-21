@@ -316,6 +316,12 @@ in
   };
 
   config = mkIf cfg.enable {
+
+    # xdg.portal = {
+    #   enable = true;
+    #   extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
+    # };
+
     services.xserver = mkIf (cfg.mode == "i3") {
       enable = true;
 
@@ -685,6 +691,7 @@ in
               # Fix for some Java AWT applications (e.g. Android Studio),
               # use this if they aren't displayed properly:
               _JAVA_AWT_WM_NONREPARENTING = "1";
+              # XDG_CURRENT_DESKTOP = "sway";
             };
 
 

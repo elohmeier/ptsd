@@ -33,8 +33,9 @@
 
   ptsd.desktop = {
     enable = true;
-    mode = "sway";
-    trayOutput = "HDMI-A-2";
+    mode = "i3";
+    #mode = "sway";
+    #trayOutput = "HDMI-A-2";
     fontMono = "Cozette";
   };
 
@@ -188,17 +189,11 @@
 
     xrandrHeads = [
       {
-        output = "HDMI-2";
+        output = "HDMI-1";
         primary = true; # fixes missing tray in i3bar
-        #monitorConfig = ''Option "Position" "0 360"'';
-        monitorConfig = ''Option "Position" "0 0"'';
       }
       {
-        output = "HDMI-1";
-        monitorConfig = ''
-          Option "Position" "1920 0"
-          Option "PreferredMode" "2560x1440"
-        '';
+        output = "HDMI-2";
       }
     ];
   };
