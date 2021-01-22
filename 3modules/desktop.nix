@@ -531,7 +531,8 @@ in
       wrapperFeatures.gtk = true;
     };
 
-    services.pipewire = mkIf cfg.enablePipewire {
+    # 20.09 compat (optionalAttrs instead of mkIf)
+    services.pipewire = lib.optionalAttrs cfg.enablePipewire {
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
