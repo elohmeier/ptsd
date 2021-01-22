@@ -33,10 +33,10 @@
 
   ptsd.desktop = {
     enable = true;
-    mode = "i3";
-    #mode = "sway";
-    #trayOutput = "HDMI-A-2";
+    mode = "sway";
+    trayOutput = "HDMI-A-2";
     fontMono = "Cozette";
+    enablePipewire = true;
   };
 
   # set low priority for nix daemon to ensure desktop responsiveness while updating
