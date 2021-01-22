@@ -62,22 +62,12 @@ in
     entryPoints = {
       "www4-http" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
-        http.redirections.entryPoint = {
-          to = "www4-https";
-          scheme = "https";
-          permanent = true;
-        };
       };
       "www4-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
       };
       "www6-http" = {
         address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
-        http.redirections.entryPoint = {
-          to = "www6-https";
-          scheme = "https";
-          permanent = true;
-        };
       };
       "www6-https" = {
         address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
@@ -114,36 +104,49 @@ in
     in
     {
       "nerdworks.de" = {
+        webroot = config.ptsd.nwacme.webroot;
         extraDomainNames = [ "www.nerdworks.de" ];
-        dnsProvider = "acme-dns";
         credentialsFile = envFile "nerdworks.de";
         group = "certs";
         postRun = "systemctl restart traefik.service";
       };
 
       "ci.nerdworks.de" = {
-        dnsProvider = "acme-dns";
+        webroot = config.ptsd.nwacme.webroot;
         credentialsFile = envFile "ci.nerdworks.de";
         group = "certs";
         postRun = "systemctl restart traefik.service";
       };
 
       "git.nerdworks.de" = {
-        dnsProvider = "acme-dns";
+        webroot = config.ptsd.nwacme.webroot;
         credentialsFile = envFile "git.nerdworks.de";
         group = "certs";
         postRun = "systemctl restart traefik.service";
       };
 
-      "luisarichter.de" = {
-        email = "office@luisarichter.de";
-        extraDomainNames = [ "www.luisarichter.de" ];
-        dnsProvider = "acme-dns";
-        credentialsFile = envFile "luisarichter.de";
+      # "luisarichter.de" = {
+      #   email = "office@luisarichter.de";
+      #   extraDomainNames = [ "www.luisarichter.de" ];
+      #   dnsProvider = "acme-dns";
+      #   credentialsFile = envFile "luisarichter.de";
+      #   group = "certs";
+      #   postRun = "systemctl restart traefik.service";
+      # };
+
+      "mqtt.nerdworks.de" = {
+        webroot = config.ptsd.nwacme.webroot;
+        keyType = "rsa2048"; # https://tasmota.github.io/docs/TLS/#limitations
+        credentialsFile = envFile "mqtt.nerdworks.de";
         group = "certs";
-        postRun = "systemctl restart traefik.service";
+        postRun = "systemctl restart mosquitto.service";
       };
     };
+
+  ptsd.nwacme = {
+    enable = true;
+    enableHttpValidation = true;
+  };
 
   ptsd.mosquitto = {
     enable = true;
