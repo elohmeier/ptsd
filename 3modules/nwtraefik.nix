@@ -16,6 +16,10 @@ let
       > $out
   '';
 
+  # middleware names
+  mwSecurityHeaders = "security-headers";
+  mwHttpsRedirect = "https-redirect";
+
   dynamicConfigOptions = {
     tls = {
       options.default = {
@@ -50,23 +54,37 @@ let
 
     http = {
 
-      routers = builtins.listToAttrs (
-        map
+      routers = builtins.listToAttrs (flatten
+        (map
           (
-            svc: {
-              name = svc.name;
-              value = {
-                entryPoints = svc.entryPoints;
-                rule = svc.rule;
-                service = svc.name;
-                middlewares = [ "securityHeaders" ] ++ svc.extraMiddlewares ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
-                tls = lib.optionalAttrs svc.letsencrypt {
-                  certResolver = "letsencrypt";
+            svc: [
+              {
+                name = "${svc.name}-plain";
+                value = {
+                  entryPoints = filter (e: hasSuffix "-http" e) svc.entryPoints;
+                  rule = svc.rule;
+                  service = svc.name;
+                  middlewares = [ mwSecurityHeaders ] ++ lib.optional svc.tls mwHttpsRedirect ++ svc.extraMiddlewares ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
+                  priority = svc.priority;
                 };
-              };
-            }
+              }
+            ] ++ (lib.optionals svc.tls [
+              {
+                name = "${svc.name}-tls";
+                value = {
+                  entryPoints = filter (e: hasSuffix "-https" e) svc.entryPoints;
+                  rule = svc.rule;
+                  service = svc.name;
+                  middlewares = [ mwSecurityHeaders ] ++ svc.extraMiddlewares ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
+                  priority = svc.priority;
+                  tls = lib.optionalAttrs svc.letsencrypt {
+                    certResolver = "letsencrypt";
+                  };
+                };
+              }
+            ])
           )
-          cfg.services
+          cfg.services)
       );
 
       middlewares = cfg.middlewares // (
@@ -92,7 +110,7 @@ let
             (filter (svc: svc.stripPrefixes != [ ]) cfg.services)
         )
       ) // {
-        securityHeaders.headers = {
+        "${mwSecurityHeaders}".headers = {
           STSSeconds = 315360000;
           STSPreload = true;
           customFrameOptionsValue = "sameorigin";
@@ -100,6 +118,11 @@ let
           browserXSSFilter = true;
           contentSecurityPolicy = cfg.contentSecurityPolicy;
           referrerPolicy = "no-referrer";
+        };
+
+        "${mwHttpsRedirect}".redirectScheme = {
+          permanent = true;
+          scheme = "https";
         };
       };
 
@@ -188,7 +211,7 @@ in
             { config, ... }: {
               options = {
                 name = mkOption {
-                  type = types.str;
+                  type = types.strMatching ".+-(http|https)$";
                   default = config._module.args.name;
                 };
                 address = mkOption {
@@ -258,10 +281,12 @@ in
               rule = mkOption { type = types.str; default = "Host(`*`)"; };
               auth = mkOption { type = types.attrs; default = { }; };
               url = mkOption { type = types.str; default = ""; };
+              tls = mkOption { type = types.bool; default = true; };
               letsencrypt = mkOption { type = types.bool; default = false; };
               stripPrefixes = mkOption { type = types.listOf types.str; default = [ ]; };
               passHostHeader = mkOption { type = types.bool; default = true; };
               extraMiddlewares = mkOption { type = types.listOf types.str; default = [ ]; };
+              priority = mkOption { type = types.int; default = 0; };
             };
           }
         );
@@ -316,11 +341,12 @@ in
         nerdworkswww = 10012;
         nextcloud = 10013;
         nginx-monica = 10014;
-        nwgit = 10015;
-        octoprint = 10016;
-        radicale = 10017;
-        synapse = 10018;
-        gitweb = 10019;
+        nginx-nwacme = 10015;
+        nwgit = 10016;
+        octoprint = 10017;
+        radicale = 10018;
+        synapse = 10019;
+        gitweb = 10020;
       };
     }
     (

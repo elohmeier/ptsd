@@ -12,6 +12,7 @@ _:
     ./monica.nix
     ./mosquitto.nix
     ./nobbofin-autofetch.nix
+    ./nwacme.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
     ./nwbitwarden.nix
