@@ -22,24 +22,8 @@ in
     useNetworkd = true;
     useDHCP = false;
     hostName = "apu3";
-    #   vlans.vlanppp = {
-    #     id = 7; # BNG
-    #     interface = "enp1s0";
-    #   };
     bridges."${brlanIf}".interfaces = [ lanIf2 lanIf3 ];
     interfaces = {
-
-      #     # DSL WAN
-      #     enp1s0.ipv4.addresses = [{ address = "192.168.1.2"; prefixLength = 24; }];
-
-      #     # Printer
-      #     enp2s0.ipv4.addresses = [{ address = "192.168.2.1"; prefixLength = 24; }];
-
-      #     # LTE WAN
-      #     enp0s18f2u1 = {
-      #       useDHCP = true;
-      #     };
-
       # WAN Fritz!Box
       "${lanIf1}" = {
         useDHCP = true;
@@ -47,13 +31,8 @@ in
 
       # LAN/WIFI
       "${brlanIf}".ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
-
-      #     vlanppp = {
-      #       useDHCP = false;
-      #     };
     };
     firewall = {
-      #     interfaces.enp2s0.allowedUDPPorts = [ 67 68 546 547 ];
       interfaces."${brlanIf}" = {
         allowedTCPPorts = [ 53 631 445 139 ];
         allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
@@ -75,7 +54,6 @@ in
   };
 
   systemd.network.networks = {
-    #   "40-vlanppp".networkConfig.LinkLocalAddressing = "no";
     #   "40-enp0s18f2u1".dhcpV4Config.UseRoutes = false; # existing default routes will prevent ppp0 from creating a default route
     "40-${lanIf1}" = {
       networkConfig = {
@@ -115,17 +93,17 @@ in
         LinkLocalAddressing = "no";
       };
     };
-    #   "40-ppp0" = {
-    #     name = "ppp0";
-    #     networkConfig = {
-    #       DHCP = "ipv6";
-    #       IPv6AcceptRA = "yes";
-    #       KeepConfiguration = "yes"; # accept config set by pppd
-    #     };
-    #     dhcpV6Config = {
-    #       ForceDHCPv6PDOtherInformation = "yes";
-    #     };
-    #   };
+    "40-ppp0" = {
+      name = "ppp0";
+      networkConfig = {
+        DHCP = "ipv6";
+        IPv6AcceptRA = "yes";
+        KeepConfiguration = "yes"; # accept config set by pppd
+      };
+      dhcpV6Config = {
+        ForceDHCPv6PDOtherInformation = "yes";
+      };
+    };
   };
 
   boot.kernel.sysctl = {
@@ -157,54 +135,78 @@ in
   #   '';
   # };
 
-  # services.pppd = {
-  #   enable = true;
-  #   peers.telekom = {
-  #     enable = true;
-  #     autostart = true;
-  #     config = ''
-  #       plugin rp-pppoe.so vlanppp
+  # useful commands for `screen /dev/ttyUSB0 115200`
+  # AT+CPIN? //Check if SIM is PIN locked
+  # AT+COPS?
+  # AT+CFUN? //Check module status
+  # ATI //Check firmware version.
+  services.pppd =
+    let
+      chatfile = pkgs.writeText "ppp.chat" ''
+        ABORT 'BUSY'
+        ABORT 'NO CARRIER'
+        ABORT 'VOICE'
+        ABORT 'NO DIALTONE'
+        ABORT 'NO DIAL TONE'
+        ABORT 'NO ANSWER'
+        ABORT 'DELAYED'
+        REPORT CONNECT
+        TIMEOUT 10
+        ''' 'ATQ0'
+        'OK-AT-OK' 'ATZ'
+        TIMEOUT 3
+        'OK-AT-OK' 'ATI'
+        'OK' 'AT+CFUN=1'
+        'OK' 'AT+CMEE=2'
+        ''' 'AT+CSQ'
+        'OK' 'AT+CGDCONT=1,"IP","internet.telekom"'
+        'OK' 'ATDT*99***1#'
+        TIMEOUT 3
+        CONNECT '''
+      '';
+    in
+    {
+      enable = true;
+      peers.telekom = {
+        enable = true;
+        autostart = false;
+        config = ''
+          /dev/ttyUSB0
+          115200
 
-  #       # Login settings.
-  #       name "${netcfg.dsl.username}"
-  #       noauth
-  #       hide-password
+          # Login settings
+          noauth
+          hide-password
+          user "test"
+          remotename telekom
+          ipparam telekom
 
-  #       # Connection settings.
-  #       persist
-  #       maxfail 0
-  #       holdoff 5
+          # Connection settings
+          connect "${pkgs.ppp}/bin/chat -v -f ${chatfile}"
+          persist
+          maxfail 0
+          holdoff 5
 
-  #       # LCP settings.
-  #       lcp-echo-interval 10
-  #       lcp-echo-failure 3
+          # IP settings
+          noipdefault
+          defaultroute
+          +ipv6
+          defaultroute6
+          #usepeerdns
 
-  #       # PPPoE compliant settings.
-  #       noaccomp
-  #       default-asyncmap
-  #       mtu 1492
+          # Increase debugging level
+          debug
+        '';
+      };
+    };
 
-  #       # IP settings.
-  #       noipdefault
-  #       defaultroute
-  #       +ipv6
-  #       defaultroute6
+  environment.etc."ppp/pap-secrets" =
+    {
+      text = ''"test" telekom "test"'';
+      mode = "0400";
+    };
 
-  #       # Increase debugging level
-  #       # debug
-  #     '';
-  #   };
-  # };
-
-  # environment.etc."ppp/chap-secrets" =
-  #   {
-  #     text = ''"${netcfg.dsl.username}" * "${netcfg.dsl.password}" *'';
-  #     mode = "0400";
-  #   };
-
-  environment.systemPackages = with pkgs; [ tmux htop bridge-utils ];
-
-  security.sudo.wheelNeedsPassword = false;
+  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim ];
 
   programs.mosh.enable = true;
 }
