@@ -33,9 +33,10 @@ let
     listener ${if l.ssl then toString cfg.portSSL else toString cfg.portPlain}${optionalString (l.address != "") " ${l.address}"}
     ${optionalString (l.interface != "") "bind_interface ${l.interface}"}
     ${optionalString l.ssl ''
-    cafile /etc/ssl/certs/ca-certificates.crt
-    certfile /var/lib/acme/${cfg.certDomain}/cert.pem
-    keyfile /var/lib/acme/${cfg.certDomain}/key.pem
+      certfile /var/lib/acme/${cfg.certDomain}/cert.pem
+      keyfile /var/lib/acme/${cfg.certDomain}/key.pem
+      tls_version tlsv1.2
+      ciphers AES128-GCM-SHA256
     ''}
   '';
 
