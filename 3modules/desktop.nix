@@ -261,6 +261,7 @@ in
       mode = mkOption {
         type = types.strMatching "sway|i3";
       };
+      enablePipewire = mkEnableOption "use pipewire instead of pulseaudio";
       fontSans = mkOption {
         type = types.str;
         default = "Iosevka Sans"; # TODO: expose package, e.g. for gtk
@@ -317,10 +318,11 @@ in
 
   config = mkIf cfg.enable {
 
-    # xdg.portal = {
-    #   enable = true;
-    #   extraPortals = [ pkgs.xdg-desktop-portal-wlr ];
-    # };
+    xdg.portal = {
+      enable = true;
+      gtkUsePortal = true;
+      extraPortals = with pkgs;[ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
+    };
 
     services.xserver = mkIf (cfg.mode == "i3") {
       enable = true;
@@ -464,7 +466,7 @@ in
 
     sound.enable = true;
 
-    systemd.user.services.pasystray = mkIf (cfg.mode == "i3") {
+    systemd.user.services.pasystray = mkIf (cfg.mode == "i3" && !cfg.enablePipewire) {
       description = "PulseAudio system tray";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -484,7 +486,7 @@ in
       };
 
       pulseaudio = {
-        enable = true;
+        enable = !cfg.enablePipewire;
         package = lib.mkDefault pkgs.pulseaudioFull; # pulseAudioFull required for bluetooth audio support
         #support32Bit = true; # for Steam
 
@@ -527,6 +529,13 @@ in
     programs.sway = mkIf (cfg.mode == "sway") {
       enable = true;
       wrapperFeatures.gtk = true;
+    };
+
+    services.pipewire = mkIf cfg.enablePipewire {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
     };
 
     home-manager =
@@ -691,7 +700,10 @@ in
               # Fix for some Java AWT applications (e.g. Android Studio),
               # use this if they aren't displayed properly:
               _JAVA_AWT_WM_NONREPARENTING = "1";
-              # XDG_CURRENT_DESKTOP = "sway";
+              XDG_CURRENT_DESKTOP = "sway";
+              XDG_SESSION_TYPE = "wayland";
+              MOZ_ENABLE_WAYLAND = "1";
+              MOZ_USE_XINPUT2 = "1";
             };
 
 
