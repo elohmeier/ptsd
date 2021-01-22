@@ -38,8 +38,10 @@ import (
 	"github.com/martinlindhe/unit"
 )
 
-var spacer = pango.Text(" ").XXSmall()
-var mainModalController modal.Controller
+var (
+	spacer              = pango.Text(" ").XXSmall()
+	mainModalController modal.Controller
+)
 
 func truncate(in string, l int) string {
 	fromStart := false

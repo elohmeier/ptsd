@@ -233,10 +233,10 @@ type bintree struct {
 }
 
 var _bintree = &bintree{nil, map[string]*bintree{
-	"fonts": &bintree{nil, map[string]*bintree{
-		"fa5_icons.yml":      &bintree{fontsFa5_iconsYml, map[string]*bintree{}},
-		"mdi_variables.scss": &bintree{fontsMdi_variablesScss, map[string]*bintree{}},
-		"typ_config.yml":     &bintree{fontsTyp_configYml, map[string]*bintree{}},
+	"fonts": {nil, map[string]*bintree{
+		"fa5_icons.yml":      {fontsFa5_iconsYml, map[string]*bintree{}},
+		"mdi_variables.scss": {fontsMdi_variablesScss, map[string]*bintree{}},
+		"typ_config.yml":     {fontsTyp_configYml, map[string]*bintree{}},
 	}},
 }}
 
