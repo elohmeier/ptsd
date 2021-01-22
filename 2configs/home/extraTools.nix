@@ -4,8 +4,8 @@
 let
   py3 = pkgs.python3.override {
     packageOverrides = self: super: rec {
-      black_nbconvert = super.callPackage ../../5pkgs/black_nbconvert { };
-      davphonebook = super.callPackage ../../5pkgs/davphonebook { };
+      black_nbconvert = self.callPackage ../../5pkgs/black_nbconvert { };
+      davphonebook = self.callPackage ../../5pkgs/davphonebook { };
     };
   };
   pyenv = py3.withPackages (
@@ -27,10 +27,10 @@ let
   unstable = import <nixpkgs-unstable> { };
 in
 {
-  imports = [
-    <ptsd/2configs/home/irssi.nix>
-    <ptsd/2configs/home/mbsync.nix>
-  ];
+  #imports = [
+  #  <ptsd/2configs/home/irssi.nix>
+  #  <ptsd/2configs/home/mbsync.nix>
+  #];
 
   home.packages = with pkgs; let
     mywine = wine.override { wineBuild = "wine32"; wineRelease = "staging"; };
@@ -66,7 +66,7 @@ in
     (xmind.override { jre = openjdk11; })
     transmission-gtk
     sylpheed
-    zoom-us
+    #zoom-us
     #pulseeffects
     xorg.xev
     xorg.xhost
@@ -82,9 +82,9 @@ in
         sha256 = "1jq4if5hx3fwag1dz38sj87av2na1kv4c36hai1gyz9w5qhjv7j8";
       };
     }))
-    woeusb
+    #woeusb
     betaflight-configurator
-    dbeaver
+    #dbeaver
     drone-cli
     #openshift
     #minishift
@@ -99,7 +99,7 @@ in
     freerdp
     screen
     sqlitebrowser
-    asciinema
+    #asciinema
     gnumake
     qrencode
     #nix-deploy
@@ -127,21 +127,21 @@ in
     #sublime3
     teamviewer
     #discord
-    mediathekview
+    #mediathekview
     rclone
     tdesktop
     obs-studio
-    gnome3.evolution
-    go
-    go-bindata
-    delve
-    gofumpt
-    bitwarden-cli
+    #gnome3.evolution
+    #go
+    #go-bindata
+    #delve
+    #gofumpt
+    #bitwarden-cli
     nbconvert
     peek
     hidclient
     fava
-    AusweisApp2
+    #AusweisApp2
     ffmpeg-normalize
     weatherbg
     shrinkpdf
@@ -149,7 +149,7 @@ in
     py3.pkgs.davphonebook
     teams
     nix-tree
-    pssh
+    #pssh
     screenkey
     v4l-utils
     hydra-check
@@ -157,7 +157,7 @@ in
     anki
     kakoune
     unstable.noisetorch # unstable has newer version than 20.09
-    sqlmap
+    #sqlmap
     mumble
   ];
 
