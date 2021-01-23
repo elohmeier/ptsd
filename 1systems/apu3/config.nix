@@ -1,10 +1,9 @@
 with import <ptsd/lib>;
 { config, lib, pkgs, ... }:
 let
-  wifiIf = "wlp4s0";
-  lanIf1 = "enp1s0"; # WAN / Fritz!Box
-  lanIf2 = "enp2s0"; # LAN
-  lanIf3 = "enp3s0"; # LAN
+  lanIf1 = "enp1s0";
+  lanIf2 = "enp2s0";
+  lanIf3 = "enp3s0";
   brlanIf = "brlan";
 in
 {
@@ -29,6 +28,10 @@ in
     firewall = {
       interfaces = {
         "${brlanIf}" = {
+          allowedTCPPorts = [ 445 139 ];
+          allowedUDPPorts = [ 137 138 ];
+        };
+        "nwvpn" = {
           allowedTCPPorts = [ 445 139 ];
           allowedUDPPorts = [ 137 138 ];
         };
@@ -92,7 +95,7 @@ in
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
       security = user
-      hosts allow = 192.168.0.0/16
+      hosts allow = 192.168.0.0/16 191.18.19.0/24
       hosts deny = 0.0.0.0/0
     '';
     shares = {
@@ -111,26 +114,9 @@ in
     };
   };
 
-  ptsd.secrets.files = {
-    "syncthing.key" = { dependants = [ "syncthing.service" ]; };
-    "syncthing.crt" = { dependants = [ "syncthing.service" ]; };
-  };
-
-  services.syncthing = {
-    enable = true;
-
-    declarative = {
-      key = "/run/keys/syncthing.key";
-      cert = "/run/keys/syncthing.crt";
-      devices = {
-        #homepc = { id = "xxx"; };
-      };
-      folders = {
-        "/data/SVB-Koetter" = {
-          id = "svb-koetter";
-        };
-      };
-    };
+  services.snapper.configs = {
+    SVB-Koetter.subvolume = "/data/SVB-Koetter";
+    Scans.subvolume = "/data/Scans";
   };
 
   users.users = {
