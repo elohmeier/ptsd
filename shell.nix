@@ -22,9 +22,13 @@ let
       ./update-gitref.sh nixpkgs https://github.com/NixOS/nixpkgs nixos-20.09
       ./update-gitref.sh nixpkgs-unstable https://github.com/NixOS/nixpkgs nixos-unstable
     '';
+    mk-conftest = ''
+      HOSTNAME="''${1?must provide hostname}"
+      nix-instantiate '<nixpkgs/nixos>' -A system -I nixos-config=1systems/$HOSTNAME/physical.nix -I secrets-shared=dummy-secrets -I client-secrets=dummy-secrets -I secrets=dummy-secrets -I ptsd=$(pwd) ''${@:2}
+    '';
     mk-dummy = ''
       HOSTNAME="''${1?must provide hostname}"
-      nix-build '<nixpkgs/nixos>' -A system -I nixos-config=1systems/$HOSTNAME/physical.nix -I secrets-shared=dummy-secrets -I client-secrets=dummy-secrets -I secrets=dummy-secrets -I ptsd=$(pwd)
+      nix-build '<nixpkgs/nixos>' -A system -I nixos-config=1systems/$HOSTNAME/physical.nix -I secrets-shared=dummy-secrets -I client-secrets=dummy-secrets -I secrets=dummy-secrets -I ptsd=$(pwd) ''${@:2}
     '';
     mk-drone-yml = "${pkgs.drone-cli}/bin/drone jsonnet --stream";
     mk-nwvpn-qr = "nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/nwvpn-qr {}'";
