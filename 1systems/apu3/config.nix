@@ -59,7 +59,8 @@ in
     };
     nat = {
       enable = true;
-      externalInterface = "enp0s16u2";
+      externalInterface = "ppp0";
+      #externalInterface = "enp0s16u2";
       #externalInterface = lanIf1;
       internalInterfaces = [ brlanIf ];
     };
@@ -68,6 +69,7 @@ in
   systemd.network.networks = {
     #   "40-enp0s18f2u1".dhcpV4Config.UseRoutes = false; # existing default routes will prevent ppp0 from creating a default route
     "40-${lanIf1}" = {
+      dhcpV4Config.UseRoutes = false; # allows pppd to set default route
       networkConfig = {
         ConfigureWithoutCarrier = true;
       };
@@ -108,12 +110,7 @@ in
     "40-ppp0" = {
       name = "ppp0";
       networkConfig = {
-        DHCP = "ipv6";
-        IPv6AcceptRA = "yes";
         KeepConfiguration = "yes"; # accept config set by pppd
-      };
-      dhcpV6Config = {
-        ForceDHCPv6PDOtherInformation = "yes";
       };
     };
   };
@@ -208,8 +205,9 @@ in
         'OK-AT-OK' 'ATI'
         'OK' 'AT+CFUN=1'
         'OK' 'AT+CMEE=2'
-        ''' 'AT+CSQ'
+        'OK' 'AT+CSQ'
         'OK' 'AT+CGDCONT=1,"IP","internet.telekom"'
+        TIMEOUT 10
         'OK' 'ATDT*99***1#'
         TIMEOUT 3
         CONNECT '''
@@ -221,7 +219,7 @@ in
       # and https://github.com/blu3bird/OpenHybrid
       peers.telekom = {
         enable = true;
-        autostart = false;
+        autostart = true;
         config = ''
           /dev/ttyUSB0
           115200
@@ -229,7 +227,7 @@ in
           # Login settings
           noauth
           hide-password
-          user "test"
+          user "congstar"
           remotename telekom
           ipparam telekom
 
@@ -238,13 +236,12 @@ in
           persist
           maxfail 0
           holdoff 5
+          nodeflate
 
           # IP settings
           noipdefault
+          noipv6
           defaultroute
-          +ipv6
-          defaultroute6
-          #usepeerdns
 
           # Increase debugging level
           debug
@@ -254,11 +251,11 @@ in
 
   environment.etc."ppp/pap-secrets" =
     {
-      text = ''"test" telekom "test"'';
+      text = ''"congstar" telekom "cs"'';
       mode = "0400";
     };
 
-  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen samba ];
+  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen samba iftop ];
 
   programs.mosh.enable = true;
 }
