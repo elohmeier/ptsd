@@ -30,8 +30,9 @@ in
     enable = true;
     enablePipewire = true;
     mode = "sway";
-    fontMono = "Cozette";
+    #fontMono = "Cozette";
     trayOutput = "eDP-1";
+    terminalConfig = "alacritty";
   };
 
   home-manager = {
