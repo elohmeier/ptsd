@@ -24,6 +24,8 @@ in
     <home-manager/nixos>
   ];
 
+  ptsd.nwacme.enableHostCert = false;
+
   ptsd.desktop = {
     enable = true;
     enablePipewire = true;
