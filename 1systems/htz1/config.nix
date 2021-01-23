@@ -104,7 +104,7 @@ in
     in
     {
       "nerdworks.de" = {
-        webroot = config.ptsd.nwacme.webroot;
+        webroot = config.ptsd.nwacme.http.webroot;
         extraDomainNames = [ "www.nerdworks.de" ];
         credentialsFile = envFile "nerdworks.de";
         group = "certs";
@@ -112,14 +112,14 @@ in
       };
 
       "ci.nerdworks.de" = {
-        webroot = config.ptsd.nwacme.webroot;
+        webroot = config.ptsd.nwacme.http.webroot;
         credentialsFile = envFile "ci.nerdworks.de";
         group = "certs";
         postRun = "systemctl restart traefik.service";
       };
 
       "git.nerdworks.de" = {
-        webroot = config.ptsd.nwacme.webroot;
+        webroot = config.ptsd.nwacme.http.webroot;
         credentialsFile = envFile "git.nerdworks.de";
         group = "certs";
         postRun = "systemctl restart traefik.service";
@@ -135,7 +135,7 @@ in
       # };
 
       "mqtt.nerdworks.de" = {
-        webroot = config.ptsd.nwacme.webroot;
+        webroot = config.ptsd.nwacme.http.webroot;
         keyType = "rsa2048"; # https://tasmota.github.io/docs/TLS/#limitations
         credentialsFile = envFile "mqtt.nerdworks.de";
         group = "certs";
@@ -145,7 +145,8 @@ in
 
   ptsd.nwacme = {
     enable = true;
-    enableHttpValidation = true;
+    http.enable = true;
+    hostCertUseHTTP = true;
   };
 
   ptsd.mosquitto = {

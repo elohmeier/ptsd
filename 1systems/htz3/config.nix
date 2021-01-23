@@ -13,8 +13,6 @@ in
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
       <ptsd/2configs/prometheus/node.nix>
-
-      #<ptsd/2configs/cli-tools.nix>
     ];
 
   networking = {
@@ -75,33 +73,18 @@ in
     entryPoints = {
       "www4-http" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
-        http.redirections.entryPoint = {
-          to = "www4-https";
-          scheme = "https";
-          permanent = true;
-        };
       };
       "www4-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
       };
       "www6-http" = {
         address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
-        http.redirections.entryPoint = {
-          to = "www6-https";
-          scheme = "https";
-          permanent = true;
-        };
       };
       "www6-https" = {
         address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
       };
       "nwvpn-http" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
-        http.redirections.entryPoint = {
-          to = "nwvpn-https";
-          scheme = "https";
-          permanent = true;
-        };
       };
       "nwvpn-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
@@ -137,44 +120,37 @@ in
       email = email;
       acceptTerms = true;
       certs = {
-        "${config.networking.hostName}.${config.networking.domain}" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "${config.networking.hostName}.${config.networking.domain}";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
         "fraam.de" = {
           extraDomainNames = [ "www.fraam.de" ];
-          dnsProvider = "acme-dns";
+          webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
 
         "dev.fraam.de" = {
-          dnsProvider = "acme-dns";
+          webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "dev.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
 
         "id.fraam.de" = {
-          dnsProvider = "acme-dns";
+          webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "id.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
 
         "git.fraam.de" = {
-          dnsProvider = "acme-dns";
+          webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "git.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
 
         "vault.fraam.de" = {
-          dnsProvider = "acme-dns";
+          webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "vault.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
@@ -183,6 +159,13 @@ in
         # remember to add new certs to the traefik cert list :-)
       };
     };
+
+  ptsd.nwacme = {
+    enable = true;
+    http.enable = true;
+    enableHostCert = true;
+    hostCertUseHTTP = true;
+  };
 
   # users.users = {
   #   sharath = {
@@ -246,4 +229,7 @@ in
 
   networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.services.murmur.port ];
   networking.firewall.interfaces.ens3.allowedUDPPorts = [ config.services.murmur.port ];
+
+  programs.mosh.enable = true;
+
 }
