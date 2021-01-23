@@ -38,9 +38,15 @@ in
       };
     };
     firewall = {
-      interfaces."${brlanIf}" = {
-        allowedTCPPorts = [ 53 631 445 139 ];
-        allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
+      interfaces = {
+        "${brlanIf}" = {
+          allowedTCPPorts = [ 53 631 445 139 ];
+          allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
+        };
+        "${lanIf1}" = {
+          allowedTCPPorts = [ 445 139 ];
+          allowedUDPPorts = [ 137 138 ];
+        };
       };
 
       #     # reduce noise coming from ppp if
@@ -128,18 +134,56 @@ in
     '';
   };
 
-  # services.samba = {
-  #   enable = true;
-  #   securityType = "user";
-  #   extraConfig = ''
-  #     workgroup = WORKGROUP
-  #     server string = ${config.networking.hostName}
-  #     netbios name = ${config.networking.hostName}
-  #     security = user
-  #     hosts allow = 192.168.123.0/24
-  #     hosts deny = 0.0.0.0/0
-  #   '';
-  # };
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
+      security = user
+      hosts allow = 192.168.0.0/16
+      hosts deny = 0.0.0.0/0
+    '';
+    shares = {
+      SVB-Koetter = {
+        path = "/data/SVB-Koetter";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+      Scans = {
+        path = "/data/Scans";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+    };
+  };
+
+  services.syncthing = {
+    enable = true;
+
+    declarative = {
+      key = "/run/keys/syncthing.key";
+      cert = "/run/keys/syncthing.crt";
+      devices = {
+        #homepc = { id = "xxx"; };
+      };
+      folders = {
+        "/data/SVB-Koetter" = {
+          id = "svb-koetter";
+        };
+      };
+    };
+  };
+
+  users.users = {
+    "c.koetter" = { };
+    "m.nieporte" = { };
+    "scanner" = { };
+  };
+
 
   # useful commands for `screen /dev/ttyUSB0 115200`
   # AT+CPIN? //Check if SIM is PIN locked
@@ -214,7 +258,7 @@ in
       mode = "0400";
     };
 
-  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen ];
+  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen samba ];
 
   programs.mosh.enable = true;
 }

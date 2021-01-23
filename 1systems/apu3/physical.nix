@@ -40,6 +40,12 @@
       fsType = "ext4";
     };
 
+  fileSystems."/data" = {
+    device = "/dev/disk/by-id/ata-CT2000MX500SSD1_2048E4D39634-part1";
+    fsType = "btrfs";
+    options = [ "ssd" "space_cache" "subvolid=5" "subvol=/" "compress=zstd" ];
+  };
+
   swapDevices =
     [
       { device = "/dev/vg/swap"; }
