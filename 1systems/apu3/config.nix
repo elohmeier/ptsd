@@ -1,9 +1,7 @@
 with import <ptsd/lib>;
 { config, lib, pkgs, ... }:
 let
-  netcfg = import <secrets/netcfg.nix>;
   wifiIf = "wlp4s0";
-  wanIf = "wwp0s19u1u3c2"; # LTE
   lanIf1 = "enp1s0"; # WAN / Fritz!Box
   lanIf2 = "enp2s0"; # LAN
   lanIf3 = "enp3s0"; # LAN
@@ -22,54 +20,48 @@ in
     useNetworkd = true;
     useDHCP = false;
     hostName = "apu3";
-    bridges."${brlanIf}".interfaces = [ lanIf2 lanIf3 ];
+    bridges."${brlanIf}".interfaces = [ lanIf1 lanIf2 lanIf3 ];
     interfaces = {
-      # WAN Fritz!Box
-      "${lanIf1}" = {
-        useDHCP = true;
-      };
-
-      # LAN/WIFI
-      "${brlanIf}".ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
-
-      # LTE WAN
-      enp0s16u2 = {
+      "${brlanIf}" = {
         useDHCP = true;
       };
     };
     firewall = {
       interfaces = {
         "${brlanIf}" = {
-          allowedTCPPorts = [ 53 631 445 139 ];
-          allowedUDPPorts = [ 53 67 68 546 547 631 137 138 ];
-        };
-        "${lanIf1}" = {
           allowedTCPPorts = [ 445 139 ];
           allowedUDPPorts = [ 137 138 ];
         };
       };
 
-      #     # reduce noise coming from ppp if
-      #     logRefusedConnections = false;
+      # reduce noise coming from ppp if
+      # logRefusedConnections = false;
 
-      #     # useful for debugging
-      #     # logRefusedPackets = true;
-      #     # logRefusedUnicastsOnly = false;
-      #     # logReversePathDrops = true;
+      # useful for debugging
+      #logRefusedPackets = true;
+      #logRefusedUnicastsOnly = false;
+      #logReversePathDrops = true;
     };
     nat = {
       enable = true;
       externalInterface = "ppp0";
-      #externalInterface = "enp0s16u2";
-      #externalInterface = lanIf1;
       internalInterfaces = [ brlanIf ];
     };
   };
 
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
+
   systemd.network.networks = {
-    #   "40-enp0s18f2u1".dhcpV4Config.UseRoutes = false; # existing default routes will prevent ppp0 from creating a default route
-    "40-${lanIf1}" = {
+    "40-${brlanIf}" = {
       dhcpV4Config.UseRoutes = false; # allows pppd to set default route
+      networkConfig = {
+        ConfigureWithoutCarrier = true;
+      };
+    };
+    "40-${lanIf1}" = {
       networkConfig = {
         ConfigureWithoutCarrier = true;
       };
@@ -84,51 +76,12 @@ in
         ConfigureWithoutCarrier = true;
       };
     };
-    "40-${brlanIf}" = {
-      networkConfig = {
-        #IPv6AcceptRA = false;
-        #IPv6PrefixDelegation = "dhcpv6";
-        #IPv6DuplicateAddressDetection = 1;
-        #IPv6PrivacyExtensions = lib.mkForce "no";
-        DHCPServer = true; # ipv4, see dhcpServerConfig below
-      };
-      ipv6PrefixDelegationConfig = {
-        #RouterLifetimeSec = 300; # required as otherwise no RA's are being emitted
-      };
-      dhcpServerConfig = {
-        PoolOffset = 100;
-        PoolSize = 20;
-        EmitDNS = "yes";
-        DNS = "8.8.8.8";
-      };
-    };
-    "40-${wifiIf}" = {
-      networkConfig = {
-        LinkLocalAddressing = "no";
-      };
-    };
     "40-ppp0" = {
       name = "ppp0";
       networkConfig = {
         KeepConfiguration = "yes"; # accept config set by pppd
       };
     };
-  };
-
-  boot.kernel.sysctl = {
-    "net.ipv6.conf.all.forwarding" = true;
-  };
-
-  services.hostapd = {
-    enable = true;
-    interface = wifiIf;
-    ssid = "SVB";
-    wpaPassphrase = netcfg.wifi.passphrase;
-    countryCode = "DE";
-    extraConfig = ''
-      wpa_pairwise=CCMP
-      bridge=${brlanIf}
-    '';
   };
 
   services.samba = {
@@ -158,6 +111,11 @@ in
     };
   };
 
+  ptsd.secrets.files = {
+    "syncthing.key" = { dependants = [ "syncthing.service" ]; };
+    "syncthing.crt" = { dependants = [ "syncthing.service" ]; };
+  };
+
   services.syncthing = {
     enable = true;
 
@@ -180,7 +138,6 @@ in
     "m.nieporte" = { };
     "scanner" = { };
   };
-
 
   # useful commands for `screen /dev/ttyUSB0 115200`
   # AT+CPIN? //Check if SIM is PIN locked
