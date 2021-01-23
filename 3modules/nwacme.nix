@@ -7,21 +7,41 @@ in
   options = {
     ptsd.nwacme = {
       enable = mkEnableOption "nwacme";
-      enableHttpValidation = mkEnableOption "http-validation";
-      entryPoints = mkOption {
-        type = with types; listOf str;
-        default = [ "www4-http" "www6-http" ];
+      enableHostCert = mkOption {
+        type = types.bool;
+        default = false;
       };
-      webroot = mkOption {
-        type = types.str;
-        default = "/var/lib/acme/acme-challenges";
+      hostCertUseHTTP = mkOption {
+        type = types.bool;
+        default = false;
+      };
+      http = mkOption {
+        default = { };
+        type = types.submodule {
+          options = {
+            enable = mkEnableOption "http-validation";
+            entryPoints = mkOption {
+              type = with types; listOf str;
+              default = [ "www4-http" "www6-http" ];
+            };
+            webroot = mkOption {
+              type = types.str;
+              default = "/var/lib/acme/acme-challenges";
+            };
+          };
+        };
       };
     };
   };
 
   config = mkIf cfg.enable {
 
-    services.nginx = mkIf cfg.enableHttpValidation {
+    assertions = [{
+      assertion = cfg.enableHostCert && cfg.hostCertUseHTTP -> cfg.http.enable;
+      message = "ptsd.http has to be enabled to use HTTP-01 host certficate validation";
+    }];
+
+    services.nginx = mkIf cfg.http.enable {
       enable = true;
       virtualHosts = {
         "nwacme" = {
@@ -33,23 +53,57 @@ in
           ];
 
           locations."/.well-known/acme-challenge" = {
-            root = "/var/lib/acme/acme-challenges";
+            root = cfg.http.webroot;
           };
         };
       };
     };
 
-    ptsd.nwtraefik.services = mkIf cfg.enableHttpValidation [
+
+    users.groups.certs.members = mkIf cfg.http.enable [ config.services.nginx.user ];
+
+    security.acme =
+      let
+        envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
+          ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
+          ACME_DNS_API_BASE=https://auth.nerdworks.de
+        '';
+      in
       {
-        name = "nginx-nwacme";
-        rule = "PathPrefix(`/.well-known/acme-challenge`)";
-        entryPoints = cfg.entryPoints;
-        priority = 9999; # high-priority for router
-        tls = false;
-      }
-    ];
+        email = lib.mkDefault "elo-lenc@nerdworks.de";
+        acceptTerms = true;
+        certs = mkIf cfg.enableHostCert {
+          "${config.networking.hostName}.${config.networking.domain}" = {
+            webroot = mkIf cfg.hostCertUseHTTP cfg.http.webroot;
+            dnsProvider = mkIf (!cfg.hostCertUseHTTP) "acme-dns";
+            credentialsFile = mkIf (!cfg.hostCertUseHTTP) envFile "${config.networking.hostName}.${config.networking.domain}";
+            group = "certs";
+            #dnsPropagationCheck = false;
+          };
+        };
+      };
 
-    users.groups.certs.members = mkIf cfg.enableHttpValidation [ config.services.nginx.user ];
-
+    ptsd.nwtraefik =
+      let
+        hostCert = {
+          certFile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/cert.pem";
+          keyFile = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}/key.pem";
+        };
+      in
+      {
+        certificates = mkIf cfg.enableHostCert [
+          hostCert
+        ];
+        defaultCertificate = mkIf cfg.enableHostCert hostCert;
+        services = mkIf cfg.http.enable [
+          {
+            name = "nginx-nwacme";
+            rule = "PathPrefix(`/.well-known/acme-challenge`)";
+            entryPoints = cfg.http.entryPoints;
+            priority = 9999; # high-priority for router
+            tls = false;
+          }
+        ];
+      };
   };
 }

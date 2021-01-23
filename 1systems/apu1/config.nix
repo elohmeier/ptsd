@@ -9,7 +9,6 @@ in
   imports = [
     <ptsd>
     <ptsd/2configs>
-    <ptsd/2configs/acme-nwhost-cert.nix>
     <ptsd/2configs/hardened.nix>
     <ptsd/2configs/nwhost-mini.nix>
     <ptsd/2configs/prometheus/node.nix>

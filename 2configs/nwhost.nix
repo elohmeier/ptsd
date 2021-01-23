@@ -5,9 +5,13 @@ in
 {
   imports = [
     <ptsd/3modules>
-    <ptsd/2configs/acme-nwhost-cert.nix>
     <ptsd/2configs/nwhost-mini.nix>
   ];
+
+  ptsd.nwacme = {
+    enable = lib.mkDefault true;
+    enableHostCert = lib.mkDefault true;
+  };
 
   ptsd.nwbackup = {
     enable = lib.mkDefault true;
