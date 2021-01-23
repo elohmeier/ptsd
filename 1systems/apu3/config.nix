@@ -31,6 +31,11 @@ in
 
       # LAN/WIFI
       "${brlanIf}".ipv4.addresses = [{ address = "192.168.123.1"; prefixLength = 24; }];
+
+      # LTE WAN
+      enp0s16u2 = {
+        useDHCP = true;
+      };
     };
     firewall = {
       interfaces."${brlanIf}" = {
@@ -48,7 +53,8 @@ in
     };
     nat = {
       enable = true;
-      externalInterface = lanIf1;
+      externalInterface = "enp0s16u2";
+      #externalInterface = lanIf1;
       internalInterfaces = [ brlanIf ];
     };
   };
@@ -167,6 +173,8 @@ in
     in
     {
       enable = true;
+      # see https://telekomhilft.telekom.de/t5/Blog/Neuer-IPv6-Zugang-zum-mobilen-Internet-im-Netz-der-Telekom/ba-p/4254741
+      # and https://github.com/blu3bird/OpenHybrid
       peers.telekom = {
         enable = true;
         autostart = false;
@@ -206,7 +214,7 @@ in
       mode = "0400";
     };
 
-  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim ];
+  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen ];
 
   programs.mosh.enable = true;
 }
