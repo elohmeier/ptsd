@@ -895,8 +895,8 @@ in
                 };
               };
 
-            programs.kitty = mkIf (cfg.terminalConfig == "kitty") {
-              enable = true;
+            programs.kitty = {
+              enable = lib.mkDefault (cfg.terminalConfig == "kitty");
               font.name = cfg.fontMono;
 
               # solarized dark

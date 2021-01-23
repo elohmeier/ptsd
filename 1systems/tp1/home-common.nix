@@ -12,6 +12,8 @@ in
     <ptsd/2configs/home/gpg.nix>
   ];
 
+  programs.kitty.enable = true;
+
   # disable touchpad
   xsession.windowManager.i3.extraConfig = ''
     exec ${pkgs.xorg.xinput}/bin/xinput disable "Synaptics TM3381-002"
