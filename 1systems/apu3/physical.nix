@@ -5,6 +5,10 @@
     <nixpkgs/nixos/modules/installer/scan/not-detected.nix> # required for wifi interface
   ];
 
+  boot.kernelParams = [
+    "mitigations=off" # make linux fast again
+  ];
+
   boot.supportedFilesystems = [ "btrfs" ];
 
   fileSystems."/" = {
