@@ -383,7 +383,6 @@ in
             Type = "notify";
             WatchdogSec = "1s";
             Restart = "always";
-            StartLimitInterval = 86400;
             StartLimitBurst = 5;
             AmbientCapabilities = "cap_net_bind_service";
             CapabilityBoundingSet = "cap_net_bind_service";
@@ -412,6 +411,9 @@ in
             SystemCallFilter = "@system-service";
             SystemCallErrorNumber = "EPERM";
             SystemCallArchitectures = "native";
+          };
+          unitConfig = {
+            StartLimitInterval = 86400;
           };
         };
 

@@ -34,7 +34,6 @@ in
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/drone-server";
         EnvironmentFile = cfg.envFile;
-        StartLimitInterval = 86400;
         StartLimitBurst = 5;
         AmbientCapabilities = "cap_net_bind_service";
         CapabilityBoundingSet = "cap_net_bind_service";
@@ -48,6 +47,9 @@ in
         DynamicUser = true;
         StateDirectory = "drone-server";
         Restart = "on-failure";
+      };
+      unitConfig = {
+        StartLimitInterval = 86400;
       };
       environment = {
         DRONE_DATABASE_DRIVER = "sqlite3";

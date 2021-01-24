@@ -87,7 +87,6 @@ in
           path = with pkgs; [ git nix openssh docker drone-gitea-release drone-telegram ];
           serviceConfig = {
             ExecStart = "${pkgs.drone-runner-exec}/bin/drone-runner-exec";
-            StartLimitInterval = 86400;
             StartLimitBurst = 5;
             NoNewPrivileges = true;
             LimitNPROC = 256;
@@ -101,6 +100,9 @@ in
             EnvironmentFile = "/run/drone-runner-exec/drone-ci.env";
             RuntimeDirectory = "drone-runner-exec";
             SupplementaryGroups = "docker";
+          };
+          unitConfig = {
+            StartLimitInterval = 86400;
           };
           environment = {
             DRONE_RPC_HOST = "ci.nerdworks.de";
