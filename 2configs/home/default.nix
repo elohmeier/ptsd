@@ -74,4 +74,7 @@
       "application/vnd.oasis.opendocument.presentation" = [ "impress.desktop" ];
     };
   };
+
+  # force overwrite of mimeapps.list, since it will be manipulated by some desktop apps without asking
+  xdg.configFile."mimeapps.list".force = true;
 }
