@@ -10,7 +10,7 @@ in
 
   ptsd.nwacme = {
     enable = lib.mkDefault true;
-    enableHostCert = lib.mkDefault true;
+    hostCert.enable = lib.mkDefault true;
   };
 
   ptsd.nwbackup = {

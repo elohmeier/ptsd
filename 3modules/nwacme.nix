@@ -7,13 +7,12 @@ in
   options = {
     ptsd.nwacme = {
       enable = mkEnableOption "nwacme";
-      enableHostCert = mkOption {
-        type = types.bool;
-        default = false;
-      };
-      hostCertUseHTTP = mkOption {
-        type = types.bool;
-        default = false;
+      hostCert = {
+        enable = mkEnableOption "host-cert";
+        useHTTP = mkOption {
+          type = types.bool;
+          default = false;
+        };
       };
       http = mkOption {
         default = { };
@@ -37,7 +36,7 @@ in
   config = mkIf cfg.enable {
 
     assertions = [{
-      assertion = cfg.enableHostCert && cfg.hostCertUseHTTP -> cfg.http.enable;
+      assertion = cfg.hostCert.enable && cfg.hostCert.useHTTP -> cfg.http.enable;
       message = "ptsd.http has to be enabled to use HTTP-01 host certficate validation";
     }];
 
@@ -59,7 +58,6 @@ in
       };
     };
 
-
     users.groups.certs.members = mkIf cfg.http.enable [ config.services.nginx.user ];
 
     security.acme =
@@ -72,11 +70,11 @@ in
       {
         email = lib.mkDefault "elo-lenc@nerdworks.de";
         acceptTerms = true;
-        certs = mkIf cfg.enableHostCert {
+        certs = mkIf cfg.hostCert.enable {
           "${config.networking.hostName}.${config.networking.domain}" = {
-            webroot = mkIf cfg.hostCertUseHTTP cfg.http.webroot;
+            webroot = mkIf cfg.hostCert.useHTTP cfg.http.webroot;
             dnsProvider = mkIf (!cfg.hostCertUseHTTP) "acme-dns";
-            credentialsFile = mkIf (!cfg.hostCertUseHTTP) envFile "${config.networking.hostName}.${config.networking.domain}";
+            credentialsFile = mkIf (!cfg.hostCert.useHTTP) (envFile "${config.networking.hostName}.${config.networking.domain}");
             group = "certs";
             #dnsPropagationCheck = false;
           };
@@ -91,10 +89,10 @@ in
         };
       in
       {
-        certificates = mkIf cfg.enableHostCert [
+        certificates = mkIf cfg.hostCert.enable [
           hostCert
         ];
-        defaultCertificate = mkIf cfg.enableHostCert hostCert;
+        defaultCertificate = mkIf cfg.hostCert.enable hostCert;
         services = mkIf cfg.http.enable [
           {
             name = "nginx-nwacme";
