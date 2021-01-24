@@ -29,6 +29,8 @@ in
     ./qemu.nix
   ];
 
+  ptsd.nwacme.hostCert.enable = false;
+
   ptsd.desktop = {
     enable = true;
     mode = "i3";
@@ -37,7 +39,7 @@ in
 
   ptsd.octoprint =
     {
-      enable = true;
+      enable = false;
       plugins = plugins: [
         (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
         (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bltouch.nix> { })
@@ -122,7 +124,8 @@ in
   # '';
 
   # *** NOUVEAU Driver ***
-  boot.kernelPackages = pkgs.linuxPackages_5_8; # required as of 20.09 (linux 5.8 instead of 5.4)
+  #boot.kernelPackages = pkgs.linuxPackages_5_8; # required as of 20.09 (linux 5.8 instead of 5.4)
+  boot.kernelPackages = pkgs.linuxPackages_latest; # for nixos-unstable
   services.xserver = {
     videoDrivers = [ "modesetting" ];
     xrandrHeads = [
