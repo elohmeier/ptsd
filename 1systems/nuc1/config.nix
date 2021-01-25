@@ -31,6 +31,8 @@
       };
   };
 
+  ptsd.nwacme.hostCert.enable = false;
+
   ptsd.desktop = {
     enable = true;
     mode = "sway";
@@ -108,7 +110,7 @@
   # };
 
   ptsd.nwtraefik = {
-    enable = true;
+    enable = false;
     entryPoints = {
       "loopback6-http" = {
         address = "[::1]:80";

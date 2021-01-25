@@ -521,10 +521,10 @@
           wireguard.pubkey = "qc0RF8c8jKAuchPk8eaGTVCI6E2GLXpeJ4Y3XKQg/jM=";
         };
       };
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuJNimfNjw0QE4BsPW9QR0sHMHkL01GydAjrTnSN5KT ";
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuP9fEqxESCd0b3GO1mKkXQo9mbUrql/W0DFMGLjtsa ";
-      syncthing.id = "RCLLB5S-G5WHIGJ-ZJYXKMQ-W4PE7JJ-LJBM7E3-HEGZOX6-MPQXCYB-S6NNHAL";
+      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuJNimfNjw0QE4BsPW9QR0sHMHkL01GydAjrTnSN5KT ";
+      #ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuP9fEqxESCd0b3GO1mKkXQo9mbUrql/W0DFMGLjtsa ";
+      #syncthing.id = "RCLLB5S-G5WHIGJ-ZJYXKMQ-W4PE7JJ-LJBM7E3-HEGZOX6-MPQXCYB-S6NNHAL";
     };
   };
 }

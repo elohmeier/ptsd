@@ -236,6 +236,7 @@ in
             };
           }
         );
+        default = [ ];
       };
 
       defaultCertificate = mkOption {
