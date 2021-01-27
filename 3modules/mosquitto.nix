@@ -36,7 +36,7 @@ let
       certfile /var/lib/acme/${cfg.certDomain}/cert.pem
       keyfile /var/lib/acme/${cfg.certDomain}/key.pem
       tls_version tlsv1.2
-      ciphers AES128-GCM-SHA256
+      ciphers ECDHE-RSA-AES128-GCM-SHA256
     ''}
   '';
 

@@ -146,12 +146,12 @@ in
   ptsd.nwacme = {
     enable = true;
     http.enable = true;
-    hostCertUseHTTP = true;
+    hostCert.useHTTP = true;
   };
 
   ptsd.mosquitto = {
     enable = true;
-    certDomain = "nerdworks.de";
+    certDomain = "mqtt.nerdworks.de";
     listeners = [
       { interface = "ens3"; ssl = true; }
     ];
