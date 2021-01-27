@@ -26,5 +26,6 @@ home-assistant.override {
     ps.spotipy
     ps.ssdp
     ps.zeroconf
+    ps.prometheus_client
   ];
 }

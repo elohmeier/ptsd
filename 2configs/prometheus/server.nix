@@ -22,6 +22,7 @@ let
       }
     ];
   };
+  prometheusSecrets = import <secrets/prometheus.nix>;
 in
 {
   # access via localhost
@@ -34,6 +35,18 @@ in
     ];
 
     scrapeConfigs = [
+      {
+        job_name = "hass";
+        scrape_interval = "60s";
+        metrics_path = "/api/prometheus";
+        bearer_token = prometheusSecrets.hass_token;
+        scheme = "https";
+        static_configs = [{
+          targets = [
+            "hass.services.nerdworks.de"
+          ];
+        }];
+      }
       {
         job_name = "node";
         scrape_interval = "60s";
