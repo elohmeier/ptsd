@@ -163,8 +163,10 @@ in
   ptsd.nwacme = {
     enable = true;
     http.enable = true;
-    enableHostCert = true;
-    hostCertUseHTTP = true;
+    hostCert = {
+      enable = true;
+      useHTTP = true;
+    };
   };
 
   # users.users = {

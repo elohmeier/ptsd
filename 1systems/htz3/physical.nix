@@ -35,6 +35,11 @@ in
     fsType = "ext4";
   };
 
+  fileSystems."/var/lib/fraam-gitlab/gitlab/state/repositories" = {
+    device = "${vgPrefix}-var--lib--fraam--gitlab--repos";
+    fsType = "ext4";
+  };
+
   fileSystems."/var/log" = {
     device = "${vgPrefix}-var--log";
     fsType = "ext4";

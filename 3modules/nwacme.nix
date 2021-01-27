@@ -73,7 +73,7 @@ in
         certs = mkIf cfg.hostCert.enable {
           "${config.networking.hostName}.${config.networking.domain}" = {
             webroot = mkIf cfg.hostCert.useHTTP cfg.http.webroot;
-            dnsProvider = mkIf (!cfg.hostCertUseHTTP) "acme-dns";
+            dnsProvider = mkIf (!cfg.hostCert.useHTTP) "acme-dns";
             credentialsFile = mkIf (!cfg.hostCert.useHTTP) (envFile "${config.networking.hostName}.${config.networking.domain}");
             group = "certs";
             #dnsPropagationCheck = false;
