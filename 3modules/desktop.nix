@@ -301,6 +301,9 @@ in
         type = types.str;
         default = "";
       };
+      backgroundFill = mkOption {
+        type = with types; nullOr (strMatching "#[0-9a-fA-F]{6}");
+      };
       lockImage = mkOption {
         type = types.str;
         default = "";
@@ -735,7 +738,7 @@ in
                 seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
                 mouse_warping none
               '' + optionalString (cfg.backgroundImage != "") ''
-                output "*" bg ${cfg.backgroundImage} fill
+                output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
               '';
             };
 
