@@ -359,6 +359,7 @@ in
     systemd.packages = [ pkgs.gnome3.evolution-data-server ];
 
     environment.systemPackages = with pkgs; [
+      config.hardware.pulseaudio.package
       pavucontrol
       pasystray
 
