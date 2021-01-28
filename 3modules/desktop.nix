@@ -537,6 +537,8 @@ in
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
+      sessionManager = "${config.services.pipewire.package}/bin/pipewire-media-session";
+      sessionManagerArguments = [ "-p" "bluez5.msbc-support=true" ];
     };
 
     home-manager =
