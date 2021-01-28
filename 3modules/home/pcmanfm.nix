@@ -11,9 +11,24 @@ in
   options.ptsd.pcmanfm = {
     enable = mkEnableOption "pcmanfm";
     enableRdpAssistant = mkEnableOption "rdp-assistant";
+    term = mkOption {
+      type = types.str;
+    };
   };
 
   config = mkIf cfg.enable {
+
+    xdg.configFile = {
+      "libfm/libfm.conf" = {
+        text = lib.generators.toINI { } {
+          config = {
+            terminal = cfg.term;
+          };
+        };
+        force = true;
+      };
+    };
+
     xdg.dataFile = {
 
       # not working

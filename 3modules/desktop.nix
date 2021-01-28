@@ -614,7 +614,10 @@ in
                 openweathermapApiKey = desktopSecrets.openweathermapApiKey;
               };
 
-            ptsd.pcmanfm.enable = true;
+            ptsd.pcmanfm = {
+              enable = true;
+              term = term.binary;
+            };
 
             home.packages = with pkgs;[
               libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
