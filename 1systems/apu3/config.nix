@@ -23,6 +23,14 @@ in
     interfaces = {
       "${brlanIf}" = {
         useDHCP = true;
+        ipv4.routes = [
+          # route to hetzner storagebox via DSL
+          {
+            address = "136.243.27.72";
+            prefixLength = 32;
+            via = "192.168.1.1";
+          }
+        ];
       };
     };
     firewall = {
@@ -222,4 +230,33 @@ in
   environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen samba iftop ];
 
   programs.mosh.enable = true;
+
+  environment.variables = {
+    BORG_REPO = "ssh://u255166@u255166.your-storagebox.de:23/./backups/apu3";
+    BORG_PASSCOMMAND = "cat ${toString <secrets>}/nwbackup.borgkey";
+  };
+
+  services.borgbackup.jobs.hetzner = {
+    paths = [ "/data" "/var/lib" "/var/src" ];
+    repo = "ssh://u255166@u255166.your-storagebox.de:23/./backups/apu3";
+    encryption = {
+      mode = "repokey";
+      passCommand = "cat ${toString <secrets>}/nwbackup.borgkey";
+    };
+    compression = "auto,lzma,6";
+    doInit = false;
+    extraCreateArgs = "--stats --exclude-caches";
+    prune.keep = {
+      within = "1d"; # Keep all archives from the last day
+      daily = 7;
+      weekly = 4;
+      monthly = 6;
+    };
+  };
+
+  ptsd.secrets.files = {
+    "nwbackup.id_ed25519" = {
+      path = "/root/.ssh/id_ed25519";
+    };
+  };
 }
