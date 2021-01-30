@@ -139,11 +139,12 @@ in
     };
 
   users.groups.svb = { gid = 997; };
-  users.users = {
-    "c.koetter" = { uid = 1002; group = "svb"; };
-    "m.nieporte" = { uid = 1003; group = "svb"; };
-    "scanner" = { uid = 1004; group = "svb"; };
-  };
+  users.users = let group = "svb"; in
+    {
+      "c.koetter" = { uid = 1002; inherit group; };
+      "m.nieporte" = { uid = 1003; inherit group; };
+      "scanner" = { uid = 1004; inherit group; };
+    };
 
   # useful commands for `screen /dev/ttyUSB0 115200`
   # AT+CPIN? //Check if SIM is PIN locked
