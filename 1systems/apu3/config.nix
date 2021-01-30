@@ -104,12 +104,18 @@ in
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
+        "force group" = "svb";
+        "create mask" = "0770";
+        "directory mask" = "0770";
       };
       Scans = {
         path = "/data/Scans";
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
+        "force group" = "svb";
+        "create mask" = "0770";
+        "directory mask" = "0770";
       };
     };
   };
@@ -119,10 +125,11 @@ in
     Scans.subvolume = "/data/Scans";
   };
 
+  users.groups.svb = { gid = 997; };
   users.users = {
-    "c.koetter" = { };
-    "m.nieporte" = { };
-    "scanner" = { };
+    "c.koetter" = { uid = 1002; group = "svb"; };
+    "m.nieporte" = { uid = 1003; group = "svb"; };
+    "scanner" = { uid = 1004; group = "svb"; };
   };
 
   # useful commands for `screen /dev/ttyUSB0 115200`
