@@ -16,7 +16,7 @@ let
       dependants = [ "systemd-networkd.service" ];
     };
 
-  vpnClients = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
+  vpnPeers = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
 
   generateWireguardPeers = netname: netcfg:
     if netcfg.server.enable then
@@ -30,7 +30,7 @@ let
               };
             }
           )
-          (builtins.attrValues (vpnClients netname))
+          (builtins.attrValues (vpnPeers netname))
       )
     else
       [
@@ -79,6 +79,19 @@ let
         IPMasquerade = "yes";
       };
     };
+
+  generateHosts = netname:
+    listToAttrs
+      (
+        map
+          (h:
+            nameValuePair h.nets."${netname}".ip4.addr h.nets."${netname}".aliases
+          )
+          (builtins.attrValues (
+            filterAttrs (hostname: hostcfg: hasAttrByPath [ "nets" netname "aliases" ] hostcfg)
+              (vpnPeers netname)
+          ))
+      );
 
   # network interface ordering has no effect, that's why we call them "A" and "B"
   genNatForward = ifA: ifB: op: ''
@@ -270,6 +283,8 @@ in
       extraCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardUp netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
       extraStopCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardDown netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
     };
+
+    networking.hosts = mapAttrs (name: value: flatten value) (zipAttrs (map (netname: generateHosts netname) (attrNames enabledNetworks)));
 
     boot.kernel.sysctl =
       optionalAttrs cfg.enableGlobalForwarding

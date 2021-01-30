@@ -89,7 +89,7 @@ in
               # below additions not always useful, e.g. gitlab-container on htz3 with different ssh-key used only on same public ip - so we only use the above nwvpn ip for now and below manual definitions
               # ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
               # ++ (mapAttrsToList (_: netcfg: netcfg.ip6.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip6" "addr" ] netcfg) hostcfg.nets))
-              # ++ (flatten (mapAttrsToList (_: netcfg: netcfg.aliases) (filterAttrs (_: netcfg: hasAttr "aliases" netcfg) hostcfg.nets)))
+              ++ (flatten (mapAttrsToList (_: netcfg: netcfg.aliases) (filterAttrs (_: netcfg: hasAttr "aliases" netcfg) hostcfg.nets)))
             ;
             publicKey = hostcfg.ssh.pubkey;
           }
@@ -106,7 +106,7 @@ in
           publicKey = universe.hosts.htz1.ssh.pubkey;
         };
         "fraamgit" = {
-          hostNames = [ universe.hosts.htz3.nets.www.ip4.addr universe.hosts.htz3.nets.www.ip6.addr ] ++ universe.hosts.htz3.nets.www.aliases;
+          hostNames = [ universe.hosts.htz3.nets.www.ip4.addr universe.hosts.htz3.nets.www.ip6.addr "git.fraam.de" ];
           publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKqi/Ley5IzAX4+x7446j/mEKFekN4pdfYSxesxO48LP";
         };
       };
@@ -145,4 +145,6 @@ in
       }
     });
   '';
+
+  networking.extraHosts = '''';
 }
