@@ -120,10 +120,23 @@ in
     };
   };
 
-  services.snapper.configs = {
-    SVB-Koetter.subvolume = "/data/SVB-Koetter";
-    Scans.subvolume = "/data/Scans";
-  };
+  services.snapper.configs =
+    let
+      extraConfig = ''
+        TIMELINE_CREATE=yes
+        TIMELINE_CLEANUP=yes
+      '';
+    in
+    {
+      SVB-Koetter = {
+        subvolume = "/data/SVB-Koetter";
+        inherit extraConfig;
+      };
+      Scans = {
+        subvolume = "/data/Scans";
+        inherit extraConfig;
+      };
+    };
 
   users.groups.svb = { gid = 997; };
   users.users = {
