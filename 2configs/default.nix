@@ -146,5 +146,5 @@ in
     });
   '';
 
-  networking.extraHosts = '''';
+  systemd.coredump.extraConfig = "Storage=none";
 }
