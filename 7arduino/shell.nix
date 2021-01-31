@@ -24,6 +24,7 @@ pkgs.mkShell {
     python2
     fhsarduino
     platformio
+    esptool
   ];
   shellHook =
     ''
