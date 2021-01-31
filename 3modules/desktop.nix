@@ -623,6 +623,7 @@ in
               libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
               playerctl
               ethtool
+              hicolor-icon-theme
             ] ++ term.extraPackages ++ optionals (cfg.mode == "i3") [
               xorg.xev
               xorg.xhost
