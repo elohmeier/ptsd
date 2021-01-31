@@ -23,6 +23,7 @@ pkgs.mkShell {
     avrdude
     python2
     fhsarduino
+    platformio
   ];
   shellHook =
     ''
