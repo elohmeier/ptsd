@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 let
   universe = import <ptsd/2configs/universe.nix>;
+  virshNatIpPrefix = "192.168.197"; # "XXX.XXX.XXX" without last block
+  virshNatIf = "virsh-nat";
 in
 {
   imports = [
@@ -24,7 +26,7 @@ in
     <home-manager/nixos>
   ];
 
-  ptsd.nwacme.enableHostCert = false;
+  ptsd.nwacme.hostCert.enable = false;
 
   ptsd.desktop = {
     enable = true;
@@ -137,24 +139,59 @@ in
 
     useNetworkd = true;
     useDHCP = false;
+
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+      wifi = {
+        backend = "iwd";
+        macAddress = "random";
+        powersave = true;
+      };
+    };
+
+    wireless.iwd.enable = true;
+
+    interfaces = {
+      "${virshNatIf}".ipv4.addresses = [{ address = "${virshNatIpPrefix}.1"; prefixLength = 24; }];
+    };
+
+    firewall.interfaces."${virshNatIf}" = {
+      allowedTCPPorts = [ 53 631 445 139 ];
+      allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
+    };
+
+    nat = {
+      enable = true;
+      externalInterface = "wlan0";
+      internalInterfaces = [ virshNatIf ];
+    };
+  };
+
+  systemd.network = {
+    netdevs = {
+      "40-${virshNatIf}" = {
+        netdevConfig = {
+          Name = virshNatIf;
+          Kind = "bridge";
+        };
+      };
+    };
+    networks = {
+      "40-${virshNatIf}" = {
+        matchConfig.Name = virshNatIf;
+        networkConfig = {
+          ConfigureWithoutCarrier = true;
+          DHCPServer = true;
+        };
+      };
+    };
   };
 
   services.resolved = {
     enable = true;
     dnssec = "false";
   };
-
-  networking.networkmanager = {
-    enable = true;
-    dns = "systemd-resolved";
-    wifi = {
-      backend = "iwd";
-      macAddress = "random";
-      powersave = true;
-    };
-  };
-
-  networking.wireless.iwd.enable = true;
 
   environment.systemPackages = with pkgs; [
     powertop
@@ -174,7 +211,7 @@ in
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
       security = user
-      hosts allow = 192.168.101.0/24 # host-virsh network
+      hosts allow = ${virshNatIpPrefix}.0/24 # virshNat network
       hosts deny = 0.0.0.0/0
     '';
     shares = {
@@ -185,11 +222,6 @@ in
         "guest ok" = "no";
       };
     };
-  };
-
-  networking.firewall.interfaces.virbr2 = {
-    allowedTCPPorts = [ 445 139 ];
-    allowedUDPPorts = [ 137 138 ];
   };
 
   ptsd.wireguard.networks = {
