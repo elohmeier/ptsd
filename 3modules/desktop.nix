@@ -363,6 +363,8 @@ in
       pavucontrol
       pasystray
 
+      xdg_utils
+
       libinput
       git
       zstd # can be removed in 20.09 (default there)
