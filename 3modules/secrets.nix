@@ -18,6 +18,7 @@ let
       path = with pkgs; [ coreutils ];
 
       script = ''
+        echo "copying ${file.source-path} to ${file.path}"
         install \
           -D \
           --compare \
@@ -26,8 +27,7 @@ let
           --owner=${escapeShellArg file.owner} \
           --group=${escapeShellArg file.group-name} \
           ${escapeShellArg file.source-path} \
-          ${escapeShellArg file.path} \
-          || echo "failed to copy ${file.source-path} to ${file.path}"
+          ${escapeShellArg file.path}
       '';
 
       serviceConfig = {
