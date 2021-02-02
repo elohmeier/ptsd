@@ -244,6 +244,7 @@ in
 
   services.borgbackup.jobs.hetzner = {
     paths = [ "/data" "/var/lib" "/var/src" ];
+    exclude = [ "/*/.snapshots" ];
     repo = "ssh://u255166@u255166.your-storagebox.de:23/./backups/apu3";
     encryption = {
       mode = "repokey";
