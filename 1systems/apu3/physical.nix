@@ -44,10 +44,23 @@
       fsType = "ext4";
     };
 
-  fileSystems."/data" = {
+  # subvolumes mounted individually below, see https://bugs.launchpad.net/ubuntu/+source/samba/+bug/1735953
+  #fileSystems."/data" = {
+  #  device = "/dev/disk/by-id/ata-CT2000MX500SSD1_2048E4D39634-part1";
+  #  fsType = "btrfs";
+  #  options = [ "ssd" "space_cache" "subvolid=5" "subvol=/" "compress=zstd" ];
+  #};
+
+  fileSystems."/data/SVB-Koetter" = {
     device = "/dev/disk/by-id/ata-CT2000MX500SSD1_2048E4D39634-part1";
     fsType = "btrfs";
-    options = [ "ssd" "space_cache" "subvolid=5" "subvol=/" "compress=zstd" ];
+    options = [ "ssd" "space_cache" "subvol=/SVB-Koetter" "compress=zstd" ];
+  };
+
+  fileSystems."/data/Scans" = {
+    device = "/dev/disk/by-id/ata-CT2000MX500SSD1_2048E4D39634-part1";
+    fsType = "btrfs";
+    options = [ "ssd" "space_cache" "subvol=/Scans" "compress=zstd" ];
   };
 
   swapDevices =
