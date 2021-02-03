@@ -1,5 +1,8 @@
 { config, lib, pkgs, ... }:
-
+let
+  todoistSecrets = import <secrets/todoist.nix>;
+  desktopSecrets = import <secrets-shared/desktop.nix>;
+in
 {
   imports =
     [
@@ -39,6 +42,10 @@
     trayOutput = "HDMI-A-2";
     fontMono = "Cozette";
     enablePipewire = true;
+    nwi3status = {
+      #todoistApiKey = todoistSecrets.todoistApiKey;
+      openweathermapApiKey = desktopSecrets.openweathermapApiKey;
+  };
   };
 
   # set low priority for nix daemon to ensure desktop responsiveness while updating

@@ -94,7 +94,7 @@ let
       "${cfg.modifier}+Shift+9" = "move container to workspace $ws9";
       "${cfg.modifier}+Shift+0" = "move container to workspace $ws10";
 
-      "${cfg.modifier}+Shift+r" = "restart";
+      "${cfg.modifier}+Shift+r" = if cfg.mode == "i3" then "restart" else "reload";
 
       "${cfg.modifier}+r" = "mode resize";
 
@@ -315,6 +315,16 @@ in
       hideCursorIdleSec = mkOption {
         type = types.int;
         default = 1;
+      };
+      nwi3status = mkOption {
+        type = types.submodule {
+          options = {
+            todoistApiKey = mkOption {
+              type = types.str;
+              default = "";
+            };
+          };
+        };
       };
     };
   };
@@ -607,21 +617,13 @@ in
               };
             };
 
-            ptsd.nwi3status =
-              let
-                desktopSecrets = import <secrets-shared/desktop.nix>;
-              in
-              {
-                enable = true;
-                openweathermapApiKey = desktopSecrets.openweathermapApiKey;
-              };
-
             ptsd.pcmanfm = {
               enable = true;
               term = term.binary;
             };
 
             home.packages = with pkgs;[
+              nwi3status
               libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
               playerctl
               ethtool
@@ -641,6 +643,42 @@ in
               wl-clipboard
             ];
 
+            xdg.configFile."i3/nwi3status.toml" =
+              let
+                statusConfig = {
+                  TodoistAPIKey = cfg.todoistApiKey;
+                };
+                statusConfigFile =
+                  pkgs.runCommand "nwi3status-config.toml"
+                    {
+                      buildInputs = [ pkgs.remarshal ];
+                      preferLocalBuild = true;
+                    } ''
+                    remarshal -if json -of toml \
+                      < ${pkgs.writeText "config.json"
+                      (builtins.toJSON statusConfig)} \
+                      > $out
+                  '';
+              in
+              {
+                source = statusConfigFile;
+                onChange =
+                  if cfg.mode == "i3" then
+                    ''
+                      i3Socket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/i3/ipc-socket.*
+                      if [ -S $i3Socket ]; then
+                        echo "Reloading i3"
+                        $DRY_RUN_CMD ${cfg.package}/bin/i3-msg -s $i3Socket reload 1>/dev/null
+                      fi
+                    ''
+                  else ''
+                    swaySocket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/sway-ipc.$UID.$(${pkgs.procps}/bin/pgrep -x sway || ${pkgs.coreutils}/bin/true).sock
+                    if [ -S $swaySocket ]; then
+                      echo "Reloading sway"
+                      $DRY_RUN_CMD ${pkgs.sway}/bin/swaymsg -s $swaySocket reload
+                    fi
+                  '';
+              };
 
             # auto-hide the mouse cursor after inactivity on i3/X11
             # sway has "hide_cursor" configuration option
