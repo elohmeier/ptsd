@@ -210,7 +210,6 @@ in
       workgroup = WORKGROUP
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
-      security = user
       hosts allow = ${virshNatIpPrefix}.0/24 # virshNat network
       hosts deny = 0.0.0.0/0
     '';

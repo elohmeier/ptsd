@@ -42,7 +42,6 @@ in
         workgroup = WORKGROUP
         server string = ${config.networking.hostName}
         netbios name = ${config.networking.hostName}
-        security = user
         hosts allow = ${cfg.hostsAllow}
         hosts deny = 0.0.0.0/0
 

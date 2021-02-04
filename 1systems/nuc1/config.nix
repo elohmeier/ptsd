@@ -88,12 +88,10 @@ in
 
   services.samba = {
     enable = true;
-    securityType = "user";
     extraConfig = ''
       workgroup = WORKGROUP
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
-      security = user
       hosts allow = 192.168.1.0/24
       hosts deny = 0.0.0.0/0
     '';
