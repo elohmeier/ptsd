@@ -237,14 +237,19 @@ in
   programs.mosh.enable = true;
 
   environment.variables = {
+    BORG_BASE_DIR = "/var/lib/borg";
     BORG_REPO = "ssh://u255166@u255166.your-storagebox.de:23/./backups/apu3";
     BORG_PASSCOMMAND = "cat ${toString <secrets>}/nwbackup.borgkey";
   };
 
   services.borgbackup.jobs.hetzner = {
     paths = [ "/data" "/var/lib" "/var/src" ];
-    exclude = [ "/*/.snapshots" ];
+    exclude = [ "/*/.snapshots" "/var/lib/borg" ];
     repo = "ssh://u255166@u255166.your-storagebox.de:23/./backups/apu3";
+    environment = {
+      BORG_BASE_DIR = "/var/lib/borg";
+    };
+    readWritePaths = [ "/var/lib/borg" ];
     encryption = {
       mode = "repokey";
       passCommand = "cat ${toString <secrets>}/nwbackup.borgkey";
