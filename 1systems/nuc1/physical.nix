@@ -37,6 +37,11 @@ in
       fsType = "ext4";
     };
 
+  fileSystems."/home/enno/public" = {
+    device = "${vgPrefix}/home-enno-public";
+    fsType = "ext4";
+  };
+
   fileSystems."/nix" =
     {
       device = "${vgPrefix}/nix";

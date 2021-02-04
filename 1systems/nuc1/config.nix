@@ -45,7 +45,7 @@ in
     nwi3status = {
       #todoistApiKey = todoistSecrets.todoistApiKey;
       openweathermapApiKey = desktopSecrets.openweathermapApiKey;
-  };
+    };
   };
 
   # set low priority for nix daemon to ensure desktop responsiveness while updating
@@ -94,6 +94,7 @@ in
       netbios name = ${config.networking.hostName}
       hosts allow = 192.168.1.0/24
       hosts deny = 0.0.0.0/0
+      map to guest = Bad User
     '';
     shares = {
       home = {
@@ -101,6 +102,13 @@ in
         browseable = "yes";
         "read only" = "no";
         "guest ok" = "no";
+      };
+      # public is a separate drive, see ./physical.nix
+      public = {
+        path = "/home/enno/public";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
       };
     };
   };
