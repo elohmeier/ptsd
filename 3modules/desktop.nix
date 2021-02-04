@@ -319,6 +319,10 @@ in
       nwi3status = mkOption {
         type = types.submodule {
           options = {
+            openweathermapApiKey = mkOption {
+              type = types.str;
+              default = "";
+            };
             todoistApiKey = mkOption {
               type = types.str;
               default = "";
@@ -498,6 +502,7 @@ in
     hardware = {
       bluetooth = {
         enable = true;
+        hsphfpd.enable = true;
         package = pkgs.bluezFull;
       };
 
@@ -646,7 +651,7 @@ in
             xdg.configFile."i3/nwi3status.toml" =
               let
                 statusConfig = {
-                  TodoistAPIKey = cfg.todoistApiKey;
+                  TodoistAPIKey = cfg.nwi3status.todoistApiKey;
                 };
                 statusConfigFile =
                   pkgs.runCommand "nwi3status-config.toml"
