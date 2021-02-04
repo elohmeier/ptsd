@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, bluez }:
+{ lib, stdenv, fetchFromGitHub, bluez }:
 
 stdenv.mkDerivation rec {
   pname = "hidclient";
@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
     cp hidclient $out/bin
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "Bluetooth HID client device emulation";
     license = licenses.gpl2;
     homepage = "https://github.com/benizi/hidclient";

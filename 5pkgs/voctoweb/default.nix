@@ -1,4 +1,4 @@
-{ stdenv, bundlerEnv, fetchFromGitHub, ruby, nodejs }:
+{ stdenv, lib, bundlerEnv, fetchFromGitHub, ruby, nodejs }:
 let
   env = bundlerEnv {
     name = "voctoweb";
@@ -43,7 +43,7 @@ stdenv.mkDerivation {
     inherit env ruby;
   };
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     description = "The frontend and backend software behind media.ccc.de";
     homepage = "https://github.com/voc/voctoweb";
     license = licenses.gpl3;

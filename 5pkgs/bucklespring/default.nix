@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, openal, alure, libX11, libXtst, pkg-config, libinput, makeWrapper, useLibInput ? false }:
+{ stdenv, lib, fetchFromGitHub, openal, alure, libX11, libXtst, pkg-config, libinput, makeWrapper, useLibInput ? false }:
 
 stdenv.mkDerivation rec {
   pname = "bucklespring";
@@ -13,7 +13,7 @@ stdenv.mkDerivation rec {
 
   buildInputs = [ openal alure pkg-config ] ++ (if useLibInput then [ libinput ] else [ libX11 libXtst ]);
 
-  makeFlags = stdenv.lib.optionals useLibInput [ "libinput=1" ];
+  makeFlags = lib.optionals useLibInput [ "libinput=1" ];
 
   nativeBuildInputs = [ makeWrapper ];
 
@@ -28,7 +28,7 @@ stdenv.mkDerivation rec {
     cp wav/*.wav $out/share/buckle/wav/
   '';
 
-  meta = with stdenv.lib; {
+  meta = with lib; {
     homepage = "https://github.com/zevv/bucklespring";
     description = "Nostalgia bucklespring keyboard sound";
     license = licenses.gpl2;
