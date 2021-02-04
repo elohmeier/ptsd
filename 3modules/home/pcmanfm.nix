@@ -134,10 +134,37 @@ in
 
           "X-Action-Profile pdfduplex" = {
             MimeTypes = "application/pdf";
-            Exec = "pdfduplex %F";
+            Exec = "${pkgs.pdfduplex}/bin/pdfduplex %F";
             # for debugging:
             # Exec = "${pkgs.alacritty}/bin/alacritty --hold -e ${pkgs.pdfduplex}/bin/pdfduplex %F";
             SelectionCount = 2;
+          };
+        };
+
+      "file-manager/actions/pdfconcat.desktop".text = lib.generators.toINI
+        { }
+        {
+          "Desktop Entry" = {
+            Type = "Action";
+            Name = "Concat PDF files";
+            "Name[de]" = "PDF-Dateien aneinanderhängen";
+            Profiles = "pdfconcat;";
+          };
+
+          "X-Action-Profile pdfconcat" = {
+            MimeTypes = "application/pdf";
+            Exec =
+              # https://black.readthedocs.io/en/stable/the_black_code_style.html#line-length
+              let script = pkgs.writers.writePython3 "pdfconcat"
+                {
+                  flakeIgnore = [ "E203" "E501" "W503" ];
+                }
+                (pkgs.substituteAll {
+                  src = ./pdfconcat.py;
+                  inherit (pkgs) pdftk;
+                });
+              in "${pkgs.alacritty}/bin/alacritty --hold -e ${script} %F";
+            # #"${script} %F";
           };
         };
 

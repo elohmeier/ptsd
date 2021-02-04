@@ -1,4 +1,5 @@
 result
 result-*
 .vscode/settings.json
+*.pyc
 
