@@ -241,8 +241,21 @@ in
     aecArgs = "beamforming=1 mic_geometry=-0.04,0,0,0.04,0,0 noise_suppression=1 analog_gain_control=0 digital_gain_control=1 agc_start_volume=200";
   };
 
+  services.octoprint = {
+    enable = true;
+    host = "127.0.0.1";
+    plugins = plugins: [ plugins.octoklipper ];
+    extraConfig = {
+      plugins.klipper = {
+        configuration.configpath = "/etc/klipper.cfg";
+        connection.port = "/run/klipper/tty";
+      };
+    };
+  };
+
   services.klipper = {
     enable = true;
+    octoprintIntegration = true;
     settings = {
 
       stepper_x = {
@@ -282,7 +295,7 @@ in
       extruder = {
         max_extrude_only_distance = "100.0";
         step_pin = "PB1";
-        dir_pin = "!PB0";
+        dir_pin = "PB0";
         enable_pin = "!PD6";
         microsteps = "16";
         rotation_distance = "9.524 # 336 steps/mm as specified in matrix extruder doc";
