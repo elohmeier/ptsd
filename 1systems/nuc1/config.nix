@@ -244,11 +244,21 @@ in
   services.octoprint = {
     enable = true;
     host = "127.0.0.1";
-    plugins = plugins: [ plugins.octoklipper ];
+    plugins = plugins: [
+      plugins.octoklipper
+      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
+    ];
     extraConfig = {
-      plugins.klipper = {
-        configuration.configpath = "/etc/klipper.cfg";
-        connection.port = "/run/klipper/tty";
+      plugins = {
+        bedlevelvisualizer.command = ''
+          BED_MESH_CALIBRATE
+          @BEDLEVELVISUALIZER
+          BED_MESH_OUTPUT
+        '';
+        klipper = {
+          configuration.configpath = "/etc/klipper.cfg";
+          connection.port = "/run/klipper/tty";
+        };
       };
     };
   };
@@ -290,6 +300,7 @@ in
         rotation_distance = "8";
         endstop_pin = "probe:z_virtual_endstop";
         position_max = "250";
+        # position_min="-2"; # only for calibration
       };
 
       extruder = {
@@ -352,10 +363,27 @@ in
       bltouch = {
         sensor_pin = "^PC4";
         control_pin = "PA4";
-        x_offset = "-41";
-        y_offset = "-13";
-        z_offset = "0.3";
+        x_offset = "-38";
+        y_offset = "1";
+        z_offset = "1.145"; # calibrated 05.02.2021
         speed = "5.0";
+      };
+
+      safe_z_home = {
+        home_xy_position = "120,120";
+        z_hop = "10.0";
+      };
+
+      bed_mesh = {
+        speed = "200";
+        horizontal_move_z = "5";
+        mesh_min = "10,30";
+        mesh_max = "180, 230";
+        probe_count = "3,3";
+      };
+
+      "gcode_macro G29" = {
+        gcode = "\n BED_MESH_CALIBRATE";
       };
     };
   };
