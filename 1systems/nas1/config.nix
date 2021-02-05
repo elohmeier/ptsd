@@ -56,8 +56,6 @@ in
       domain = "monica.services.nerdworks.de";
     };
 
-  ptsd.nobbofin-autofetch.enable = true;
-
   home-manager = {
     users.mainUser = { pkgs, ... }:
       {
