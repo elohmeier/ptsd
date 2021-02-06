@@ -601,10 +601,10 @@ in
               };
             };
 
-            services.screen-locker = {
+            services.screen-locker = mkIf (cfg.mode == "i3") {
               enable = true;
               lockCmd = lockCmd;
-              xssLockExtraOptions = mkIf (cfg.mode == "i3") [
+              xssLockExtraOptions = [
                 "-n"
                 "${pkgs.nwlock}/libexec/xsecurelock/dimmer" # nwlock package wraps custom xsecurelock
                 "-l" # make sure not to allow machine suspend before the screen saver is active
@@ -613,7 +613,7 @@ in
 
             systemd.user.services.flameshot = mkIf (cfg.mode == "i3") {
               Unit = {
-                Description = "Screenshot Tool";
+                Description = "Flameshot screenshot tool";
               };
 
               Service = {
@@ -788,6 +788,13 @@ in
               extraConfig = extraConfig + ''
                 seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
                 mouse_warping none
+                exec ${pkgs.swayidle}/bin/swayidle \
+                    timeout 300 '${lockCmd}' \
+                    timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
+                    resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
+                    timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
+                    resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
+                    before-sleep '${lockCmd}'
               '' + optionalString (cfg.backgroundImage != "") ''
                 output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
               '';
