@@ -38,9 +38,9 @@ let
 
   lockCmd =
     if cfg.lockImage != "" then
-      (if cfg.mode == "i3" then ''${pkgs.nwlock}/bin/nwlock "${cfg.lockImage}"'' else ''${pkgs.swaylock}/bin/swaylock --image "${cfg.lockImage}" --scaling center --color 000000'')
+      (if cfg.mode == "i3" then ''${pkgs.nwlock}/bin/nwlock "${cfg.lockImage}"'' else ''${pkgs.swaylock}/bin/swaylock --image "${cfg.lockImage}" --scaling center --color 000000 -f'')
     else
-      (if cfg.mode == "i3" then "${pkgs.i3lock}/bin/i3lock" else "${pkgs.swaylock}/bin/swaylock --color 000000");
+      (if cfg.mode == "i3" then "${pkgs.i3lock}/bin/i3lock" else "${pkgs.swaylock}/bin/swaylock --color 000000 -f");
 
   cwdCmd = if cfg.mode == "i3" then "${pkgs.xcwd}/bin/xcwd" else "${pkgs.swaycwd}/bin/swaycwd";
 
@@ -789,7 +789,7 @@ in
               extraConfig = extraConfig + ''
                 seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
                 mouse_warping none
-                exec ${pkgs.swayidle}/bin/swayidle \
+                exec ${pkgs.swayidle}/bin/swayidle -w \
                     timeout 300 '${lockCmd}' \
                     timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
                     resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
