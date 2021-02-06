@@ -18,47 +18,6 @@ in
   '';
   wayland.windowManager.sway.config.input."1739:0:Synaptics_TM3381-002".events = "disabled";
 
-  ptsd.nwi3status = {
-    todoistApiKey = todoistSecrets.todoistApiKey;
-    showBatteryStatus = true;
-    wifiIf = "wlan0";
-    extraDiskBlocks = [{
-      block = "disk_space";
-      path = "/home";
-      alias = "/h";
-      warning = 5;
-      alert = 1;
-    }
-      {
-        block = "disk_space";
-        path = "/persist";
-        alias = "/p";
-        warning = 0.5;
-        alert = 0.2;
-      }
-      {
-        block = "disk_space";
-        path = "/var/src";
-        alias = "/v/s";
-        warning = 0.3;
-        alert = 0.1;
-      }
-      {
-        block = "disk_space";
-        path = "/nix";
-        alias = "/n";
-        warning = 5;
-        alert = 1;
-      }
-      {
-        block = "disk_space";
-        path = "/tmp";
-        alias = "/t";
-        warning = 5;
-        alert = 1;
-      }];
-  };
-
   home.packages = with pkgs;[
     # steam
     pdfduplex
