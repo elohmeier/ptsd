@@ -718,7 +718,8 @@ in
               loginExtra = mkIf (cfg.mode == "sway") ''
                 # If running from tty1 start sway
                 if [ "$(tty)" = "/dev/tty1" ]; then
-                  exec ${pkgs.sway}/bin/sway
+                  # pass sway log output to journald
+                  exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway
                 fi
               '';
               shellAliases = term.extraAliases;
