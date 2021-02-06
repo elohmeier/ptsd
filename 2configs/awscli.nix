@@ -8,10 +8,8 @@
   };
 
   home-manager =
-    let
-      hostConfig = config; in
     {
-      users.mainUser = { config, pkgs, ... }:
+      users.mainUser = { config, pkgs, nixosConfig, ... }:
         {
           home.packages = [ pkgs.awscli2 ];
           home.file = {
@@ -22,7 +20,7 @@
                   region = "eu-central-1";
                 };
               };
-            ".aws/credentials".source = config.lib.file.mkOutOfStoreSymlink hostConfig.ptsd.secrets.files."awscli-credentials".path;
+            ".aws/credentials".source = config.lib.file.mkOutOfStoreSymlink nixosConfig.ptsd.secrets.files."awscli-credentials".path;
           };
         };
     };

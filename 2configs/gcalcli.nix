@@ -8,14 +8,12 @@
   };
 
   home-manager =
-    let
-      hostConfig = config; in
     {
-      users.mainUser = { config, pkgs, ... }:
+      users.mainUser = { config, pkgs, nixosConfig, ... }:
         {
           home.packages = [ pkgs.gcalcli ];
           home.file = {
-            ".gcalclirc".source = config.lib.file.mkOutOfStoreSymlink hostConfig.ptsd.secrets.files.gcalclirc.path;
+            ".gcalclirc".source = config.lib.file.mkOutOfStoreSymlink nixosConfig.ptsd.secrets.files.gcalclirc.path;
           };
         };
     };

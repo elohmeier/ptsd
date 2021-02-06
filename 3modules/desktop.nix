@@ -564,8 +564,6 @@ in
     };
 
     home-manager =
-      let
-        hostConfig = config; in
       {
         users.mainUser = { config, pkgs, ... }:
           {

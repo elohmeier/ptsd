@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hostConfig, ... }:
+{ config, lib, pkgs, ... }:
 
 # Tools you probably would not add to an ISO image
 let
