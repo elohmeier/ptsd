@@ -331,6 +331,7 @@ in
         };
         default = { };
       };
+      waybar.enable = mkEnableOption "waybar";
     };
   };
 
@@ -625,6 +626,45 @@ in
               enable = true;
               term = term.binary;
             };
+            programs.waybar = mkIf cfg.waybar.enable {
+              enable = true;
+              systemd.enable = true;
+              settings = [
+                {
+                  layer = "top";
+                  position = "bottom";
+                  height = 30;
+                  output = [
+                    "eDP-1"
+                    "HDMI-A-1"
+                  ];
+                  modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
+                  modules-center = [
+                    "sway/window"
+                    "custom/hello-from-waybar"
+                  ];
+                  modules-right = [
+                    "mpd"
+                    #"custom/mymodule#with-css-id" 
+                    "temperature"
+                  ];
+                  modules = {
+                    "sway/workspaces" = {
+                      disable-scroll = true;
+                      all-outputs = true;
+                    };
+                    "custom/hello-from-waybar" = {
+                      format = "hello {}";
+                      max-length = 40;
+                      interval = "once";
+                      exec = pkgs.writeShellScript "hello-from-waybar" ''
+                        echo "from within waybar"
+                      '';
+                    };
+                  };
+                }
+              ];
+            };
 
             home.packages = with pkgs;[
               nwi3status
@@ -772,7 +812,7 @@ in
                   modes = modes;
                   window.commands = window_commands;
                   fonts = fonts;
-                  bars = bars;
+                  bars = mkIf (!cfg.waybar.enable) bars;
 
                   # use `swaymsg -t get_inputs`
                   input = {
