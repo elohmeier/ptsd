@@ -22,6 +22,7 @@ in
     pwgen
     ripgrep
     rmlint
+    screen
     tig
     tmux
     tree
@@ -41,7 +42,6 @@ in
     usbutils
     wirelesstools
     wpa_supplicant
-    inetutils
     macchanger
     p7zip
     unrar

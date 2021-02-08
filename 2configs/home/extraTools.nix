@@ -106,7 +106,6 @@ in
     dnsmasq
     wireshark-qt
     freerdp
-    screen
     sqlitebrowser
     #asciinema
     gnumake
