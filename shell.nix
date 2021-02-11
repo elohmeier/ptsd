@@ -18,6 +18,7 @@ let
     '';
     mk-update = ''
       ./update-gitref.sh home-manager https://github.com/rycee/home-manager release-20.09
+      ./update-gitref.sh home-manager-unstable https://github.com/rycee/home-manager master
       ./update-gitref.sh nixos-hardware https://github.com/NixOS/nixos-hardware master
       ./update-gitref.sh nixpkgs https://github.com/NixOS/nixpkgs nixos-20.09
       ./update-gitref.sh nixpkgs-unstable https://github.com/NixOS/nixpkgs nixos-unstable
