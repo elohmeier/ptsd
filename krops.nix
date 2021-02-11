@@ -1,5 +1,6 @@
 { name
 , snixpkgs ? ./nixpkgs.json
+, shome-manager ? ./home-manager.json
 , home-manager ? true
 , unstable ? false
 , mailserver ? false
@@ -87,7 +88,7 @@ let
       lib.optionalAttrs home-manager {
         home-manager.git = {
           clean.exclude = [ "/.version-suffix" ];
-          ref = (lib.importJSON ./home-manager.json).rev;
+          ref = (lib.importJSON shome-manager).rev;
           url = https://github.com/rycee/home-manager;
           shallow = true;
         };
