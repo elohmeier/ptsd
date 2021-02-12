@@ -247,9 +247,20 @@ in
     plugins = plugins: [
       plugins.octoklipper
       (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
+      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/m73progress.nix> { })
     ];
     extraConfig = {
       plugins = {
+        _disabled = [
+          "announcements"
+          "tracking"
+          "backup"
+          "discovery"
+          "errortracking"
+          "firmware_check"
+          "softwareupdate"
+          "virtual_printer"
+        ];
         bedlevelvisualizer.command = ''
           BED_MESH_CALIBRATE
           @BEDLEVELVISUALIZER
