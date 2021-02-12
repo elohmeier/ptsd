@@ -47,6 +47,7 @@ in
 pkgs.mkShell {
   buildInputs = with pkgs; [
     scripts
+    packer
 
     # klipper deps    
     #(python2.withPackages (p: with p; [ cffi pyserial greenlet jinja2 ]))
