@@ -19,7 +19,7 @@ in
     <ptsd/2configs/nwhost.nix>
     # TODO: fix tmp folder error
     # TODO: activate prometheus http monitoring
-    #<ptsd/2configs/nwoctoprint.nix>
+    <ptsd/2configs/nwoctoprint.nix>
     <ptsd/2configs/postgresql.nix>
     <ptsd/2configs/prometheus/server.nix>
     <ptsd/2configs/prometheus/node.nix>
@@ -33,16 +33,9 @@ in
     <home-manager/nixos>
   ];
 
-  ptsd.mosquitto = {
-    enable = true;
-    listeners = [
-      { interface = "lo"; }
-      { interface = "lo"; ssl = true; }
-      { interface = "br0"; }
-      { interface = "br0"; ssl = true; }
-    ];
-    tasmotaUsername = "sonoff";
-  };
+  nixpkgs.config.permittedInsecurePackages = [
+    "homeassistant-0.114.4"
+  ];
 
   ptsd.monica =
     let
@@ -57,7 +50,13 @@ in
     };
 
   home-manager = {
-    users.mainUser = { pkgs, ... }:
+    users.mainUser = { ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
+    users.root = { ... }:
       {
         imports = [
           ./home.nix
@@ -80,8 +79,6 @@ in
         allowedTCPPorts = [
           631 # cups
           448 # traefik/gitweb
-          config.ptsd.mosquitto.portPlain
-          config.ptsd.mosquitto.portSSL
         ];
         allowedUDPPorts = [ 631 ];
       };

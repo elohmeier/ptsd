@@ -122,7 +122,7 @@ in
     # size restrict tmp directory to mitigate timelapse jpeg errors
     fileSystems."/var/lib/private/octoprint/timelapse/tmp" = {
       fsType = "tmpfs";
-      options = [ "size=500M" "mode=1755" ];
+      options = [ "size=500M" "mode=1777" ];
     };
   };
 }
