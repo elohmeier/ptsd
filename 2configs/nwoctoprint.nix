@@ -20,6 +20,7 @@ in
     #webcamSnapshotUrl = "https://${domain}/mjpg/?action=snapshot";
     webcamStreamUrl = "https://${domain}/ipcam/video";
     webcamSnapshotUrl = "https://${domain}/ipcam/shot.jpg";
+    serialDevice = "/dev/ttyACM0"; # prusa
   };
 
   environment.systemPackages = [ v4l-utils-nogui ];
@@ -45,7 +46,7 @@ in
       name = "ipcam";
       rule = "Host(`${domain}`) && PathPrefix(`/ipcam/`)";
       stripPrefixes = [ "/ipcam/" ];
-      url = "http://192.168.178.58:8080";
+      url = "http://192.168.178.199:8080";
     }
   ];
 }
