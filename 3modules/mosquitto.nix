@@ -99,12 +99,12 @@ in
     # TODO: remove in 21.03/21.05?
     nixpkgs.config.packageOverrides = pkgs: {
       mosquitto = pkgs.mosquitto.overrideAttrs (oldAttrs: rec {
-        version = "2.0.5";
+        version = "2.0.7";
         src = pkgs.fetchFromGitHub {
           owner = "eclipse";
           repo = "mosquitto";
           rev = "v${version}";
-          sha256 = "17lnr5v83wcxb22yf63fqzp1cd1bf5cpr700371xw040cgvjwn09";
+          sha256 = "0i2i2743cf7bahdx8sga88cqnys29k08b29zl3v9qlc0yqnajq9x";
         };
       });
     };
