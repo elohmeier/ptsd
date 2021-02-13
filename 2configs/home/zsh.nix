@@ -67,6 +67,13 @@ in
           bindkey "^[Oc" forward-word
           bindkey "^[[1~" beginning-of-line
           bindkey "^[[4~" end-of-line
+
+          booted="$(readlink /run/booted-system/{initrd,kernel,kernel-modules})"
+          built="$(readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})"
+
+          if [ "$booted" != "$built" ]; then
+            echo "please reboot"
+          fi
         fi
       '';
 
