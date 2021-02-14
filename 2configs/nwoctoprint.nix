@@ -10,8 +10,6 @@ in
 
     package = pkgs.octoprint;
     plugins = plugins: [
-      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
-      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bltouch.nix> { })
       plugins.printtimegenius
       (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/telegram.nix> { })
     ];
