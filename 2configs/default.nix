@@ -47,7 +47,7 @@ in
     shellAliases = import ./aliases.nix;
     systemPackages = with pkgs; [
       git # required for krops
-      kitty.terminfo
+      kitty-terminfo
     ];
     variables = {
       NIX_PATH = mkForce "secrets=/var/src/ptsd/null:/var/src";
