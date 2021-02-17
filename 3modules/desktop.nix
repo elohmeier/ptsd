@@ -633,37 +633,150 @@ in
                 {
                   layer = "top";
                   position = "bottom";
-                  height = 30;
                   output = [
                     "eDP-1"
                     "HDMI-A-1"
                   ];
-                  modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
+                  modules-left = [ "sway/workspaces" "sway/mode" ];
                   modules-center = [
-                    "sway/window"
-                    "custom/hello-from-waybar"
                   ];
                   modules-right = [
-                    "mpd"
-                    #"custom/mymodule#with-css-id" 
-                    "temperature"
+                    "idle_inhibitor"
+                    "pulseaudio"
+                    "network"
+                    "cpu"
+                    "memory"
+                    #"backlight"
+                    "battery"
+                    "clock"
+                    "tray"
                   ];
                   modules = {
-                    "sway/workspaces" = {
-                      disable-scroll = true;
-                      all-outputs = true;
+
+                    "idle_inhibitor" = {
+                      "format" = "{icon}";
+                      "format-icons" = {
+                        "activated" = "";
+                        "deactivated" = "";
+                      };
                     };
-                    "custom/hello-from-waybar" = {
-                      format = "hello {}";
-                      max-length = 40;
-                      interval = "once";
-                      exec = pkgs.writeShellScript "hello-from-waybar" ''
-                        echo "from within waybar"
-                      '';
+                    cpu = {
+                      format = "{usage}% ";
                     };
+                    memory.format = "{}% ";
+                    battery = {
+                      states = { warning = 30; critical = 15; };
+                      format = "{capacity}% {icon}";
+                      format-charging = "{capacity}% ";
+                      "format-plugged" = "{capacity}% ";
+                      "format-alt" = "{time} {icon}";
+                      format-icons = [ "" "" "" "" "" ];
+                    };
+                    clock.format-alt = "{:%a, %d. %b  %H:%M}";
+                    network = {
+                      format-wifi = "{essid} ({signalStrength}%) ";
+                      format-ethernet = "{ifname}: {ipaddr}/{cidr} ";
+                      format-linked = "{ifname} (No IP) ";
+                      format-disconnected = "Disconnected ⚠";
+                      format-alt = "{ifname}: {ipaddr}/{cidr}";
+                    };
+                    "pulseaudio" = {
+                      "format" = "{volume}% {icon} {format_source}";
+                      "format-bluetooth" = "{volume}% {icon} {format_source}";
+                      "format-bluetooth-muted" = " {icon} {format_source}";
+                      "format-muted" = " {format_source}";
+                      "format-source" = "{volume}% ";
+                      "format-source-muted" = "";
+                      "format-icons" = {
+                        "headphone" = "";
+                        "hands-free" = "";
+                        "headset" = "";
+                        "phone" = "";
+                        "portable" = "";
+                        "car" = "";
+                        "default" = [ "" "" "" ];
+                      };
+                      "on-click" = "${pkgs.pavucontrol}/bin/pavucontrol";
+                    };
+                    #"custom/hello-from-waybar" = {
+                    #  format = "hello {}";
+                    #  max-length = 40;
+                    #  interval = "once";
+                    #  exec = pkgs.writeShellScript "hello-from-waybar" ''
+                    #    echo "from within waybar"
+                    #  '';
+                    #};
                   };
                 }
               ];
+              style = ''
+                * {
+                    border: none;
+                    border-radius: 0;
+                    font-family: ${cfg.fontSans};
+                    font-size: ${toString cfg.fontSize}pt;
+                    min-height: 0;
+                }
+
+                window#waybar {
+                    background: rgba(43, 48, 59, 0.5);
+                    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
+                    color: white;
+                }
+
+                #workspaces button {
+                    padding: 0 5px;
+                    background: transparent;
+                    color: white;
+                    border-bottom: 3px solid transparent;
+                }
+
+                #workspaces button.focused {
+                    background: #64727D;
+                    border-bottom: 3px solid white;
+                }
+
+                #mode, #clock, #battery {
+                    padding: 0 10px;
+                    margin: 0 5px;
+                }
+
+                #mode {
+                    background: #64727D;
+                    border-bottom: 3px solid white;
+                }
+
+                #clock {
+                    background-color: #64727D;
+                }
+
+                #battery {
+                    background-color: #ffffff;
+                    color: black;
+                }
+
+                #battery.charging {
+                    color: white;
+                    background-color: #26A65B;
+                }
+
+                @keyframes blink {
+                    to {
+                        background-color: #ffffff;
+                        color: black;
+                    }
+                }
+
+                #battery.warning:not(.charging) {
+                    background: #f53c3c;
+                    color: white;
+                    animation-name: blink;
+                    animation-duration: 0.5s;
+                    animation-timing-function: linear;
+                    animation-iteration-count: infinite;
+                    animation-direction: alternate;
+                }
+              '';
             };
 
             home.packages = with pkgs;[
@@ -672,20 +785,24 @@ in
               playerctl
               ethtool
               hicolor-icon-theme
-            ] ++ term.extraPackages ++ optionals (cfg.mode == "i3") [
-              xorg.xev
-              xorg.xhost
-              flameshot
-              i3lock # only needed for config testing / man pages
-              nwlock
-              brightnessctl
-            ] ++ optionals (cfg.mode == "sway") [
-              swaylock
-              qt5.qtwayland
-              grim
-              slurp
-              wl-clipboard
-            ];
+            ] ++ term.extraPackages ++ optionals
+              (cfg.mode == "i3")
+              [
+                xorg.xev
+                xorg.xhost
+                flameshot
+                i3lock # only needed for config testing / man pages
+                nwlock
+                brightnessctl
+              ] ++ optionals
+              (cfg.mode == "sway")
+              [
+                swaylock
+                qt5.qtwayland
+                grim
+                slurp
+                wl-clipboard
+              ];
 
             xdg.configFile."i3/nwi3status.toml" =
               let
@@ -693,16 +810,18 @@ in
                   TodoistAPIKey = cfg.nwi3status.todoistApiKey;
                 };
                 statusConfigFile =
-                  pkgs.runCommand "nwi3status-config.toml"
+                  pkgs.runCommand
+                    "nwi3status-config.toml"
                     {
                       buildInputs = [ pkgs.remarshal ];
                       preferLocalBuild = true;
-                    } ''
-                    remarshal -if json -of toml \
-                      < ${pkgs.writeText "config.json"
-                      (builtins.toJSON statusConfig)} \
-                      > $out
-                  '';
+                    }
+                    ''
+                      remarshal -if json -of toml \
+                        < ${pkgs.writeText "config.json"
+                        (builtins.toJSON statusConfig)} \
+                        > $out
+                    '';
               in
               {
                 source = statusConfigFile;
@@ -726,31 +845,35 @@ in
 
             # auto-hide the mouse cursor after inactivity on i3/X11
             # sway has "hide_cursor" configuration option
-            services.unclutter = mkIf (cfg.mode == "i3") {
-              enable = true;
-              timeout = cfg.hideCursorIdleSec;
-            };
+            services.unclutter = mkIf
+              (cfg.mode == "i3")
+              {
+                enable = true;
+                timeout = cfg.hideCursorIdleSec;
+              };
 
             # TODO: check if it also works for sway?
-            services.dunst = mkIf (cfg.mode == "i3") {
-              enable = true;
-              settings = {
-                global = {
-                  geometry = "300x5-30+50";
-                  transparency = 10;
-                  frame_color = "#eceff1";
-                  font = "${cfg.fontMono} ${toString cfg.fontSize}";
-                };
+            services.dunst = mkIf
+              (cfg.mode == "i3")
+              {
+                enable = true;
+                settings = {
+                  global = {
+                    geometry = "300x5-30+50";
+                    transparency = 10;
+                    frame_color = "#eceff1";
+                    font = "${cfg.fontMono} ${toString cfg.fontSize}";
+                  };
 
-                urgency_normal = {
-                  background = "#37474f";
-                  foreground = "#eceff1";
-                  timeout = 5;
-                };
+                  urgency_normal = {
+                    background = "#37474f";
+                    foreground = "#eceff1";
+                    timeout = 5;
+                  };
 
-                urgency_low.timeout = 1;
+                  urgency_low.timeout = 1;
+                };
               };
-            };
 
             programs.zsh = {
               loginExtra = mkIf (cfg.mode == "sway") ''
@@ -789,106 +912,112 @@ in
             home.sessionVariables = {
               QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
               TERMINAL = term.binary;
-            } // optionalAttrs (cfg.mode == "sway") {
-              SDL_VIDEODRIVER = "wayland";
-              QT_QPA_PLATFORM = "wayland";
-              QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-              # Fix for some Java AWT applications (e.g. Android Studio),
-              # use this if they aren't displayed properly:
-              _JAVA_AWT_WM_NONREPARENTING = "1";
-              XDG_CURRENT_DESKTOP = "sway";
-              XDG_SESSION_TYPE = "wayland";
-              MOZ_ENABLE_WAYLAND = "1";
-              MOZ_USE_XINPUT2 = "1";
-            };
+            } // optionalAttrs
+              (cfg.mode == "sway")
+              {
+                SDL_VIDEODRIVER = "wayland";
+                QT_QPA_PLATFORM = "wayland";
+                QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+                # Fix for some Java AWT applications (e.g. Android Studio),
+                # use this if they aren't displayed properly:
+                _JAVA_AWT_WM_NONREPARENTING = "1";
+                XDG_CURRENT_DESKTOP = "sway";
+                XDG_SESSION_TYPE = "wayland";
+                MOZ_ENABLE_WAYLAND = "1";
+                MOZ_USE_XINPUT2 = "1";
+              };
 
 
-            wayland.windowManager.sway = mkIf (cfg.mode == "sway") {
-              enable = true;
-              config =
-                {
-                  modifier = cfg.modifier;
-                  keybindings = keybindings;
-                  modes = modes;
-                  window.commands = window_commands;
-                  fonts = fonts;
-                  bars = mkIf (!cfg.waybar.enable) bars;
+            wayland.windowManager.sway = mkIf
+              (cfg.mode == "sway")
+              {
+                enable = true;
+                config =
+                  {
+                    modifier = cfg.modifier;
+                    keybindings = keybindings;
+                    modes = modes;
+                    window.commands = window_commands;
+                    fonts = fonts;
+                    bars = if cfg.waybar.enable then [ ] else bars;
 
-                  # use `swaymsg -t get_inputs`
-                  input = {
-                    "*" = {
-                      natural_scroll = "enabled";
-                      xkb_layout = "de";
-                      xkb_numlock = "enabled";
+                    # use `swaymsg -t get_inputs`
+                    input = {
+                      "*" = {
+                        natural_scroll = "enabled";
+                        xkb_layout = "de";
+                        xkb_numlock = "enabled";
+                      };
+                    };
+                  };
+
+                extraConfig = extraConfig + ''
+                  seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
+                  mouse_warping none
+                  exec ${pkgs.swayidle}/bin/swayidle -w \
+                      timeout 300 '${lockCmd}' \
+                      timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
+                      resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
+                      timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
+                      resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
+                      before-sleep '${lockCmd}'
+                '' + optionalString (cfg.backgroundImage != "") ''
+                  output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
+                '';
+              };
+
+            programs.alacritty = mkIf
+              (cfg.terminalConfig == "alacritty")
+              {
+                enable = true;
+                settings = {
+                  font = {
+                    normal = {
+                      family = cfg.fontMono;
+                    };
+                    size = cfg.fontSize;
+                  };
+
+                  # Colors (Solarized Dark)
+                  colors = {
+                    # Default colors
+                    primary = {
+                      background = "#002b36"; # base03
+                      foreground = "#839496"; # base0
+                    };
+
+                    # Cursor colors
+                    cursor = {
+                      text = "#002b36"; # base03
+                      cursor = "#839496"; # base0
+                    };
+
+                    # Normal colors
+                    normal = {
+                      black = "#073642"; # base02
+                      red = "#dc322f"; # red
+                      green = "#859900"; # green
+                      yellow = "#b58900"; # yellow
+                      blue = "#268bd2"; # blue
+                      magenta = "#d33682"; # magenta
+                      cyan = "#2aa198"; # cyan
+                      white = "#eee8d5"; # base2
+                    };
+
+                    # Bright colors
+                    bright = {
+                      black = "#586e75"; # base01
+                      red = "#cb4b16"; # orange
+                      green = "#586e75"; # base01
+                      yellow = "#657b83"; # base00
+                      blue = "#839496"; # base0
+                      magenta = "#6c71c4"; # violet
+                      cyan = "#93a1a1"; # base1
+                      white = "#fdf6e3"; # base3
                     };
                   };
                 };
-
-              extraConfig = extraConfig + ''
-                seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
-                mouse_warping none
-                exec ${pkgs.swayidle}/bin/swayidle -w \
-                    timeout 300 '${lockCmd}' \
-                    timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
-                    resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
-                    timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
-                    resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
-                    before-sleep '${lockCmd}'
-              '' + optionalString (cfg.backgroundImage != "") ''
-                output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
-              '';
-            };
-
-            programs.alacritty = mkIf (cfg.terminalConfig == "alacritty") {
-              enable = true;
-              settings = {
-                font = {
-                  normal = {
-                    family = cfg.fontMono;
-                  };
-                  size = cfg.fontSize;
-                };
-
-                # Colors (Solarized Dark)
-                colors = {
-                  # Default colors
-                  primary = {
-                    background = "#002b36"; # base03
-                    foreground = "#839496"; # base0
-                  };
-
-                  # Cursor colors
-                  cursor = {
-                    text = "#002b36"; # base03
-                    cursor = "#839496"; # base0
-                  };
-
-                  # Normal colors
-                  normal = {
-                    black = "#073642"; # base02
-                    red = "#dc322f"; # red
-                    green = "#859900"; # green
-                    yellow = "#b58900"; # yellow
-                    blue = "#268bd2"; # blue
-                    magenta = "#d33682"; # magenta
-                    cyan = "#2aa198"; # cyan
-                    white = "#eee8d5"; # base2
-                  };
-
-                  # Bright colors
-                  bright = {
-                    black = "#586e75"; # base01
-                    red = "#cb4b16"; # orange
-                    green = "#586e75"; # base01
-                    yellow = "#657b83"; # base00
-                    blue = "#839496"; # base0
-                    magenta = "#6c71c4"; # violet
-                    cyan = "#93a1a1"; # base1
-                    white = "#fdf6e3"; # base3
-                  };
-                };
               };
-            };
 
 
             programs.urxvt =
@@ -944,58 +1073,60 @@ in
                   };
                 };
               in
-              mkIf (cfg.terminalConfig == "urxvt") {
-                enable = true;
-                extraConfig = {
-                  saveLines = 100000;
+              mkIf
+                (cfg.terminalConfig == "urxvt")
+                {
+                  enable = true;
+                  extraConfig = {
+                    saveLines = 100000;
 
-                  urgentOnBell = true;
+                    urgentOnBell = true;
 
-                  perl-ext-common = "default,clipboard,font-size,url-select,keyboard-select";
+                    perl-ext-common = "default,clipboard,font-size,url-select,keyboard-select";
 
-                  "url-select.underline" = true;
-                  "url-select.launcher" = "${pkgs.xdg_utils}/bin/xdg-open";
-                  "matcher.button" = 1; # allow left click on url
+                    "url-select.underline" = true;
+                    "url-select.launcher" = "${pkgs.xdg_utils}/bin/xdg-open";
+                    "matcher.button" = 1; # allow left click on url
 
-                  #termName = "rxvt-unicode"; # fix bash backspace not working
-                  termName = "xterm";
-                } // themes."${cfg.theme}";
-                fonts = [
-                  "xft:${cfg.fontMono}:size=${toString cfg.fontSize}"
-                  "xft:${cfg.fontMono}:size=${toString cfg.fontSize}:bold"
-                ];
-                keybindings = {
-                  # font size
-                  "C-0x2b" = "font-size:increase"; # Ctrl+'+'
-                  "C-0x2d" = "font-size:decrease"; # Ctrl+'-'
-                  "C-0" = "font-size:reset";
+                    #termName = "rxvt-unicode"; # fix bash backspace not working
+                    termName = "xterm";
+                  } // themes."${cfg.theme}";
+                  fonts = [
+                    "xft:${cfg.fontMono}:size=${toString cfg.fontSize}"
+                    "xft:${cfg.fontMono}:size=${toString cfg.fontSize}:bold"
+                  ];
+                  keybindings = {
+                    # font size
+                    "C-0x2b" = "font-size:increase"; # Ctrl+'+'
+                    "C-0x2d" = "font-size:decrease"; # Ctrl+'-'
+                    "C-0" = "font-size:reset";
 
-                  # Common Keybinds for Navigation
-                  "Shift-Up" = "command:\\033]720;1\\007"; # scroll one line higher
-                  "Shift-Down" = "command:\\033]721;1\\007"; # scroll one line lower
-                  "Control-Up" = "\\033[1;5A";
-                  "Control-Down" = "\\033[1;5B";
-                  "Control-Left" = "\\033[1;5D"; # jump to the previous word
-                  "Control-Right" = "\\033[1;5C"; # jump to the next word
-                  "Home" = "\\033[1~";
-                  "KP_Home" = "\\033[1~";
-                  "End" = "\\033[4~";
-                  "KP_End" = "\\033[4~";
+                    # Common Keybinds for Navigation
+                    "Shift-Up" = "command:\\033]720;1\\007"; # scroll one line higher
+                    "Shift-Down" = "command:\\033]721;1\\007"; # scroll one line lower
+                    "Control-Up" = "\\033[1;5A";
+                    "Control-Down" = "\\033[1;5B";
+                    "Control-Left" = "\\033[1;5D"; # jump to the previous word
+                    "Control-Right" = "\\033[1;5C"; # jump to the next word
+                    "Home" = "\\033[1~";
+                    "KP_Home" = "\\033[1~";
+                    "End" = "\\033[4~";
+                    "KP_End" = "\\033[4~";
 
-                  "Shift-Control-V" = "perl:clipboard:paste";
+                    "Shift-Control-V" = "perl:clipboard:paste";
 
-                  "M-u" = "perl:url-select:select_next";
+                    "M-u" = "perl:url-select:select_next";
 
-                  "M-Escape" = "perl:keyboard-select:activate";
-                  "M-s" = "perl:keyboard-select:search";
+                    "M-Escape" = "perl:keyboard-select:activate";
+                    "M-s" = "perl:keyboard-select:search";
 
-                  #"M-F1" = "command:\\033]710;xft:${cfg.font}:size=6\\007\\033]711;xft:${cfg.font}:size=6:bold\\007";
-                  #"M-F2" = "command:\\033]710;xft:${cfg.font}:size=${toString cfg.fontSize}\\007\\033]711;xft:${cfg.font}:size=${toString cfg.fontSize}:bold\\007";
-                  #"M-F3" = "command:\\033]710;xft:${cfg.font}:size=11\\007\\033]711;xft:${cfg.font}:size=11:bold\\007";
-                  #"M-F4" = "command:\\033]710;xft:${cfg.font}:size=25\\007\\033]711;xft:${cfg.font}:size=25:bold\\007";
-                  #"M-F5" = "command:\\033]710;xft:${cfg.font}:size=30\\007\\033]711;xft:${cfg.font}:size=30:bold\\007";
+                    #"M-F1" = "command:\\033]710;xft:${cfg.font}:size=6\\007\\033]711;xft:${cfg.font}:size=6:bold\\007";
+                    #"M-F2" = "command:\\033]710;xft:${cfg.font}:size=${toString cfg.fontSize}\\007\\033]711;xft:${cfg.font}:size=${toString cfg.fontSize}:bold\\007";
+                    #"M-F3" = "command:\\033]710;xft:${cfg.font}:size=11\\007\\033]711;xft:${cfg.font}:size=11:bold\\007";
+                    #"M-F4" = "command:\\033]710;xft:${cfg.font}:size=25\\007\\033]711;xft:${cfg.font}:size=25:bold\\007";
+                    #"M-F5" = "command:\\033]710;xft:${cfg.font}:size=30\\007\\033]711;xft:${cfg.font}:size=30:bold\\007";
+                  };
                 };
-              };
 
             programs.kitty = {
               enable = lib.mkDefault (cfg.terminalConfig == "kitty");

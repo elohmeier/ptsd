@@ -35,6 +35,7 @@ in
     #fontMono = "Cozette";
     trayOutput = "eDP-1";
     terminalConfig = "alacritty";
+    waybar.enable = true;
   };
 
   home-manager = {
