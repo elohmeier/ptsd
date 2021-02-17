@@ -55,4 +55,14 @@ in
   #ptsd.nwbackup = {
   #  enable = true;
   #};
+
+  ptsd.secrets.files = {
+    # public keys can be world-readable
+    "nwbackup.id_ed25519.pub" = {
+      mode = "0444";
+    };
+    "ssh.id_ed25519.pub" = {
+      mode = "0444";
+    };
+  };
 }
