@@ -67,16 +67,7 @@ in
     transmission-gtk
     sylpheed
     #zoom-us
-    ((pulseeffects.override { boost = boost17x; }).overrideAttrs (old: rec {
-      version = "5.0.0";
-      src = fetchFromGitHub {
-        owner = "wwmm";
-        repo = "pulseeffects";
-        rev = "v${version}";
-        sha256 = "1zs13bivxlgcb24lz1pgmgy2chcjxnmn4lz7g1n0ygiaaj4c30xj";
-      };
-      buildInputs = old.buildInputs ++ [ pipewire ];
-    }))
+    pulseeffects-pw
     xorg.xev
     xorg.xhost
     gnome3.file-roller
