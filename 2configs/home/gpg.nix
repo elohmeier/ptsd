@@ -32,6 +32,12 @@
         hostname = "191.18.19.41";
         port = 1022;
       };
+
+      "awsbuilder" = {
+        hostname = "35.157.132.66";
+        user = "admin";
+        identityFile = "${toString <secrets/ssh.id_ed25519>}";
+      };
     };
   };
 }

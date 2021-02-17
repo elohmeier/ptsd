@@ -91,6 +91,20 @@ mkdir /mnt/var/src/.populate
 nix-env -iA nixos.pkgs.gitMinimal
 ```
 
+
+
+## Provision AWS remote builder
+
+1. Configure instance, allow SSH access, configure large enough disk (e.g. 20GB), use [ami-0886e2450125a1f08](https://wiki.debian.org/Cloud/AmazonEC2Image/Buster)
+2. Login via ssh to instance as admin user
+3. Install rsync & git: `sudo apt update && sudo apt install -y rsync git`
+4. Install nix in multi user mode: `sh <(curl -L https://nixos.org/nix/install) --daemon`
+5. Fix PATH: `echo 'PATH=/nix/var/nix/profiles/default/bin:/usr/local/bin:/usr/bin:/bin' | sudo tee -a /etc/environment`
+6. Configure nix: `echo 'trusted-users = admin\nmax-jobs = 8' | sudo tee -a /etc/nix/nix.conf && sudo systemctl restart nix-daemon.service`
+7. On dev machine, add SSH-Key: `ssh-copy-id -f -i /run/keys/ssh.id_ed25519.pub awsbuilder`
+8. Accept host public key for root user: `sudo ssh awsbuilder`
+
+
 ## Tips
 
 ### Get predictable network interface name

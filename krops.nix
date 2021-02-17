@@ -7,6 +7,7 @@
 , secrets ? false
 , client-secrets ? false
 , starget ? "root@${name}.host.nerdworks.de"
+, nixos-config-name ? "physical.nix"
 }:
 let
   #krops = (import <nixpkgs> {}).fetchgit {
@@ -46,7 +47,7 @@ let
         ];
       };
 
-      nixos-config.symlink = "ptsd/1systems/${name}/physical.nix";
+      nixos-config.symlink = "ptsd/1systems/${name}/${nixos-config-name}";
     }
 
     (
