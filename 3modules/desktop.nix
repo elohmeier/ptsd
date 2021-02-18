@@ -374,7 +374,14 @@ in
     programs.dconf.enable = true;
     systemd.packages = [ pkgs.gnome3.evolution-data-server ];
 
+    security.polkit.enable = true;
+
+    virtualisation.spiceUSBRedirection.enable = true;
+
     environment.systemPackages = with pkgs; [
+      virtviewer
+      virtmanager
+
       config.hardware.pulseaudio.package
       pavucontrol
       pasystray

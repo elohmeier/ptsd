@@ -90,8 +90,6 @@ in
     #minishift
     cachix
     pyenv
-    virtmanager
-    virtviewer
     docker_compose
     #nvi # needed for virsh # broken in 20.03 as of 2020-04-03
     dnsmasq
