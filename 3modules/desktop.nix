@@ -567,8 +567,9 @@ in
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      sessionManager = "${config.services.pipewire.package}/bin/pipewire-media-session";
-      sessionManagerArguments = [ "-p" "bluez5.msbc-support=true" ];
+      media-session = {
+        enable = true;
+      };
     };
 
     home-manager =
@@ -671,7 +672,10 @@ in
                       format = "{usage}% ";
                       on-click-right = term.exec "${pkgs.htop}/bin/htop" "";
                     };
-                    memory.format = "{}% ";
+                    memory = {
+                      format = "{}% ";
+                      on-click-right = term.exec "${pkgs.procps}/bin/watch -n1 ${pkgs.coreutils}/bin/cat /proc/meminfo" "";
+                    };
                     battery = {
                       states = { warning = 30; critical = 15; };
                       format = "{capacity}% {icon}";
