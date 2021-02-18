@@ -653,23 +653,24 @@ in
                   ];
                   modules = {
 
-                    "idle_inhibitor" = {
-                      "format" = "{icon}";
-                      "format-icons" = {
-                        "activated" = "";
-                        "deactivated" = "";
+                    idle_inhibitor = {
+                      format = "{icon}";
+                      format-icons = {
+                        activated = "";
+                        deactivated = "";
                       };
                     };
                     cpu = {
                       format = "{usage}% ";
+                      on-click-right = term.exec "${pkgs.htop}/bin/htop" "";
                     };
                     memory.format = "{}% ";
                     battery = {
                       states = { warning = 30; critical = 15; };
                       format = "{capacity}% {icon}";
                       format-charging = "{capacity}% ";
-                      "format-plugged" = "{capacity}% ";
-                      "format-alt" = "{time} {icon}";
+                      format-plugged = "{capacity}% ";
+                      format-alt = "{time} {icon}";
                       format-icons = [ "" "" "" "" "" ];
                     };
                     clock.format-alt = "{:%a, %d. %b  %H:%M}";
@@ -679,24 +680,25 @@ in
                       format-linked = "{ifname} (No IP) ";
                       format-disconnected = "Disconnected ⚠";
                       format-alt = "{ifname}: {ipaddr}/{cidr}";
+                      on-click-right = term.exec "${pkgs.networkmanager}/bin/nmtui" "";
                     };
-                    "pulseaudio" = {
-                      "format" = "{volume}% {icon} {format_source}";
-                      "format-bluetooth" = "{volume}% {icon} {format_source}";
-                      "format-bluetooth-muted" = " {icon} {format_source}";
-                      "format-muted" = " {format_source}";
-                      "format-source" = "{volume}% ";
-                      "format-source-muted" = "";
-                      "format-icons" = {
-                        "headphone" = "";
-                        "hands-free" = "";
-                        "headset" = "";
-                        "phone" = "";
-                        "portable" = "";
-                        "car" = "";
-                        "default" = [ "" "" "" ];
+                    pulseaudio = {
+                      format = "{volume}% {icon} {format_source}";
+                      format-bluetooth = "{volume}% {icon} {format_source}";
+                      format-bluetooth-muted = " {icon} {format_source}";
+                      format-muted = " {format_source}";
+                      format-source = "{volume}% ";
+                      format-source-muted = "";
+                      format-icons = {
+                        headphone = "";
+                        hands-free = "";
+                        headset = "";
+                        phone = "";
+                        portable = "";
+                        car = "";
+                        default = [ "" "" "" ];
                       };
-                      "on-click" = "${pkgs.pavucontrol}/bin/pavucontrol";
+                      on-click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
                     };
                     #"custom/hello-from-waybar" = {
                     #  format = "hello {}";
@@ -719,63 +721,162 @@ in
                 }
 
                 window#waybar {
-                    background: rgba(43, 48, 59, 0.5);
-                    border-bottom: 3px solid rgba(100, 114, 125, 0.5);
-                    color: white;
+                    background-color: #002b36;
+                    color: #d33682;
+                    transition-property: background-color;
+                    transition-duration: .5s;
                 }
 
+                window#waybar.hidden {
+                    opacity: 0.2;
+                }
+
+                /*
+                window#waybar.empty {
+                    background-color: transparent;
+                }
+                window#waybar.solo {
+                    background-color: #FFFFFF;
+                }
+                */
+
+                window#waybar.termite {
+                    background-color: #3F3F3F;
+                }
+
+                window#waybar.chromium {
+                    background-color: #000000;
+                    border: none;
+                }
+
+                #workspaces {
+                    border-bottom: 1px solid #586e75;
+                }
+
+                /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
                 #workspaces button {
                     padding: 0 5px;
-                    background: transparent;
-                    color: white;
+                    background-color: transparent;
+                    color: #657b83;
                     border-bottom: 3px solid transparent;
                 }
 
                 #workspaces button.focused {
-                    background: #64727D;
-                    border-bottom: 3px solid white;
+                    background-color: #073642;
+                    border-bottom: 1px solid #ff0;
                 }
 
-                #mode, #clock, #battery {
-                    padding: 0 10px;
-                    margin: 0 5px;
+                #workspaces button.urgent {
+                    background-color: #d33682;
                 }
 
                 #mode {
-                    background: #64727D;
-                    border-bottom: 3px solid white;
+                    background-color: #002b36;
+                    border-bottom: 1px solid #dc322f;
                 }
 
+                #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor {
+                    padding: 0 10px;
+                    margin: 0 2px;
+                    color: #657b83;
+                }
+                /*
                 #clock {
-                    background-color: #64727D;
+                    background-color: #073642;
                 }
-
+                */
                 #battery {
-                    background-color: #ffffff;
-                    color: black;
+                    background-color: #073642;
                 }
 
                 #battery.charging {
-                    color: white;
-                    background-color: #26A65B;
+                    color: #eee8d5;
+                    background-color: #859900;
                 }
 
                 @keyframes blink {
                     to {
-                        background-color: #ffffff;
-                        color: black;
+                        background-color: #d33682;
+                        color: #93a1a1;
                     }
                 }
 
-                #battery.warning:not(.charging) {
-                    background: #f53c3c;
-                    color: white;
+                #battery.critical:not(.charging) {
+                    background-color: #dc322f;
+                    color: #93a1a1;
                     animation-name: blink;
                     animation-duration: 0.5s;
                     animation-timing-function: linear;
                     animation-iteration-count: infinite;
                     animation-direction: alternate;
                 }
+
+                label:focus {
+                    background-color: #073642;
+                }
+
+                #cpu {
+                    background-color: #073642;
+                }
+
+                #memory {
+                    background-color: #073642;
+                }
+
+                #backlight {
+                    background-color: #073642;
+                }
+
+                #network {
+                    background-color: #073642;
+                }
+
+                #network.disconnected {
+                    background-color: #002b36;
+                }
+
+                #pulseaudio {
+                    background-color: #073642;
+                }
+
+                #pulseaudio.muted {
+                    background-color: #002b36;
+                }
+
+                #custom-media {
+                    background-color: #66cc99;
+                    color: #2a5c45;
+                    min-width: 100px;
+                }
+
+                #custom-media.custom-spotify {
+                    background-color: #66cc99;
+                }
+
+                #custom-media.custom-vlc {
+                    background-color: #ffa000;
+                }
+
+                #temperature {
+                    background-color: #073642;
+                }
+
+                #temperature.critical {
+                    background-color: #dc322f;
+                }
+
+                #tray {
+                    background-color: #002b36;
+                }
+
+                #idle_inhibitor {
+                    background-color: #002b36;
+                }
+
+                #idle_inhibitor.activated {
+                    background-color: #073642;
+                }
+
               '';
             };
 
