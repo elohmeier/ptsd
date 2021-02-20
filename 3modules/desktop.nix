@@ -261,7 +261,11 @@ in
       mode = mkOption {
         type = types.strMatching "sway|i3";
       };
-      enablePipewire = mkEnableOption "use pipewire instead of pulseaudio";
+      pipewire.enable = mkOption {
+        type = types.bool;
+        default = true;
+        description = "use pipewire instead of pulseaudio";
+      };
       fontSans = mkOption {
         type = types.str;
         default = "Iosevka Sans"; # TODO: expose package, e.g. for gtk
@@ -495,7 +499,7 @@ in
 
     sound.enable = true;
 
-    systemd.user.services.pasystray = mkIf (cfg.mode == "i3" && !cfg.enablePipewire) {
+    systemd.user.services.pasystray = mkIf (cfg.mode == "i3" && !cfg.pipewire.enable) {
       description = "PulseAudio system tray";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -516,7 +520,7 @@ in
       };
 
       pulseaudio = {
-        enable = !cfg.enablePipewire;
+        enable = !cfg.pipewire.enable;
         package = lib.mkDefault pkgs.pulseaudioFull; # pulseAudioFull required for bluetooth audio support
         #support32Bit = true; # for Steam
 
@@ -562,7 +566,7 @@ in
     };
 
     # 20.09 compat (optionalAttrs instead of mkIf)
-    services.pipewire = lib.optionalAttrs cfg.enablePipewire {
+    services.pipewire = lib.optionalAttrs cfg.pipewire.enable {
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
