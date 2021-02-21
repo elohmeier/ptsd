@@ -33,8 +33,9 @@ in
 
   ptsd.desktop = {
     enable = true;
-    mode = "i3";
-    terminalConfig = "kitty";
+    mode = "sway";
+    terminalConfig = "alacritty";
+    waybar.enable = true;
   };
 
   ptsd.octoprint =

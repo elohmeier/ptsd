@@ -30,7 +30,6 @@ in
 
   ptsd.desktop = {
     enable = true;
-    enablePipewire = true;
     mode = "sway";
     #fontMono = "Cozette";
     trayOutput = "eDP-1";

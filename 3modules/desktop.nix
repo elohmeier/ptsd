@@ -646,6 +646,8 @@ in
                   layer = "top";
                   position = "bottom";
                   output = [
+                    "DP-3"
+                    "DP-4"
                     "eDP-1"
                     "HDMI-A-1"
                   ];
