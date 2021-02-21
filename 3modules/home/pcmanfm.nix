@@ -40,6 +40,16 @@ in
       #   </mime-type>
       # '';
 
+      "thumbnailers/imagemagick.thumbnailer".text = lib.generators.toINI
+        { }
+        {
+          "Thumbnailer Entry" = {
+            # imagemagickBig needed because of ghostscript dependency
+            Exec = ''${pkgs.imagemagickBig}/bin/convert %i[0] -background "#FFFFFF" -flatten -thumbnail %s %o'';
+            MimeType = "application/pdf;application/x-pdf;image/pdf;";
+          };
+        };
+
       "file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI
         { }
         {
@@ -52,7 +62,7 @@ in
 
           "X-Action-Profile nobbofin_assign_fzf" = {
             MimeTypes = "application/pdf";
-            Exec = "i3-sensible-terminal -e /home/enno/repos/nobbofin/assign-doc-fzf.py %f";
+            Exec = "alacritty -e /home/enno/repos/nobbofin/assign-doc-fzf.py %f";
           };
         };
 
@@ -103,6 +113,22 @@ in
           "X-Action-Profile codium" = {
             MimeTypes = "inode/directory";
             Exec = "codium %F";
+          };
+        };
+
+      "file-manager/actions/print-lp.desktop".text = lib.generators.toINI
+        { }
+        {
+          "Desktop Entry" = {
+            Type = "Action";
+            Name = "Print (lp)";
+            "Name[de]" = "Drucken (lp)";
+            Profiles = "print;";
+          };
+
+          "X-Action-Profile print" = {
+            MimeTypes = "application/pdf";
+            Exec = "${pkgs.cups}/bin/lp %F";
           };
         };
 
