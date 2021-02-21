@@ -12,6 +12,9 @@ in
     plugins = plugins: [
       plugins.printtimegenius
       (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/telegram.nix> { })
+      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/octolapse.nix> { })
+      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/prusalevelingguide.nix> { })
+      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/prusaslicerthumbnails.nix> { })
     ];
     #deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d3-1\\x2d3:1.0-ttyUSB0-tty-ttyUSB0.device";
     #webcamStreamUrl = "https://${domain}/mjpg/?action=stream";

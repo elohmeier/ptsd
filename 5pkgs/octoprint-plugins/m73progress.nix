@@ -1,4 +1,4 @@
-{ buildPythonPackage, fetchFromGitHub, octoprint, pillow }:
+{ buildPythonPackage, fetchFromGitHub, octoprint }:
 
 buildPythonPackage rec {
   pname = "OctoPrintPlugin-M73Progress";

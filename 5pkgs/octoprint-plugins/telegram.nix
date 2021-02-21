@@ -2,13 +2,13 @@
 
 buildPythonPackage rec {
   pname = "OctoPrintPlugin-Telegram";
-  version = "1.6.2";
+  version = "1.6.4";
 
   src = fetchFromGitHub {
     owner = "fabianonline";
     repo = "OctoPrint-Telegram";
     rev = version;
-    sha256 = "1v12m1bxd6l7wd3nr1gjqfh0pzllr8m8gn74s9ni3g0zf0a0x21m";
+    sha256 = "14d9f9a5m1prcikd7y26qks6c2ls6qq4b97amn24q5a8k5hbgl94";
   };
 
   doCheck = false;
