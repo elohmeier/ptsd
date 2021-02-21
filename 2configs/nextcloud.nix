@@ -84,7 +84,13 @@ in
     after = [ "postgresql.service" ];
   };
 
-  ptsd.secrets.files."ncadmin-pw" = { };
+  users.groups.keys.members = [ "nextcloud" ];
+
+  ptsd.secrets.files."ncadmin-pw" = {
+    owner = "nextcloud";
+    group-name = "nextcloud";
+    dependants = [ "nextcloud-setup.service" ];
+  };
 
   # this is not set inside nixpkgs for NextCloud as of 19.09
   users.users.nextcloud = {
