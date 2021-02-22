@@ -132,6 +132,15 @@ in
       };
       server.listenPort = 55555;
     };
+
+    svbvpn = {
+      publicKey = "j9KtrJslyEtamuJndSoarUtYSfSPa7Gnb1lYMuHeh18=";
+      client = {
+        endpoint = "157.90.119.101:55555";
+        allowedIPs = [ "191.18.22.0/24" ];
+      };
+      server.listenPort = 55555;
+    };
   };
 
   security.polkit.extraConfig = ''
