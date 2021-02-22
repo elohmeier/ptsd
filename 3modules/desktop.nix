@@ -159,7 +159,11 @@ let
       "${cfg.modifier}+b" = ''[class="Firefox"] scratchpad show'';
 
       # Take a screenshot
-      "${cfg.modifier}+Ctrl+Shift+4" = if cfg.mode == "sway" then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png'' else "exec ${pkgs.flameshot}/bin/flameshot gui";
+      "${cfg.modifier}+Ctrl+Shift+4" =
+        if cfg.mode == "sway"
+        #then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
+        then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -''
+        else "exec ${pkgs.flameshot}/bin/flameshot gui";
     };
 
   modes = {
@@ -645,12 +649,12 @@ in
                 {
                   layer = "top";
                   position = "bottom";
-                  output = [
-                    "DP-3"
-                    "DP-4"
-                    "eDP-1"
-                    "HDMI-A-1"
-                  ];
+                  #output = [
+                  #  "DP-3"
+                  #  "DP-4"
+                  #  "eDP-1"
+                  #  "HDMI-A-1"
+                  #];
                   modules-left = [ "sway/workspaces" "sway/mode" ];
                   modules-center = [
                   ];
