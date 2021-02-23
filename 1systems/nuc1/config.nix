@@ -210,7 +210,7 @@ in
     efitools
     tpm2-tools
     prusa-slicer
-    freecad
+    #freecad
   ];
 
   services.printing.enable = true;
