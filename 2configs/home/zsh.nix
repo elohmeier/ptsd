@@ -5,6 +5,11 @@ let
 in
 {
   programs = {
+    direnv = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
     fzf = {
       enable = true;
       enableZshIntegration = true;
