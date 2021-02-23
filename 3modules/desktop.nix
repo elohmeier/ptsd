@@ -578,11 +578,14 @@ in
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
+      jack.enable = true;
       pulse.enable = true;
       media-session = {
         enable = true;
       };
     };
+
+    security.rtkit.enable = cfg.pipewire.enable;
 
     home-manager =
       {
@@ -949,6 +952,8 @@ in
             xdg.configFile."mimeapps.list".force = true;
 
             home.packages = with pkgs;[
+              cadence
+              qjackctl
               nwi3status
               libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
               playerctl
