@@ -14,9 +14,6 @@
     "mitigations=off" # make linux fast again
   ];
 
-  boot.extraModulePackages = [ ];
-  boot.supportedFilesystems = [ "zfs" ];
-
   nix.maxJobs = lib.mkDefault 2;
 
   boot.loader.grub.enable = true;

@@ -3,8 +3,6 @@ with import <ptsd/lib>;
 
 {
   imports = [
-    <nixpkgs/nixos/modules/profiles/minimal.nix>
-
     <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/nwhost-mini.nix>
@@ -12,29 +10,41 @@ with import <ptsd/lib>;
 
     <secrets/wifi.nix>
     <secrets-shared/nwsecrets.nix>
+
+    <home-manager/nixos>
   ];
 
-  ptsd.nwbackup-server = {
-    enable = true;
-    zpool = "nw26";
+  home-manager = {
+    users.mainUser = { ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
+    users.root = { ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
   };
-
-  networking.hostName = "eee1";
 
   networking = {
-    nameservers = [ "8.8.8.8" "8.8.4.4" ]; # local DNS infrastructure returns malformed packets
-  };
-
-  networking.wireless.enable =
-    true; # Enables wireless support via wpa_supplicant.
-
-  services.logind.lidSwitch = "ignore";
-
-  systemd.services.reboot-weekly = {
-    description = "Reboot every week";
-    startAt = "weekly";
-    serviceConfig = {
-      ExecStart = "${pkgs.systemd}/bin/systemctl --force reboot";
+    useNetworkd = true;
+    useDHCP = false;
+    hostName = "eee1";
+    interfaces.ens1 = {
+      # todo: check if name
+      useDHCP = true;
     };
   };
+
+  networking.wireless.enable = true;
+
+  services.logind.lidSwitch = "ignore";
+  services.pipewire.media-session.enable = false;
+
+  #ptsd.desktop = {
+  #  enable = true;
+  #};
 }
