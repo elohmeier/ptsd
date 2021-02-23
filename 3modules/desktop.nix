@@ -263,6 +263,7 @@ in
     ptsd.desktop = {
       enable = mkEnableOption "ptsd.desktop";
       mode = mkOption {
+        default = "sway";
         type = types.strMatching "sway|i3";
       };
       pipewire.enable = mkOption {
@@ -339,7 +340,10 @@ in
         };
         default = { };
       };
-      waybar.enable = mkEnableOption "waybar";
+      waybar.enable = mkOption {
+        type = types.bool;
+        default = config.ptsd.desktop.mode == "sway";
+      };
     };
   };
 
