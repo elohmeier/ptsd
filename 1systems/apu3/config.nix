@@ -45,7 +45,7 @@ in
           allowedTCPPorts = [ 445 139 ];
           allowedUDPPorts = [ 137 138 ];
         };
-        "nwvpn" = {
+        "svbvpn" = {
           allowedTCPPorts = [ 445 139 ];
           allowedUDPPorts = [ 137 138 ];
         };
@@ -73,7 +73,7 @@ in
 
   systemd.network.networks = {
     "40-${brlanIf}" = {
-      dhcpV4Config.UseRoutes = false; # allows pppd to set default route
+      dhcpV4Config.RouteMetric = 20;
       networkConfig = {
         ConfigureWithoutCarrier = true;
       };
@@ -113,7 +113,7 @@ in
       workgroup = WORKGROUP
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
-      hosts allow = 192.168.0.0/16 191.18.19.0/24
+      hosts allow = 192.168.0.0/16 191.18.22.0/24
       hosts deny = 0.0.0.0/0
 
       # disable cups integration
@@ -230,6 +230,7 @@ in
           noipdefault
           noipv6
           defaultroute
+          defaultroute-metric 10
 
           # Increase debugging level
           debug
@@ -243,7 +244,7 @@ in
       mode = "0400";
     };
 
-  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen samba iftop ];
+  environment.systemPackages = with pkgs; [ tmux htop bridge-utils vim screen samba iftop speedtest-cli ];
 
   programs.mosh.enable = true;
 
