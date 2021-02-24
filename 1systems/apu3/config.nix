@@ -16,6 +16,11 @@ in
     <secrets-shared/nwsecrets.nix>
   ];
 
+  services.openssh = {
+    permitRootLogin = "yes";
+    passwordAuthentication = true;
+  };
+
   networking = {
     useNetworkd = true;
     useDHCP = false;

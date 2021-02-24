@@ -76,7 +76,7 @@ in
   services.openssh = {
     enable = true;
     permitRootLogin = mkDefault "prohibit-password";
-    passwordAuthentication = false;
+    passwordAuthentication = mkDefault false;
     challengeResponseAuthentication = false;
 
     knownHosts =
