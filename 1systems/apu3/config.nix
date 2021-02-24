@@ -29,14 +29,14 @@ in
     interfaces = {
       "${brlanIf}" = {
         useDHCP = true;
-        ipv4.routes = [
-          # route to hetzner storagebox via DSL
-          {
-            address = "136.243.27.72";
-            prefixLength = 32;
-            via = "192.168.1.1";
-          }
-        ];
+        #ipv4.routes = [
+        #  # route to hetzner storagebox via DSL
+        #  {
+        #    address = "136.243.27.72";
+        #    prefixLength = 32;
+        #    via = "192.168.1.1";
+        #  }
+        #];
       };
     };
     firewall = {
@@ -55,9 +55,9 @@ in
       # logRefusedConnections = false;
 
       # useful for debugging
-      #logRefusedPackets = true;
-      #logRefusedUnicastsOnly = false;
-      #logReversePathDrops = true;
+      logRefusedPackets = true;
+      logRefusedUnicastsOnly = false;
+      logReversePathDrops = true;
     };
     nat = {
       enable = true;
