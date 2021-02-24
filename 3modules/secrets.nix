@@ -12,9 +12,8 @@ let
   generateUnit = name: file:
     nameValuePair "secret-${escapeUnitName name}" {
       description = "secret: ${name}";
-      wantedBy = [ "multi-user.target" ];
       before = file.dependants;
-      requiredBy = file.dependants;
+      wantedBy = [ "multi-user.target" ] ++ file.dependants;
       path = with pkgs; [ coreutils ];
 
       script = ''

@@ -13,6 +13,7 @@ let
     {
       owner = "systemd-network";
       mode = "0440";
+      dependants = [ "systemd-networkd.service" ];
     };
 
   vpnPeers = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
