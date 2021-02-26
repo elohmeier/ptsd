@@ -36,6 +36,9 @@ in
     mode = "sway";
     terminalConfig = "alacritty";
     waybar.enable = true;
+    profiles = [
+      "office"
+    ];
   };
 
   ptsd.octoprint =

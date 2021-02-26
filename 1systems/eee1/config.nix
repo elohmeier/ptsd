@@ -42,9 +42,11 @@ with import <ptsd/lib>;
   networking.wireless.enable = true;
 
   services.logind.lidSwitch = "ignore";
-  services.pipewire.media-session.enable = false;
 
-  #ptsd.desktop = {
-  #  enable = true;
-  #};
+  ptsd.desktop = {
+    enable = true;
+    audio.enable = false;
+    profiles = [
+    ];
+  };
 }

@@ -16,7 +16,5 @@
 
   swapDevices = [{ device = "/dev/sdb1"; }];
 
-  # fix failing rngd.service because of lack of entropy sources
-  security.rngd.enable = false;
   services.haveged.enable = true;
 }

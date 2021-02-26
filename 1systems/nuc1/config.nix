@@ -70,6 +70,9 @@ in
       openweathermapApiKey = desktopSecrets.openweathermapApiKey;
     };
     waybar.enable = true;
+    profiles = [
+      "office"
+    ];
   };
 
   # set low priority for nix daemon to ensure desktop responsiveness while updating

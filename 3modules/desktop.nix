@@ -253,6 +253,13 @@ let
     set $ws9 9
     set $ws10 10
   '';
+
+  all_profiles = {
+    "office" = pkgs: with pkgs;[
+      pdfduplex
+      pdf2svg
+    ];
+  };
 in
 {
   imports = [
@@ -343,6 +350,14 @@ in
       waybar.enable = mkOption {
         type = types.bool;
         default = config.ptsd.desktop.mode == "sway";
+      };
+      audio.enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+      profiles = mkOption {
+        type = with types; listOf str;
+        description = "package profiles to configure, see all_profiles";
       };
     };
   };
@@ -440,7 +455,7 @@ in
       dunst
     ] ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
       networkmanagerapplet
-    ];
+    ] ++ (map (profile: all_profiles."${profile}") cfg.profiles);
     services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];

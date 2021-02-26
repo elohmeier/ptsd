@@ -20,8 +20,6 @@ in
 
   home.packages = with pkgs;[
     # steam
-    pdfduplex
-    pdf2svg
     epsxe
     mupen64plus
     wine

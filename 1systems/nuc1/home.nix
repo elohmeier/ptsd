@@ -28,11 +28,4 @@ in
     audioSource = "nui_mic_remap";
     audioAlert = "alsa_output.pci-0000_00_03.0.hdmi-stereo-extra1";
   };
-
-  home = {
-    packages = with pkgs; [
-      pdfduplex
-      pdf2svg
-    ];
-  };
 }

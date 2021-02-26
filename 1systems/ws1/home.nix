@@ -49,8 +49,6 @@ in
       #steam
       #steam-run
       lguf-brightness
-      pdfduplex
-      pdf2svg
     ];
   };
 

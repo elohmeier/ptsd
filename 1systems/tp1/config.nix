@@ -35,6 +35,9 @@ in
     trayOutput = "eDP-1";
     terminalConfig = "alacritty";
     waybar.enable = true;
+    profiles = [
+      "office"
+    ];
   };
 
   home-manager = {
