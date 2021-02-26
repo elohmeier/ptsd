@@ -663,7 +663,19 @@ in
             ptsd.pcmanfm = {
               enable = true;
               term = term.binary;
+
+              actions = {
+                pdfduplex = mkIf (builtins.elem "office" cfg.profiles) {
+                  title = "Convert A & B PDF to Duplex-PDF";
+                  title_de = "Konvertiere A & B PDF zu Duplex-PDF";
+                  mimetypes = [ "application/pdf" ];
+                  cmd = "${pkgs.pdfduplex}/bin/pdfduplex %F";
+                  selectionCount = 2;
+                };
+              };
+
             };
+
             programs.waybar = mkIf cfg.waybar.enable {
               enable = true;
               systemd.enable = true;
