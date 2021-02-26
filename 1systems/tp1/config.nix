@@ -36,6 +36,9 @@ in
     terminalConfig = "alacritty";
     waybar.enable = true;
     profiles = [
+      "admin"
+      "kvm"
+      "media"
       "office"
     ];
   };

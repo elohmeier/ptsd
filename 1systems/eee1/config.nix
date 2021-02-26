@@ -46,7 +46,10 @@ with import <ptsd/lib>;
   ptsd.desktop = {
     enable = true;
     audio.enable = false;
+    bluetooth.enable = false;
+    qt.enable = false;
     profiles = [
     ];
   };
+
 }

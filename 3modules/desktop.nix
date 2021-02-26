@@ -106,26 +106,26 @@ let
       "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
       "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
 
-      "XF86AudioMute" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute ${cfg.primarySpeaker} toggle";
-      "XF86AudioLowerVolume" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} -5%";
-      "XF86AudioRaiseVolume" = mkIf (cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
-      "XF86AudioMicMute" = mkIf (cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
+      "XF86AudioMute" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute ${cfg.primarySpeaker} toggle";
+      "XF86AudioLowerVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} -5%";
+      "XF86AudioRaiseVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
+      "XF86AudioMicMute" = mkIf (cfg.audio.enable && cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
       "XF86Calculator" = "exec ${term.exec "${pkgs.bc}/bin/bc -l" ""}";
       "XF86HomePage" = "exec firefox";
       "XF86Search" = "exec firefox";
       "XF86Mail" = "exec evolution";
       "XF86Launch5" = "exec spotify"; # Label: 1
-      "XF86Launch8" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo -5%"; # Label: 4
-      "XF86Launch9" = "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo +5%"; # Label: 5
+      "XF86Launch8" = mkIf cfg.audio.enable "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo -5%"; # Label: 4
+      "XF86Launch9" = mkIf cfg.audio.enable "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo +5%"; # Label: 5
 
-      "XF86AudioPlay" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
-      "${cfg.modifier}+p" = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
-      "XF86AudioStop" = "exec ${pkgs.playerctl}/bin/playerctl stop";
-      "XF86AudioNext" = "exec ${pkgs.playerctl}/bin/playerctl next";
-      "${cfg.modifier}+n" = "exec ${pkgs.playerctl}/bin/playerctl next";
-      "XF86AudioPrev" = "exec ${pkgs.playerctl}/bin/playerctl previous";
-      "${cfg.modifier}+Shift+n" = "exec ${pkgs.playerctl}/bin/playerctl previous";
+      "XF86AudioPlay" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+      "${cfg.modifier}+p" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+      "XF86AudioStop" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl stop";
+      "XF86AudioNext" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl next";
+      "${cfg.modifier}+n" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl next";
+      "XF86AudioPrev" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl previous";
+      "${cfg.modifier}+Shift+n" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl previous";
 
       "${cfg.modifier}+h" = "focus left";
       "${cfg.modifier}+Shift+u" = "resize shrink width 20 px or 20 ppt";
@@ -159,11 +159,12 @@ let
       "${cfg.modifier}+b" = ''[class="Firefox"] scratchpad show'';
 
       # Take a screenshot
-      "${cfg.modifier}+Ctrl+Shift+4" =
+      "${cfg.modifier}+Ctrl+Shift+4" = mkIf (builtins.elem "office" cfg.profiles) (
         if cfg.mode == "sway"
         #then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
         then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -''
-        else "exec ${pkgs.flameshot}/bin/flameshot gui";
+        else "exec ${pkgs.flameshot}/bin/flameshot gui"
+      );
     };
 
   modes = {
@@ -255,9 +256,59 @@ let
   '';
 
   all_profiles = {
+    "admin" = pkgs: with pkgs; [
+      ethtool
+      git
+      gnupg
+      lxqt.lxqt-policykit # provides a default authentification client for policykit
+      xdg_utils
+      gen-secrets
+      syncthing-device-id
+      nwvpn-qr
+      paperkey
+      nixpkgs-fmt
+
+    ];
+    "kvm" = pkgs: with pkgs;[
+      virtviewer
+      virtmanager
+    ];
+    "media" = pkgs: with pkgs;[ mpv ];
     "office" = pkgs: with pkgs;[
+      aspell
+      aspellDicts.de
+      aspellDicts.en
+      aspellDicts.en-computers
+      aspellDicts.en-science
+
+      hunspellDicts.de-de
+      hunspellDicts.en-gb-large
+      hunspellDicts.en-us-large
+
+      (writeTextFile {
+        name = "drawio-mimetype";
+        text = ''
+          <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+            <mime-type type="application/vnd.jgraph.mxfile">
+              <comment>draw.io Diagram</comment>
+              <glob pattern="*.drawio" case-sensitive="true"/>
+            </mime-type>
+          </mime-info>
+        '';
+        destination = "/share/mime/packages/drawio.xml";
+      })
       pdfduplex
       pdf2svg
+
+      zathura
+      zathura-single
+      (makeDesktopItem {
+        name = "zathura";
+        desktopName = "Zathura";
+        exec = "${pkgs.zathura}/bin/zathura %f";
+        mimeType = "application/pdf";
+        type = "Application";
+      })
     ];
   };
 in
@@ -355,6 +406,14 @@ in
         type = types.bool;
         default = true;
       };
+      bluetooth.enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+      qt.enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
       profiles = mkOption {
         type = with types; listOf str;
         description = "package profiles to configure, see all_profiles";
@@ -394,69 +453,36 @@ in
       };
     };
 
-    security.pam.services.lightdm.enableGnomeKeyring = true;
-    services.gnome3.gnome-keyring.enable = true;
+    security.pam.services.lightdm.enableGnomeKeyring = mkIf (builtins.elem "office" cfg.profiles) true;
+    services.gnome3.gnome-keyring.enable = mkIf (builtins.elem "office" cfg.profiles) true;
 
     # required for evolution
-    programs.dconf.enable = true;
-    systemd.packages = [ pkgs.gnome3.evolution-data-server ];
+    programs.dconf.enable = mkIf (builtins.elem "office" cfg.profiles) true;
+    systemd.packages = mkIf (builtins.elem "office" cfg.profiles) [ pkgs.gnome3.evolution-data-server ];
 
     security.polkit.enable = true;
 
-    virtualisation.spiceUSBRedirection.enable = true;
+    virtualisation.spiceUSBRedirection.enable = mkIf (builtins.elem "kvm" cfg.profiles) true;
 
     environment.systemPackages = with pkgs; [
-      virtviewer
-      virtmanager
-
+      libinput
+      libnotify
+    ] ++ optionals cfg.audio.enable [
+      playerctl
+      cadence
+      qjackctl
       config.hardware.pulseaudio.package
       pavucontrol
       pasystray
 
-      xdg_utils
-
-      libinput
-      git
-      zstd # can be removed in 20.09 (default there)
-      gen-secrets
-      syncthing-device-id
-      nwvpn-qr
-      libnotify
-      gnupg
-      paperkey
-      lxqt.lxqt-policykit # provides a default authentification client for policykit
-      nixpkgs-fmt
-      lm_sensors
-
-      aspell
-      aspellDicts.de
-      aspellDicts.en
-      aspellDicts.en-computers
-      aspellDicts.en-science
-
-      hunspellDicts.de-de
-      hunspellDicts.en-gb-large
-      hunspellDicts.en-us-large
-
-      (writeTextFile {
-        name = "drawio-mimetype";
-        text = ''
-          <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-            <mime-type type="application/vnd.jgraph.mxfile">
-              <comment>draw.io Diagram</comment>
-              <glob pattern="*.drawio" case-sensitive="true"/>
-            </mime-type>
-          </mime-info>
-        '';
-        destination = "/share/mime/packages/drawio.xml";
-      })
-    ] ++ optionals (cfg.mode == "i3") [
+    ]
+    ++ optionals (cfg.mode == "i3") [
       redshift
       dunst
     ] ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
       networkmanagerapplet
-    ] ++ (map (profile: all_profiles."${profile}") cfg.profiles);
-    services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
+    ] ++ (flatten (map (profile: (all_profiles."${profile}" pkgs)) cfg.profiles));
+    services.gvfs.enable = mkIf (builtins.elem "office" cfg.profiles) true; # allow smb:// mounts in pcmanfm
 
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
@@ -522,7 +548,7 @@ in
 
     sound.enable = true;
 
-    systemd.user.services.pasystray = mkIf (cfg.mode == "i3" && !cfg.pipewire.enable) {
+    systemd.user.services.pasystray = mkIf (cfg.audio.enable && cfg.mode == "i3" && !cfg.pipewire.enable) {
       description = "PulseAudio system tray";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -543,7 +569,7 @@ in
       };
 
       pulseaudio = {
-        enable = !cfg.pipewire.enable;
+        enable = cfg.audio.enable && !cfg.pipewire.enable;
         package = lib.mkDefault pkgs.pulseaudioFull; # pulseAudioFull required for bluetooth audio support
         #support32Bit = true; # for Steam
 
@@ -568,10 +594,10 @@ in
       };
     };
 
-    services.blueman.enable = true;
+    services.blueman.enable = cfg.bluetooth.enable;
 
     # improved version of the pkgs.blueman-provided user service
-    systemd.user.services.blueman-applet-nw = mkIf (cfg.mode == "i3") {
+    systemd.user.services.blueman-applet-nw = mkIf (cfg.bluetooth.enable && cfg.mode == "i3") {
       description = "Bluetooth management applet";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -589,7 +615,7 @@ in
     };
 
     # 20.09 compat (optionalAttrs instead of mkIf)
-    services.pipewire = lib.optionalAttrs cfg.pipewire.enable {
+    services.pipewire = lib.optionalAttrs (cfg.audio.enable && cfg.pipewire.enable) {
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
@@ -600,7 +626,7 @@ in
       };
     };
 
-    security.rtkit.enable = cfg.pipewire.enable;
+    security.rtkit.enable = cfg.audio.enable && cfg.pipewire.enable;
 
     home-manager =
       {
@@ -665,6 +691,23 @@ in
               term = term.binary;
 
               actions = {
+                pdfconcat = mkIf (builtins.elem "office" cfg.profiles) {
+                  title = "Concat PDF files";
+                  title_de = "PDF-Dateien aneinanderhängen";
+                  mimetypes = [ "application/pdf" ];
+                  cmd = # https://black.readthedocs.io/en/stable/the_black_code_style.html#line-length
+                    let script = pkgs.writers.writePython3 "pdfconcat"
+                      {
+                        flakeIgnore = [ "E203" "E501" "W503" ];
+                      }
+                      (pkgs.substituteAll {
+                        src = ./pdfconcat.py;
+                        inherit (pkgs) pdftk;
+                      });
+                    in "${pkgs.alacritty}/bin/alacritty --hold -e ${script} %F";
+                  # #"${script} %F";
+                };
+
                 pdfduplex = mkIf (builtins.elem "office" cfg.profiles) {
                   title = "Convert A & B PDF to Duplex-PDF";
                   title_de = "Konvertiere A & B PDF zu Duplex-PDF";
@@ -694,7 +737,9 @@ in
                   ];
                   modules-right = [
                     "idle_inhibitor"
-                    "pulseaudio"
+                  ]
+                  ++ optional cfg.audio.enable
+                    "pulseaudio" ++ [
                     "network"
                     "cpu"
                     "memory"
@@ -737,7 +782,7 @@ in
                       format-alt = "{ifname}: {ipaddr}/{cidr}";
                       on-click-right = term.exec "${pkgs.networkmanager}/bin/nmtui" "";
                     };
-                    pulseaudio = {
+                    pulseaudio = mkIf cfg.audio.enable {
                       format = "{volume}% {icon} {format_source}";
                       format-bluetooth = "{volume}% {icon} {format_source}";
                       format-bluetooth-muted = " {icon} {format_source}";
@@ -979,29 +1024,11 @@ in
             xdg.configFile."mimeapps.list".force = true;
 
             home.packages = with pkgs;[
-              cadence
-              qjackctl
-              nwi3status
-              libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
-              playerctl
-              ethtool
               hicolor-icon-theme
-
-              zathura
-              zathura-single
-              (makeDesktopItem {
-                name = "zathura";
-                desktopName = "Zathura";
-                exec = "${pkgs.zathura}/bin/zathura %f";
-                mimeType = "application/pdf";
-                type = "Application";
-              })
-              caffeine
-              mpv
-
-            ] ++ term.extraPackages ++ optionals
+            ] ++ optionals (!cfg.waybar.enable) [ nwi3status ] ++ term.extraPackages ++ optionals
               (cfg.mode == "i3")
               [
+                caffeine
                 xorg.xev
                 xorg.xhost
                 flameshot
@@ -1012,11 +1039,13 @@ in
               (cfg.mode == "sway")
               [
                 swaylock
-                qt5.qtwayland
                 grim
                 slurp
                 wl-clipboard
-              ];
+              ] ++ optionals cfg.qt.enable [
+              qt5.qtwayland
+              libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
+            ];
 
             xdg.configFile."i3/nwi3status.toml" =
               let

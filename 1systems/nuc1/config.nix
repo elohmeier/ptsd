@@ -64,13 +64,9 @@ in
     mode = "sway";
     trayOutput = "HDMI-A-2";
     fontMono = "Cozette";
-    pipewire.enable = true;
-    nwi3status = {
-      #todoistApiKey = todoistSecrets.todoistApiKey;
-      openweathermapApiKey = desktopSecrets.openweathermapApiKey;
-    };
-    waybar.enable = true;
     profiles = [
+      "admin"
+      "media"
       "office"
     ];
   };

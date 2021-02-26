@@ -13,14 +13,16 @@ let
         "Desktop Entry" = {
           Type = "Action";
           Name = action.title;
-          "Name[de]" = mkIf (action.title_de != null) action.title_de;
           Profiles = "${id};";
+        } // optionalAttrs (action.title_de != null) {
+          "Name[de]" = action.title_de;
         };
 
         "X-Action-Profile ${id}" = {
           MimeTypes = concatStringsSep ";" action.mimetypes;
           Exec = action.cmd;
-          SelectionCount = mkIf (action.selectionCount != null) action.selectionCount;
+        } // optionalAttrs (action.selectionCount != null) {
+          SelectionCount = action.selectionCount;
         };
       };
     };
@@ -47,7 +49,8 @@ in
               };
 
               title_de = mkOption {
-                type = types.nullOr types.str;
+                type = with types; nullOr str;
+                default = null;
               };
 
               mimetypes = mkOption {
@@ -60,11 +63,13 @@ in
 
               selectionCount = mkOption {
                 type = types.nullOr types.int;
+                default = null;
               };
             };
           }
         )
       );
+      default = { };
     };
   };
 
@@ -203,33 +208,6 @@ in
             "X-Action-Profile pdf2svg" = {
               MimeTypes = "application/pdf";
               Exec = "pdf2svg %f %f.svg";
-            };
-          };
-
-        "file-manager/actions/pdfconcat.desktop".text = lib.generators.toINI
-          { }
-          {
-            "Desktop Entry" = {
-              Type = "Action";
-              Name = "Concat PDF files";
-              "Name[de]" = "PDF-Dateien aneinanderhängen";
-              Profiles = "pdfconcat;";
-            };
-
-            "X-Action-Profile pdfconcat" = {
-              MimeTypes = "application/pdf";
-              Exec =
-                # https://black.readthedocs.io/en/stable/the_black_code_style.html#line-length
-                let script = pkgs.writers.writePython3 "pdfconcat"
-                  {
-                    flakeIgnore = [ "E203" "E501" "W503" ];
-                  }
-                  (pkgs.substituteAll {
-                    src = ./pdfconcat.py;
-                    inherit (pkgs) pdftk;
-                  });
-                in "${pkgs.alacritty}/bin/alacritty --hold -e ${script} %F";
-              # #"${script} %F";
             };
           };
 

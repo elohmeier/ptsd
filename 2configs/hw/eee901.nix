@@ -1,10 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix>
-  ];
-
   boot.initrd.availableKernelModules =
     [ "uhci_hcd" "ehci_pci" "ata_piix" "usb_storage" "sd_mod" ];
   boot.kernelModules = [ ];
