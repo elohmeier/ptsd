@@ -65,7 +65,9 @@ in
     trayOutput = "HDMI-A-2";
     fontMono = "Cozette";
     profiles = [
+      "3dprinting"
       "admin"
+      "dev"
       "media"
       "office"
     ];
@@ -210,8 +212,6 @@ in
     efibootmgr
     efitools
     tpm2-tools
-    prusa-slicer
-    #freecad
   ];
 
   services.printing.enable = true;

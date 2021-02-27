@@ -44,8 +44,6 @@ in
 
   home = {
     packages = with pkgs; [
-      cura
-      prusa-slicer
       #steam
       #steam-run
       lguf-brightness

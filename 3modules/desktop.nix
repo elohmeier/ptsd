@@ -256,6 +256,12 @@ let
   '';
 
   all_profiles = {
+    "3dprinting" = pkgs: with pkgs; [
+      prusa-slicer
+      freecad
+      cura
+      prusa-slicer
+    ];
     "admin" = pkgs: with pkgs; [
       ethtool
       git
@@ -267,49 +273,158 @@ let
       nwvpn-qr
       paperkey
       nixpkgs-fmt
-
+      #asciinema
+      rclone
+      teamviewer
+      qrencode
+      sshfs
+      dnsmasq
+      wireshark-qt
+      freerdp
     ];
+    "dev" = pkgs: with pkgs;
+      let
+        py3 = python3.override {
+          packageOverrides = self: super: rec {
+            black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+          };
+        };
+        pyenv = py3.withPackages (
+          pythonPackages: with pythonPackages; [
+            black
+            black_nbconvert
+            jupyterlab
+            lxml
+            keyring
+            nbconvert
+            pandas
+            pdfminer
+            pillow
+            requests
+            selenium
+          ]
+        );
+      in
+      [
+        gitAndTools.hub
+        nix-tree
+        nbconvert
+        vscodium
+        sqlitebrowser
+        #filezilla
+        sqlitebrowser
+        gnumake
+        #nix-deploy
+        #hcloud
+        dep2nix
+        #dbeaver
+        drone-cli
+        #openshift
+        #minishift
+        cachix
+        pyenv
+        docker_compose
+
+
+      ];
     "kvm" = pkgs: with pkgs;[
       virtviewer
       virtmanager
     ];
-    "media" = pkgs: with pkgs;[ mpv ];
-    "office" = pkgs: with pkgs;[
-      aspell
-      aspellDicts.de
-      aspellDicts.en
-      aspellDicts.en-computers
-      aspellDicts.en-science
-
-      hunspellDicts.de-de
-      hunspellDicts.en-gb-large
-      hunspellDicts.en-us-large
-
-      (writeTextFile {
-        name = "drawio-mimetype";
-        text = ''
-          <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-            <mime-type type="application/vnd.jgraph.mxfile">
-              <comment>draw.io Diagram</comment>
-              <glob pattern="*.drawio" case-sensitive="true"/>
-            </mime-type>
-          </mime-info>
-        '';
-        destination = "/share/mime/packages/drawio.xml";
-      })
-      pdfduplex
-      pdf2svg
-
-      zathura
-      zathura-single
-      (makeDesktopItem {
-        name = "zathura";
-        desktopName = "Zathura";
-        exec = "${pkgs.zathura}/bin/zathura %f";
-        mimeType = "application/pdf";
-        type = "Application";
-      })
+    "media" = pkgs: with pkgs;[
+      #(
+      #  ffmpeg-full.override {
+      #    nonfreeLicensing = true;
+      #    fdkaacExtlib = true;
+      #    ffplayProgram = false;
+      #    ffprobeProgram = false;
+      #    qtFaststartProgram = false;
+      #  }
+      #)
+      ffmpeg-full
+      mpv
+      imagemagick
+      ffmpeg-normalize
+      youtube-dl
+      spotify
+      vlc
+      #mediathekview
+      obs-studio
+      v4l-utils
+      pulseeffects-pw
     ];
+    "office" = pkgs: with pkgs;
+      let
+        py3 = python3.override {
+          packageOverrides = self: super: rec {
+            davphonebook = self.callPackage ../5pkgs/davphonebook { };
+          };
+        };
+      in
+      [
+        xournalpp
+        #calibre
+        (xmind.override { jre = openjdk11; })
+        transmission-gtk
+        fava
+        anki
+        sylpheed
+        #zoom-us
+        #nerdworks-motivation
+        keepassxc
+        (pdftk.override { jre = openjdk11; })
+        libreoffice-fresh
+        inkscape
+        gimp
+        portfolio
+        shrinkpdf
+        py3.pkgs.davphonebook
+        teams
+        aspell
+        aspellDicts.de
+        aspellDicts.en
+        aspellDicts.en-computers
+        aspellDicts.en-science
+
+        hunspellDicts.de-de
+        hunspellDicts.en-gb-large
+        hunspellDicts.en-us-large
+
+
+        tdesktop
+        (drawio.overrideAttrs (oldAttrs: {
+          # fix wrong file handling in default desktop file for file manager integration
+          patchPhase = ''
+            substituteInPlace usr/share/applications/drawio.desktop \
+              --replace 'drawio %U' 'drawio %f'
+          '';
+        }))
+
+        (writeTextFile {
+          name = "drawio-mimetype";
+          text = ''
+            <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+              <mime-type type="application/vnd.jgraph.mxfile">
+                <comment>draw.io Diagram</comment>
+                <glob pattern="*.drawio" case-sensitive="true"/>
+              </mime-type>
+            </mime-info>
+          '';
+          destination = "/share/mime/packages/drawio.xml";
+        })
+        pdfduplex
+        pdf2svg
+
+        zathura
+        zathura-single
+        (makeDesktopItem {
+          name = "zathura";
+          desktopName = "Zathura";
+          exec = "${pkgs.zathura}/bin/zathura %f";
+          mimeType = "application/pdf";
+          type = "Application";
+        })
+      ];
   };
 in
 {
@@ -1025,6 +1140,7 @@ in
 
             home.packages = with pkgs;[
               hicolor-icon-theme
+              gnome3.file-roller
             ] ++ optionals (!cfg.waybar.enable) [ nwi3status ] ++ term.extraPackages ++ optionals
               (cfg.mode == "i3")
               [

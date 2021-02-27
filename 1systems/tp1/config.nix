@@ -37,6 +37,7 @@ in
     waybar.enable = true;
     profiles = [
       "admin"
+      "dev"
       "kvm"
       "media"
       "office"
