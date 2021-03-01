@@ -29,6 +29,10 @@ in
     ./qemu.nix
   ];
 
+  ptsd.fraamdb = {
+    enable = true;
+  };
+
   ptsd.nwacme.hostCert.enable = false;
 
   ptsd.desktop = {

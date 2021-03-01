@@ -6,6 +6,7 @@ _:
     ./cups-airprint.nix
     ./desktop.nix
     ./drone-server.nix
+    ./fraamdb.nix
     ./fraam-gitlab.nix
     ./fraam-www.nix
     ./mjpg-streamer.nix

@@ -12,6 +12,7 @@
     };
     ignores = [ "*~" "*.swp" ".ipynb_checkpoints/" ];
     extraConfig = {
+      init.defaultBranch = "master";
       pull = {
         rebase = false;
         ff = "only";
