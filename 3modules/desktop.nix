@@ -838,6 +838,17 @@ in
 
             programs.waybar = mkIf cfg.waybar.enable {
               enable = true;
+              # todo: remove when >0.9.5 available in nixpkgs
+              # includes fix for linux 5.11 compat
+              package = pkgs.waybar.overrideAttrs (oldAttrs: rec {
+                version = "0.9.6-dev";
+                src = pkgs.fetchFromGitHub {
+                  owner = "Alexays";
+                  repo = "Waybar";
+                  rev = "cb1c7ea12cdda26983463e7e3ab0cc0d08f674ff";
+                  sha256 = "1lnx6m3ikizyms7gppykn5314ls85xx2b6qx8j2ssdp0ph4dzml2";
+                };
+              });
               systemd.enable = true;
               settings = [
                 {

@@ -35,8 +35,6 @@
     "i915.enable_guc=2"
   ];
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.exfat-nofuse ];
-
   hardware.firmware = with pkgs; [ wireless-regdb ];
   boot.extraModprobeConfig = ''
     options cfg80211 ieee80211_regdom="DE"

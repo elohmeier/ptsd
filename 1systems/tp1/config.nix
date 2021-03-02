@@ -26,6 +26,8 @@ in
     <home-manager/nixos>
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   ptsd.nwacme.hostCert.enable = false;
 
   ptsd.desktop = {
