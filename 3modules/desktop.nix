@@ -594,19 +594,21 @@ in
     ++ optionals (cfg.mode == "i3") [
       redshift
       dunst
-    ] ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
+    ] ++ optionals (cfg.mode == "sway") [
+      gammastep
+    ]     ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
       networkmanagerapplet
     ] ++ (flatten (map (profile: (all_profiles."${profile}" pkgs)) cfg.profiles));
     services.gvfs.enable = mkIf (builtins.elem "office" cfg.profiles) true; # allow smb:// mounts in pcmanfm
 
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
-    systemd.user.services.redshift = mkIf (cfg.mode == "i3") {
+    systemd.user.services."${if cfg.mode == "i3" then "redshift" else "gammastep"}" = {
       description = "Screen color temperature manager";
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
       serviceConfig = {
-        ExecStart = "${pkgs.redshift}/bin/redshift";
+        ExecStart = if cfg.mode == "i3" then "${pkgs.redshift}/bin/redshift" else "${pkgs.gammastep}/bin/gammastep";
         RestartSec = 3;
         Restart = "on-failure";
       };
