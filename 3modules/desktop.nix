@@ -275,7 +275,7 @@ let
       nixpkgs-fmt
       #asciinema
       rclone
-      teamviewer
+      #teamviewer
       qrencode
       sshfs
       dnsmasq
@@ -596,7 +596,7 @@ in
       dunst
     ] ++ optionals (cfg.mode == "sway") [
       gammastep
-    ]     ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
+    ] ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
       networkmanagerapplet
     ] ++ (flatten (map (profile: (all_profiles."${profile}" pkgs)) cfg.profiles));
     services.gvfs.enable = mkIf (builtins.elem "office" cfg.profiles) true; # allow smb:// mounts in pcmanfm
