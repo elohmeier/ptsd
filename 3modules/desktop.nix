@@ -608,7 +608,7 @@ in
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
       serviceConfig = {
-        ExecStart = if cfg.mode == "i3" then "${pkgs.redshift}/bin/redshift" else "${pkgs.gammastep}/bin/gammastep";
+        ExecStart = if cfg.mode == "i3" then "${pkgs.redshift}/bin/redshift" else "${pkgs.gammastep}/bin/gammastep -l 53:10";
         RestartSec = 3;
         Restart = "on-failure";
       };
