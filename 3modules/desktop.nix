@@ -1125,6 +1125,7 @@ in
               defaultApplications = {
                 "application/pdf" = [ "zathura.desktop" ];
                 "text/plain" = [ "vim.desktop" ];
+                "text/x-script.python" = [ "vim.desktop" ];
                 "image/gif" = [ "sxiv.desktop" ];
                 "image/jpeg" = [ "sxiv.desktop" ];
                 "image/png" = [ "sxiv.desktop" ];

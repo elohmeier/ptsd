@@ -11,6 +11,8 @@ in
   #  <ptsd/2configs/home/mbsync.nix>
   #];
 
+  programs.broot.enable = true;
+
   home.packages = with pkgs; let
     mywine = wine.override { wineBuild = "wine32"; wineRelease = "staging"; };
   in
