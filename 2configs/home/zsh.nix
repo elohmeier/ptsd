@@ -82,7 +82,7 @@ in
         fi
       '';
 
-      shellAliases = shellAliases;
+      shellAliases = shellAliases.aliases // shellAliases.abbreviations;
     };
   };
 

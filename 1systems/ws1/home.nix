@@ -12,6 +12,12 @@ in
     <ptsd/2configs/home/gpg.nix>
   ];
 
+  programs.fish = {
+    enable = true;
+    shellAliases = (import ../../2configs/aliases.nix).aliases;
+    shellAbbrs = (import ../../2configs/aliases.nix).abbreviations;
+  };
+
   wayland.windowManager.sway = {
     extraConfig = ''
       output DP-3 pos 0 0 mode 3840x2160@59.997002Hz scale 2

@@ -12,12 +12,10 @@ in
     <ptsd/2configs/gcalcli.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/stateless-root.nix>
-    <ptsd/2configs/zsh-enable.nix>
 
     <ptsd/2configs/themes/nerdworks.nix>
     <ptsd/2configs/drone-exec-container.nix>
     <ptsd/2configs/mfc7440n.nix>
-    <ptsd/2configs/nextcloud-client.nix>
     <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
@@ -28,6 +26,11 @@ in
 
     ./qemu.nix
   ];
+
+  programs.fish = {
+    enable = true;
+  };
+  users.defaultUserShell = pkgs.fish;
 
   ptsd.fraamdb = {
     enable = true;
