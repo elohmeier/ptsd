@@ -16,7 +16,6 @@ in
       <ptsd/2configs/zsh-enable.nix>
 
       <ptsd/2configs/themes/fraam.nix>
-      <ptsd/2configs/nextcloud-client.nix>
       <ptsd/2configs/prometheus/node.nix>
 
       <secrets-shared/nwsecrets.nix>

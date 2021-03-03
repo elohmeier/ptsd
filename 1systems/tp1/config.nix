@@ -17,7 +17,6 @@ in
 
     <ptsd/2configs/themes/fraam.nix>
     <ptsd/2configs/mfc7440n.nix>
-    <ptsd/2configs/nextcloud-client.nix>
     <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
