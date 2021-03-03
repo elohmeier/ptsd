@@ -854,6 +854,7 @@ in
                 {
                   layer = "top";
                   position = "bottom";
+                  height = 21;
                   #output = [
                   #  "DP-3"
                   #  "DP-4"
