@@ -25,6 +25,8 @@ in
     <home-manager/nixos>
   ];
 
+  services.hardware.bolt.enable = true;
+
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   ptsd.nwacme.hostCert.enable = false;
