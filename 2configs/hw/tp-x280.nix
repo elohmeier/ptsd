@@ -17,7 +17,7 @@
   # };
 
   services.tlp.enable = true; # TLP Linux Advanced Power Management
-  #services.fwupd.enable = true;
+  services.fwupd.enable = true;
 
   services.xserver = {
     videoDrivers = [ "modesetting" ];

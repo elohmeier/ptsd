@@ -204,6 +204,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    pciutils
     powertop
     networkmanagerapplet
     samba
