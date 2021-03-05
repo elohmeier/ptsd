@@ -681,7 +681,7 @@ in
 
     hardware = {
       bluetooth = {
-        enable = true;
+        enable = cfg.bluetooth.enable;
         hsphfpd.enable = true;
         package = pkgs.bluezFull;
       };
