@@ -9,25 +9,36 @@ let
 
   terminalConfigs = {
     alacritty = rec {
+      package = pkgs.alacritty;
       binary = "${pkgs.alacritty}/bin/alacritty";
       exec = prog: dir: "${binary}${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
       extraPackages = [ ];
       extraAliases = { };
     };
     kitty = rec {
-      binary = "${pkgs.kitty}/bin/kitty";
+      package = pkgs.kitty;
+      binary = "${package}/bin/kitty";
       exec = prog: dir: "${binary}${if dir != "" then " --directory \"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
       extraPackages = [ ];
       extraAliases.icat = "kitty +kitten icat";
     };
+    termite = rec {
+      package = pkgs.termite;
+      binary = "${package}/bin/termite";
+      exec = prog: dir: "${binary}${if dir != "" then " --directory=\"${dir}\"" else ""}${if prog != "" then " --exec=\"${prog}\"" else ""}";
+      extraPackages = [ ];
+      extraAliases = { };
+    };
     urxvt = rec {
-      binary = "${config.programs.urxvt.package}/bin/urxvt";
+      package = config.programs.urxvt.package;
+      binary = "${package}/bin/urxvt";
       exec = prog: dir: "${binary}${if dir != "" then " -cd \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
       extraPackages = [ pkgs.xsel ]; # required by urxvt clipboard integration
       extraAliases = { };
     };
     xterm = rec {
-      binary = "${pkgs.xterm}/bin/xterm";
+      package = pkgs.xterm;
+      binary = "${package}/bin/xterm";
       exec = prog: dir: "${binary}${if prog != "" then " -e ${prog}" else ""}"; # xterm does not support working directory switching
       extraPackages = [ ];
       extraAliases = { };
@@ -447,11 +458,11 @@ in
       };
       fontSans = mkOption {
         type = types.str;
-        default = "Iosevka Sans"; # TODO: expose package, e.g. for gtk
+        default = "Ioseka Sans"; # TODO: expose package, e.g. for gtk
       };
       fontMono = mkOption {
         type = types.str;
-        default = "Iosevka";
+        default = "Cozette";
       };
       fontSize = mkOption {
         type = types.int;
@@ -468,7 +479,7 @@ in
         default = "@DEFAULT_SINK@";
       };
       terminalConfig = mkOption {
-        type = types.strMatching "alacritty|kitty|urxvt|xterm";
+        type = types.strMatching "alacritty|kitty|termite|urxvt|xterm";
         default = "alacritty";
       };
       trayOutput = mkOption {
@@ -534,6 +545,10 @@ in
         type = with types; listOf str;
         description = "package profiles to configure, see all_profiles";
       };
+      numlockAuto = mkOption {
+        type = types.bool;
+        default = true;
+      };
     };
   };
 
@@ -581,6 +596,7 @@ in
     virtualisation.spiceUSBRedirection.enable = mkIf (builtins.elem "kvm" cfg.profiles) true;
 
     environment.systemPackages = with pkgs; [
+      term.package
       libinput
       libnotify
     ] ++ optionals cfg.audio.enable [
@@ -640,7 +656,7 @@ in
 
     fonts.fonts = with pkgs; [
       cozette
-      iosevka
+      #iosevka # TODO: replace, pulls in i686-incompatible dependencies
       nwfonts
       proggyfonts
       roboto
@@ -1205,25 +1221,25 @@ in
                     '';
               in
               mkIf (!cfg.waybar.enable)
-              {
-                source = statusConfigFile;
-                onChange =
-                  if cfg.mode == "i3" then
-                    ''
-                      i3Socket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/i3/ipc-socket.*
-                      if [ -S $i3Socket ]; then
-                        echo "Reloading i3"
-                        $DRY_RUN_CMD ${pkgs.i3}/bin/i3-msg -s $i3Socket reload 1>/dev/null
+                {
+                  source = statusConfigFile;
+                  onChange =
+                    if cfg.mode == "i3" then
+                      ''
+                        i3Socket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/i3/ipc-socket.*
+                        if [ -S $i3Socket ]; then
+                          echo "Reloading i3"
+                          $DRY_RUN_CMD ${pkgs.i3}/bin/i3-msg -s $i3Socket reload 1>/dev/null
+                        fi
+                      ''
+                    else ''
+                      swaySocket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/sway-ipc.$UID.$(${pkgs.procps}/bin/pgrep -x sway || ${pkgs.coreutils}/bin/true).sock
+                      if [ -S $swaySocket ]; then
+                        echo "Reloading sway"
+                        $DRY_RUN_CMD ${pkgs.sway}/bin/swaymsg -s $swaySocket reload
                       fi
-                    ''
-                  else ''
-                    swaySocket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/sway-ipc.$UID.$(${pkgs.procps}/bin/pgrep -x sway || ${pkgs.coreutils}/bin/true).sock
-                    if [ -S $swaySocket ]; then
-                      echo "Reloading sway"
-                      $DRY_RUN_CMD ${pkgs.sway}/bin/swaymsg -s $swaySocket reload
-                    fi
-                  '';
-              };
+                    '';
+                };
 
             # auto-hide the mouse cursor after inactivity on i3/X11
             # sway has "hide_cursor" configuration option
@@ -1272,7 +1288,7 @@ in
               enable = true;
               font = {
                 name = "${cfg.fontSans} ${toString cfg.fontSize}";
-                package = pkgs.iosevka;
+                #package = pkgs.iosevka; # TODO: replace, pulls in i686-unsupported dependencies
               };
               iconTheme = {
                 name = "Tango";
@@ -1280,7 +1296,7 @@ in
               };
               theme = {
                 name = "Arc-Dark";
-                package = pkgs.arc-theme;
+                #package = pkgs.arc-theme; # TODO: replace, pulls in inkscape to build
               };
             };
 
@@ -1329,7 +1345,7 @@ in
                       "*" = {
                         natural_scroll = "enabled";
                         xkb_layout = "de";
-                        xkb_numlock = "enabled";
+                        xkb_numlock = if cfg.numlockAuto then "enabled" else "disabled";
                       };
                     };
                   };
