@@ -14,6 +14,7 @@ with import <ptsd/lib>;
     #<ptsd/2configs/octoprint-klipper-ender3.nix>
 
     <home-manager/nixos>
+    <ptsd/2configs/zsh-enable.nix>
   ];
 
   nixpkgs.config.packageOverrides = pkgs: {
@@ -36,25 +37,25 @@ with import <ptsd/lib>;
   #environment.systemPackages = [ (pkgs.v4l-utils.override { withGUI = false; }) ];
 
   ptsd.mjpg-streamer = {
-    enable = true;
+    enable = false;
     inputPlugin = "input_uvc.so -f 15 -r 640x480"; # physical resolution: 1280x1024 (1.3 MP)
     outputPlugin = "output_http.so -w @www@ -n -p ${toString config.ptsd.nwtraefik.ports.mjpg-streamer}";
   };
 
-  # home-manager = {
-  #   users.mainUser = { ... }:
-  #     {
-  #       imports = [
-  #         ./home.nix
-  #       ];
-  #     };
-  #   users.root = { ... }:
-  #     {
-  #       imports = [
-  #         ./home.nix
-  #       ];
-  #     };
-  # };
+  home-manager = {
+    users.mainUser = { ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
+    users.root = { ... }:
+      {
+        imports = [
+          ./home.nix
+        ];
+      };
+  };
 
   networking = {
     hostName = "eee1";
@@ -75,13 +76,15 @@ with import <ptsd/lib>;
 
   services.logind.lidSwitch = "ignore";
 
-  # ptsd.desktop = {
-  #   enable = true;
-  #   audio.enable = false;
-  #   bluetooth.enable = false;
-  #   qt.enable = false;
-  #   profiles = [
-  #   ];
-  # };
+  ptsd.desktop = {
+    enable = true;
+    audio.enable = false;
+    bluetooth.enable = false;
+    qt.enable = false;
+    profiles = [
+    ];
+    terminalConfig = "termite";
+    numlockAuto = false;
+  };
 
 }
