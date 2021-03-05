@@ -42,10 +42,14 @@
     enable = true;
     numDevices = 1;
     swapDevices = 1;
-    memoryPercent = 50;
-    priority = 5;
+    memoryPercent = 75;
+    priority = 2; # should be higher than for disk-based swap devices to fallback to disk swap when zram is full
     algorithm = "zstd";
   };
+
+  swapDevices = [
+    { device = "/dev/sda2"; priority = 1; }
+  ];
 
   services.haveged.enable = true;
 }

@@ -59,6 +59,7 @@ in
         ProtectHome = "true";
         NoNewPrivileges = "true";
         SupplementaryGroups = "video";
+        CPUWeight = 20;
       };
     } // lib.optionalAttrs (cfg.deviceService != "") {
       bindsTo = [ cfg.deviceService ];

@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 let
   domain = "octoprint.services.nerdworks.de";
-  v4l-utils-nogui = pkgs.v4l-utils.override { withGUI = false; };
 in
 {
   ptsd.octoprint = {
@@ -24,7 +23,7 @@ in
     serialDevice = "/dev/ttyACM0"; # prusa
   };
 
-  environment.systemPackages = [ v4l-utils-nogui ];
+  environment.systemPackages = [ (pkgs.v4l-utils.override { withGUI = false; }) ];
 
   # ptsd.mjpg-streamer = {
   #   enable = true;
