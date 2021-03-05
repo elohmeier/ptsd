@@ -180,7 +180,7 @@ in
     ptsd.nwbackup = {
       enable = mkEnableOption "nwbackup";
       passCommand = mkOption {
-        default = "cat ${toString <secrets>}/nwbackup.borgkey";
+        default = "cat /var/src/secrets/nwbackup.borgkey";
         type = types.str;
       };
       paths = mkOption {
@@ -232,6 +232,13 @@ in
       BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
     } // optionalAttrs (cfg.cacheDir != null) {
       BORG_CACHE_DIR = cfg.cacheDir;
+    };
+
+    ptsd.secrets.files = {
+      # public keys can be world-readable
+      "nwbackup.id_ed25519.pub" = {
+        mode = "0444";
+      };
     };
 
     # TODO: prometheus-migrate
