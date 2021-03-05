@@ -834,6 +834,13 @@ in
                 };
               };
 
+              thumbnailers = {
+                imagemagick = mkIf (builtins.elem "office" cfg.profiles) {
+                  mimetypes = [ "application/pdf" "application/x-pdf" "image/pdf" ];
+                  # imagemagickBig needed because of ghostscript dependency
+                  cmd = ''${pkgs.imagemagickBig}/bin/convert %i[0] -background "#FFFFFF" -flatten -thumbnail %s %o'';
+                };
+              };
             };
 
             programs.waybar = mkIf cfg.waybar.enable {

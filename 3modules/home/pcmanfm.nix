@@ -26,6 +26,16 @@ let
         };
       };
     };
+  generateXdgThumbnailer = id: thumbnailer: nameValuePair
+    "thumbnailers/${id}.thumbnailer"
+    {
+      text = lib.generators.toINI { } {
+        "Thumbnailer Entry" = {
+          Exec = action.cmd;
+          MimeType = concatStringsSep ";" action.mimetypes;
+        };
+      };
+    };
 in
 {
   options.ptsd.pcmanfm = {
@@ -71,6 +81,30 @@ in
       );
       default = { };
     };
+
+    thumbnailers = mkOption {
+      type = types.attrsOf (
+        types.submodule (
+          { config, ... }: {
+            options = {
+              id = mkOption {
+                type = types.str;
+                default = config._module.args.name;
+              };
+
+              mimetypes = mkOption {
+                type = with types; listOf str;
+              };
+
+              cmd = mkOption {
+                type = types.str;
+              };
+            };
+          }
+        )
+      );
+      default = { };
+    };
   };
 
   config = mkIf cfg.enable {
@@ -91,6 +125,9 @@ in
       (
         mapAttrs' generateXdgAction cfg.actions
       ) //
+      (
+        mapAttrs' generateXdgThumbnailer cfg.thumbnailers
+      ) //
 
       {
 
@@ -102,16 +139,6 @@ in
         #     <glob pattern="*.drawio"/>
         #   </mime-type>
         # '';
-
-        "thumbnailers/imagemagick.thumbnailer".text = lib.generators.toINI
-          { }
-          {
-            "Thumbnailer Entry" = {
-              # imagemagickBig needed because of ghostscript dependency
-              Exec = ''${pkgs.imagemagickBig}/bin/convert %i[0] -background "#FFFFFF" -flatten -thumbnail %s %o'';
-              MimeType = "application/pdf;application/x-pdf;image/pdf;";
-            };
-          };
 
         "file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI
           { }
