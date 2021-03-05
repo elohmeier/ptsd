@@ -31,8 +31,8 @@ let
     {
       text = lib.generators.toINI { } {
         "Thumbnailer Entry" = {
-          Exec = action.cmd;
-          MimeType = concatStringsSep ";" action.mimetypes;
+          Exec = thumbnailer.cmd;
+          MimeType = concatStringsSep ";" thumbnailer.mimetypes;
         };
       };
     };
