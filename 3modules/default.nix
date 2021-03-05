@@ -25,6 +25,7 @@ _:
     ./samba-sonos.nix
     ./secrets.nix
     ./traefik-forward-auth.nix
+    ./traggo.nix
     ./vdi-container.nix
     ./wireguard.nix
     ./xrdp.nix
