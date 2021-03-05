@@ -51,11 +51,11 @@ Use [Cachix](https://cachix.org/) to enable the binary cache by invoking
 3. Prepare installation FS and mount to `/mnt`.
 3. Populate target using `$(nix-build --no-out-link krops.nix --argstr name HOSTNAME --argstr starget "root@IP/mnt/var/src" --arg desktop true -A populate)`.
 4. Build system remotely using `nix-build -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --no-out-link --store /mnt`.
-5. Install the system using `nixos-install --system /nix/store/... --no-root-passwd`.
+5. Install the system using `nixos-install --system /nix/store/... --no-root-passwd --no-channel-copy`.
 6. Unmount everything and reboot.
 
 Extra Tipp:
-Build'n'install: `nixos-install --system $(nix-build --no-out-link -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --store /mnt) --no-root-passwd`
+Build'n'install: `nixos-install --system $(nix-build --no-out-link -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --store /mnt) --no-root-passwd --no-channel-copy`
 
 ## Provision Hetzner VM
 
@@ -148,6 +148,10 @@ reboot
 
 
 ## Tips
+
+### /var/src requirements
+
+Ensure at least 100k inodes (e.g. by tuning the bytes-per-inode ratio as in `mkfs.ext4 -i 2048 /dev/sysVG/var-src` for a 300M drive.)
 
 ### Get predictable network interface name
 [as used by systemd](https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/)
