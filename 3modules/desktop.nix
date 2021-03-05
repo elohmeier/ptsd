@@ -101,7 +101,7 @@ let
       "${cfg.modifier}+Shift+Delete" = "exec ${lockCmd}";
       "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${cwdCmd}`"}";
       "${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
-      "${cfg.modifier}+Shift+t" = "exec pcmanfm \"`${cwdCmd}`\"";
+      "${cfg.modifier}+Shift+t" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
 
       "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
       "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
@@ -362,6 +362,7 @@ let
         };
       in
       [
+        gnome3.file-roller
         xournalpp
         #calibre
         (xmind.override { jre = openjdk11; })
@@ -661,7 +662,7 @@ in
     '';
 
     services.upower.enable = true;
-    services.lorri.enable = true;
+    services.lorri.enable = elem "dev" cfg.profiles;
 
     sound.enable = true;
 
@@ -804,7 +805,7 @@ in
             };
 
             ptsd.pcmanfm = {
-              enable = true;
+              enable = elem "office" cfg.profiles;
               term = term.binary;
 
               actions = {
@@ -1162,7 +1163,6 @@ in
 
             home.packages = with pkgs;[
               hicolor-icon-theme
-              gnome3.file-roller
             ] ++ optionals (!cfg.waybar.enable) [ nwi3status ] ++ term.extraPackages ++ optionals
               (cfg.mode == "i3")
               [
@@ -1204,6 +1204,7 @@ in
                         > $out
                     '';
               in
+              mkIf (!cfg.waybar.enable)
               {
                 source = statusConfigFile;
                 onChange =
