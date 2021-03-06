@@ -1263,6 +1263,17 @@ in
                 };
               };
 
+
+            programs.fish = {
+              loginShellInit = mkIf (cfg.mode == "sway") ''
+                if status is-login
+                  if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+                    # pass sway log output to journald
+                    exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway
+                  end
+                end
+              '';
+            };
             programs.zsh = {
               loginExtra = mkIf (cfg.mode == "sway") ''
                 # If running from tty1 start sway
