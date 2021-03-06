@@ -13,7 +13,6 @@ in
     <ptsd/2configs/gcalcli.nix>
     <ptsd/2configs/nwhost.nix>
     <ptsd/2configs/stateless-root.nix>
-    <ptsd/2configs/zsh-enable.nix>
 
     <ptsd/2configs/themes/fraam.nix>
     <ptsd/2configs/mfc7440n.nix>
@@ -24,6 +23,12 @@ in
 
     <home-manager/nixos>
   ];
+
+  ptsd.cli = {
+    enable = true;
+    fish.enable = true;
+    defaultShell = "fish";
+  };
 
   services.hardware.bolt.enable = true;
 

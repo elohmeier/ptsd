@@ -3,6 +3,7 @@ _:
   imports = [
     ./acme-dns.nix
     ./alertmanager-bot.nix
+    ./cli.nix
     ./cups-airprint.nix
     ./desktop.nix
     ./drone-server.nix
