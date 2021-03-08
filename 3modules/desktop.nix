@@ -247,8 +247,9 @@ let
     } // (optionalAttrs
       (cfg.mode == "sway")
       {
+        # TODO: pull from cfg
         extraConfig = ''
-          icon_theme Tango
+          icon_theme Adwaita
         '';
       }))
   ];
@@ -1168,7 +1169,6 @@ in
             xdg.configFile."mimeapps.list".force = true;
 
             home.packages = with pkgs;[
-              hicolor-icon-theme
             ] ++ optionals (!cfg.waybar.enable) [ nwi3status ] ++ term.extraPackages ++ optionals
               (cfg.mode == "i3")
               [
@@ -1292,12 +1292,12 @@ in
                 #package = pkgs.iosevka; # TODO: replace, pulls in i686-unsupported dependencies
               };
               iconTheme = {
-                name = "Tango";
-                package = pkgs.tango-icon-theme;
+                name = "Adwaita";
+                package = pkgs.gnome3.adwaita-icon-theme;
               };
               theme = {
-                name = "Arc-Dark";
-                #package = pkgs.arc-theme; # TODO: replace, pulls in inkscape to build
+                name = "Adwaita-dark";
+                package = pkgs.gnome-themes-standard;
               };
             };
 
