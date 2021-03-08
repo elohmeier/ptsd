@@ -14,7 +14,7 @@ in
       };
       users = mkOption {
         type = with types; listOf str;
-        default = [ "root" "mainUser" ];
+        default = [ "mainUser" ];
       };
       fish.enable = mkOption {
         type = types.bool;
@@ -31,42 +31,58 @@ in
     <home-manager/nixos>
   ];
 
-  config = mkIf cfg.enable {
+  config = mkIf cfg.enable
+    {
 
-    programs.fish.enable = cfg.defaultShell == "fish";
+      programs.fish.enable = cfg.defaultShell == "fish";
 
-    # Make sure zsh lands in /etc/shells
-    # to not be affected by user not showing up in LightDM
-    # as in https://discourse.nixos.org/t/normal-users-not-appearing-in-login-manager-lists/4619
-    programs.zsh.enable = cfg.defaultShell == "zsh";
+      # Make sure zsh lands in /etc/shells
+      # to not be affected by user not showing up in LightDM
+      # as in https://discourse.nixos.org/t/normal-users-not-appearing-in-login-manager-lists/4619
+      programs.zsh.enable = cfg.defaultShell == "zsh";
 
-    users.defaultUserShell = { "zsh" = pkgs.zsh; "fish" = pkgs.fish; }."${cfg.defaultShell}";
+      users.users =
+        (
+          listToAttrs
+            (
+              map
+                (
+                  user: {
+                    name = user;
+                    value = { shell = { "zsh" = pkgs.zsh; "fish" = pkgs.fish; }."${cfg.defaultShell}"; };
+                  }
+                )
+                cfg.users
+            )
+        );
 
-    # as recommended in
-    # https://github.com/rycee/home-manager/blob/master/modules/programs/zsh.nix
-    environment.pathsToLink = mkIf (cfg.defaultShell == "zsh") [ "/share/zsh" ];
+      # as recommended in
+      # https://github.com/rycee/home-manager/blob/master/modules/programs/zsh.nix
+      environment.pathsToLink =
+        mkIf
+          (cfg.defaultShell == "zsh") [ "/share/zsh" ];
 
-    home-manager.users = (listToAttrs (map
-      (
-        user: {
-          name = user;
-          value = { pkgs, ... }: {
-            programs = {
+      home-manager.users = (listToAttrs (map
+        (
+          user: {
+            name = user;
+            value = { pkgs, ... }: {
+              programs = {
 
-              fish = mkIf cfg.fish.enable {
-                enable = true;
-                shellAliases = (import ../2configs/aliases.nix).aliases;
-                shellAbbrs = (import ../2configs/aliases.nix).abbreviations;
-              };
+                fish = mkIf cfg.fish.enable {
+                  enable = true;
+                  shellAliases = (import ../2configs/aliases.nix).aliases;
+                  shellAbbrs = (import ../2configs/aliases.nix).abbreviations;
+                };
 
-              zsh = mkIf cfg.zsh.enable {
-                enable = true;
+                zsh = mkIf cfg.zsh.enable {
+                  enable = true;
+                };
               };
             };
-          };
-        }
-      )
-      cfg.users
-    ));
-  };
+          }
+        )
+        cfg.users
+      ));
+    };
 }

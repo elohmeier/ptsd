@@ -464,7 +464,7 @@ in
       };
       fontMono = mkOption {
         type = types.str;
-        default = "Cozette";
+        default = "Consolas";
       };
       fontSize = mkOption {
         type = types.int;
