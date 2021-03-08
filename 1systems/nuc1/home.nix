@@ -12,15 +12,16 @@ in
   ];
 
   # dual iiyama
-  #wayland.windowManager.sway.extraConfig = ''
-  #  output HDMI-A-1 pos 0 0 mode 2560x1440@59.951000Hz scale 1
-  #  output HDMI-A-2 pos 2560 0 mode 1920x1200@59.950001Hz scale 1
-  #'';
-
   wayland.windowManager.sway.extraConfig = ''
-    output HDMI-A-1 pos 0 0 mode 1920x1080@59.933998Hz scale 1
-    output HDMI-A-2 pos 1920 120 mode 1920x1200@59.950001Hz scale 1
+    output HDMI-A-1 pos 0 0 mode 2560x1440@59.951000Hz scale 1.333333333
+    output HDMI-A-2 pos 1920 0 mode 1920x1080@60.000000Hz scale 1
   '';
+
+  # full hd + iiyama
+  # wayland.windowManager.sway.extraConfig = ''
+  #   output HDMI-A-1 pos 0 0 mode 1920x1080@59.933998Hz scale 1
+  #   output HDMI-A-2 pos 1920 120 mode 1920x1200@59.950001Hz scale 1
+  # '';
 
   ptsd.baresip = {
     enable = true;
