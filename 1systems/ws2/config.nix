@@ -5,7 +5,11 @@ with import <ptsd/lib>;
   imports = [
     <ptsd>
     <ptsd/2configs>
-    <ptsd/2configs/nwhost-mini.nix>
+    <ptsd/2configs/cli-tools.nix>
+    <ptsd/2configs/nwhost.nix>
+    <ptsd/2configs/stateless-root.nix>
+    <ptsd/2configs/themes/fraam.nix>
+
     <ptsd/2configs/prometheus/node.nix>
 
     <secrets-shared/nwsecrets.nix>
@@ -65,4 +69,5 @@ with import <ptsd/lib>;
     ];
   };
 
+  ptsd.nwacme.hostCert.enable = false;
 }

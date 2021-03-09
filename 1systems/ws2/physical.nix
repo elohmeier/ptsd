@@ -39,6 +39,12 @@
       fsType = "ext4";
     };
 
+  fileSystems."/persist" =
+    {
+      device = "/dev/sysVG/persist";
+      fsType = "ext4";
+    };
+
   fileSystems."/var/src" = {
     device = "/dev/sysVG/var-src";
     fsType = "ext4";
