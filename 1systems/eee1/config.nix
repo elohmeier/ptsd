@@ -14,8 +14,21 @@ with import <ptsd/lib>;
     #<ptsd/2configs/octoprint-klipper-ender3.nix>
 
     <home-manager/nixos>
-    <ptsd/2configs/zsh-enable.nix>
   ];
+
+  # nix = {
+  #   buildMachines = [{
+  #     hostName = "ws2.lan";
+  #     maxJobs = 16;
+  #     supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+  #     mandatoryFeatures = [ ];
+  #   }];
+  #   trustedUsers = [ "root" "enno" ];
+  #   distributedBuilds = true;
+  #   extraOptions = ''
+  #     builders-use-substitutes = true
+  #   '';
+  # };
 
   nixpkgs.config.packageOverrides = pkgs: {
     curaengine_stable = pkgs.curaengine_stable.overrideAttrs (oldAttrs: rec {
@@ -26,12 +39,13 @@ with import <ptsd/lib>;
       '';
     });
 
-    # klipper = pkgs.klipper.overrideAttrs(oldAttrs: rec {
-    #   postPatch = ''
-    #     sed -i 's/-flto //' chelper/__init__.py
-    #     sed -i 's/import os, logging/import os, logging; logging.basicConfig(level=logging.DEBUG)/' chelper/__init__.py
-    #   '';
-    # });
+    # TODO: remove when https://github.com/NixOS/nixpkgs/pull/115735 is merged
+    klipper = pkgs.klipper.overrideAttrs (oldAttrs: rec {
+      postPatch = ''
+        substituteInPlace chelper/__init__.py \
+          --replace "-flto -fwhole-program " ""
+      '';
+    });
   };
 
   #environment.systemPackages = [ (pkgs.v4l-utils.override { withGUI = false; }) ];
@@ -76,15 +90,24 @@ with import <ptsd/lib>;
 
   services.logind.lidSwitch = "ignore";
 
-  ptsd.desktop = {
-    enable = true;
-    audio.enable = false;
-    bluetooth.enable = false;
-    qt.enable = false;
-    profiles = [
-    ];
-    terminalConfig = "termite";
-    numlockAuto = false;
-  };
+  # ptsd.desktop = {
+  #   enable = true;
+  #   audio.enable = false;
+  #   bluetooth.enable = false;
+  #   qt.enable = false;
+  #   profiles = [
+  #   ];
+  #   terminalConfig = "termite";
+  #   numlockAuto = false;
+  # };
 
+  # reduce size
+  environment.noXlibs = true;
+  documentation = {
+    enable = false;
+    man.enable = false;
+    info.enable = false;
+    doc.enable = false;
+    dev.enable = false;
+  };
 }
