@@ -33,6 +33,11 @@
       fsType = "ext4";
     };
 
+  fileSystems."/var/lib/octoprint" = {
+    device = "/dev/sysVG/octoprint";
+    fsType = "ext4";
+  };
+
   fileSystems."/var/src" = {
     device = "/dev/sysVG/var-src";
     fsType = "ext4";

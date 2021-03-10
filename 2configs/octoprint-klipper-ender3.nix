@@ -5,11 +5,15 @@
 
   services.octoprint = {
     enable = true;
-    host = "0.0.0.0";
-    plugins = plugins: [
-      plugins.octoklipper
-      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
-      (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/m73progress.nix> { })
+    port = config.ptsd.nwtraefik.ports.octoprint;
+    plugins = plugins: with plugins; [
+      printtimegenius
+      (callPackage <ptsd/5pkgs/octoprint-plugins/telegram.nix> { })
+      curaenginelegacy
+      gcodeeditor
+      octoklipper
+      (callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
+      (callPackage <ptsd/5pkgs/octoprint-plugins/m73progress.nix> { })
     ];
     extraConfig = {
       plugins = {
@@ -32,6 +36,11 @@
           configuration.configpath = "/etc/klipper.cfg";
           connection.port = "/run/klipper/tty";
         };
+      };
+      serial.disconnectOnErrors = false;
+      webcam = {
+        stream = "http://eee1.nw/mjpg/?action=stream";
+        snapshot = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.mjpg-streamer}/?action=snapshot";
       };
     };
   };
