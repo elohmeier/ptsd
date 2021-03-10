@@ -10,6 +10,8 @@ in
     <ptsd/2configs/tor-ssh.nix>
   ];
 
+  programs.command-not-found.enable = false;
+
   boot.tmpOnTmpfs = true;
 
   nix.gc = {
