@@ -1,10 +1,11 @@
 { config, lib, pkgs, ... }:
 
 {
+  networking.firewall.interfaces.nwvpn.allowedTCPPorts = [ config.services.octoprint.port ];
 
   services.octoprint = {
     enable = true;
-    host = "127.0.0.1";
+    host = "0.0.0.0";
     plugins = plugins: [
       plugins.octoklipper
       (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
