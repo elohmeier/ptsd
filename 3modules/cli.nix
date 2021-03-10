@@ -67,6 +67,17 @@ in
           user: {
             name = user;
             value = { pkgs, ... }: {
+
+
+              imports = [
+
+                # TODO: configure
+                <ptsd/2configs/home/git.nix>
+                <ptsd/2configs/home/vim.nix>
+                <ptsd/2configs/home/tmux.nix>
+                <ptsd/2configs/home/zsh.nix>
+              ];
+
               programs = {
 
                 fish = mkIf cfg.fish.enable {
