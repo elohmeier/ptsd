@@ -3,15 +3,15 @@ with import <ptsd/lib>;
 
 {
   imports = [
-    <ptsd>
-    <ptsd/2configs>
-    <ptsd/2configs/nwhost-mini.nix>
-    <ptsd/2configs/prometheus/node.nix>
+    ../../.
+    ../../2configs
+    ../../2configs/nwhost-mini.nix
+    ../../2configs/prometheus/node.nix
 
     <secrets/wifi.nix>
     <secrets-shared/nwsecrets.nix>
 
-    #<ptsd/2configs/octoprint-klipper-ender3.nix>
+    ../../2configs/octoprint-klipper-ender3.nix
 
     <home-manager/nixos>
   ];

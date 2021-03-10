@@ -1,13 +1,13 @@
 { config, lib, pkgs, ... }:
 
-with import <ptsd/lib>;
+with import ../lib;
 let
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ./universe.nix;
 in
 {
   imports = [
-    <ptsd/3modules>
-    <ptsd/2configs/tor-ssh.nix>
+    ../3modules
+    ./tor-ssh.nix
   ];
 
   programs.command-not-found.enable = false;
