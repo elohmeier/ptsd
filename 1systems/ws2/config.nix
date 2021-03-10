@@ -42,6 +42,12 @@ with import <ptsd/lib>;
     };
 
     wireless.iwd.enable = true;
+
+    firewall.interfaces.wlan0 = {
+      # samba/cups ports
+      allowedTCPPorts = [ 631 445 139 ];
+      allowedUDPPorts = [ 631 137 138 ];
+    };
   };
 
   services.resolved = {
@@ -70,4 +76,34 @@ with import <ptsd/lib>;
   };
 
   ptsd.nwacme.hostCert.enable = false;
+
+  services.samba = {
+    enable = true;
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
+      hosts allow = 192.168.1.0/24
+      hosts deny = 0.0.0.0/0
+      map to guest = Bad User
+    '';
+    shares = {
+      home = {
+        path = "/home/enno";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+      scans = {
+        path = "/home/enno/repos/nobbofin/000_INBOX/scans";
+        browseable = "no";
+        "read only" = "no";
+        "guest ok" = "no";
+        "force group" = "users";
+        "force user" = "enno";
+      };
+    };
+  };
+
+  users.users.scanner = { };
 }
