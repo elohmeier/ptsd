@@ -27,14 +27,15 @@ in
     ./qemu.nix
   ];
 
-  programs.fish = {
+  ptsd.cli = {
     enable = true;
+    fish.enable = true;
+    defaultShell = "fish";
   };
-  users.defaultUserShell = pkgs.fish;
 
-  ptsd.fraamdb = {
-    enable = true;
-  };
+  # ptsd.fraamdb = {
+  #   enable = true;
+  # };
 
   ptsd.nwacme.hostCert.enable = false;
 
@@ -271,12 +272,6 @@ in
   # };
 
   # networking.firewall.allowedTCPPorts = [ 80 ];
-
-  # TODO: really needed?!
-  # hardware.logitech.wireless = {
-  #   enable = true;
-  #   enableGraphical = true;
-  # };
 
   ptsd.nwsyncthing = {
     enable = true;
