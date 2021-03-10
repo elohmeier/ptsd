@@ -26,7 +26,6 @@ in
     #tor-browser-bundle-bin
     xcalib
     #woeusb
-    betaflight-configurator
     #nvi # needed for virsh # broken in 20.03 as of 2020-04-03
     #xca
     gcolor3
@@ -46,15 +45,11 @@ in
     peek
     hidclient
     #AusweisApp2
-    weatherbg
+    #weatherbg
     #pssh
     screenkey
     hydra-check
     dfeet
-    kakoune
-    unstable.noisetorch # unstable has newer version than 20.09
-    #sqlmap
-    mumble
   ];
 
   home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
@@ -80,17 +75,6 @@ in
   };
 
   nixpkgs.config.allowUnfree = true;
-
-  programs.zsh = {
-    initExtra = ''
-      # Johnnydecimal.com
-      cjdfunction() {
-        pushd ~/Pocket/*/*/''${1}*
-      }
-      export cjdfunction
-      alias cjd="cjdfunction"
-    '';
-  };
 
   # programs.emacs = {
   #   enable = true;

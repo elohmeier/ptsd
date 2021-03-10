@@ -337,9 +337,12 @@ let
         cachix
         pyenv
         docker_compose
-
-
+        kakoune
+        #sqlmap
       ];
+    "fpv" = pkgs: with pkgs; [
+      betaflight-configurator
+    ];
     "kvm" = pkgs: with pkgs;[
       virtviewer
       virtmanager
@@ -404,6 +407,8 @@ let
         hunspellDicts.en-gb-large
         hunspellDicts.en-us-large
 
+        mumble
+        noisetorch
 
         tdesktop
         (drawio.overrideAttrs (oldAttrs: {

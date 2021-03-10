@@ -79,6 +79,13 @@ in
           if [ "$booted" != "$built" ]; then
             echo "please reboot"
           fi
+
+          # Johnnydecimal.com
+          cjdfunction() {
+            pushd ~/Pocket/*/*/''${1}*
+          }
+          export cjdfunction
+          alias cjd="cjdfunction"
         fi
       '';
 
