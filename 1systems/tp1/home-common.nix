@@ -18,15 +18,6 @@ in
   '';
   wayland.windowManager.sway.config.input."1739:0:Synaptics_TM3381-002".events = "disabled";
 
-  home.packages = with pkgs;[
-    # steam
-    epsxe
-    mupen64plus
-    wine
-    winetricks
-    ppsspp
-  ];
-
   # epsxe
   nixpkgs.config.permittedInsecurePackages = [
     "openssl-1.0.2u"

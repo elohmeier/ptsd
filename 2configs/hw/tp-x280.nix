@@ -53,7 +53,6 @@
 
   hardware.opengl = {
     enable = true;
-    #driSupport32Bit = true; # for Steam
     extraPackages = with pkgs; [
       vaapiIntel
       libvdpau-va-gl

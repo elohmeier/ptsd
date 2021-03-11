@@ -50,8 +50,6 @@ in
 
   home = {
     packages = with pkgs; [
-      #steam
-      #steam-run
       lguf-brightness
     ];
   };

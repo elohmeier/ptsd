@@ -69,6 +69,7 @@ with import <ptsd/lib>;
       "3dprinting"
       "admin"
       "dev"
+      "games"
       "kvm"
       "media"
       "office"

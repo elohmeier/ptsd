@@ -343,6 +343,14 @@ let
     "fpv" = pkgs: with pkgs; [
       betaflight-configurator
     ];
+    "games" = pkgs: with pkgs; [
+      steam
+      epsxe
+      mupen64plus
+      wine
+      winetricks
+      ppsspp
+    ];
     "kvm" = pkgs: with pkgs;[
       virtviewer
       virtmanager
@@ -712,7 +720,7 @@ in
       pulseaudio = {
         enable = cfg.audio.enable && !cfg.pipewire.enable;
         package = lib.mkDefault pkgs.pulseaudioFull; # pulseAudioFull required for bluetooth audio support
-        #support32Bit = true; # for Steam
+        support32Bit = true; # for Steam
 
         # better audio quality settings
         # from https://medium.com/@gamunu/enable-high-quality-audio-on-linux-6f16f3fe7e1f
@@ -768,6 +776,15 @@ in
     };
 
     security.rtkit.enable = cfg.audio.enable && cfg.pipewire.enable;
+
+    hardware.opengl = {
+      enable = true;
+      driSupport32Bit = elem "games" cfg.profiles; # for Steam
+    };
+
+    nixpkgs.config.permittedInsecurePackages = optionals (elem "games" cfg.profiles) [
+      "openssl-1.0.2u" # epsxe
+    ];
 
     home-manager =
       {
