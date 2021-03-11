@@ -455,10 +455,6 @@ let
   };
 in
 {
-  imports = [
-    <home-manager/nixos>
-  ];
-
   options = {
     ptsd.desktop = {
       enable = mkEnableOption "ptsd.desktop";
@@ -792,7 +788,7 @@ in
           {
 
             imports = [
-              <ptsd/3modules/home>
+              ./home
               #<ptsd/2configs/home/git-alarm.nix> # TODO: Port to nwi3status
             ];
 

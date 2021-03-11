@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with import <ptsd/lib>;
+with lib;
 let
   universe = import <ptsd/2configs/universe.nix>;
   vpnNodes = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;

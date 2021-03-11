@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }:
 
-with import ../lib;
+with lib;
 let
   universe = import ./universe.nix;
 in

@@ -1,5 +1,5 @@
-{ config, pkgs, ... }:
-with import <ptsd/lib>;
+{ config, lib, pkgs, ... }:
+with lib;
 let
   vims = pkgs.callPackage ../vims.nix { };
 in

@@ -4,8 +4,8 @@ let
 in
 {
   imports = [
-    <ptsd/3modules>
-    <ptsd/2configs/nwhost-mini.nix>
+    ../3modules
+    ./nwhost-mini.nix
   ];
 
   ptsd.nwacme = {

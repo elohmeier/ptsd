@@ -21,12 +21,22 @@
     # defaultPackage.x86_64-linux = self.packages.x86_64-linux.hello;
 
 
-    nixosConfigurations.eee1 = nixpkgs.lib.nixosSystem {
-      system = "i686-linux";
-      modules = [
-        ./1systems/eee1/physical.nix
-        #home-manager-unstable.nixosModules.home-manager
-      ];
+    nixosConfigurations = {
+      eee1 = nixpkgs.lib.nixosSystem {
+        system = "i686-linux";
+        modules = [
+          ./1systems/eee1/physical.nix
+          #home-manager.nixosModules.home-manager
+        ];
+      };
+
+      ws2 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./1systems/ws2/physical.nix
+          home-manager.nixosModules.home-manager
+        ];
+      };
     };
 
   };

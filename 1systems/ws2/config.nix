@@ -1,16 +1,15 @@
-with import <ptsd/lib>;
 { config, lib, pkgs, ... }:
-
+with lib;
 {
   imports = [
-    <ptsd>
-    <ptsd/2configs>
-    <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/nwhost.nix>
-    <ptsd/2configs/stateless-root.nix>
-    <ptsd/2configs/themes/fraam.nix>
+    ../../.
+    ../../2configs
+    ../../2configs/cli-tools.nix
+    ../../2configs/nwhost.nix
+    ../../2configs/stateless-root.nix
+    ../../2configs/themes/fraam.nix
 
-    <ptsd/2configs/prometheus/node.nix>
+    ../../2configs/prometheus/node.nix
 
     <secrets-shared/nwsecrets.nix>
 

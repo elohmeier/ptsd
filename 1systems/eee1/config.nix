@@ -1,6 +1,5 @@
-with import <ptsd/lib>;
 { config, lib, pkgs, ... }:
-
+with lib;
 {
   imports = [
     ../../.

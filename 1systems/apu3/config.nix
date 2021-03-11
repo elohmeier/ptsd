@@ -1,4 +1,4 @@
-with import <ptsd/lib>;
+with lib;
 { config, lib, pkgs, ... }:
 let
   lanIf1 = "enp1s0";

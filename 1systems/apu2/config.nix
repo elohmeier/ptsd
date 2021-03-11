@@ -1,4 +1,4 @@
-with import <ptsd/lib>;
+with lib;
 { config, pkgs, ... }:
 let
   bridgeIfs = [

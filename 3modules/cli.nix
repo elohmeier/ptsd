@@ -27,10 +27,6 @@ in
     };
   };
 
-  imports = [
-    <home-manager/nixos>
-  ];
-
   config = mkIf cfg.enable
     {
 
@@ -72,10 +68,10 @@ in
               imports = [
 
                 # TODO: configure
-                <ptsd/2configs/home/git.nix>
-                <ptsd/2configs/home/vim.nix>
-                <ptsd/2configs/home/tmux.nix>
-                <ptsd/2configs/home/zsh.nix>
+                ../2configs/home/git.nix
+                ../2configs/home/vim.nix
+                ../2configs/home/tmux.nix
+                ../2configs/home/zsh.nix
               ];
 
               programs = {

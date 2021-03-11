@@ -1,4 +1,4 @@
-with import <ptsd/lib>;
+with lib;
 { config, lib, pkgs, ... }:
 let
   netcfg = import <secrets/netcfg.nix>;

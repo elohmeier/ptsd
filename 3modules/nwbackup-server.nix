@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.ptsd.nwbackup-server;
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ../2configs/universe.nix;
   backupClients = filterAttrs (n: v: hasAttr "borg" v) universe.hosts;
 
   mkAuthorizedKey = name: client: key:

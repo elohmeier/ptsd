@@ -1,6 +1,7 @@
 # Keep in mind this config is also used for NixOS containers.
-with import <ptsd/lib>;
-{ config, pkgs, ... }:
+
+{ config, lib, pkgs, ... }:
+with lib;
 let
   sshPubKeys = import ./ssh-pubkeys.nix;
   authorizedKeys = [

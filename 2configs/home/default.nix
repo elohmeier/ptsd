@@ -2,7 +2,7 @@
 
 {
   imports = [
-    <ptsd/3modules/home>
+    ../../3modules/home
   ];
 
   nixpkgs = {

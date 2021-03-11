@@ -1,10 +1,11 @@
-with import <ptsd/lib>;
 self: super:
+with super.lib;
 let
+  eq = x: y: x == y;
   subdirsOf = path:
     mapAttrs
       (name: _: path + "/${name}")
-      (filterAttrs (_: eq "directory") (readDir path));
+      (filterAttrs (_: eq "directory") (builtins.readDir path));
 in
 mapAttrs
   (_: flip self.callPackage { })
