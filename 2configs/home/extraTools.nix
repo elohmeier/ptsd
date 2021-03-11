@@ -76,24 +76,24 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  # programs.emacs = {
-  #   enable = true;
-  #   extraPackages = epkgs: with epkgs; [
-  #     company
-  #     company-tabnine
-  #     deadgrep
-  #     dockerfile-mode
-  #     evil
-  #     evil-org
-  #     go-mode
-  #     magit
-  #     neotree
-  #     nix-mode
-  #     org
-  #     solarized-theme
-  #     yaml-mode
-  #   ];
-  # };
+  programs.emacs = {
+    enable = true;
+    # extraPackages = epkgs: with epkgs; [
+    #   company
+    #   company-tabnine
+    #   deadgrep
+    #   dockerfile-mode
+    #   evil
+    #   evil-org
+    #   go-mode
+    #   magit
+    #   neotree
+    #   nix-mode
+    #   org
+    #   solarized-theme
+    #   yaml-mode
+    # ];
+  };
 
   # # Link emacs config to well-known path
   # home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/init.el;

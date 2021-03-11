@@ -47,6 +47,8 @@ in
     unrar
     mosh
     mkpasswd
+    fd
+    clang
   ];
 
   nixpkgs.config.allowUnfree = true; # required for unrar

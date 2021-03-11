@@ -344,7 +344,6 @@ let
       betaflight-configurator
     ];
     "games" = pkgs: with pkgs; [
-      steam
       epsxe
       mupen64plus
       wine
@@ -775,8 +774,11 @@ in
 
     hardware.opengl = {
       enable = true;
+      driSupport = true;
       driSupport32Bit = elem "games" cfg.profiles; # for Steam
     };
+
+    programs.steam.enable = elem "games" cfg.profiles;
 
     nixpkgs.config.permittedInsecurePackages = optionals (elem "games" cfg.profiles) [
       "openssl-1.0.2u" # epsxe
