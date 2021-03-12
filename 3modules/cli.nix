@@ -147,6 +147,10 @@ in
                   shellAbbrs = (import ../2configs/aliases.nix).abbreviations;
                 };
 
+                starship = {
+                  enable = true;
+                };
+
                 zsh = mkIf cfg.zsh.enable {
                   enable = true;
                   enableCompletion = true;

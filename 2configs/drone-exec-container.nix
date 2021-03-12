@@ -53,6 +53,7 @@ in
         imports = [
           <ptsd>
           <ptsd/2configs>
+          <home-manager/nixos>
         ];
 
         boot.isContainer = true;
