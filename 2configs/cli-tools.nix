@@ -1,7 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  vims = pkgs.callPackage ./vims.nix { };
-in
 {
   environment.systemPackages = with pkgs; [
     bc
