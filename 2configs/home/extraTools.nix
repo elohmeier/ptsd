@@ -76,25 +76,13 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
+  # configure doom-emacs using `git clone https://github.com/hlissner/doom-emacs ~/.emacs.d` and run `~/.emacs.d/bin/doom sync`
   programs.emacs = {
     enable = true;
-    # extraPackages = epkgs: with epkgs; [
-    #   company
-    #   company-tabnine
-    #   deadgrep
-    #   dockerfile-mode
-    #   evil
-    #   evil-org
-    #   go-mode
-    #   magit
-    #   neotree
-    #   nix-mode
-    #   org
-    #   solarized-theme
-    #   yaml-mode
-    # ];
   };
 
-  # # Link emacs config to well-known path
-  # home.file.".emacs.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/init.el;
+  # Link emacs config to well-known path
+  home.file.".doom.d/config.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/config.el;
+  home.file.".doom.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/init.el;
+  home.file.".doom.d/packages.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/packages.el;
 }
