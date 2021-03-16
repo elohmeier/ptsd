@@ -201,9 +201,14 @@ in
     intweb = {
       group = "nginx";
       shell = "/bin/sh";
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHLSWKSbb4KpKq9XqzyzvthDiL2I3RPkqpX4UgtpTkpM"
-      ];
+      openssh.authorizedKeys.keys =
+        let
+          sshPubKeys = import ../../2configs/ssh-pubkeys.nix; in
+        [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHLSWKSbb4KpKq9XqzyzvthDiL2I3RPkqpX4UgtpTkpM"
+          sshPubKeys.sshPub.enno_yubi41
+          sshPubKeys.sshPub.enno_yubi49
+        ];
     };
 
   };
