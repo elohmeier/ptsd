@@ -171,10 +171,10 @@ let
 
       # Take a screenshot
       "${cfg.modifier}+Ctrl+Shift+4" = mkIf (builtins.elem "office" cfg.profiles) (
-        if cfg.mode == "sway"
-        #then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
-        then ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -''
-        else "exec ${pkgs.flameshot}/bin/flameshot gui"
+        if cfg.flameshot.enable
+        then "exec ${pkgs.flameshot}/bin/flameshot gui"
+        #else ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
+        else ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -''
       );
     };
 
@@ -557,6 +557,10 @@ in
         type = types.bool;
         default = true;
       };
+      flameshot.enable = mkOption {
+        type = types.bool;
+        default = config.ptsd.desktop.mode == "i3";
+      };
       profiles = mkOption {
         type = with types; listOf str;
         description = "package profiles to configure, see all_profiles";
@@ -662,6 +666,7 @@ in
         RestartSec = 3;
         Restart = "always";
       };
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
 
     # yubikey
@@ -714,6 +719,7 @@ in
         RestartSec = 3;
         Restart = "always";
       };
+      Install = { WantedBy = [ "graphical-session.target" ]; };
     };
 
     hardware = {
@@ -841,16 +847,18 @@ in
               ];
             };
 
-            systemd.user.services.flameshot = mkIf (cfg.mode == "i3") {
+            systemd.user.services.flameshot = mkIf cfg.flameshot.enable {
               Unit = {
                 Description = "Flameshot screenshot tool";
+                PartOf = [ "graphical-session.target" ];
               };
 
               Service = {
                 ExecStart = "${pkgs.flameshot}/bin/flameshot";
-                RestartSec = 3;
+                RestartSec = 1;
                 Restart = "on-failure";
               };
+              Install = { WantedBy = [ "graphical-session.target" ]; };
             };
 
             ptsd.pcmanfm = {
@@ -1200,13 +1208,17 @@ in
             xdg.configFile."mimeapps.list".force = true;
 
             home.packages = with pkgs;[
-            ] ++ optionals (!cfg.waybar.enable) [ nwi3status ] ++ term.extraPackages ++ optionals
-              (cfg.mode == "i3")
+
+            ] ++ optionals (!cfg.flameshot.enable) [
+              flameshot
+            ] ++ optionals (!cfg.waybar.enable) [
+              nwi3status
+            ] ++ term.extraPackages ++
+            optionals (cfg.mode == "i3")
               [
                 caffeine
                 xorg.xev
                 xorg.xhost
-                flameshot
                 i3lock # only needed for config testing / man pages
                 nwlock
                 brightnessctl
