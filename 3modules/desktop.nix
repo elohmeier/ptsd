@@ -233,6 +233,10 @@ let
       criteria.class = "Pavucontrol";
       command = "floating enable";
     }
+    {
+      criteria.title = "Firefox — Sharing Indicator";
+      command = "kill";
+    }
   ];
 
   fonts = [ "${cfg.fontSans} ${toString cfg.fontSize}" ];
