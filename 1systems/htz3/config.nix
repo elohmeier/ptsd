@@ -66,9 +66,10 @@ in
         };
       in
       [
-        (crt "htz3.host.fraam.de")
+        (crt "htz3.host.fraam.de") # via ptsd.nwacme hostCert
         (crt "dev.fraam.de")
         (crt "fraam.de")
+        (crt "int.fraam.de")
         (crt "git.fraam.de")
         (crt "vault.fraam.de")
       ];
@@ -96,6 +97,17 @@ in
       "loopback4-https".address = "127.0.0.1:443";
       "loopback6-https".address = "[::1]:443";
     };
+
+    services = [{
+      name = "nginx-fraam-intweb";
+      rule = "Host(`int.fraam.de`)";
+      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+
+      auth.forwardAuth = {
+        address = "http://localhost:4181";
+        authResponseHeaders = [ "X-Forwarded-User" ];
+      };
+    }];
   };
 
   ptsd.fraam-www = {
@@ -137,9 +149,9 @@ in
           postRun = "systemctl restart traefik.service";
         };
 
-        "id.fraam.de" = {
+        "int.fraam.de" = {
           webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "id.fraam.de";
+          credentialsFile = envFile "int.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
@@ -171,21 +183,30 @@ in
     };
   };
 
-  # users.users = {
-  #   sharath = {
-  #     name = "sharath";
-  #     isNormalUser = true;
-  #     home = "/home/sharath";
-  #     createHome = true;
-  #     useDefaultShell = true;
-  #     uid = 1001;
-  #     description = "Sharath Kumar Soudamalla";
-  #     extraGroups = [ "wheel" ];
-  #     openssh.authorizedKeys.keys = [
-  #       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgT/DdIqnIHX1Fomu2AxL6U0GmCBSllqAdIGV6920IYR/CbRzkILxnLNEF109lWG4/xg/VamXHobcNLy3EecQBFZKYBbsFV4x6FRa/dd1dYUGFVu746NY+kiV1ienoAOjs7/eUuKr5poppQD7snfPY8+fC/lCOU2yooepxlAi+XzvBDtfY5B7Ws52K0I4K+Sgpoej7sy0UipQsia1VehvakZ5M7toUj7Vu8R/jMWRnC5yGD6nX1xTJniIy1xB/MGLFigQrHY1cLgBPDLQOvEIRykqZiCJHCcq0lQax8unBgWPgt4bEr4m7JX4lrgKoqk3HOqy5qs61IVrXnwmAdF0XQ== rsa-key-20200427"
-  #     ];
-  #   };
-  # };
+  users.users = {
+    #   sharath = {
+    #     name = "sharath";
+    #     isNormalUser = true;
+    #     home = "/home/sharath";
+    #     createHome = true;
+    #     useDefaultShell = true;
+    #     uid = 1001;
+    #     description = "Sharath Kumar Soudamalla";
+    #     extraGroups = [ "wheel" ];
+    #     openssh.authorizedKeys.keys = [
+    #       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgT/DdIqnIHX1Fomu2AxL6U0GmCBSllqAdIGV6920IYR/CbRzkILxnLNEF109lWG4/xg/VamXHobcNLy3EecQBFZKYBbsFV4x6FRa/dd1dYUGFVu746NY+kiV1ienoAOjs7/eUuKr5poppQD7snfPY8+fC/lCOU2yooepxlAi+XzvBDtfY5B7Ws52K0I4K+Sgpoej7sy0UipQsia1VehvakZ5M7toUj7Vu8R/jMWRnC5yGD6nX1xTJniIy1xB/MGLFigQrHY1cLgBPDLQOvEIRykqZiCJHCcq0lQax8unBgWPgt4bEr4m7JX4lrgKoqk3HOqy5qs61IVrXnwmAdF0XQ== rsa-key-20200427"
+    #     ];
+    #   };
+
+    intweb = {
+      group = "nginx";
+      shell = "/bin/sh";
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHLSWKSbb4KpKq9XqzyzvthDiL2I3RPkqpX4UgtpTkpM"
+      ];
+    };
+
+  };
 
   # security.sudo.wheelNeedsPassword = false;
 
@@ -211,29 +232,45 @@ in
 
   services.fail2ban.enable = true;
 
-  services.murmur =
-    let
-      secrets = import <secrets/murmur.nix>;
-    in
-    {
-      enable = true;
-      allowHtml = false;
-      password = secrets.password;
-      registerHostname = "fraam.de";
-      registerName = "fraam.de";
-      sendVersion = false;
-
-      sslCert = "/var/lib/acme/fraam.de/cert.pem";
-      sslKey = "/var/lib/acme/fraam.de/key.pem";
-
-      users = 20;
-    };
-
-  users.groups.certs.members = [ "murmur" ];
-
-  networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.services.murmur.port ];
-  networking.firewall.interfaces.ens3.allowedUDPPorts = [ config.services.murmur.port ];
+  # services.murmur =
+  #   let
+  #     secrets = import <secrets/murmur.nix>;
+  #   in
+  #   {
+  #     enable = true;
+  #     allowHtml = false;
+  #     password = secrets.password;
+  #     registerHostname = "fraam.de";
+  #     registerName = "fraam.de";
+  #     sendVersion = false;
+  #     sslCert = "/var/lib/acme/fraam.de/cert.pem";
+  #     sslKey = "/var/lib/acme/fraam.de/key.pem";
+  #     users = 20;
+  #   };
+  # users.groups.certs.members = [ "murmur" ];
+  # networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.services.murmur.port ];
+  # networking.firewall.interfaces.ens3.allowedUDPPorts = [ config.services.murmur.port ];
 
   programs.mosh.enable = true;
 
+  services.nginx = {
+    enable = true;
+    virtualHosts = {
+      "fraam-intweb" = {
+        listen = [{
+          addr = "127.0.0.1";
+          port = config.ptsd.nwtraefik.ports.nginx-fraam-intweb;
+        }];
+
+        root = "/var/www/intweb";
+      };
+    };
+  };
+
+  system.activationScripts.initialize-var-www = lib.stringAfter [ "users" "groups" ] ''
+    mkdir -p /var/www/intweb
+    chown -R intweb:nginx /var/www/intweb
+    chgrp -R nginx /var/www
+    chmod -R u+rwX,go+rX,go-w /var/www
+  '';
 }

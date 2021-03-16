@@ -348,6 +348,7 @@ in
         radicale = 10018;
         synapse = 10019;
         gitweb = 10020;
+        nginx-fraam-intweb = 10021;
       };
     }
     (
