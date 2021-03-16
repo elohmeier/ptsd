@@ -359,6 +359,7 @@ let
       virtmanager
     ];
     "media" = pkgs: with pkgs;[
+      audacity
       #(
       #  ffmpeg-full.override {
       #    nonfreeLicensing = true;
@@ -379,6 +380,7 @@ let
       obs-studio
       v4l-utils
       pulseeffects-pw
+      wf-recorder
     ];
     "office" = pkgs: with pkgs;
       let
