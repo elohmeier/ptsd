@@ -39,7 +39,7 @@ in
 
     systemd.services.bitwarden_rs = {
       # ensure that postgres is running *before* running bitwarden_rs
-      requires = [ "postgresql.service" ];
+      wants = [ "postgresql.service" ];
       after = [ "postgresql.service" ];
 
       # additional hardening
@@ -55,7 +55,7 @@ in
         ProtectKernelTunables = true;
         LockPersonality = true;
         MemoryDenyWriteExecute = true;
-        RestrictAddressFamilies = "AF_INET AF_INET6";
+        RestrictAddressFamilies = "AF_UNIX AF_INET"; # AF_UNIX needed for postgresql connection
         RestrictNamespaces = true;
         DevicePolicy = "closed";
         RestrictRealtime = true;
