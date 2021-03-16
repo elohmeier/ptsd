@@ -28,11 +28,11 @@
     services = {
       hcloud = {
         executor = "docker+machine";
+        dockerImage = "docker:stable";
         registrationConfigFile = config.ptsd.secrets.files.gitlab-runner-registration.path;
 
         # run `nix-shell -p gitlab-runner --run "gitlab-runner register --help"` to view available options
         registrationFlags = [
-          "--docker-image docker:stable"
           "--machine-machine-driver hetzner"
           "--machine-machine-name gitlab-ci-%s"
           "--machine-machine-options hetzner-api-token=$HETZNER_API_TOKEN"

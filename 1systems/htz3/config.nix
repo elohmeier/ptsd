@@ -13,6 +13,8 @@ in
       <ptsd/2configs/nwhost-mini.nix>
       <secrets-shared/nwsecrets.nix>
       <ptsd/2configs/prometheus/node.nix>
+
+      <home-manager/nixos>
     ];
 
   networking = {
