@@ -559,6 +559,10 @@ in
         type = types.bool;
         default = true;
       };
+      defaultBrowser = mkOption {
+        type = types.str;
+        default = "firefox.desktop";
+      };
     };
   };
 
@@ -630,16 +634,17 @@ in
 
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
-    systemd.user.services."${if cfg.mode == "i3" then "redshift" else "gammastep"}" = {
-      description = "Screen color temperature manager";
-      partOf = [ "graphical-session.target" ];
-      wantedBy = [ "graphical-session.target" ];
-      serviceConfig = {
-        ExecStart = if cfg.mode == "i3" then "${pkgs.redshift}/bin/redshift" else "${pkgs.gammastep}/bin/gammastep -l 53:10";
-        RestartSec = 3;
-        Restart = "on-failure";
-      };
-    };
+    # disabled to workaround random mouse freezes, issue: https://github.com/swaywm/sway/issues/5591
+    # systemd.user.services."${if cfg.mode == "i3" then "redshift" else "gammastep"}" = {
+    #   description = "Screen color temperature manager";
+    #   partOf = [ "graphical-session.target" ];
+    #   wantedBy = [ "graphical-session.target" ];
+    #   serviceConfig = {
+    #     ExecStart = if cfg.mode == "i3" then "${pkgs.redshift}/bin/redshift" else "${pkgs.gammastep}/bin/gammastep -l 53:10";
+    #     RestartSec = 3;
+    #     Restart = "on-failure";
+    #   };
+    # };
 
     systemd.user.services.nm-applet = mkIf (config.networking.networkmanager.enable && cfg.mode == "i3") {
       description = "Network Manager applet";
@@ -1166,11 +1171,11 @@ in
                 "image/jpeg" = [ "sxiv.desktop" ];
                 "image/png" = [ "sxiv.desktop" ];
                 "inode/directory" = [ "pcmanfm.desktop" ];
-                "text/html" = [ "chromium.desktop" "firefox.desktop" ];
-                "x-scheme-handler/http" = [ "chromium.desktop" "firefox.desktop" ];
-                "x-scheme-handler/https" = [ "chromium.desktop" "firefox.desktop" ];
-                "x-scheme-handler/about" = [ "chromium.desktop" "firefox.desktop" ];
-                "x-scheme-handler/unknown" = [ "chromium.desktop" "firefox.desktop" ];
+                "text/html" = [ cfg.defaultBrowser ];
+                "x-scheme-handler/http" = [ cfg.defaultBrowser ];
+                "x-scheme-handler/https" = [ cfg.defaultBrowser ];
+                "x-scheme-handler/about" = [ cfg.defaultBrowser ];
+                "x-scheme-handler/unknown" = [ cfg.defaultBrowser ];
                 "x-scheme-handler/msteams" = [ "teams.desktop" ];
                 "application/vnd.jgraph.mxfile" = [ "drawio.desktop" ];
                 "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "writer.desktop" ];

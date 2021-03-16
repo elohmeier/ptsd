@@ -48,6 +48,8 @@ in
       "3dprinting"
       "admin"
       "dev"
+      "fpv"
+      "games"
       "kvm"
       "media"
       "office"
