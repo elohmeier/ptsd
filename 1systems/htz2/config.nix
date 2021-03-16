@@ -87,14 +87,8 @@ in
         };
       in
       [
-        (crt "bitwarden.services.nerdworks.de")
         (crt "mail.nerdworks.de")
       ];
-  };
-
-  ptsd.nwbitwarden = {
-    enable = true;
-    domain = "bitwarden.services.nerdworks.de";
   };
 
   security.acme.certs =
@@ -105,13 +99,6 @@ in
       '';
     in
     {
-      "bitwarden.services.nerdworks.de" = {
-        dnsProvider = "acme-dns";
-        credentialsFile = envFile "bitwarden.services.nerdworks.de";
-        group = "certs";
-        postRun = "systemctl restart traefik.service";
-      };
-
       "mail.nerdworks.de" = {
         dnsProvider = "acme-dns";
         credentialsFile = envFile "mail.nerdworks.de";
