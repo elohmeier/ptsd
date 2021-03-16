@@ -405,7 +405,7 @@ in
             ProtectKernelTunables = true;
             LockPersonality = true;
             MemoryDenyWriteExecute = true;
-            RestrictAddressFamilies = "AF_INET AF_INET6";
+            RestrictAddressFamilies = "AF_UNIX AF_INET AF_INET6"; # AF_UNIX required for watchdog
             RestrictNamespaces = true;
             DevicePolicy = "closed";
             RestrictRealtime = true;
