@@ -920,6 +920,9 @@ in
                   ];
                   modules-right = [
                     "idle_inhibitor"
+                    "disk#home"
+                    "disk#nix"
+                    "disk#xdg-runtime-dir"
                   ]
                   ++ optional cfg.audio.enable
                     "pulseaudio" ++ [
@@ -939,6 +942,20 @@ in
                         activated = "";
                         deactivated = "";
                       };
+                    };
+                    "disk#home" = rec {
+                      format = "h {percentage_free}%";
+                      path = "/home";
+                      on-click-right = term.exec "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
+                    };
+                    "disk#nix" = rec {
+                      format = "nix {percentage_free}%";
+                      path = "/nix";
+                    };
+                    "disk#xdg-runtime-dir" = rec {
+                      format = "xrd {percentage_free}%";
+                      path = "/run/user/1000";
+                      on-click-right = term.exec "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
                     };
                     cpu = {
                       format = "{usage}% ";
@@ -1058,7 +1075,7 @@ in
                     border-bottom: 1px solid #dc322f;
                 }
 
-                #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor {
+                #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #disk {
                     padding: 0 10px;
                     margin: 0 2px;
                     color: #657b83;

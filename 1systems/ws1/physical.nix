@@ -1,7 +1,7 @@
 { config, ... }:
 let
   disk = "/dev/disk/by-id/nvme-Force_MP600_192482300001285612C9";
-  vgPrefix = "/dev/disk/by-id/dm-name-p5vg";
+  vgPrefix = "/dev/p5vg";
 in
 {
   imports = [
@@ -37,39 +37,51 @@ in
 
   fileSystems."/home" =
     {
-      device = "${vgPrefix}-home";
+      device = "${vgPrefix}/home";
       fsType = "ext4";
     };
 
   fileSystems."/nix" =
     {
-      device = "${vgPrefix}-nix";
+      device = "${vgPrefix}/nix";
       fsType = "ext4";
     };
 
   fileSystems."/persist" =
     {
-      device = "${vgPrefix}-persist";
+      device = "${vgPrefix}/persist";
       fsType = "ext4";
     };
 
   fileSystems."/var/src" =
     {
-      device = "${vgPrefix}-var--src";
+      device = "${vgPrefix}/var-src";
       fsType = "ext4";
     };
 
   fileSystems."/var/lib/docker" =
     {
-      device = "${vgPrefix}-var--lib--docker";
+      device = "${vgPrefix}/var-lib-docker";
       fsType = "ext4";
     };
 
   fileSystems."/var/lib/libvirt/images" =
     {
-      device = "${vgPrefix}-var--lib--libvirt--images";
+      device = "${vgPrefix}/var-lib-libvirt-images";
       fsType = "ext4";
     };
+
+  fileSystems."/var/log" =
+    {
+      device = "${vgPrefix}/var-log";
+      fsType = "ext4";
+    };
+
+  # 800M /var/log drive
+  services.journald.extraConfig = ''
+    SystemMaxUse=750M
+    RuntimeMaxUse=750M
+  '';
 
   fileSystems."/boot" =
     {
@@ -86,7 +98,7 @@ in
 
   swapDevices =
     [
-      { device = "${vgPrefix}-swap"; }
+      { device = "${vgPrefix}/swap"; }
     ];
 
   networking.hostId = "8c5598b5"; # required for zfs
