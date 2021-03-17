@@ -123,7 +123,10 @@ in
   };
 
   # default: poweroff
-  #services.logind.extraConfig = "HandlePowerKey=suspend";
+  services.logind.extraConfig = ''
+    HandlePowerKey=suspend
+    RuntimeDirectorySize=80%
+  '';
 
   # *** NVIDIA Driver
   # boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
