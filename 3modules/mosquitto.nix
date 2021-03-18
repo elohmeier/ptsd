@@ -150,7 +150,6 @@ in
           ProtectKernelTunables = true;
           LockPersonality = true;
           MemoryDenyWriteExecute = true;
-          RestrictAddressFamilies = "AF_INET AF_INET6";
           RestrictNamespaces = true;
           DevicePolicy = "closed";
           RestrictRealtime = true;
