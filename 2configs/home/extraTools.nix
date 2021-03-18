@@ -60,6 +60,10 @@ in
 
   programs.chromium = {
     enable = true;
+    extensions = [
+      { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
+      { id = "naepdomgkenhinolocfifgehidddafch"; } # browserpass
+    ];
   };
 
   programs.browserpass = {
