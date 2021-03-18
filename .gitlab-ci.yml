@@ -1,0 +1,15 @@
+default:
+  tags:
+  - docker-images
+
+image: nixpkgs/nix-flakes:latest
+
+before_script:
+  - nix build .#cachix -o cachix
+  - ./cachix/bin/cachix use fraam
+
+build eee1:
+  stage: build
+  script:
+  - nix build .#nixosConfigurations.eee1.config.system.build.toplevel
+
