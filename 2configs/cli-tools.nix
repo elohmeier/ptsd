@@ -26,6 +26,7 @@
     unzip
     vims.big
     wget
+    shellcheck
 
     nixpkgs-fmt
     gnumake
