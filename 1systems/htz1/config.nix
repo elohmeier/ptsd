@@ -79,6 +79,11 @@ in
         rule = "Host(`www.nerdworks.de`) && PathPrefix(`/fpv`)";
         url = "http://${universe.hosts.nas1.nets.nwvpn.ip4.addr}:12345";
       }
+      {
+        name = "nginx-wellknown-matrix";
+        rule = "PathPrefix(`/.well-known/matrix`)";
+        priority = 9999; # high-priority for router
+      }
     ];
     certificates =
       let
@@ -158,4 +163,25 @@ in
   };
 
   networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.ptsd.mosquitto.portSSL ];
+
+
+  services.nginx = {
+    enable = true;
+    virtualHosts.nginx-wellknown-matrix = {
+      listen = [{
+        addr = "127.0.0.1";
+        port = config.ptsd.nwtraefik.ports.nginx-wellknown-matrix;
+      }];
+      locations."/.well-known/matrix" = {
+        root = pkgs.writeTextFile {
+          name = "well-known-matrix";
+          destination = "/.well-known/matrix/client";
+          text = builtins.toJSON {
+            "m.homeserver".base_url = "https://matrix.nerdworks.de";
+          };
+        };
+      };
+    };
+  };
+
 }
