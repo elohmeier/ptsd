@@ -360,16 +360,14 @@ let
     ];
     "media" = pkgs: with pkgs;[
       audacity
-      #(
-      #  ffmpeg-full.override {
-      #    nonfreeLicensing = true;
-      #    fdkaacExtlib = true;
-      #    ffplayProgram = false;
-      #    ffprobeProgram = false;
-      #    qtFaststartProgram = false;
-      #  }
-      #)
-      ffmpeg-full
+      (
+        ffmpeg-full.override {
+          nonfreeLicensing = true;
+          fdkaacExtlib = true;
+          qtFaststartProgram = false;
+        }
+      )
+      #ffmpeg-full
       mpv
       imagemagick
       ffmpeg-normalize
@@ -630,7 +628,7 @@ in
       config.hardware.pulseaudio.package
       pavucontrol
       pasystray
-
+      jack2
     ]
     ++ optionals (cfg.mode == "i3") [
       redshift
