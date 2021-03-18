@@ -349,6 +349,7 @@ in
         synapse = 10019;
         gitweb = 10020;
         nginx-fraam-intweb = 10021;
+        nginx-wellknown-matrix = 10022;
       };
     }
     (

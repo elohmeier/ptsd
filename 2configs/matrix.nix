@@ -44,4 +44,11 @@ in
       }
     ];
   };
+
+  ptsd.nwtraefik.services = [
+    {
+      name = "synapse";
+      rule = "Host(`${domain}`)";
+    }
+  ];
 }
