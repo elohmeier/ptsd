@@ -172,15 +172,26 @@ in
         addr = "127.0.0.1";
         port = config.ptsd.nwtraefik.ports.nginx-wellknown-matrix;
       }];
-      locations."/.well-known/matrix" = {
-        root = pkgs.writeTextFile {
-          name = "well-known-matrix";
-          destination = "/.well-known/matrix/client";
-          text = builtins.toJSON {
+      locations."/.well-known/matrix/server".extraConfig =
+        let
+          server = { "m.server" = "matrix.nerdworks.de:443"; };
+        in
+        ''
+          add_header Content-Type application/json;
+          return 200 '${builtins.toJSON server}';
+        '';
+
+      locations."/.well-known/matrix/client".extraConfig =
+        let
+          client = {
             "m.homeserver".base_url = "https://matrix.nerdworks.de";
+            "m.identity_server".base_url = "https://vector.im";
           };
-        };
-      };
+        in
+        ''
+          add_header Content-Type application/json;
+          return 200 '${builtins.toJSON client}';
+        '';
     };
   };
 

@@ -1,11 +1,13 @@
 { config, lib, pkgs, ... }:
 let
-  domain = "matrix.nerdworks.de";
+  matrixSecrets = import <secrets/matrix.nix>;
 in
 {
   services.matrix-synapse = {
     enable = true;
-    server_name = domain;
+    # uncomment to register new users
+    #registration_shared_secret = matrixSecrets.registration_shared_secret;
+    server_name = "nerdworks.de";
     database_type = "psycopg2";
     database_args = {
       dbname = "synapse";
@@ -48,7 +50,7 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "synapse";
-      rule = "Host(`${domain}`)";
+      rule = "Host(`matrix.nerdworks.de`)";
     }
   ];
 }
