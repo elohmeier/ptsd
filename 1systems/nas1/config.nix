@@ -1,5 +1,5 @@
+{ config, lib, pkgs, ... }:
 with lib;
-{ config, pkgs, ... }:
 let
   universe = import <ptsd/2configs/universe.nix>;
 in
@@ -27,8 +27,6 @@ in
     <secrets-shared/nwsecrets.nix>
 
     #<ptsd/2configs/xrdp.nix>
-
-    <ptsd/2configs/zsh-enable.nix>
 
     <home-manager/nixos>
   ];
