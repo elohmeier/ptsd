@@ -945,15 +945,27 @@ in
                       format = "h {percentage_free}%";
                       path = "/home";
                       on-click-right = term.exec "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
+                      states = {
+                        warning = 15;
+                        critical = 5;
+                      };
                     };
                     "disk#nix" = rec {
                       format = "nix {percentage_free}%";
                       path = "/nix";
+                      states = {
+                        warning = 15;
+                        critical = 5;
+                      };
                     };
                     "disk#xdg-runtime-dir" = rec {
                       format = "xrd {percentage_free}%";
                       path = "/run/user/1000";
                       on-click-right = term.exec "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
+                      states = {
+                        warning = 15;
+                        critical = 5;
+                      };
                     };
                     cpu = {
                       format = "{usage}% ";

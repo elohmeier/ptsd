@@ -10,7 +10,7 @@ in
     ptsd.cli = {
       enable = mkEnableOption "cli";
       defaultShell = mkOption {
-        type = types.strMatching "zsh|fish";
+        type = types.enum [ "zsh" "fish" ];
         default = "zsh";
       };
       users = mkOption {
@@ -145,10 +145,16 @@ in
                   enable = true;
                   shellAliases = (import ../2configs/aliases.nix).aliases;
                   shellAbbrs = (import ../2configs/aliases.nix).abbreviations;
+                  interactiveShellInit = ''
+                    set -U fish_greeting
+                  '';
                 };
 
                 starship = {
                   enable = true;
+                  settings = {
+                    aws.disabled = true;
+                  };
                 };
 
                 zsh = mkIf cfg.zsh.enable {
