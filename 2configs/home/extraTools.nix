@@ -80,7 +80,7 @@ in
 
   nixpkgs.config.allowUnfree = true;
 
-  # configure doom-emacs using `git clone https://github.com/hlissner/doom-emacs ~/.emacs.d` and run `~/.emacs.d/bin/doom sync`
+  # configure doom-emacs using `git clone https://github.com/hlissner/doom-emacs ~/.emacs.d` and run `~/.emacs.d/bin/doom install`
   programs.emacs = {
     enable = true;
   };

@@ -46,6 +46,7 @@ in
     profiles = [
       "admin"
       "dev"
+      "fpv"
       "kvm"
       "media"
       "office"
