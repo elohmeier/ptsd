@@ -553,7 +553,8 @@
           wireguard.pubkey = "0i86gpKz0Nz04opoNB+uyAAuoiODP36+S8TMy/hSVDM=";
         };
       };
-      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIOxp2UyjSlvBURKKvspgwYtBQb6+F7ufhzRQN7gZj5 ";
+      borg.quota = "100G";
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIOxp2UyjSlvBURKKvspgwYtBQb6+F7ufhzRQN7gZj5 ";
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDaApGIjxRh3py4cltezsZt7s6Ph+UI1ZxXhk50vx0eb ";
       syncthing.id = "UUPA6QV-KGYMQ7J-EK3WBXK-JBTAPS4-AB2XZZW-FPD23UP-NHYTQBF-TU56LAF";
