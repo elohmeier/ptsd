@@ -7,6 +7,7 @@ home-assistant.override {
     "dwd_weather_warnings"
     "fritzbox"
     "google"
+    "google_translate"
     "ipp"
     "met"
     "mobile_app"
