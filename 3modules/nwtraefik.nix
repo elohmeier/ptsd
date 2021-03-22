@@ -350,6 +350,8 @@ in
         gitweb = 10020;
         nginx-fraam-intweb = 10021;
         nginx-wellknown-matrix = 10022;
+        prometheus-node = 10023;
+        prometheus-gitlab = 10024;
       };
     }
     (

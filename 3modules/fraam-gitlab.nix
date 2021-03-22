@@ -91,8 +91,8 @@ in
             useNetworkd = true;
             firewall.allowedTCPPorts = [
               80 # for nginx
-              3807 # gitlab monitoring
-              9100 # prometheus node exporter
+              config.ptsd.nwtraefik.ports.prometheus-node
+              config.ptsd.nwtraefik.ports.prometheus-gitlab
             ];
           };
 
@@ -185,7 +185,7 @@ in
                     ip_whitelist = [ "${cfg.hostAddress}/32" ];
                     sidekiq_exporter = {
                       address = cfg.containerAddress;
-                      port = 3807;
+                      port = config.ptsd.nwtraefik.ports.prometheus-gitlab;
                     };
                   };
                 };
@@ -223,30 +223,6 @@ in
             };
           };
 
-          services.prometheus.exporters.node = {
-            enable = true;
-            listenAddress = cfg.containerAddress;
-            enabledCollectors = [
-              "conntrack"
-              "diskstats"
-              "entropy"
-              "filefd"
-              "filesystem"
-              "loadavg"
-              "mdadm"
-              "meminfo"
-              "netdev"
-              "netstat"
-              "stat"
-              "time"
-              "vmstat"
-              "systemd"
-              "logind"
-              "interrupts"
-              "ksmd"
-            ];
-          };
-
           ptsd.nwlogrotate.config = ''
             /var/gitlab/state/log/*.log {
                 su ${config.services.gitlab.user} ${config.services.gitlab.group}
@@ -260,6 +236,13 @@ in
                 copytruncate
             }
           '';
+
+          services.prometheus.exporters.node = {
+            enable = true;
+            listenAddress = cfg.containerAddress;
+            port = config.ptsd.nwtraefik.ports.prometheus-node;
+            enabledCollectors = import ../2configs/prometheus/node_collectors.nix;
+          };
         };
     };
 
@@ -270,9 +253,6 @@ in
 
     ptsd.nwtraefik = {
       entryPoints = {
-        "nwvpn-gitlab-monitoring" = {
-          address = "${config.ptsd.wireguard.networks.nwvpn.ip}:9102";
-        };
         "ssh" = {
           address = ":22";
         };
@@ -285,9 +265,20 @@ in
           rule = "Host(`${cfg.domain}`)";
         }
         {
-          url = "http://${cfg.containerAddress}:3807";
-          name = "gitlab-monitoring";
-          entryPoints = [ "nwvpn-gitlab-monitoring" ];
+          name = "prometheus-gitlab-node";
+          entryPoints = [ "nwvpn-prometheus" ];
+          rule = "PathPrefix(`/gitlab/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
+          url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-node}";
+          tls = false;
+          extraMiddlewares = [ "prom-stripprefix" ];
+        }
+        {
+          name = "prometheus-gitlab-gitlab";
+          entryPoints = [ "nwvpn-prometheus" ];
+          rule = "PathPrefix(`/gitlab/gitlab`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
+          url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-gitlab}";
+          tls = false;
+          extraMiddlewares = [ "prom-stripprefix" ];
         }
       ];
       extraDynamicConfig = {

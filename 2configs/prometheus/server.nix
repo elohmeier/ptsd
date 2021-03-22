@@ -23,6 +23,21 @@ let
     ];
   };
   prometheusSecrets = import <secrets/prometheus.nix>;
+
+  nwJob = host: unit: exporter: {
+    job_name = "${exporter}_${host}_${unit}";
+    scrape_interval = "60s";
+    metrics_path = "/${unit}/${exporter}/metrics";
+    static_configs = [{
+      targets = [
+        "${universe.hosts."${host}".nets.nwvpn.ip4.addr}:9100"
+      ];
+      labels = {
+        alias = if host == unit then host else "${host}-${unit}";
+      };
+    }];
+  };
+
 in
 {
   # access via localhost
@@ -76,6 +91,15 @@ in
           }
         ];
       }
+
+      (nwJob "htz3" "htz3" "node")
+      (nwJob "htz3" "gitlab" "node")
+      (nwJob "htz3" "wpjail" "node")
+
+      (nwJob "ws1" "ws1" "node")
+      (nwJob "ws2" "ws2" "node")
+      (nwJob "tp1" "tp1" "node")
+
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
         params.module = [ "http_2xx" ];

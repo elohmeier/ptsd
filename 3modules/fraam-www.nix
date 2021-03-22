@@ -70,6 +70,7 @@ in
           isReadOnly = false;
         };
       };
+      ephemeral = true;
 
       config =
         { config, pkgs, ... }:
@@ -86,6 +87,9 @@ in
             useHostResolvConf = false;
             nameservers = [ "8.8.8.8" "8.8.4.4" ];
             useNetworkd = true;
+            firewall.allowedTCPPorts = [
+              config.ptsd.nwtraefik.ports.prometheus-node
+            ];
           };
 
           time.timeZone = "Europe/Berlin";
@@ -111,6 +115,13 @@ in
               ProtectSystem = "full";
             };
             startAt = "*-*-* 05:00:00";
+          };
+
+          services.prometheus.exporters.node = {
+            enable = true;
+            listenAddress = cfg.containerAddress;
+            port = config.ptsd.nwtraefik.ports.prometheus-node;
+            enabledCollectors = import ../2configs/prometheus/node_collectors.nix;
           };
         };
     };
@@ -139,6 +150,14 @@ in
         rule = "Host(`www.fraam.de`) || Host(`fraam.de`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wwwstatic}";
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+      }
+      {
+        name = "prometheus-node-wpjail";
+        entryPoints = [ "nwvpn-prometheus" ];
+        rule = "PathPrefix(`/wpjail/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-node}";
+        tls = false;
+        extraMiddlewares = [ "prom-stripprefix" ];
       }
     ];
 
