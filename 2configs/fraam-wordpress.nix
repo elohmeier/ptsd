@@ -20,6 +20,7 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
+    # package = pkgs.mysql-old; # uncomment to downgrade version
     bind = "127.0.0.1";
 
     ensureDatabases = [ "wordpress" ];
