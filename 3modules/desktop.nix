@@ -408,6 +408,7 @@ let
         shrinkpdf
         py3.pkgs.davphonebook
         teams
+        zoom-us
         aspell
         aspellDicts.de
         aspellDicts.en
