@@ -16,6 +16,9 @@ python3Packages.buildPythonApplication rec {
     sed '1i#!/usr/bin/env python3' -i \
       fritz_export_helper.py \
       fritz_exporter.py
+    substituteInPlace fritz_exporter.py --replace \
+      "start_http_server(int(port))" \
+      "start_http_server(int(port), os.getenv('FRITZ_EXPORTER_ADDRESS', '127.0.0.1'))"
     cp ${./setup.py} ./setup.py
   '';
 

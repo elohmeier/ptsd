@@ -18,7 +18,7 @@ let
       }
       {
         target_label = "__address__";
-        replacement = "localhost:9115"; # blackbox exporter's address
+        replacement = "localhost:${toString config.services.prometheus.exporters.blackbox.port}";
       }
     ];
   };
@@ -59,6 +59,15 @@ in
         static_configs = [{
           targets = [
             "hass.services.nerdworks.de"
+          ];
+        }];
+      }
+      {
+        job_name = "fritzbox";
+        scrape_interval = "60s";
+        static_configs = [{
+          targets = [
+            "127.0.0.1:9787"
           ];
         }];
       }
@@ -227,6 +236,7 @@ in
 
     exporters.blackbox = {
       enable = true;
+      listenAddress = "127.0.0.1";
       configFile = pkgs.writeText "blackbox.json" (builtins.toJSON {
         modules = {
           http_2xx = {
@@ -444,6 +454,23 @@ in
         }];
       })
     ];
+  };
+
+  systemd.services.prometheus-fritzbox-exporter = {
+    description = "Prometheus exporter for Fritz!Box home routers";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "network.target" ];
+    serviceConfig = {
+      ExecStart = "${pkgs.fritzbox-exporter}/bin/fritz_exporter.py";
+      Restart = "always";
+      PrivateTmp = true;
+      WorkingDirectory = "/tmp";
+      DynamicUser = true;
+    };
+    environment = {
+      FRITZ_EXPORTER_CONFIG = "192.168.178.1,prometheus,${prometheusSecrets.fritzPassword}";
+      FRITZ_EXPORTER_PORT = "9787";
+    };
   };
 
   ptsd.nwtraefik = {
