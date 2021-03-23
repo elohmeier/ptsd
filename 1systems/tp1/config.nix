@@ -32,7 +32,9 @@ in
 
   services.hardware.bolt.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # workaround random wifi drops
+  # see https://bugzilla.kernel.org/show_bug.cgi?id=203709
+  boot.kernelPackages = pkgs.linuxPackages_4_19;
 
   ptsd.nwacme.hostCert.enable = false;
 
