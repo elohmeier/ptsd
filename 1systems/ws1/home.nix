@@ -20,9 +20,15 @@ in
 
   wayland.windowManager.sway = {
     extraConfig = ''
-      output DP-3 pos 0 0 mode 3840x2160@59.997002Hz scale 2
-      output DP-4 pos 1920 0 mode 3840x2160@59.999001Hz scale 2
+      output DP-8 pos 0 0 mode 3840x2160@59.997002Hz scale 2
+      output DP-4 pos 1920 0 mode 4096x2304@59.999001Hz scale 2
     '';
+
+    # both on nvidia:
+    # extraConfig = ''
+    #   output DP-3 pos 0 0 mode 3840x2160@59.997002Hz scale 2
+    #   output DP-4 pos 1920 0 mode 3840x2160@59.999001Hz scale 2
+    # '';
   };
 
   ptsd.baresip = {

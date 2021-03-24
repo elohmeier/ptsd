@@ -33,6 +33,8 @@
     "r8169" # Ethernet
   ];
 
+  boot.initrd.kernelModules = [ "amdgpu" ];
+
   boot.kernelModules = [ "kvm-amd" "wl" ];
 
   boot.kernelParams = [
@@ -56,8 +58,8 @@
 
   hardware.opengl = {
     enable = true;
-    extraPackages = with pkgs; [ ];
-    extraPackages32 = with pkgs.pkgsi686Linux; [ ];
+    extraPackages = with pkgs; [ amdvlk ];
+    extraPackages32 = with pkgs.pkgsi686Linux; [ driversi686Linux.amdvlk ];
   };
 
   console.keyMap = "de-latin1";
