@@ -83,7 +83,7 @@
         endstop_pin = "probe:z_virtual_endstop";
         position_max = "250";
         # position_min="-2"; # only for calibration
-        position_min = "-0.1"; # fix out of range error...
+        position_min = "-0.3"; # fix out of range error...
       };
 
       extruder = {
