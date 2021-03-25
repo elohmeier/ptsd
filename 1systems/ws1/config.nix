@@ -14,7 +14,6 @@ in
     <ptsd/2configs/stateless-root.nix>
 
     <ptsd/2configs/themes/nerdworks.nix>
-    <ptsd/2configs/drone-exec-container.nix>
     <ptsd/2configs/mfc7440n.nix>
     <ptsd/2configs/prometheus/node.nix>
 
@@ -22,7 +21,6 @@ in
     <ptsd/2configs/home-secrets.nix>
 
     <home-manager/nixos>
-    <ptsd/2configs/xrdp.nix>
 
     ./qemu.nix
   ];
