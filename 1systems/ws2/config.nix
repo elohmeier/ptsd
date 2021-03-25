@@ -1,5 +1,9 @@
 { config, lib, pkgs, ... }:
 with lib;
+let
+  virshNatIpPrefix = "192.168.197"; # "XXX.XXX.XXX" without last block
+  virshNatIf = "virsh-nat";
+in
 {
   imports = [
     ../../.
@@ -42,10 +46,47 @@ with lib;
 
     wireless.iwd.enable = true;
 
-    firewall.interfaces.wlan0 = {
-      # samba/cups ports
-      allowedTCPPorts = [ 631 445 139 ];
-      allowedUDPPorts = [ 631 137 138 ];
+    interfaces = {
+      "${virshNatIf}".ipv4.addresses = [{ address = "${virshNatIpPrefix}.1"; prefixLength = 24; }];
+    };
+
+    firewall.interfaces = {
+      "${virshNatIf}" = {
+        allowedTCPPorts = [ 53 631 445 139 ];
+        allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
+      };
+
+      wlan0 = {
+        # samba/cups ports
+        allowedTCPPorts = [ 631 445 139 ];
+        allowedUDPPorts = [ 631 137 138 ];
+      };
+    };
+
+    nat = {
+      enable = true;
+      externalInterface = "wlan0";
+      internalInterfaces = [ virshNatIf ];
+    };
+  };
+
+  systemd.network = {
+    netdevs = {
+      "40-${virshNatIf}" = {
+        netdevConfig = {
+          Name = virshNatIf;
+          Kind = "bridge";
+        };
+      };
+    };
+    networks = {
+      "40-${virshNatIf}" = {
+        matchConfig.Name = virshNatIf;
+        networkConfig = {
+          ConfigureWithoutCarrier = true;
+          DHCPServer = true;
+        };
+      };
     };
   };
 
@@ -83,7 +124,7 @@ with lib;
       workgroup = WORKGROUP
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
-      hosts allow = 192.168.1.0/24
+      hosts allow = 192.168.1.0/24 ${virshNatIpPrefix}.0/24
       hosts deny = 0.0.0.0/0
       map to guest = Bad User
     '';
