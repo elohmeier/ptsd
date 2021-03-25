@@ -276,7 +276,7 @@ in
     folders = {
       "/home/enno/FPV" = {
         id = "xxdwi-yom6n";
-        devices = [ "htz2" "nas1-st-enno" "tp1-win10" "ws1" "ws1-win10" "ws1-win10n" ];
+        devices = [ "nas1-st-enno" "tp1-win10" "ws1" "ws1-win10" "ws1-win10n" ];
       };
       # "/home/enno/Hörspiele" = {
       #   id = "rqnvn-lmhcm";
@@ -285,11 +285,11 @@ in
       # };
       "/home/enno/LuNo" = {
         id = "3ull9-9deg4";
-        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "tp2" "ws1" ];
+        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "tp2" "ws1" "ws2" ];
       };
       "/home/enno/Pocket" = {
         id = "hmekh-kgprn";
-        devices = [ "htz2" "nas1-st-enno" "nuc1" "tp1-win10" "ws1-win10" ];
+        devices = [ "nas1-st-enno" "nuc1" "tp1-win10" "ws1-win10" ];
       };
       "/home/enno/Scans" = {
         id = "ezjwj-xgnhe";
@@ -297,7 +297,7 @@ in
       };
       "/home/enno/Templates" = {
         id = "gnwqu-yt7qc";
-        devices = [ "nas1-st-enno" "nuc1" "ws1" ];
+        devices = [ "nas1-st-enno" "nuc1" "ws1" "ws2" ];
       };
       # "/home/enno/repos-ws1" = {
       #   id = "jihdi-qxmi3";
