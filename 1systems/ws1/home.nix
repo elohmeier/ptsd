@@ -20,8 +20,9 @@ in
 
   wayland.windowManager.sway = {
     extraConfig = ''
-      output DP-8 pos 0 0 mode 3840x2160@59.997002Hz scale 2
-      output DP-4 pos 1920 0 mode 4096x2304@59.999001Hz scale 2
+      output DP-4 pos 0 1052 mode 3840x2160@59.997002Hz scale 1.859375
+      output DP-8 pos 113 0 mode 4096x2304@59.999001Hz scale 2.191406
+      output DP-2 pos 2064 1052 mode 3840x2160@59.997002Hz scale 1.859375
     '';
 
     # both on nvidia:

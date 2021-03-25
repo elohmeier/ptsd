@@ -1257,6 +1257,7 @@ in
                 grim
                 slurp
                 wl-clipboard
+                wdisplays
               ] ++ optionals cfg.qt.enable [
               qt5.qtwayland
               libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
