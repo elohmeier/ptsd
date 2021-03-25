@@ -18,7 +18,7 @@ local WrapSSH(name, commands) = {
   },
 };
 
-local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=false, populate_home_manager=false, prebuild=[], hostdomain='host.nerdworks.de', cmd='deploy') = {
+local DeployPipeline(hostname, populate_home_manager=false, prebuild=[], hostdomain='host.nerdworks.de', cmd='deploy') = {
   kind: 'pipeline',
   type: 'exec',
   name: cmd + ' ' + hostname,
@@ -35,7 +35,7 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
          + [
            WrapSSH(
              cmd + ' ' + hostname,
-             ['$(nix-build --no-out-link krops.nix --argstr name ' + hostname + ' --argstr starget root@' + hostname + '.' + hostdomain + ' --arg secrets false --arg unstable ' + populate_unstable + ' --arg mailserver ' + populate_mailserver + ' --arg home-manager ' + populate_home_manager + ' -A ' + cmd + ' -I /var/src)']
+             ['$(nix-build --no-out-link krops.nix --argstr name ' + hostname + ' --argstr starget root@' + hostname + '.' + hostdomain + ' --arg secrets false --arg home-manager ' + populate_home_manager + ' -A ' + cmd + ' -I /var/src)']
            ),
          ],
 };
@@ -43,13 +43,13 @@ local DeployPipeline(hostname, populate_unstable=false, populate_mailserver=fals
 [
   //DeployPipeline("apu1"),
   //DeployPipeline('apu2', prebuild=['5pkgs/nwhass']),
-  //DeployPipeline('htz1', populate_unstable=true, prebuild=['5pkgs/traefik']),
-  //DeployPipeline('htz2', populate_unstable=true, populate_mailserver=true, prebuild=['5pkgs/traefik']),
+  //DeployPipeline('htz1', prebuild=['5pkgs/traefik']),
+  //DeployPipeline('htz2', prebuild=['5pkgs/traefik']),
   //DeployPipeline('htz3', hostdomain='host.fraam.de', prebuild=['5pkgs/traefik-forward-auth', '5pkgs/traefik']),
   //DeployPipeline('nas1', populate_home_manager=true, prebuild=['5pkgs/nwhass', '5pkgs/traefik']),
   //DeployPipeline("nuc1"),
   //DeployPipeline('rpi2'),
-  DeployPipeline('ws1', populate_home_manager=true, populate_unstable=true, cmd='deploy_boot'),
+  DeployPipeline('ws1', populate_home_manager=true, cmd='deploy_boot'),
 ]
 
 // Don't forget to run `mk-drone-yml`

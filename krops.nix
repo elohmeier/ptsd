@@ -2,8 +2,6 @@
 , snixpkgs ? ./nixpkgs.json
 , shome-manager ? ./home-manager.json
 , home-manager ? true
-, unstable ? false
-, mailserver ? false
 , secrets ? false
 , client-secrets ? false
 , starget ? "root@${name}.host.nerdworks.de"
@@ -61,17 +59,6 @@ let
         secrets-shared.pass = {
           dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
           name = "hosts-shared";
-        };
-      }
-    )
-
-    (
-      lib.optionalAttrs unstable {
-        nixpkgs-unstable.git = {
-          clean.exclude = [ "/.version-suffix" ];
-          ref = (lib.importJSON ./nixpkgs-unstable.json).rev;
-          url = https://github.com/NixOS/nixpkgs;
-          shallow = true;
         };
       }
     )

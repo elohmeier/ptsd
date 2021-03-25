@@ -3,7 +3,6 @@
 # Tools you probably would not add to an ISO image
 let
   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
-  unstable = import <nixpkgs-unstable> { };
 in
 {
   #imports = [

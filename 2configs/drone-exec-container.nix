@@ -39,11 +39,6 @@ in
         isReadOnly = true;
       };
 
-      # "/var/src/nixpkgs-unstable" = {
-      #   hostPath = "/var/src/nixpkgs-unstable";
-      #   isReadOnly = true;
-      # };
-
     };
     ephemeral = true;
 
