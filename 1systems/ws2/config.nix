@@ -102,8 +102,26 @@ with lib;
         "force group" = "users";
         "force user" = "enno";
       };
+      public = {
+        path = "/home/public";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "yes";
+      };
     };
   };
 
   users.users.scanner = { };
+
+  virtualisation = {
+    docker = {
+      enable = true;
+      enableOnBoot = false; # will be socket-activated
+    };
+    libvirtd = {
+      enable = true;
+      qemuPackage = pkgs.qemu_kvm;
+      qemuRunAsRoot = false;
+    };
+  };
 }
