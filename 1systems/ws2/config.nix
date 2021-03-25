@@ -109,7 +109,7 @@ in
       "3dprinting"
       "admin"
       "dev"
-      #"games"
+      "games"
       "kvm"
       "media"
       "office"
