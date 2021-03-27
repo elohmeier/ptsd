@@ -298,6 +298,15 @@ let
       dnsmasq
       wireshark-qt
       freerdp
+      openvpn
+      lftp
+      cifs-utils
+
+      metasploit
+      wpscan
+      john
+      gobuster
+      burpsuite
     ];
     "dev" = pkgs: with pkgs;
       let
@@ -796,9 +805,11 @@ in
 
     programs.steam.enable = elem "games" cfg.profiles;
 
-    nixpkgs.config.permittedInsecurePackages = optionals (elem "games" cfg.profiles) [
-      "openssl-1.0.2u" # epsxe
-    ];
+    nixpkgs.config = {
+      permittedInsecurePackages = optionals (elem "games" cfg.profiles) [
+        "openssl-1.0.2u" # epsxe
+      ];
+    };
 
     home-manager =
       {
