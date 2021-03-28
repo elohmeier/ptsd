@@ -33,6 +33,10 @@
     # enable updated GPU firmware loading
     # https://wiki.archlinux.org/index.php/Intel_graphics#Enable_GuC_/_HuC_firmware_loading
     "i915.enable_guc=2"
+
+    # try fix post-resume freeze - not working
+    # "i8042.direct"
+    # "i8042.dumpkbd"
   ];
 
   hardware.firmware = with pkgs; [ wireless-regdb ];
