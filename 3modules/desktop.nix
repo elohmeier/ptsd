@@ -631,6 +631,7 @@ in
       term.package
       libinput
       libnotify
+      brightnessctl
     ] ++ optionals cfg.audio.enable [
       playerctl
       cadence
