@@ -25,10 +25,9 @@ in
     ./qemu.nix
   ];
 
-  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
+  #boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
   boot.kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
   boot.extraModprobeConfig = ''
-    options vfio-pci ids=10de:1e04,10de:10f7,10de:1ad6,10de:1ad7
     options kvm ignore_msrs=1
   '';
 
@@ -114,8 +113,6 @@ in
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
   boot.kernelParams = [
-    "amd_iommu=on"
-    "video=efifb:off"
     "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off"
   ];
 
