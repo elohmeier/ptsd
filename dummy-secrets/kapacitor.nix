@@ -1,1 +1,1 @@
-{influxPassword = "";}
+{ influxPassword = ""; }

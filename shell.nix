@@ -8,6 +8,7 @@ let
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/2configs
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/3modules
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/5pkgs
+      ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/dummy-secrets
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/*.nix
       ${pkgs.jsonnet}/bin/jsonnetfmt --indent 2 --max-blank-lines 2 --sort-imports --string-style s --comment-style s -i $ROOT/.drone.jsonnet
       ${pkgs.python3Packages.black}/bin/black $ROOT/.

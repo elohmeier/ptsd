@@ -1,4 +1,4 @@
 {
-    hass = "";
-    tasmota = "";
+  hass = "";
+  tasmota = "";
 }

@@ -1,7 +1,7 @@
-{ 
+{
   openweathermapApiKey = "";
-  gcalcli ={
-    clientId  ="";
+  gcalcli = {
+    clientId = "";
     clientSecret = "";
   };
- }
+}

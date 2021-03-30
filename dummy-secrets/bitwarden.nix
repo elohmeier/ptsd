@@ -1,3 +1,3 @@
 {
-    adminToken = "";
+  adminToken = "";
 }

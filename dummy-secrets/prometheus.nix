@@ -1,1 +1,4 @@
-{ hass_token = ""; }
+{
+  hass_token = "";
+  fritzPassword = "";
+}

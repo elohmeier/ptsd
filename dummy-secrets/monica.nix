@@ -1,1 +1,1 @@
-{appKey = "";hashSalt = ""; mailPassword="";}
+{ appKey = ""; hashSalt = ""; mailPassword = ""; }
