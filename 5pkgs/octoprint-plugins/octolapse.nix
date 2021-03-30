@@ -20,7 +20,7 @@ buildPythonPackage rec {
     owner = "FormerLurker";
     repo = "Octolapse";
     rev = "v${version}";
-    sha256 = "1i4n7h1ny2m354p61mzsvl4j23dqkjdyiv0xzbqnxg5dbkqzinwi";
+    sha256 = "sha256-ZL/nkI3DS7HSVPEEgTIgweZiJj0GSpQCo3epvM4DAo8=";
   };
 
   doCheck = false;

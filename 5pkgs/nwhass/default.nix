@@ -13,7 +13,7 @@ home-assistant.override {
     "mobile_app"
     "mqtt"
     "prometheus"
-    #"sonos"  # TODO: broken
+    #"sonos"  # TODO: wait for https://github.com/NixOS/nixpkgs/pull/118027
     "spotify"
     "ssdp"
     "tts"
