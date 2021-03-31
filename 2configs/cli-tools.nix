@@ -47,6 +47,8 @@
     mkpasswd
     fd
     clang
+    nix-prefetch-git
+    netcat-gnu
   ];
 
   nixpkgs.config.allowUnfree = true; # required for unrar

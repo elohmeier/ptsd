@@ -3,20 +3,15 @@
 with lib;
 let
   cfg = config.ptsd.fraamdb;
-  py3 = pkgs.python3.override {
-    packageOverrides = self: super: rec {
-      django = self.django_3;
-      fraamdb = self.callPackage ../5pkgs/fraamdb { };
-      monday = self.callPackage ../5pkgs/monday { };
-    };
-  };
-  pyenv = py3.withPackages (
-    pythonPackages: with pythonPackages; [
-      fraamdb
-      psycopg2
-      gunicorn
-    ]
-  );
+  fraamdb = pkgs.callPackage
+    (pkgs.fetchgit {
+      url = "https://git.fraam.de/fraam/fraamdb.git";
+      #rev = "refs/tags/${version}";
+      rev = "c3d6c19fba36b4a610a67eb1c88990787e6bb84f";
+      sha256 = "1f8chvcx3kg5y0kyp948j1zl5dixq06ifyqamz1d5kpq7vikcn4i";
+    })
+    { };
+  pyenv = fraamdb.python.withPackages (ps: [ fraamdb ps.gunicorn ]);
 in
 {
   options = {
@@ -35,7 +30,11 @@ in
 
       environment = {
         DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
-        PYTHONPATH = "${pyenv}/${py3.sitePackages}/";
+        PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
+        ALLOWED_HOSTS = "localhost"; # TODO
+        SECRET_KEY = ""; # TODO from file
+        GOOGLE_OAUTH2_SECRET = ""; # TODO from file
+        DEBUG = "1"; # TODO
       };
 
       script = ''
