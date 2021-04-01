@@ -20,6 +20,10 @@ in
     <home-manager/nixos>
   ];
 
+  ptsd.fraamdb = {
+    enable = true;
+  };
+
   home-manager = {
     users.mainUser = { ... }:
       {

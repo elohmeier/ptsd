@@ -3,14 +3,14 @@
 with lib;
 let
   cfg = config.ptsd.fraamdb;
-  fraamdb = pkgs.callPackage
-    (pkgs.fetchgit {
-      url = "https://git.fraam.de/fraam/fraamdb.git";
-      #rev = "refs/tags/${version}";
-      rev = "c3d6c19fba36b4a610a67eb1c88990787e6bb84f";
-      sha256 = "1f8chvcx3kg5y0kyp948j1zl5dixq06ifyqamz1d5kpq7vikcn4i";
-    })
-    { };
+  # src = pkgs.fetchgit {
+  #   url = "https://git.fraam.de/fraam/fraamdb.git";
+  #   #rev = "refs/tags/${version}";
+  #   rev = "c3d6c19fba36b4a610a67eb1c88990787e6bb84f";
+  #   sha256 = "1f8chvcx3kg5y0kyp948j1zl5dixq06ifyqamz1d5kpq7vikcn4i";
+  # };
+  src = pkgs.nix-gitignore.gitignoreSourcePure [ /home/enno/repos/fraamdb/.gitignore ] /home/enno/repos/fraamdb;
+  fraamdb = pkgs.callPackage (src) { };
   pyenv = fraamdb.python.withPackages (ps: [ fraamdb ps.gunicorn ]);
 in
 {
@@ -29,6 +29,7 @@ in
       after = [ "network.target" "postgresql.service" ];
 
       environment = {
+        DJANGO_SETTINGS_MODULE = "fraamdb.settings";
         DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
         PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
         ALLOWED_HOSTS = "localhost"; # TODO
