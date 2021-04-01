@@ -12,11 +12,22 @@ let
   src = pkgs.nix-gitignore.gitignoreSourcePure [ /home/enno/repos/fraamdb/.gitignore ] /home/enno/repos/fraamdb;
   fraamdb = pkgs.callPackage (src) { };
   pyenv = fraamdb.python.withPackages (ps: [ fraamdb ps.gunicorn ]);
+  manage = pkgs.writeShellScript "fraamdb-manage" ''
+    export DJANGO_SETTINGS_MODULE="fraamdb.settings";    
+    export DATABASE_URL="sqlite:////var/lib/fraamdb/fraamdb.sqlite";
+    ${pyenv}/bin/manage.py ''${@:1}
+  '';
 in
 {
+  # run `/var/lib/fraamdb/manage createsuperuser` as root to create an admin user
+
   options = {
     ptsd.fraamdb = {
       enable = mkEnableOption "fraamdb";
+      allowedHosts = mkOption {
+        type = types.str;
+        default = "localhost";
+      };
     };
   };
 
@@ -25,18 +36,23 @@ in
     systemd.services.fraamdb = {
       description = "fraamdb django app";
       wantedBy = [ "multi-user.target" ];
-      wants = [ "network.target" "postgresql.service" ];
-      after = [ "network.target" "postgresql.service" ];
+      wants = [ "network.target" ];
+      after = [ "network.target" ];
 
       environment = {
         DJANGO_SETTINGS_MODULE = "fraamdb.settings";
-        DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
         PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
-        ALLOWED_HOSTS = "localhost"; # TODO
-        SECRET_KEY = ""; # TODO from file
-        GOOGLE_OAUTH2_SECRET = ""; # TODO from file
-        DEBUG = "1"; # TODO
+        DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
+        ALLOWED_HOSTS = cfg.allowedHosts;
+        STATIC_ROOT = fraamdb.static;
+        DEBUG = "0";
       };
+
+      preStart = ''
+        if [[ $(readlink /var/lib/fraamdb/manage) != "${manage}" ]]; then
+          ln -sf "${manage}" /var/lib/fraamdb/manage
+        fi
+      '';
 
       script = ''
         ${pyenv}/bin/manage.py migrate
@@ -47,6 +63,7 @@ in
       '';
 
       serviceConfig = {
+        EnvironmentFile = "/var/src/secrets/fraamdb.env";
         DynamicUser = true;
         CapabilityBoundingSet = "cap_net_bind_service";
         LockPersonality = true;
