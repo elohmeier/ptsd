@@ -52,6 +52,7 @@ in
       "kvm"
       "media"
       "office"
+      "sec"
     ];
   };
 
@@ -285,11 +286,11 @@ in
       # };
       "/home/enno/LuNo" = {
         id = "3ull9-9deg4";
-        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "tp2" "ws1" "ws2" ];
+        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "tp2" "ws1" ];
       };
       "/home/enno/Pocket" = {
         id = "hmekh-kgprn";
-        devices = [ "nas1-st-enno" "nuc1" "tp1-win10" "ws1-win10" ];
+        devices = [ "nas1-st-enno" "nuc1" "tp1-win10" "ws1-win10" "ws2" ];
       };
       "/home/enno/Scans" = {
         id = "ezjwj-xgnhe";

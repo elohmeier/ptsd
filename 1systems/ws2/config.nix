@@ -113,10 +113,16 @@ in
       "kvm"
       "media"
       "office"
+      "sec"
     ];
   };
 
   ptsd.nwacme.hostCert.enable = false;
+
+  ptsd.nwbackup = {
+    enable = true;
+    paths = [ "/home" ];
+  };
 
   services.samba = {
     enable = true;

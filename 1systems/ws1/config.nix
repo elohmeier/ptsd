@@ -57,6 +57,7 @@ in
       "kvm"
       "media"
       "office"
+      "sec"
     ];
   };
 
@@ -87,7 +88,10 @@ in
       };
   };
 
-  ptsd.nwbackup.repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
+  ptsd.nwbackup = {
+    enable = true;
+    repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
+  };
 
   services.avahi.enable = true;
 

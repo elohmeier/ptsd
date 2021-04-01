@@ -296,17 +296,10 @@ let
       qrencode
       sshfs
       dnsmasq
-      wireshark-qt
       freerdp
       openvpn
       lftp
       cifs-utils
-
-      metasploit
-      wpscan
-      john
-      gobuster
-      burpsuite
     ];
     "dev" = pkgs: with pkgs;
       let
@@ -351,7 +344,6 @@ let
         pyenv
         docker_compose
         kakoune
-        #sqlmap
       ];
     "fpv" = pkgs: with pkgs; [
       betaflight-configurator
@@ -465,6 +457,17 @@ let
           type = "Application";
         })
       ];
+    # see also https://jjjollyjim.github.io/arewehackersyet/index.html
+    "sec" = pkgs: with pkgs;[
+      metasploit
+      wpscan
+      john
+      gobuster
+      burpsuite
+      sqlmap
+      wireshark-qt
+      # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
+    ];
   };
 in
 {
