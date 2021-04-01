@@ -2,8 +2,7 @@
 {
   ptsd.nwbackup = {
     cacheDir = "/persist/var/cache/borg";
-    paths = [
-      "/home"
+    extraPaths = [
       "/persist"
     ];
   };

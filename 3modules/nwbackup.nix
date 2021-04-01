@@ -118,7 +118,7 @@ let
 
   generateJob = name: values:
     nameValuePair "nwbackup-${name}" {
-      paths = cfg.paths;
+      paths = cfg.paths ++ cfg.extraPaths;
       repo = values;
       encryption = {
         mode = "repokey";
@@ -184,8 +184,12 @@ in
         type = types.str;
       };
       paths = mkOption {
-        default = [ "/etc" "/home" "/root" "/var/db" "/var/lib" "/var/spool" ];
+        example = [ "/etc" "/home" "/root" "/var/db" "/var/lib" "/var/spool" ];
         type = with types; coercedTo str lib.singleton (listOf str);
+      };
+      extraPaths = mkOption {
+        type = with types; coercedTo str lib.singleton (listOf str);
+        description = "like paths, added to force user to choose paths";
       };
       exclude = mkOption {
         default = [
