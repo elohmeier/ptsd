@@ -59,6 +59,17 @@ in
       };
   };
 
+  users.groups.photosync-enno = { };
+  users.users.photosync-enno = {
+    group = "photosync-enno";
+    isNormalUser = true;
+    home = "/tank/enc/photosync/enno";
+    createHome = false;
+    openssh.authorizedKeys.keys = [
+      "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6244nhNjYfVoqSoPk8JKDbrok6YnmDvueWzEc30ftYkTHlZND/xXTJ0kLvTQm5s0NB1Mw1o8VRwFTDJC6Y1a1xkz+O/JI5QV33jOjezGCytwZMYo3Phh4k77MtM3/uKLNC2eKVZKp0DuOekfmH2eSfbHSB+TeFcxDtPTn789cYNUS4tH/sY+iyRFwgO3NekyKEskcUhYLQg/fUTWQ1xKHqhTD4Ns2FmOxkGixvfkWbVqEf/BZflTDsBSCSTidHB0Xyo5CfOsYvJyY8WYugAd36zgU+eO5poeM7jZi0pBqltCajEaCkTaCaOL8R7YuIw6eyH8BywcOGjf/VRJgw/59IGf01k9nPqTa2L2IsX9IAOLDgzZaNXKuk0brW5nNflunzJknB6DdA9eQPqnfNGxdY515NqHjkEFN2olax7Ipbp0AJWEYeKvhQ7Tt2egE7fQYZoZzs8+OQkeQ1JkzYX2ipD7X81tPVyR4d/2e1YMt0rGuuHAkKLVesjWuEsx8kw5AFwiRhGb0XeuM6gpSTczRoQ8W4NsxbSMwg74gxqs81iLJPxHqBUM8/8krTQ48fMuYfxdveEFO48Yts3iRkZL/N4FBUY+GLSQndTK8iRnall7qv/kkFMVgkXyLE11sieo9aSVWoeAYEvrtYu/5J0yurvuftUqw4F6SH983sZaO3w== photosync@iph3"
+    ];
+  };
+
   networking = {
     hostName = "nas1";
     useNetworkd = true;
