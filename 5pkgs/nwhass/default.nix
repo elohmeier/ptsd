@@ -17,6 +17,8 @@ home-assistant.override {
     "spotify"
     "ssdp"
     "tts"
+    "recorder"
+    "homematic"
   ];
   extraPackages = ps: with ps; [
     ps.psycopg2
