@@ -1225,6 +1225,7 @@ in
                 "text/plain" = [ "vim.desktop" ];
                 "text/x-script.python" = [ "vim.desktop" ];
                 "image/gif" = [ "sxiv.desktop" ];
+                "image/heic" = [ "sxiv.desktop" ];
                 "image/jpeg" = [ "sxiv.desktop" ];
                 "image/png" = [ "sxiv.desktop" ];
                 "inode/directory" = [ "pcmanfm.desktop" ];
@@ -1399,6 +1400,7 @@ in
               PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
               QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
               TERMINAL = term.binary;
+              IMLIB2_LOADER_PATH = "${pkgs.imlib2-heic}/imlib2/loaders";
             } // optionalAttrs
               (cfg.mode == "sway")
               {
