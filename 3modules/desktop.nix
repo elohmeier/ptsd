@@ -589,6 +589,13 @@ in
 
   config = mkIf cfg.enable {
 
+    security.sudo.extraRules = lib.mkAfter [
+      {
+        users = [ config.users.users.mainUser.name ];
+        commands = [{ command = "${config.nix.package}/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }];
+      }
+    ];
+
     xdg.portal = {
       enable = true;
       gtkUsePortal = true;
