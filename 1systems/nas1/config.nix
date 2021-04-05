@@ -8,7 +8,6 @@ in
     <ptsd>
     <ptsd/2configs>
     <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/dokuwiki.nix>
     <ptsd/2configs/drone-exec-container.nix>
     <ptsd/2configs/grafana.nix>
     <ptsd/2configs/hardened.nix>
@@ -31,9 +30,7 @@ in
     <home-manager/nixos>
   ];
 
-  nixpkgs.config.permittedInsecurePackages = [
-    "homeassistant-0.114.4"
-  ];
+  ptsd.nwbackup.enable = false;
 
   ptsd.monica =
     let
@@ -248,8 +245,6 @@ in
       in
       [
         (crt "nas1.lan.nerdworks.de")
-        (crt "wiki.services.nerdworks.de")
-        (crt "influxdb.services.nerdworks.de")
         (crt "grafana.services.nerdworks.de")
         (crt "hass.services.nerdworks.de")
         (crt "monica.services.nerdworks.de")
@@ -267,20 +262,6 @@ in
         '';
       in
       {
-        "wiki.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "wiki.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "influxdb.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "influxdb.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
         "grafana.services.nerdworks.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "grafana.services.nerdworks.de";
