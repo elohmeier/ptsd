@@ -24,9 +24,13 @@ in
   options = {
     ptsd.fraamdb = {
       enable = mkEnableOption "fraamdb";
-      allowedHosts = mkOption {
+      domain = mkOption {
         type = types.str;
         default = "localhost";
+      };
+      entryPoints = mkOption {
+        type = with types; listOf str;
+        default = [ "loopback6-http" "loopback6-https" ];
       };
     };
   };
@@ -43,7 +47,7 @@ in
         DJANGO_SETTINGS_MODULE = "fraamdb.settings";
         PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
         DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
-        ALLOWED_HOSTS = cfg.allowedHosts;
+        ALLOWED_HOSTS = cfg.domain;
         STATIC_ROOT = fraamdb.static;
         DEBUG = "0";
       };
@@ -57,7 +61,7 @@ in
       script = ''
         ${pyenv}/bin/manage.py migrate
         ${pyenv}/bin/gunicorn fraamdb.wsgi \
-          -b 0.0.0.0:8000 \
+          -b 127.0.0.1:${toString config.ptsd.nwtraefik.ports.fraamdb} \
           --workers=2 \
           --threads=2
       '';
@@ -71,6 +75,21 @@ in
         NoNewPrivileges = true;
         StateDirectory = "fraamdb";
       };
+    };
+
+
+    ptsd.nwtraefik = {
+      services = [
+        {
+          name = "fraamdb";
+          entryPoints = cfg.entryPoints;
+          rule = "Host(`${cfg.domain}`)";
+          auth.forwardAuth = {
+            address = "http://localhost:4181";
+            authResponseHeaders = [ "X-Forwarded-User" ];
+          };
+        }
+      ];
     };
   };
 }

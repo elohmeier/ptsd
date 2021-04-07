@@ -352,6 +352,7 @@ in
         nginx-wellknown-matrix = 10022;
         prometheus-node = 10023;
         prometheus-gitlab = 10024;
+        fraamdb = 10025;
       };
     }
     (

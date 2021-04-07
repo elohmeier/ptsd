@@ -17,6 +17,12 @@ in
       <home-manager/nixos>
     ];
 
+  ptsd.fraamdb = {
+    enable = true;
+    domain = "db.fraam.de";
+    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+  };
+
   networking = {
     useNetworkd = true;
     useDHCP = false;
@@ -78,6 +84,7 @@ in
       in
       [
         (crt "htz3.host.fraam.de") # via ptsd.nwacme hostCert
+        (crt "db.fraam.de")
         (crt "dev.fraam.de")
         (crt "fraam.de")
         (crt "int.fraam.de")
@@ -149,6 +156,13 @@ in
           extraDomainNames = [ "www.fraam.de" ];
           webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "fraam.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "db.fraam.de" = {
+          webroot = config.ptsd.nwacme.http.webroot;
+          credentialsFile = envFile "db.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
