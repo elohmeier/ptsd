@@ -37,10 +37,6 @@ in
     defaultShell = "fish";
   };
 
-  ptsd.fraamdb = {
-    enable = true;
-  };
-
   ptsd.nwacme.hostCert.enable = false;
 
   ptsd.desktop = {

@@ -50,7 +50,7 @@ in
         ALLOWED_HOSTS = cfg.domain;
         STATIC_ROOT = fraamdb.static;
         DEBUG = "0";
-        HTTPS_ONLY="1";
+        HTTPS_ONLY = "1";
       };
 
       preStart = ''

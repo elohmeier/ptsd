@@ -4,7 +4,7 @@
     client = {
       enable = true;
     };
-    hiddenServices.ssh.map = [
+    relay.onionServices.ssh.map = [
       { port = 22; }
     ];
   };
