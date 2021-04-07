@@ -117,7 +117,7 @@ let
           contentTypeNosniff = true;
           browserXSSFilter = true;
           contentSecurityPolicy = cfg.contentSecurityPolicy;
-          referrerPolicy = "no-referrer";
+          referrerPolicy = "strict-origin";
         };
 
         "${mwHttpsRedirect}".redirectScheme = {
