@@ -49,6 +49,7 @@
     clang
     nix-prefetch-git
     netcat-gnu
+    nwbackup-env
   ];
 
   nixpkgs.config.allowUnfree = true; # required for unrar
