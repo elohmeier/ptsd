@@ -3,13 +3,13 @@
 with lib;
 let
   cfg = config.ptsd.fraamdb;
-  # src = pkgs.fetchgit {
-  #   url = "https://git.fraam.de/fraam/fraamdb.git";
-  #   #rev = "refs/tags/${version}";
-  #   rev = "c3d6c19fba36b4a610a67eb1c88990787e6bb84f";
-  #   sha256 = "1f8chvcx3kg5y0kyp948j1zl5dixq06ifyqamz1d5kpq7vikcn4i";
-  # };
-  src = pkgs.nix-gitignore.gitignoreSourcePure [ /home/enno/repos/fraamdb/.gitignore ] /home/enno/repos/fraamdb;
+  gitRef = (lib.importJSON ./fraamdb.json);
+  src = pkgs.fetchgit {
+    url = "https://git.fraam.de/fraam/fraamdb.git";
+    rev = "refs/tags/${gitRef.version}";
+    sha256 = gitRef.sha256;
+  };
+  #src = pkgs.nix-gitignore.gitignoreSourcePure [ /home/enno/repos/fraamdb/.gitignore ] /home/enno/repos/fraamdb;
   fraamdb = pkgs.callPackage (src) { };
   pyenv = fraamdb.python.withPackages (ps: [ fraamdb ps.gunicorn ]);
   manage = pkgs.writeShellScript "fraamdb-manage" ''
