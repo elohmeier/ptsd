@@ -1,4 +1,4 @@
-{ buildPythonPackage, fetchPypi, black, nbconvert }:
+{ buildPythonPackage, fetchPypi, black, nbconvert, setuptools_scm }:
 
 buildPythonPackage rec {
   pname = "black_nbconvert";
@@ -7,5 +7,7 @@ buildPythonPackage rec {
     inherit pname version;
     sha256 = "0wgk9hqfdcl84grzmkwqjllqhdhqzgf105kbqpkksnldb818lsfr";
   };
+  buildInputs = [ setuptools_scm ];
   propagatedBuildInputs = [ black nbconvert ];
 }
+ 
