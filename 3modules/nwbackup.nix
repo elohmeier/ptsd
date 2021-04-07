@@ -190,6 +190,7 @@ in
       extraPaths = mkOption {
         type = with types; coercedTo str lib.singleton (listOf str);
         description = "like paths, added to force user to choose paths";
+        default = [ ];
       };
       exclude = mkOption {
         default = [
