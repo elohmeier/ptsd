@@ -50,6 +50,17 @@ in
 
   ptsd.nwbackup = {
     enable = true;
+    paths = [
+      "/var/lib/fraam-gitlab/gitlab/state"
+      "/var/lib/fraam-gitlab/postgresql" #  TODO: backup using script
+      "/var/lib/fraam-www/www"
+      "/var/lib/fraam-www/mysql-backup"
+      "/var/lib/fraam-www/static"
+      "/var/lib/postgresql" # TODO: backup using script
+      "/var/lib/acme"
+      "/var/lib/bitwarden_rs"
+      "/var/src"
+    ];
   };
 
   services.openssh.ports = [ 1022 ]; # use non-standard ssh port to be able to forward standard port to gitlab container
