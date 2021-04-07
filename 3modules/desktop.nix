@@ -811,7 +811,7 @@ in
     hardware.opengl = {
       enable = true;
       driSupport = true;
-      driSupport32Bit = elem "games" cfg.profiles; # for Steam
+      driSupport32Bit = mkIf (elem "games" cfg.profiles) true; # for Steam
     };
 
     programs.steam.enable = elem "games" cfg.profiles;
