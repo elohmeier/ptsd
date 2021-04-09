@@ -42,6 +42,7 @@
   ];
 
   boot.extraModulePackages = [ config.boot.kernelPackages.broadcom_sta ];
+  environment.systemPackages = with pkgs; [ clinfo vulkan-tools ];
 
   nix.maxJobs = lib.mkDefault 24;
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
@@ -58,7 +59,9 @@
 
   hardware.opengl = {
     enable = true;
-    extraPackages = with pkgs; [ amdvlk ];
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [ amdvlk rocm-opencl-icd rocm-runtime ];
     extraPackages32 = with pkgs.pkgsi686Linux; [ driversi686Linux.amdvlk ];
   };
 

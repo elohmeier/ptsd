@@ -464,6 +464,7 @@ let
       john
       gobuster
       burpsuite
+      hashcat
       sqlmap
       wireshark-qt
       # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
@@ -599,7 +600,7 @@ in
     xdg.portal = {
       enable = true;
       gtkUsePortal = true;
-      extraPortals = with pkgs;[ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
+      extraPortals = with pkgs;[ xdg-desktop-portal-wlr ];
     };
 
     services.xserver = mkIf (cfg.mode == "i3") {
