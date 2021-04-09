@@ -380,6 +380,7 @@ let
       v4l-utils
       pulseeffects-pw
       wf-recorder
+      art
     ];
     "office" = pkgs: with pkgs;
       let
