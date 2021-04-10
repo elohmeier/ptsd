@@ -4,6 +4,27 @@ with lib;
 let
   cfg = config.ptsd.desktop;
 
+  py3 = pkgs.python3.override {
+    packageOverrides = self: super: rec {
+      black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+    };
+  };
+  pyenv = py3.withPackages (
+    pythonPackages: with pythonPackages; [
+      black
+      black_nbconvert
+      jupyterlab
+      lxml
+      keyring
+      nbconvert
+      pandas
+      pdfminer
+      pillow
+      requests
+      selenium
+    ]
+  );
+
   exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
   open_codium_mode = "codium: [p]tsd, nobbo[f]in, [n]ixpkgs";
 
@@ -122,7 +143,7 @@ let
       "XF86AudioRaiseVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
       "XF86AudioMicMute" = mkIf (cfg.audio.enable && cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
-      "XF86Calculator" = "exec ${term.exec "${pkgs.bc}/bin/bc -l" ""}";
+      "XF86Calculator" = "exec ${term.exec (if builtins.elem "dev" cfg.profiles then "${pyenv}/bin/ipython" else "${pkgs.bc}/bin/bc -l") ""}";
       "XF86HomePage" = "exec firefox";
       "XF86Search" = "exec firefox";
       "XF86Mail" = "exec evolution";
@@ -302,28 +323,6 @@ let
       cifs-utils
     ];
     "dev" = pkgs: with pkgs;
-      let
-        py3 = python3.override {
-          packageOverrides = self: super: rec {
-            black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
-          };
-        };
-        pyenv = py3.withPackages (
-          pythonPackages: with pythonPackages; [
-            black
-            black_nbconvert
-            jupyterlab
-            lxml
-            keyring
-            nbconvert
-            pandas
-            pdfminer
-            pillow
-            requests
-            selenium
-          ]
-        );
-      in
       [
         gitAndTools.hub
         nix-tree
@@ -601,7 +600,7 @@ in
     xdg.portal = {
       enable = true;
       gtkUsePortal = true;
-      extraPortals = with pkgs;[ xdg-desktop-portal-wlr ];
+      extraPortals = with pkgs;[ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
     };
 
     services.xserver = mkIf (cfg.mode == "i3") {
