@@ -17,10 +17,19 @@ in
       <home-manager/nixos>
     ];
 
-  ptsd.fraamdb = {
+  ptsd.nwbackup = {
     enable = true;
-    domain = "db.fraam.de";
-    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+    paths = [
+      "/var/lib/fraam-gitlab/gitlab"
+      "/var/lib/fraam-gitlab/postgresql" #  TODO: backup using script
+      "/var/lib/fraam-www/www"
+      "/var/lib/fraam-www/mysql-backup"
+      "/var/lib/fraam-www/static"
+      "/var/lib/postgresql" # TODO: backup using script
+      "/var/lib/bitwarden_rs"
+      "/var/src"
+      "/var/www/intweb"
+    ];
   };
 
   networking = {
@@ -54,20 +63,6 @@ in
     { routeConfig = { Gateway = "fe80::1"; }; }
   ];
 
-  ptsd.nwbackup = {
-    enable = true;
-    paths = [
-      "/var/lib/fraam-gitlab/gitlab/state"
-      "/var/lib/fraam-gitlab/postgresql" #  TODO: backup using script
-      "/var/lib/fraam-www/www"
-      "/var/lib/fraam-www/mysql-backup"
-      "/var/lib/fraam-www/static"
-      "/var/lib/postgresql" # TODO: backup using script
-      "/var/lib/acme"
-      "/var/lib/bitwarden_rs"
-      "/var/src"
-    ];
-  };
 
   services.openssh.ports = [ 1022 ]; # use non-standard ssh port to be able to forward standard port to gitlab container
 
@@ -261,6 +256,12 @@ in
   };
 
   services.fail2ban.enable = true;
+
+  ptsd.fraamdb = {
+    enable = true;
+    domain = "db.fraam.de";
+    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+  };
 
   # services.murmur =
   #   let

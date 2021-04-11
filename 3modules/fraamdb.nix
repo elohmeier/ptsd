@@ -78,19 +78,16 @@ in
       };
     };
 
-
-    ptsd.nwtraefik = {
-      services = [
-        {
-          name = "fraamdb";
-          entryPoints = cfg.entryPoints;
-          rule = "Host(`${cfg.domain}`)";
-          auth.forwardAuth = {
-            address = "http://localhost:4181";
-            authResponseHeaders = [ "X-Forwarded-User" ];
-          };
-        }
-      ];
-    };
+    ptsd.nwtraefik.services = [
+      {
+        name = "fraamdb";
+        rule = "Host(`${cfg.domain}`)";
+        auth.forwardAuth = {
+          address = "http://localhost:4181";
+          authResponseHeaders = [ "X-Forwarded-User" ];
+        };
+        entryPoints = cfg.entryPoints;
+      }
+    ];
   };
 }

@@ -40,6 +40,8 @@ in
       message = "ptsd.http has to be enabled to use HTTP-01 host certficate validation";
     }];
 
+    ptsd.nwbackup.extraPaths = [ "/var/lib/acme" ];
+
     services.nginx = mkIf cfg.http.enable {
       enable = true;
       virtualHosts = {
