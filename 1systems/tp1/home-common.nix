@@ -3,6 +3,7 @@ let
   baresipSecrets = import <secrets/baresip.nix>;
   universe = import <ptsd/2configs/universe.nix>;
   todoistSecrets = import <secrets/todoist.nix>;
+  hasscliSecrets = import <secrets/hass-cli.nix>;
 in
 {
   imports = [
@@ -11,6 +12,11 @@ in
     <ptsd/2configs/home/firefox.nix>
     <ptsd/2configs/home/gpg.nix>
   ];
+
+  home.sessionVariables = {
+    HASS_SERVER = "https://hass.services.nerdworks.de";
+    HASS_TOKEN = hasscliSecrets.apiToken;
+  };
 
   # disable touchpad
   xsession.windowManager.i3.extraConfig = ''

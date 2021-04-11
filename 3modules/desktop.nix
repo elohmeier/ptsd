@@ -365,6 +365,7 @@ let
       openvpn
       lftp
       cifs-utils
+      home-assistant-cli
     ];
     "dev" = pkgs: with pkgs;
       [
@@ -637,7 +638,10 @@ in
     security.sudo.extraRules = lib.mkAfter [
       {
         users = [ config.users.users.mainUser.name ];
-        commands = [{ command = "${config.nix.package}/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }];
+        commands = [
+          { command = "${config.nix.package}/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }
+          { command = "${pkgs.iftop}/bin/iftop"; options = [ "NOPASSWD" ]; }
+        ];
       }
     ];
 
