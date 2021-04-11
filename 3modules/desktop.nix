@@ -80,14 +80,30 @@ let
     {
       "${cfg.modifier}+Return" = "exec ${term.exec "" ""}";
       "${cfg.modifier}+Shift+q" = "kill";
-      #"${cfg.modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_run";
-      "${cfg.modifier}+d" = "exec ${pkgs.rofi}/bin/rofi -show combi";
+      "${cfg.modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu -p \"Run:\" -l 10 | ${pkgs.findutils}/bin/xargs ${pkgs.sway}/bin/swaymsg exec";
 
+      # change focus
+      "${cfg.modifier}+h" = "focus left";
+      "${cfg.modifier}+j" = "focus down";
+      "${cfg.modifier}+k" = "focus up";
+      "${cfg.modifier}+l" = "focus right";
       "${cfg.modifier}+Left" = "focus left";
       "${cfg.modifier}+Down" = "focus down";
       "${cfg.modifier}+Up" = "focus up";
       "${cfg.modifier}+Right" = "focus right";
+      "${cfg.modifier}+g" = "focus next";
+      "${cfg.modifier}+Shift+g" = "focus prev";
 
+      "${cfg.modifier}+Mod1+h" = "workspace prev_on_output";
+      "${cfg.modifier}+Mod1+l" = "workspace next_on_output";
+      "${cfg.modifier}+Mod1+Left" = "workspace prev_on_output";
+      "${cfg.modifier}+Mod1+Right" = "workspace next_on_output";
+
+      # move focused window
+      "${cfg.modifier}+Shift+h" = "move left";
+      "${cfg.modifier}+Shift+j" = "move down";
+      "${cfg.modifier}+Shift+k" = "move up";
+      "${cfg.modifier}+Shift+l" = "move right";
       "${cfg.modifier}+Shift+Left" = "move left";
       "${cfg.modifier}+Shift+Down" = "move down";
       "${cfg.modifier}+Shift+Up" = "move up";
@@ -95,12 +111,26 @@ let
 
       "${cfg.modifier}+f" = "fullscreen toggle";
 
-      "${cfg.modifier}+s" = "layout stacking";
-      "${cfg.modifier}+w" = "layout tabbed";
-      "${cfg.modifier}+e" = "layout toggle split";
+      # change layouts with mod+,.-
+      "${cfg.modifier}+comma" = "layout stacking";
+      "${cfg.modifier}+period" = "layout tabbed";
+      "${cfg.modifier}+minus" = "layout toggle split";
 
+      # toggle floating
       "${cfg.modifier}+Shift+space" = "floating toggle";
+
+      # swap focus between tiling and floating windows
       "${cfg.modifier}+space" = "focus mode_toggle";
+
+      # move focus to parent container
+      "${cfg.modifier}+a" = "focus parent";
+
+      # move windows in and out of the scratchpad
+      "${cfg.modifier}+Shift+t" = "move scratchpad";
+      "${cfg.modifier}+t" = "scratchpad show";
+
+      # cycle through border styles
+      "${cfg.modifier}+b" = "border toggle";
 
       # "Space-Hack" to fix the ordering in the generated config file
       # This prevents that i3 uses this order: 10, 1, 2, ...
@@ -126,14 +156,20 @@ let
       "${cfg.modifier}+Shift+9" = "move container to workspace $ws9";
       "${cfg.modifier}+Shift+0" = "move container to workspace $ws10";
 
+      "${cfg.modifier}+Control+Mod1+h" = "move container to workspace prev_on_output";
+      "${cfg.modifier}+Control+Mod1+l" = "move container to workspace next_on_output";
+      "${cfg.modifier}+Control+Mod1+Left" = "move container to workspace prev_on_output";
+      "${cfg.modifier}+Control+Mod1+Right" = "move container to workspace next_on_output";
+
       "${cfg.modifier}+Shift+r" = if cfg.mode == "i3" then "restart" else "reload";
 
-      "${cfg.modifier}+r" = "mode resize";
+      "${cfg.modifier}+r" = "mode \"resize\"";
+      "${cfg.modifier}+w" = "mode \"window\"";
 
       "${cfg.modifier}+Shift+Delete" = "exec ${lockCmd}";
       "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${cwdCmd}`"}";
       "${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
-      "${cfg.modifier}+Shift+t" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
+      "${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
 
       "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
       "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
@@ -159,16 +195,9 @@ let
       "XF86AudioPrev" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl previous";
       "${cfg.modifier}+Shift+n" = mkIf cfg.audio.enable "exec ${pkgs.playerctl}/bin/playerctl previous";
 
-      "${cfg.modifier}+h" = "focus left";
       "${cfg.modifier}+Shift+u" = "resize shrink width 20 px or 20 ppt";
-
-      "${cfg.modifier}+j" = "focus down";
       "${cfg.modifier}+Shift+i" = "resize shrink height 20 px or 20 ppt";
-
-      "${cfg.modifier}+k" = "focus up";
       "${cfg.modifier}+Shift+o" = "resize grow height 20 px or 20 ppt";
-
-      "${cfg.modifier}+l" = "focus right";
       "${cfg.modifier}+Shift+p" = "resize grow width 20 px or 20 ppt";
 
       "${cfg.modifier}+Home" = "workspace 1";
@@ -184,13 +213,14 @@ let
 
       "${cfg.modifier}+Shift+e" = ''mode "${exit_mode}"'';
 
-      "${cfg.modifier}+numbersign" = "split horizontal;; exec ${term.exec "" "`${cwdCmd}`"}";
-      "${cfg.modifier}+minus" = "split vertical;; exec ${term.exec "" "`${cwdCmd}`"}";
+      #"${cfg.modifier}+numbersign" = "split horizontal;; exec ${term.exec "" "`${cwdCmd}`"}";
+      #"${cfg.modifier}+minus" = "split vertical;; exec ${term.exec "" "`${cwdCmd}`"}";
 
-      "${cfg.modifier}+a" = ''[class="Firefox"] scratchpad show'';
-      "${cfg.modifier}+b" = ''[class="Firefox"] scratchpad show'';
+      #"${cfg.modifier}+a" = ''[class="Firefox"] scratchpad show'';
+      #"${cfg.modifier}+b" = ''[class="Firefox"] scratchpad show'';
 
-      # Take a screenshot
+      # screenshots
+      "Print" = ''exec ${pkgs.grim}/bin/grim -t png ~/Pocket/Screenshots/$(${pkgs.coreutils}/bin/date +"%Y-%m-%d_%H:%M:%S.png")'';
       "${cfg.modifier}+Ctrl+Shift+4" = mkIf (builtins.elem "office" cfg.profiles) (
         if cfg.flameshot.enable
         then "exec ${pkgs.flameshot}/bin/flameshot gui"
@@ -233,6 +263,20 @@ let
       "l" = "resize shrink height 10 px or 10 ppt";
       "odiaeresis" = "resize grow width 10 px or 10 ppt";
     };
+
+    # vim-style window splits and resizing after hitting mod+w
+    window = {
+      "s" = "split v; mode \"default\"";
+      "v" = "split h; mode \"default\"";
+      "Shift+comma" = "resize shrink width 10 ppt or 10 px";
+      "Shift+period" = "resize grow width 10 ppt or 10 px";
+      "Shift+equal" = "resize grow height 10 ppt or 10 px";
+      "Shift+minus" = "resize shrink height 10 ppt or 10 px";
+
+      # leave window mode
+      "Return" = "mode \"default\"";
+      "Escape" = "mode \"default\"";
+    };
   };
 
   # to get the class of a window run `xprop WM_CLASS` and click on the window
@@ -242,10 +286,10 @@ let
     #  command = ''floating enable, move to scratchpad'';
     #  criteria.instance = "scratch-term";
     #}
-    {
-      criteria.class = "Firefox";
-      command = "floating enable, resize set 90 ppt 90 ppt, move position center, move to scratchpad, scratchpad show";
-    }
+    #{
+    #  criteria.class = "Firefox";
+    #  command = "floating enable, resize set 90 ppt 90 ppt, move position center, move to scratchpad, scratchpad show";
+    #}
     {
       criteria.class = ".blueman-manager-wrapped";
       command = "floating enable";
@@ -341,8 +385,8 @@ let
         #minishift
         cachix
         pyenv
-        docker_compose
-        kakoune
+        #docker_compose
+        #kakoune
       ];
     "fpv" = pkgs: with pkgs; [
       betaflight-configurator
@@ -1397,13 +1441,6 @@ in
               };
             };
 
-            programs.rofi = {
-              enable = true;
-              font = "${cfg.fontSans} ${toString cfg.fontSize}";
-              theme = "solarized_alternate";
-              terminal = term.binary;
-            };
-
             home.sessionVariables = {
               PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
               QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
@@ -1468,6 +1505,7 @@ in
               {
                 enable = true;
                 settings = {
+                  env.TERM = "xterm-256color";
                   font = {
                     normal = {
                       family = cfg.fontMono;
