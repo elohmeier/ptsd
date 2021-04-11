@@ -30,6 +30,10 @@ in
     defaultShell = "fish";
   };
 
+  ptsd.nwbackup = {
+    paths = [ "/home" ];
+  };
+
   services.hardware.bolt.enable = true;
 
   # workaround random wifi drops
