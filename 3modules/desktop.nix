@@ -977,12 +977,6 @@ in
                   layer = "top";
                   position = "bottom";
                   height = 21;
-                  #output = [
-                  #  "DP-3"
-                  #  "DP-4"
-                  #  "eDP-1"
-                  #  "HDMI-A-1"
-                  #];
                   modules-left = [ "sway/workspaces" "sway/mode" ];
                   modules-center = [
                   ];
@@ -1053,7 +1047,9 @@ in
                       format-alt = "{time} {icon}";
                       format-icons = [ "" "" "" "" "" ];
                     };
-                    clock.format-alt = "{:%a, %d. %b  %H:%M}";
+                    clock = {
+                      format = "{:%a, %d. %b  %H:%M}";
+                    };
                     network = {
                       format-wifi = "{essid} ({signalStrength}%) ";
                       format-ethernet = "{ifname}: {ipaddr}/{cidr} ";
