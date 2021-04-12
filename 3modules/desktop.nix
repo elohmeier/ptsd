@@ -460,14 +460,12 @@ let
         aspellDicts.en
         aspellDicts.en-computers
         aspellDicts.en-science
-
         hunspellDicts.de-de
         hunspellDicts.en-gb-large
         hunspellDicts.en-us-large
-
         mumble
         noisetorch
-
+        tg
         tdesktop
         (drawio.overrideAttrs (oldAttrs: {
           # fix wrong file handling in default desktop file for file manager integration
