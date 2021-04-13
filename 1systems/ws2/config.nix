@@ -22,6 +22,10 @@ in
 
   # ptsd.fraamdb = {
   #   enable = true;
+  #   devSrc = "/home/enno/repos/fraamdb";
+  #   debug = true;
+  #   domain = "127.0.0.1";
+  #   httpsOnly = false;
   # };
 
   home-manager = {

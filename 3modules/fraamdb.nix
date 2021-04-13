@@ -4,14 +4,16 @@ with lib;
 let
   cfg = config.ptsd.fraamdb;
   gitRef = (lib.importJSON ./fraamdb.json);
-  src = pkgs.fetchgit {
-    url = "https://git.fraam.de/fraam/fraamdb.git";
-    rev = "refs/tags/${gitRef.version}";
-    sha256 = gitRef.sha256;
-  };
-  #src = pkgs.nix-gitignore.gitignoreSourcePure [ /home/enno/repos/fraamdb/.gitignore ] /home/enno/repos/fraamdb;
+  src =
+    if cfg.devSrc == "" then
+      pkgs.fetchgit
+        {
+          url = "https://git.fraam.de/fraam/fraamdb.git";
+          rev = "refs/tags/${gitRef.version}";
+          sha256 = gitRef.sha256;
+        } else pkgs.nix-gitignore.gitignoreSourcePure [ "${cfg.devSrc}/.gitignore" ] cfg.devSrc;
   fraamdb = pkgs.callPackage (src) { };
-  pyenv = fraamdb.python.withPackages (ps: [ fraamdb ps.gunicorn ]);
+  pyenv = fraamdb.dependencyEnv; # gunicorn is included in project dependencies
   manage = pkgs.writeShellScript "fraamdb-manage" ''
     export DJANGO_SETTINGS_MODULE="fraamdb.settings";    
     export DATABASE_URL="sqlite:////var/lib/fraamdb/fraamdb.sqlite";
@@ -30,7 +32,17 @@ in
       };
       entryPoints = mkOption {
         type = with types; listOf str;
-        default = [ "loopback6-http" "loopback6-https" ];
+        default = [ ];
+      };
+      devSrc = mkOption {
+        type = types.str;
+        default = "";
+        example = "/home/enno/repos/fraamdb";
+      };
+      debug = mkEnableOption "debug";
+      httpsOnly = mkOption {
+        type = types.bool;
+        default = true;
       };
     };
   };
@@ -49,8 +61,8 @@ in
         DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
         ALLOWED_HOSTS = cfg.domain;
         STATIC_ROOT = fraamdb.static;
-        DEBUG = "0";
-        HTTPS_ONLY = "1";
+        DEBUG = if cfg.debug then "1" else "0";
+        HTTPS_ONLY = if cfg.httpsOnly then "1" else "0";
       };
 
       preStart = ''
@@ -70,6 +82,7 @@ in
       serviceConfig = {
         EnvironmentFile = "/var/src/secrets/fraamdb.env";
         DynamicUser = true;
+        User = "fraamdb"; # needs to be set for shared uid
         CapabilityBoundingSet = "cap_net_bind_service";
         LockPersonality = true;
         RestrictAddressFamilies = "AF_INET AF_INET6";
@@ -78,7 +91,42 @@ in
       };
     };
 
-    ptsd.nwtraefik.services = [
+    systemd.services.fraamdb-importtimesheets = {
+      description = "fraamdb import timesheets";
+      wantedBy = [ "multi-user.target" ];
+      wants = [ "network.target" ];
+      after = [ "network.target" ];
+
+      environment = {
+        DJANGO_SETTINGS_MODULE = "fraamdb.settings";
+        PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
+        DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
+      };
+
+      preStart = ''
+        if [[ $(readlink /var/lib/fraamdb/manage) != "${manage}" ]]; then
+          ln -sf "${manage}" /var/lib/fraamdb/manage
+        fi
+      '';
+
+      script = ''
+        ${pyenv}/bin/manage.py migrate
+        ${pyenv}/bin/manage.py importtimesheets 3
+        ${pyenv}/bin/manage.py updatebalances
+      '';
+
+      serviceConfig = {
+        DynamicUser = true;
+        User = "fraamdb"; # needs to be set for shared uid
+        NoNewPrivileges = true;
+        LockPersonality = true;
+        StateDirectory = "fraamdb";
+      };
+
+      startAt = "*-*-* 06:00:00";
+    };
+
+    ptsd.nwtraefik.services = mkIf (cfg.entryPoints != [ ]) [
       {
         name = "fraamdb";
         rule = "Host(`${cfg.domain}`)";
