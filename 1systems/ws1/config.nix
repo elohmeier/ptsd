@@ -25,7 +25,7 @@ in
     ./qemu.nix
   ];
 
-  #boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
+  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
   boot.kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
   boot.extraModprobeConfig = ''
     options kvm ignore_msrs=1
@@ -101,6 +101,8 @@ in
 
     bridges.br0.interfaces = [ "enp39s0" ];
     interfaces.br0.useDHCP = true;
+
+    # hosts."10.129.127.250" = [ "s3.bucket.htb" "bucket.htb" ];
   };
 
   systemd.network.networks."40-br0".routes = [
@@ -112,6 +114,16 @@ in
       };
     }
   ];
+
+  # services.resolved = {
+  #   enable = true;
+  #   dnssec = "false";
+  #   extraConfig = ''
+  #     [Resolve]
+  #     DNS=127.0.0.1:5053
+  #     Domains=~htb
+  #   '';
+  # };
 
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
