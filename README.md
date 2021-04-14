@@ -1,7 +1,5 @@
 # ptsd
 
-[![Build Status](https://ci.nerdworks.de/api/badges/nerdworks/ptsd/status.svg)](https://ci.nerdworks.de/nerdworks/ptsd)
-
 Public [Nix](https://nixos.org/nix/) configurations.
 
 

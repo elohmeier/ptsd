@@ -11,7 +11,7 @@ in
       <ptsd/2configs/nwhost.nix>
       <ptsd/2configs/nerdworks-www.nix>
       <ptsd/2configs/nwgit.nix>
-      <ptsd/2configs/drone-ci.nix>
+      #<ptsd/2configs/drone-ci.nix>
       <ptsd/2configs/wdplaner.nix>
       <ptsd/2configs/prometheus/node.nix>
 
@@ -21,6 +21,18 @@ in
 
       <secrets-shared/nwsecrets.nix>
     ];
+
+  ptsd.nwbackup = {
+    enable = true;
+    paths = [
+      "/var/lib/drone-server"
+      "/var/lib/gitea"
+      "/var/lib/postgresql"
+      "/var/lib/wdplaner"
+      "/var/lib/wdplaner-bak-20190620"
+      "/var/www"
+    ];
+  };
 
   networking = {
     useNetworkd = true;
@@ -94,7 +106,7 @@ in
       in
       [
         (crt "nerdworks.de")
-        (crt "ci.nerdworks.de")
+        #(crt "ci.nerdworks.de")
         (crt "git.nerdworks.de")
         (crt "luisarichter.de")
       ];
@@ -116,12 +128,12 @@ in
         postRun = "systemctl restart traefik.service";
       };
 
-      "ci.nerdworks.de" = {
-        webroot = config.ptsd.nwacme.http.webroot;
-        credentialsFile = envFile "ci.nerdworks.de";
-        group = "certs";
-        postRun = "systemctl restart traefik.service";
-      };
+      # "ci.nerdworks.de" = {
+      #   webroot = config.ptsd.nwacme.http.webroot;
+      #   credentialsFile = envFile "ci.nerdworks.de";
+      #   group = "certs";
+      #   postRun = "systemctl restart traefik.service";
+      # };
 
       "git.nerdworks.de" = {
         webroot = config.ptsd.nwacme.http.webroot;
