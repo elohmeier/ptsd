@@ -169,7 +169,8 @@ let
       "${cfg.modifier}+Shift+Delete" = "exec ${lockCmd}";
       "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${cwdCmd}`"}";
       "${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
-      "${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
+      "${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm";
+      #"${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
 
       "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
       "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
