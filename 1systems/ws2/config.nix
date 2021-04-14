@@ -76,6 +76,10 @@ in
       externalInterface = "wlan0";
       internalInterfaces = [ virshNatIf ];
     };
+
+    #  hosts = {
+    #    "10.129.120.124" = [ "forum.bart.htb" "bart.htb" "monitor.bart.htb" "internal-01.bart.htb" ];
+    #  };
   };
 
   systemd.network = {

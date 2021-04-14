@@ -444,6 +444,7 @@ let
         fava
         anki
         sylpheed
+        claws-mail
         #zoom-us
         #nerdworks-motivation
         keepassxc
