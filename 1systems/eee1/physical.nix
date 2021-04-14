@@ -38,6 +38,16 @@
     fsType = "ext4";
   };
 
+  fileSystems."/var/lib/octoprint/generated" = {
+    fsType = "tmpfs";
+    options = [ "size=100M" "mode=1644" ];
+  };
+
+  fileSystems."/var/lib/octoprint/logs" = {
+    fsType = "tmpfs";
+    options = [ "size=100M" "mode=1644" ];
+  };
+
   fileSystems."/var/src" = {
     device = "/dev/sysVG/var-src";
     fsType = "ext4";
