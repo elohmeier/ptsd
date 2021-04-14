@@ -407,6 +407,22 @@
       syncthing.id = "7BIKFUR-AV4WN5J-UGPEVCW-2W3MNDP-AKNHCFJ-6LZABHY-KKICNRF-CMVDHQF";
     };
 
+    rpi4-raspbian = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.52";
+          aliases = [
+            "rpi4-raspbian.nw"
+          ];
+          wireguard.pubkey = "GRdTVaSXOVLTLRGy3kvA8+CAnolD3wHQIajXlQqBnCg=";
+        };
+      };
+      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkQvZfYfhJ/NglEuHVIDFaJKuDIMYziO6BQqiOl5b+/ ";
+      ssh.privkey.path = <secrets/ssh.id_ed25519>;
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK1TBjIy5NiktNEnZv4Zp5btRuZZlKzEh6hZEdvEztfr ";
+      #syncthing.id = "ZWP5S3V-O6T4AAV-LFD63E3-Z36YHGW-TVL5OMC-WZT4W5B-BX7PXPC-J3YSDAG";
+    };
+
     rpi5 = {
       nets = {
         nwvpn = {
