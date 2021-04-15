@@ -2,7 +2,6 @@
 
 {
   imports = [
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix> # don't remove, wifi will be lost :-)
     <nixos-hardware/lenovo/thinkpad/x280>
   ];
 
@@ -39,7 +38,7 @@
     # "i8042.dumpkbd"
   ];
 
-  hardware.firmware = with pkgs; [ wireless-regdb ];
+  hardware.firmware = with pkgs; [ wireless-regdb firmwareLinuxNonfree ];
   boot.extraModprobeConfig = ''
     options cfg80211 ieee80211_regdom="DE"
   '';

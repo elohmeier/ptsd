@@ -1,6 +1,6 @@
 { writeShellScriptBin, symlinkJoin, borgbackup, pass, targetName, targetHost }:
 let
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ../../2configs/universe.nix;
 
   backup-script = writeShellScriptBin "nwbackup-osx-${targetName}" ''
     set -e

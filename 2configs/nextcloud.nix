@@ -2,7 +2,7 @@
 
 with lib;
 let
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ./universe.nix;
 
   domain = "nextcloud.services.nerdworks.de";
   nextcloudUid = 131; # unused as of 19.09, old docker uid

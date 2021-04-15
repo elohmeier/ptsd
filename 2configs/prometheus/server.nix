@@ -2,7 +2,7 @@
 
 with lib;
 let
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = ../universe.nix;
   vpnNodes = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
   blackboxGenericScrapeConfig = {
     scrape_interval = "60s";

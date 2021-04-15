@@ -1,6 +1,6 @@
 { writers, pass, qrencode }:
 let
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ../../2configs/universe.nix;
 in
 writers.writeDashBin "nwvpn-plain" ''
   set -e

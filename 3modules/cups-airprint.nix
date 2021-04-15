@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.ptsd.cups-airprint;
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ../2configs/universe.nix;
 in
 {
   options = {

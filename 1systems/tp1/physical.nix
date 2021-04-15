@@ -7,7 +7,7 @@ in
   imports =
     [
       ./config.nix
-      <ptsd/2configs/hw/tp-x280.nix>
+      ../../2configs/hw/tp-x280.nix
     ];
 
   system.stateVersion = "19.09";

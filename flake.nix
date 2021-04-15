@@ -9,12 +9,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-
-    secrets.url = "/home/enno/repos/ptsd/dummy-secrets";
-    secrets.flake = false;
   };
 
-  outputs = { self, nixpkgs, home-manager, secrets, ... }: {
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }: {
 
     packages.x86_64-linux.cachix = nixpkgs.legacyPackages.x86_64-linux.cachix;
 
@@ -29,6 +26,15 @@
         modules = [
           ./1systems/eee1/physical.nix
           #home-manager.nixosModules.home-manager
+        ];
+      };
+
+      tp1 = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
+          ./1systems/tp1/physical.nix
+          home-manager.nixosModule
+          nixos-hardware.nixosModules.lenovo-thinkpad-x280
         ];
       };
 

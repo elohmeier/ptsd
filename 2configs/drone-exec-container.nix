@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   hostconfig = config;
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ./universe.nix;
 in
 {
   ptsd.secrets.files = {

@@ -12,7 +12,7 @@ let
     sshPubKeys.sshPub.enno_yubi49
     sshPubKeys.sshPub.drone_exec_runner_ws1
   ];
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ./universe.nix;
 in
 {
   imports = [

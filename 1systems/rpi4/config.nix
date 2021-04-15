@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ../../2configs/universe.nix;
   tinypilot = pkgs.python3Packages.callPackage <ptsd/5pkgs/tinypilot> { };
 in
 {

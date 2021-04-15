@@ -5,7 +5,7 @@ let
   lanIf2 = "enp2s0";
   lanIf3 = "enp3s0";
   brlanIf = "brlan";
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ../../2configs/universe.nix;
 in
 {
   imports = [

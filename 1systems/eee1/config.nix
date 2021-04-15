@@ -57,7 +57,7 @@ with lib;
 
   ptsd.nwtraefik =
     let
-      universe = import <ptsd/2configs/universe.nix>;
+      universe = import ../../2configs/universe.nix;
     in
     {
       enable = true;

@@ -6,7 +6,7 @@ let
     "enp2s0"
     "enp3s0"
   ];
-  universe = import <ptsd/2configs/universe.nix>;
+  universe = import ../../2configs/universe.nix;
 in
 {
   imports = [
