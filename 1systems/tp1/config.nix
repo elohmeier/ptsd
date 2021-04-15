@@ -50,6 +50,7 @@ in
     terminalConfig = "alacritty";
     waybar.enable = true;
     profiles = [
+      "3dprinting"
       "admin"
       "dev"
       "fpv"
