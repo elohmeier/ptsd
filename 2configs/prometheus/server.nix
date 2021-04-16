@@ -210,17 +210,17 @@ in
           }
         ];
       })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_drone";
-        params.module = [ "http_drone" ];
-        static_configs = [
-          {
-            targets = [
-              "https://ci.nerdworks.de"
-            ];
-          }
-        ];
-      })
+      # (blackboxGenericScrapeConfig // {
+      #   job_name = "blackbox_http_drone";
+      #   params.module = [ "http_drone" ];
+      #   static_configs = [
+      #     {
+      #       targets = [
+      #         "https://ci.nerdworks.de"
+      #       ];
+      #     }
+      #   ];
+      # })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_gitlab";
         params.module = [ "http_gitlab" ];
@@ -334,16 +334,16 @@ in
             };
           };
 
-          http_drone = {
-            prober = "http";
-            timeout = "2s";
-            http = {
-              fail_if_not_ssl = true;
-              fail_if_body_not_matches_regexp = [
-                "Drone"
-              ];
-            };
-          };
+          # http_drone = {
+          #   prober = "http";
+          #   timeout = "2s";
+          #   http = {
+          #     fail_if_not_ssl = true;
+          #     fail_if_body_not_matches_regexp = [
+          #       "Drone"
+          #     ];
+          #   };
+          # };
 
           http_gitlab = {
             prober = "http";
