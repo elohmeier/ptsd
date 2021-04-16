@@ -345,6 +345,7 @@ let
       prusa-slicer
     ];
     "admin" = pkgs: with pkgs; [
+      tigervnc
       ethtool
       git
       gnupg
