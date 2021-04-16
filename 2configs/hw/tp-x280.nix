@@ -1,10 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [
-    <nixos-hardware/lenovo/thinkpad/x280>
-  ];
-
   # WIP (needs more testing)
   # environment.etc."libinput/touchpad.quirks".text = lib.generators.toINI { } {
   #   "Touchpad pressure override" = {

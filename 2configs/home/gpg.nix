@@ -36,7 +36,7 @@
       "awsbuilder" = {
         hostname = "35.157.132.66";
         user = "admin";
-        identityFile = "${toString <secrets/ssh.id_ed25519>}";
+        identityFile = "/var/src/secrets/ssh.id_ed25519";
       };
     };
   };

@@ -1,9 +1,9 @@
 { config, lib, pkgs, ... }:
 
 # Tools you probably would not add to an ISO image
-let
-  dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
-in
+# let
+#   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
+# in
 {
   #imports = [
   #  <ptsd/2configs/home/irssi.nix>
@@ -51,11 +51,11 @@ in
     dfeet
   ];
 
-  home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
-    rm -rf $HOME/.config/obs-studio/plugins
-    mkdir -p $HOME/.config/obs-studio/plugins
-    ln -sf ${pkgs.obs-v4l2sink}/share/obs/obs-plugins/v4l2sink $HOME/.config/obs-studio/plugins/v4l2sink
-  '';
+  # home.activation.linkObsPlugins = dag.dagEntryAfter [ "writeBoundary" ] ''
+  #   rm -rf $HOME/.config/obs-studio/plugins
+  #   mkdir -p $HOME/.config/obs-studio/plugins
+  #   ln -sf ${pkgs.obs-v4l2sink}/share/obs/obs-plugins/v4l2sink $HOME/.config/obs-studio/plugins/v4l2sink
+  # '';
 
   programs.chromium = {
     enable = true;

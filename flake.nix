@@ -2,13 +2,10 @@
   description = "ptsd";
 
   inputs = {
-
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    home-manager.url = "github:nix-community/home-manager/master";
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
+    home-manager.url = github:nix-community/home-manager/master;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware.url = github:NixOS/nixos-hardware/master;
   };
 
   outputs = { self, nixpkgs, home-manager, nixos-hardware, ... }: {

@@ -6,10 +6,6 @@ let
 in
 {
   imports = [
-    <secrets-shared/nwsecrets.nix>
-    <ptsd/2configs/home-secrets.nix>
-
-    <home-manager/nixos>
     ../..
     ../../2configs
     #../../2configs/awscli.nix
@@ -22,6 +18,8 @@ in
     ../../2configs/mfc7440n.nix
     ../../2configs/prometheus/node.nix
 
+    # <secrets-shared/nwsecrets.nix>
+    # ../../2configs/home-secrets.nix
   ];
 
   ptsd.cli = {
