@@ -8,12 +8,12 @@
     port = config.ptsd.nwtraefik.ports.octoprint;
     plugins = plugins: with plugins; [
       printtimegenius
-      (callPackage <ptsd/5pkgs/octoprint-plugins/telegram.nix> { })
+      (callPackage ../5pkgs/octoprint-plugins/telegram.nix { })
       curaenginelegacy
       gcodeeditor
       octoklipper
-      (callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
-      (callPackage <ptsd/5pkgs/octoprint-plugins/m73progress.nix> { })
+      (callPackage ../5pkgs/octoprint-plugins/bedlevelvisualizer.nix { })
+      (callPackage ../5pkgs/octoprint-plugins/m73progress.nix { })
     ];
     extraConfig = {
       plugins = {

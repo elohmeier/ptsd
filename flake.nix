@@ -22,7 +22,7 @@
         system = "i686-linux";
         modules = [
           ./1systems/eee1/physical.nix
-          #home-manager.nixosModules.home-manager
+          home-manager.nixosModule
         ];
       };
 

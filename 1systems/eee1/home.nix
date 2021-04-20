@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
-    <ptsd/2configs/home>
+    ../../2configs/home
   ];
+
+  home.stateVersion = "20.09";
 }

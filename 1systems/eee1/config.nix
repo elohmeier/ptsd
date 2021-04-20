@@ -6,13 +6,7 @@ with lib;
     ../../2configs
     ../../2configs/nwhost-mini.nix
     ../../2configs/prometheus/node.nix
-
-    <secrets/wifi.nix>
-    <secrets-shared/nwsecrets.nix>
-
     ../../2configs/octoprint-klipper-ender3.nix
-
-    <home-manager/nixos>
   ];
 
   # nix = {
@@ -107,6 +101,13 @@ with lib;
     interfaces.enp4s0.useDHCP = true;
     interfaces.wlp1s0.useDHCP = true;
     wireless.enable = true;
+  };
+
+  ptsd.secrets.files = {
+    "wpa_supplicant.conf" = {
+      dependants = [ "wpa_supplicant.service" ];
+      path = "/etc/wpa_supplicant.conf";
+    };
   };
 
   systemd.network.networks = {

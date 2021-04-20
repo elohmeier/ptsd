@@ -1,7 +1,7 @@
 {
   imports = [
     ./config.nix
-    <ptsd/2configs/hw/eee901.nix>
+    ../../2configs/hw/eee901.nix
   ];
 
   system.stateVersion = "21.05";
