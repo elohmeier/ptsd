@@ -8,8 +8,8 @@ before_script:
   - nix build .#cachix -o cachix
   - ./cachix/bin/cachix use fraam
 
-build eee1:
+build tp1:
   stage: build
   script:
-  - nix build .#nixosConfigurations.eee1.config.system.build.toplevel
-
+  - nix build .#nixosConfigurations.tp1.config.system.build.toplevel
+  - ./cachix/bin/cachix push fraam result
