@@ -3,7 +3,9 @@
 # pylint: disable=C0116
 
 import argparse
+import base64
 import logging
+import re
 import requests
 from telegram import Update
 from telegram.ext import Updater, CommandHandler, CallbackContext
@@ -22,7 +24,7 @@ def start(update: Update, _: CallbackContext) -> None:
     update.message.reply_text("Hi! Use /set <seconds> to set a timer")
 
 
-def alarm(context: CallbackContext) -> None:
+def impfcode_alarm(context: CallbackContext) -> None:
     """Send the alarm message."""
     job = context.job
 
@@ -32,7 +34,7 @@ def alarm(context: CallbackContext) -> None:
             headers={
                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36",
             },
-            timeout=1,
+            timeout=3,
         )
 
         if res.status_code != 429:  # usual response: too many requests
@@ -41,6 +43,41 @@ def alarm(context: CallbackContext) -> None:
             )
     except Exception as ex:
         context.bot.send_message(job.context, text=f"alarm failed: {ex}")
+
+
+def termin_alarm_factory(impfcode: str):
+    def alarm(context: CallbackContext) -> None:
+        job = context.job
+
+        try:
+            res = requests.get(
+                "https://353-iz.impfterminservice.de/rest/suche/impfterminsuche?plz=20357",
+                headers={
+                    "Authorization": "Basic %s"
+                    % base64.encodebytes(b":%s" % impfcode.encode()).decode().strip(),
+                    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36",
+                },
+                timeout=3,
+            )
+
+            if res.status_code == 200:
+                nothing_available = {
+                    "gesuchteLeistungsmerkmale": ["L920", "L921"],
+                    "termine": [],
+                    "termineTSS": [],
+                    "praxen": {},
+                }
+                if res.json() != nothing_available:
+                    context.bot.send_message(job.context, text=res.json())
+            else:
+                context.bot.send_message(
+                    job.context, text=f"{res.status_code}: {res.content}"
+                )
+
+        except Exception as ex:
+            context.bot.send_message(job.context, text=f"alarm failed: {ex}")
+
+    return alarm
 
 
 def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
@@ -55,17 +92,29 @@ def remove_job_if_exists(name: str, context: CallbackContext) -> bool:
 
 def set_timer(update: Update, context: CallbackContext) -> None:
     """Add a job to the queue."""
+    if update.message is None:
+        return
+
     chat_id = update.message.chat_id
     try:
         # args[0] should contain the time for the timer in seconds
         interval = int(context.args[0])
+        impfcode = context.args[1]
         if interval < 0:
             update.message.reply_text("Sorry we can not go back to future!")
             return
 
+        if re.match(r"^\w{4}-\w{4}-\w{4}$", impfcode) is None:
+            update.message.reply_text("Sorry, invalid impfcode!")
+            return
+
         job_removed = remove_job_if_exists(str(chat_id), context)
         context.job_queue.run_repeating(
-            alarm, interval=interval, first=3, context=chat_id, name=str(chat_id)
+            termin_alarm_factory(impfcode),
+            interval=interval,
+            first=3,
+            context=chat_id,
+            name=str(chat_id),
         )
 
         text = "Timer successfully set!"
