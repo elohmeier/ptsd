@@ -16,16 +16,19 @@ let
 in
 {
   imports = [
+    # {
+    #   users.users =
+    #     mapAttrs
+    #       (_: h: { hashedPassword = h; })
+    #       (import <secrets/hashedPasswords.nix>);
+    # }
     {
-      users.users =
-        mapAttrs
-          (_: h: { hashedPassword = h; })
-          (import <secrets/hashedPasswords.nix>);
-    }
-    {
+      # make sure the /var/src fs is marked for early mounting with
+      # neededForBoot = true
       users.users = {
         root = {
           openssh.authorizedKeys.keys = authorizedKeys;
+          passwordFile = "/var/src/secrets/root.passwd";
         };
 
         mainUser = {
@@ -39,6 +42,7 @@ in
           extraGroups =
             [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" "dialout" ];
           openssh.authorizedKeys.keys = authorizedKeys;
+          passwordFile = "/var/src/secrets/mainUser.passwd";
         };
       };
     }
