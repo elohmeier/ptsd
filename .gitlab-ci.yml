@@ -8,14 +8,20 @@ before_script:
   - nix build .#cachix -o cachix
   - ./cachix/bin/cachix use fraam
 
-build eee1:
+build ffmpeg:
   stage: build
   script:
-  - nix build .#nixosConfigurations.eee1.config.system.build.toplevel
-  - ./cachix/bin/cachix push fraam result
+  - nix build .#ffmpeg -o ffmpeg
+  - ./cachix/bin/cachix push fraam ffmpeg
 
-build tp1:
-  stage: build
-  script:
-  - nix build .#nixosConfigurations.tp1.config.system.build.toplevel
-  - ./cachix/bin/cachix push fraam result
+#build eee1:
+#  stage: build
+#  script:
+#  - nix build .#nixosConfigurations.eee1.config.system.build.toplevel
+#  - ./cachix/bin/cachix push fraam result
+
+#build tp1:
+#  stage: build
+#  script:
+#  - nix build .#nixosConfigurations.tp1.config.system.build.toplevel
+#  - ./cachix/bin/cachix push fraam result
