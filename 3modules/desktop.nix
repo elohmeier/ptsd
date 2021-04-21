@@ -677,6 +677,8 @@ in
       };
     };
 
+    boot.supportedFilesystems = [ "exfat" ]; # canon sd card
+
     security.pam.services.lightdm.enableGnomeKeyring = mkIf (builtins.elem "office" cfg.profiles) true;
     services.gnome3.gnome-keyring.enable = mkIf (builtins.elem "office" cfg.profiles) true;
 
