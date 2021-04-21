@@ -26,8 +26,8 @@
                 nonfreeLicensing = true;
                 fdkaacExtlib = true;
                 qtFaststartProgram = false;
-              }
-            ;
+              };
+            nwhass = pkgs.callPackage ./5pkgs/nwhass { };
           };
         })
     // {
