@@ -4,6 +4,7 @@
 
 import argparse
 import base64
+import datetime
 import logging
 import re
 import requests
@@ -16,6 +17,9 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
+
+
+TERMINE = []
 
 
 # Define a few command handlers. These usually take the two arguments update and
@@ -61,14 +65,28 @@ def termin_alarm_factory(impfcode: str):
             )
 
             if res.status_code == 200:
-                nothing_available = {
-                    "gesuchteLeistungsmerkmale": ["L920", "L921"],
-                    "termine": [],
-                    "termineTSS": [],
-                    "praxen": {},
-                }
-                if res.json() != nothing_available:
-                    context.bot.send_message(job.context, text=res.json())
+                res_data = res.json()
+                termine = [
+                    [datetime.datetime.fromtimestamp(s["begin"] // 1000) for s in p]
+                    for p in res_data["termine"]
+                ]
+
+                for t in termine:
+                    if t not in TERMINE:
+                        TERMINE.append(t)
+                        context.bot.send_message(
+                            job.context,
+                            text=f"Neues Terminpaar: {t[0]:%d.%m.%Y %H:%M} und {t[1]:%d.%m.%Y %H:%M}",
+                        )
+
+                # nothing_available = {
+                #     "gesuchteLeistungsmerkmale": ["L920", "L921"],
+                #     "termine": [],
+                #     "termineTSS": [],
+                #     "praxen": {},
+                # }
+                # if res.json() != nothing_available:
+                #     context.bot.send_message(job.context, text=res.json())
             else:
                 context.bot.send_message(
                     job.context, text=f"{res.status_code}: {res.content}"
