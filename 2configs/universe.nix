@@ -422,7 +422,7 @@
       #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK1TBjIy5NiktNEnZv4Zp5btRuZZlKzEh6hZEdvEztfr ";
 
       #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICaUCru8yO/jnBrJDaFfw83/I5pcBRIorVFgZwT14vnA"; # raspbian
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK00PgV0MQP8NyvoP8j6WoEL9iIXG9GoG2j8Jup5CBIv"; # pikvm
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXGVhKcu7EU6DsSm8un8DBTqz+ElIDhvB1jHnUmApnt"; # pikvm
       #syncthing.id = "ZWP5S3V-O6T4AAV-LFD63E3-Z36YHGW-TVL5OMC-WZT4W5B-BX7PXPC-J3YSDAG";
     };
 
