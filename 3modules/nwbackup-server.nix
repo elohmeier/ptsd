@@ -24,6 +24,7 @@ let
       openssh.authorizedKeys.keys = map (mkAuthorizedKey name client) [ client.borg.pubkey sshPubKeys.sshPub.enno_yubi41 sshPubKeys.sshPub.enno_yubi49 ];
       useDefaultShell = true;
       group = "borg";
+      isSystemUser = true;
     };
     groups."borg" = { };
   };
