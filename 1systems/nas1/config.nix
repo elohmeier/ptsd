@@ -190,21 +190,21 @@ in
           };
         };
       };
-      "www.nerdworks.de" = {
-        listen = [
-          {
-            addr = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
-            port = 12345; # fpv folder share
-          }
-        ];
-        locations."/" = {
-          alias = "/tank/enc/public-www/";
-          extraConfig = ''
-            fancyindex on;
-            fancyindex_exact_size off;
-          '';
-        };
-      };
+      # "www.nerdworks.de" = {
+      #   listen = [
+      #     {
+      #       addr = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
+      #       port = 12345; # fpv folder share
+      #     }
+      #   ];
+      #   locations."/" = {
+      #     alias = "/tank/enc/public-www/";
+      #     extraConfig = ''
+      #       fancyindex on;
+      #       fancyindex_exact_size off;
+      #     '';
+      #   };
+      # };
     };
   };
 
@@ -256,11 +256,13 @@ in
       in
       [
         (crt "nas1.lan.nerdworks.de")
+        (crt "alerts.services.nerdworks.de")
         (crt "grafana.services.nerdworks.de")
         (crt "hass.services.nerdworks.de")
         (crt "monica.services.nerdworks.de")
         (crt "nextcloud.services.nerdworks.de")
         (crt "octoprint.services.nerdworks.de")
+        (crt "prometheus.services.nerdworks.de")
       ];
   };
 
@@ -273,6 +275,13 @@ in
         '';
       in
       {
+        "alerts.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "alerts.services.nerdworks.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
         "grafana.services.nerdworks.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "grafana.services.nerdworks.de";
@@ -304,6 +313,13 @@ in
         "octoprint.services.nerdworks.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "octoprint.services.nerdworks.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "prometheus.services.nerdworks.de" = {
+          dnsProvider = "acme-dns";
+          credentialsFile = envFile "prometheus.services.nerdworks.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };

@@ -45,6 +45,7 @@ in
 
   services.prometheus = {
     enable = true;
+    port = config.ptsd.nwtraefik.ports.prometheus;
     extraFlags = [
       "--storage.tsdb.retention.time 720h" # 30d
     ];
@@ -478,7 +479,12 @@ in
       {
         name = "alertmanager";
         entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
-        rule = "Host(`nas1.host.nerdworks.de`)";
+        rule = "Host(`alerts.services.nerdworks.de`)";
+      }
+      {
+        name = "prometheus";
+        entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
+        rule = "Host(`prometheus.services.nerdworks.de`)";
       }
     ];
   };

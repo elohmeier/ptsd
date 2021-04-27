@@ -353,6 +353,7 @@ in
         prometheus-node = 10023;
         prometheus-gitlab = 10024;
         fraamdb = 10025;
+        prometheus = 10026; # server
       };
     }
     (
