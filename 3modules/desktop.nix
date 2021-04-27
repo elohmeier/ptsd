@@ -426,6 +426,7 @@ let
       pulseeffects-pw
       wf-recorder
       art
+      exiftool
     ];
     "office" = pkgs: with pkgs;
       let
