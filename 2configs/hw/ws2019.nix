@@ -23,6 +23,7 @@
     kernelModules = [ "kvm-amd" "wl" ];
   };
 
+  console.font = "${pkgs.terminus_font}/share/consolefonts/ter-v24n.psf.gz";
   console.keyMap = "de-latin1";
 
   environment.systemPackages = with pkgs; [ clinfo vulkan-tools ];
