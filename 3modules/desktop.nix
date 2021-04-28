@@ -637,6 +637,26 @@ in
 
   config = mkIf cfg.enable {
 
+    nixpkgs.config.packageOverrides = pkgs: {
+      xdg-desktop-portal-wlr = pkgs.xdg-desktop-portal-wlr.overrideAttrs (oldAttrs: rec {
+        # TODO: remove when https://github.com/NixOS/nixpkgs/pull/120996 is merged
+        version = "0.3.0";
+        src = pkgs.fetchFromGitHub {
+          owner = "emersion";
+          repo = oldAttrs.pname;
+          rev = "v${version}";
+          sha256 = "sha256-6ArUQfWx5rNdpsd8Q22MqlpxLT8GTSsymAf21zGe1KI=";
+        };
+        buildInputs = oldAttrs.buildInputs ++ [ pkgs.iniparser pkgs.scdoc ];
+
+        # TODO: remove when https://github.com/NixOS/nixpkgs/pull/120879 is merged
+        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.makeWrapper ];
+        postInstall = ''
+          wrapProgram $out/libexec/xdg-desktop-portal-wlr --prefix PATH ":" ${pkgs.grim}/bin
+        '';
+      });
+    };
+
     security.sudo.extraRules = lib.mkAfter [
       {
         users = [ config.users.users.mainUser.name ];
@@ -693,6 +713,26 @@ in
     security.polkit.enable = true;
 
     virtualisation.spiceUSBRedirection.enable = mkIf (builtins.elem "kvm" cfg.profiles) true;
+
+    environment.variables = {
+      PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
+      QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
+      TERMINAL = term.binary;
+      IMLIB2_LOADER_PATH = "${pkgs.imlib2-heic}/imlib2/loaders";
+    } // optionalAttrs
+      (cfg.mode == "sway")
+      {
+        SDL_VIDEODRIVER = "wayland";
+        QT_QPA_PLATFORM = "wayland";
+        QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+        # Fix for some Java AWT applications (e.g. Android Studio),
+        # use this if they aren't displayed properly:
+        _JAVA_AWT_WM_NONREPARENTING = "1";
+        XDG_CURRENT_DESKTOP = "sway";
+        XDG_SESSION_TYPE = "wayland";
+        MOZ_ENABLE_WAYLAND = "1";
+        MOZ_USE_XINPUT2 = "1";
+      };
 
     environment.systemPackages = with pkgs; [
       term.package
@@ -1448,27 +1488,6 @@ in
                 package = pkgs.gnome-themes-standard;
               };
             };
-
-            home.sessionVariables = {
-              PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
-              QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
-              TERMINAL = term.binary;
-              IMLIB2_LOADER_PATH = "${pkgs.imlib2-heic}/imlib2/loaders";
-            } // optionalAttrs
-              (cfg.mode == "sway")
-              {
-                SDL_VIDEODRIVER = "wayland";
-                QT_QPA_PLATFORM = "wayland";
-                QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-                # Fix for some Java AWT applications (e.g. Android Studio),
-                # use this if they aren't displayed properly:
-                _JAVA_AWT_WM_NONREPARENTING = "1";
-                XDG_CURRENT_DESKTOP = "sway";
-                XDG_SESSION_TYPE = "wayland";
-                MOZ_ENABLE_WAYLAND = "1";
-                MOZ_USE_XINPUT2 = "1";
-              };
-
 
             wayland.windowManager.sway = mkIf
               (cfg.mode == "sway")
