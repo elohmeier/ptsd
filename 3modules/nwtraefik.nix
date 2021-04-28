@@ -381,7 +381,8 @@ in
 
         systemd.services.traefik = {
           description = "Traefik web server";
-          after = [ "network-online.target" ];
+          wants = [ "network.target" ];
+          after = [ "network.target" ];
           wantedBy = [ "multi-user.target" ];
           serviceConfig = {
             ExecStart = ''${cfg.package}/bin/traefik --configfile=${configFile "traefik-static-conf.toml" staticConfigOptions}'';
