@@ -6,8 +6,8 @@ in
 {
   imports = [
     ./config.nix
-    <ptsd/2configs/hw/ws2019.nix>
-    <ptsd/2configs/luks-ssh-unlock.nix>
+    ../../2configs/hw/ws2019.nix
+    ../../2configs/luks-ssh-unlock.nix
   ];
 
   # fix often full /boot directory
@@ -57,6 +57,7 @@ in
     {
       device = "${vgPrefix}/var-src";
       fsType = "ext4";
+      neededForBoot = true; # mount early for passwd provisioning
     };
 
   fileSystems."/var/lib/docker" =

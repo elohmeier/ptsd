@@ -5,31 +5,50 @@ let
 in
 {
   imports = [
-    <ptsd>
-    <ptsd/2configs>
-    <ptsd/2configs/awscli.nix>
-    <ptsd/2configs/cli-tools.nix>
-    <ptsd/2configs/gcalcli.nix>
-    <ptsd/2configs/nwhost.nix>
-    <ptsd/2configs/stateless-root.nix>
+    ../..
+    ../../2configs
+    #../../2configs/awscli.nix
+    ../../2configs/cli-tools.nix
+    #../../2configs/gcalcli.nix
+    ../../2configs/nwhost.nix
+    ../../2configs/stateless-root.nix
 
-    <ptsd/2configs/themes/nerdworks.nix>
-    <ptsd/2configs/mfc7440n.nix>
-    <ptsd/2configs/prometheus/node.nix>
+    ../../2configs/themes/fraam.nix
+    ../../2configs/mfc7440n.nix
+    ../../2configs/prometheus/node.nix
 
-    <secrets-shared/nwsecrets.nix>
-    <ptsd/2configs/home-secrets.nix>
-
-    <home-manager/nixos>
+    # <secrets-shared/nwsecrets.nix>
+    # ../../2configs/home-secrets.nix
 
     ./qemu.nix
   ];
+  boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
+
+  # Use the systemd-boot EFI boot loader.
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 
   boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
   boot.kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
   boot.extraModprobeConfig = ''
     options kvm ignore_msrs=1
   '';
+
+  systemd.services.wol-eth0 = {
+    description = "Wake-on-LAN for enp39s0";
+    requires = [ "network.target" ];
+    after = [ "network.target" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp39s0 wol g"; # magicpacket
+    };
+  };
+
+
+  # sample to pass USB access to VM
+  # see https://github.com/NixOS/nixpkgs/issues/27199
+  # SUBSYSTEM=="usb", ATTR{idVendor}=="072f", ATTR{idProduct}=="90cc", GROUP="users", MODE="0777"
 
   ptsd.cli = {
     enable = true;
@@ -129,6 +148,7 @@ in
   # not using DHCP here, because we might receive a different address than post-initrd.
   boot.kernelParams = [
     "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off"
+    "mitigations=off" # make linux fast again
   ];
 
   ptsd.wireguard.networks = {
@@ -180,6 +200,22 @@ in
     ];
   };
 
+
+  services.xserver = {
+    # set DPI
+    dpi = 150;
+    displayManager = {
+      sessionCommands = ''
+        ${pkgs.xorg.xrdb}/bin/xrdb -merge <<EOF
+          Xft.dpi: 150
+        EOF
+      '';
+
+      # turn on numlock in X11 by default
+      lightdm.extraSeatDefaults =
+        "greeter-setup-script=${pkgs.numlockx}/bin/numlockx on";
+    };
+  };
 
   services.printing.enable = true;
   services.printing.drivers = with pkgs; [ brlaser ];

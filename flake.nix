@@ -50,6 +50,14 @@
           ];
         };
 
+        ws1 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./1systems/ws1/physical.nix
+            home-manager.nixosModules.home-manager
+          ];
+        };
+
         ws2 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
