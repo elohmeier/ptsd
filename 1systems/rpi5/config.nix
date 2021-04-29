@@ -1,4 +1,3 @@
-with lib;
 { config, pkgs, ... }:
 let
   universe = import ../../2configs/universe.nix;

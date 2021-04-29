@@ -1,4 +1,3 @@
-with lib;
 { config, pkgs, ... }:
 let
   bridgeIfs = [
@@ -15,8 +14,17 @@ in
     ../../2configs/hardened.nix
     ../../2configs/nwhost.nix
     ../../2configs/prometheus/node.nix
-
   ];
+
+  ptsd.nwbackup = {
+    enable = true;
+    paths = [
+      "/var/lib/acme"
+      "/var/lib/hass"
+      "/var/lib/private/mosquitto"
+      "/var/src"
+    ];
+  };
 
   environment.systemPackages = with pkgs; [ htop tmux vim ];
 
@@ -39,10 +47,6 @@ in
         { routeConfig = { Destination = "192.168.178.0/24"; }; }
       ];
     };
-  };
-
-  ptsd.nwbackup = {
-    enable = true;
   };
 
   networking = {

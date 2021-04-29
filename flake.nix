@@ -53,6 +53,14 @@
           ];
         in
         {
+          apu2 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./1systems/apu2/physical.nix
+              home-manager.nixosModule
+            ];
+          };
+
           eee1 = nixpkgs.lib.nixosSystem {
             system = "i686-linux";
             modules = defaultModules ++ [
