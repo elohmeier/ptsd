@@ -58,6 +58,7 @@ in
       {
         device = "${vgPrefix}-var";
         fsType = "ext4";
+        neededForBoot = true; # mount early for passwd provisioning
       };
 
     "/var/lib/private/octoprint" = {
