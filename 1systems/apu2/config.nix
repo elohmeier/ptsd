@@ -74,7 +74,7 @@ in
 
   services.home-assistant = {
     enable = true;
-    package = pkgs.nwhass;
+    package = pkgs.home-assistant-variants.dlrg;
   };
 
   networking.firewall.allowedTCPPorts = [

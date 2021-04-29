@@ -5,7 +5,7 @@ in
 {
   services.home-assistant = {
     enable = true;
-    package = pkgs.nwhass;
+    package = pkgs.home-assistant-variants.bs53;
   };
 
   networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
