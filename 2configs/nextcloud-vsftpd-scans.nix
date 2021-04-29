@@ -63,8 +63,8 @@ in
   };
 
   security.pam.services.vsftpd.text = ''
-    auth required pam_userdb.so db=${config.ptsd.secrets.files."vsftpd-logins.db".path}
-    account required pam_userdb.so db=${config.ptsd.secrets.files."vsftpd-logins.db".path}
+    auth required pam_userdb.so db=${builtins.replaceStrings [".db"] [""] config.ptsd.secrets.files."vsftpd-logins.db".path}
+    account required pam_userdb.so db=${builtins.replaceStrings [".db"] [""] config.ptsd.secrets.files."vsftpd-logins.db".path}
   '';
 
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 21 ];
