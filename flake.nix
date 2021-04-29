@@ -32,47 +32,56 @@
         })
     // {
 
-      nixosConfigurations = {
-        eee1 = nixpkgs.lib.nixosSystem {
-          system = "i686-linux";
-          modules = [
-            ./1systems/eee1/physical.nix
-            home-manager.nixosModule
-          ];
-        };
+      nixosConfigurations =
+        let
+          defaultModules = [{
+            nix.nixPath = [
+              "home-manager=${home-manager}"
+              "nixpkgs=${nixpkgs}"
+            ];
+          }];
+        in
+        {
+          eee1 = nixpkgs.lib.nixosSystem {
+            system = "i686-linux";
+            modules = defaultModules ++ [
+              ./1systems/eee1/physical.nix
+              home-manager.nixosModule
+            ];
+          };
 
-        nas1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./1systems/nas1/physical.nix
-            home-manager.nixosModule
-          ];
-        };
+          nas1 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./1systems/nas1/physical.nix
+              home-manager.nixosModule
+            ];
+          };
 
-        tp1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./1systems/tp1/physical.nix
-            home-manager.nixosModule
-            nixos-hardware.nixosModules.lenovo-thinkpad-x280
-          ];
-        };
+          tp1 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./1systems/tp1/physical.nix
+              home-manager.nixosModule
+              nixos-hardware.nixosModules.lenovo-thinkpad-x280
+            ];
+          };
 
-        ws1 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./1systems/ws1/physical.nix
-            home-manager.nixosModules.home-manager
-          ];
-        };
+          ws1 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./1systems/ws1/physical.nix
+              home-manager.nixosModule
+            ];
+          };
 
-        ws2 = nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          modules = [
-            ./1systems/ws2/physical.nix
-            home-manager.nixosModules.home-manager
-          ];
+          ws2 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./1systems/ws2/physical.nix
+              home-manager.nixosModule
+            ];
+          };
         };
-      };
     };
 }

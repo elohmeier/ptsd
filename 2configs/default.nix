@@ -54,9 +54,6 @@ in
       git # required for krops
       kitty-terminfo
     ];
-    variables = {
-      NIX_PATH = mkForce "secrets=/var/src/ptsd/null:/var/src";
-    };
   };
 
   users.mutableUsers = false;

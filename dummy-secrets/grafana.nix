@@ -1,1 +1,0 @@
-{ adminUser = ""; adminPassword = ""; influxPassword = ""; }

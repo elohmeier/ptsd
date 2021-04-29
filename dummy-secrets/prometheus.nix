@@ -1,4 +1,0 @@
-{
-  hass_token = "";
-  fritzPassword = "";
-}
