@@ -5,4 +5,6 @@
   ];
 
   nixpkgs.config.allowUnfree = true; # required for unrar
+
+  home.stateVersion = "20.09";
 }

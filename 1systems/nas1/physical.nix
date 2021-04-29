@@ -5,8 +5,8 @@ in
 {
   imports = [
     ./config.nix
-    <ptsd/2configs/hw/nas2020.nix>
-    <ptsd/2configs/luks-ssh-unlock.nix>
+    ../../2configs/hw/nas2020.nix
+    ../../2configs/luks-ssh-unlock.nix
   ];
 
   system.stateVersion = "19.09";

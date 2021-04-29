@@ -5,29 +5,25 @@ let
 in
 {
   imports = [
-    <ptsd>
-    <ptsd/2configs>
-    <ptsd/2configs/cli-tools.nix>
-    #<ptsd/2configs/drone-exec-container.nix>
-    <ptsd/2configs/grafana.nix>
-    <ptsd/2configs/hardened.nix>
-    <ptsd/2configs/home-assistant.nix>
-    <ptsd/2configs/mfc7440n.nix>
-    <ptsd/2configs/nextcloud.nix>
-    <ptsd/2configs/nextcloud-vsftpd-scans.nix>
-    <ptsd/2configs/nwhost.nix>
+    ../..
+    ../../2configs
+    ../../2configs/cli-tools.nix
+    #../../2configs/drone-exec-container.nix
+    ../../2configs/grafana.nix
+    ../../2configs/hardened.nix
+    ../../2configs/home-assistant.nix
+    ../../2configs/mfc7440n.nix
+    ../../2configs/nextcloud.nix
+    ../../2configs/nextcloud-vsftpd-scans.nix
+    ../../2configs/nwhost.nix
     # TODO: fix tmp folder error
     # TODO: activate prometheus http monitoring
-    <ptsd/2configs/nwoctoprint.nix>
-    <ptsd/2configs/postgresql.nix>
-    <ptsd/2configs/prometheus/server.nix>
-    <ptsd/2configs/prometheus/node.nix>
+    ../../2configs/nwoctoprint.nix
+    ../../2configs/postgresql.nix
+    ../../2configs/prometheus/server.nix
+    ../../2configs/prometheus/node.nix
 
-    <secrets-shared/nwsecrets.nix>
-
-    #<ptsd/2configs/xrdp.nix>
-
-    <home-manager/nixos>
+    #../../2configs/xrdp.nix
   ];
 
   ptsd.nwbackup.enable = false;
@@ -355,8 +351,8 @@ in
       { config, pkgs, ... }:
       {
         imports = [
-          <ptsd>
-          <ptsd/2configs>
+          ../..
+          ../../2configs
         ];
 
         boot.isContainer = true;

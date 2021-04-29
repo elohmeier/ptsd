@@ -1,9 +1,16 @@
 { config, lib, pkgs, ... }:
 let
   domain = "grafana.services.nerdworks.de";
-  grafanaSecrets = import <secrets/grafana.nix>;
 in
 {
+  ptsd.secrets.files."grafana.adminPassword" = {
+    dependants = [ "grafana.service" ];
+    owner = "grafana";
+  };
+  ptsd.secrets.files."grafana.secretKey" = {
+    dependants = [ "grafana.service" ];
+    owner = "grafana";
+  };
 
   services.grafana =
     {
@@ -11,8 +18,9 @@ in
       port = config.ptsd.nwtraefik.ports.grafana;
       rootUrl = "https://${domain}/";
       security = {
-        adminUser = grafanaSecrets.adminUser;
-        adminPassword = grafanaSecrets.adminPassword;
+        adminUser = "enno";
+        adminPasswordFile = config.ptsd.secrets.files."grafana.adminPassword".path;
+        secretKeyFile = config.ptsd.secrets.files."grafana.secretKey".path;
       };
       provision = {
         enable = true;

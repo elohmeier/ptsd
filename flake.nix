@@ -41,6 +41,14 @@
           ];
         };
 
+        nas1 = nixpkgs.lib.nixosSystem {
+          system = "x86_64-linux";
+          modules = [
+            ./1systems/nas1/physical.nix
+            home-manager.nixosModule
+          ];
+        };
+
         tp1 = nixpkgs.lib.nixosSystem {
           system = "x86_64-linux";
           modules = [
