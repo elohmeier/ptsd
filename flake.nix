@@ -69,6 +69,22 @@
             ];
           };
 
+          htz2 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./1systems/htz2/physical.nix
+              home-manager.nixosModule
+            ];
+          };
+
+          htz3 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./1systems/htz3/physical.nix
+              home-manager.nixosModule
+            ];
+          };
+
           nas1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [

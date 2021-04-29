@@ -221,6 +221,7 @@ in
     intweb = {
       group = "nginx";
       shell = "/bin/sh";
+      isSystemUser = true;
       openssh.authorizedKeys.keys =
         let
           sshPubKeys = import ../../2configs/ssh-pubkeys.nix; in
