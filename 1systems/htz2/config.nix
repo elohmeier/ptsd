@@ -12,9 +12,19 @@ in
       ../../2configs/matrix.nix
       ../../2configs/nwhost.nix
       ../../2configs/prometheus/node.nix
-
-
     ];
+
+  ptsd.nwbackup = {
+    enable = true;
+    paths = [
+      "/var/lib/postgresql" # configure backup script
+      "/var/lib/matrix-synapse"
+      "/var/lib/acme"
+      "/var/lib/private/acme-dns"
+      "/var/lib/private/radicale"
+      "/var/lib/private/traefik"
+    ];
+  };
 
   networking = {
     useNetworkd = true;
