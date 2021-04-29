@@ -734,6 +734,7 @@ in
         MOZ_USE_XINPUT2 = "1";
       };
 
+    system.fsPackages = [ pkgs.ntfs3g ];
     environment.systemPackages = with pkgs; [
       term.package
       libinput

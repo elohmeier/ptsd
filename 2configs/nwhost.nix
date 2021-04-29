@@ -17,15 +17,14 @@ in
     enable = lib.mkDefault true;
   };
 
-  environment.systemPackages = [
-    pkgs."telegram.sh"
-    pkgs.dnsutils
-    pkgs.cryptsetup
-    pkgs.tmux
+  environment.systemPackages = with pkgs; [
+    "telegram.sh"
+    dnsutils
+    cryptsetup
+    ncdu
+    tmux
   ];
 
   programs.mosh.enable = lib.mkDefault true;
   services.fail2ban.enable = lib.mkDefault true;
-
-  system.fsPackages = [ pkgs.ntfs3g ];
 }
