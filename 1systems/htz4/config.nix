@@ -5,13 +5,13 @@ in
 {
   imports =
     [
-      <ptsd>
-      <ptsd/2configs>
-      <ptsd/2configs/hardened.nix>
-      <ptsd/2configs/nwhost-mini.nix>
-      <ptsd/2configs/prometheus/node.nix>
+      ../..
+      ../../2configs
+      ../../2configs/hardened.nix
+      ../../2configs/nwhost-mini.nix
+      ../../2configs/prometheus/node.nix
 
-      <secrets-shared/nwsecrets.nix>
+
     ];
 
   networking = {

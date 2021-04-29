@@ -6,7 +6,7 @@ in
 {
   imports = [
     ./config.nix
-    <ptsd/2configs/hw/nuc.nix>
+    ../../2configs/hw/nuc.nix
   ];
 
   system.stateVersion = "20.09";

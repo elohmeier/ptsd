@@ -47,7 +47,7 @@
   #     #     /dts-v1/;
   #     #     /plugin/;
 
-  #     #     /{
+  #     # ../..
   #     #       compatible = "brcm,bcm2835";
 
   #     #       fragment@0 {

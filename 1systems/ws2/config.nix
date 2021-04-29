@@ -16,9 +16,9 @@ in
 
     ../../2configs/prometheus/node.nix
 
-    <secrets-shared/nwsecrets.nix>
 
-    <home-manager/nixos>
+
+
   ];
 
   # ptsd.fraamdb = {

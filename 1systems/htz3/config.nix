@@ -6,15 +6,15 @@ in
 {
   imports =
     [
-      <ptsd>
-      <ptsd/2configs>
-      <ptsd/2configs/gitlab-runner-hcloud.nix>
-      <ptsd/2configs/hardened.nix>
-      <ptsd/2configs/nwhost-mini.nix>
-      <secrets-shared/nwsecrets.nix>
-      <ptsd/2configs/prometheus/node.nix>
+      ../..
+      ../../2configs
+      ../../2configs/gitlab-runner-hcloud.nix
+      ../../2configs/hardened.nix
+      ../../2configs/nwhost-mini.nix
 
-      <home-manager/nixos>
+      ../../2configs/prometheus/node.nix
+
+
     ];
 
   ptsd.nwbackup = {

@@ -18,7 +18,7 @@ in
     ../../2configs/mfc7440n.nix
     ../../2configs/prometheus/node.nix
 
-    # <secrets-shared/nwsecrets.nix>
+    # 
     # ../../2configs/home-secrets.nix
 
     ./qemu.nix

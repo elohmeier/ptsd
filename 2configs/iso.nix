@@ -26,9 +26,9 @@
     <ptsd/2configs/cli-tools.nix>
     <ptsd/2configs/tor-ssh.nix>
 
-    <secrets-shared/nwsecrets.nix>
 
-    <home-manager/nixos>
+
+
   ];
 
   # ISO naming.

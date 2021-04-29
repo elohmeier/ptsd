@@ -5,10 +5,10 @@ let
 in
 {
   imports = [
-    <ptsd/2configs/home>
-    <ptsd/2configs/home/extraTools.nix>
-    <ptsd/2configs/home/firefox.nix>
-    <ptsd/2configs/home/gpg.nix>
+    ../../2configs/home
+    ../../2configs/home/extraTools.nix
+    ../../2configs/home/firefox.nix
+    ../../2configs/home/gpg.nix
   ];
 
   # dual iiyama

@@ -9,11 +9,11 @@ let
 in
 {
   imports = [
-    <ptsd>
-    <ptsd/2configs>
-    <ptsd/2configs/nwhost-mini.nix>
-    <ptsd/2configs/prometheus/node.nix>
-    <secrets-shared/nwsecrets.nix>
+    ../..
+    ../../2configs
+    ../../2configs/nwhost-mini.nix
+    ../../2configs/prometheus/node.nix
+
   ];
 
   services.openssh = {

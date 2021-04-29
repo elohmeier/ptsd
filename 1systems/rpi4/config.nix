@@ -1,24 +1,24 @@
 { config, pkgs, ... }:
 let
   universe = import ../../2configs/universe.nix;
-  tinypilot = pkgs.python3Packages.callPackage <ptsd/5pkgs/tinypilot> { };
+  tinypilot = pkgs.python3Packages.callPackage ../5pkgs/tinypilot { };
 in
 {
   imports = [
-    <ptsd>
-    <ptsd/2configs>
-    <ptsd/2configs/nwhost-mini.nix>
-    <secrets-shared/nwsecrets.nix>
-    <ptsd/2configs/prometheus/node.nix>
+    ../..
+    ../../2configs
+    ../../2configs/nwhost-mini.nix
+
+    ../../2configs/prometheus/node.nix
 
     <secrets/wifi.nix>
 
-    <ptsd/2configs/cli-tools.nix>
-    # <ptsd/2configs/bluetooth.nix>
-    <ptsd/2configs/baseX.nix>
+    ../../2configs/cli-tools.nix
+    # ../../2configs/bluetooth.nix
+    ../../2configs/baseX.nix
 
-    <home-manager/nixos>
-    <ptsd/2configs/zsh-enable.nix>
+
+    ../../2configs/zsh-enable.nix
   ];
 
   services.resolved = {
@@ -30,8 +30,8 @@ in
     users.mainUser = { pkgs, ... }:
       {
         imports = [
-          <ptsd/2configs/home>
-          <ptsd/2configs/home/xsession-i3.nix>
+          ../../2configs/home
+          ../../2configs/home/xsession-i3.nix
         ];
 
         #       # ptsd.urxvt.enable = true;

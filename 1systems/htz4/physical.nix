@@ -5,7 +5,7 @@ in
 {
   imports = [
     ./config.nix
-    <ptsd/2configs/hw/hetzner-vm.nix>
+    ../../2configs/hw/hetzner-vm.nix
   ];
 
   fileSystems = {

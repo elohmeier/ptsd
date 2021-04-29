@@ -1,7 +1,9 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports = [ <nixpkgs/nixos/modules/profiles/qemu-guest.nix> ];
+  imports = [
+    (modulesPath + "/profiles/qemu-guest.nix")
+  ];
 
   boot.loader.grub = {
     enable = true;

@@ -5,21 +5,21 @@ in
 {
   imports =
     [
-      <ptsd>
-      <ptsd/2configs>
-      <ptsd/2configs/hardened.nix>
-      <ptsd/2configs/nwhost.nix>
-      <ptsd/2configs/nerdworks-www.nix>
-      <ptsd/2configs/nwgit.nix>
-      #<ptsd/2configs/drone-ci.nix>
-      <ptsd/2configs/wdplaner.nix>
-      <ptsd/2configs/prometheus/node.nix>
+      ../..
+      ../../2configs
+      ../../2configs/hardened.nix
+      ../../2configs/nwhost.nix
+      ../../2configs/nerdworks-www.nix
+      ../../2configs/nwgit.nix
+      #../2configs/drone-ci.nix
+      #../../2configs/wdplaner.nix
+      ../../2configs/prometheus/node.nix
 
       # TODO: upgrade geoip update script
       # see https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/
-      #<ptsd/2configs/nerdworks-www-stats.nix>
+      #../2configs/nerdworks-www-stats.nix
 
-      <secrets-shared/nwsecrets.nix>
+
     ];
 
   ptsd.nwbackup = {

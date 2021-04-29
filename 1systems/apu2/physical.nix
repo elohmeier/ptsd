@@ -1,7 +1,7 @@
 {
   imports = [
     ./config.nix
-    <ptsd/2configs/hw/apu2.nix>
+    ../../2configs/hw/apu2.nix
   ];
 
   fileSystems."/" =

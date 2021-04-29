@@ -4,7 +4,7 @@
 {
   imports = [
     ./config.nix
-    <ptsd/2configs/hw/apu1.nix>
+    ../../2configs/hw/apu1.nix
   ];
 
   fileSystems."/" = {

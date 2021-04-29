@@ -6,23 +6,23 @@ in
 {
   imports =
     [
-      <ptsd>
-      <ptsd/2configs>
-      <ptsd/2configs/awscli.nix>
-      <ptsd/2configs/cli-tools.nix>
-      <ptsd/2configs/gcalcli.nix>
-      <ptsd/2configs/nwhost.nix>
-      <ptsd/2configs/stateless-root.nix>
+      ../..
+      ../../2configs
+      ../../2configs/awscli.nix
+      ../../2configs/cli-tools.nix
+      ../../2configs/gcalcli.nix
+      ../../2configs/nwhost.nix
+      ../../2configs/stateless-root.nix
 
-      <ptsd/2configs/themes/fraam.nix>
-      <ptsd/2configs/prometheus/node.nix>
+      ../../2configs/themes/fraam.nix
+      ../../2configs/prometheus/node.nix
 
-      <secrets-shared/nwsecrets.nix>
-      <ptsd/2configs/home-secrets.nix>
 
-      <ptsd/2configs/octoprint-klipper-ender3.nix>
+      ../../2configs/home-secrets.nix
 
-      <home-manager/nixos>
+      ../../2configs/octoprint-klipper-ender3.nix
+
+
     ];
 
   ptsd.traggo.enable = true;
