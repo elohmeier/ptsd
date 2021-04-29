@@ -1517,12 +1517,12 @@ in
                   seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
                   mouse_warping none
                   exec ${pkgs.swayidle}/bin/swayidle -w \
-                      timeout 300 '${lockCmd}' \
-                      timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
-                      resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
-                      timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
-                      resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
-                      before-sleep '${lockCmd}'
+                    timeout 300 '${lockCmd}' \
+                    timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
+                    resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
+                    timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
+                    resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
+                    before-sleep '${lockCmd}'
                 '' + optionalString (cfg.backgroundImage != "") ''
                   output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
                 '';
