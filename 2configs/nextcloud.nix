@@ -26,8 +26,8 @@ let
       { config, pkgs, ... }:
       {
         imports = [
-          <ptsd>
-          <ptsd/2configs>
+          ../.
+          ./.
         ];
 
         boot.isContainer = true;

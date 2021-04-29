@@ -49,6 +49,7 @@ in
 
   services.prometheus = {
     enable = true;
+    checkConfig = false; # disabled because of potentially missing secret files (e.g. bearer_token_file) at build time
     port = config.ptsd.nwtraefik.ports.prometheus;
     extraFlags = [
       "--storage.tsdb.retention.time 720h" # 30d

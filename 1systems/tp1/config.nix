@@ -10,6 +10,7 @@ in
     ../../2configs
     #../../2configs/awscli.nix
     ../../2configs/cli-tools.nix
+    ../../2configs/desktop.nix
     #../../2configs/gcalcli.nix
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix

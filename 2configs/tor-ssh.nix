@@ -27,7 +27,7 @@
             echo "waiting for ${hsfile}"
             sleep 1
           done
-          ${pkgs."telegram.sh"}/bin/telegram "SSH Hidden Service for ${config.networking.hostName} at $(cat ${hsfile})"
+          ${pkgs.telegram-sh}/bin/telegram "SSH Hidden Service for ${config.networking.hostName} at $(cat ${hsfile})"
         '';
       PrivateTmp = true;
       User = "tor";

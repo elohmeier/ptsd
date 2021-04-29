@@ -8,12 +8,12 @@ let
   #   luisa
   #   luisa
   # '';
-  logins = <secrets/vsftpd-logins.txt>;
-  userDb =
-    pkgs.runCommand "userDb.db"
-      { preferLocalBuild = true; } ''
-      ${pkgs.db}/bin/db_load -T -t hash -f ${logins} $out
-    '';
+  # logins = <secrets/vsftpd-logins.txt>;
+  # userDb =
+  #   pkgs.runCommand "userDb.db"
+  #     { preferLocalBuild = true; } ''
+  #     ${pkgs.db}/bin/db_load -T -t hash -f ${logins} $out
+  #   '';
   cfg = {
     allow_writeable_chroot = "yes";
     anonymous_enable = "no";
@@ -41,7 +41,7 @@ let
   );
 in
 {
-  environment.etc."vsftpd/userDb.db".source = userDb;
+  # environment.etc."vsftpd/userDb.db".source = userDb;
 
   systemd.services.vsftpd = {
     description = "Vsftpd Server";
@@ -53,9 +53,18 @@ in
     };
   };
 
+  # security.pam.services.vsftpd.text = ''
+  #   auth required pam_userdb.so db=/etc/vsftpd/userDb
+  #   account required pam_userdb.so db=/etc/vsftpd/userDb
+  # '';
+
+  ptsd.secrets.files."vsftpd-logins.db" = {
+    dependants = [ "vsftpd.service" ];
+  };
+
   security.pam.services.vsftpd.text = ''
-    auth required pam_userdb.so db=/etc/vsftpd/userDb
-    account required pam_userdb.so db=/etc/vsftpd/userDb
+    auth required pam_userdb.so db=${config.ptsd.secrets.files."vsftpd-logins.db".path}
+    account required pam_userdb.so db=${config.ptsd.secrets.files."vsftpd-logins.db".path}
   '';
 
   networking.firewall.interfaces.br0.allowedTCPPorts = [ 21 ];

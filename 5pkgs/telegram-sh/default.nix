@@ -1,7 +1,7 @@
 { stdenv, lib, fetchFromGitHub, jq, curl, makeWrapper }:
 
-stdenv.mkDerivation rec {
-  pname = "telegram.sh-${version}";
+stdenv.mkDerivation {
+  pname = "telegram.sh";
   version = "0.0.1";
 
   src = fetchFromGitHub {

@@ -18,7 +18,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    "telegram.sh"
+    telegram-sh
     dnsutils
     cryptsetup
     ncdu

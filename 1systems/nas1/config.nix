@@ -341,7 +341,7 @@ in
     };
 
     config =
-      { config, pkgs, ... }:
+      { config, pkgs, inputs, ... }:
       {
         imports = [
           ../..
