@@ -79,13 +79,18 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # configure doom-emacs using `git clone https://github.com/hlissner/doom-emacs ~/.emacs.d` and run `~/.emacs.d/bin/doom install`
-  programs.emacs = {
+  # # configure doom-emacs using `git clone https://github.com/hlissner/doom-emacs ~/.emacs.d` and run `~/.emacs.d/bin/doom install`
+  # programs.emacs = {
+  #   enable = true;
+  # };
+
+  programs.doom-emacs = {
     enable = true;
+    doomPrivateDir = ../../src/doom.d;
   };
 
-  # Link emacs config to well-known path
-  home.file.".doom.d/config.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/config.el;
-  home.file.".doom.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/init.el;
-  home.file.".doom.d/packages.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/packages.el;
+  # # Link emacs config to well-known path
+  # home.file.".doom.d/config.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/doom.d/config.el;
+  # home.file.".doom.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/doom.d/init.el;
+  # home.file.".doom.d/packages.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/doom.d/packages.el;
 }

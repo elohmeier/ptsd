@@ -7,9 +7,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
+    nix-doom-emacs.url = "github:vlaci/nix-doom-emacs";
+    nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
+    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, flake-utils, ... }:
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, flake-utils, nix-doom-emacs, ... }:
 
     flake-utils.lib.eachDefaultSystem
       (system:
@@ -40,6 +43,14 @@
               "nixpkgs=${nixpkgs}"
             ];
           }];
+          desktopModules = [
+            home-manager.nixosModule
+            {
+              home-manager.users.mainUser = { ... }: {
+                imports = [ nix-doom-emacs.hmModule ];
+              };
+            }
+          ];
         in
         {
           eee1 = nixpkgs.lib.nixosSystem {
@@ -60,26 +71,23 @@
 
           tp1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = defaultModules ++ [
+            modules = defaultModules ++ desktopModules ++ [
               ./1systems/tp1/physical.nix
-              home-manager.nixosModule
               nixos-hardware.nixosModules.lenovo-thinkpad-x280
             ];
           };
 
           ws1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = defaultModules ++ [
+            modules = defaultModules ++ desktopModules ++ [
               ./1systems/ws1/physical.nix
-              home-manager.nixosModule
             ];
           };
 
           ws2 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = defaultModules ++ [
+            modules = defaultModules ++ desktopModules ++ [
               ./1systems/ws2/physical.nix
-              home-manager.nixosModule
             ];
           };
         };
