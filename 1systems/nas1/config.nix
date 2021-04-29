@@ -28,17 +28,10 @@ in
 
   ptsd.nwbackup.enable = false;
 
-  ptsd.monica =
-    let
-      monicaSecrets = import <secrets/monica.nix>;
-    in
-    {
-      enable = true;
-      appKey = monicaSecrets.appKey;
-      hashSalt = monicaSecrets.hashSalt;
-      mailPassword = monicaSecrets.mailPassword;
-      domain = "monica.services.nerdworks.de";
-    };
+  ptsd.monica = {
+    enable = true;
+    domain = "monica.services.nerdworks.de";
+  };
 
   home-manager = {
     users.mainUser = { ... }:

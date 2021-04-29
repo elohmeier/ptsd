@@ -46,14 +46,14 @@ let
   phpEnv = {
     APP_ENV = "production";
     APP_DEBUG = "\"false\"";
-    APP_KEY = "${cfg.appKey}";
+    # APP_KEY = "${cfg.appKey}";
     APP_STORAGE_PATH = "${cfg.dataDir}/storage";
     APP_SERVICES_CACHE = "${cfg.dataDir}/cache/services.php";
     APP_PACKAGES_CACHE = "${cfg.dataDir}/cache/packages.php";
     APP_CONFIG_CACHE = "${cfg.dataDir}/cache/config.php";
     APP_ROUTES_CACHE = "${cfg.dataDir}/cache/routes-v7.php";
     APP_EVENTS_CACHE = "${cfg.dataDir}/cache/events.php";
-    HASH_SALT = "${cfg.hashSalt}";
+    # HASH_SALT = "${cfg.hashSalt}";
     HASH_LENGTH = "18";
     APP_URL = "https://${cfg.domain}/";
     DB_CONNECTION = "mysql";
@@ -65,7 +65,7 @@ let
     MAIL_HOST = "smtp.dd24.net";
     MAIL_PORT = "25";
     MAIL_USERNAME = "info@nerdworks.de";
-    MAIL_PASSWORD = "${cfg.mailPassword}";
+    # MAIL_PASSWORD = "${cfg.mailPassword}";
     MAIL_ENCRYPTION = "TLS";
     MAIL_FROM_ADDRESS = "info@nerdworks.de";
     MAIL_FROM_NAME = "NerdCRM";
@@ -93,15 +93,16 @@ in
   options = {
     ptsd.monica = {
       enable = mkEnableOption "monica";
-      appKey = mkOption {
-        type = types.str;
-      };
-      hashSalt = mkOption {
-        type = types.str;
-      };
-      mailPassword = mkOption {
-        type = types.str;
-      };
+      # configured via EnvironmentFile
+      # appKey = mkOption {
+      #   type = types.str;
+      # };
+      # hashSalt = mkOption {
+      #   type = types.str;
+      # };
+      # mailPassword = mkOption {
+      #   type = types.str;
+      # };
       domain = mkOption {
         type = types.str;
       };
@@ -135,6 +136,11 @@ in
         "listen.group" = group;
       } // poolConfig;
     };
+
+    ptsd.secrets.files."monica.env" = {
+      dependants = [ "phpfpm-monica.service" ];
+    };
+    systemd.services.phpfpm-monica.serviceConfig.EnvironmentFile = config.ptsd.secrets.files."monica.env".path;
 
     # Uncomment for debugging purposes.
     # environment = {
