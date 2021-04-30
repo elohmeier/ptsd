@@ -20,6 +20,9 @@ writers.writeDashBin "gen-secrets" ''
   }
   EOF
 
+  cat $HASHED_PASSWORD > $TMPDIR/mainUser.passwd
+  cat $HASHED_PASSWORD > $TMPDIR/root.passwd
+
   cd $TMPDIR
   for x in *; do
     ${coreutils}/bin/cat $x | ${pass}/bin/pass insert -m hosts/$HOSTNAME/$x > /dev/null
