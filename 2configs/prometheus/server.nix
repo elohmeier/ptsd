@@ -39,6 +39,8 @@ let
 
 in
 {
+  users.groups.keys.members = [ "prometheus" ];
+
   ptsd.secrets.files."hass-token-nas1-prometheus" = {
     dependants = [ "prometheus.service" ];
     owner = "prometheus";
