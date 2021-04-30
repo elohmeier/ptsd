@@ -23,6 +23,7 @@
         in
         {
           packages = flake-utils.lib.flattenTree {
+            art = pkgs.callPackage ./5pkgs/art { };
             cachix = pkgs.cachix;
             ffmpeg =
               pkgs.ffmpeg-full.override {

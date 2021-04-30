@@ -8,6 +8,12 @@ before_script:
   - nix build .#cachix -o cachix
   - ./cachix/bin/cachix use fraam
 
+build art:
+  stage: build
+  script:
+  - nix build .#art -o art
+  - ./cachix/bin/cachix push fraam art
+
 build ffmpeg:
   stage: build
   script:
