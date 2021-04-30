@@ -77,6 +77,7 @@ in
       script
       script-init
       pkgs.python3Packages.keyring
+      pkgs.borgbackup
     ];
 
     environment.variables = {

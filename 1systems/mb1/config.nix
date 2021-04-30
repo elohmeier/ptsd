@@ -1,18 +1,16 @@
 { config, pkgs, ... }:
 let
-  vims = pkgs.callPackage <ptsd/2configs/vims.nix> { };
-  fetch-tinyscans = pkgs.callPackage <ptsd/5pkgs/fetch-tinyscans> { };
+  fetch-tinyscans = pkgs.callPackage ../../5pkgs/fetch-tinyscans { };
 in
 {
   imports = [
-    <ptsd/2configs/darwin>
+    ../../2configs/darwin
   ];
 
   networking.hostName = "mb1";
 
   environment.systemPackages = with pkgs; [
     nixpkgs-fmt
-    #vims.small
     vim
     fetch-tinyscans
   ];
