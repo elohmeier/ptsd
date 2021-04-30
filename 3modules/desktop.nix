@@ -1022,7 +1022,7 @@ in
 
             programs.waybar = mkIf cfg.waybar.enable {
               enable = true;
-              systemd.enable = true;
+              systemd.enable = false;
               settings = [
                 {
                   layer = "top";
@@ -1516,6 +1516,7 @@ in
                 extraConfig = extraConfig + ''
                   seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
                   mouse_warping none
+                  exec ${config.programs.waybar.package}/bin/waybar
                   exec ${pkgs.swayidle}/bin/swayidle -w \
                     timeout 300 '${lockCmd}' \
                     timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
