@@ -1,5 +1,4 @@
 [
-  "boottime"
   "cpu"
   "conntrack"
   "diskstats"
