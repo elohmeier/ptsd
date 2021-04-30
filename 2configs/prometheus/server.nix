@@ -39,9 +39,6 @@ let
 
 in
 {
-  # access via localhost
-  #networking.firewall.interfaces.nwvpn.allowedTCPPorts = [ 9090 9093 ];
-
   ptsd.secrets.files."hass-token-nas1-prometheus" = {
     dependants = [ "prometheus.service" ];
     owner = "prometheus";

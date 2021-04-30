@@ -46,7 +46,7 @@ in
           {
             name = "Prometheus";
             type = "prometheus";
-            url = "http://localhost:9090";
+            url = "http://localhost:${toString config.ptsd.nwtraefik.ports.prometheus}";
             isDefault = true;
           }
         ];
