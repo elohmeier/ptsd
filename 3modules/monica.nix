@@ -4,14 +4,6 @@ with lib;
 let
   cfg = config.ptsd.monica;
 
-  poolConfig = {
-    "pm" = "dynamic";
-    "pm.max_children" = 32;
-    "pm.start_servers" = 2;
-    "pm.min_spare_servers" = 2;
-    "pm.max_spare_servers" = 4;
-    "pm.max_requests" = 500;
-  };
   package = pkgs.monica.override { storagePath = "${cfg.dataDir}/storage"; };
 
   user = config.services.nginx.user;
@@ -46,14 +38,14 @@ let
   phpEnv = {
     APP_ENV = "production";
     APP_DEBUG = "\"false\"";
-    # APP_KEY = "${cfg.appKey}";
+    APP_KEY = "$APP_KEY";
     APP_STORAGE_PATH = "${cfg.dataDir}/storage";
     APP_SERVICES_CACHE = "${cfg.dataDir}/cache/services.php";
     APP_PACKAGES_CACHE = "${cfg.dataDir}/cache/packages.php";
     APP_CONFIG_CACHE = "${cfg.dataDir}/cache/config.php";
     APP_ROUTES_CACHE = "${cfg.dataDir}/cache/routes-v7.php";
     APP_EVENTS_CACHE = "${cfg.dataDir}/cache/events.php";
-    # HASH_SALT = "${cfg.hashSalt}";
+    HASH_SALT = "$HASH_SALT";
     HASH_LENGTH = "18";
     APP_URL = "https://${cfg.domain}/";
     DB_CONNECTION = "mysql";
@@ -65,7 +57,7 @@ let
     MAIL_HOST = "smtp.dd24.net";
     MAIL_PORT = "25";
     MAIL_USERNAME = "info@nerdworks.de";
-    # MAIL_PASSWORD = "${cfg.mailPassword}";
+    MAIL_PASSWORD = "$MAIL_PASSWORD";
     MAIL_ENCRYPTION = "TLS";
     MAIL_FROM_ADDRESS = "info@nerdworks.de";
     MAIL_FROM_NAME = "NerdCRM";
@@ -93,16 +85,6 @@ in
   options = {
     ptsd.monica = {
       enable = mkEnableOption "monica";
-      # configured via EnvironmentFile
-      # appKey = mkOption {
-      #   type = types.str;
-      # };
-      # hashSalt = mkOption {
-      #   type = types.str;
-      # };
-      # mailPassword = mkOption {
-      #   type = types.str;
-      # };
       domain = mkOption {
         type = types.str;
       };
@@ -134,7 +116,14 @@ in
         "listen.mode" = "0660";
         "listen.owner" = user;
         "listen.group" = group;
-      } // poolConfig;
+
+        "pm" = "dynamic";
+        "pm.max_children" = 32;
+        "pm.start_servers" = 2;
+        "pm.min_spare_servers" = 2;
+        "pm.max_spare_servers" = 4;
+        "pm.max_requests" = 500;
+      };
     };
 
     ptsd.secrets.files."monica.env" = {
@@ -178,6 +167,9 @@ in
         mkdir -p storage/framework/views
 
         php artisan monica:update --force -vv
+
+        # cleanup cache
+        rm -f cache/*
       '';
 
       serviceConfig = {
