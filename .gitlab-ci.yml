@@ -20,11 +20,11 @@ build ffmpeg:
   - nix build .#ffmpeg -o ffmpeg
   - ./cachix/bin/cachix push fraam ffmpeg
 
-build hass-bs53:
-  stage: build
-  script:
-  - nix build .#hass-bs53 -o hass-bs53
-  - ./cachix/bin/cachix push hass-bs53 hass-bs53
+# build hass-bs53:
+#   stage: build
+#   script:
+#   - nix build .#hass-bs53 -o hass-bs53
+#   - ./cachix/bin/cachix push hass-bs53 hass-bs53
 
 #build eee1:
 #  stage: build
