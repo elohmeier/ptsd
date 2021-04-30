@@ -22,6 +22,21 @@ in
     ];
   };
 
+  ptsd.node-exporter = {
+    enable = true;
+    listenAddress = "191.18.19.1";
+    enabledCollectors = [
+      "boottime"
+      "cpu"
+      "diskstats"
+      "filesystem"
+      "loadavg"
+      "meminfo"
+      "netdev"
+      "time"
+    ];
+  };
+
   programs.zsh.enable = true;
 
   # Used for backwards compatibility, please read the changelog before changing.

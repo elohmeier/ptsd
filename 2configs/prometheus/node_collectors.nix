@@ -1,4 +1,6 @@
 [
+  "boottime"
+  "cpu"
   "conntrack"
   "diskstats"
   "entropy"
