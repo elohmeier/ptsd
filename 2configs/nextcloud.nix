@@ -21,6 +21,7 @@ let
         isReadOnly = false;
       };
     };
+    timeoutStartSec = "5min"; # syncthing might run a lengthy db migration
 
     config =
       { config, pkgs, ... }:
@@ -66,6 +67,10 @@ let
             folders = values.folders;
           };
         };
+
+        # syncthing might run a lengthy db migration
+        systemd.services."syncthing-init.service".serviceConfig.TimeoutStartSec = "5min";
+        systemd.services."syncthing.service".serviceConfig.TimeoutStartSec = "5min";
       };
   };
 in
