@@ -139,6 +139,8 @@ in
 
   services.samba = {
     enable = true;
+    enableNmbd = false;
+    enableWinbindd = false;
     extraConfig = ''
       workgroup = WORKGROUP
       server string = ${config.networking.hostName}
@@ -171,7 +173,7 @@ in
     };
   };
 
-  users.users.scanner = { };
+  users.users.scanner = { isSystemUser = true; };
 
   virtualisation = {
     docker = {

@@ -6,7 +6,7 @@
     ../../2configs/home/firefox.nix
     ../../2configs/home/gpg.nix
   ];
-
+  home.stateVersion = "20.09";
   wayland.windowManager.sway = {
     #  extraConfig = ''
     #    output DP-1 pos 0 0 mode 2560x1440@74.924004Hz scale 1

@@ -48,6 +48,7 @@
   fileSystems."/var/src" = {
     device = "/dev/sysVG/var-src";
     fsType = "ext4";
+    neededForBoot = true; # mount early for passwd provisioning
   };
 
   boot.kernelParams = [
