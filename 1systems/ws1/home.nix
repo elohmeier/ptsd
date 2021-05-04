@@ -21,8 +21,8 @@
 
   wayland.windowManager.sway = {
     extraConfig = ''
-      output DP-4 pos 0 0 mode 3840x2160@59.997002Hz scale 1.859375
-      output DP-2 pos 2064 0 mode 3840x2160@59.997002Hz scale 1.859375
+      output DP-2 pos 0 0 mode 3840x2160@59.997002Hz scale 1.859375
+      output DP-4 pos 2064 0 mode 3840x2160@59.997002Hz scale 1.859375
     '';
 
     # extraConfig = ''
