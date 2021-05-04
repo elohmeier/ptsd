@@ -128,17 +128,14 @@ in
                 };
                 direnv = {
                   enable = true;
-                  enableZshIntegration = cfg.zsh.enable;
                 };
 
                 fzf = {
                   enable = true;
-                  enableZshIntegration = cfg.zsh.enable;
                 };
 
                 z-lua = {
                   enable = true;
-                  enableZshIntegration = cfg.zsh.enable;
                 };
 
                 fish = mkIf cfg.fish.enable {

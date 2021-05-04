@@ -34,6 +34,7 @@
             hass-bs53 = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).bs53;
             hass-dlrg = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).dlrg;
           };
+          devShell = import ./shell.nix { inherit pkgs; };
         })
     // {
 

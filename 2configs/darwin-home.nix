@@ -44,7 +44,7 @@ in
 
   programs.direnv = {
     enable = true;
-    enableZshIntegration = true;
+    enableNixDirenvIntegration = true;
   };
 
   programs.gpg.enable = true;
