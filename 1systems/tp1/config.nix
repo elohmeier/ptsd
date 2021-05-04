@@ -233,6 +233,8 @@ in
 
   services.samba = {
     enable = true;
+    enableNmbd = false;
+    enableWinbindd = false;
     securityType = "user";
     extraConfig = ''
       workgroup = WORKGROUP
