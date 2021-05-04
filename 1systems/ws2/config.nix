@@ -16,6 +16,7 @@ in
 
     ../../2configs/prometheus/node.nix
 
+    ../../2configs/octoprint-klipper-ender3.nix
 
 
 

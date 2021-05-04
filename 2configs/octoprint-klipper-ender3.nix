@@ -82,8 +82,7 @@
         rotation_distance = "8";
         endstop_pin = "probe:z_virtual_endstop";
         position_max = "250";
-        # position_min="-2"; # only for calibration
-        position_min = "-0.3"; # fix out of range error...
+        position_min = "-2"; # fix out of range error...
       };
 
       extruder = {
@@ -146,9 +145,9 @@
       bltouch = {
         sensor_pin = "^PC4";
         control_pin = "PA4";
-        x_offset = "-38";
-        y_offset = "1";
-        z_offset = "1.145"; # calibrated 05.02.2021
+        x_offset = "67"; # make sure to update bed_mesh
+        y_offset = "0";
+        z_offset = "1.4"; # calibrated 04.05.2021
         speed = "5.0";
       };
 
@@ -160,14 +159,60 @@
       bed_mesh = {
         speed = "200";
         horizontal_move_z = "5";
-        mesh_min = "10,30";
-        mesh_max = "180, 230";
+        #mesh_min = "10,30";
+        mesh_min = "77,30"; # added bltouch offsets
+        #mesh_max = "180, 230";
+        mesh_max = "217,230"; # added bltouch offsets
         probe_count = "3,3";
       };
 
-      "gcode_macro G29" = {
-        gcode = "\n BED_MESH_CALIBRATE";
-      };
+      # prevent M205 warnings
+      "gcode_macro M205".gcode = "\n  G4";
+
+      # use this start code in prusa slicer:
+      # START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
+      "gcode_macro START_PRINT".gcode = ''
+        ''\n''\t{% set BED_TEMP = params.BED_TEMP|default(60)|float %}
+        ''\t{% set EXTRUDER_TEMP = params.EXTRUDER_TEMP|default(190)|float %}
+        ''\t# Start bed heating
+        ''\tM140 S{BED_TEMP}
+        ''\t# Use absolute coordinates
+        ''\tG90
+        ''\t# Reset the G-Code Z offset (adjust Z offset if needed)
+        ''\tSET_GCODE_OFFSET Z=0.0
+        ''\t# Home the printer
+        ''\tG28
+        ''\tBED_MESH_CALIBRATE
+        ''\tBED_MESH_OUTPUT
+        ''\tG1 Z30 F240
+        ''\tG1 X28 Y30 F3000
+        ''\t# Wait for bed to reach temperature
+        ''\tM190 S{BED_TEMP}
+        ''\t# Set and wait for nozzle to reach temperature
+        ''\tM109 S{EXTRUDER_TEMP}
+        ''\tG1 Z0.28 F240
+        ''\tG92 E0
+        ''\tG1 Y160 E10 F1500 ; intro line
+        ''\tG1 X28.3 F5000
+        ''\tG92 E0
+        ''\tG1 Y30 E10 F1200 ; intro line
+        ''\tG92 E0
+      '';
+
+      "gcode_macro END_PRINT".gcode = ''
+        ''\n''\t# Turn off bed, extruder, and fan
+        ''\tM140 S0
+        ''\tM104 S0
+        ''\tM106 S0
+        ''\t# Move nozzle away from print while retracting
+        ''\tG91
+        ''\tG1 X-2 Y-2 E-3 F300
+        ''\t# Raise nozzle by 10mm
+        ''\tG1 Z10 F3000
+        ''\tG90
+        ''\t# Disable steppers
+        ''\tM84
+      '';
     };
   };
 }
