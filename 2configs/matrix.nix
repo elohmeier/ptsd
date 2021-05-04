@@ -29,6 +29,28 @@ in
     ];
   };
 
+  ptsd.secrets.files = {
+    "mautrix-telegram.env" = {
+      dependants = [ "mautrix-telegram.service" ];
+    };
+  };
+
+  services.mautrix-telegram = {
+    enable = true;
+    environmentFile = config.ptsd.secrets.files."mautrix-telegram.env".path;
+    settings = {
+      homeserver = {
+        address = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.synapse}";
+        domain = "nerdworks.de";
+      };
+
+      bridge.permissions = {
+        "nerdworks.de" = "full";
+        "@enno:nerdworks.de" = "admin";
+      };
+    };
+  };
+
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_11;

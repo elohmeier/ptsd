@@ -459,6 +459,7 @@ let
         py3.pkgs.davphonebook
         teams
         zoom-us
+        element-desktop
         aspell
         aspellDicts.de
         aspellDicts.en
