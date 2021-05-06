@@ -40,12 +40,12 @@
 
   fileSystems."/var/lib/octoprint/generated" = {
     fsType = "tmpfs";
-    options = [ "size=100M" "mode=1644" ];
+    options = [ "size=100M" "mode=1666" ];
   };
 
   fileSystems."/var/lib/octoprint/logs" = {
     fsType = "tmpfs";
-    options = [ "size=100M" "mode=1644" ];
+    options = [ "size=100M" "mode=1666" ];
   };
 
   fileSystems."/var/src" = {
