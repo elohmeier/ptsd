@@ -76,9 +76,9 @@ in
         { config, pkgs, ... }:
         {
           imports = [
-            <ptsd>
-            <ptsd/2configs>
-            <ptsd/2configs/fraam-wordpress.nix>
+            ../.
+            ../2configs
+            ../2configs/fraam-wordpress.nix
           ];
 
           boot.isContainer = true;
@@ -161,9 +161,11 @@ in
       }
     ];
 
+    ptsd.secrets.files."traefik-forward-auth.env" = { };
+
     ptsd.traefik-forward-auth = {
       enable = true;
-      envFile = toString <secrets/traefik-forward-auth.env>;
+      envFile = config.ptsd.secrets.files."traefik-forward-auth.env".path;
     };
 
     system.activationScripts.initialize-fraam-www = stringAfter [ "users" "groups" ] ''

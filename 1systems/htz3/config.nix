@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 let
   universe = import ../../2configs/universe.nix;
-  bwSecrets = import <secrets/bitwarden.nix>;
 in
 {
   imports =
@@ -13,8 +12,6 @@ in
       ../../2configs/nwhost-mini.nix
 
       ../../2configs/prometheus/node.nix
-
-
     ];
 
   ptsd.nwbackup = {
@@ -243,7 +240,6 @@ in
     domain = "vault.fraam.de";
     entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" "loopback4-https" ];
     extraConfig = {
-      adminToken = bwSecrets.adminToken;
       smtpHost = "smtp-relay.gmail.com";
       smtpPort = 587;
       smtpSSL = true;

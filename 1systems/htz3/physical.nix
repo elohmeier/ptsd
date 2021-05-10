@@ -48,6 +48,7 @@ in
   fileSystems."/var/src" = {
     device = "${vgPrefix}-var--src";
     fsType = "ext4";
+    neededForBoot = true; # mount early for passwd provisioning
   };
 
   fileSystems."/boot" = {

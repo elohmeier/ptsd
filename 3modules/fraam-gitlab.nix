@@ -56,7 +56,7 @@ in
       localAddress = cfg.containerAddress;
       bindMounts = {
         "/var/src/secrets/gitlab" = {
-          hostPath = toString <secrets/gitlab>;
+          hostPath = "/var/src/secrets/gitlab";
           isReadOnly = true;
         };
         "/var/gitlab" = {
@@ -79,8 +79,8 @@ in
         { config, pkgs, ... }:
         {
           imports = [
-            <ptsd>
-            <ptsd/2configs>
+            ../.
+            ../2configs
           ];
 
           boot.isContainer = true;
@@ -106,38 +106,38 @@ in
           ptsd.secrets.files = {
             "gitlab-initialRootPassword" = {
               owner = config.services.gitlab.user;
-              source-path = toString <secrets/gitlab/initialRootPassword>;
+              source-path = "/var/src/secrets/gitlab/initialRootPassword";
             };
             "gitlab-secret" = {
               owner = config.services.gitlab.user;
-              source-path = toString <secrets/gitlab/secret>;
+              source-path = "/var/src/secrets/gitlab/secret";
             };
             "gitlab-db" = {
               owner = config.services.gitlab.user;
-              source-path = toString <secrets/gitlab/db>;
+              source-path = "/var/src/secrets/gitlab/db";
             };
             "gitlab-otp" = {
               owner = config.services.gitlab.user;
-              source-path = toString <secrets/gitlab/otp>;
+              source-path = "/var/src/secrets/gitlab/otp";
             };
             "gitlab-jws" = {
               owner = config.services.gitlab.user;
-              source-path = toString <secrets/gitlab/jws>;
+              source-path = "/var/src/secrets/gitlab/jws";
             };
             "gitlab-google-app-id" = {
               owner = config.services.gitlab.user;
-              source-path = toString <secrets/gitlab/google-app-id>;
+              source-path = "/var/src/secrets/gitlab/google-app-id";
             };
             "gitlab-google-app-secret" = {
               owner = config.services.gitlab.user;
-              source-path = toString <secrets/gitlab/google-app-secret>;
+              source-path = "/var/src/secrets/gitlab/google-app-secret";
             };
           };
           users.groups.keys.members = [ config.services.gitlab.user ];
 
           services.openssh.hostKeys = [
             {
-              path = (toString <secrets/gitlab/ssh.id_ed25519>);
+              path = "/var/src/secrets/gitlab/ssh.id_ed25519";
               type = "ed25519";
             }
           ];

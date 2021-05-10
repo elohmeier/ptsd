@@ -54,6 +54,7 @@ in
       {
         device = "${vgPrefix}-var--src";
         fsType = "ext4";
+        neededForBoot = true; # mount early for passwd provisioning
       };
   };
 

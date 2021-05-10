@@ -24,6 +24,8 @@ in
 
   config = mkIf cfg.enable {
 
+    ptsd.secrets.files."bitwarden.env" = { dependants = [ "bitwarden_rs.service" ]; };
+
     services.bitwarden_rs = {
       enable = true;
       dbBackend = "postgresql";
@@ -35,6 +37,7 @@ in
         rocketLog = "critical";
         databaseUrl = "postgresql:///bitwarden";
       } // cfg.extraConfig;
+      environmentFile = config.ptsd.secrets.files."bitwarden.env".path;
     };
 
     systemd.services.bitwarden_rs = {
