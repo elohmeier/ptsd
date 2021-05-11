@@ -1041,6 +1041,7 @@ in
                   ++ optional cfg.audio.enable
                     "pulseaudio" ++ [
                     "network"
+                    "network#tun0"
                     "cpu"
                     "memory"
                     #"backlight"
@@ -1109,6 +1110,9 @@ in
                       format-disconnected = "Disconnected ⚠";
                       format-alt = "{ifname}: {ipaddr}/{cidr}";
                       on-click-right = term.exec "${pkgs.networkmanager}/bin/nmtui" "";
+                    };
+                    "network#tun0" = {
+                      interface = "tun0";
                     };
                     pulseaudio = mkIf cfg.audio.enable {
                       format = "{volume}% {icon} {format_source}";
