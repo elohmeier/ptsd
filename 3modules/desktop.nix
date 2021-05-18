@@ -305,7 +305,10 @@ let
     }
   ];
 
-  fonts = [ "${cfg.fontSans} ${toString cfg.fontSize}" ];
+  fonts = {
+    names = [ cfg.fontSans ];
+    size = cfg.fontSize;
+  };
 
   bars = [
     ({
@@ -541,8 +544,8 @@ in
         default = "Consolas";
       };
       fontSize = mkOption {
-        type = types.int;
-        default = 10;
+        type = types.float;
+        default = 10.0;
       };
       primaryMicrophone = mkOption {
         type = with types; nullOr str;
@@ -705,7 +708,7 @@ in
     boot.supportedFilesystems = [ "exfat" ]; # canon sd card
 
     security.pam.services.lightdm.enableGnomeKeyring = mkIf (builtins.elem "office" cfg.profiles) true;
-    services.gnome3.gnome-keyring.enable = mkIf (builtins.elem "office" cfg.profiles) true;
+    services.gnome.gnome-keyring.enable = mkIf (builtins.elem "office" cfg.profiles) true;
 
     # required for evolution
     programs.dconf.enable = mkIf (builtins.elem "office" cfg.profiles) true;
