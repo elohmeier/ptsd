@@ -1,11 +1,23 @@
 # From https://github.com/t184256/nix-on-droid/wiki/Use-a-remote-builder-with-qemu
-{ stdenv, fetchurl, python, pkgconfig, zlib, glib, user_arch, flex, bison,
-makeStaticLibraries, glibc, qemu, fetchFromGitHub }:
+{ stdenv
+, fetchurl
+, python
+, pkgconfig
+, zlib
+, glib
+, user_arch
+, flex
+, bison
+, makeStaticLibraries
+, glibc
+, qemu
+, fetchFromGitHub
+}:
 
 let
   env2 = makeStaticLibraries stdenv;
   myglib = (glib.override { stdenv = env2; }).overrideAttrs (drv: {
-    mesonFlags = (drv.mesonFlags or []) ++ [ "-Ddefault_library=both" ];
+    mesonFlags = (drv.mesonFlags or [ ]) ++ [ "-Ddefault_library=both" ];
   });
   riscv_src = fetchFromGitHub {
     owner = "riscv";
@@ -28,10 +40,16 @@ stdenv.mkDerivation rec {
   buildInputs = [ python pkgconfig zlib.static myglib flex bison glibc.static ];
   patches = [ ./qemu-stack.patch ];
   configureFlags = [
-    "--enable-linux-user" "--target-list=${user_arch}-linux-user"
-    "--disable-bsd-user" "--disable-system" "--disable-vnc"
-    "--disable-curses" "--disable-sdl" "--disable-vde"
-    "--disable-bluez" "--disable-kvm"
+    "--enable-linux-user"
+    "--target-list=${user_arch}-linux-user"
+    "--disable-bsd-user"
+    "--disable-system"
+    "--disable-vnc"
+    "--disable-curses"
+    "--disable-sdl"
+    "--disable-vde"
+    "--disable-bluez"
+    "--disable-kvm"
     "--static"
     "--disable-tools"
     "--cpu=${arch_map.${user_arch}}"
