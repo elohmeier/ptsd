@@ -33,14 +33,6 @@ in
           ../../2configs/home
           ../../2configs/home/xsession-i3.nix
         ];
-
-        #       # ptsd.urxvt.enable = true;
-
-        #       ptsd.nwi3status = {
-        #         ethIf = "eth0";
-        #         wifiIf = "wlan0";
-        #       };
-
       };
   };
 

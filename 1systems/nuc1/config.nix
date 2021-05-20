@@ -1,8 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  todoistSecrets = import <secrets/todoist.nix>;
-  desktopSecrets = import <secrets-shared/desktop.nix>;
-in
 {
   imports =
     [
@@ -61,7 +57,6 @@ in
 
   ptsd.desktop = {
     enable = true;
-    mode = "sway";
     trayOutput = "HDMI-A-2";
     profiles = [
       "3dprinting"

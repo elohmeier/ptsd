@@ -69,12 +69,10 @@ let
   term = terminalConfigs.${cfg.terminalConfig};
 
   lockCmd =
-    if cfg.lockImage != "" then
-      (if cfg.mode == "i3" then ''${pkgs.nwlock}/bin/nwlock "${cfg.lockImage}"'' else ''${pkgs.swaylock}/bin/swaylock --image "${cfg.lockImage}" --scaling center --color 000000 -f'')
-    else
-      (if cfg.mode == "i3" then "${pkgs.i3lock}/bin/i3lock" else "${pkgs.swaylock}/bin/swaylock --color 000000 -f");
+    if cfg.lockImage != "" then ''${pkgs.swaylock}/bin/swaylock --image "${cfg.lockImage}" --scaling center --color 000000 -f''
+    else "${pkgs.swaylock}/bin/swaylock --color 000000 -f";
 
-  cwdCmd = if cfg.mode == "i3" then "${pkgs.xcwd}/bin/xcwd" else "${pkgs.swaycwd}/bin/swaycwd";
+  cwdCmd = "${pkgs.swaycwd}/bin/swaycwd";
 
   keybindings =
     {
@@ -161,7 +159,7 @@ let
       "${cfg.modifier}+Control+Mod1+Left" = "move container to workspace prev_on_output";
       "${cfg.modifier}+Control+Mod1+Right" = "move container to workspace next_on_output";
 
-      "${cfg.modifier}+Shift+r" = if cfg.mode == "i3" then "restart" else "reload";
+      "${cfg.modifier}+Shift+r" = "reload";
 
       "${cfg.modifier}+r" = "mode \"resize\"";
       "${cfg.modifier}+w" = "mode \"window\"";
@@ -240,7 +238,7 @@ let
     };
 
     "${exit_mode}" = {
-      "l" = ''exec ${if cfg.mode == "i3" then "i3-msg" else "swaymsg"} exit; mode "default"'';
+      "l" = ''exec swaymsg exit; mode "default"'';
       "r" = ''exec systemctl reboot; mode "default"'';
       "w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';
       "s" = ''exec systemctl poweroff; mode "default"'';
@@ -315,16 +313,13 @@ let
       colors.background = "#181516";
       # font size must be appended to the *last* item in this list, see https://developer.gnome.org/pango/stable/pango-Fonts.html#pango-font-description-from-string
       fonts = [ cfg.fontMono "Material Design Icons" "Typicons" "Font Awesome 5 Free" "Font Awesome 5 Brands ${toString cfg.fontSize}" ];
-      statusCommand = "exec ${pkgs.nwi3status}/bin/nwi3status";
       trayOutput = cfg.trayOutput;
-    } // (optionalAttrs
-      (cfg.mode == "sway")
-      {
-        # TODO: pull from cfg
-        extraConfig = ''
-          icon_theme Adwaita
-        '';
-      }))
+
+      # TODO: pull from cfg
+      extraConfig = ''
+        icon_theme Adwaita
+      '';
+    })
   ];
 
   extraConfig = ''
@@ -527,10 +522,6 @@ in
   options = {
     ptsd.desktop = {
       enable = mkEnableOption "ptsd.desktop";
-      mode = mkOption {
-        default = "sway";
-        type = types.strMatching "sway|i3";
-      };
       pipewire.enable = mkOption {
         type = types.bool;
         default = true;
@@ -590,24 +581,9 @@ in
         type = types.int;
         default = 1;
       };
-      nwi3status = mkOption {
-        type = types.submodule {
-          options = {
-            openweathermapApiKey = mkOption {
-              type = types.str;
-              default = "";
-            };
-            todoistApiKey = mkOption {
-              type = types.str;
-              default = "";
-            };
-          };
-        };
-        default = { };
-      };
       waybar.enable = mkOption {
         type = types.bool;
-        default = config.ptsd.desktop.mode == "sway";
+        default = true;
       };
       audio.enable = mkOption {
         type = types.bool;
@@ -623,7 +599,7 @@ in
       };
       flameshot.enable = mkOption {
         type = types.bool;
-        default = config.ptsd.desktop.mode == "i3";
+        default = false;
       };
       profiles = mkOption {
         type = with types; listOf str;
@@ -682,30 +658,6 @@ in
       extraPortals = with pkgs;[ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
     };
 
-    services.xserver = mkIf (cfg.mode == "i3") {
-      enable = true;
-
-      layout = "de";
-
-      libinput = {
-        enable = true;
-        clickMethod = "clickfinger";
-        naturalScrolling = true;
-      };
-
-      desktopManager.xterm.enable = true;
-
-      displayManager.lightdm = {
-        background = mkIf (cfg.backgroundImage != "") cfg.backgroundImage;
-
-        # move login box to bottom left and add logo
-        greeters.gtk.extraConfig = mkIf (cfg.userImage != "") ''
-          default-user-image=${cfg.userImage}
-          position=42 -42
-        '';
-      };
-    };
-
     boot.supportedFilesystems = [ "exfat" ]; # canon sd card
 
     security.pam.services.lightdm.enableGnomeKeyring = mkIf (builtins.elem "office" cfg.profiles) true;
@@ -724,20 +676,17 @@ in
       QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
       TERMINAL = term.binary;
       IMLIB2_LOADER_PATH = "${pkgs.imlib2-heic}/imlib2/loaders";
-    } // optionalAttrs
-      (cfg.mode == "sway")
-      {
-        SDL_VIDEODRIVER = "wayland";
-        QT_QPA_PLATFORM = "wayland";
-        QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-        # Fix for some Java AWT applications (e.g. Android Studio),
-        # use this if they aren't displayed properly:
-        _JAVA_AWT_WM_NONREPARENTING = "1";
-        XDG_CURRENT_DESKTOP = "sway";
-        XDG_SESSION_TYPE = "wayland";
-        MOZ_ENABLE_WAYLAND = "1";
-        MOZ_USE_XINPUT2 = "1";
-      };
+      SDL_VIDEODRIVER = "wayland";
+      QT_QPA_PLATFORM = "wayland";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      # Fix for some Java AWT applications (e.g. Android Studio),
+      # use this if they aren't displayed properly:
+      _JAVA_AWT_WM_NONREPARENTING = "1";
+      XDG_CURRENT_DESKTOP = "sway";
+      XDG_SESSION_TYPE = "wayland";
+      MOZ_ENABLE_WAYLAND = "1";
+      MOZ_USE_XINPUT2 = "1";
+    };
 
     system.fsPackages = [ pkgs.ntfs3g ];
     environment.systemPackages = with pkgs; [
@@ -753,43 +702,24 @@ in
       pavucontrol
       pasystray
       jack2
-    ]
-    ++ optionals (cfg.mode == "i3") [
-      redshift
-      dunst
-    ] ++ optionals (cfg.mode == "sway") [
+    ] ++ [
       gammastep
-    ] ++ optionals (config.networking.networkmanager.enable && cfg.mode == "i3") [
-      networkmanagerapplet
     ] ++ (flatten (map (profile: (all_profiles."${profile}" pkgs)) cfg.profiles));
     services.gvfs.enable = mkIf (builtins.elem "office" cfg.profiles) true; # allow smb:// mounts in pcmanfm
 
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
     # disabled to workaround random mouse freezes, issue: https://github.com/swaywm/sway/issues/5591
-    # systemd.user.services."${if cfg.mode == "i3" then "redshift" else "gammastep"}" = {
+    # systemd.user.services.gammastep = {
     #   description = "Screen color temperature manager";
     #   partOf = [ "graphical-session.target" ];
     #   wantedBy = [ "graphical-session.target" ];
     #   serviceConfig = {
-    #     ExecStart = if cfg.mode == "i3" then "${pkgs.redshift}/bin/redshift" else "${pkgs.gammastep}/bin/gammastep -l 53:10";
+    #     ExecStart = "${pkgs.gammastep}/bin/gammastep -l 53:10";
     #     RestartSec = 3;
     #     Restart = "on-failure";
     #   };
     # };
-
-    systemd.user.services.nm-applet = mkIf (config.networking.networkmanager.enable && cfg.mode == "i3") {
-      description = "Network Manager applet";
-      partOf = [ "graphical-session.target" ];
-      wantedBy = [ "graphical-session.target" ];
-      path = [ pkgs.dbus ];
-      serviceConfig = {
-        ExecStart = "${pkgs.networkmanagerapplet}/bin/nm-applet --indicator";
-        RestartSec = 3;
-        Restart = "always";
-      };
-      Install = { WantedBy = [ "graphical-session.target" ]; };
-    };
 
     # yubikey
     services.udev.packages = [ pkgs.libu2f-host pkgs.yubikey-personalization ];
@@ -811,11 +741,6 @@ in
       roboto-slab
       source-code-pro
       win10fonts
-
-      # required by nwi3status
-      font-awesome_5
-      material-design-icons
-      typicons
     ];
 
     # for betaflight-configurator firmware flashing
@@ -829,20 +754,6 @@ in
     services.lorri.enable = elem "dev" cfg.profiles;
 
     sound.enable = true;
-
-    systemd.user.services.pasystray = mkIf (cfg.audio.enable && cfg.mode == "i3" && !cfg.pipewire.enable) {
-      description = "PulseAudio system tray";
-      partOf = [ "graphical-session.target" ];
-      wantedBy = [ "graphical-session.target" ];
-      path = [ pkgs.pavucontrol ];
-      serviceConfig = {
-        # Workaround from https://github.com/NixOS/nixpkgs/issues/7329 to make GTK-Themes work
-        ExecStart = "${pkgs.bash}/bin/bash -c 'source ${config.system.build.setEnvironment}; exec ${pkgs.pasystray}/bin/pasystray'";
-        RestartSec = 3;
-        Restart = "always";
-      };
-      Install = { WantedBy = [ "graphical-session.target" ]; };
-    };
 
     hardware = {
       bluetooth = {
@@ -879,20 +790,7 @@ in
 
     services.blueman.enable = cfg.bluetooth.enable;
 
-    # improved version of the pkgs.blueman-provided user service
-    systemd.user.services.blueman-applet-nw = mkIf (cfg.bluetooth.enable && cfg.mode == "i3") {
-      description = "Bluetooth management applet";
-      partOf = [ "graphical-session.target" ];
-      wantedBy = [ "graphical-session.target" ];
-      serviceConfig = {
-        # Workaround from https://github.com/NixOS/nixpkgs/issues/7329 to make GTK-Themes work
-        ExecStart = "${pkgs.bash}/bin/bash -c 'source ${config.system.build.setEnvironment}; exec ${pkgs.blueman}/bin/blueman-applet'";
-        RestartSec = 3;
-        Restart = "always";
-      };
-    };
-
-    programs.sway = mkIf (cfg.mode == "sway") {
+    programs.sway = {
       enable = true;
       wrapperFeatures.gtk = true;
     };
@@ -932,44 +830,7 @@ in
 
             imports = [
               ./home
-              #<ptsd/2configs/home/git-alarm.nix> # TODO: Port to nwi3status
             ];
-
-            xsession = mkIf (cfg.mode == "i3") {
-              enable = true;
-
-              windowManager.i3 =
-                {
-                  enable = true;
-                  config = {
-                    modifier = cfg.modifier;
-                    keybindings = keybindings;
-                    modes = modes;
-                    startup = [
-                      { command = "i3-msg workspace 1"; notification = false; }
-                    ];
-                    window.commands = window_commands;
-                    fonts = fonts;
-                    bars = bars;
-                  };
-                  extraConfig = extraConfig;
-                };
-
-              pointerCursor = {
-                package = pkgs.vanilla-dmz;
-                name = "Vanilla-DMZ-AA";
-              };
-            };
-
-            services.screen-locker = mkIf (cfg.mode == "i3") {
-              enable = true;
-              lockCmd = lockCmd;
-              xssLockExtraOptions = [
-                "-n"
-                "${pkgs.nwlock}/libexec/xsecurelock/dimmer" # nwlock package wraps custom xsecurelock
-                "-l" # make sure not to allow machine suspend before the screen saver is active
-              ];
-            };
 
             systemd.user.services.flameshot = mkIf cfg.flameshot.enable {
               Unit = {
@@ -1365,105 +1226,21 @@ in
 
             ] ++ optionals (!cfg.flameshot.enable) [
               flameshot
-            ] ++ optionals (!cfg.waybar.enable) [
-              nwi3status
             ] ++ term.extraPackages ++
-            optionals (cfg.mode == "i3")
-              [
-                caffeine
-                xorg.xev
-                xorg.xhost
-                i3lock # only needed for config testing / man pages
-                nwlock
-                brightnessctl
-              ] ++ optionals
-              (cfg.mode == "sway")
-              [
-                swaylock
-                grim
-                slurp
-                wl-clipboard
-                wdisplays
-              ] ++ optionals cfg.qt.enable [
+
+            [
+              swaylock
+              grim
+              slurp
+              wl-clipboard
+              wdisplays
+            ] ++ optionals cfg.qt.enable [
               qt5.qtwayland
               libsForQt5.qtstyleplugins # required for QT_STYLE_OVERRIDE
             ];
 
-            xdg.configFile."i3/nwi3status.toml" =
-              let
-                statusConfig = {
-                  TodoistAPIKey = cfg.nwi3status.todoistApiKey;
-                };
-                statusConfigFile =
-                  pkgs.runCommand
-                    "nwi3status-config.toml"
-                    {
-                      buildInputs = [ pkgs.remarshal ];
-                      preferLocalBuild = true;
-                    }
-                    ''
-                      remarshal -if json -of toml \
-                        < ${pkgs.writeText "config.json"
-                        (builtins.toJSON statusConfig)} \
-                        > $out
-                    '';
-              in
-              mkIf (!cfg.waybar.enable)
-                {
-                  source = statusConfigFile;
-                  onChange =
-                    if cfg.mode == "i3" then
-                      ''
-                        i3Socket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/i3/ipc-socket.*
-                        if [ -S $i3Socket ]; then
-                          echo "Reloading i3"
-                          $DRY_RUN_CMD ${pkgs.i3}/bin/i3-msg -s $i3Socket reload 1>/dev/null
-                        fi
-                      ''
-                    else ''
-                      swaySocket=''${XDG_RUNTIME_DIR:-/run/user/$UID}/sway-ipc.$UID.$(${pkgs.procps}/bin/pgrep -x sway || ${pkgs.coreutils}/bin/true).sock
-                      if [ -S $swaySocket ]; then
-                        echo "Reloading sway"
-                        $DRY_RUN_CMD ${pkgs.sway}/bin/swaymsg -s $swaySocket reload
-                      fi
-                    '';
-                };
-
-            # auto-hide the mouse cursor after inactivity on i3/X11
-            # sway has "hide_cursor" configuration option
-            services.unclutter = mkIf
-              (cfg.mode == "i3")
-              {
-                enable = true;
-                timeout = cfg.hideCursorIdleSec;
-              };
-
-            # TODO: check if it also works for sway?
-            services.dunst = mkIf
-              (cfg.mode == "i3")
-              {
-                enable = true;
-                settings = {
-                  global = {
-                    geometry = "300x5-30+50";
-                    transparency = 10;
-                    frame_color = "#eceff1";
-                    font = "${cfg.fontMono} ${toString cfg.fontSize}";
-                  };
-
-                  urgency_normal = {
-                    background = "#37474f";
-                    foreground = "#eceff1";
-                    timeout = 5;
-                  };
-
-                  urgency_low.timeout = 1;
-                };
-              };
-
-
             programs.fish = {
-              loginShellInit = mkIf (cfg.mode == "sway") ''
+              loginShellInit = ''
                 if status is-login
                   if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
                     # pass sway log output to journald
@@ -1473,7 +1250,7 @@ in
               '';
             };
             programs.zsh = {
-              loginExtra = mkIf (cfg.mode == "sway") ''
+              loginExtra = ''
                 # If running from tty1 start sway
                 if [ "$(tty)" = "/dev/tty1" ]; then
                   # pass sway log output to journald
@@ -1499,44 +1276,42 @@ in
               };
             };
 
-            wayland.windowManager.sway = mkIf
-              (cfg.mode == "sway")
-              {
-                enable = true;
-                config =
-                  {
-                    modifier = cfg.modifier;
-                    keybindings = keybindings;
-                    modes = modes;
-                    window.commands = window_commands;
-                    fonts = fonts;
-                    bars = if cfg.waybar.enable then [ ] else bars;
+            wayland.windowManager.sway = {
+              enable = true;
+              config =
+                {
+                  modifier = cfg.modifier;
+                  keybindings = keybindings;
+                  modes = modes;
+                  window.commands = window_commands;
+                  fonts = fonts;
+                  bars = if cfg.waybar.enable then [ ] else bars;
 
-                    # use `swaymsg -t get_inputs`
-                    input = {
-                      "*" = {
-                        natural_scroll = "enabled";
-                        xkb_layout = "de";
-                        xkb_numlock = if cfg.numlockAuto then "enabled" else "disabled";
-                      };
+                  # use `swaymsg -t get_inputs`
+                  input = {
+                    "*" = {
+                      natural_scroll = "enabled";
+                      xkb_layout = "de";
+                      xkb_numlock = if cfg.numlockAuto then "enabled" else "disabled";
                     };
                   };
+                };
 
-                extraConfig = extraConfig + ''
-                  seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
-                  mouse_warping none
-                  exec ${config.programs.waybar.package}/bin/waybar
-                  exec ${pkgs.swayidle}/bin/swayidle -w \
-                    timeout 300 '${lockCmd}' \
-                    timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
-                    resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
-                    timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
-                    resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
-                    before-sleep '${lockCmd}'
-                '' + optionalString (cfg.backgroundImage != "") ''
-                  output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
-                '';
-              };
+              extraConfig = extraConfig + ''
+                seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
+                mouse_warping none
+                exec ${config.programs.waybar.package}/bin/waybar
+                exec ${pkgs.swayidle}/bin/swayidle -w \
+                  timeout 300 '${lockCmd}' \
+                  timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
+                  resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
+                  timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
+                  resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
+                  before-sleep '${lockCmd}'
+              '' + optionalString (cfg.backgroundImage != "") ''
+                output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
+              '';
+            };
 
             programs.alacritty = mkIf
               (cfg.terminalConfig == "alacritty")

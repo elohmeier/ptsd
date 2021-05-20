@@ -3,7 +3,6 @@
   imports = [
     ../../2configs/home
     ../../2configs/home/extraTools.nix
-    ../../2configs/home/firefox.nix
     ../../2configs/home/gpg.nix
   ];
   home.stateVersion = "20.09";

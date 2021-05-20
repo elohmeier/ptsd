@@ -1,14 +1,8 @@
 { config, lib, pkgs, ... }:
-# let
-#   baresipSecrets = import <secrets/baresip.nix>;
-#   homeSecrets = import <client-secrets/home-secrets.nix>;
-#   todoistSecrets = import <secrets/todoist.nix>;
-# in
 {
   imports = [
     ../../2configs/home
     ../../2configs/home/extraTools.nix
-    ../../2configs/home/firefox.nix
     ../../2configs/home/gpg.nix
   ];
 

@@ -43,7 +43,6 @@ in
 
   ptsd.desktop = {
     enable = true;
-    mode = "sway";
     #fontMono = "Cozette";
     trayOutput = "eDP-1";
     terminalConfig = "alacritty";

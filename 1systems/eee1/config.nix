@@ -9,40 +9,6 @@ with lib;
     ../../2configs/octoprint-klipper-ender3.nix
   ];
 
-  # nix = {
-  #   buildMachines = [{
-  #     hostName = "ws2.lan";
-  #     maxJobs = 16;
-  #     supportedFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-  #     mandatoryFeatures = [ ];
-  #   }];
-  #   trustedUsers = [ "root" "enno" ];
-  #   distributedBuilds = true;
-  #   extraOptions = ''
-  #     builders-use-substitutes = true
-  #   '';
-  # };
-
-  nixpkgs.config.packageOverrides = pkgs: {
-    curaengine_stable = pkgs.curaengine_stable.overrideAttrs (oldAttrs: rec {
-      # TODO: remove when https://github.com/NixOS/nixpkgs/pull/115181 is merged
-      postPatch = ''
-        sed -i 's,--static,,g' Makefile
-        ${lib.optionalString pkgs.stdenv.isi686 "sed -i 's,-flto,,g' -i Makefile"}
-      '';
-    });
-
-    # TODO: remove when https://github.com/NixOS/nixpkgs/pull/115735 is merged
-    klipper = pkgs.klipper.overrideAttrs (oldAttrs: rec {
-      postPatch = ''
-        substituteInPlace chelper/__init__.py \
-          --replace "-flto -fwhole-program " ""
-      '';
-    });
-  };
-
-  #environment.systemPackages = [ (pkgs.v4l-utils.override { withGUI = false; }) ];
-
   ptsd.mjpg-streamer = {
     enable = true;
     inputPlugin = "input_uvc.so -f 15 -r 640x480"; # physical resolution: 1280x1024 (1.3 MP)

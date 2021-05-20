@@ -61,7 +61,6 @@ in
 
   ptsd.desktop = {
     enable = true;
-    mode = "sway";
     terminalConfig = "alacritty";
     waybar.enable = true;
     profiles = [

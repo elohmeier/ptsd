@@ -1,14 +1,6 @@
 { config, lib, pkgs, ... }:
 
-# Tools you probably would not add to an ISO image
-# let
-#   dag = import <home-manager/modules/lib/dag.nix> { inherit lib; };
-# in
 {
-  #imports = [
-  #  <ptsd/2configs/home/irssi.nix>
-  #  <ptsd/2configs/home/mbsync.nix>
-  #];
 
   programs.broot.enable = true;
 
@@ -16,36 +8,14 @@
     mywine = wine.override { wineBuild = "wine32"; wineRelease = "staging"; };
   in
   [
-    #mywine
-    #(winetricks.override { wine = mywine; })
-    #slack-dark
-    #jetbrains.idea-ultimate
-    #jetbrains.goland
-    #jetbrains.pycharm-professional
-    #tor-browser-bundle-bin
-    xcalib
-    #woeusb
-    #nvi # needed for virsh # broken in 20.03 as of 2020-04-03
-    #xca
     gcolor3
     syncthing
     geckodriver
     smbclient
     mu-repo
     file-rename
-    #sublime3
-    #discord
-    #gnome3.evolution
-    #go
-    #go-bindata
-    #delve
-    #gofumpt
-    #bitwarden-cli
     peek
     hidclient
-    #AusweisApp2
-    #weatherbg
-    #pssh
     screenkey
     hydra-check
     dfeet
@@ -67,7 +37,11 @@
 
   programs.browserpass = {
     enable = true;
-    browsers = [ "chromium" ];
+    browsers = [ "chromium" "firefox" ];
+  };
+
+  programs.firefox = {
+    enable = true;
   };
 
   home.sessionVariables = {
@@ -79,18 +53,9 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  # # configure doom-emacs using `git clone https://github.com/hlissner/doom-emacs ~/.emacs.d` and run `~/.emacs.d/bin/doom install`
-  # programs.emacs = {
-  #   enable = true;
-  # };
-
   programs.doom-emacs = {
     enable = true;
     doomPrivateDir = ../../src/doom.d;
   };
 
-  # # Link emacs config to well-known path
-  # home.file.".doom.d/config.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/doom.d/config.el;
-  # home.file.".doom.d/init.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/doom.d/init.el;
-  # home.file.".doom.d/packages.el".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/doom.d/packages.el;
 }
