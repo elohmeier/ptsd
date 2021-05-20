@@ -244,7 +244,7 @@ in
         };
       in
       [
-        (crt "nas1.lan.nerdworks.de")
+        #(crt "nas1.lan.nerdworks.de")
         (crt "alerts.services.nerdworks.de")
         (crt "grafana.services.nerdworks.de")
         (crt "hass.services.nerdworks.de")
