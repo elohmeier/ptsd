@@ -10,6 +10,11 @@
   };
   services.privoxy.enable = lib.mkForce false;
 
+  ptsd.secrets.files."tor-ssh-announce.env" = {
+    dependants = [ "tor-ssh-announce.service" ];
+    source-path = "/var/src/secrets-shared/tor-ssh-announce.env";
+  };
+
   systemd.services.tor-ssh-announce = {
     description = "Announce hidden ssh in Telegram";
     after = [ "tor.service" "network.target" "network-online.target" "systemd-resolved.service" ];
@@ -17,6 +22,7 @@
     wants = [ "systemd-resolved.service" ];
     wantedBy = [ "multi-user.target" ];
     serviceConfig = {
+      EnvironmentFile = config.ptsd.secrets.files."tor-ssh-announce.env".path;
       ExecStart =
         let
           hsfile = "/var/lib/tor/onion/ssh/hostname";
