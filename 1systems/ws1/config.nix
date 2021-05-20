@@ -342,31 +342,31 @@ in
     folders = {
       "/home/enno/FPV" = {
         id = "xxdwi-yom6n";
-        devices = [ "nas1-st-enno" "tp1" ];
+        devices = [ "nas1" "tp1" ];
       };
       "/home/enno/LuNo" = {
         id = "3ull9-9deg4";
-        devices = [ "mb1" "nas1-st-enno" "nas1-st-luisa" "nuc1" "tp1" "tp2" ];
+        devices = [ "mb1" "nas1" "nuc1" "tp1" "tp2" ];
       };
       "/home/enno/Pocket" = {
         id = "hmekh-kgprn";
-        devices = [ "nas1-st-enno" "nuc1" "tp1" "tp1-win10" "ws1-win10" "ws2" ];
+        devices = [ "nas1" "nuc1" "tp1" "tp1-win10" "ws1-win10" "ws2" ];
       };
       "/home/enno/Scans" = {
         id = "ezjwj-xgnhe";
-        devices = [ "nas1-st-enno" ];
+        devices = [ "nas1" ];
       };
       "/home/enno/Scans-Luisa" = {
         id = "dnryo-kz7io";
-        devices = [ "nas1-st-luisa" ];
+        devices = [ "nas1" ];
       };
       "/home/enno/Templates" = {
         id = "gnwqu-yt7qc";
-        devices = [ "nas1-st-enno" "tp1" "ws2" ];
+        devices = [ "nas1" "tp1" "ws2" ];
       };
       "/home/enno/repos" = {
         id = "jihdi-qxmi3";
-        devices = [ "nas1-st-enno" "tp1" ];
+        devices = [ "nas1" "tp1" ];
         type = "sendonly";
         label = "repos-ws1";
       };

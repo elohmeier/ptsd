@@ -6,73 +6,6 @@ let
 
   domain = "nextcloud.services.nerdworks.de";
   nextcloudUid = 131; # unused as of 19.09, old docker uid
-
-  generateSyncthingContainer = name: values: nameValuePair "st-${name}" {
-    autoStart = true;
-    hostBridge = "br0";
-    privateNetwork = true;
-    bindMounts = {
-      "/run/keys" = {
-        hostPath = "/run/keys";
-        isReadOnly = true;
-      };
-      "/var/lib/nextcloud/data/${name}" = {
-        hostPath = "/var/lib/nextcloud/data/${name}";
-        isReadOnly = false;
-      };
-    };
-    timeoutStartSec = "5min"; # syncthing might run a lengthy db migration
-
-    config =
-      { config, pkgs, ... }:
-      {
-        imports = [
-          ../.
-          ./.
-        ];
-
-        boot.isContainer = true;
-
-        networking = {
-          useHostResolvConf = false;
-          nameservers = [ "8.8.8.8" "8.8.4.4" ];
-          useNetworkd = true;
-          interfaces.eth0.useDHCP = true;
-        };
-
-        time.timeZone = "Europe/Berlin";
-
-        i18n = {
-          defaultLocale = "de_DE.UTF-8";
-          supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-        };
-
-        users.groups.nginx = { gid = config.ids.gids.nginx; };
-        users.users.nextcloud = {
-          uid = nextcloudUid;
-          isSystemUser = true;
-        };
-
-        services.syncthing = {
-          enable = true;
-
-          # mirror the nextcloud permissions
-          user = "nextcloud";
-          group = "nginx";
-
-          declarative = {
-            key = "/run/keys/syncthing-${name}.key";
-            cert = "/run/keys/syncthing-${name}.crt";
-            devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
-            folders = values.folders;
-          };
-        };
-
-        # syncthing might run a lengthy db migration
-        systemd.services."syncthing-init.service".serviceConfig.TimeoutStartSec = "5min";
-        systemd.services."syncthing.service".serviceConfig.TimeoutStartSec = "5min";
-      };
-  };
 in
 {
   services.postgresql.ensureDatabases = [ "nextcloud" ];
@@ -181,83 +114,79 @@ in
   };
 
   ptsd.secrets.files = {
-    "syncthing-enno.key" = { };
-    "syncthing-enno.crt" = { };
-    "syncthing-luisa.key" = { };
-    "syncthing-luisa.crt" = { };
+    "syncthing.key" = { };
+    "syncthing.crt" = { };
   };
 
-  containers = mapAttrs' generateSyncthingContainer {
+  services.syncthing = {
+    enable = true;
 
-    # device-id enno: 2U7PBTB-3AVWHDO-KKITN5S-JW5AKLX-2MLBQOR-PJDL2QH-BZZJBMD-DFX3MQI
-    "enno" =
-      let
-        root = "/var/lib/nextcloud/data/enno/files";
-      in
-      {
-        folders = {
-          "${root}/FPV" = {
-            id = "xxdwi-yom6n";
-            devices = [ "tp1" "ws1" "ws1-win10n" ];
-          };
-          "${root}/Hörspiele" = {
-            id = "rqnvn-lmhcm";
-            devices = [ "ext-arvid" "tp1" ];
-            type = "receiveonly";
-          };
-          "${root}/Pocket" = {
-            id = "hmekh-kgprn";
-            devices = [ "nuc1" "tp1" "ws1" "ws2" ];
-          };
-          "${root}/LuNo" = {
-            id = "3ull9-9deg4";
-            devices = [ "mb1" "tp1" "tp2" "ws1" ];
-          };
-          "${root}/Scans" = {
-            id = "ezjwj-xgnhe";
-            devices = [ "tp1" "ws1" ];
-          };
-          "${root}/Templates" = {
-            id = "gnwqu-yt7qc";
-            devices = [ "nuc1" "tp1" "ws1" "ws2" ];
-          };
-          "${root}/repos-ws1" = {
-            id = "jihdi-qxmi3";
-            devices = [ "tp1" "ws1" ];
-          };
+    # mirror the nextcloud permissions
+    user = "nextcloud";
+    group = "nginx";
+
+    declarative = {
+      key = config.ptsd.secrets.files."syncthing.key".path;
+      cert = config.ptsd.secrets.files."syncthing.crt".path;
+      devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
+
+      folders = {
+        "/var/lib/nextcloud/data/enno/files/FPV" = {
+          id = "xxdwi-yom6n";
+          devices = [ "tp1" "ws1" "ws1-win10n" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/Hörspiele" = {
+          id = "rqnvn-lmhcm";
+          devices = [ "ext-arvid" "tp1" ];
+          type = "receiveonly";
+        };
+        "/var/lib/nextcloud/data/enno/files/Pocket" = {
+          id = "hmekh-kgprn";
+          devices = [ "nuc1" "tp1" "ws1" "ws2" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/LuNo" = {
+          id = "3ull9-9deg4";
+          devices = [ "mb1" "tp1" "tp2" "ws1" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/Scans" = {
+          id = "ezjwj-xgnhe";
+          devices = [ "tp1" "ws1" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/Templates" = {
+          id = "gnwqu-yt7qc";
+          devices = [ "nuc1" "tp1" "ws1" "ws2" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/repos-ws1" = {
+          id = "jihdi-qxmi3";
+          devices = [ "tp1" "ws1" ];
+        };
+
+        # "/var/lib/nextcloud/data/luisa/files/LuNo" = {
+        #   id = "3ull9-9deg4";
+        #   devices = [ "tp1" "tp2" "mb1" "ws1" ];
+        # };
+
+        "/var/lib/nextcloud/data/luisa/files/Bilder" = {
+          id = "ugmai-ti6vl";
+          devices = [ "tp2" "mb1" ];
+        };
+        "/var/lib/nextcloud/data/luisa/files/Dokumente" = {
+          id = "sqkfd-m9he7";
+          devices = [ "tp2" "mb1" ];
+        };
+        "/var/lib/nextcloud/data/luisa/files/Musik" = {
+          id = "zvffu-ff92z";
+          devices = [ "tp2" "mb1" ];
+        };
+        "/var/lib/nextcloud/data/luisa/files/Scans" = {
+          id = "dnryo-kz7io";
+          devices = [ "tp2" "mb1" "ws1" ];
         };
       };
-
-    # device-id luisa: HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW
-    "luisa" =
-      let
-        root = "/var/lib/nextcloud/data/luisa/files";
-      in
-      {
-        folders = {
-          "${root}/LuNo" = {
-            id = "3ull9-9deg4";
-            devices = [ "tp1" "tp2" "mb1" "ws1" ];
-          };
-          "${root}/Bilder" = {
-            id = "ugmai-ti6vl";
-            devices = [ "tp2" "mb1" ];
-          };
-          "${root}/Dokumente" = {
-            id = "sqkfd-m9he7";
-            devices = [ "tp2" "mb1" ];
-          };
-          "${root}/Musik" = {
-            id = "zvffu-ff92z";
-            devices = [ "tp2" "mb1" ];
-          };
-          "${root}/Scans" = {
-            id = "dnryo-kz7io";
-            devices = [ "tp2" "mb1" "ws1" ];
-          };
-        };
-      };
-
+    };
   };
 
+  # syncthing might run a lengthy db migration
+  systemd.services."syncthing-init.service".serviceConfig.TimeoutStartSec = "5min";
+  systemd.services."syncthing.service".serviceConfig.TimeoutStartSec = "5min";
 }

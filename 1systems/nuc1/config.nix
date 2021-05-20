@@ -227,11 +227,11 @@ in
     folders = {
       "/home/enno/Pocket" = {
         id = "hmekh-kgprn";
-        devices = [ "nas1-st-enno" "nuc1" "tp1" "tp1-win10" "ws1" "ws1-win10" ];
+        devices = [ "nas1" "nuc1" "tp1" "tp1-win10" "ws1" "ws1-win10" ];
       };
       "/home/enno/Templates" = {
         id = "gnwqu-yt7qc";
-        devices = [ "nas1-st-enno" "tp1" "ws1" ];
+        devices = [ "nas1" "tp1" "ws1" ];
       };
     };
   };
