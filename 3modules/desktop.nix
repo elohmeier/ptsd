@@ -510,6 +510,7 @@ let
       ];
     # see also https://jjjollyjim.github.io/arewehackersyet/index.html
     "sec" = pkgs: with pkgs;[
+      net-snmp
       metasploit
       wpscan
       john
