@@ -122,6 +122,15 @@ in
     interfaces.br0.useDHCP = true;
 
     # hosts."10.129.127.250" = [ "s3.bucket.htb" "bucket.htb" ];
+
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+      wifi = {
+        backend = "iwd";
+      };
+    };
+    wireless.iwd.enable = true;
   };
 
   systemd.network.networks."40-br0".routes = [
@@ -151,17 +160,17 @@ in
     "mitigations=off" # make linux fast again
   ];
 
-  ptsd.wireguard.networks = {
-    dlrgvpn = {
-      enable = true;
-      ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
-      client.allowedIPs = [ "192.168.168.0/24" ];
-      routes = [
-        { routeConfig = { Destination = "192.168.168.0/24"; }; }
-      ];
-      keyname = "nwvpn.key";
-    };
-  };
+  # ptsd.wireguard.networks = {
+  #   dlrgvpn = {
+  #     enable = true;
+  #     ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
+  #     client.allowedIPs = [ "192.168.168.0/24" ];
+  #     routes = [
+  #       { routeConfig = { Destination = "192.168.168.0/24"; }; }
+  #     ];
+  #     keyname = "nwvpn.key";
+  #   };
+  # };
 
   # default: poweroff
   services.logind.extraConfig = ''

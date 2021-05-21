@@ -2,12 +2,12 @@
 
 stdenv.mkDerivation rec {
   pname = "nwfonts";
-  version = "1.1.0";
+  version = "1.2.0";
 
   src = fetchgit {
     url = "https://nas1.host.nerdworks.de:448/git/nwfonts.git";
     rev = version;
-    sha256 = "sha256-gFaXFvP8lZVcz3MDYZZFoBwfs30rKcbdS8XqpKt11nc=";
+    sha256 = "sha256-TCpC9NxgC2dcoL9aMmMe4rdRbT4k18cmv32ZwrJIlKs=";
   };
 
   dontPatchShebangs = true;
