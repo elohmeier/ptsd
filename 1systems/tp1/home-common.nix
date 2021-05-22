@@ -1,10 +1,4 @@
 { pkgs, ... }:
-let
-  #baresipSecrets = import <secrets/baresip.nix>;
-  universe = import ../../2configs/universe.nix;
-  #todoistSecrets = import <secrets/todoist.nix>;
-  #hasscliSecrets = import <secrets/hass-cli.nix>;
-in
 {
   imports = [
     ../../2configs/home
@@ -13,11 +7,6 @@ in
   ];
 
   home.stateVersion = "20.09";
-
-  # home.sessionVariables = {
-  #   HASS_SERVER = "https://hass.services.nerdworks.de";
-  #   HASS_TOKEN = hasscliSecrets.apiToken;
-  # };
 
   # disable touchpad
   xsession.windowManager.i3.extraConfig = ''
@@ -30,17 +19,6 @@ in
       output eDP-1 pos 0 0 mode 1920x1080@70.001Hz scale 1.3
     '';
   };
-
-  # epsxe
-  nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.0.2u"
-  ];
-
-  xsession.initExtra = ''
-    # will dim after 10 mins, lock 5 sec after.
-    # see xss-lock configuration for details.
-    ${pkgs.xorg.xset}/bin/xset s 600 5
-  '';
 
   # ptsd.baresip = {
   #   enable = true;

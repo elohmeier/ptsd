@@ -618,24 +618,8 @@ in
 
   config = mkIf cfg.enable {
 
-    nixpkgs.config.packageOverrides = pkgs: {
-      xdg-desktop-portal-wlr = pkgs.xdg-desktop-portal-wlr.overrideAttrs (oldAttrs: rec {
-        # TODO: remove when https://github.com/NixOS/nixpkgs/pull/120996 is merged
-        version = "0.3.0";
-        src = pkgs.fetchFromGitHub {
-          owner = "emersion";
-          repo = oldAttrs.pname;
-          rev = "v${version}";
-          sha256 = "sha256-6ArUQfWx5rNdpsd8Q22MqlpxLT8GTSsymAf21zGe1KI=";
-        };
-        buildInputs = oldAttrs.buildInputs ++ [ pkgs.iniparser pkgs.scdoc ];
-
-        # TODO: remove when https://github.com/NixOS/nixpkgs/pull/120879 is merged
-        nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [ pkgs.makeWrapper ];
-        postInstall = ''
-          wrapProgram $out/libexec/xdg-desktop-portal-wlr --prefix PATH ":" ${pkgs.grim}/bin
-        '';
-      });
+    ptsd.secrets.files."hass-cli.env" = {
+      owner = config.users.users.mainUser.name;
     };
 
     security.sudo.extraRules = lib.mkAfter [
@@ -902,6 +886,7 @@ in
                   ];
                   modules-right = [
                     "idle_inhibitor"
+                    "custom/co2"
                     "disk#home"
                     "disk#nix"
                     "disk#xdg-runtime-dir"
@@ -925,6 +910,14 @@ in
                         activated = "";
                         deactivated = "";
                       };
+                    };
+                    "custom/co2" = {
+                      format = "co2 {}ppm";
+                      exec = pkgs.writeShellScript "read-co2-status" ''
+                        export $(grep -v '^#' /run/keys/hass-cli.env | xargs -d '\n')
+                        hass-cli -o table --no-headers --columns STATE=state state get sensor.fraam_co2_mhz19b_carbondioxide
+                      '';
+                      interval = "30s";
                     };
                     "disk#home" = rec {
                       format = "h {percentage_free}%";
@@ -1075,7 +1068,7 @@ in
                     border-bottom: 1px solid #dc322f;
                 }
 
-                #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #disk {
+                #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 {
                     padding: 0 10px;
                     margin: 0 2px;
                     color: #657b83;
