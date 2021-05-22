@@ -675,7 +675,10 @@ in
       PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
       QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
       TERMINAL = term.binary;
-      IMLIB2_LOADER_PATH = "${pkgs.imlib2-heic}/imlib2/loaders";
+
+      # Breaks all other loaders, e.g. for PNG. TODO: combine with integrated loaders.
+      # IMLIB2_LOADER_PATH = "${pkgs.imlib2-heic}/imlib2/loaders";
+
       SDL_VIDEODRIVER = "wayland";
       QT_QPA_PLATFORM = "wayland";
       QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
