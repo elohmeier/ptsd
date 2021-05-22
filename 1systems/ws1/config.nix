@@ -2,6 +2,8 @@
 with lib;
 let
   universe = import ../../2configs/universe.nix;
+  virshNatIpPrefix = "192.168.197"; # "XXX.XXX.XXX" without last block
+  virshNatIf = "virsh-nat";
 in
 {
   imports = [
@@ -35,16 +37,16 @@ in
     options kvm ignore_msrs=1
   '';
 
-  systemd.services.wol-eth0 = {
-    description = "Wake-on-LAN for enp39s0";
-    requires = [ "network.target" ];
-    after = [ "network.target" ];
-    wantedBy = [ "multi-user.target" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp39s0 wol g"; # magicpacket
-    };
-  };
+  # systemd.services.wol-eth0 = {
+  #   description = "Wake-on-LAN for enp39s0";
+  #   requires = [ "network.target" ];
+  #   after = [ "network.target" ];
+  #   wantedBy = [ "multi-user.target" ];
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp39s0 wol g"; # magicpacket
+  #   };
+  # };
 
 
   # sample to pass USB access to VM
@@ -75,16 +77,6 @@ in
       "sec"
     ];
   };
-
-  ptsd.octoprint =
-    {
-      enable = false;
-      plugins = plugins: [
-        (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bedlevelvisualizer.nix> { })
-        (plugins.callPackage <ptsd/5pkgs/octoprint-plugins/bltouch.nix> { })
-        plugins.printtimegenius
-      ];
-    };
 
   # TODO: 20.09 compat
   # https://github.com/cleverca22/nixos-configs/issues/6
@@ -118,8 +110,8 @@ in
     useNetworkd = true;
     useDHCP = false;
 
-    bridges.br0.interfaces = [ "enp39s0" ];
-    interfaces.br0.useDHCP = true;
+    #bridges.br0.interfaces = [ "enp39s0" ];
+    #interfaces.br0.useDHCP = true;
 
     # hosts."10.129.127.250" = [ "s3.bucket.htb" "bucket.htb" ];
 
@@ -131,17 +123,54 @@ in
       };
     };
     wireless.iwd.enable = true;
+
+
+    interfaces = {
+      "${virshNatIf}".ipv4.addresses = [{ address = "${virshNatIpPrefix}.1"; prefixLength = 24; }];
+    };
+
+    firewall.interfaces."${virshNatIf}" = {
+      allowedTCPPorts = [ 53 631 445 139 ];
+      allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
+    };
+
+    nat = {
+      enable = true;
+      externalInterface = "eth0";
+      internalInterfaces = [ virshNatIf ];
+    };
   };
 
-  systemd.network.networks."40-br0".routes = [
-    {
-      routeConfig = {
-        Destination = "${universe.hosts.nas1.nets.nwvpn.ip4.addr}/32";
-        Gateway = universe.hosts.nas1.nets.bs53lan.ip4.addr;
-        GatewayOnLink = "yes";
+  systemd.network = {
+    netdevs = {
+      "40-${virshNatIf}" = {
+        netdevConfig = {
+          Name = virshNatIf;
+          Kind = "bridge";
+        };
       };
-    }
-  ];
+    };
+    networks = {
+      "40-${virshNatIf}" = {
+        matchConfig.Name = virshNatIf;
+        networkConfig = {
+          ConfigureWithoutCarrier = true;
+          DHCPServer = true;
+        };
+      };
+      "40-eth0" = {
+        routes = [
+          {
+            routeConfig = {
+              Destination = "${universe.hosts.nas1.nets.nwvpn.ip4.addr}/32";
+              Gateway = universe.hosts.nas1.nets.bs53lan.ip4.addr;
+              GatewayOnLink = "yes";
+            };
+          }
+        ];
+      };
+    };
+  };
 
   # services.resolved = {
   #   enable = true;
@@ -238,7 +267,7 @@ in
       workgroup = WORKGROUP
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
-      hosts allow = 192.168.101.0/24 # host-only-virsh network
+      hosts allow = ${virshNatIpPrefix}.0/24 # virshNat network
       hosts deny = 0.0.0.0/0
     '';
     shares = {
