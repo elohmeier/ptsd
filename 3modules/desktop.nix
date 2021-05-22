@@ -917,7 +917,7 @@ in
                         export $(grep -v '^#' /run/keys/hass-cli.env | xargs -d '\n')
                         hass-cli -o table --no-headers --columns STATE=state state get sensor.fraam_co2_mhz19b_carbondioxide
                       '';
-                      interval = "30s";
+                      interval = 30;
                     };
                     "disk#home" = rec {
                       format = "h {percentage_free}%";
