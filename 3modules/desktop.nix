@@ -166,7 +166,8 @@ let
 
       "${cfg.modifier}+Shift+Delete" = "exec ${lockCmd}";
       "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${cwdCmd}`"}";
-      "${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
+      #"${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
+      "${cfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
       "${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm";
       #"${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
 
