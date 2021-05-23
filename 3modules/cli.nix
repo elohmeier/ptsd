@@ -89,6 +89,18 @@ in
                       ff = "only";
                     };
                   };
+                  delta = {
+                    enable = true;
+                    options = {
+                      decorations = {
+                        commit-decoration-style = "bold yellow box ul";
+                        file-decoration-style = "none";
+                        file-style = "bold yellow ul";
+                      };
+                      features = "decorations";
+                      whitespace-error-style = "22 reverse";
+                    };
+                  };
                 };
 
                 tmux = {
@@ -233,9 +245,12 @@ in
                   shellAliases = shellAliases.aliases // shellAliases.abbreviations;
                 };
               };
-              home.packages = [
-                pkgs.nix-zsh-completions
-                pkgs.vims.big
+              home.packages = with pkgs; [
+                python3Packages.graphtage
+                nix-zsh-completions
+                pueue
+                vims.big
+                yank
               ];
             };
           }
