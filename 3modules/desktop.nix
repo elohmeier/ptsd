@@ -13,6 +13,7 @@ let
     pythonPackages: with pythonPackages; [
       black
       black_nbconvert
+      # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
       jupyterlab
       lxml
       keyring
@@ -339,6 +340,9 @@ let
   all_profiles = {
     "3dprinting" = pkgs: with pkgs; [
       prusa-slicer
+      # todo: add
+      # https://github.com/triplus/PieMenu
+      # https://github.com/triplus/Glass
       freecad
       cura
       prusa-slicer
@@ -398,7 +402,7 @@ let
       mupen64plus
       wine
       winetricks
-      ppsspp
+      #ppsspp # TODO: wait for https://github.com/NixOS/nixpkgs/pull/124162
     ];
     "kvm" = pkgs: with pkgs;[
       virtviewer
@@ -515,6 +519,7 @@ let
       hashcat
       sqlmap
       wireshark-qt
+      pwndbg
       # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
     ];
   };

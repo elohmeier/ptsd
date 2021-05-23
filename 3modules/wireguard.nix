@@ -160,6 +160,8 @@ let
     true;
 in
 {
+  # TODO: support https://www.jordanwhited.com/posts/wireguard-endpoint-discovery-nat-traversal/
+
   options = {
     ptsd.wireguard = {
       enableGlobalForwarding = mkOption

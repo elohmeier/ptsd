@@ -3,6 +3,9 @@ let
   matrixSecrets = import <secrets/matrix.nix>;
 in
 {
+  # https://github.com/tijder/SmsMatrix
+  # https://github.com/tulir/gomuks
+
   services.matrix-synapse = {
     enable = true;
     # uncomment to register new users

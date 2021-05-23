@@ -379,6 +379,8 @@ in
             cfg.services
         );
 
+        # TODO: evaluate https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/security/systemd-confinement.nix
+
         systemd.services.traefik = {
           description = "Traefik web server";
           wants = [ "network.target" ];

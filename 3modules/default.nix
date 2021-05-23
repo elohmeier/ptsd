@@ -13,6 +13,7 @@ _:
     ./mjpg-streamer.nix
     ./monica.nix
     ./mosquitto.nix
+    ./navidrome.nix
     ./nwacme.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
