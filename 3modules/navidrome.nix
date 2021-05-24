@@ -3,13 +3,36 @@
 with lib;
 let
   cfg = config.ptsd.navidrome;
+
+  configOptions = {
+    MusicFolder = cfg.musicFolder;
+    DataFolder = "/var/lib/navidrome";
+    ScanInterval = "1m";
+    LogLevel = "info";
+    Port = config.ptsd.nwtraefik.ports.navidrome;
+    Address = "127.0.0.1";
+    BaseUrl = "/music"; # only the path (e.g. /music)
+  };
+
+  configFile =
+    pkgs.runCommand "config.toml"
+      {
+        buildInputs = [ pkgs.remarshal ];
+        preferLocalBuild = true;
+      } ''
+      remarshal -if json -of toml \
+        < ${pkgs.writeText "config.json"
+        (builtins.toJSON configOptions)} \
+        > $out
+    '';
 in
 {
   options = {
     ptsd.navidrome = {
       enable = mkEnableOption "navidrome";
-
-      # TODO: add config
+      musicFolder = mkOption {
+        type = types.path;
+      };
     };
   };
 
@@ -22,7 +45,7 @@ in
         wantedBy = [ "multi-user.target" ];
         serviceConfig = {
           Type = "simple";
-          ExecStart = "${pkgs.navidrome}/bin/navidrome";
+          ExecStart = "${pkgs.navidrome}/bin/navidrome --configfile ${configFile}";
           TimeoutStopSec = 20;
           KillMode = "process";
           DynamicUser = true;
@@ -31,7 +54,7 @@ in
           CapabilityBoundingSet = "cap_net_bind_service";
           NoNewPrivileges = true;
           LimitNPROC = 64;
-          LimitNOFILE = 64;
+          LimitNOFILE = 1024;
           PrivateTmp = true;
           PrivateDevices = true;
           ProtectHome = true;
@@ -52,7 +75,19 @@ in
           SystemCallFilter = "@system-service";
           SystemCallErrorNumber = "EPERM";
           SystemCallArchitectures = "native";
+          UMask = "0066";
         };
       };
+
+
+    ptsd.nwtraefik = {
+      services = [
+        {
+          name = "navidrome";
+          entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
+          rule = "Host(`nas1.host.nerdworks.de`) && PathPrefix(`/music`)";
+        }
+      ];
+    };
   };
 }

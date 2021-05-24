@@ -354,6 +354,7 @@ in
         prometheus-gitlab = 10024;
         fraamdb = 10025;
         prometheus = 10026; # server
+        navidrome = 10027;
       };
     }
     (
