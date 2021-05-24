@@ -20,33 +20,33 @@ let
   pkgs = import "${krops}/pkgs" { };
 
   source = lib.evalSource [
-    {
-      nixpkgs.git = {
-        clean.exclude = [ "/.version-suffix" ];
-        ref = (lib.importJSON snixpkgs).rev;
-        url = https://github.com/NixOS/nixpkgs;
-        shallow = true;
-      };
+    # {
+    #   nixpkgs.git = {
+    #     clean.exclude = [ "/.version-suffix" ];
+    #     ref = (lib.importJSON snixpkgs).rev;
+    #     url = https://github.com/NixOS/nixpkgs;
+    #     shallow = true;
+    #   };
 
-      nixos-hardware.git = {
-        clean.exclude = [ "/.version-suffix" ];
-        ref = (lib.importJSON ./nixos-hardware.json).rev;
-        url = https://github.com/NixOS/nixos-hardware;
-        shallow = true;
-      };
+    #   nixos-hardware.git = {
+    #     clean.exclude = [ "/.version-suffix" ];
+    #     ref = (lib.importJSON ./nixos-hardware.json).rev;
+    #     url = https://github.com/NixOS/nixos-hardware;
+    #     shallow = true;
+    #   };
 
-      ptsd.file = {
-        path = toString ./.;
-        filters = [
-          {
-            type = "exclude";
-            pattern = ".git/";
-          }
-        ];
-      };
+    #   ptsd.file = {
+    #     path = toString ./.;
+    #     filters = [
+    #       {
+    #         type = "exclude";
+    #         pattern = ".git/";
+    #       }
+    #     ];
+    #   };
 
-      nixos-config.symlink = "ptsd/1systems/${name}/${nixos-config-name}";
-    }
+    #   nixos-config.symlink = "ptsd/1systems/${name}/${nixos-config-name}";
+    # }
 
     (
       lib.optionalAttrs secrets {
@@ -72,72 +72,72 @@ let
       }
     )
 
-    (
-      lib.optionalAttrs home-manager {
-        home-manager.git = {
-          clean.exclude = [ "/.version-suffix" ];
-          ref = (lib.importJSON shome-manager).rev;
-          url = https://github.com/rycee/home-manager;
-          shallow = true;
-        };
-      }
-    )
+    # (
+    #   lib.optionalAttrs home-manager {
+    #     home-manager.git = {
+    #       clean.exclude = [ "/.version-suffix" ];
+    #       ref = (lib.importJSON shome-manager).rev;
+    #       url = https://github.com/rycee/home-manager;
+    #       shallow = true;
+    #     };
+    #   }
+    # )
   ];
 
   #target = lib.mkTarget "root@${name}.host.nerdworks.de";
   target = lib.mkTarget starget;
 in
 rec {
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy)
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A deploy)
-  deploy =
-    pkgs.krops.writeDeploy "deploy" {
-      source = source;
-      target = target;
-    };
+  # # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy)
+  # # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A deploy)
+  # deploy =
+  #   pkgs.krops.writeDeploy "deploy" {
+  #     source = source;
+  #     target = target;
+  #   };
 
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy_ptsd)
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A deploy_ptsd)
-  deploy_ptsd =
-    pkgs.krops.writeDeploy "deploy_ptsd" {
-      source = lib.evalSource [
-        {
-          ptsd.file = {
-            path = toString ./.;
-            filters = [
-              {
-                type = "exclude";
-                pattern = ".git/";
-              }
-            ];
-          };
-        }
-        (
-          lib.optionalAttrs secrets {
-            secrets.pass = {
-              #dir = "${lib.getEnv "HOME"}/.password-store";
-              dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
-              name = "hosts/${name}";
-            };
+  # # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy_ptsd)
+  # # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A deploy_ptsd)
+  # deploy_ptsd =
+  #   pkgs.krops.writeDeploy "deploy_ptsd" {
+  #     source = lib.evalSource [
+  #       {
+  #         ptsd.file = {
+  #           path = toString ./.;
+  #           filters = [
+  #             {
+  #               type = "exclude";
+  #               pattern = ".git/";
+  #             }
+  #           ];
+  #         };
+  #       }
+  #       (
+  #         lib.optionalAttrs secrets {
+  #           secrets.pass = {
+  #             #dir = "${lib.getEnv "HOME"}/.password-store";
+  #             dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+  #             name = "hosts/${name}";
+  #           };
 
-            secrets-shared.pass = {
-              dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
-              name = "hosts-shared";
-            };
-          }
-        )
-        (
-          lib.optionalAttrs client-secrets {
-            client-secrets.pass = {
-              dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
-              name = "clients";
-            };
-          }
-        )
-      ];
-      target = target;
-      fast = true;
-    };
+  #           secrets-shared.pass = {
+  #             dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+  #             name = "hosts-shared";
+  #           };
+  #         }
+  #       )
+  #       (
+  #         lib.optionalAttrs client-secrets {
+  #           client-secrets.pass = {
+  #             dir = "${lib.getEnv "PASSWORD_STORE_DIR"}";
+  #             name = "clients";
+  #           };
+  #         }
+  #       )
+  #     ];
+  #     target = target;
+  #     fast = true;
+  #   };
 
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A populate)
   # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME --arg desktop true -A populate)
@@ -147,61 +147,61 @@ rec {
     target = target;
   };
 
-  populate_ptsd = pkgs.populate {
-    source = lib.evalSource [
-      {
-        ptsd.file = {
-          path = toString ./.;
-          filters = [
-            {
-              type = "exclude";
-              pattern = ".git/";
-            }
-          ];
-        };
-      }
-    ];
-    target = target;
-  };
+  # populate_ptsd = pkgs.populate {
+  #   source = lib.evalSource [
+  #     {
+  #       ptsd.file = {
+  #         path = toString ./.;
+  #         filters = [
+  #           {
+  #             type = "exclude";
+  #             pattern = ".git/";
+  #           }
+  #         ];
+  #       };
+  #     }
+  #   ];
+  #   target = target;
+  # };
 
-  populate_sudo = pkgs.populate {
-    source = source;
-    target = target // {
-      sudo = true;
-    };
-  };
+  # populate_sudo = pkgs.populate {
+  #   source = source;
+  #   target = target // {
+  #     sudo = true;
+  #   };
+  # };
 
-  populate_shallow = pkgs.populate {
-    source = lib.evalSource [
-      {
-        nixpkgs-shallow.git = {
-          clean.exclude = [ "/.version-suffix" ];
-          ref = (lib.importJSON ./nixpkgs.json).rev;
-          url = https://github.com/NixOS/nixpkgs;
-          shallow = true;
-        };
-      }
-    ];
-    target = target;
-  };
+  # populate_shallow = pkgs.populate {
+  #   source = lib.evalSource [
+  #     {
+  #       nixpkgs-shallow.git = {
+  #         clean.exclude = [ "/.version-suffix" ];
+  #         ref = (lib.importJSON ./nixpkgs.json).rev;
+  #         url = https://github.com/NixOS/nixpkgs;
+  #         shallow = true;
+  #       };
+  #     }
+  #   ];
+  #   target = target;
+  # };
 
-  # build without switching to the new config (to test the build)
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A build_remote)
-  build_remote =
-    pkgs.writers.writeDash "build_remote" ''
-      set -efu
-      ${populate}
-      ${pkgs.krops.rebuild [ "dry-build" ] target}
-      ${pkgs.krops.build target}
-    '';
+  # # build without switching to the new config (to test the build)
+  # # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A build_remote)
+  # build_remote =
+  #   pkgs.writers.writeDash "build_remote" ''
+  #     set -efu
+  #     ${populate}
+  #     ${pkgs.krops.rebuild [ "dry-build" ] target}
+  #     ${pkgs.krops.build target}
+  #   '';
 
-  # build without switching to the new config (will be activated after next reboot)
-  # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy_boot)
-  deploy_boot =
-    pkgs.writers.writeDash "deploy_boot" ''
-      set -efu
-      ${populate}
-      ${pkgs.krops.rebuild [ "boot" ] target}
-      ${pkgs.krops.build target}
-    '';
+  # # build without switching to the new config (will be activated after next reboot)
+  # # usage: $(nix-build --no-out-link krops.nix --argstr name HOSTNAME -A deploy_boot)
+  # deploy_boot =
+  #   pkgs.writers.writeDash "deploy_boot" ''
+  #     set -efu
+  #     ${populate}
+  #     ${pkgs.krops.rebuild [ "boot" ] target}
+  #     ${pkgs.krops.build target}
+  #   '';
 }
