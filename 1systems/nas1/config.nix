@@ -74,6 +74,7 @@ in
         allowedTCPPorts = [
           631 # cups
           448 # traefik/gitweb
+          22000 # syncthing
         ];
         allowedUDPPorts = [ 631 ];
       };
@@ -367,16 +368,20 @@ in
       };
   };
 
-  systemd.nspawn = {
-    mydebian = {
-      execConfig = {
-        Hostname = "mydebian";
-        PrivateUsers = false;
-      };
-      networkConfig = {
-        Bridge = "br0";
-      };
-    };
-  };
+  # systemd.nspawn = {
+  #   mydebian = {
+  #     execConfig = {
+  #       Hostname = "mydebian";
+  #       PrivateUsers = false;
+  #     };
+  #     networkConfig = {
+  #       Bridge = "br0";
+  #     };
+  #   };
+  # };
 
+  ptsd.navidrome = {
+    enable = true;
+    musicFolder = "/tank/enc/media";
+  };
 }
