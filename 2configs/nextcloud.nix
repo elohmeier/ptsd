@@ -189,4 +189,9 @@ in
   # syncthing might run a lengthy db migration
   systemd.services."syncthing-init.service".serviceConfig.TimeoutStartSec = "5min";
   systemd.services."syncthing.service".serviceConfig.TimeoutStartSec = "5min";
+
+  boot.kernel.sysctl = {
+    # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
+    "fs.inotify.max_user_watches" = 204800;
+  };
 }
