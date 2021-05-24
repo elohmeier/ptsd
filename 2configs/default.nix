@@ -93,7 +93,7 @@ in
           hostname: hostcfg: {
             hostNames =
               [ hostname (if hasAttr "domain" hostcfg then "${hostname}.${hostcfg.domain}" else "${hostname}.host.nerdworks.de") ]
-              ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (netname: netcfg: netname == "nwvpn" && hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
+              ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (netname: netcfg: (netname == "nwvpn" || netname == "bs53lan") && hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
               # below additions not always useful, e.g. gitlab-container on htz3 with different ssh-key used only on same public ip - so we only use the above nwvpn ip for now and below manual definitions
               # ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
               # ++ (mapAttrsToList (_: netcfg: netcfg.ip6.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip6" "addr" ] netcfg) hostcfg.nets))
