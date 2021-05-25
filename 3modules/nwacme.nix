@@ -25,7 +25,7 @@ in
             };
             webroot = mkOption {
               type = types.str;
-              default = "/var/lib/acme/acme-challenges";
+              default = "/var/lib/acme/acme-challenge";
             };
           };
         };
