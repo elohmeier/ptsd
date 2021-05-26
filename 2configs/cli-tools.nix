@@ -50,6 +50,7 @@
     nix-prefetch-git
     netcat-gnu
     nwbackup-env
+    nix-index
   ];
 
   nixpkgs.config.allowUnfree = true; # required for unrar
