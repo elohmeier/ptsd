@@ -37,7 +37,13 @@
           connection.port = "/run/klipper/tty";
         };
       };
-      serial.disconnectOnErrors = false;
+      serial = {
+        # recommended for klipper plugin
+        disconnectOnErrors = false;
+
+        # prevent octoprint timeouts
+        longRunningCommands = [ "G4" "G28" "M400" "M226" "M600" "START_PRINT" ];
+      };
       webcam = {
         stream = "http://eee1.nw/mjpg/?action=stream";
         snapshot = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.mjpg-streamer}/?action=snapshot";
@@ -215,4 +221,12 @@
       '';
     };
   };
+
+  # start klipper on usb connect
+  systemd.services.klipper =
+    let deviceService = "sys-devices-pci0000:00-0000:00:1d.0-usb2-2\\x2d2-2\\x2d2:1.0-ttyUSB0-tty-ttyUSB0.device"; in
+    {
+      bindsTo = [ deviceService ];
+      wantedBy = [ deviceService ];
+    };
 }
