@@ -65,6 +65,7 @@ in
     enable = true;
     terminalConfig = "alacritty";
     waybar.enable = true;
+    waybar.co2 = true;
     profiles = [
       "3dprinting"
       "admin"

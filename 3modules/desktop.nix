@@ -591,6 +591,10 @@ in
         type = types.bool;
         default = true;
       };
+      waybar.co2 = mkOption {
+        type = types.bool;
+        default = false;
+      };
       audio.enable = mkOption {
         type = types.bool;
         default = true;
@@ -624,7 +628,7 @@ in
 
   config = mkIf cfg.enable {
 
-    ptsd.secrets.files."hass-cli.env" = {
+    ptsd.secrets.files."hass-cli.env" = mkIf cfg.waybar.co2 {
       owner = config.users.users.mainUser.name;
     };
 
@@ -892,7 +896,8 @@ in
                   ];
                   modules-right = [
                     "idle_inhibitor"
-                    "custom/co2"
+                  ] ++ (lib.optional cfg.waybar.co2
+                    "custom/co2") ++ [
                     "disk#home"
                     "disk#nix"
                     "disk#xdg-runtime-dir"
@@ -917,7 +922,7 @@ in
                         deactivated = "";
                       };
                     };
-                    "custom/co2" = {
+                    "custom/co2" = mkIf cfg.waybar.co2 {
                       format = "co2 {}ppm";
                       exec = pkgs.writeShellScript "read-co2-status" ''
                         export $(grep -v '^#' /run/keys/hass-cli.env | xargs -d '\n')
