@@ -172,11 +172,14 @@
         probe_count = "3,3";
       };
 
+      skew_correction = { };
+
       # prevent M205 warnings
       "gcode_macro M205".gcode = "\n  G4";
 
       # use this start code in prusa slicer:
       # START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
+      # skew measured using 50mm model from https://www.thingiverse.com/thing:2972743
       "gcode_macro START_PRINT".gcode = ''
         ''\n''\t{% set BED_TEMP = params.BED_TEMP|default(60)|float %}
         ''\t{% set EXTRUDER_TEMP = params.EXTRUDER_TEMP|default(190)|float %}
@@ -190,6 +193,7 @@
         ''\tG28
         ''\tBED_MESH_CALIBRATE
         ''\tBED_MESH_OUTPUT
+        ''\tSET_SKEW XY=704,698,496 XZ=705,702,495 YZ=698,699,497
         ''\tG1 Z30 F240
         ''\tG1 X28 Y30 F3000
         ''\t# Wait for bed to reach temperature
