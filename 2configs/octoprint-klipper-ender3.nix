@@ -63,7 +63,8 @@
         microsteps = "16";
         rotation_distance = "40";
         endstop_pin = "^PC2";
-        position_endstop = "0";
+        position_endstop = "-23";
+        position_min = "-23";
         position_max = "235";
         homing_speed = "50";
       };
@@ -75,7 +76,8 @@
         microsteps = "16";
         rotation_distance = "40";
         endstop_pin = "^PC3";
-        position_endstop = "0";
+        position_endstop = "-17";
+        position_min = "-17";
         position_max = "235";
         homing_speed = "50";
       };
@@ -194,18 +196,18 @@
         ''\tBED_MESH_CALIBRATE
         ''\tBED_MESH_OUTPUT
         ''\tSET_SKEW XY=704,698,496 XZ=705,702,495 YZ=698,699,497
-        ''\tG1 Z30 F240
-        ''\tG1 X28 Y30 F3000
+        ''\tG1 Z50 F240
+        ''\tG1 X2 Y10 F3000
         ''\t# Wait for bed to reach temperature
         ''\tM190 S{BED_TEMP}
         ''\t# Set and wait for nozzle to reach temperature
         ''\tM109 S{EXTRUDER_TEMP}
         ''\tG1 Z0.28 F240
         ''\tG92 E0
-        ''\tG1 Y160 E10 F1500 ; intro line
-        ''\tG1 X28.3 F5000
+        ''\tG1 Y140 E10 F1500 ; intro line
+        ''\tG1 X2.3 F5000
         ''\tG92 E0
-        ''\tG1 Y30 E10 F1200 ; intro line
+        ''\tG1 Y10 E10 F1200 ; intro line
         ''\tG92 E0
       '';
 
