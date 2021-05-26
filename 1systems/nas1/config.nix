@@ -149,9 +149,9 @@ in
       location = "/git";
       virtualHost = "nas1.host.nerdworks.de";
     };
-    package = pkgs.nginx.override {
-      modules = with pkgs.nginxModules; [ fancyindex ];
-    };
+    # package = pkgs.nginx.override {
+    #   modules = with pkgs.nginxModules; [ fancyindex ];
+    # };
     commonHttpConfig = ''
       charset UTF-8;
       types_hash_max_size 4096;
@@ -322,51 +322,51 @@ in
     listenAddress = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631";
   };
 
-  virtualisation = {
-    libvirtd = {
-      enable = true;
-      qemuPackage = pkgs.qemu_kvm;
-      qemuRunAsRoot = false;
-    };
-  };
+  # virtualisation = {
+  #   libvirtd = {
+  #     enable = true;
+  #     qemuPackage = pkgs.qemu_kvm;
+  #     qemuRunAsRoot = false;
+  #   };
+  # };
 
-  containers.ff = {
-    autoStart = false;
-    hostBridge = "ff";
-    privateNetwork = true;
-    bindMounts = {
-      "/tank/enc/roms" = {
-        hostPath = "/tank/enc/roms";
-        isReadOnly = false;
-      };
-    };
+  # containers.ff = {
+  #   autoStart = false;
+  #   hostBridge = "ff";
+  #   privateNetwork = true;
+  #   bindMounts = {
+  #     "/tank/enc/roms" = {
+  #       hostPath = "/tank/enc/roms";
+  #       isReadOnly = false;
+  #     };
+  #   };
 
-    config =
-      { config, pkgs, inputs, ... }:
-      {
-        imports = [
-          ../..
-          ../../2configs
-        ];
+  #   config =
+  #     { config, pkgs, inputs, ... }:
+  #     {
+  #       imports = [
+  #         ../..
+  #         ../../2configs
+  #       ];
 
-        boot.isContainer = true;
+  #       boot.isContainer = true;
 
-        networking = {
-          useHostResolvConf = false;
-          useNetworkd = true;
-          interfaces.eth0.useDHCP = true;
-        };
+  #       networking = {
+  #         useHostResolvConf = false;
+  #         useNetworkd = true;
+  #         interfaces.eth0.useDHCP = true;
+  #       };
 
-        time.timeZone = "Europe/Berlin";
+  #       time.timeZone = "Europe/Berlin";
 
-        i18n = {
-          defaultLocale = "de_DE.UTF-8";
-          supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-        };
+  #       i18n = {
+  #         defaultLocale = "de_DE.UTF-8";
+  #         supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+  #       };
 
-        environment.systemPackages = with pkgs; [ tmux rtorrent ];
-      };
-  };
+  #       environment.systemPackages = with pkgs; [ tmux rtorrent ];
+  #     };
+  # };
 
   # systemd.nspawn = {
   #   mydebian = {

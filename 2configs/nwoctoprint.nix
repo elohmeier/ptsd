@@ -23,7 +23,7 @@ in
     serialDevice = "/dev/ttyACM0"; # prusa
   };
 
-  environment.systemPackages = [ (pkgs.v4l-utils.override { withGUI = false; }) ];
+  # environment.systemPackages = [ (pkgs.v4l-utils.override { withGUI = false; }) ];
 
   # ptsd.mjpg-streamer = {
   #   enable = true;
