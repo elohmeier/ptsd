@@ -384,4 +384,33 @@ in
     enable = true;
     musicFolder = "/tank/enc/media";
   };
+
+  environment.variables = {
+    BORG_BASE_DIR = "/var/lib/borg";
+    BORG_REPO = "ssh://u267169-sub1@u267169.your-storagebox.de:23/./backups/nas1";
+    BORG_PASSCOMMAND = "cat /var/src/secrets/nwbackup.borgkey";
+  };
+
+  services.borgbackup.jobs.hetzner = {
+    paths = [ "/tank/enc" "/var/lib" ];
+    exclude = [ "/var/lib/borg" "/tank/enc/roms" ];
+    repo = "ssh://u267169-sub1@u267169.your-storagebox.de:23/./backups/nas1";
+    environment = {
+      BORG_BASE_DIR = "/var/lib/borg";
+    };
+    readWritePaths = [ "/var/lib/borg" ];
+    encryption = {
+      mode = "repokey";
+      passCommand = "cat /var/src/secrets/nwbackup.borgkey";
+    };
+    compression = "auto,lzma,6";
+    doInit = false;
+    extraCreateArgs = "--stats --exclude-caches";
+    prune.keep = {
+      within = "1d"; # Keep all archives from the last day
+      daily = 7;
+      weekly = 4;
+      monthly = 6;
+    };
+  };
 }
