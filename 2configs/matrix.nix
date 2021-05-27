@@ -57,6 +57,16 @@ in
     };
   };
 
+  # ptsd.mautrix-whatsapp = {
+  #   enable = true;
+  #   settings = {
+  #     homeserver = {
+  #       address = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.synapse}";
+  #       domain = "nerdworks.de";
+  #     };
+  #   };
+  # };
+
   services.postgresql = {
     enable = true;
     package = pkgs.postgresql_11;

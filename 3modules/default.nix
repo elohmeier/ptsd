@@ -11,6 +11,7 @@ _:
     ./fraam-gitlab.nix
     ./fraam-www.nix
     ./maddy.nix
+    ./mautrix-whatsapp.nix
     ./mjpg-streamer.nix
     ./monica.nix
     ./mosquitto.nix
