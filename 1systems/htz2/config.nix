@@ -119,11 +119,10 @@ in
         postRun = "systemctl restart traefik.service";
       };
 
-      "mail.nerdworks.de" = {
-        webroot = config.ptsd.nwacme.http.webroot;
-        credentialsFile = envFile "mail.nerdworks.de";
-        group = "certs";
-        postRun = "systemctl restart traefik.service";
+      # configured in nwacme module
+      "htz2.host.nerdworks.de" = {
+        extraDomainNames = [ "mail.nerdworks.de" ];
+        postRun = "systemctl restart maddy.service traefik.service";
       };
 
       "matrix.nerdworks.de" = {

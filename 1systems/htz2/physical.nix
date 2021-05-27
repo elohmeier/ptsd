@@ -1,6 +1,6 @@
 { config, pkgs, ... }:
 let
-  vgPrefix = "/dev/disk/by-id/dm-name-vg";
+  vgPrefix = "/dev/vg";
 in
 {
   imports = [
@@ -17,7 +17,7 @@ in
 
   fileSystems = {
     "/" = {
-      device = "${vgPrefix}-root";
+      device = "${vgPrefix}/root";
       fsType = "ext4";
     };
 
@@ -28,37 +28,42 @@ in
 
     "/home" =
       {
-        device = "${vgPrefix}-home";
+        device = "${vgPrefix}/home";
         fsType = "ext4";
       };
 
     "/nix" =
       {
-        device = "${vgPrefix}-nix";
+        device = "${vgPrefix}/nix";
         fsType = "ext4";
       };
 
     "/var" =
       {
-        device = "${vgPrefix}-var";
+        device = "${vgPrefix}/var";
         fsType = "ext4";
       };
 
+    "/var/lib/private/maddy" = {
+      device = "${vgPrefix}/var-lib-private-maddy";
+      fsType = "ext4";
+    };
+
     "/var/log" =
       {
-        device = "${vgPrefix}-var--log";
+        device = "${vgPrefix}/var-log";
         fsType = "ext4";
       };
 
     "/var/src" =
       {
-        device = "${vgPrefix}-var--src";
+        device = "${vgPrefix}/var-src";
         fsType = "ext4";
         neededForBoot = true; # mount early for passwd provisioning
       };
   };
 
   swapDevices = [
-    { device = "${vgPrefix}-swap"; }
+    { device = "${vgPrefix}/swap"; }
   ];
 }
