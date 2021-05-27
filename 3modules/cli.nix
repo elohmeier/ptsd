@@ -244,6 +244,11 @@ in
                   '';
                   shellAliases = shellAliases.aliases // shellAliases.abbreviations;
                 };
+
+
+                neovim = {
+                  enable = true;
+                };
               };
               home.packages = with pkgs; [
                 python3Packages.graphtage
