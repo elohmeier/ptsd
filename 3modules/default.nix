@@ -10,6 +10,7 @@ _:
     ./fraamdb.nix
     ./fraam-gitlab.nix
     ./fraam-www.nix
+    ./maddy.nix
     ./mjpg-streamer.nix
     ./monica.nix
     ./mosquitto.nix

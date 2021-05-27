@@ -14,6 +14,10 @@ in
       ../../2configs/prometheus/node.nix
     ];
 
+  ptsd.maddy = {
+    enable = true;
+  };
+
   ptsd.nwbackup = {
     enable = true;
     paths = [
