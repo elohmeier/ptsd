@@ -234,5 +234,8 @@
     {
       bindsTo = [ deviceService ];
       wantedBy = [ deviceService ];
+      serviceConfig = {
+        Nice = -10;
+      };
     };
 }
