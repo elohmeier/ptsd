@@ -144,6 +144,8 @@ let
         auth &local_authdb
         storage &local_mailboxes
     }
+
+    openmetrics tcp://127.0.0.1:${toString config.ptsd.nwtraefik.ports.prometheus-maddy} { }
   '';
 in
 {
@@ -237,5 +239,16 @@ in
 
     ptsd.nwbackup.extraPaths = [ "/var/lib/private/maddy" ];
 
+    ptsd.nwtraefik = {
+      services = [
+        {
+          name = "prometheus-maddy";
+          entryPoints = [ "nwvpn-prometheus" ];
+          rule = "PathPrefix(`/${config.networking.hostName}/maddy`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
+          tls = false;
+          extraMiddlewares = [ "prom-stripprefix" ];
+        }
+      ];
+    };
   };
 }

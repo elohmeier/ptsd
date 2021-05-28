@@ -97,6 +97,9 @@ in
         );
       }
 
+      (nwJob "htz2" "htz2" "node")
+      (nwJob "htz2" "htz2" "maddy")
+
       (nwJob "htz3" "htz3" "node")
       (nwJob "htz3" "gitlab" "node")
       (nwJob "htz3" "wpjail" "node")

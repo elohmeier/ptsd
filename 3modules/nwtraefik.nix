@@ -355,6 +355,7 @@ in
         fraamdb = 10025;
         prometheus = 10026; # server
         navidrome = 10027;
+        prometheus-maddy = 10028;
       };
     }
     (
