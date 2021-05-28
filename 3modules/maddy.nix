@@ -235,5 +235,7 @@ in
       143
     ];
 
+    ptsd.nwbackup.extraPaths = [ "/var/lib/private/maddy" ];
+
   };
 }
