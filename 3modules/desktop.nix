@@ -521,6 +521,7 @@ let
       wireshark-qt
       pwndbg
       # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
+      nikto
     ];
   };
 in
