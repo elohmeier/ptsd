@@ -33,6 +33,7 @@ in
       weekly = 4;
       monthly = 6;
     };
+    startAt = "*-*-* 05:00:00"; # run after dsl disconnect around ~04:15
   };
 
   systemd.services.borgbackup-job-hetzner.serviceConfig.StateDirectory = "borg";
