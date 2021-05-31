@@ -975,6 +975,7 @@ in
                     };
                     clock = {
                       format = "{:%a, %d. %b  %H:%M}";
+                      on-click-right = term.exec "bash -c 'cal -w -y && echo press enter to exit && read'" "";
                     };
                     network = {
                       format-wifi = "{essid} ({signalStrength}%) ";
