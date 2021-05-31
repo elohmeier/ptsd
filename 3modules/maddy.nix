@@ -10,11 +10,37 @@ let
   '';
 
   configFile = pkgs.writeText "maddy.conf" ''
+    ## Maddy Mail Server - default configuration file (2021-03-07)
+    # Suitable for small-scale deployments. Uses its own format for local users DB,
+    # should be managed via maddyctl utility.
+    #
+    # See tutorials at https://maddy.email for guidance on typical
+    # configuration changes.
+    #
+    # See manual pages (also available at https://maddy.email) for reference
+    # documentation.
+
+    # ----------------------------------------------------------------------------
+    # Base variables
+
     $(hostname) = htz2.host.nerdworks.de
     $(primary_domain) = ennolohmeier.de
     $(local_domains) = $(primary_domain)
 
     tls file /var/lib/acme/$(hostname)/fullchain.pem /var/lib/acme/$(hostname)/key.pem
+
+    # ----------------------------------------------------------------------------
+    # Local storage & authentication
+
+    # pass_table provides local hashed passwords storage for authentication of
+    # users. It can be configured to use any "table" module, in default
+    # configuration a table in SQLite DB is used.
+    # Table can be replaced to use e.g. a file for passwords. Or pass_table module
+    # can be replaced altogether to use some external source of credentials (e.g.
+    # PAM, /etc/shadow file).
+    #
+    # If table module supports it (sql_table does) - credentials can be managed
+    # using 'maddyctl creds' command.
 
     auth.pass_table local_authdb {
       table sql_table {
@@ -24,10 +50,20 @@ let
       }
     }
 
+    # imapsql module stores all indexes and metadata necessary for IMAP using a
+    # relational database. It is used by IMAP endpoint for mailbox access and
+    # also by SMTP & Submission endpoints for delivery of local messages.
+    #
+    # IMAP accounts, mailboxes and all message metadata can be inspected using
+    # imap-* subcommands of maddyctl utility.
+
     storage.imapsql local_mailboxes {
       driver sqlite3
       dsn imapsql.db
     }
+
+    # ----------------------------------------------------------------------------
+    # SMTP endpoints + message routing
 
     hostname $(hostname)
 
