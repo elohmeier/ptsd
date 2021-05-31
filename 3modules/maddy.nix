@@ -6,7 +6,12 @@ let
   cfg = config.ptsd.maddy;
 
   aliases = pkgs.writeText "aliases" ''
-
+    info@nerdworks.de: enno@nerdworks.de
+    enno.lohmeier@nerdworks.de: enno@nerdworks.de
+    enno.richter@nerdworks.de: enno@nerdworks.de
+    postmaster: enno@nerdworks.de
+    e.lohmeier@gmx.de: enno@nerdworks.de
+    lulu@nerdworks.de: enno@nerdworks.de
   '';
 
   configFile = pkgs.writeText "maddy.conf" ''
@@ -24,8 +29,8 @@ let
     # Base variables
 
     $(hostname) = htz2.host.nerdworks.de
-    $(primary_domain) = ennolohmeier.de
-    $(local_domains) = $(primary_domain)
+    $(primary_domain) = nerdworks.de
+    $(local_domains) = $(primary_domain) ennolohmeier.de nerd-works.de
 
     tls file /var/lib/acme/$(hostname)/fullchain.pem /var/lib/acme/$(hostname)/key.pem
 
@@ -68,117 +73,126 @@ let
     hostname $(hostname)
 
     msgpipeline local_routing {
-        # Insert handling for special-purpose local domains here.
-        # e.g.
-        # destination lists.example.org {
-        #     deliver_to lmtp tcp://127.0.0.1:8024
-        # }
+      # Insert handling for special-purpose local domains here.
+      # e.g.
+      # destination lists.example.org {
+      #   deliver_to lmtp tcp://127.0.0.1:8024
+      # }
 
-        destination postmaster $(local_domains) {
-            modify {
-                replace_rcpt regexp "(.+)\+(.+)@(.+)" "$1@$3"
-                replace_rcpt file ${aliases}
-            }
-
-            deliver_to &local_mailboxes
+      destination $(local_domains) {
+        modify {
+          replace_rcpt regexp "elo-.+@nerd-?works.de" enno@$(primary_domain)
+          replace_rcpt file ${aliases}
         }
 
-        default_destination {
-            reject 550 5.1.1 "User doesn't exist"
+        deliver_to &local_mailboxes
+      }
+
+      destination postmaster $(local_domains) {
+        modify {
+          replace_rcpt regexp "(.+)\+(.+)@(.+)" "$1@$3"
+          replace_rcpt file ${aliases}
         }
+
+        deliver_to &local_mailboxes
+      }
+
+      default_destination {
+        reject 550 5.1.1 "User doesn't exist"
+      }
     }
 
     smtp tcp://0.0.0.0:25 {
         limits {
-            # Up to 20 msgs/sec across max. 10 SMTP connections.
-            all rate 20 1s
-            all concurrency 10
+          # Up to 20 msgs/sec across max. 10 SMTP connections.
+          all rate 20 1s
+          all concurrency 10
         }
 
         dmarc yes
         check {
-            require_mx_record
-            dkim
-            spf
+          require_mx_record
+          dkim
+          spf
         }
 
         source $(local_domains) {
-            reject 501 5.1.8 "Use Submission for outgoing SMTP"
+          reject 501 5.1.8 "Use Submission for outgoing SMTP"
         }
         default_source {
-            destination postmaster $(local_domains) {
-                deliver_to &local_routing
-            }
-            default_destination {
-                reject 550 5.1.1 "User doesn't exist"
-            }
+          destination postmaster $(local_domains) {
+            deliver_to &local_routing
+          }
+          default_destination {
+            reject 550 5.1.1 "User doesn't exist"
+          }
         }
     }
 
     submission tls://0.0.0.0:465 tcp://0.0.0.0:587 {
-        limits {
-            # Up to 50 msgs/sec across any amount of SMTP connections.
-            all rate 50 1s
-        }
+      limits {
+        # Up to 50 msgs/sec across any amount of SMTP connections.
+        all rate 50 1s
+      }
 
-        auth &local_authdb
+      auth &local_authdb
 
-        source $(local_domains) {
-            destination postmaster $(local_domains) {
-                deliver_to &local_routing
-            }
-            default_destination {
-                modify {
-                    dkim $(primary_domain) $(local_domains) default
-                }
-                deliver_to &remote_queue
-            }
+      source $(local_domains) {
+        destination postmaster $(local_domains) {
+          deliver_to &local_routing
         }
-        default_source {
-            reject 501 5.1.8 "Non-local sender domain"
+        default_destination {
+          modify {
+            dkim $(primary_domain) $(local_domains) default
+          }
+          deliver_to &remote_queue
         }
+      }
+      default_source {
+        reject 501 5.1.8 "Non-local sender domain"
+      }
     }
 
     target.remote outbound_delivery {
-        limits {
-            # Up to 20 msgs/sec across max. 10 SMTP connections
-            # for each recipient domain.
-            destination rate 20 1s
-            destination concurrency 10
+      limits {
+        # Up to 20 msgs/sec across max. 10 SMTP connections
+        # for each recipient domain.
+        destination rate 20 1s
+        destination concurrency 10
+      }
+      mx_auth {
+        dane
+        mtasts {
+          cache fs
+          fs_dir mtasts_cache/
         }
-        mx_auth {
-            dane
-            mtasts {
-                cache fs
-                fs_dir mtasts_cache/
-            }
-            local_policy {
-                min_tls_level encrypted
-                min_mx_level none
-            }
+        local_policy {
+          min_tls_level encrypted
+          min_mx_level none
         }
+      }
     }
 
     target.queue remote_queue {
-        target &outbound_delivery
+      target &outbound_delivery
 
-        autogenerated_msg_domain $(primary_domain)
-        bounce {
-            destination postmaster $(local_domains) {
-                deliver_to &local_routing
-            }
-            default_destination {
-                reject 550 5.0.0 "Refusing to send DSNs to non-local addresses"
-            }
+      autogenerated_msg_domain $(primary_domain)
+      bounce {
+        destination postmaster $(local_domains) {
+          deliver_to &local_routing
         }
+        default_destination {
+          reject 550 5.0.0 "Refusing to send DSNs to non-local addresses"
+        }
+      }
     }
 
     # ----------------------------------------------------------------------------
     # IMAP endpoints
 
     imap tls://0.0.0.0:993 tcp://0.0.0.0:143 {
-        auth &local_authdb
-        storage &local_mailboxes
+      auth &local_authdb
+      storage &local_mailboxes
     }
 
     openmetrics tcp://127.0.0.1:${toString config.ptsd.nwtraefik.ports.prometheus-maddy} { }
