@@ -99,6 +99,7 @@ in
                       };
                       features = "decorations";
                       whitespace-error-style = "22 reverse";
+                      paging = "never";
                     };
                   };
                 };
@@ -248,6 +249,13 @@ in
 
                 neovim = {
                   enable = true;
+                  viAlias = true;
+                  vimAlias = true;
+                  vimdiffAlias = true;
+                  withRuby = false;
+                  withPython3 = true;
+                  extraPython3Packages = ps: with ps; [ python-language-server ];
+                  plugins = with pkgs.vimPlugins; [ vim-nix nnn-vim ];
                 };
               };
               home.packages = with pkgs; [
