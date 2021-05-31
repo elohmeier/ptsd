@@ -40,6 +40,7 @@ self: super:
   nwfonts = self.callPackage ./nwfonts { };
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
   pdfduplex = self.callPackage ./pdfduplex { };
+  photoprism = self.callPackage ./photoprism { };
   shrinkpdf = self.callPackage ./shrinkpdf { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };
   telegram-sh = self.callPackage ./telegram-sh { };
