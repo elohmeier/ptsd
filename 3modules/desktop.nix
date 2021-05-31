@@ -444,7 +444,6 @@ let
         gnome3.file-roller
         xournalpp
         #calibre
-        (xmind.override { jre = openjdk11; })
         transmission-gtk
         fava
         anki
@@ -1328,6 +1327,7 @@ in
                 enable = true;
                 settings = {
                   env.TERM = "xterm-256color";
+                  background_opacity = 0.8;
                   font = {
                     normal = {
                       family = cfg.fontMono;
