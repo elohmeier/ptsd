@@ -623,6 +623,10 @@ in
         type = types.str;
         default = "firefox.desktop";
       };
+      autolock.enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
     };
   };
 
@@ -894,15 +898,13 @@ in
                   modules-left = [ "sway/workspaces" "sway/mode" ];
                   modules-center = [
                   ];
-                  modules-right = [
-                    "idle_inhibitor"
-                  ] ++ (lib.optional cfg.waybar.co2
+                  modules-right = (lib.optional cfg.autolock.enable "idle_inhibitor") ++ (lib.optional cfg.waybar.co2
                     "custom/co2") ++ [
                     "disk#home"
                     "disk#nix"
                     "disk#xdg-runtime-dir"
                   ]
-                  ++ optional cfg.audio.enable
+                    ++ optional cfg.audio.enable
                     "pulseaudio" ++ [
                     "network"
                     "network#tun0"
@@ -915,7 +917,7 @@ in
                   ];
                   modules = {
 
-                    idle_inhibitor = {
+                    idle_inhibitor = mkIf cfg.autolock.enable {
                       format = "{icon}";
                       format-icons = {
                         activated = "";
@@ -1309,6 +1311,7 @@ in
                 seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
                 mouse_warping none
                 exec ${config.programs.waybar.package}/bin/waybar
+              '' + optionalString (cfg.autolock.enable) ''
                 exec ${pkgs.swayidle}/bin/swayidle -w \
                   timeout 300 '${lockCmd}' \
                   timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \

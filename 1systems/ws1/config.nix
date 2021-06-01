@@ -77,6 +77,7 @@ in
       "office"
       "sec"
     ];
+    autolock.enable = false;
   };
 
   # TODO: 20.09 compat
