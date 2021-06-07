@@ -2,8 +2,8 @@
   description = "ptsd";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable-small;
-    home-manager.url = github:nix-community/home-manager/master;
+    nixpkgs.url = github:NixOS/nixpkgs/nixos-21.05;
+    home-manager.url = github:nix-community/home-manager/release-21.05;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
