@@ -23,7 +23,6 @@ in
     # 
     # ../../2configs/home-secrets.nix
 
-    ./qemu.nix
   ];
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
@@ -79,11 +78,6 @@ in
     ];
     autolock.enable = false;
   };
-
-  # TODO: 20.09 compat
-  # https://github.com/cleverca22/nixos-configs/issues/6
-  #qemu-user.arm = true;
-  #boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix.trustedUsers = [ "root" "enno" ];
   #hardware.steam-hardware.enable = true;
@@ -309,7 +303,7 @@ in
     libvirtd = {
       enable = true;
       qemuPackage = pkgs.qemu_kvm;
-      qemuRunAsRoot = false; # TODO: test permissions
+      qemuRunAsRoot = false;
     };
   };
 
