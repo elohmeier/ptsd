@@ -441,6 +441,7 @@ let
         };
       in
       [
+        google-drive-ocamlfuse
         gnome3.file-roller
         xournalpp
         #calibre
