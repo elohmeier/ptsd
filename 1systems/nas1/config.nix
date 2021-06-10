@@ -7,7 +7,7 @@ in
   imports = [
     ../..
     ../../2configs
-    ../../2configs/cli-tools.nix
+    #../../2configs/cli-tools.nix
     #../../2configs/drone-exec-container.nix
     ../../2configs/grafana.nix
     ../../2configs/hardened.nix
