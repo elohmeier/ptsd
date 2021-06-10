@@ -33,6 +33,7 @@ in
   ptsd.monica = {
     enable = true;
     domain = "monica.services.nerdworks.de";
+    entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
   };
 
   home-manager = {

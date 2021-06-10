@@ -47,7 +47,7 @@ let
     APP_EVENTS_CACHE = "${cfg.dataDir}/cache/events.php";
     HASH_SALT = "$HASH_SALT";
     HASH_LENGTH = "18";
-    APP_URL = "https://${cfg.domain}/";
+    APP_URL = if cfg.httpsOnly then "https://${cfg.domain}/" else "http://${cfg.domain}/";
     DB_CONNECTION = "mysql";
     DB_UNIX_SOCKET = "/var/run/mysqld/mysqld.sock";
     DB_DATABASE = "monica";
@@ -79,7 +79,7 @@ let
     MFA_ENABLED = "\"false\"";
     ALLOW_STATISTICS_THROUGH_PUBLIC_API_ACCESS = "\"false\"";
     POLICY_COMPLIANT = "\"false\"";
-  };
+  } // cfg.extraEnv;
 in
 {
   options = {
@@ -87,14 +87,37 @@ in
       enable = mkEnableOption "monica";
       domain = mkOption {
         type = types.str;
+        default = "localhost";
       };
       entryPoints = mkOption {
         type = with types; listOf str;
-        default = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
+        default = [ ];
       };
       dataDir = mkOption {
         type = types.str;
         default = "/var/lib/monica";
+      };
+      backup.enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+      secret.enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
+      extraEnv = mkOption {
+        type = with types; attrsOf str;
+        default = { };
+        example = {
+          APP_KEY = "dummydummydummydummydummydummydu";
+          APP_ENV = "local";
+          APP_DEBUG = "\"true\"";
+          HASH_SALT = "dummydummydummydummydummydummydu";
+        };
+      };
+      httpsOnly = mkOption {
+        type = types.bool;
+        default = true;
       };
     };
   };
@@ -126,10 +149,10 @@ in
       };
     };
 
-    ptsd.secrets.files."monica.env" = {
+    ptsd.secrets.files."monica.env" = mkIf cfg.secret.enable {
       dependants = [ "phpfpm-monica.service" ];
     };
-    systemd.services.phpfpm-monica.serviceConfig.EnvironmentFile = config.ptsd.secrets.files."monica.env".path;
+    systemd.services.phpfpm-monica.serviceConfig.EnvironmentFile = mkIf cfg.secret.enable config.ptsd.secrets.files."monica.env".path;
 
     # Uncomment for debugging purposes.
     # environment = {
@@ -199,7 +222,7 @@ in
       ];
     };
 
-    systemd.services.mysql-backup-monica = {
+    systemd.services.mysql-backup-monica = mkIf cfg.backup.enable {
       description = "Backup Monica MySQL database";
       wantedBy = [ "multi-user.target" ];
       requires = [ "mysql.service" ];
@@ -247,7 +270,7 @@ in
               fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
               fastcgi_param REDIRECT_STATUS 200;
               fastcgi_pass unix:${config.services.phpfpm.pools.monica.socket};
-              fastcgi_param HTTPS on;
+              ${optionalString cfg.httpsOnly "fastcgi_param HTTPS on;"}
             '';
           };
         };
