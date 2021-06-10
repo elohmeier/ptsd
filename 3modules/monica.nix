@@ -182,6 +182,7 @@ in
         done
 
         cd "$STATE_DIRECTORY"
+        rm -f *
 
         mkdir -p cache
         mkdir -p storage/app/public
