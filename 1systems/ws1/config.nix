@@ -387,7 +387,7 @@ in
       };
       "/home/enno/Scans" = {
         id = "ezjwj-xgnhe";
-        devices = [ "nas1" ];
+        devices = [ "nas1" "tp1" ];
       };
       "/home/enno/Scans-Luisa" = {
         id = "dnryo-kz7io";
