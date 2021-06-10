@@ -18,7 +18,6 @@ let
     gd
     gmp
     iconv
-    imagick
     intl
     json
     mbstring
@@ -31,7 +30,7 @@ let
     session
     sodium
     tokenizer
-    xml
+    xmlwriter
     zip
   ]);
 
@@ -185,6 +184,7 @@ in
         cd "$STATE_DIRECTORY"
 
         mkdir -p cache
+        mkdir -p storage/app/public
         mkdir -p storage/framework/cache
         mkdir -p storage/framework/sessions
         mkdir -p storage/framework/views
