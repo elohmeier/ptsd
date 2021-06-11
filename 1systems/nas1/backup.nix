@@ -12,9 +12,25 @@ in
     BORG_PASSCOMMAND = passCmd;
   };
 
+  services.postgresqlBackup = {
+    enable = true;
+    backupAll = true;
+  };
+
   services.borgbackup.jobs.hetzner = {
-    paths = [ "/tank/enc" "/var/lib" ];
-    exclude = [ "/var/lib/borg" "/tank/enc/roms" ];
+    paths = [
+      "/tank/enc"
+      "/var/backup"
+      "/var/lib"
+    ];
+    exclude = [
+      "/var/lib/borg"
+      "/var/lib/monica/storage/logs"
+      "/var/lib/mysql" # covered via mysqlBackup in monica.nix
+      "/var/lib/postgresql" # covered via postgresqlBackup above
+      "/var/lib/private/navidrome/cache"
+      "/tank/enc/roms"
+    ];
     repo = repo;
     environment = {
       BORG_BASE_DIR = "/var/lib/borg";
