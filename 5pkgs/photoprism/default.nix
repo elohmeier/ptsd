@@ -1,4 +1,4 @@
-{ lib, fetchFromGitHub, buildGoModule }:
+{ lib, fetchFromGitHub, buildGoModule, libtensorflow-bin }:
 
 buildGoModule rec {
   pname = "photoprism";
@@ -12,4 +12,8 @@ buildGoModule rec {
   };
 
   vendorSha256 = "sha256-bQes6lR2CMM8Oimi2C/5qrP0MNW2GUfwUiKzY5QhP8M=";
+
+  buildInputs = [
+    libtensorflow-bin # incompatible version
+  ];
 }
