@@ -34,6 +34,7 @@
     firmware = with pkgs; [
       firmwareLinuxNonfree
     ];
+    # nvidia.nvidiaPersistenced = true;
     opengl = {
       enable = true;
       driSupport = true;
@@ -42,6 +43,9 @@
       extraPackages32 = with pkgs.pkgsi686Linux; [ driversi686Linux.amdvlk ];
     };
   };
+
+  # required to enable nvidia NixOS module, even if not using X11
+  # services.xserver.videoDrivers = [ "nvidia" ];
 
   nix.maxJobs = lib.mkDefault 24;
 

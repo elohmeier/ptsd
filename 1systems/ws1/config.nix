@@ -30,7 +30,10 @@ in
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
+  boot.blacklistedKernelModules = [
+    # "nvidia"
+    "nouveau"
+  ];
   boot.kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
   boot.extraModprobeConfig = ''
     options kvm ignore_msrs=1
@@ -204,7 +207,7 @@ in
   '';
 
   # *** NVIDIA Driver
-  # boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
+  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   # services.xserver = {
   #   videoDrivers = [ "nvidia" ];
   #   xrandrHeads = [

@@ -1255,7 +1255,7 @@ in
                 if status is-login
                   if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
                     # pass sway log output to journald
-                    exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway
+                    exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
                   end
                 end
               '';
@@ -1265,7 +1265,7 @@ in
                 # If running from tty1 start sway
                 if [ "$(tty)" = "/dev/tty1" ]; then
                   # pass sway log output to journald
-                  exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway
+                  exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
                 fi
               '';
               shellAliases = term.extraAliases;
