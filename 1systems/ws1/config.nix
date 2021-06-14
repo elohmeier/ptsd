@@ -308,6 +308,21 @@ in
       qemuPackage = pkgs.qemu_kvm;
       qemuRunAsRoot = false;
     };
+
+    oci-containers = {
+      backend = "docker";
+
+      containers.photoprism = {
+        image = "photoprism/photoprism";
+        environment = {
+          PHOTOPRISM_ADMIN_PASSWORD = "changeme";
+        };
+        ports = [
+          "2342:2342"
+        ];
+        autoStart = false;
+      };
+    };
   };
 
   ptsd.pulseaudio.virtualAudioMixin = {
@@ -408,4 +423,6 @@ in
       };
     };
   };
+
+
 }
