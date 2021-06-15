@@ -24,6 +24,7 @@ _:
     ./nwsyncthing.nix
     ./nwtraefik.nix
     ./octoprint.nix
+    ./photoprism.nix
     ./pulseaudio.nix
     ./radicale.nix
     ./samba-sonos.nix

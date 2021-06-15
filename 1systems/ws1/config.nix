@@ -24,6 +24,11 @@ in
     # ../../2configs/home-secrets.nix
 
   ];
+
+  ptsd.photoprism = {
+    enable = true;
+  };
+
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
   # Use the systemd-boot EFI boot loader.
