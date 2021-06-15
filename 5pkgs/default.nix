@@ -44,6 +44,7 @@ self: super:
   shrinkpdf = self.callPackage ./shrinkpdf { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };
   telegram-sh = self.callPackage ./telegram-sh { };
+  libtensorflow1-bin = self.callPackage ./tensorflow1 { };
   traefik-forward-auth = self.callPackage ./traefik-forward-auth { };
   tg = self.callPackage ./tg { };
   vims = self.callPackage ./vims { };
