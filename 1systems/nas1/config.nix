@@ -396,4 +396,18 @@ in
     musicFolder = "/tank/enc/media";
   };
 
+  ptsd.nwlogrotate.config = ''
+    /var/spool/nginx/access.log {
+      daily
+      rotate 7
+      missingok
+      notifempty
+      compress
+      dateext
+      dateformat .%Y-%m-%d
+      postrotate
+        systemctl kill -s USR1 nginx.service
+      endscript
+    }
+  '';
 }

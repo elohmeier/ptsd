@@ -75,6 +75,10 @@ in
         ${cmd} start
       '';
 
+      environment = {
+        HOME = "/var/lib/photoprism"; # fix glib warning
+      };
+
       serviceConfig = {
         # execution
         Restart = "on-failure";
