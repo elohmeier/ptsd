@@ -13,11 +13,6 @@ let
       ${pkgs.python3Packages.black}/bin/black $ROOT/src/*.pyw
       ${pkgs.gofumpt}/bin/gofumpt -w $ROOT/5pkgs
     '';
-    mk-update = ''
-      ./update-gitref.sh home-manager https://github.com/rycee/home-manager master
-      ./update-gitref.sh nixos-hardware https://github.com/NixOS/nixos-hardware master
-      ./update-gitref.sh nixpkgs https://github.com/NixOS/nixpkgs nixos-unstable
-    '';
     mk-conftest = ''
       HOSTNAME="''${1?must provide hostname}"
       nix-instantiate '<nixpkgs/nixos>' -A system -I nixos-config=1systems/$HOSTNAME/physical.nix -I secrets-shared=dummy-secrets -I client-secrets=dummy-secrets -I secrets=dummy-secrets -I ptsd=$(pwd) ''${@:2}
