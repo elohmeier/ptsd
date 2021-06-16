@@ -1,6 +1,4 @@
-# nix-build -E 'with import <nixpkgs> {}; callPackage ./5pkgs/photoprism { libtensorflow1-bin = callPackage ./5pkgs/tensorflow1 {}; }'
-
-{ lib, stdenv, pkgs, nodejs, fetchFromGitHub, fetchurl, unzip, buildGoModule, libtensorflow1-bin }:
+{ system, lib, stdenv, pkgs, nodejs, fetchFromGitHub, fetchurl, unzip, buildGoModule }:
 
 let
   pname = "photoprism";
@@ -31,6 +29,19 @@ let
       npm run build
     '';
   };
+
+  # tensorflow 1.15.x is required
+  tf1_pkgs =
+    let
+      nixpkgs-rev = "34cb7885a61c344a22f262520186921843bc7636"; # release-20.09 as of 15.06.2021
+    in
+    import
+      (builtins.fetchTarball {
+        name = "nixpkgs-${nixpkgs-rev}";
+        url = "https://github.com/nixos/nixpkgs/archive/${nixpkgs-rev}.tar.gz";
+        sha256 = "0fg3c76rdzaacybci046p4q1gzkj9s68virv4hbi6kfyn6k4cw11";
+      })
+      { inherit system; };
 in
 buildGoModule rec {
   inherit pname version src;
@@ -48,7 +59,13 @@ buildGoModule rec {
   vendorSha256 = "sha256-bQes6lR2CMM8Oimi2C/5qrP0MNW2GUfwUiKzY5QhP8M=";
 
   buildInputs = [
-    libtensorflow1-bin
+    # nas1 supports SSE4.2 (long build)
+    # (tf1_pkgs.python37.pkgs.tensorflow_1.override {
+    #   sse42Support = true; # nas1 supports SSE4.2 
+    # }).libtensorflow
+
+    # to use the cached binaries (faster)
+    tf1_pkgs.python37.pkgs.tensorflow_1.libtensorflow
   ];
 
   buildFlagsArray = [ "-ldflags=-s -w -X main.version=${version}" ];

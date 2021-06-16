@@ -30,6 +30,12 @@ in
 
   ptsd.nwbackup.enable = false;
 
+  ptsd.photoprism = {
+    enable = true;
+    httpHost = "191.18.19.37";
+    httpPort = 2342;
+  };
+
   ptsd.monica = {
     enable = true;
     domain = "monica.services.nerdworks.de";
@@ -84,6 +90,7 @@ in
       nwvpn.allowedTCPPorts = [
         12345 # fpv folder share
         448 # traefik/gitweb
+        2342 # photoprism
       ];
     };
   };

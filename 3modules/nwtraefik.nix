@@ -356,6 +356,7 @@ in
         prometheus = 10026; # server
         navidrome = 10027;
         prometheus-maddy = 10028;
+        photoprism = 10029;
       };
     }
     (
