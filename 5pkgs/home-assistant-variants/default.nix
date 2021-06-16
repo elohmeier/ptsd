@@ -1,6 +1,13 @@
 { home-assistant }:
+
+let
+  # skip install checks as in NixOS hass module
+  hass = home-assistant.overrideAttrs (oldAttrs: {
+    doInstallCheck = false;
+  });
+in
 {
-  bs53 = home-assistant.override
+  bs53 = hass.override
     {
       extraComponents = [
         "brother"
@@ -23,7 +30,7 @@
       ];
     };
 
-  dlrg = home-assistant.override
+  dlrg = hass.override
     {
       extraComponents = [
         "caldav"
