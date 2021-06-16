@@ -34,6 +34,7 @@ in
     enable = true;
     httpHost = "191.18.19.37";
     httpPort = 2342;
+    siteUrl = "https://fotos.nerdworks.de/";
   };
 
   ptsd.monica = {

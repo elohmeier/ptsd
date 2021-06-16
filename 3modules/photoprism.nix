@@ -76,19 +76,47 @@ in
       '';
 
       serviceConfig = {
-        PrivateTmp = true;
-        ProtectSystem = "full";
-        ProtectHome = true;
-        CapabilityBoundingSet = "cap_net_bind_service";
-        AmbientCapabilities = "cap_net_bind_service";
-        NoNewPrivileges = true;
-        DynamicUser = true;
+        # execution
+        Restart = "on-failure";
+
+        # folders
         RuntimeDirectory = "photoprism";
         StateDirectory = "photoprism";
         CacheDirectory = "photoprism";
         LogsDirectory = "photoprism";
-        Restart = "on-failure";
         EnvironmentFile = config.ptsd.secrets.files."photoprism.env".path;
+
+        # hardening
+        DynamicUser = true;
+        StartLimitBurst = 5;
+        AmbientCapabilities = "cap_net_bind_service";
+        CapabilityBoundingSet = "cap_net_bind_service";
+        NoNewPrivileges = true;
+        LimitNPROC = 64;
+        LimitNOFILE = 1048576;
+        PrivateTmp = true;
+        PrivateDevices = true;
+        PrivateUsers = true;
+        ProtectHome = true;
+        ProtectSystem = "strict";
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectProc = "noaccess";
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        RestrictAddressFamilies = "AF_INET AF_INET6";
+        RestrictNamespaces = true;
+        DevicePolicy = "closed";
+        RestrictRealtime = true;
+        SystemCallFilter = "@system-service";
+        SystemCallErrorNumber = "EPERM";
+        SystemCallArchitectures = "native";
+        UMask = "0066";
+        IPAddressAllow = cfg.httpHost;
       };
     };
 

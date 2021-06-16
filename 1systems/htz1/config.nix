@@ -11,15 +11,7 @@ in
       ../../2configs/nwhost.nix
       ../../2configs/nerdworks-www.nix
       ../../2configs/nwgit.nix
-      #../2configs/drone-ci.nix
-      #../../2configs/wdplaner.nix
       ../../2configs/prometheus/node.nix
-
-      # TODO: upgrade geoip update script
-      # see https://blog.maxmind.com/2019/12/18/significant-changes-to-accessing-and-using-geolite2-databases/
-      #../2configs/nerdworks-www-stats.nix
-
-
     ];
 
   ptsd.nwbackup = {
@@ -96,6 +88,11 @@ in
         rule = "PathPrefix(`/.well-known/matrix`)";
         priority = 9999; # high-priority for router
       }
+      {
+        name = "fotos";
+        rule = "Host(`fotos.nerdworks.de`)";
+        url = "http://191.18.19.37:2342";
+      }
     ];
     certificates =
       let
@@ -106,7 +103,7 @@ in
       in
       [
         (crt "nerdworks.de")
-        #(crt "ci.nerdworks.de")
+        (crt "fotos.nerdworks.de")
         (crt "git.nerdworks.de")
         #(crt "luisarichter.de")
       ];
@@ -128,12 +125,12 @@ in
         postRun = "systemctl restart traefik.service";
       };
 
-      # "ci.nerdworks.de" = {
-      #   webroot = config.ptsd.nwacme.http.webroot;
-      #   credentialsFile = envFile "ci.nerdworks.de";
-      #   group = "certs";
-      #   postRun = "systemctl restart traefik.service";
-      # };
+      "fotos.nerdworks.de" = {
+        webroot = config.ptsd.nwacme.http.webroot;
+        credentialsFile = envFile "fotos.nerdworks.de";
+        group = "certs";
+        postRun = "systemctl restart traefik.service";
+      };
 
       "git.nerdworks.de" = {
         webroot = config.ptsd.nwacme.http.webroot;
@@ -175,7 +172,6 @@ in
   };
 
   networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.ptsd.mosquitto.portSSL ];
-
 
   services.nginx = {
     enable = true;
