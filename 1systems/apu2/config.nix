@@ -184,4 +184,10 @@ in
       endscript
     }
   '';
+
+  ptsd.secrets.files = {
+    "nwbackup.id_ed25519" = {
+      path = "/root/.ssh/id_ed25519";
+    };
+  };
 }

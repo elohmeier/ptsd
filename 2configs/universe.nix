@@ -66,7 +66,7 @@
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8kcXGoM6iZJy6Q/EHl+i2oXvMvzepeilNqM9a/otYu ";
       borg.quota = "10G";
-      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDKmKohBpSvpZE8UJHhE0sh1bNedclcMfx4vrRt5x2BbbYqZkaDi8XgV0MN4YccsAUE4zBypsMflWy/gsCSowc0VuOwuvpz/+NIg2NQLsvgkcdszLNQG7Ikuj7E9J1dXfWzpDLL9ZCRToCAuwfC8H/3oNLfMSI/FmtfFyBOPQt0i+PzDSpNh/vW+zrBSWxRaaaXJc9JXh1xVg0AeyhtyfQAi9SLCECmLRZ/aDWGWu/41DgQQbMvUfSPYM38Z8s817g/QHnHvb+JLjULr7otOWUE69VvEHsWSWwkLr+wouvZP9ExDrEm7vEL6wcJiV3MdJKW1ziKIJ7NbfFDVYTiYW/3 root@nw34";
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKPzI7RRxol+dp3oj+IVZcwc2F9du6AVZc2HtFoLhDDV";
     };
 
     apu3 = {
