@@ -170,26 +170,29 @@ in
       environment = phpEnv;
 
       script = ''
-        cd "${package}/share/monica/"
+        # cleanup old links
+        cd "$STATE_DIRECTORY"
+        ls | grep -v -e cache -e storage | xargs -r rm -r
 
+        # link static content to state directory
+        cd "${package}/share/monica/"
         for i in *; do
           if [ "$i" == "storage" ]; then
             continue;
           fi
-
-          rm -f "$STATE_DIRECTORY/$i"
           ln -s "${package}/share/monica/$i" "$STATE_DIRECTORY/$i"
         done
 
         cd "$STATE_DIRECTORY"
-        rm -f *
 
+        # ensure writable folders
         mkdir -p cache
         mkdir -p storage/app/public
         mkdir -p storage/framework/cache
         mkdir -p storage/framework/sessions
         mkdir -p storage/framework/views
 
+        # migrate db schema
         php artisan monica:update --force -vv
 
         # cleanup cache
