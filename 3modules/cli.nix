@@ -264,6 +264,7 @@ in
                 pueue
                 vims.big
                 yank
+                espeak
               ];
             };
           }
