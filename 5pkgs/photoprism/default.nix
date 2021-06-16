@@ -51,6 +51,8 @@ buildGoModule rec {
     libtensorflow1-bin
   ];
 
+  buildFlagsArray = [ "-ldflags=-s -w -X main.version=${version}" ];
+
   postInstall = ''
     cp -r assets $out/assets
     ${unzip}/bin/unzip $srcNasnet -d $out/assets
