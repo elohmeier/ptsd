@@ -11,6 +11,7 @@ let
   };
   pyenv = py3.withPackages (
     pythonPackages: with pythonPackages; [
+      authlib
       black
       black_nbconvert
       # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
