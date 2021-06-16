@@ -34,6 +34,7 @@ let
       package = pkgs.alacritty;
       binary = "${pkgs.alacritty}/bin/alacritty";
       exec = prog: dir: "${binary}${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+      execFloating = prog: dir: "${binary} --class Alacritty.floating${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
       extraPackages = [ ];
       extraAliases = { };
     };
@@ -41,6 +42,7 @@ let
       package = pkgs.kitty;
       binary = "${package}/bin/kitty";
       exec = prog: dir: "${binary}${if dir != "" then " --directory \"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
+      execFloating = exec; # not supported
       extraPackages = [ ];
       extraAliases.icat = "kitty +kitten icat";
     };
@@ -48,6 +50,7 @@ let
       package = pkgs.termite;
       binary = "${package}/bin/termite";
       exec = prog: dir: "${binary}${if dir != "" then " --directory=\"${dir}\"" else ""}${if prog != "" then " --exec=\"${prog}\"" else ""}";
+      execFloating = exec; # not supported
       extraPackages = [ ];
       extraAliases = { };
     };
@@ -55,6 +58,7 @@ let
       package = config.programs.urxvt.package;
       binary = "${package}/bin/urxvt";
       exec = prog: dir: "${binary}${if dir != "" then " -cd \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+      execFloating = exec; # not supported
       extraPackages = [ pkgs.xsel ]; # required by urxvt clipboard integration
       extraAliases = { };
     };
@@ -62,6 +66,7 @@ let
       package = pkgs.xterm;
       binary = "${package}/bin/xterm";
       exec = prog: dir: "${binary}${if prog != "" then " -e ${prog}" else ""}"; # xterm does not support working directory switching
+      execFloating = exec; # not supported
       extraPackages = [ ];
       extraAliases = { };
     };
@@ -180,7 +185,7 @@ let
       "XF86AudioRaiseVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
       "XF86AudioMicMute" = mkIf (cfg.audio.enable && cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
-      "XF86Calculator" = "exec ${term.exec (if builtins.elem "dev" cfg.profiles then "${pyenv}/bin/ipython" else "${pkgs.bc}/bin/bc -l") ""}";
+      "XF86Calculator" = "exec ${term.execFloating (if builtins.elem "dev" cfg.profiles then "${pyenv}/bin/ipython" else "${pkgs.bc}/bin/bc -l") ""}";
       "XF86HomePage" = "exec firefox";
       "XF86Search" = "exec firefox";
       "XF86Mail" = "exec evolution";
@@ -302,6 +307,10 @@ let
     {
       criteria.title = "Firefox — Sharing Indicator";
       command = "kill";
+    }
+    {
+      criteria.app_id = "Alacritty.floating";
+      command = "floating enable";
     }
   ];
 
@@ -936,7 +945,7 @@ in
                     "disk#home" = rec {
                       format = "h {percentage_free}%";
                       path = "/home";
-                      on-click-right = term.exec "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
+                      on-click-right = term.execFloating "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
                       states = {
                         warning = 15;
                         critical = 5;
@@ -953,7 +962,7 @@ in
                     "disk#xdg-runtime-dir" = rec {
                       format = "xrd {percentage_free}%";
                       path = "/run/user/1000";
-                      on-click-right = term.exec "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
+                      on-click-right = term.execFloating "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
                       states = {
                         warning = 15;
                         critical = 5;
@@ -961,11 +970,11 @@ in
                     };
                     cpu = {
                       format = "{usage}% ";
-                      on-click-right = term.exec "${pkgs.htop}/bin/htop" "";
+                      on-click-right = term.execFloating "${pkgs.htop}/bin/htop" "";
                     };
                     memory = {
                       format = "{}% ";
-                      on-click-right = term.exec "${pkgs.procps}/bin/watch -n1 ${pkgs.coreutils}/bin/cat /proc/meminfo" "";
+                      on-click-right = term.execFloating "${pkgs.procps}/bin/watch -n1 ${pkgs.coreutils}/bin/cat /proc/meminfo" "";
                     };
                     battery = {
                       states = { warning = 30; critical = 15; };
@@ -977,7 +986,7 @@ in
                     };
                     clock = {
                       format = "{:%a, %d. %b  %H:%M}";
-                      on-click-right = term.exec "bash -c 'cal -w -y && echo press enter to exit && read'" "";
+                      on-click-right = term.execFloating "bash -c 'cal -w -y && echo press enter to exit && read'" "";
                     };
                     network = {
                       format-wifi = "{essid} ({signalStrength}%) ";
@@ -985,7 +994,7 @@ in
                       format-linked = "{ifname} (No IP) ";
                       format-disconnected = "Disconnected ⚠";
                       format-alt = "{ifname}: {ipaddr}/{cidr}";
-                      on-click-right = term.exec "${pkgs.networkmanager}/bin/nmtui" "";
+                      on-click-right = term.execFloating "${pkgs.networkmanager}/bin/nmtui" "";
                     };
                     "network#tun0" = {
                       interface = "tun0";
