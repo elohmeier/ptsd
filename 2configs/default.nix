@@ -174,4 +174,13 @@ in
   '';
 
   systemd.coredump.extraConfig = "Storage=none";
+
+  programs.bash.interactiveShellInit = ''
+    booted="$(readlink /run/booted-system/{initrd,kernel,kernel-modules})"
+    built="$(readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})"
+
+    if [ "$booted" != "$built" ]; then
+      echo "please reboot"
+    fi
+  '';
 }
