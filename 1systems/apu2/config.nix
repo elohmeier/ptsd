@@ -120,6 +120,10 @@ in
             addr = "192.168.168.41";
             port = 8123;
           }
+          {
+            addr = "191.18.19.34";
+            port = 8123;
+          }
         ];
 
         # proxy hass traffic
