@@ -59,6 +59,52 @@ in
         mkIf
           (cfg.defaultShell == "zsh") [ "/share/zsh" ];
 
+      environment.systemPackages = with pkgs; [
+        bc
+        bind
+        bridge-utils
+        file
+        htop
+        httpserve
+        iftop
+        iotop
+        jq
+        killall
+        libfaketime
+        ncdu
+        nmap
+        pwgen
+        rmlint
+        screen
+        tig
+        unzip
+        vims.big
+        wget
+        shellcheck
+        nixpkgs-fmt
+        gnumake
+        #(pass.withExtensions (ext: [ ext.pass-import ]))
+        pass
+        openssl
+        lorri
+        smartmontools
+        gptfdisk
+        gparted
+        usbutils
+        wirelesstools
+        wpa_supplicant
+        macchanger
+        p7zip
+        unrar
+        mosh
+        mkpasswd
+        clang
+        nix-prefetch-git
+        netcat-gnu
+        nwbackup-env
+        nix-index
+      ];
+
       home-manager.users = (listToAttrs (map
         (
           user: {

@@ -18,11 +18,16 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    telegram-sh
-    dnsutils
     cryptsetup
+    dnsutils
+    fd
+    mc
     ncdu
+    nnn
+    ripgrep
+    # telegram-sh
     tmux
+    tree
   ];
 
   programs.mosh.enable = lib.mkDefault true;

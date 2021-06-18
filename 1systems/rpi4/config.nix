@@ -13,7 +13,6 @@ in
 
     <secrets/wifi.nix>
 
-    ../../2configs/cli-tools.nix
     # ../../2configs/bluetooth.nix
     ../../2configs/baseX.nix
 
