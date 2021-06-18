@@ -16,6 +16,7 @@ in
 
     ../../2configs/themes/fraam.nix
     ../../2configs/mfc7440n.nix
+    ../../2configs/hl5380dn.nix
     ../../2configs/prometheus/node.nix
 
     # 
