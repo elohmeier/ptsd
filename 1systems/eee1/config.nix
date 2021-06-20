@@ -46,21 +46,6 @@ with lib;
       };
     };
 
-  home-manager = {
-    users.mainUser = { ... }:
-      {
-        imports = [
-          ./home.nix
-        ];
-      };
-    users.root = { ... }:
-      {
-        imports = [
-          ./home.nix
-        ];
-      };
-  };
-
   networking = {
     hostName = "eee1";
     useNetworkd = true;
