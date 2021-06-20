@@ -638,6 +638,10 @@ in
         type = types.bool;
         default = true;
       };
+      darkmode = mkOption {
+        type = types.bool;
+        default = false;
+      };
     };
   };
 
@@ -1029,173 +1033,122 @@ in
                   };
                 }
               ];
-              style = ''
-                * {
-                    border: none;
-                    border-radius: 0;
-                    font-family: ${cfg.fontSans};
-                    font-size: ${toString cfg.fontSize}pt;
-                    min-height: 0;
-                }
+              style =
+                let
+                  bgColor = if cfg.darkmode then "#002b36" else "#fdf6e3";
+                  fgColor = if cfg.darkmode then "#839496" else "#586e75";
+                  contrastColor = if cfg.darkmode then "#073642" else "#eee8d5";
+                in
+                ''
+                  * {
+                      border: none;
+                      border-radius: 0;
+                      font-family: ${cfg.fontSans};
+                      font-size: ${toString cfg.fontSize}pt;
+                      min-height: 0;
+                  }
 
-                window#waybar {
-                    background-color: #002b36;
-                    color: #d33682;
-                    transition-property: background-color;
-                    transition-duration: .5s;
-                }
+                  window#waybar {
+                      background-color: ${bgColor};
+                      color: ${fgColor};
+                      transition-property: background-color;
+                      transition-duration: .5s;
+                  }
 
-                window#waybar.hidden {
-                    opacity: 0.2;
-                }
+                  window#waybar.hidden {
+                      opacity: 0.2;
+                  }
+              
+                  #workspaces {
+                      border-bottom: 1px solid #586e75;
+                  }
 
-                /*
-                window#waybar.empty {
-                    background-color: transparent;
-                }
-                window#waybar.solo {
-                    background-color: #FFFFFF;
-                }
-                */
+                  /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+                  #workspaces button {
+                      padding: 0 5px;
+                      background-color: transparent;
+                      color: #657b83;
+                      border-bottom: 3px solid transparent;
+                  }
 
-                window#waybar.termite {
-                    background-color: #3F3F3F;
-                }
+                  #workspaces button.focused {
+                      background-color: ${contrastColor};
+                      border-bottom: 1px solid #ff0;
+                  }
 
-                window#waybar.chromium {
-                    background-color: #000000;
-                    border: none;
-                }
+                  #workspaces button.urgent {
+                      background-color: #d33682;
+                  }
 
-                #workspaces {
-                    border-bottom: 1px solid #586e75;
-                }
+                  #mode {
+                      background-color: ${bgColor};
+                      border-bottom: 1px solid #dc322f;
+                  }
 
-                /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
-                #workspaces button {
-                    padding: 0 5px;
-                    background-color: transparent;
-                    color: #657b83;
-                    border-bottom: 3px solid transparent;
-                }
+                  #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 {
+                      padding: 0 10px;
+                      margin: 0 2px;
+                      background-color: ${bgColor};
+                      color: ${fgColor};
+                  }
+                
+                  #battery.charging {
+                      color: #eee8d5;
+                      background-color: #859900;
+                  }
 
-                #workspaces button.focused {
-                    background-color: #073642;
-                    border-bottom: 1px solid #ff0;
-                }
+                  @keyframes blink {
+                      to {
+                          background-color: #d33682;
+                          color: #93a1a1;
+                      }
+                  }
 
-                #workspaces button.urgent {
-                    background-color: #d33682;
-                }
+                  #battery.critical:not(.charging) {
+                      background-color: #dc322f;
+                      color: #93a1a1;
+                      animation-name: blink;
+                      animation-duration: 0.5s;
+                      animation-timing-function: linear;
+                      animation-iteration-count: infinite;
+                      animation-direction: alternate;
+                  }
 
-                #mode {
-                    background-color: #002b36;
-                    border-bottom: 1px solid #dc322f;
-                }
+                  label:focus {
+                      background-color: ${contrastColor};
+                  }
 
-                #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 {
-                    padding: 0 10px;
-                    margin: 0 2px;
-                    color: #657b83;
-                }
-                /*
-                #clock {
-                    background-color: #073642;
-                }
-                */
-                #battery {
-                    background-color: #073642;
-                }
+                  #pulseaudio.muted {
+                      background-color: ${contrastColor};
+                  }
 
-                #battery.charging {
-                    color: #eee8d5;
-                    background-color: #859900;
-                }
+                  #custom-media {
+                      background-color: #66cc99;
+                      color: #2a5c45;
+                      min-width: 100px;
+                  }
 
-                @keyframes blink {
-                    to {
-                        background-color: #d33682;
-                        color: #93a1a1;
-                    }
-                }
+                  #custom-media.custom-spotify {
+                      background-color: #66cc99;
+                  }
 
-                #battery.critical:not(.charging) {
-                    background-color: #dc322f;
-                    color: #93a1a1;
-                    animation-name: blink;
-                    animation-duration: 0.5s;
-                    animation-timing-function: linear;
-                    animation-iteration-count: infinite;
-                    animation-direction: alternate;
-                }
+                  #custom-media.custom-vlc {
+                      background-color: #ffa000;
+                  }
 
-                label:focus {
-                    background-color: #073642;
-                }
+                  #temperature {
+                      background-color: #073642;
+                  }
 
-                #cpu {
-                    background-color: #073642;
-                }
+                  #temperature.critical {
+                      background-color: #dc322f;
+                  }
 
-                #memory {
-                    background-color: #073642;
-                }
+                  #idle_inhibitor.activated {
+                      background-color: ${contrastColor};
+                  }
 
-                #backlight {
-                    background-color: #073642;
-                }
-
-                #network {
-                    background-color: #073642;
-                }
-
-                #network.disconnected {
-                    background-color: #002b36;
-                }
-
-                #pulseaudio {
-                    background-color: #073642;
-                }
-
-                #pulseaudio.muted {
-                    background-color: #002b36;
-                }
-
-                #custom-media {
-                    background-color: #66cc99;
-                    color: #2a5c45;
-                    min-width: 100px;
-                }
-
-                #custom-media.custom-spotify {
-                    background-color: #66cc99;
-                }
-
-                #custom-media.custom-vlc {
-                    background-color: #ffa000;
-                }
-
-                #temperature {
-                    background-color: #073642;
-                }
-
-                #temperature.critical {
-                    background-color: #dc322f;
-                }
-
-                #tray {
-                    background-color: #002b36;
-                }
-
-                #idle_inhibitor {
-                    background-color: #002b36;
-                }
-
-                #idle_inhibitor.activated {
-                    background-color: #073642;
-                }
-
-              '';
+                '';
             };
 
 
@@ -1292,7 +1245,7 @@ in
                 package = pkgs.gnome3.adwaita-icon-theme;
               };
               theme = {
-                name = "Adwaita-dark";
+                name = if cfg.darkmode then "Adwaita-dark" else "Adwaita";
                 package = pkgs.gnome-themes-standard;
               };
             };
@@ -1349,44 +1302,76 @@ in
                     size = cfg.fontSize;
                   };
 
-                  # Colors (Solarized Dark)
-                  colors = {
-                    # Default colors
-                    primary = {
-                      background = "#002b36"; # base03
-                      foreground = "#839496"; # base0
-                    };
+                  colors =
+                    (if cfg.darkmode then {
+                      # Colors (Solarized Dark)
+                      # Default colors
+                      primary = {
+                        background = "#002b36"; # base03
+                        foreground = "#839496"; # base0
+                      };
 
-                    # Cursor colors
-                    cursor = {
-                      text = "#002b36"; # base03
-                      cursor = "#839496"; # base0
-                    };
+                      # Cursor colors
+                      cursor = {
+                        text = "#002b36"; # base03
+                        cursor = "#839496"; # base0
+                      };
 
-                    # Normal colors
-                    normal = {
-                      black = "#073642"; # base02
-                      red = "#dc322f"; # red
-                      green = "#859900"; # green
-                      yellow = "#b58900"; # yellow
-                      blue = "#268bd2"; # blue
-                      magenta = "#d33682"; # magenta
-                      cyan = "#2aa198"; # cyan
-                      white = "#eee8d5"; # base2
-                    };
+                      # Normal colors
+                      normal = {
+                        black = "#073642"; # base02
+                        red = "#dc322f"; # red
+                        green = "#859900"; # green
+                        yellow = "#b58900"; # yellow
+                        blue = "#268bd2"; # blue
+                        magenta = "#d33682"; # magenta
+                        cyan = "#2aa198"; # cyan
+                        white = "#eee8d5"; # base2
+                      };
 
-                    # Bright colors
-                    bright = {
-                      black = "#586e75"; # base01
-                      red = "#cb4b16"; # orange
-                      green = "#586e75"; # base01
-                      yellow = "#657b83"; # base00
-                      blue = "#839496"; # base0
-                      magenta = "#6c71c4"; # violet
-                      cyan = "#93a1a1"; # base1
-                      white = "#fdf6e3"; # base3
-                    };
-                  };
+                      # Bright colors
+                      bright = {
+                        black = "#586e75"; # base01
+                        red = "#cb4b16"; # orange
+                        green = "#586e75"; # base01
+                        yellow = "#657b83"; # base00
+                        blue = "#839496"; # base0
+                        magenta = "#6c71c4"; # violet
+                        cyan = "#93a1a1"; # base1
+                        white = "#fdf6e3"; # base3
+                      };
+                    } else {
+                      # Colors (Solarized Light)
+                      # Default colors
+                      primary = {
+                        background = "#fdf6e3";
+                        foreground = "#586e75";
+                      };
+
+                      # Normal colors
+                      normal = {
+                        black = "#073642";
+                        red = "#dc322f";
+                        green = "#859900";
+                        yellow = "#b58900";
+                        blue = "#268bd2";
+                        magenta = "#d33682";
+                        cyan = "#2aa198";
+                        white = "#eee8d5";
+                      };
+
+                      # Bright colors
+                      bright = {
+                        black = "#002b36";
+                        red = "#cb4b16";
+                        green = "#586e75";
+                        yellow = "#657b83";
+                        blue = "#839496";
+                        magenta = "#6c71c4";
+                        cyan = "#93a1a1";
+                        white = "#fdf6e3";
+                      };
+                    });
                 };
               };
 
