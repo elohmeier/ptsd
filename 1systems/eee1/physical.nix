@@ -63,7 +63,7 @@
   };
 
   swapDevices = [
-    { device = "/dev/sda2"; priority = 1; }
+    { device = "/dev/sysVG/swap"; priority = 1; }
   ];
 
   services.haveged.enable = true;
