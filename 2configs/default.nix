@@ -10,7 +10,6 @@ let
     sshPubKeys.sshPub.iph3_terminus
     sshPubKeys.sshPub.enno_yubi41
     sshPubKeys.sshPub.enno_yubi49
-    sshPubKeys.sshPub.drone_exec_runner_ws1
   ];
   universe = import ./universe.nix;
 in
@@ -29,20 +28,6 @@ in
         root = {
           openssh.authorizedKeys.keys = authorizedKeys;
           passwordFile = "/var/src/secrets/root.passwd";
-        };
-
-        mainUser = {
-          name = "enno";
-          isNormalUser = true;
-          home = "/home/enno";
-          createHome = true;
-          useDefaultShell = true;
-          uid = 1000;
-          description = "Enno Richter";
-          extraGroups =
-            [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" "dialout" ];
-          openssh.authorizedKeys.keys = authorizedKeys;
-          passwordFile = "/var/src/secrets/mainUser.passwd";
         };
       };
     }

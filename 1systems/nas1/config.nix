@@ -10,6 +10,7 @@ in
     ../../2configs/grafana.nix
     ../../2configs/hardened.nix
     ../../2configs/home-assistant.nix
+    ../../2configs/mainUser.nix
     ../../2configs/mfc7440n.nix
     ../../2configs/nextcloud.nix
     ../../2configs/nextcloud-vsftpd-scans.nix

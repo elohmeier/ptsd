@@ -9,6 +9,7 @@ in
     ../../.
     ../../2configs
     ../../2configs/desktop.nix
+    ../../2configs/mainUser.nix
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
     ../../2configs/themes/fraam.nix
