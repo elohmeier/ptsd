@@ -7,6 +7,7 @@ with lib;
     ../../2configs/nwhost-mini.nix
     ../../2configs/prometheus/node.nix
     ../../2configs/octoprint-klipper-ender3.nix
+    ../../2configs/hl5380dn.nix
   ];
 
   ptsd.mjpg-streamer = {
@@ -66,7 +67,10 @@ with lib;
     useDHCP = false;
     interfaces.enp4s0.useDHCP = true;
     interfaces.wlp1s0.useDHCP = true;
-    wireless.enable = true;
+    wireless = {
+      enable = true;
+      interfaces = [ "wlp1s0" ];
+    };
   };
 
   ptsd.secrets.files = {
@@ -105,5 +109,12 @@ with lib;
     info.enable = false;
     doc.enable = false;
     dev.enable = false;
+  };
+
+  ptsd.cups-airprint = {
+    enable = true;
+    lanDomain = "lan";
+    listenAddress = "192.168.1.133:631";
+    printerName = "HL5380DN";
   };
 }
