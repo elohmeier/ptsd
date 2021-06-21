@@ -78,7 +78,7 @@ in
         screen
         tig
         unzip
-        vims.big
+        #vims.big
         wget
         shellcheck
         nixpkgs-fmt
@@ -203,6 +203,11 @@ in
                   shellAbbrs = (import ../2configs/aliases.nix).abbreviations;
                   interactiveShellInit = ''
                     set -U fish_greeting
+                    set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
+                    set built (readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})
+                    if test "$booted" != "$built"
+                      echo "please reboot"
+                    end
                   '';
                   functions = {
                     posix-source = ''
@@ -308,7 +313,6 @@ in
                 python3Packages.graphtage
                 nix-zsh-completions
                 pueue
-                vims.big
                 yank
                 espeak
               ];
