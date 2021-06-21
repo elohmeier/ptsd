@@ -27,6 +27,7 @@ _:
     ./photoprism.nix
     ./pulseaudio.nix
     ./radicale.nix
+    ./rclone.nix
     ./samba-sonos.nix
     ./secrets.nix
     ./traefik-forward-auth.nix
