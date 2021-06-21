@@ -710,6 +710,7 @@ in
       libinput
       libnotify
       brightnessctl
+      pciutils
     ] ++ optionals cfg.audio.enable [
       playerctl
       cadence
