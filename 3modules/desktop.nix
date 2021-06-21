@@ -842,7 +842,7 @@ in
 
     home-manager =
       {
-        users.mainUser = { config, pkgs, ... }:
+        users.mainUser = { config, nixosConfig, pkgs, ... }:
           {
 
             imports = [
@@ -1000,7 +1000,7 @@ in
                       format-linked = "{ifname} (No IP) ";
                       format-disconnected = "Disconnected ⚠";
                       format-alt = "{ifname}: {ipaddr}/{cidr}";
-                      on-click-right = term.execFloating "${pkgs.networkmanager}/bin/nmtui" "";
+                      on-click-right = mkIf nixosConfig.networking.networkmanager.enable (term.execFloating "${pkgs.networkmanager}/bin/nmtui" "");
                     };
                     "network#tun0" = {
                       interface = "tun0";
