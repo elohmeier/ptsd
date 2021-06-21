@@ -10,6 +10,7 @@ _:
     ./fraamdb.nix
     ./fraam-gitlab.nix
     ./fraam-www.nix
+    ./loki.nix
     ./maddy.nix
     ./mautrix-whatsapp.nix
     ./mjpg-streamer.nix
