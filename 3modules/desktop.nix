@@ -522,6 +522,7 @@ let
     "sec" = pkgs: with pkgs;[
       net-snmp
       metasploit
+      postgresql # for msfdb
       wpscan
       john
       gobuster
