@@ -109,21 +109,14 @@ in
     hostName = "ws1";
     useNetworkd = true;
     useDHCP = false;
+    interfaces.eth0.useDHCP = true; # wifi if
 
     #bridges.br0.interfaces = [ "enp39s0" ];
     #interfaces.br0.useDHCP = true;
 
     # hosts."10.129.127.250" = [ "s3.bucket.htb" "bucket.htb" ];
 
-    networkmanager = {
-      enable = true;
-      dns = "systemd-resolved";
-      wifi = {
-        backend = "iwd";
-      };
-    };
     wireless.iwd.enable = true;
-
 
     interfaces = {
       "${virshNatIf}".ipv4.addresses = [{ address = "${virshNatIpPrefix}.1"; prefixLength = 24; }];
@@ -139,6 +132,10 @@ in
       externalInterface = "eth0";
       internalInterfaces = [ virshNatIf ];
     };
+  };
+
+  ptsd.secrets.files."Bundesdatenschutzzentrale 5GHz.psk" = {
+    path = "/var/lib/iwd/Bundesdatenschutzzentrale 5GHz.psk";
   };
 
   systemd.network = {
@@ -172,15 +169,15 @@ in
     };
   };
 
-  # services.resolved = {
-  #   enable = true;
-  #   dnssec = "false";
-  #   extraConfig = ''
-  #     [Resolve]
-  #     DNS=127.0.0.1:5053
-  #     Domains=~htb
-  #   '';
-  # };
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+    #   extraConfig = ''
+    #     [Resolve]
+    #     DNS=127.0.0.1:5053
+    #     Domains=~htb
+    #   '';
+  };
 
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
