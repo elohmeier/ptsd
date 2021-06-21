@@ -41,16 +41,7 @@ in
     hostName = "ws2";
     useNetworkd = true;
     useDHCP = false;
-
-    networkmanager = {
-      enable = true;
-      dns = "systemd-resolved";
-      wifi = {
-        backend = "iwd";
-        macAddress = "random";
-        powersave = true;
-      };
-    };
+    interfaces.wlan0.useDHCP = true;
 
     wireless.iwd.enable = true;
 
@@ -80,6 +71,10 @@ in
     #  hosts = {
     #    "10.129.120.124" = [ "forum.bart.htb" "bart.htb" "monitor.bart.htb" "internal-01.bart.htb" ];
     #  };
+  };
+
+  ptsd.secrets.files."fraam.psk" = {
+    path = "/var/lib/iwd/fraam.psk";
   };
 
   systemd.network = {

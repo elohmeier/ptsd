@@ -73,7 +73,7 @@
 
     #     echo "waiting 10 secs"
     #     sleep 10
-        
+
     #     echo "acquiring IP address via DHCP on wlan0..."
     #     udhcpc --quit --now -i wlan0 -O staticroutes --script ${udhcpcScript}
 
