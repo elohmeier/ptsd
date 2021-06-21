@@ -48,9 +48,15 @@
     options = [ "size=100M" "mode=1666" ];
   };
 
+  fileSystems."/var/log" = {
+    device = "/dev/sysVG/var-log";
+    fsType = "ext4";
+  };
+
   fileSystems."/var/src" = {
     device = "/dev/sysVG/var-src";
     fsType = "ext4";
+    neededForBoot = true; # mount early for passwd provisioning
   };
 
   zramSwap = {

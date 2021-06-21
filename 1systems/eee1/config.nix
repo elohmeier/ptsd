@@ -54,7 +54,7 @@ with lib;
     useNetworkd = true;
     useDHCP = false;
     interfaces.enp4s0.useDHCP = true;
-    interfaces.wlp1s0.useDHCP = true;
+    interfaces.wlan0.useDHCP = true;
     wireless.iwd.enable = true;
   };
 
