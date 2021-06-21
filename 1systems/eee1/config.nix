@@ -14,7 +14,10 @@ with lib;
     enable = true;
     inputPlugin = "input_uvc.so -f 15 -r 640x480"; # physical resolution: 1280x1024 (1.3 MP)
     outputPlugin = "output_http.so -w @www@ -n -p ${toString config.ptsd.nwtraefik.ports.mjpg-streamer}";
+    deviceService = "sys-devices-pci0000:00-0000:00:1d.0-usb2-2\\x2d2-2\\x2d2:1.0-ttyUSB0-tty-ttyUSB0.device"; # only run if printer is connected (cpu-intensive)
   };
+
+  nix.autoOptimiseStore = true;
 
   ptsd.nwtraefik =
     let
@@ -52,17 +55,11 @@ with lib;
     useDHCP = false;
     interfaces.enp4s0.useDHCP = true;
     interfaces.wlp1s0.useDHCP = true;
-    wireless = {
-      enable = true;
-      interfaces = [ "wlp1s0" ];
-    };
+    wireless.iwd.enable = true;
   };
 
-  ptsd.secrets.files = {
-    "wpa_supplicant.conf" = {
-      dependants = [ "wpa_supplicant.service" ];
-      path = "/etc/wpa_supplicant.conf";
-    };
+  ptsd.secrets.files."fraam.psk" = {
+    path = "/var/lib/iwd/fraam.psk";
   };
 
   systemd.network.networks = {
