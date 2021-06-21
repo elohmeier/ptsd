@@ -11,7 +11,7 @@ in
   ];
 
   # fix often full /boot directory
-  boot.loader.systemd-boot.configurationLimit = 4;
+  boot.loader.systemd-boot.configurationLimit = 2;
 
   system.stateVersion = "19.09";
 
