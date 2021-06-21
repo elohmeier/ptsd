@@ -410,4 +410,13 @@ in
       endscript
     }
   '';
+
+  # ptsd.loki = {
+  #   enable = true;
+  #   config = {
+  #     # https://grafana.com/docs/loki/latest/configuration/examples/
+  #     auth_enabled = false;
+  #     server.http_listen_port = 3100;
+  #   };
+  # };
 }
