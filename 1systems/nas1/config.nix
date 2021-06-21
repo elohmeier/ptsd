@@ -7,6 +7,7 @@ in
   imports = [
     ../..
     ../../2configs
+    ../../2configs/fraam-gdrive-backup.nix
     ../../2configs/grafana.nix
     ../../2configs/hardened.nix
     ../../2configs/home-assistant.nix
