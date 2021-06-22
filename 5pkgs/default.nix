@@ -42,6 +42,7 @@ self: super:
   pdfduplex = self.callPackage ./pdfduplex { };
   photoprism = self.callPackage ./photoprism { };
   shrinkpdf = self.callPackage ./shrinkpdf { };
+  swayassi = self.callPackage ./swayassi { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };
   telegram-sh = self.callPackage ./telegram-sh { };
   traefik-forward-auth = self.callPackage ./traefik-forward-auth { };

@@ -403,6 +403,7 @@ let
         pyenv
         #docker_compose
         #kakoune
+        go
       ];
     "fpv" = pkgs: with pkgs; [
       betaflight-configurator
