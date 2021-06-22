@@ -46,7 +46,7 @@ in
       name = "ipcam";
       rule = "Host(`${domain}`) && PathPrefix(`/ipcam/`)";
       stripPrefixes = [ "/ipcam/" ];
-      url = "http://192.168.178.199:8080";
+      url = "http://192.168.178.196:8080";
     }
   ];
 }
