@@ -36,7 +36,7 @@ let
     drive_name
     {
       # add `--dry-run` to test the command
-      cmd = "sync ${drive_name}: /tank/enc/fraam-gdrive-backup/${drive_name}";
+      cmd = "sync --drive-skip-shortcuts ${drive_name}: /tank/enc/fraam-gdrive-backup/${drive_name}";
       groups = [ "fraam-gdrive-backup" ];
       rwpaths = [ "/tank/enc/fraam-gdrive-backup" ];
       startAt = "*-*-* 05:00:00";
