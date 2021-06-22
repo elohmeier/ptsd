@@ -57,7 +57,7 @@ in
           hostPath = "${cfg.mysqlPath}";
           isReadOnly = false;
         };
-        "/var/lib/mysql-backup" = {
+        "/var/backup/mysql" = {
           hostPath = "${cfg.mysqlBackupPath}";
           isReadOnly = false;
         };
@@ -99,22 +99,9 @@ in
             supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
           };
 
-          systemd.services.mysql-backup = {
-            description = "Backup WordPress MySQL database";
-            wantedBy = [ "multi-user.target" ];
-            requires = [ "mysql.service" ];
-            script = ''
-              ${pkgs.mariadb}/bin/mysqldump wordpress > /var/lib/mysql-backup/wordpress.sql
-            '';
-            serviceConfig = {
-              Type = "simple";
-              Restart = "on-failure";
-              PrivateTmp = true;
-              PrivateDevices = true;
-              ProtectHome = true;
-              ProtectSystem = "full";
-            };
-            startAt = "*-*-* 05:00:00";
+          services.mysqlBackup = {
+            enable = true;
+            databases = [ "wordpress" ];
           };
 
           services.prometheus.exporters.node = {
