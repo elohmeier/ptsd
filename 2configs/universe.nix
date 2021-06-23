@@ -528,24 +528,6 @@
       };
     };
 
-    ws1-osx = {
-      # nets = {
-      #   nwvpn = {
-      #     ip4.addr = "changeme";
-      #     aliases = [
-      #       "ws1-osx.nw"
-      #     ];
-      #     wireguard.pubkey = "8UTtOGTG0yMxIwcW1Wx3qqyRhOtzVqlbvtM2518RDG8=";
-      #   };
-      # };
-      # ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      # ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEqUKOgdqxGRi1j1K+MlMO8PIc1qu5/awA3+0tRQBE2w ";
-      # syncthing.id = "5DAUFLB-CABKC4I-QSKX66C-ZYIBND4-DMCFOAK-5YACRCH-I6U4DUY-XIVOIQ2";
-      borg.quota = "250G";
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDnHw3Rr+9qGmEnjKmPvzh8rFi+2H8Ye4IEsyuoPWd1V enno@ws1-osx";
-      syncthing.id = "L27FGVQ-K4CEIS4-6D24HBK-RIJKAR6-GCVAWO6-3KSIJW3-L7BZNBQ-7GGL2QC";
-    };
-
     # kvm
     ws1-win10 =
       {
