@@ -24,6 +24,7 @@ let
       pillow
       requests
       selenium
+      tabulate
     ]
   );
 
