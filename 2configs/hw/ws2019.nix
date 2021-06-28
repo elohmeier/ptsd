@@ -9,7 +9,10 @@ in
 
   boot = {
     blacklistedKernelModules = [ "b43" "bcma" ]; # prevent loading of conflicting wifi module, "wl" should be used instead
-    extraModulePackages = [ config.boot.kernelPackages.broadcom_sta nvidia_x11.bin ];
+    extraModulePackages = [
+      config.boot.kernelPackages.broadcom_sta
+      nvidia_x11.bin
+    ];
     initrd = {
       availableKernelModules = [
         "nvme"
@@ -22,7 +25,10 @@ in
         "r8169" # Ethernet
       ];
 
-      kernelModules = [ "amdgpu" "nvidia-uvm" ];
+      kernelModules = [
+        "amdgpu"
+        "nvidia-uvm"
+      ];
     };
 
     kernelModules = [ "kvm-amd" "wl" ];
@@ -38,6 +44,7 @@ in
     nvidia_x11.settings
     nvidia_x11.persistenced
     nvtop
+    cudatoolkit
   ];
 
   hardware = {
@@ -49,8 +56,16 @@ in
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
-      extraPackages = with pkgs; [ amdvlk rocm-opencl-icd rocm-runtime nvidia_x11.out ];
-      extraPackages32 = with pkgs.pkgsi686Linux; [ driversi686Linux.amdvlk nvidia_x11.lib32 ];
+      extraPackages = with pkgs; [
+        amdvlk
+        rocm-opencl-icd
+        rocm-runtime
+        nvidia_x11.out
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        driversi686Linux.amdvlk
+        nvidia_x11.lib32
+      ];
     };
   };
 

@@ -25,6 +25,8 @@ in
 
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
   # Use the systemd-boot EFI boot loader.
@@ -33,6 +35,10 @@ in
 
   boot.blacklistedKernelModules = [
     # "nvidia"
+    # "nvidia_drm"
+    # "nvidia_uvm"
+    # "nvidia_modeset"
+    # "i2c_nvidia_gpu"
     "nouveau"
   ];
   boot.kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
@@ -205,7 +211,6 @@ in
   '';
 
   # *** NVIDIA Driver
-  boot.extraModulePackages = [ config.boot.kernelPackages.nvidia_x11 ];
   # services.xserver = {
   #   videoDrivers = [ "nvidia" ];
   #   xrandrHeads = [
@@ -222,8 +227,6 @@ in
   # '';
 
   # *** NOUVEAU Driver ***
-  #boot.kernelPackages = pkgs.linuxPackages_5_8; # required as of 20.09 (linux 5.8 instead of 5.4)
-  boot.kernelPackages = pkgs.linuxPackages_latest; # for nixos-unstable
   services.xserver = {
     videoDrivers = [ "modesetting" ];
     xrandrHeads = [
