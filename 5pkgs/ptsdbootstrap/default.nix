@@ -18,6 +18,8 @@ let
 
         ${concatStringsSep "\n" (cryptOpen cfg)}
 
+        vgchange -ay
+
         ${optionalString (!hasAttr "device" cfg.fileSystems."/") concatStringsSep "\n" (mkdir cfg)}
 
         ${concatStringsSep "\n" (mount cfg)}
@@ -29,6 +31,8 @@ let
         set -e
 
         ${concatStringsSep "\n" (umount cfg)}
+
+        # TODO vgchange -an $vgname
 
         ${concatStringsSep "\n" (cryptClose cfg)}
       '';

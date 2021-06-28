@@ -11,7 +11,7 @@ in
   ];
 
   # fix often full /boot directory
-  boot.loader.systemd-boot.configurationLimit = 2;
+  # boot.loader.systemd-boot.configurationLimit = 2;
 
   system.stateVersion = "19.09";
 
@@ -86,7 +86,7 @@ in
 
   fileSystems."/boot" =
     {
-      device = "${disk}-part2";
+      device = "${disk}-part1";
       fsType = "vfat";
     };
 
