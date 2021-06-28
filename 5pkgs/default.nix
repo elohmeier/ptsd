@@ -41,6 +41,7 @@ self: super:
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
   pdfduplex = self.callPackage ./pdfduplex { };
   photoprism = self.callPackage ./photoprism { };
+  ptsdbootstrap = self.callPackage ./ptsdbootstrap { };
   shrinkpdf = self.callPackage ./shrinkpdf { };
   swayassi = self.callPackage ./swayassi { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };

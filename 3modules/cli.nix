@@ -103,6 +103,7 @@ in
         netcat-gnu
         nwbackup-env
         nix-index
+        ptsdbootstrap
       ];
 
       home-manager.users = (listToAttrs (map
