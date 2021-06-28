@@ -33,6 +33,8 @@ in
     }
   ];
 
+  console.keyMap = mkDefault "de-latin1";
+
   environment = {
     shellAliases = (import ./aliases.nix).aliases // (import ./aliases.nix).abbreviations;
     systemPackages = with pkgs; [

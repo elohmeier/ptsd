@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ ... }:
 let
   disk = "/dev/disk/by-id/nvme-SAMSUNG_MZVLB512HAJQ-000L7_S3TNNF1K627058";
   vgPrefix = "/dev/disk/by-id/dm-name-p2vg";

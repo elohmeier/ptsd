@@ -56,6 +56,25 @@
           ];
         in
         {
+          iso = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ desktopModules ++ [
+              ./.
+              ./2configs/mainUser.nix
+              ./3modules/cli.nix
+              "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+              {
+                home-manager.users.mainUser = { ... }: { home.stateVersion = "21.05"; };
+                ptsd.cli = {
+                  enable = true;
+                  fish.enable = true;
+                  defaultShell = "fish";
+                };
+                services.getty.autologinUser = nixpkgs.lib.mkForce "enno";
+              }
+            ];
+          };
+
           apu2 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
