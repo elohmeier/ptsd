@@ -7,6 +7,7 @@ let
   py3 = pkgs.python3.override {
     packageOverrides = self: super: rec {
       black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+      orgparse = self.callPackage ../5pkgs/orgparse { };
     };
   };
   pyenv = py3.withPackages (
@@ -25,6 +26,7 @@ let
       requests
       selenium
       tabulate
+      orgparse
     ]
   );
 
@@ -459,6 +461,7 @@ let
         #calibre
         transmission-gtk
         fava
+        beancount
         anki
         sylpheed
         claws-mail
