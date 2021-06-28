@@ -361,7 +361,7 @@ let
       prusa-slicer
     ];
     "admin" = pkgs: with pkgs; [
-      #tigervnc
+      tigervnc
       ethtool
       gparted
       git
@@ -1272,21 +1272,21 @@ in
                       };
                     };
 
-                  "file-manager/actions/codium.desktop".text = lib.generators.toINI
-                    { }
-                    {
-                      "Desktop Entry" = {
-                        Type = "Action";
-                        Name = "Open folder in VSCodium";
-                        "Name[de]" = "Ordner in VSCodium öffnen";
-                        Profiles = "codium;";
-                      };
+                  # "file-manager/actions/codium.desktop".text = lib.generators.toINI
+                  #   { }
+                  #   {
+                  #     "Desktop Entry" = {
+                  #       Type = "Action";
+                  #       Name = "Open folder in VSCodium";
+                  #       "Name[de]" = "Ordner in VSCodium öffnen";
+                  #       Profiles = "codium;";
+                  #     };
 
-                      "X-Action-Profile codium" = {
-                        MimeTypes = "inode/directory";
-                        Exec = "codium %F";
-                      };
-                    };
+                  #     "X-Action-Profile codium" = {
+                  #       MimeTypes = "inode/directory";
+                  #       Exec = "codium %F";
+                  #     };
+                  #   };
 
                   "file-manager/actions/print-lp.desktop".text = lib.generators.toINI
                     { }
