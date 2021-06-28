@@ -89,7 +89,7 @@ in
         lorri
         smartmontools
         gptfdisk
-        gparted
+        parted
         usbutils
         wirelesstools
         wpa_supplicant
@@ -98,8 +98,6 @@ in
         unrar
         mosh
         mkpasswd
-        clang
-        nix-prefetch-git
         netcat-gnu
         nwbackup-env
         nix-index
@@ -311,11 +309,9 @@ in
                 };
               };
               home.packages = with pkgs; [
-                python3Packages.graphtage
                 nix-zsh-completions
                 pueue
                 yank
-                espeak
               ];
             };
           }

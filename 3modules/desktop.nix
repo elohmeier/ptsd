@@ -363,6 +363,7 @@ let
     "admin" = pkgs: with pkgs; [
       #tigervnc
       ethtool
+      gparted
       git
       gnupg
       # TODO: broken lxqt-policykit, replace/fix
@@ -407,6 +408,9 @@ let
         #docker_compose
         #kakoune
         go
+        python3Packages.graphtage
+        clang
+        nix-prefetch-git
       ];
     "fpv" = pkgs: with pkgs; [
       betaflight-configurator
@@ -445,6 +449,7 @@ let
       wf-recorder
       art
       exiftool
+      espeak
     ];
     "office" = pkgs: with pkgs;
       let
