@@ -23,7 +23,9 @@ let
         ReadWritePaths = mkIf (jobCfg.rwpaths != [ ]) jobCfg.rwpaths;
 
         # hardening
-        DynamicUser = true;
+        DynamicUser = jobCfg.user == null;
+        User = mkIf (jobCfg.user != null) jobCfg.user;
+        Group = mkIf (jobCfg.group != null) jobCfg.group;
         StartLimitBurst = 5;
         NoNewPrivileges = true;
         LimitNPROC = 64;
@@ -83,6 +85,14 @@ in
                 };
                 cmd = mkOption {
                   type = types.str;
+                };
+                user = mkOption {
+                  type = types.str;
+                  default = null;
+                };
+                group = mkOption {
+                  type = types.str;
+                  default = null;
                 };
                 groups = mkOption {
                   type = with types; listOf str;
