@@ -53,6 +53,7 @@ in
     {
       device = "${disk}-part1";
       fsType = "vfat";
+      options = [ "nofail" ];
     };
 
   swapDevices =

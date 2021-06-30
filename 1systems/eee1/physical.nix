@@ -25,6 +25,7 @@
     {
       device = "/dev/sysVG/boot";
       fsType = "ext4";
+      options = [ "nofail" ];
     };
 
   fileSystems."/nix" =
@@ -36,6 +37,7 @@
   fileSystems."/var/lib/octoprint" = {
     device = "/dev/sysVG/octoprint";
     fsType = "ext4";
+    options = [ "nofail" ];
   };
 
   fileSystems."/var/lib/octoprint/generated" = {
@@ -51,6 +53,7 @@
   fileSystems."/var/log" = {
     device = "/dev/sysVG/var-log";
     fsType = "ext4";
+    options = [ "nofail" ];
   };
 
   fileSystems."/var/src" = {

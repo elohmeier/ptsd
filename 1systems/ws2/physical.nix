@@ -97,6 +97,7 @@
     {
       device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_1TB_S4EWNMFN904187J-part1";
       fsType = "vfat";
+      options = [ "nofail" ];
     };
 
   fileSystems."/home" =

@@ -64,18 +64,21 @@ in
     {
       device = "${vgPrefix}/var-lib-docker";
       fsType = "ext4";
+      options = [ "nofail" ];
     };
 
   fileSystems."/var/lib/libvirt/images" =
     {
       device = "${vgPrefix}/var-lib-libvirt-images";
       fsType = "ext4";
+      options = [ "nofail" ];
     };
 
   fileSystems."/var/log" =
     {
       device = "${vgPrefix}/var-log";
       fsType = "ext4";
+      options = [ "nofail" ];
     };
 
   # 800M /var/log drive
@@ -88,6 +91,7 @@ in
     {
       device = "${disk}-part1";
       fsType = "vfat";
+      options = [ "nofail" ];
     };
 
   fileSystems."/mnt/win" =
