@@ -27,6 +27,7 @@ let
       selenium
       tabulate
       orgparse
+      weasyprint
     ]
   );
 
