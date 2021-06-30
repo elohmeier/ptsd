@@ -10,7 +10,7 @@ let
       orgparse = self.callPackage ../5pkgs/orgparse { };
     };
   };
-  pyenv = py3.withPackages (
+  py3env = py3.withPackages (
     pythonPackages: with pythonPackages; [
       authlib
       black
@@ -29,6 +29,23 @@ let
       orgparse
     ]
   );
+
+  py2 = pkgs.python2.override {
+    packageOverrides = self: super: rec {
+      certifi = super.buildPythonPackage rec {
+        pname = "certifi";
+        version = "2020.04.05.1"; # last version with python2 support
+        src = pkgs.fetchFromGitHub {
+          owner = pname;
+          repo = "python-certifi";
+          rev = version;
+          sha256 = "sha256-scdb86Bg5tTUDwm5OZ8HXar7VCNlbPMtt4ZzGu/2O4w=";
+        };
+      };
+    };
+  };
+
+  py2env = py2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto ]);
 
   exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
   open_codium_mode = "codium: [p]tsd, nobbo[f]in, [n]ixpkgs";
@@ -189,7 +206,7 @@ let
       "XF86AudioRaiseVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
       "XF86AudioMicMute" = mkIf (cfg.audio.enable && cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
-      "XF86Calculator" = "exec ${term.execFloating (if builtins.elem "dev" cfg.profiles then "${pyenv}/bin/ipython" else "${pkgs.bc}/bin/bc -l") ""}";
+      "XF86Calculator" = "exec ${term.execFloating (if builtins.elem "dev" cfg.profiles then "${py3env}/bin/ipython" else "${pkgs.bc}/bin/bc -l") ""}";
       "XF86HomePage" = "exec firefox";
       "XF86Search" = "exec firefox";
       "XF86Mail" = "exec evolution";
@@ -404,7 +421,7 @@ let
         #openshift
         #minishift
         cachix
-        pyenv
+        py3env
         #docker_compose
         #kakoune
         go
@@ -544,6 +561,7 @@ let
       pwndbg
       # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
       nikto
+      py2env
     ];
   };
 in
