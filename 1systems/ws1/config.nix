@@ -87,6 +87,25 @@ in
       "sec"
     ];
     autolock.enable = false;
+    baresip = {
+      enable = true;
+
+      # QC35
+      # audioPlayer = "bluez_sink.04_52_C7_0C_C1_61.headset_head_unit";
+      # audioSource = "bluez_source.04_52_C7_0C_C1_61.headset_head_unit";
+
+      # Steinberg
+      audioPlayer = "alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21";
+
+      # Cam
+      audioSource = "alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.pro-input-0";
+
+      # Cam AEC
+      #audioSource = "alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.analog-stereo.echo-cancel";
+      #audioSource = "vsink_fx_mic.monitor";
+
+      audioAlert = "alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo";
+    };
   };
 
   nix.trustedUsers = [ "root" "enno" ];
