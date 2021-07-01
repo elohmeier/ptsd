@@ -24,6 +24,9 @@ in
       "/var/lib/private/mosquitto"
       "/var/src"
     ];
+    exclude = [
+      "/var/lib/hass/home-assistant_v2.db*" # save data volume
+    ];
   };
 
   environment.systemPackages = with pkgs; [ htop tmux vim ];
