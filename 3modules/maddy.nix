@@ -14,6 +14,8 @@ let
     lulu@nerdworks.de: enno@nerdworks.de
   '';
 
+  filterCommand = pkgs.writers.writePython3 "maddy-filter" { } ../4scripts/maddy-filter.py;
+
   configFile = pkgs.writeText "maddy.conf" ''
     ## Maddy Mail Server - default configuration file (2021-03-07)
     # Suitable for small-scale deployments. Uses its own format for local users DB,
@@ -65,6 +67,9 @@ let
     storage.imapsql local_mailboxes {
       driver sqlite3
       dsn imapsql.db
+      imap_filter {
+        command ${filterCommand} --account_name {account_name} --sender {sender} { }
+      }
     }
 
     # ----------------------------------------------------------------------------
