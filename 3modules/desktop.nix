@@ -1201,7 +1201,6 @@ in
 
 
             home = {
-              file.".mozilla/native-messaging-hosts/passff.json".source = "${pkgs.passff-host}/share/passff-host/passff.json";
               keyboard = {
                 layout = "de";
                 variant = "nodeadkeys";
@@ -1395,11 +1394,13 @@ in
               };
 
             home.file = {
-              ".baresip/accounts".source = mkIf cfg.baresip.enable (config.lib.file.mkOutOfStoreSymlink nixosConfig.ptsd.secrets.files.baresip-accounts.path);
+              ".mozilla/native-messaging-hosts/passff.json".source = "${pkgs.passff-host}/share/passff-host/passff.json";
+            } // optionalAttrs cfg.baresip.enable {
+              ".baresip/accounts".source = config.lib.file.mkOutOfStoreSymlink nixosConfig.ptsd.secrets.files.baresip-accounts.path;
 
               # For Fritz!Box supported Audio Codecs, checkout:
               # https://avm.de/service/fritzbox/fritzbox-7590/wissensdatenbank/publication/show/1008_Unterstutzte-Sprach-Codecs-bei-Internettelefonie
-              ".baresip/config".text = mkIf cfg.baresip.enable ''
+              ".baresip/config".text = ''
                   poll_method epoll
                   call_local_timeout 120
                   call_max_calls 4
