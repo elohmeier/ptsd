@@ -24,6 +24,7 @@ self: super:
 {
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
+  burpsuite-pro = self.callPackage ./burpsuite-pro { };
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };

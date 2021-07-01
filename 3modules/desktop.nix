@@ -554,7 +554,7 @@ let
       wpscan
       john
       gobuster
-      burpsuite
+      burpsuite-pro
       hashcat
       sqlmap
       nbtscanner
