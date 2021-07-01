@@ -24,13 +24,8 @@ in
     "/boot" = {
       device = "/dev/sda1";
       fsType = "ext4";
+      options = [ "nofail" ];
     };
-
-    "/home" =
-      {
-        device = "${vgPrefix}/home";
-        fsType = "ext4";
-      };
 
     "/nix" =
       {
@@ -42,17 +37,20 @@ in
       {
         device = "${vgPrefix}/var";
         fsType = "ext4";
+        options = [ "nofail" ];
       };
 
     "/var/lib/private/maddy" = {
       device = "${vgPrefix}/var-lib-private-maddy";
       fsType = "ext4";
+      options = [ "nofail" ];
     };
 
     "/var/log" =
       {
         device = "${vgPrefix}/var-log";
         fsType = "ext4";
+        options = [ "nofail" ];
       };
 
     "/var/src" =
