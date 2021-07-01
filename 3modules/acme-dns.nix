@@ -65,10 +65,6 @@ in
       after = [ "network.target" ];
       wants = [ "network.target" ];
 
-      # this blocks systemd-resolved local DNS server
-      # needed until https://github.com/joohoi/acme-dns/issues/135 is fixed
-      before = [ "systemd-resolved.service" ]; #
-
       serviceConfig = {
         ExecStart = "${cfg.package}/bin/acme-dns -c ${configFile}";
         PrivateTmp = true;

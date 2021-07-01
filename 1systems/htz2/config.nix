@@ -67,11 +67,23 @@ in
       "www4-https" = {
         address = "${nets.www.ip4.addr}:443";
       };
+      "www4-dns-tcp" = {
+        address = "${nets.www.ip4.addr}:53";
+      };
+      "www4-dns-udp" = {
+        address = "${nets.www.ip4.addr}:53/udp";
+      };
       "www6-http" = {
         address = "[${nets.www.ip6.addr}]:80";
       };
       "www6-https" = {
         address = "[${nets.www.ip6.addr}]:443";
+      };
+      "www6-dns-tcp" = {
+        address = "[${nets.www.ip6.addr}]:53";
+      };
+      "www6-dns-udp" = {
+        address = "[${nets.www.ip6.addr}]:53/udp";
       };
       "nwvpn-http" = {
         address = "${nets.nwvpn.ip4.addr}:80";
@@ -97,11 +109,38 @@ in
       ];
     services = [
       {
-        name = "acme-dns";
+        name = "acme-dns-http";
         rule = "Host(`auth.nerdworks.de`)";
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
     ];
+    extraDynamicConfig = {
+      tcp = {
+        routers.dns = {
+          entryPoints = [
+            "www4-dns-tcp"
+            "www6-dns-tcp"
+          ];
+          rule = "HostSNI(`*`)"; # catch-all
+          service = "acme-dns-tcp";
+        };
+        services.acme-dns-tcp.loadBalancer.servers = [{
+          address = "127.0.0.1:${toString config.ptsd.nwtraefik.ports.acme-dns-dns}";
+        }];
+      };
+      udp = {
+        routers.dns = {
+          entryPoints = [
+            "www4-dns-udp"
+            "www6-dns-udp"
+          ];
+          service = "acme-dns-udp";
+        };
+        services.acme-dns-udp.loadBalancer.servers = [{
+          address = "127.0.0.1:${toString config.ptsd.nwtraefik.ports.acme-dns-dns}";
+        }];
+      };
+    };
   };
 
   security.acme.certs =
@@ -159,11 +198,8 @@ in
         "acme.nerdworks.de. NS ${domain}"
       ];
 
-      # use only ipv4 until
-      # https://github.com/joohoi/acme-dns/issues/135 is fixed
-      # TODO: route through traefik udp/tcp
       generalOptions = {
-        listen = "${nets.www.ip4.addr}:53";
+        listen = "127.0.0.1:${toString config.ptsd.nwtraefik.ports.acme-dns-dns}";
         protocol = "both4";
       };
 
@@ -177,7 +213,7 @@ in
         use_header = true;
         header_name = "X-Forwarded-For";
         ip = "127.0.0.1";
-        port = toString config.ptsd.nwtraefik.ports.acme-dns;
+        port = toString config.ptsd.nwtraefik.ports.acme-dns-http;
         tls = "none";
       };
 

@@ -327,7 +327,7 @@ in
   config = mkMerge [
     {
       ptsd.nwtraefik.ports = {
-        acme-dns = 10001;
+        acme-dns-http = 10001;
         alertmanager = 10002;
         bitwarden = 10003;
         dokuwiki = 10004;
@@ -357,6 +357,7 @@ in
         navidrome = 10027;
         prometheus-maddy = 10028;
         photoprism = 10029;
+        acme-dns-dns = 10030;
       };
     }
     (
