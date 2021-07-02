@@ -859,8 +859,7 @@ in
       wrapperFeatures.gtk = true;
     };
 
-    # 20.09 compat (optionalAttrs instead of mkIf)
-    services.pipewire = lib.optionalAttrs (cfg.audio.enable && cfg.pipewire.enable) {
+    services.pipewire = mkIf (cfg.audio.enable && cfg.pipewire.enable) {
       enable = true;
       alsa.enable = true;
       alsa.support32Bit = true;
