@@ -7,8 +7,8 @@ stdenv.mkDerivation rec {
   src = fetchurl {
     name = "burpsuite.jar";
     urls = [
-      "https://portswigger.net/Burp/Releases/Download?productId=pro&version=${version}&type=Jar"
-      "https://web.archive.org/web/https://portswigger.net/Burp/Releases/Download?productId=pro&version=${version}&type=Jar"
+      "https://portswigger.net/Burp/Releases/Download?product=pro&version=${version}&type=Jar"
+      "https://web.archive.org/web/https://portswigger.net/Burp/Releases/Download?product=pro&version=${version}&type=Jar"
     ];
     sha256 = "sha256-zsC/cnlihjdATZx0BvfP7V9/NHJcHk2WrxZ0uEXxrX4=";
   };
