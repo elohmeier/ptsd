@@ -28,6 +28,7 @@ in
     # telegram-sh
     tmux
     tree
+    (writers.writePython3Bin "macos-fix-filefoldernames" { } ../4scripts/macos-fix-filefoldernames.py)
   ];
 
   programs.mosh.enable = lib.mkDefault true;
