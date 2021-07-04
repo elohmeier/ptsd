@@ -113,7 +113,7 @@ in
     htop
     mc
     ncdu
-    nnn
+    # nnn
     tmux
     tree
     unzip

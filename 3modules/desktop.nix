@@ -799,6 +799,7 @@ in
     fonts.fonts = with pkgs; [
       cozette
       #iosevka # TODO: replace, pulls in i686-incompatible dependencies
+      nerdfonts
       nwfonts
       proggyfonts
       roboto
@@ -1542,8 +1543,11 @@ in
                   background_opacity = 0.8;
                   font = {
                     normal = {
-                      family = cfg.fontMono;
+                      #family = cfg.fontMono;
+                      family = "SauceCodePro Nerd Font";
                     };
+                    bold.family = "SauceCodePro Nerd Font";
+                    italic.family = "SauceCodePro Nerd Font";
                     size = cfg.fontSize;
                   };
 

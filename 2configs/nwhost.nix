@@ -23,7 +23,7 @@ in
     fd
     mc
     ncdu
-    nnn
+    # nnn
     ripgrep
     # telegram-sh
     tmux
