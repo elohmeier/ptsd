@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import re
+import sys
 import subprocess
 from pathlib import Path
 from typing import List, Dict
@@ -54,16 +55,21 @@ def move(files: List[Path], file_dt: Dict[Path, int], acc: str):
 
 
 def main():
-    files = get_nnn_selection()
-    if len(files) == 0:
-        raise Exception("no files selected")
+    try:
+        files = get_nnn_selection()
+        if len(files) == 0:
+            raise Exception("no files selected")
 
-    # ensure all dates can be resolved
-    file_dt = {f: get_date(f.name) for f in files}
+        # ensure all dates can be resolved
+        file_dt = {f: get_date(f.name) for f in files}
 
-    acc = fzf_choose([":".join(a) for a in gen_acc_list()])
+        acc = fzf_choose([":".join(a) for a in gen_acc_list()])
 
-    move(files, file_dt, acc)
+        move(files, file_dt, acc)
+    except Exception as ex:
+        print(ex)
+        input()
+        sys.exit(1)
 
 
 if __name__ == "__main__":
