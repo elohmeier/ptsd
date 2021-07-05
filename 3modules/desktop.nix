@@ -28,6 +28,7 @@ let
       tabulate
       orgparse
       weasyprint
+      beautifulsoup4
     ]
   );
 
@@ -749,6 +750,9 @@ in
       XDG_SESSION_TYPE = "wayland";
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
+
+      # https://github.com/jarun/nnn/wiki/Usage#configuration
+      NNN_FCOLORS = if cfg.darkmode then "c1e2272e006033f7c6d6abc4" else "c1e2151600603ff7c6d6abc4";
     };
 
     system.fsPackages = [ pkgs.ntfs3g ];
@@ -1540,7 +1544,7 @@ in
                 enable = true;
                 settings = {
                   env.TERM = "xterm-256color";
-                  background_opacity = 0.8;
+                  background_opacity = 0.9;
                   font = {
                     normal = {
                       #family = cfg.fontMono;
@@ -1551,75 +1555,251 @@ in
                     size = cfg.fontSize;
                   };
 
+                  draw_bold_text_with_bright_colors = true;
+
                   colors =
                     (if cfg.darkmode then {
-                      # Colors (Solarized Dark)
-                      # Default colors
+
+                      # Colors (Contrasty Darkness)
                       primary = {
-                        background = "#002b36"; # base03
-                        foreground = "#839496"; # base0
+                        background = "#000000";
+                        foreground = "#ffffff";
+
+                        dim_foreground = "#ffffff";
+                        bright_foreground = "#ffffff";
                       };
 
-                      # Cursor colors
                       cursor = {
-                        text = "#002b36"; # base03
-                        cursor = "#839496"; # base0
+                        text = "CellBackground";
+                        cursor = "CellForeground";
                       };
 
-                      # Normal colors
+                      vi_mode_cursor = {
+                        text = "CellBackground";
+                        cursor = "CellForeground";
+                      };
+
+                      search = {
+                        matches = {
+                          foreground = "#ffffff";
+                          background = "#1a66ff";
+                        };
+                        focused_match = {
+                          foreground = "#ffffff";
+                          background = "#1a66ff";
+                        };
+
+                        bar = {
+                          background = "#ffffff";
+                          foreground = "#000000";
+                        };
+                      };
+                      hints = {
+                        start = {
+                          foreground = "#ffffff";
+                          background = "#1a66ff";
+                        };
+
+                        end = {
+                          foreground = "#1a66ff";
+                          background = "#ffffff";
+                        };
+                      };
+                      line_indicator = {
+                        foreground = "None";
+                        background = "None";
+                      };
+
+                      selection = {
+                        text = "CellBackground";
+                        background = "CellForeground";
+                      };
+
                       normal = {
-                        black = "#073642"; # base02
-                        red = "#dc322f"; # red
-                        green = "#859900"; # green
-                        yellow = "#b58900"; # yellow
-                        blue = "#268bd2"; # blue
-                        magenta = "#d33682"; # magenta
-                        cyan = "#2aa198"; # cyan
-                        white = "#eee8d5"; # base2
+                        black = "#000000";
+                        red = "#ff7c4d";
+                        green = "#22ff00";
+                        yellow = "#ffcc00";
+                        blue = "#1a66ff";
+                        magenta = "#ff61df";
+                        cyan = "#00ffff";
+                        white = "#888888";
                       };
 
-                      # Bright colors
                       bright = {
-                        black = "#586e75"; # base01
-                        red = "#cb4b16"; # orange
-                        green = "#586e75"; # base01
-                        yellow = "#657b83"; # base00
-                        blue = "#839496"; # base0
-                        magenta = "#6c71c4"; # violet
-                        cyan = "#93a1a1"; # base1
-                        white = "#fdf6e3"; # base3
+                        black = "#000000";
+                        red = "#ff7c4d";
+                        green = "#22ff00";
+                        yellow = "#ffcc00";
+                        blue = "#1a66ff";
+                        magenta = "#ff61df";
+                        cyan = "#00ffff";
+                        white = "#ffffff";
                       };
+
+                      dim = {
+                        black = "#000000";
+                        red = "#ff7c4d";
+                        green = "#22ff00";
+                        yellow = "#ffcc00";
+                        blue = "#1a66ff";
+                        magenta = "#ff61df";
+                        cyan = "#00ffff";
+                        white = "#888888";
+                      };
+
+
+
+
+                      # # Colors (Solarized Dark)
+                      # # Default colors
+                      # primary = {
+                      #   background = "#002b36"; # base03
+                      #   foreground = "#839496"; # base0
+                      # };
+
+                      # # Cursor colors
+                      # cursor = {
+                      #   text = "#002b36"; # base03
+                      #   cursor = "#839496"; # base0
+                      # };
+
+                      # # Normal colors
+                      # normal = {
+                      #   black = "#073642"; # base02
+                      #   red = "#dc322f"; # red
+                      #   green = "#859900"; # green
+                      #   yellow = "#b58900"; # yellow
+                      #   blue = "#268bd2"; # blue
+                      #   magenta = "#d33682"; # magenta
+                      #   cyan = "#2aa198"; # cyan
+                      #   white = "#eee8d5"; # base2
+                      # };
+
+                      # # Bright colors
+                      # bright = {
+                      #   black = "#586e75"; # base01
+                      #   red = "#cb4b16"; # orange
+                      #   green = "#586e75"; # base01
+                      #   yellow = "#657b83"; # base00
+                      #   blue = "#839496"; # base0
+                      #   magenta = "#6c71c4"; # violet
+                      #   cyan = "#93a1a1"; # base1
+                      #   white = "#fdf6e3"; # base3
+                      # };
                     } else {
-                      # Colors (Solarized Light)
-                      # Default colors
+                      # https://www.markusweimar.de/static/contrasty-brightness-alacritty.txt
+
+                      # Colors (Contrasty Brightness)
                       primary = {
-                        background = "#fdf6e3";
-                        foreground = "#586e75";
-                      };
+                        background = "#ffffff";
+                        foreground = "#000000";
 
-                      # Normal colors
+                        dim_foreground = "#000000";
+                        bright_foreground = "#000000";
+                      };
+                      cursor = {
+                        text = "CellBackground";
+                        cursor = "CellForeground";
+                      };
+                      vi_mode_cursor = {
+                        text = "CellBackground";
+                        cursor = "CellForeground";
+                      };
+                      search = {
+                        matches = {
+                          foreground = "#000000";
+                          background = "#ffcc00";
+                        };
+                        focused_match = {
+                          foreground = "#000000";
+                          background = "#ffcc00";
+                        };
+
+                        bar = {
+                          background = "#000000";
+                          foreground = "#ffffff";
+                        };
+                      };
+                      hints = {
+                        start = {
+                          foreground = "#000000";
+                          background = "#ffbb00";
+                        };
+                        end = {
+                          foreground = "#ffbb00";
+                          background = "#000000";
+                        };
+                      };
+                      line_indicator = {
+                        foreground = "None";
+                        background = "None";
+                      };
+                      selection = {
+                        text = "CellBackground";
+                        background = "CellForeground";
+                      };
                       normal = {
-                        black = "#073642";
-                        red = "#dc322f";
-                        green = "#859900";
-                        yellow = "#b58900";
-                        blue = "#268bd2";
-                        magenta = "#d33682";
-                        cyan = "#2aa198";
-                        white = "#eee8d5";
+                        black = "#000000";
+                        red = "#bd000d";
+                        green = "#006607";
+                        yellow = "#ffbb00";
+                        blue = "#004ce6";
+                        magenta = "#ad007f";
+                        cyan = "#005a61";
+                        white = "#aaaaaa";
+                      };
+                      bright = {
+                        black = "#000000";
+                        red = "#bd000d";
+                        green = "#006607";
+                        yellow = "#ffbb00";
+                        blue = "#004ce6";
+                        magenta = "#ad007f";
+                        cyan = "#005a61";
+                        white = "#ffffff";
+                      };
+                      dim = {
+                        black = "#000000";
+                        red = "#bd000d";
+                        green = "#006607";
+                        yellow = "#ffbb00";
+                        blue = "#004ce6";
+                        magenta = "#ad007f";
+                        cyan = "#005a61";
+                        white = "#aaaaaa";
                       };
 
-                      # Bright colors
-                      bright = {
-                        black = "#002b36";
-                        red = "#cb4b16";
-                        green = "#586e75";
-                        yellow = "#657b83";
-                        blue = "#839496";
-                        magenta = "#6c71c4";
-                        cyan = "#93a1a1";
-                        white = "#fdf6e3";
-                      };
+                      # # Colors (Solarized Light)
+                      # # Default colors
+                      # primary = {
+                      #   background = "#fdf6e3";
+                      #   foreground = "#586e75";
+                      # };
+
+                      # # Normal colors
+                      # normal = {
+                      #   black = "#073642";
+                      #   red = "#dc322f";
+                      #   green = "#859900";
+                      #   yellow = "#b58900";
+                      #   blue = "#268bd2";
+                      #   magenta = "#d33682";
+                      #   cyan = "#2aa198";
+                      #   white = "#eee8d5";
+                      # };
+
+                      # # Bright colors
+                      # bright = {
+                      #   black = "#002b36";
+                      #   red = "#cb4b16";
+                      #   green = "#586e75";
+                      #   yellow = "#657b83";
+                      #   blue = "#839496";
+                      #   magenta = "#6c71c4";
+                      #   cyan = "#93a1a1";
+                      #   white = "#fdf6e3";
+                      # };
                     });
                 };
               };

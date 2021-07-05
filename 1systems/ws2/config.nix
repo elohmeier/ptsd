@@ -112,6 +112,7 @@ in
 
   ptsd.desktop = {
     enable = true;
+    #darkmode = true;
     profiles = [
       "3dprinting"
       "admin"
