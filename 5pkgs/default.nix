@@ -52,4 +52,12 @@ self: super:
   vims = self.callPackage ./vims { };
   win10fonts = self.callPackage ./win10fonts { };
   zathura-single = self.callPackage ./zathura-single { };
+
+  ptsdPy3 = self.python3.override {
+    packageOverrides = self: super: rec {
+      black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+      nobbofin = self.callPackage ../5pkgs/nobbofin { };
+      orgparse = self.callPackage ../5pkgs/orgparse { };
+    };
+  };
 }

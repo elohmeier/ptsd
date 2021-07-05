@@ -4,13 +4,7 @@ with lib;
 let
   cfg = config.ptsd.desktop;
 
-  py3 = pkgs.python3.override {
-    packageOverrides = self: super: rec {
-      black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
-      orgparse = self.callPackage ../5pkgs/orgparse { };
-    };
-  };
-  py3env = py3.withPackages (
+  py3env = pkgs.ptsdPy3.withPackages (
     pythonPackages: with pythonPackages; [
       authlib
       black
@@ -29,6 +23,10 @@ let
       orgparse
       weasyprint
       beautifulsoup4
+      pytest
+      mypy
+      isort
+      nobbofin
     ]
   );
 

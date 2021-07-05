@@ -116,9 +116,10 @@ in
             value = { pkgs, ... }: {
               home.sessionVariables = {
                 EDITOR = "vim";
+                NNN_PLUG = "i:nobbofin-insert";
               };
 
-
+              home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsdPy3.pkgs.nobbofin}/bin/nobbofin-insert";
 
               programs = {
 
