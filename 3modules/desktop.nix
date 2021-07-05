@@ -963,7 +963,7 @@ in
                   modules-left = [ "sway/workspaces" "sway/mode" ];
                   modules-center = [
                   ];
-                  modules-right = (lib.optional cfg.autolock.enable "idle_inhibitor") ++ (lib.optional cfg.waybar.co2
+                  modules-right = (lib.optional cfg.autolock.enable "idle_inhibitor") ++ [ "custom/nobbofin-inbox" ] ++ (lib.optional cfg.waybar.co2
                     "custom/co2") ++ [
                     "disk#home"
                     "disk#nix"
@@ -994,6 +994,13 @@ in
                       exec = pkgs.writeShellScript "read-co2-status" ''
                         export $(grep -v '^#' /run/keys/hass-cli.env | xargs -d '\n')
                         hass-cli -o table --no-headers --columns STATE=state state get sensor.fraam_co2_mhz19b_carbondioxide
+                      '';
+                      interval = 30;
+                    };
+                    "custom/nobbofin-inbox" = {
+                      format = "nbf {}";
+                      exec = pkgs.writeShellScript "nobbofin-inbox" ''
+                        ${pkgs.findutils}/bin/find /home/enno/repos/nobbofin/000_INBOX -type f | wc -l
                       '';
                       interval = 30;
                     };
