@@ -12,21 +12,20 @@ __all__ = ["SimpleHTTPRequestHandler"]
 __author__ = "bones7456"
 __home_page__ = "https://gist.github.com/UniIsland/3346170"
 
+import argparse
+import html
+import http.server
+import mimetypes
 import os
+import posixpath
+import re
+import shutil
+import socketserver
 import sys
 import time
-import posixpath
-import http.server
-import socketserver
-import urllib.request
-import urllib.parse
 import urllib.error
-import html
-import shutil
-import mimetypes
-import re
-import argparse
-
+import urllib.parse
+import urllib.request
 from io import BytesIO
 
 

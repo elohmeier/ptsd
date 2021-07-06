@@ -1,8 +1,9 @@
-import click
 import os
-from pathlib import Path
 import shutil
 import subprocess
+from pathlib import Path
+
+import click
 
 REPOS = {
     "nw1": {"path": "/mnt/backup/nw1/borg", "quota": "250G", "user": "borg-nw1"},

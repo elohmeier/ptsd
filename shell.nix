@@ -10,7 +10,9 @@ let
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/5pkgs
       ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/*.nix      
       ${pkgs.python3Packages.black}/bin/black $ROOT/.
+      ${pkgs.python3Packages.isort}/bin/isort $ROOT/5pkgs
       ${pkgs.python3Packages.black}/bin/black $ROOT/src/*.pyw
+      ${pkgs.python3Packages.isort}/bin/isort $ROOT/src/*.pyw
       ${pkgs.gofumpt}/bin/gofumpt -w $ROOT/5pkgs
     '';
     mk-conftest = ''

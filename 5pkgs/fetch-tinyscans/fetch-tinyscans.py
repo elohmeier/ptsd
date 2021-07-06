@@ -1,11 +1,11 @@
-import click
 import logging
 import re
-import requests
-
 from io import BytesIO
-from PIL import Image
 from pathlib import Path
+
+import click
+import requests
+from PIL import Image
 from requests.exceptions import ConnectionError
 
 DEFAULT_TIMEOUT = 3

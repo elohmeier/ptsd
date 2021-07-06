@@ -2,7 +2,6 @@
 
 import re
 
-
 config = {}
 
 with open("klipper.cfg") as f:
