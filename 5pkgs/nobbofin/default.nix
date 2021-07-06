@@ -1,7 +1,7 @@
-{ buildPythonApplication, orgparse, pytestCheckHook }:
+{ buildPythonApplication, orgparse, pytestCheckHook, pdfminer }:
 buildPythonApplication {
   name = "nobbofin";
   src = ./.;
-  propagatedBuildInputs = [ orgparse ];
+  propagatedBuildInputs = [ orgparse pdfminer ];
   checkInputs = [ pytestCheckHook ];
 }
