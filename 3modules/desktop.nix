@@ -544,6 +544,8 @@ let
           mimeType = "application/pdf";
           type = "Application";
         })
+
+        wkhtmltopdf-qt4
       ];
     # see also https://jjjollyjim.github.io/arewehackersyet/index.html
     "sec" = pkgs: with pkgs;[
