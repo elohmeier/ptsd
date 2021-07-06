@@ -14,4 +14,6 @@ python3Packages.buildPythonApplication {
     ln -s ${runGitAlarm} $out/share/hooks/post-commit
     ln -s ${runGitAlarm} $out/share/hooks/post-merge
   '';
+
+  pythonImportsCheck = [ "gitalarm" ];
 }
