@@ -36,7 +36,7 @@ def get_date(filename: str) -> date:
         return date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
     if m := re.search(r"\D(\d{4})_(\d{2})_(\d{2})\D", filename):
         return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
-    if m := re.search(r"\D(20\d{2})([01][1-9])([0-3][0-9])\D", filename):
+    if m := re.search(r"\D(20\d{2})([01][0-9])([0-3][0-9])\D", filename):
         return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
     raise Exception("could not parse year: %s" % filename)
 

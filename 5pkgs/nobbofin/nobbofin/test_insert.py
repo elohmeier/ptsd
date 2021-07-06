@@ -16,3 +16,4 @@ def test_get_date():
         2020, 11, 20
     )
     assert get_date("Girokonto_Kontoauszug_20210402.pdf") == date(2021, 4, 2)
+    assert get_date("Girokonto_Kontoauszug_20201002.pdf") == date(2020, 10, 2)
