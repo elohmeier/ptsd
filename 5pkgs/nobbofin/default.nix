@@ -1,5 +1,5 @@
-{ buildPythonApplication, orgparse, pytestCheckHook, pdfminer }:
-buildPythonApplication {
+{ buildPythonPackage, orgparse, pytestCheckHook, pdfminer }:
+buildPythonPackage {
   name = "nobbofin";
   src = ./.;
   propagatedBuildInputs = [ orgparse pdfminer ];
