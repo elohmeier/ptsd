@@ -1062,6 +1062,7 @@ in
                     };
                     "network#tun0" = {
                       interface = "tun0";
+                      format = "{ifname} {ipaddr}";
                     };
                     pulseaudio = mkIf cfg.audio.enable {
                       format = "{volume}% {icon} {format_source}";
