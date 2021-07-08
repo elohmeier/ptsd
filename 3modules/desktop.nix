@@ -666,7 +666,7 @@ in
       };
       defaultBrowser = mkOption {
         type = types.str;
-        default = "firefox.desktop";
+        default = "choose-browser.desktop";
       };
       autolock.enable = mkOption {
         type = types.bool;
@@ -1260,6 +1260,28 @@ in
                 configFile."mimeapps.list".force = true;
 
                 dataFile = {
+
+                  "applications/choose-browser.desktop" =
+                    let
+                      choose-browser = pkgs.writers.writeDash "choose-browser" ../4scripts/choose-browser.sh;
+                    in
+                    {
+                      text = lib.generators.toINI
+                        { }
+                        {
+                          "Desktop Entry" = {
+                            Categories = "Network;WebBrowser;";
+                            Name = "Choose Browser";
+                            Comment = "";
+                            Exec = "${choose-browser} %U";
+                            Terminal = false;
+                            Type = "Application";
+                            MimeType = "text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp";
+                            GenericName = "Web Browser";
+                          };
+                        };
+                      onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
+                    };
 
                   # not working
                   # "mime/application/vnd.jgraph.mxfile.xml".text = ''
