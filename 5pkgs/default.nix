@@ -53,6 +53,7 @@ self: super:
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
   zathura-single = self.callPackage ./zathura-single { };
+  hash-identifier = self.callPackage ./hash-identifier { };
 
   ptsdPy3 = self.python3.override {
     packageOverrides = self: super: rec {

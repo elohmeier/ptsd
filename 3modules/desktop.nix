@@ -45,7 +45,7 @@ let
     };
   };
 
-  py2env = py2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto ]);
+  py2env = py2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto requests ]);
 
   exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
   open_codium_mode = "codium: [p]tsd, nobbo[f]in, [n]ixpkgs";
@@ -549,6 +549,8 @@ let
       ];
     # see also https://jjjollyjim.github.io/arewehackersyet/index.html
     "sec" = pkgs: with pkgs;[
+      rlwrap
+      hash-identifier
       net-snmp
       metasploit
       postgresql # for msfdb
