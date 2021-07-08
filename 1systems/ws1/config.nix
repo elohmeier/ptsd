@@ -143,10 +143,6 @@ in
 
     wireless.iwd.enable = true;
 
-    interfaces = {
-      "${virshNatIf}".ipv4.addresses = [{ address = "${virshNatIpPrefix}.1"; prefixLength = 24; }];
-    };
-
     firewall.interfaces."${virshNatIf}" = {
       allowedTCPPorts = [ 53 631 445 139 ];
       allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
@@ -178,6 +174,7 @@ in
         networkConfig = {
           ConfigureWithoutCarrier = true;
           DHCPServer = true;
+          Address = "${virshNatIpPrefix}.1/24";
         };
       };
       "40-eth0" = {
