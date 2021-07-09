@@ -35,7 +35,7 @@ def pdf2txt(pdf_content: IO) -> str:
             maxpages=maxpages,
             password=password,
             caching=caching,
-            check_extractable=True,
+            check_extractable=False,
         ):
             interpreter.process_page(page)
         return retstr.getvalue()
