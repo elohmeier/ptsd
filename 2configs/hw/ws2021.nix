@@ -16,5 +16,6 @@
     extraPackages = with pkgs; [ amdvlk ];
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
+  console.font = "${pkgs.uni-vga}/share/consolefonts/u_vga16.psf.gz";
   console.keyMap = "de-latin1";
 }

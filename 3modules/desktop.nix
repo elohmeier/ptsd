@@ -1577,15 +1577,26 @@ in
                 settings = {
                   env.TERM = "xterm-256color";
                   background_opacity = 0.9;
-                  font = {
-                    normal = {
+                  font =
+                    # see `fc-list` output
+                    let
                       #family = cfg.fontMono;
                       family = "SauceCodePro Nerd Font";
+                    in
+                    {
+                      normal = {
+                        inherit family;
+                      };
+                      bold =
+                        {
+                          inherit family;
+                        };
+                      italic = {
+                        inherit
+                          family;
+                      };
+                      size = cfg.fontSize;
                     };
-                    bold.family = "SauceCodePro Nerd Font";
-                    italic.family = "SauceCodePro Nerd Font";
-                    size = cfg.fontSize;
-                  };
 
                   draw_bold_text_with_bright_colors = true;
 
