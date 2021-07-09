@@ -37,3 +37,23 @@ build ffmpeg:
 #  script:
 #  - nix build .#nixosConfigurations.tp1.config.system.build.toplevel
 #  - ./cachix/bin/cachix push fraam result
+
+check eee1:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.eee1.config.system.build.toplevel.drvPath
+
+check tp1:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.tp1.config.system.build.toplevel.drvPath
+
+check ws1:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.ws1.config.system.build.toplevel.drvPath
+
+check ws2:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.ws2.config.system.build.toplevel.drvPath
