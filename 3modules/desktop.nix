@@ -549,6 +549,7 @@ let
       ];
     # see also https://jjjollyjim.github.io/arewehackersyet/index.html
     "sec" = pkgs: with pkgs;[
+      ghidra-bin
       rlwrap
       hash-identifier
       net-snmp
