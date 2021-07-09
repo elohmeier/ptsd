@@ -110,6 +110,7 @@ in
   ptsd.desktop = {
     enable = true;
     #darkmode = true;
+    rclone.enable = true;
     profiles = [
       "3dprinting"
       "admin"

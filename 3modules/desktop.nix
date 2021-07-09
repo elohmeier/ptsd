@@ -672,6 +672,10 @@ in
         type = types.bool;
         default = true;
       };
+      rclone.enable = mkOption {
+        type = types.bool;
+        default = false;
+      };
       darkmode = mkOption {
         type = types.bool;
         default = false;
@@ -698,6 +702,9 @@ in
       owner = config.users.users.mainUser.name;
     };
     ptsd.secrets.files.baresip-accounts = mkIf cfg.baresip.enable {
+      owner = config.users.users.mainUser.name;
+    };
+    ptsd.secrets.files."fraam-gdrive-backup-3b42c04ff1ec.json" = mkIf cfg.rclone.enable {
       owner = config.users.users.mainUser.name;
     };
 
@@ -755,6 +762,20 @@ in
 
       # https://github.com/jarun/nnn/wiki/Usage#configuration
       NNN_FCOLORS = if cfg.darkmode then "c1e2272e006033f7c6d6abc4" else "c1e2151600603ff7c6d6abc4";
+    } // optionalAttrs cfg.rclone.enable {
+      RCLONE_CONFIG =
+        let
+          fraamCfg = import ../2configs/fraam-gdrives.nix;
+          genCfg = drive_name: drive_id: nameValuePair drive_name {
+            type = "drive";
+            client_id = "100812309064118189865";
+            scope = "drive";
+            service_account_file = config.ptsd.secrets.files."fraam-gdrive-backup-3b42c04ff1ec.json".path;
+            impersonate = "enno.richter@fraam.de";
+            team_drive = drive_id;
+          };
+        in
+        toString (pkgs.writeText "rclone.conf" (lib.generators.toINI { } (mapAttrs' genCfg fraamCfg.drives)));
     };
 
     system.fsPackages = [ pkgs.ntfs3g ];
