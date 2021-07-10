@@ -535,7 +535,6 @@ let
         pdfduplex
         pdf2svg
 
-        zathura
         zathura-single
         (makeDesktopItem {
           name = "zathura";
@@ -925,6 +924,18 @@ in
             imports = [
               ./home
             ];
+
+            programs.zathura = mkIf (elem "office" cfg.profiles) {
+              enable = true;
+              extraConfig =
+                let
+                  file-renamer = pkgs.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
+                  cmd = term.execFloating "${file-renamer} \"%\"" "";
+                in
+                ''
+                  map <C-o> exec '${cmd}'
+                '';
+            };
 
             systemd.user.services.flameshot = mkIf cfg.flameshot.enable {
               Unit = {
