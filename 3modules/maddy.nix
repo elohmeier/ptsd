@@ -305,5 +305,45 @@ in
         }
       ];
     };
+
+    # configured as in https://github.com/foxcpp/maddy/tree/master/dist/fail2ban/filter.d
+    services.fail2ban.jails = {
+      maddy-auth = ''
+        port     = 993,465,25
+        filter   = maddy-auth
+        bantime  = 96h
+        backend  = systemd
+      '';
+
+      maddy-dictionary-attack = ''
+        port     = 993,465,25
+        filter   = maddy-dictonary-attack
+        bantime  = 72h
+        maxtries = 3
+        findtime = 6h
+        backend  = systemd
+      '';
+    };
+
+    environment.etc = {
+      "fail2ban/filter.d/maddy-auth.conf".text = ''
+        [INCLUDES]
+        before = common.conf
+
+        [Definition]
+        failregex    = authentication failed\t\{\"reason\":\".*\",\"src_ip\"\:\"<HOST>:\d+\"\,\"username\"\:\".*\"\}$
+        journalmatch = _SYSTEMD_UNIT=maddy.service + _COMM=maddy
+      '';
+
+      "fail2ban/filter.d/maddy-dictionary-attack.conf".text = ''
+        [INCLUDES]
+        before = common.conf
+
+        [Definition]
+        failregex    = smtp\: MAIL FROM error repeated a lot\, possible dictonary attack\t\{\"count\"\:\d+,\"msg_id\":\".+\",\"src_ip\"\:\"<HOST>:\d+\"\}$
+                       smtp\: too many RCPT errors\, possible dictonary attack\t\{\"msg_id\":\".+\","src_ip":"<HOST>:\d+\"\}
+        journalmatch = _SYSTEMD_UNIT=maddy.service + _COMM=maddy
+      '';
+    };
   };
 }
