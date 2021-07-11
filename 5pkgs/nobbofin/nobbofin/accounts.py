@@ -10,10 +10,11 @@ from typing import Optional
 import orgparse
 
 _DEFAULT_YEAR = 2021
+_DEFAULT_ACCOUNTS_ORG = "/home/enno/repos/nobbofin/current/accounts.org"
 
 
-def gen_acc_list(year: Optional[int] = None):
-    tree = orgparse.load("/home/enno/repos/nobbofin/current/accounts.org")
+def gen_acc_list(year: Optional[int] = None, accounts_org: str = _DEFAULT_ACCOUNTS_ORG):
+    tree = orgparse.load(accounts_org)
 
     for node in tree:
         # only output leaves
@@ -58,12 +59,12 @@ class Accounts:
         return self.name
 
 
-def gen_acc_obj(year: int):
+def gen_acc_obj(year: int, accounts_org: str = _DEFAULT_ACCOUNTS_ORG):
     """build object with properties resembling account hierarchy,
     useful for autocompletion in ipython environments"""
     obj = Accounts()
 
-    for acc in gen_acc_list(year):
+    for acc in gen_acc_list(year, accounts_org):
         acc_obj = obj
         for part in acc:
             if not hasattr(acc_obj, part):
@@ -73,8 +74,8 @@ def gen_acc_obj(year: int):
     return obj
 
 
-def gen_bean(year: int):
-    for prd in gen_acc_list(year):
+def gen_bean(year: int, accounts_org: str = _DEFAULT_ACCOUNTS_ORG):
+    for prd in gen_acc_list(year, accounts_org):
         sys.stdout.write(f"{year}-01-01 open {':'.join(prd)}\n")
 
 
@@ -83,8 +84,10 @@ class AccountNotFoundError(Exception):
         self.name = name
 
 
-def check_account(name: str, year: int = _DEFAULT_YEAR) -> None:
-    for prd in gen_acc_list(year):
+def check_account(
+    name: str, year: int = _DEFAULT_YEAR, accounts_org: str = _DEFAULT_ACCOUNTS_ORG
+) -> None:
+    for prd in gen_acc_list(year, accounts_org):
         if name == ":".join(prd):
             return
     raise AccountNotFoundError(name)
@@ -92,10 +95,11 @@ def check_account(name: str, year: int = _DEFAULT_YEAR) -> None:
 
 def main():
     parser = argparse.ArgumentParser(description="generate accounts.bean")
-    parser.add_argument("--year", default=_DEFAULT_YEAR)
+    parser.add_argument("--year", type=int, default=_DEFAULT_YEAR)
+    parser.add_argument("--accounts-org", default=_DEFAULT_ACCOUNTS_ORG)
     args = parser.parse_args()
 
-    gen_bean(args.year)
+    gen_bean(args.year, args.accounts_org)
 
 
 if __name__ == "__main__":
