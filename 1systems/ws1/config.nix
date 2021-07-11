@@ -144,9 +144,15 @@ in
 
     wireless.iwd.enable = true;
 
-    firewall.interfaces."${virshNatIf}" = {
-      allowedTCPPorts = [ 53 631 445 139 ];
-      allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
+    firewall.interfaces = {
+      "${virshNatIf}" = {
+        allowedTCPPorts = [ 53 631 445 139 ];
+        allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
+      };
+
+      eth0 = {
+        allowedTCPPorts = [ 3389 ]; # for optional rdp forwarding
+      };
     };
 
     nat = {
@@ -309,11 +315,6 @@ in
     efitools
     tpm2-tools
   ];
-
-  networking.firewall.interfaces.virbr4 = {
-    allowedTCPPorts = [ 445 139 ];
-    allowedUDPPorts = [ 137 138 ];
-  };
 
   virtualisation = {
     docker = {
