@@ -197,4 +197,13 @@ in
       path = "/root/.ssh/id_ed25519";
     };
   };
+
+  # compensate flaky home-assistant <-> homematic connection
+  systemd.services.restart-home-assistant = {
+    description = "Restart home-assistant every morning";
+    startAt = "*-*-* 03:30:00";
+    serviceConfig = {
+      ExecStart = "${pkgs.systemd}/bin/systemctl restart home-assistant.service";
+    };
+  };
 }

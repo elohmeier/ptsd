@@ -1,4 +1,4 @@
-{ home-assistant }:
+{ home-assistant, fetchFromGitHub }:
 
 let
   # skip install checks as in NixOS hass module
@@ -44,5 +44,17 @@ in
         "recorder"
         "homematic"
       ];
+
+      # packageOverrides = self: super: {
+      #   pyfritzhome = super.pyfritzhome.overridePythonAttrs (oldAttrs: rec {
+      #     version = "0.6.2";
+      #     src = fetchFromGitHub {
+      #       owner = "hthiery";
+      #       repo = "python-fritzhome";
+      #       rev = version;
+      #       sha256 = "sha256-OyhprqNv1tUcEfO/Dc32Izdfl7JDmHsf8jNWXHjCncM=";
+      #     };
+      #   });
+      # };
     };
 }
