@@ -83,8 +83,8 @@ class AccountNotFoundError(Exception):
         self.name = name
 
 
-def check_account(name: str) -> None:
-    for prd in gen_acc_list(_DEFAULT_YEAR):
+def check_account(name: str, year: int = _DEFAULT_YEAR) -> None:
+    for prd in gen_acc_list(year):
         if name == ":".join(prd):
             return
     raise AccountNotFoundError(name)
