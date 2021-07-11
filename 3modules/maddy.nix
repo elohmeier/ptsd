@@ -309,6 +309,7 @@ in
     # configured as in https://github.com/foxcpp/maddy/tree/master/dist/fail2ban/filter.d
     services.fail2ban.jails = {
       maddy-auth = ''
+        enabled  = true
         port     = 993,465,25
         filter   = maddy-auth
         bantime  = 96h
@@ -316,8 +317,9 @@ in
       '';
 
       maddy-dictionary-attack = ''
+        enabled  = true
         port     = 993,465,25
-        filter   = maddy-dictonary-attack
+        filter   = maddy-dictionary-attack
         bantime  = 72h
         maxtries = 3
         findtime = 6h
@@ -335,6 +337,7 @@ in
         journalmatch = _SYSTEMD_UNIT=maddy.service + _COMM=maddy
       '';
 
+      # spelling mistake "dictonary" present in maddy source code
       "fail2ban/filter.d/maddy-dictionary-attack.conf".text = ''
         [INCLUDES]
         before = common.conf
