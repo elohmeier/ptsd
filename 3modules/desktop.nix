@@ -7,6 +7,7 @@ let
   py3env = pkgs.ptsdPy3.withPackages (
     pythonPackages: with pythonPackages; [
       authlib
+      beancount
       black
       black_nbconvert
       # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
