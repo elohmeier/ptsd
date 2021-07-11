@@ -72,6 +72,7 @@ in
 
   ptsd.desktop = {
     enable = true;
+    darkmode = true;
     terminalConfig = "alacritty";
     waybar.enable = true;
     waybar.co2 = true;
@@ -253,7 +254,6 @@ in
       }
     ];
   };
-
 
   services.xserver = {
     # set DPI
