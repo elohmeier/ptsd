@@ -455,7 +455,7 @@ in
             }
             {
               alert = "NodeDown";
-              expr = ''up{alwayson="1"} == 1'';
+              expr = ''up{alwayson="1"} == 0'';
               for = "5m";
               labels.severity = "critical";
               annotations = {
