@@ -462,6 +462,16 @@ in
                 summary = "Node {{ $labels.alias }} down für 5 minutes";
               };
             }
+            {
+              alert = "OldBackup";
+              expr = "time() - backup_completion_time < 86400 * 14";
+              for = "10m";
+              labels.severity = "warning";
+              annotations = {
+                summary = "No recent backup for {{ $labels.alias }}";
+                description = "The last backup is older than 14 days.";
+              };
+            }
           ];
         }];
       })
