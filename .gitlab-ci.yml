@@ -58,10 +58,11 @@ check htz2:
   script:
   - nix eval .#nixosConfigurations.htz2.config.system.build.toplevel.drvPath
 
-check htz3:
-  stage: build
-  script:
-  - nix eval .#nixosConfigurations.htz3.config.system.build.toplevel.drvPath
+# fraamdb src missing
+# check htz3:
+#   stage: build
+#   script:
+#   - nix eval .#nixosConfigurations.htz3.config.system.build.toplevel.drvPath
 
 check nas1:
   stage: build
