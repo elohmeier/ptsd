@@ -17,4 +17,5 @@
   "logind"
   "interrupts"
   "ksmd"
+  "textfile"
 ]
