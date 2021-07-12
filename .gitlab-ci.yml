@@ -38,10 +38,35 @@ build ffmpeg:
 #  - nix build .#nixosConfigurations.tp1.config.system.build.toplevel
 #  - ./cachix/bin/cachix push fraam result
 
+check apu2:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.apu2.config.system.build.toplevel.drvPath
+
 check eee1:
   stage: build
   script:
   - nix eval .#nixosConfigurations.eee1.config.system.build.toplevel.drvPath
+
+check htz1:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.htz1.config.system.build.toplevel.drvPath
+
+check htz2:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.htz2.config.system.build.toplevel.drvPath
+
+check htz3:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.htz3.config.system.build.toplevel.drvPath
+
+check nas1:
+  stage: build
+  script:
+  - nix eval .#nixosConfigurations.nas1.config.system.build.toplevel.drvPath
 
 check tp1:
   stage: build
