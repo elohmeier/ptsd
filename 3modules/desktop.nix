@@ -569,6 +569,11 @@ let
       # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
       nikto
       py2env
+      (writers.writePython2Bin "kirbi2hashcat"
+        {
+          libraries = [ python2Packages.pyasn1 ];
+          flakeIgnore = [ "E501" "W503" ]; # line length (black)
+        } ../4scripts/kirbi2hashcat.py)
     ];
   };
 in
