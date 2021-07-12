@@ -97,13 +97,14 @@ in
         );
       }
 
+      (nwJob "apu2" "apu2" "node")
+      (nwJob "eee1" "eee1" "node")
+      (nwJob "htz1" "htz1" "node")
       (nwJob "htz2" "htz2" "node")
       (nwJob "htz2" "htz2" "maddy")
-
       (nwJob "htz3" "htz3" "node")
       (nwJob "htz3" "gitlab" "node")
       (nwJob "htz3" "wpjail" "node")
-
       (nwJob "ws1" "ws1" "node")
       (nwJob "ws2" "ws2" "node")
       (nwJob "tp1" "tp1" "node")
