@@ -56,6 +56,12 @@ with lib;
     interfaces.enp4s0.useDHCP = true;
     interfaces.wlan0.useDHCP = true;
     wireless.iwd.enable = true;
+
+    firewall.interfaces.wlan0 = {
+      # samba/cups ports
+      allowedTCPPorts = [ 631 445 139 ];
+      allowedUDPPorts = [ 631 137 138 ];
+    };
   };
 
   ptsd.secrets.files."fraam.psk" = {
