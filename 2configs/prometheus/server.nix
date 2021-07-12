@@ -23,7 +23,7 @@ let
     ];
   };
 
-  nwJob = host: unit: exporter: {
+  nwJob = host: unit: exporter: alwayson: {
     job_name = "${exporter}_${host}_${unit}";
     scrape_interval = "60s";
     metrics_path = "/${unit}/${exporter}/metrics";
@@ -33,6 +33,7 @@ let
       ];
       labels = {
         alias = if host == unit then host else "${host}-${unit}";
+        alwayson = if alwayson then "1" else "0";
       };
     }];
   };
@@ -76,6 +77,7 @@ in
           ];
         }];
       }
+
       {
         job_name = "node";
         scrape_interval = "60s";
@@ -90,24 +92,25 @@ in
                 ];
                 labels = {
                   alias = hostname;
+                  alwayson = if hostname == "mb1" then "0" else "1";
                 };
               }
             )
-            (vpnNodes "nwvpn")
+            (filterAttrs (hostname: _: elem hostname [ "rpi2" "htz4" "wrt1" "wrt2" "apu3" "mb1" ]) (vpnNodes "nwvpn"))
         );
       }
 
-      (nwJob "apu2" "apu2" "node")
-      (nwJob "eee1" "eee1" "node")
-      (nwJob "htz1" "htz1" "node")
-      (nwJob "htz2" "htz2" "node")
-      (nwJob "htz2" "htz2" "maddy")
-      (nwJob "htz3" "htz3" "node")
-      (nwJob "htz3" "gitlab" "node")
-      (nwJob "htz3" "wpjail" "node")
-      (nwJob "ws1" "ws1" "node")
-      (nwJob "ws2" "ws2" "node")
-      (nwJob "tp1" "tp1" "node")
+      (nwJob "apu2" "apu2" "node" true)
+      (nwJob "eee1" "eee1" "node" true)
+      (nwJob "htz1" "htz1" "node" true)
+      (nwJob "htz2" "htz2" "node" true)
+      (nwJob "htz2" "htz2" "maddy" true)
+      (nwJob "htz3" "htz3" "node" true)
+      (nwJob "htz3" "gitlab" "node" true)
+      (nwJob "htz3" "wpjail" "node" true)
+      (nwJob "ws1" "ws1" "node" false)
+      (nwJob "ws2" "ws2" "node" true)
+      (nwJob "tp1" "tp1" "node" false)
 
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
@@ -448,6 +451,15 @@ in
               annotations = {
                 summary = "Certificate for {{ $labels.instance }} expiring soon";
                 description = "Certificate is about to expire in less than 28 days.";
+              };
+            }
+            {
+              alert = "NodeDown";
+              expr = ''up{alwayson="1"} == 1'';
+              for = "5m";
+              labels.severity = "critical";
+              annotations = {
+                summary = "Node {{ $labels.alias }} down für 5 minutes";
               };
             }
           ];
