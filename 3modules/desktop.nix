@@ -377,6 +377,7 @@ let
       freecad
       cura
       prusa-slicer
+      f3d
     ];
     "admin" = pkgs: with pkgs; [
       tigervnc
