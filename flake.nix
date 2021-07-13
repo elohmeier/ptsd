@@ -58,21 +58,57 @@
         {
           iso = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = defaultModules ++ desktopModules ++ [
-              ./.
-              ./2configs/mainUser.nix
-              ./3modules/cli.nix
-              "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+            modules = [
+              #"${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+              "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-graphical-plasma5.nix"
               {
-                home-manager.users.mainUser = { ... }: { home.stateVersion = "21.05"; };
-                ptsd.cli = {
-                  enable = true;
-                  fish.enable = true;
-                  defaultShell = "fish";
+                console.keyMap = "de-latin1";
+                services.xserver.layout = "de";
+                i18n.defaultLocale = "de_DE.UTF-8";
+                time.timeZone = "Europe/Berlin";
+                networking = {
+                  useNetworkd = true;
+                  useDHCP = false;
+                  wireless.enable = false;
+                  wireless.iwd.enable = true;
+                  interfaces.wlan0.useDHCP = true;
+                  networkmanager.wifi.backend = "iwd";
                 };
-                services.getty.autologinUser = nixpkgs.lib.mkForce "enno";
+                #   system.activationScripts.configure-iwd = nixpkgs.lib.stringAfter [ "users" "groups" ] ''
+                #     mkdir -p /var/lib/iwd
+                #     cat >/var/lib/iwd/fraam.psk <<EOF
+                #     [Security]
+                #     PreSharedKey=
+                #     Passphrase=
+                #     EOF
+                #   '';
+                environment.systemPackages =
+                  let
+                    pkgs = import
+                      nixpkgs
+                      {
+                        config.allowUnfree = true;
+                        system = "x86_64-linux";
+                      };
+                  in
+                  [ pkgs.vivaldi ];
               }
             ];
+            # modules = defaultModules ++ desktopModules ++ [
+            #   ./.
+            #   ./2configs/mainUser.nix
+            #   ./3modules/cli.nix
+            #   "${nixpkgs}/nixos/modules/installer/cd-dvd/installation-cd-minimal.nix"
+            #   {
+            #     home-manager.users.mainUser = { ... }: { home.stateVersion = "21.05"; };
+            #     ptsd.cli = {
+            #       enable = true;
+            #       fish.enable = true;
+            #       defaultShell = "fish";
+            #     };
+            #     services.getty.autologinUser = nixpkgs.lib.mkForce "enno";
+            #   }
+            # ];
           };
 
           apu2 = nixpkgs.lib.nixosSystem {
