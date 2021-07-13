@@ -144,6 +144,35 @@
         "type": "github"
       }
     },
+    "frix": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "home-manager": [
+          "home-manager"
+        ],
+        "nixos-hardware": [
+          "nixos-hardware"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1626195874,
+        "narHash": "sha256-yYwJifqJAQoGW9/6nYr2LuIqMqdPWfSEO/gmTDby6n8=",
+        "ref": "master",
+        "rev": "b5655ea34e4f5dabb65a46e563ab3f48373c088b",
+        "revCount": 3,
+        "type": "git",
+        "url": "ssh://git@git.fraam.de/fraam/frix"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@git.fraam.de/fraam/frix"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -352,6 +381,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "frix": "frix",
         "home-manager": "home-manager",
         "nix-doom-emacs": "nix-doom-emacs",
         "nixos-hardware": "nixos-hardware",

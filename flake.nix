@@ -7,9 +7,14 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
-    nix-doom-emacs.url = "github:vlaci/nix-doom-emacs";
+    nix-doom-emacs.url = github:vlaci/nix-doom-emacs;
     nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
     nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
+    frix.url = "git+ssh://git@git.fraam.de/fraam/frix";
+    frix.inputs.nixpkgs.follows = "nixpkgs";
+    frix.inputs.flake-utils.follows ="flake-utils";
+    frix.inputs.nixos-hardware.follows= "nixos-hardware";
+    frix.inputs.home-manager.follows ="home-manager";
   };
 
   outputs = { self, nixpkgs, home-manager, nixos-hardware, flake-utils, nix-doom-emacs, ... }:
