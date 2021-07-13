@@ -18,7 +18,7 @@ in
     #  '';
     extraConfig = let scale = 1.25; in
       ''
-        output DP-1 pos 0 0 mode 2560x1440@74.924004Hz scale ${toString scale}
+        output HDMI-A-1 pos 0 0 mode 2560x1440@69.928001Hz scale ${toString scale}
         output HDMI-A-2 pos ${toString (roundDown (2560 / scale))} 0 mode 2560x1440@69.928001Hz scale ${toString scale}
       '';
   };
