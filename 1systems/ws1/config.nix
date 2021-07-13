@@ -23,6 +23,7 @@ in
     # 
     # ../../2configs/home-secrets.nix
 
+    ../../2configs/nvidia-headless.nix
   ];
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -39,7 +40,6 @@ in
     # "nvidia_uvm"
     # "nvidia_modeset"
     # "i2c_nvidia_gpu"
-    "nouveau"
   ];
   boot.kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
   boot.extraModprobeConfig = ''

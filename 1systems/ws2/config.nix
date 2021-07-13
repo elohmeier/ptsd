@@ -16,8 +16,10 @@ in
 
     ../../2configs/prometheus/node.nix
 
-    ../../2configs/octoprint-klipper-ender3.nix
+    #../../2configs/octoprint-klipper-ender3.nix
     ../../2configs/hl5380dn.nix
+
+    ../../2configs/nvidia-headless.nix
   ];
 
   # ptsd.fraamdb = {
