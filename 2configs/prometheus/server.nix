@@ -464,7 +464,7 @@ in
             }
             {
               alert = "OldBackup";
-              expr = "time() - backup_completion_time < 86400 * 14";
+              expr = "time() - backup_completion_time > 86400 * 14";
               for = "10m";
               labels.severity = "warning";
               annotations = {
