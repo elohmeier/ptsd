@@ -1522,11 +1522,10 @@ in
             home.packages = with pkgs;
               [
                 bubblewrap
+                nsjail
               ] ++ optionals (cfg.baresip.enable) [ baresip ] ++ optionals (cfg.flameshot.enable) [
                 flameshot
-              ] ++ term.extraPackages ++
-
-              [
+              ] ++ term.extraPackages ++ [
                 swaylock
                 grim
                 slurp
