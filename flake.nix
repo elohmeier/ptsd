@@ -12,9 +12,9 @@
     nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
     frix.url = "git+ssh://git@git.fraam.de/fraam/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
-    frix.inputs.flake-utils.follows ="flake-utils";
-    frix.inputs.nixos-hardware.follows= "nixos-hardware";
-    frix.inputs.home-manager.follows ="home-manager";
+    frix.inputs.flake-utils.follows = "flake-utils";
+    frix.inputs.nixos-hardware.follows = "nixos-hardware";
+    frix.inputs.home-manager.follows = "home-manager";
   };
 
   outputs = { self, nixpkgs, home-manager, nixos-hardware, flake-utils, nix-doom-emacs, ... }:
