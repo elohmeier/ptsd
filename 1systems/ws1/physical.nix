@@ -39,24 +39,28 @@ in
     {
       device = "${vgPrefix}/home";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/nix" =
     {
       device = "${vgPrefix}/nix";
       fsType = "ext4";
+      options = [ "nodev" ];
     };
 
   fileSystems."/persist" =
     {
       device = "${vgPrefix}/persist";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/var/src" =
     {
       device = "${vgPrefix}/var-src";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
       neededForBoot = true; # mount early for passwd provisioning
     };
 
@@ -64,21 +68,21 @@ in
     {
       device = "${vgPrefix}/var-lib-docker";
       fsType = "ext4";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/var/lib/libvirt/images" =
     {
       device = "${vgPrefix}/var-lib-libvirt-images";
       fsType = "ext4";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/var/log" =
     {
       device = "${vgPrefix}/var-log";
       fsType = "ext4";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   # 800M /var/log drive
@@ -87,18 +91,23 @@ in
     RuntimeMaxUse=750M
   '';
 
+  fileSystems."/tmp" = {
+    fsType = "tmpfs";
+    options = [ "size=6G" "mode=1700" "nodev" "nosuid" "noexec" ];
+  };
+
   fileSystems."/boot" =
     {
       device = "${disk}-part1";
       fsType = "vfat";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/mnt/win" =
     {
       device = "${disk}-part4";
       fsType = "ntfs-3g";
-      options = [ "nofail" "remove_hiberfile" ];
+      options = [ "nofail" "remove_hiberfile" "nodev" "nosuid" "noexec" ];
     };
 
   swapDevices =
