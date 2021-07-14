@@ -22,7 +22,7 @@ bwrap \
     --setenv PATH /run/current-system/sw/bin \
     --die-with-parent \
     --new-session \
-    $(readlink $(which firefox))
+    $(readlink $(which firefox)) $@
 
 
 # TODO: configure pass
