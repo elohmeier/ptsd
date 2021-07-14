@@ -1521,7 +1521,7 @@ in
 
             home.packages = with pkgs;
               [
-
+                bubblewrap
               ] ++ optionals (cfg.baresip.enable) [ baresip ] ++ optionals (cfg.flameshot.enable) [
                 flameshot
               ] ++ term.extraPackages ++
