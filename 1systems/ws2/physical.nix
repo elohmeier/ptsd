@@ -97,30 +97,34 @@
     {
       device = "/dev/disk/by-id/nvme-Samsung_SSD_970_EVO_Plus_1TB_S4EWNMFN904187J-part1";
       fsType = "vfat";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/home" =
     {
       device = "/dev/sysVG/home";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/nix" =
     {
       device = "/dev/sysVG/nix";
       fsType = "ext4";
+      options = [ "nodev" ];
     };
 
   fileSystems."/persist" =
     {
       device = "/dev/sysVG/persist";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/var/src" = {
     device = "/dev/sysVG/var-src";
     fsType = "ext4";
+    options = [ "nodev" "nosuid" "noexec" ];
     neededForBoot = true; # mount early for passwd provisioning
   };
 
@@ -128,7 +132,7 @@
     {
       device = "/dev/sysVG/var-log";
       fsType = "ext4";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   # 800M /var/log drive

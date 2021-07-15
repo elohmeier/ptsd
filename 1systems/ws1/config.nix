@@ -27,7 +27,7 @@ in
   ];
 
   services.usbguard = {
-    enable = false; 
+    enable = false;
     IPCAllowedUsers = [ "enno" "root" ];
 
     # generated using `usbguard generate-policy` & edited
