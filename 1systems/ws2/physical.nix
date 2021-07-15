@@ -124,6 +124,19 @@
     neededForBoot = true; # mount early for passwd provisioning
   };
 
+  fileSystems."/var/log" =
+    {
+      device = "/dev/sysVG/var-log";
+      fsType = "ext4";
+      options = [ "nofail" ];
+    };
+
+  # 800M /var/log drive
+  services.journald.extraConfig = ''
+    SystemMaxUse=750M
+    RuntimeMaxUse=750M
+  '';
+
   boot.kernelParams = [
     "mitigations=off" # make linux fast again
     "systemd.machine_id=78a79fa3b73e4177a65efe6e9be87e68"
