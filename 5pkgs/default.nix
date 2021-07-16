@@ -24,7 +24,6 @@ self: super:
 {
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
-  burpsuite-pro = self.callPackage ./burpsuite-pro { };
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
@@ -32,7 +31,6 @@ self: super:
   hashPassword = self.callPackage ./hashPassword { };
   hidclient = self.callPackage ./hidclient { };
   home-assistant-variants = self.callPackage ./home-assistant-variants { };
-  httpserve = self.callPackage ./httpserve { };
   kitty-terminfo = self.callPackage ./kitty-terminfo { };
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };
@@ -53,7 +51,6 @@ self: super:
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
   zathura-single = self.callPackage ./zathura-single { };
-  hash-identifier = self.callPackage ./hash-identifier { };
 
   ptsdPy3 = self.python3.override {
     packageOverrides = self: super: rec {

@@ -17,7 +17,7 @@
     frix.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, flake-utils, nix-doom-emacs, ... }:
+  outputs = { self, nixpkgs, home-manager, nixos-hardware, flake-utils, nix-doom-emacs, frix, ... }:
 
     flake-utils.lib.eachDefaultSystem
       (system:
@@ -52,12 +52,14 @@
             ];
           }];
           desktopModules = [
+            "${frix}"
             home-manager.nixosModule
-            {
+            ({ pkgs, ... }: {
               home-manager.users.mainUser = { ... }: {
                 imports = [ nix-doom-emacs.hmModule ];
+                home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec;
               };
-            }
+            })
           ];
         in
         {

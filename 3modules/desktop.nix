@@ -550,31 +550,33 @@ let
       ];
     # see also https://jjjollyjim.github.io/arewehackersyet/index.html
     "sec" = pkgs: with pkgs;[
-      proxychains
-      sshuttle
-      ghidra-bin
-      rlwrap
-      hash-identifier
-      net-snmp
-      metasploit
-      postgresql # for msfdb
-      wpscan
-      john
-      gobuster
-      burpsuite-pro
-      hashcat
-      sqlmap
-      nbtscanner
-      wireshark-qt
-      pwndbg
-      # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
-      nikto
-      py2env
-      (writers.writePython2Bin "kirbi2hashcat"
-        {
-          libraries = [ python2Packages.pyasn1 ];
-          flakeIgnore = [ "E501" "W503" ]; # line length (black)
-        } ../4scripts/kirbi2hashcat.py)
+      # included via frix/hackertools
+
+      # proxychains
+      # sshuttle
+      # ghidra-bin
+      # rlwrap
+      # hash-identifier
+      # net-snmp
+      # metasploit
+      # postgresql # for msfdb
+      # wpscan
+      # john
+      # gobuster
+      # burpsuite-pro
+      # hashcat
+      # sqlmap
+      # nbtscanner
+      # wireshark-qt
+      # pwndbg
+      # # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
+      # nikto
+      # py2env
+      # (writers.writePython2Bin "kirbi2hashcat"
+      #   {
+      #     libraries = [ python2Packages.pyasn1 ];
+      #     flakeIgnore = [ "E501" "W503" ]; # line length (black)
+      #   } ../4scripts/kirbi2hashcat.py)
     ];
   };
 in
