@@ -23,7 +23,7 @@ in
     # 
     # ../../2configs/home-secrets.nix
 
-    ../../2configs/nvidia-headless.nix
+    #../../2configs/nvidia-headless.nix
   ];
 
   services.usbguard = {
@@ -65,6 +65,7 @@ in
   boot.loader.efi.canTouchEfiVariables = true;
 
   boot.blacklistedKernelModules = [
+    "nouveau"
     # "nvidia"
     # "nvidia_drm"
     # "nvidia_uvm"
@@ -243,6 +244,9 @@ in
   boot.kernelParams = [
     "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off"
     "mitigations=off" # make linux fast again
+    "amd_iommu=on"
+    "video=vesafb:off"
+    "video=efifb:off"
   ];
 
   # ptsd.wireguard.networks = {
