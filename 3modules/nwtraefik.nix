@@ -278,7 +278,7 @@ in
           types.submodule {
             options = {
               name = mkOption { type = types.str; };
-              entryPoints = mkOption { type = types.listOf types.str; default = [ ]; };
+              entryPoints = mkOption { type = types.listOf (types.strMatching ".+-(http|https)"); };
               rule = mkOption { type = types.str; default = "Host(`*`)"; };
               auth = mkOption { type = types.attrs; default = { }; };
               url = mkOption { type = types.str; default = ""; };
@@ -379,6 +379,16 @@ in
                   }
                 )
                 svc.entryPoints
+            )
+            cfg.services
+        ) ++ (
+          map
+            (
+              svc:
+              {
+                assertion = svc.entryPoints != [ ];
+                message = "ptsd.nwtraefik.services: entrypoints have to be defined for service \"${svc.name}\"";
+              }
             )
             cfg.services
         );
