@@ -404,6 +404,14 @@ let
       lftp
       cifs-utils
       home-assistant-cli
+
+      (writers.writeBashBin "edit-hosts" ''
+        set -e
+        cat /etc/hosts > /etc/hosts.edit
+        vim /etc/hosts.edit
+        mv /etc/hosts.edit /etc/hosts
+      '')
+
     ];
     "dev" = pkgs: with pkgs;
       [
@@ -430,6 +438,7 @@ let
         python3Packages.graphtage
         clang
         nix-prefetch-git
+        jetbrains.datagrip
       ];
     "fpv" = pkgs: with pkgs; [
       betaflight-configurator
@@ -502,6 +511,7 @@ let
         teams
         zoom-us
         element-desktop
+        signal-desktop
         aspell
         aspellDicts.de
         aspellDicts.en
@@ -857,6 +867,9 @@ in
     services.lorri.enable = elem "dev" cfg.profiles;
 
     sound.enable = true;
+
+    programs.wireshark.enable = true;
+    users.groups.wireshark.members = [ config.users.users.mainUser.name ];
 
     hardware = {
       bluetooth = {
