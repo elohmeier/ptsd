@@ -57,7 +57,7 @@ let
       routers = builtins.listToAttrs (flatten
         (map
           (
-            svc: [
+            svc: (lib.optional (any (hasSuffix "-http") svc.entryPoints)
               {
                 name = "${svc.name}-plain";
                 value = {
@@ -68,7 +68,7 @@ let
                   priority = svc.priority;
                 };
               }
-            ] ++ (lib.optionals svc.tls [
+            ) ++ (lib.optional (svc.tls && (any (hasSuffix "-https") svc.entryPoints))
               {
                 name = "${svc.name}-tls";
                 value = {
@@ -82,7 +82,7 @@ let
                   };
                 };
               }
-            ])
+            )
           )
           cfg.services)
       );
