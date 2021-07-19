@@ -61,7 +61,7 @@ let
               {
                 name = "${svc.name}-plain";
                 value = {
-                  entryPoints = filter (e: hasSuffix "-http" e) svc.entryPoints;
+                  entryPoints = filter (e: (hasSuffix "-http" e)) svc.entryPoints;
                   rule = svc.rule;
                   service = svc.name;
                   middlewares = [ mwSecurityHeaders ] ++ lib.optional svc.tls mwHttpsRedirect ++ svc.extraMiddlewares ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
@@ -72,7 +72,7 @@ let
               {
                 name = "${svc.name}-tls";
                 value = {
-                  entryPoints = filter (e: hasSuffix "-https" e) svc.entryPoints;
+                  entryPoints = filter (e: (hasSuffix "-https" e)) svc.entryPoints;
                   rule = svc.rule;
                   service = svc.name;
                   middlewares = [ mwSecurityHeaders ] ++ svc.extraMiddlewares ++ lib.optional (svc.auth != { }) "${svc.name}-auth" ++ lib.optional (svc.stripPrefixes != [ ]) "${svc.name}-stripPrefix";
@@ -278,7 +278,7 @@ in
           types.submodule {
             options = {
               name = mkOption { type = types.str; };
-              entryPoints = mkOption { type = types.listOf (types.strMatching ".+-(http|https)"); };
+              entryPoints = mkOption { type = types.listOf (types.strMatching ".+-(http|https)$"); };
               rule = mkOption { type = types.str; default = "Host(`*`)"; };
               auth = mkOption { type = types.attrs; default = { }; };
               url = mkOption { type = types.str; default = ""; };
