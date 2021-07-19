@@ -16,7 +16,7 @@ in
   ptsd.nwtraefik = {
     enable = true;
     entryPoints = {
-      nwvpn-prometheus = {
+      nwvpn-prometheus-http = {
         address = "${config.ptsd.wireguard.networks.nwvpn.ip}:${toString port}";
       };
     };
@@ -30,7 +30,7 @@ in
     services = [
       {
         name = "prometheus-node";
-        entryPoints = [ "nwvpn-prometheus" ];
+        entryPoints = [ "nwvpn-prometheus-http" ];
         rule = "PathPrefix(`/${config.networking.hostName}/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
         tls = false;
         extraMiddlewares = [ "prom-stripprefix" ];

@@ -140,7 +140,7 @@ in
       }
       {
         name = "prometheus-node-wpjail";
-        entryPoints = [ "nwvpn-prometheus" ];
+        entryPoints = [ "nwvpn-prometheus-http" ];
         rule = "PathPrefix(`/wpjail/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
         url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-node}";
         tls = false;

@@ -298,7 +298,7 @@ in
       services = [
         {
           name = "prometheus-maddy";
-          entryPoints = [ "nwvpn-prometheus" ];
+          entryPoints = [ "nwvpn-prometheus-http" ];
           rule = "PathPrefix(`/${config.networking.hostName}/maddy`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
           tls = false;
           extraMiddlewares = [ "prom-stripprefix" ];

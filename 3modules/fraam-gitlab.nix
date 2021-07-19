@@ -266,7 +266,7 @@ in
         }
         {
           name = "prometheus-gitlab-node";
-          entryPoints = [ "nwvpn-prometheus" ];
+          entryPoints = [ "nwvpn-prometheus-http" ];
           rule = "PathPrefix(`/gitlab/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
           url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-node}";
           tls = false;
@@ -274,7 +274,7 @@ in
         }
         {
           name = "prometheus-gitlab-gitlab";
-          entryPoints = [ "nwvpn-prometheus" ];
+          entryPoints = [ "nwvpn-prometheus-http" ];
           rule = "PathPrefix(`/gitlab/gitlab`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
           url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-gitlab}";
           tls = false;
