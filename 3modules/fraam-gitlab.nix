@@ -142,6 +142,11 @@ in
             }
           ];
 
+          services.postgresql = {
+            enable = true;
+            package = pkgs.postgresql_12;
+          };
+
           # steps to o create an initial admin user:
           # 1. create user using webinterface
           # 2. open console using `sudo -u gitlab -H gitlab-rails console -e production`
