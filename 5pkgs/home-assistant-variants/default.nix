@@ -4,6 +4,10 @@ let
   # skip install checks as in NixOS hass module
   hass = home-assistant.overrideAttrs (oldAttrs: {
     doInstallCheck = false;
+
+    patches = [
+      ./2021.5.5-fritzbox-lightbulb.patch
+    ];
   });
 in
 {
@@ -45,16 +49,16 @@ in
         "homematic"
       ];
 
-      # packageOverrides = self: super: {
-      #   pyfritzhome = super.pyfritzhome.overridePythonAttrs (oldAttrs: rec {
-      #     version = "0.6.2";
-      #     src = fetchFromGitHub {
-      #       owner = "hthiery";
-      #       repo = "python-fritzhome";
-      #       rev = version;
-      #       sha256 = "sha256-OyhprqNv1tUcEfO/Dc32Izdfl7JDmHsf8jNWXHjCncM=";
-      #     };
-      #   });
-      # };
+      packageOverrides = self: super: {
+        pyfritzhome = super.pyfritzhome.overridePythonAttrs (oldAttrs: rec {
+          version = "0.6.2";
+          src = fetchFromGitHub {
+            owner = "hthiery";
+            repo = "python-fritzhome";
+            rev = version;
+            sha256 = "sha256-OyhprqNv1tUcEfO/Dc32Izdfl7JDmHsf8jNWXHjCncM=";
+          };
+        });
+      };
     };
 }
