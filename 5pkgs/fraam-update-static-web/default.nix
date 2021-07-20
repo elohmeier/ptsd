@@ -7,8 +7,9 @@ writers.writeDashBin "fraam-update-static-web" ''
   ${wget}/bin/wget --mirror --page-requisites --no-parent --directory-prefix="$ROOT" --no-host-directories https://dev.fraam.de/impressum/
 
   # remove absolute links
-  ${findutils}/bin/find "$ROOT" -type f -name "*.html" -exec ${gnused}/bin/sed -i 's/https:\/\/dev.fraam.de\//\//g' {} +
-  ${findutils}/bin/find "$ROOT" -type f -name "*.html" -exec ${gnused}/bin/sed -i 's/https:\/\/fraam.de\//\//g' {} +
+  ${findutils}/bin/find "$ROOT" -type f -exec ${gnused}/bin/sed -i 's/https:\/\/dev.fraam.de\//\//g' {} +
+  ${findutils}/bin/find "$ROOT" -type f -exec ${gnused}/bin/sed -i 's/https:\\\/\\\/dev.fraam.de\\\//\\\//g' {} +
+  ${findutils}/bin/find "$ROOT" -type f -exec ${gnused}/bin/sed -i 's/https:\/\/fraam.de\//\//g' {} +
 
   # fix missing slash in impressum link
   ${findutils}/bin/find "$ROOT" -type f -name "*.html" -exec ${gnused}/bin/sed -i 's/"\/impressum"/"\/impressum\/"/g' {} +
