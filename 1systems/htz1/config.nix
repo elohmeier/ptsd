@@ -82,16 +82,19 @@ in
         name = "nas1-public-www";
         rule = "Host(`www.nerdworks.de`) && PathPrefix(`/fpv`)";
         url = "http://${universe.hosts.nas1.nets.nwvpn.ip4.addr}:12345";
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
       {
         name = "nginx-wellknown-matrix";
         rule = "PathPrefix(`/.well-known/matrix`)";
         priority = 9999; # high-priority for router
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
       {
         name = "fotos";
         rule = "Host(`fotos.nerdworks.de`)";
         url = "http://191.18.19.37:2342";
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
     ];
     certificates =
