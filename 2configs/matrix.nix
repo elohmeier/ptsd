@@ -89,6 +89,7 @@ in
     {
       name = "synapse";
       rule = "Host(`matrix.nerdworks.de`)";
+      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
     }
   ];
 }
