@@ -75,45 +75,56 @@ func send_mail(addr string, smtphost string, rcpt string, txt string) error {
 
 func gen_form_handler(addr string, smtphost string, rcpt string) http.HandlerFunc {
 	fn := func(w http.ResponseWriter, r *http.Request) {
-		err := r.ParseMultipartForm(1024)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, err.Error(), http.StatusBadRequest)
-			return
-		}
+		switch r.Method {
+		case http.MethodPost:
+			{
 
-		txt := ""
-		for key, value := range r.Form {
-			if !strings.HasPrefix(key, "_") {
-				txt += fmt.Sprintf("%s = %s\n", key, value)
+				err := r.ParseMultipartForm(1024)
+				if err != nil {
+					log.Println(err)
+					http.Error(w, err.Error(), http.StatusBadRequest)
+					return
+				}
+
+				txt := ""
+				for key, value := range r.Form {
+					if !strings.HasPrefix(key, "_") {
+						txt += fmt.Sprintf("%s = %s\n", key, value)
+					}
+				}
+
+				if txt == "" {
+					log.Println("no text submitted")
+					http.Error(w, "no text submitted", http.StatusBadRequest)
+					return
+				}
+
+				res := FormResponse{}
+
+				if err = send_mail(addr, smtphost, rcpt, txt); err != nil {
+					log.Println(err)
+					res = FormResponse{r.FormValue("_wpcf7_unit_tag"), "mail_failed", "Es gab einen Fehler beim Versuch, Ihre Nachricht zu senden. Bitte versuchen Sie es später noch einmal.", "72d6926969c70d0b79ce18d777828d47"}
+				} else {
+					log.Printf("sent mail to %s\n", rcpt)
+					res = FormResponse{r.FormValue("_wpcf7_unit_tag"), "mail_sent", "Vielen Dank für Ihr Interesse. Sie erhalten in Kürze Post von uns.", "72d6926969c70d0b79ce18d777828d47"}
+				}
+
+				js, err := json.Marshal(res)
+				if err != nil {
+					log.Println(err)
+					http.Error(w, err.Error(), http.StatusInternalServerError)
+					return
+				}
+
+				w.Header().Set("Content-Type", "application/json")
+				w.Write(js)
+			}
+		default:
+			{
+				w.Header().Set("Content-Type", "application/json")
+				w.Write([]byte("[]"))
 			}
 		}
-
-		if txt == "" {
-			log.Println("no text submitted")
-			http.Error(w, "no text submitted", http.StatusBadRequest)
-			return
-		}
-
-		res := FormResponse{}
-
-		if err = send_mail(addr, smtphost, rcpt, txt); err != nil {
-			log.Println(err)
-			res = FormResponse{r.FormValue("_wpcf7_unit_tag"), "mail_failed", "Es gab einen Fehler beim Versuch, Ihre Nachricht zu senden. Bitte versuchen Sie es später noch einmal.", "72d6926969c70d0b79ce18d777828d47"}
-		} else {
-			log.Printf("sent mail to %s\n", rcpt)
-			res = FormResponse{r.FormValue("_wpcf7_unit_tag"), "mail_sent", "Mail verschickt.", "72d6926969c70d0b79ce18d777828d47"}
-		}
-
-		js, err := json.Marshal(res)
-		if err != nil {
-			log.Println(err)
-			http.Error(w, err.Error(), http.StatusInternalServerError)
-			return
-		}
-
-		w.Header().Set("Content-Type", "application/json")
-		w.Write(js)
 	}
 	return fn
 }
