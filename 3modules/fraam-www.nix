@@ -175,7 +175,9 @@ in
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
-        ExecStart = ''${pkgs.gowpcontactform}/bin/gowpcontactform -listen localhost:${toString config.ptsd.nwtraefik.ports.gowpcontactform}'';
+        ExecStart = ''${pkgs.gowpcontactform}/bin/gowpcontactform \
+                      -listen localhost:${toString config.ptsd.nwtraefik.ports.gowpcontactform} \
+                      -rcpt info@fraam.de'';
         DynamicUser = true;
         Restart = "on-failure";
         StartLimitBurst = 5;
