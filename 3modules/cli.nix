@@ -347,13 +347,21 @@ in
                   withRuby = false;
                   withPython3 = true;
                   extraPython3Packages = ps: with ps; [ python-language-server ];
-                  plugins = with pkgs.vimPlugins; [ vim-nix nnn-vim ];
+                  plugins = with pkgs.vimPlugins; [
+                    vim-nix
+                    nnn-vim
+                    {
+                      plugin = nvim-lspconfig;
+                      config = "lua require'lspconfig'.gopls.setup{}";
+                    }
+                  ];
                 };
               };
               home.packages = with pkgs; [
                 nix-zsh-completions
                 pueue
                 yank
+                gopls
               ];
             };
           }
