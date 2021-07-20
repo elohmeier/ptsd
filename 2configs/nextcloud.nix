@@ -131,32 +131,45 @@ in
       devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
 
       folders = {
+        "/tank/enc/rawphotos/2021-06 mopedtour" = {
+          label = "2021-06 mopedtour";
+          id = "ieyohHo7uang";
+          devices = [ "ext-arvid" ];
+        };
+
         "/var/lib/nextcloud/data/enno/files/FPV" = {
+          label = "enno/FPV";
           id = "xxdwi-yom6n";
           devices = [ "tp1" "ws1" "ws1-win10n" ];
         };
         "/var/lib/nextcloud/data/enno/files/Hörspiele" = {
+          label = "enno/Hörspiele";
           id = "rqnvn-lmhcm";
           devices = [ "ext-arvid" "tp1" ];
           type = "receiveonly";
         };
         "/var/lib/nextcloud/data/enno/files/Pocket" = {
+          label = "enno/Pocket";
           id = "hmekh-kgprn";
           devices = [ "nuc1" "tp1" "ws1" "ws2" ];
         };
         "/var/lib/nextcloud/data/enno/files/LuNo" = {
+          label = "enno/LuNo";
           id = "3ull9-9deg4";
           devices = [ "mb1" "tp1" "tp2" "ws1" ];
         };
         "/var/lib/nextcloud/data/enno/files/Scans" = {
+          label = "enno/Scans";
           id = "ezjwj-xgnhe";
           devices = [ "tp1" "ws1" ];
         };
         "/var/lib/nextcloud/data/enno/files/Templates" = {
+          label = "enno/Templates";
           id = "gnwqu-yt7qc";
           devices = [ "nuc1" "tp1" "ws1" "ws2" ];
         };
         "/var/lib/nextcloud/data/enno/files/repos-ws1" = {
+          label = "enno/repos-ws1";
           id = "jihdi-qxmi3";
           devices = [ "tp1" "ws1" ];
         };
@@ -167,18 +180,22 @@ in
         # };
 
         "/var/lib/nextcloud/data/luisa/files/Bilder" = {
+          label = "luisa/Bilder";
           id = "ugmai-ti6vl";
           devices = [ "tp2" "mb1" ];
         };
         "/var/lib/nextcloud/data/luisa/files/Dokumente" = {
+          label = "luisa/Dokumente";
           id = "sqkfd-m9he7";
           devices = [ "tp2" "mb1" ];
         };
         "/var/lib/nextcloud/data/luisa/files/Musik" = {
+          label = "luisa/Musik";
           id = "zvffu-ff92z";
           devices = [ "tp2" "mb1" ];
         };
         "/var/lib/nextcloud/data/luisa/files/Scans" = {
+          label = "luisa/Scans";
           id = "dnryo-kz7io";
           devices = [ "tp2" "mb1" "ws1" ];
         };
