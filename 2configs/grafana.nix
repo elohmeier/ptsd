@@ -57,6 +57,7 @@ in
     {
       name = "grafana";
       rule = "Host(`${domain}`)";
+      entryPoints = [ "nwvpn-http" "nwvpn-https" ];
     }
   ];
 }

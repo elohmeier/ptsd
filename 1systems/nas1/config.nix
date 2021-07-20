@@ -215,7 +215,7 @@ in
     services = [
       {
         name = "gitweb";
-        entryPoints = [ "nwvpn-gitweb" ];
+        entryPoints = [ "nwvpn-gitweb-https" ];
         rule = "Host(`nas1.host.nerdworks.de`)";
       }
     ];
@@ -242,7 +242,7 @@ in
       "nwvpn-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
       };
-      "nwvpn-gitweb" = {
+      "nwvpn-gitweb-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:448";
       };
 

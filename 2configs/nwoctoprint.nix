@@ -36,6 +36,7 @@ in
     {
       name = "octoprint";
       rule = "Host(`${domain}`)";
+      entryPoints = [ "nwvpn-http" "nwvpn-https" ];
     }
     # {
     #   name = "mjpg-streamer";
@@ -47,6 +48,7 @@ in
       rule = "Host(`${domain}`) && PathPrefix(`/ipcam/`)";
       stripPrefixes = [ "/ipcam/" ];
       url = "http://192.168.178.196:8080";
+      entryPoints = [ "nwvpn-http" "nwvpn-https" ];
     }
   ];
 }
