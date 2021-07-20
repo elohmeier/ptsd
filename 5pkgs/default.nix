@@ -36,6 +36,7 @@ in
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
+  gowpcontactform = self.callPackage ./gowpcontactform { };
   hashPassword = self.callPackage ./hashPassword { };
   hidclient = self.callPackage ./hidclient { };
   home-assistant-variants = self.callPackage ./home-assistant-variants { };

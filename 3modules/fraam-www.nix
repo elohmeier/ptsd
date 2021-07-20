@@ -139,6 +139,11 @@ in
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
       {
+        name = "gowpcontactform";
+        rule = "PathPrefix(`/wp-json/contact-form-7/`) && (Host(`www.fraam.de`) || Host(`fraam.de`))";
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+      }
+      {
         name = "prometheus-node-wpjail";
         entryPoints = [ "nwvpn-prometheus-http" ];
         rule = "PathPrefix(`/wpjail/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
@@ -163,5 +168,45 @@ in
     '';
 
     environment.systemPackages = [ pkgs.fraam-update-static-web ];
+
+    systemd.services.gowpcontactform = {
+      description = "gowpcontactform";
+      wants = [ "network.target" ];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        ExecStart = ''${pkgs.gowpcontactform}/bin/gowpcontactform -listen localhost:${toString config.ptsd.nwtraefik.ports.gowpcontactform}'';
+        DynamicUser = true;
+        Restart = "on-failure";
+        StartLimitBurst = 5;
+        AmbientCapabilities = "cap_net_bind_service";
+        CapabilityBoundingSet = "cap_net_bind_service";
+        NoNewPrivileges = true;
+        LimitNPROC = 64;
+        LimitNOFILE = 1048576;
+        PrivateTmp = true;
+        PrivateDevices = true;
+        ProtectHome = true;
+        ProtectSystem = "strict";
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        RestrictAddressFamilies = "AF_INET AF_INET6";
+        RestrictNamespaces = true;
+        DevicePolicy = "closed";
+        RestrictRealtime = true;
+        SystemCallFilter = "@system-service";
+        SystemCallErrorNumber = "EPERM";
+        SystemCallArchitectures = "native";
+      };
+      unitConfig = {
+        StartLimitInterval = 86400;
+      };
+    };
   };
 }

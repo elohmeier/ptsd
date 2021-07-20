@@ -358,6 +358,7 @@ in
         prometheus-maddy = 10028;
         photoprism = 10029;
         acme-dns-dns = 10030;
+        gowpcontactform = 10031;
       };
     }
     (
