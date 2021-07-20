@@ -278,7 +278,7 @@ in
           types.submodule {
             options = {
               name = mkOption { type = types.str; };
-              entryPoints = mkOption { type = types.listOf (types.strMatching ".+-(http|https)$"); };
+              entryPoints = mkOption { type = types.listOf (types.strMatching ".+-(http|https)$"); default = [ ]; };
               rule = mkOption { type = types.str; default = "Host(`*`)"; };
               auth = mkOption { type = types.attrs; default = { }; };
               url = mkOption { type = types.str; default = ""; };
