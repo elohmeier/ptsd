@@ -161,7 +161,7 @@ in
         "/var/lib/nextcloud/data/enno/files/Scans" = {
           label = "enno/Scans";
           id = "ezjwj-xgnhe";
-          devices = [ "tp1" "ws1" ];
+          devices = [ "tp1" "ws1" "ws2" ];
         };
         "/var/lib/nextcloud/data/enno/files/Templates" = {
           label = "enno/Templates";

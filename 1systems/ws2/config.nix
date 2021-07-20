@@ -194,6 +194,10 @@ in
         id = "gnwqu-yt7qc";
         devices = [ "nas1" "tp1" "ws1" ];
       };
+      "/home/enno/Scans" = {
+        id = "ezjwj-xgnhe";
+        devices = [ "nas1" "tp1" "ws1" ];
+      };
     };
   };
 
