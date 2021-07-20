@@ -69,17 +69,18 @@ check nas1:
   script:
   - nix eval .#nixosConfigurations.nas1.config.system.build.toplevel.drvPath
 
-check tp1:
-  stage: build
-  script:
-  - nix eval .#nixosConfigurations.tp1.config.system.build.toplevel.drvPath
-
-check ws1:
-  stage: build
-  script:
-  - nix eval .#nixosConfigurations.ws1.config.system.build.toplevel.drvPath
-
-check ws2:
-  stage: build
-  script:
-  - nix eval .#nixosConfigurations.ws2.config.system.build.toplevel.drvPath
+# frix missing
+# check tp1:
+#   stage: build
+#   script:
+#   - nix eval .#nixosConfigurations.tp1.config.system.build.toplevel.drvPath
+# 
+# check ws1:
+#   stage: build
+#   script:
+#   - nix eval .#nixosConfigurations.ws1.config.system.build.toplevel.drvPath
+# 
+# check ws2:
+#   stage: build
+#   script:
+#   - nix eval .#nixosConfigurations.ws2.config.system.build.toplevel.drvPath
