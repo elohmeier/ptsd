@@ -9,6 +9,7 @@
     ls = "ls --color";
     ping6 = "ping -6";
     telnet = "screen //telnet";
+    nr = "sudo nixos-rebuild --flake /home/enno/repos/ptsd/.#$hostname";
   };
 
   abbreviations = {
