@@ -107,6 +107,7 @@ in
         nix-index
         ptsdbootstrap
         nnn-custom
+        bat
       ];
 
       home-manager.users = (listToAttrs (map
@@ -196,6 +197,9 @@ in
 
                 fzf = {
                   enable = true;
+                  defaultCommand = "${pkgs.fd}/bin/fd --type f";
+                  fileWidgetCommand = "${pkgs.fd}/bin/fd --type f";
+                  fileWidgetOptions = [ "--preview '${pkgs.bat}/bin/bat -r :30 --color always {}'" ];
                 };
 
                 z-lua = {
