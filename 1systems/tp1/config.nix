@@ -55,6 +55,7 @@ in
 
   ptsd.desktop = {
     enable = true;
+    darkmode = true;
     #fontMono = "Cozette";
     trayOutput = "eDP-1";
     terminalConfig = "alacritty";
