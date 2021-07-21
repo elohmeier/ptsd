@@ -354,6 +354,10 @@ in
                       plugin = nvim-lspconfig;
                       config = "lua require'lspconfig'.gopls.setup{}";
                     }
+                    {
+                      plugin = nerdtree;
+                      config = "map <C-n> :NERDTreeToggle<CR>";
+                    }
                   ];
                 };
               };
