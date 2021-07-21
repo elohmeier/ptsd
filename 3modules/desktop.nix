@@ -199,12 +199,15 @@ let
       "${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm";
       #"${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
 
-      "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
-      "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
+      "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+ | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
+      "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%- | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
 
-      "XF86AudioMute" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-mute ${cfg.primarySpeaker} toggle";
-      "XF86AudioLowerVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} -5%";
-      "XF86AudioRaiseVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null) "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume ${cfg.primarySpeaker} +5%";
+      "XF86AudioMute" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null)
+        "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --toggle-mute && (${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-mute && echo 0 > $WOBSOCK ) || ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
+      "XF86AudioLowerVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null)
+        "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --unmute --decrease 5 && ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
+      "XF86AudioRaiseVolume" = mkIf (cfg.audio.enable && cfg.primarySpeaker != null)
+        "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --unmute --increase 5 && ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
       "XF86AudioMicMute" = mkIf (cfg.audio.enable && cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
       "XF86Calculator" = "exec ${term.execFloating (if builtins.elem "dev" cfg.profiles then "${py3env}/bin/ipython" else "${pkgs.bc}/bin/bc -l") ""}";
@@ -808,6 +811,7 @@ in
       brightnessctl
       pciutils
     ] ++ optionals cfg.audio.enable [
+      pamixer
       playerctl
       cadence
       qjackctl
@@ -972,6 +976,30 @@ in
                 Restart = "on-failure";
               };
               Install = { WantedBy = [ "graphical-session.target" ]; };
+            };
+
+            systemd.user.services.wob = {
+              Unit = {
+                Description = "Overlay bar for Wayland";
+                Documentation = "man:wob(1)";
+                PartOf = [ "graphical-session.target" ];
+                After = [ "graphical-session.target" ];
+                ConditionEnvironment = "WAYLAND_DISPLAY";
+              };
+
+              Service = {
+                StandardInput = "socket";
+                ExecStart = "${pkgs.wob}/bin/wob --anchor bottom --anchor right --margin 50";
+              };
+              Install = { WantedBy = [ "graphical-session.target" ]; };
+            };
+
+            systemd.user.sockets.wob = {
+              Socket = {
+                ListenFIFO = "%t/wob.sock";
+                SocketMode = "0600";
+              };
+              Install = { WantedBy = [ "sockets.target" ]; };
             };
 
             ptsd.pcmanfm = {
@@ -1606,11 +1634,14 @@ in
                       natural_scroll = "enabled";
                       xkb_layout = "de";
                       xkb_numlock = if cfg.numlockAuto then "enabled" else "disabled";
+                      repeat_delay = "200";
+                      repeat_rate = "45";
                     };
                   };
                 };
 
               extraConfig = extraConfig + ''
+                set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock  
                 seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
                 mouse_warping none
                 exec ${config.programs.waybar.package}/bin/waybar
@@ -1633,7 +1664,7 @@ in
                 enable = true;
                 settings = {
                   env.TERM = "xterm-256color";
-                  background_opacity = 0.9;
+                  background_opacity = 0.95;
                   font =
                     # see `fc-list` output
                     let
