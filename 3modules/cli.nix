@@ -199,7 +199,7 @@ in
                   enable = true;
                   defaultCommand = "${pkgs.fd}/bin/fd --type f";
                   fileWidgetCommand = "${pkgs.fd}/bin/fd --type f";
-                  fileWidgetOptions = [ "--preview '${pkgs.bat}/bin/bat -r :30 --color always {}'" ];
+                  fileWidgetOptions = [ "--preview '${pkgs.bat}/bin/bat -r :20 --color always {}'" ];
                 };
 
                 z-lua = {
@@ -362,6 +362,7 @@ in
                       plugin = nerdtree;
                       config = "map <C-n> :NERDTreeToggle<CR>";
                     }
+                    vim-css-color
                   ];
                 };
               };
