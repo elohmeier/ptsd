@@ -304,11 +304,11 @@ in
       };
       "/home/enno/Pocket" = {
         id = "hmekh-kgprn";
-        devices = [ "nas1" "nuc1" "tp1-win10" "ws1-win10" "ws2" ];
+        devices = [ "nas1" "nuc1" "tp1-win10" "ws1" "ws1-win10" "ws2" "iph3" ];
       };
       "/home/enno/Scans" = {
         id = "ezjwj-xgnhe";
-        devices = [ "nas1" "ws1" ];
+        devices = [ "nas1" "ws1" "ws2" "iph3" ];
       };
       "/home/enno/Templates" = {
         id = "gnwqu-yt7qc";
