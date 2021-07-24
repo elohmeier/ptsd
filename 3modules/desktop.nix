@@ -94,7 +94,37 @@ let
     };
   };
 
+  themeConfigs = rec {
+    dark = {
+
+      font = {
+        sans = "Iosevka Sans";
+        mono = "SauceCode Pro";
+        packages = with pkgs; [ ];
+      };
+    };
+
+    light = {
+      nnn_fcolors = "c1e2151600603ff7c6d6abc4";
+    };
+
+    solarized_dark = {
+      nnn_fcolors = dark.nnn_fcolors;
+      bg = "#002b36";
+      fg = "#839496";
+      contrast = "#073642";
+    };
+
+    solarized_light = {
+      nnn_fcolors = light.nnn_fcolors;
+      bg = "#fdf6e3";
+      fg = "#586e75";
+      contrast = "#eee8d5";
+    };
+  };
+
   term = terminalConfigs.${cfg.terminalConfig};
+  theme = themeConfigs.${cfg.themeConfig};
 
   lockCmd =
     if cfg.lockImage != "" then ''${pkgs.swaylock}/bin/swaylock --image "${cfg.lockImage}" --scaling center --color 000000 -f''
@@ -106,7 +136,7 @@ let
     {
       "${cfg.modifier}+Return" = "exec ${term.exec "" ""}";
       "${cfg.modifier}+Shift+q" = "kill";
-      "${cfg.modifier}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run --fn 'SauceCodePro Nerd Font' --list 10 --prompt 'Run:'";
+      "${cfg.modifier}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run ${cfg.bemenuArgs} --list 10 --prompt 'Run:'";
 
       #"${cfg.modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu -p \"Run:\" -l 10 | ${pkgs.findutils}/bin/xargs ${pkgs.sway}/bin/swaymsg exec";
 
@@ -346,20 +376,6 @@ let
     size = cfg.fontSize;
   };
 
-  bars = [
-    ({
-      colors.background = "#181516";
-      # font size must be appended to the *last* item in this list, see https://developer.gnome.org/pango/stable/pango-Fonts.html#pango-font-description-from-string
-      fonts = [ cfg.fontMono "Material Design Icons" "Typicons" "Font Awesome 5 Free" "Font Awesome 5 Brands ${toString cfg.fontSize}" ];
-      trayOutput = cfg.trayOutput;
-
-      # TODO: pull from cfg
-      extraConfig = ''
-        icon_theme Adwaita
-      '';
-    })
-  ];
-
   extraConfig = ''
     set $ws1 1
     set $ws2 2
@@ -493,6 +509,7 @@ let
         };
       in
       [
+        quirc # qr scanner
         aliza
         google-drive-ocamlfuse
         gnome3.file-roller
@@ -631,6 +648,10 @@ in
         type = types.strMatching "alacritty|kitty|termite|urxvt|xterm";
         default = "alacritty";
       };
+      themeConfig = mkOption {
+        type = types.str;
+        default = "dark";
+      };
       trayOutput = mkOption {
         type = types.str;
         default = "primary";
@@ -640,18 +661,7 @@ in
         type = types.str;
         default = "Mod4";
       };
-      backgroundImage = mkOption {
-        type = types.str;
-        default = "";
-      };
-      backgroundFill = mkOption {
-        type = with types; nullOr (strMatching "#[0-9a-fA-F]{6}");
-      };
       lockImage = mkOption {
-        type = types.str;
-        default = "";
-      };
-      userImage = mkOption {
         type = types.str;
         default = "";
       };
@@ -659,14 +669,15 @@ in
         type = types.int;
         default = 1;
       };
-      waybar.enable = mkOption {
-        type = types.bool;
-        default = true;
-      };
+      bemenuArgs = mkOption { type = types.str; default = ""; };
       waybar.co2 = mkOption {
         type = types.bool;
         default = false;
       };
+      waybar.bgColor = mkOption { type = types.str; default = "#ffffff"; };
+      waybar.fgColor = mkOption { type = types.str; default = "#000000"; };
+      waybar.contrastColor = mkOption { type = types.str; default = "#111111"; };
+      waybar.accentColor = mkOption { type = types.str; default = "#1a1a1a"; };
       audio.enable = mkOption {
         type = types.bool;
         default = true;
@@ -700,10 +711,6 @@ in
         default = true;
       };
       rclone.enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-      darkmode = mkOption {
         type = types.bool;
         default = false;
       };
@@ -787,8 +794,6 @@ in
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
 
-      # https://github.com/jarun/nnn/wiki/Usage#configuration
-      NNN_FCOLORS = if cfg.darkmode then "c1e2272e006033f7c6d6abc4" else "c1e2151600603ff7c6d6abc4";
     } // optionalAttrs cfg.rclone.enable {
       RCLONE_CONFIG =
         let
@@ -807,6 +812,7 @@ in
 
     system.fsPackages = [ pkgs.ntfs3g ];
     environment.systemPackages = with pkgs; [
+      bemenu
       term.package
       libinput
       libnotify
@@ -1044,7 +1050,7 @@ in
               };
             };
 
-            programs.waybar = mkIf cfg.waybar.enable {
+            programs.waybar = {
               enable = true;
               systemd.enable = false;
               settings = [
@@ -1184,11 +1190,6 @@ in
                 }
               ];
               style =
-                let
-                  bgColor = if cfg.darkmode then "#002b36" else "#fdf6e3";
-                  fgColor = if cfg.darkmode then "#839496" else "#586e75";
-                  contrastColor = if cfg.darkmode then "#073642" else "#eee8d5";
-                in
                 ''
                   * {
                       border: none;
@@ -1199,8 +1200,8 @@ in
                   }
 
                   window#waybar {
-                      background-color: ${bgColor};
-                      color: ${fgColor};
+                      background-color: ${cfg.waybar.bgColor};
+                      color: ${cfg.waybar.fgColor};
                       transition-property: background-color;
                       transition-duration: .5s;
                   }
@@ -1209,37 +1210,33 @@ in
                       opacity: 0.2;
                   }
               
-                  #workspaces {
-                      border-bottom: 1px solid #586e75;
-                  }
-
                   /* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
                   #workspaces button {
                       padding: 0 5px;
                       background-color: transparent;
-                      color: #657b83;
+                      color: ${cfg.waybar.fgColor};
                       border-bottom: 3px solid transparent;
                   }
 
                   #workspaces button.focused {
-                      background-color: ${contrastColor};
+                      background-color: ${cfg.waybar.contrastColor};
                       border-bottom: 1px solid #ff0;
                   }
 
                   #workspaces button.urgent {
-                      background-color: #d33682;
+                      background-color: ${cfg.waybar.accentColor};
                   }
 
                   #mode {
-                      background-color: ${bgColor};
+                      background-color: ${cfg.waybar.bgColor};
                       border-bottom: 1px solid #dc322f;
                   }
 
-                  #clock, #battery, #cpu, #memory, #temperature, #backlight, #network, #pulseaudio, #custom-media, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 {
+                  #clock, #battery, #cpu, #memory, #backlight, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 {
                       padding: 0 10px;
                       margin: 0 2px;
-                      background-color: ${bgColor};
-                      color: ${fgColor};
+                      background-color: ${cfg.waybar.bgColor};
+                      color: ${cfg.waybar.fgColor};
                   }
                 
                   #battery.charging {
@@ -1265,37 +1262,15 @@ in
                   }
 
                   label:focus {
-                      background-color: ${contrastColor};
+                      background-color: ${cfg.waybar.contrastColor};
                   }
 
                   #pulseaudio.muted {
-                      background-color: ${contrastColor};
-                  }
-
-                  #custom-media {
-                      background-color: #66cc99;
-                      color: #2a5c45;
-                      min-width: 100px;
-                  }
-
-                  #custom-media.custom-spotify {
-                      background-color: #66cc99;
-                  }
-
-                  #custom-media.custom-vlc {
-                      background-color: #ffa000;
-                  }
-
-                  #temperature {
-                      background-color: #073642;
-                  }
-
-                  #temperature.critical {
-                      background-color: #dc322f;
+                      background-color: ${cfg.waybar.contrastColor};
                   }
 
                   #idle_inhibitor.activated {
-                      background-color: ${contrastColor};
+                      background-color: ${cfg.waybar.contrastColor};
                   }
 
                 '';
@@ -1613,10 +1588,6 @@ in
                 name = "Adwaita";
                 package = pkgs.gnome3.adwaita-icon-theme;
               };
-              theme = {
-                name = if cfg.darkmode then "Adwaita-dark" else "Adwaita";
-                package = pkgs.gnome-themes-standard;
-              };
             };
 
             wayland.windowManager.sway = {
@@ -1628,7 +1599,7 @@ in
                   modes = modes;
                   window.commands = window_commands;
                   fonts = fonts;
-                  bars = if cfg.waybar.enable then [ ] else bars;
+                  bars = [ ];
 
                   # use `swaymsg -t get_inputs`
                   input = {
@@ -1655,8 +1626,6 @@ in
                   timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
                   resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
                   before-sleep '${lockCmd}'
-              '' + optionalString (cfg.backgroundImage != "") ''
-                output "*" bg ${cfg.backgroundImage} fill${optionalString (cfg.backgroundFill != null) " ${cfg.backgroundFill}"}
               '';
             };
 
@@ -1690,250 +1659,252 @@ in
 
                   draw_bold_text_with_bright_colors = true;
 
-                  colors =
-                    (if cfg.darkmode then {
+                  #                   colors =
+                  #                     (if cfg.darkmode then {
+                  # 
+                  #                       # Colors (Contrasty Darkness)
+                  #                       primary = {
+                  #                         background = "#000000";
+                  #                         foreground = "#ffffff";
+                  # 
+                  #                         dim_foreground = "#ffffff";
+                  #                         bright_foreground = "#ffffff";
+                  #                       };
+                  # 
+                  #                       cursor = {
+                  #                         text = "CellBackground";
+                  #                         cursor = "CellForeground";
+                  #                       };
+                  # 
+                  #                       vi_mode_cursor = {
+                  #                         text = "CellBackground";
+                  #                         cursor = "CellForeground";
+                  #                       };
+                  # 
+                  #                       search = {
+                  #                         matches = {
+                  #                           foreground = "#ffffff";
+                  #                           background = "#1a66ff";
+                  #                         };
+                  #                         focused_match = {
+                  #                           foreground = "#ffffff";
+                  #                           background = "#1a66ff";
+                  #                         };
+                  # 
+                  #                         bar = {
+                  #                           background = "#ffffff";
+                  #                           foreground = "#000000";
+                  #                         };
+                  #                       };
+                  #                       hints = {
+                  #                         start = {
+                  #                           foreground = "#ffffff";
+                  #                           background = "#1a66ff";
+                  #                         };
+                  # 
+                  #                         end = {
+                  #                           foreground = "#1a66ff";
+                  #                           background = "#ffffff";
+                  #                         };
+                  #                       };
+                  #                       line_indicator = {
+                  #                         foreground = "None";
+                  #                         background = "None";
+                  #                       };
+                  # 
+                  #                       selection = {
+                  #                         text = "CellBackground";
+                  #                         background = "CellForeground";
+                  #                       };
+                  # 
+                  #                       normal = {
+                  #                         black = "#000000";
+                  #                         red = "#ff7c4d";
+                  #                         green = "#22ff00";
+                  #                         yellow = "#ffcc00";
+                  #                         blue = "#1a66ff";
+                  #                         magenta = "#ff61df";
+                  #                         cyan = "#00ffff";
+                  #                         white = "#888888";
+                  #                       };
+                  # 
+                  #                       bright = {
+                  #                         black = "#000000";
+                  #                         red = "#ff7c4d";
+                  #                         green = "#22ff00";
+                  #                         yellow = "#ffcc00";
+                  #                         blue = "#1a66ff";
+                  #                         magenta = "#ff61df";
+                  #                         cyan = "#00ffff";
+                  #                         white = "#ffffff";
+                  #                       };
+                  # 
+                  #                       dim = {
+                  #                         black = "#000000";
+                  #                         red = "#ff7c4d";
+                  #                         green = "#22ff00";
+                  #                         yellow = "#ffcc00";
+                  #                         blue = "#1a66ff";
+                  #                         magenta = "#ff61df";
+                  #                         cyan = "#00ffff";
+                  #                         white = "#888888";
+                  #                       };
+                  # 
+                  # 
+                  # 
+                  # 
+                  #                       # # Colors (Solarized Dark)
+                  #                       # # Default colors
+                  #                       # primary = {
+                  #                       #   background = "#002b36"; # base03
+                  #                       #   foreground = "#839496"; # base0
+                  #                       # };
+                  # 
+                  #                       # # Cursor colors
+                  #                       # cursor = {
+                  #                       #   text = "#002b36"; # base03
+                  #                       #   cursor = "#839496"; # base0
+                  #                       # };
+                  # 
+                  #                       # # Normal colors
+                  #                       # normal = {
+                  #                       #   black = "#073642"; # base02
+                  #                       #   red = "#dc322f"; # red
+                  #                       #   green = "#859900"; # green
+                  #                       #   yellow = "#b58900"; # yellow
+                  #                       #   blue = "#268bd2"; # blue
+                  #                       #   magenta = "#d33682"; # magenta
+                  #                       #   cyan = "#2aa198"; # cyan
+                  #                       #   white = "#eee8d5"; # base2
+                  #                       # };
+                  # 
+                  #                       # # Bright colors
+                  #                       # bright = {
+                  #                       #   black = "#586e75"; # base01
+                  #                       #   red = "#cb4b16"; # orange
+                  #                       #   green = "#586e75"; # base01
+                  #                       #   yellow = "#657b83"; # base00
+                  #                       #   blue = "#839496"; # base0
+                  #                       #   magenta = "#6c71c4"; # violet
+                  #                       #   cyan = "#93a1a1"; # base1
+                  #                       #   white = "#fdf6e3"; # base3
+                  #                       # };
+                  #                     } else {
+                  #                       # https://www.markusweimar.de/static/contrasty-brightness-alacritty.txt
+                  # 
+                  #                       # Colors (Contrasty Brightness)
+                  #                       primary = {
+                  #                         background = "#ffffff";
+                  #                         foreground = "#000000";
+                  # 
+                  #                         dim_foreground = "#000000";
+                  #                         bright_foreground = "#000000";
+                  #                       };
+                  #                       cursor = {
+                  #                         text = "CellBackground";
+                  #                         cursor = "CellForeground";
+                  #                       };
+                  #                       vi_mode_cursor = {
+                  #                         text = "CellBackground";
+                  #                         cursor = "CellForeground";
+                  #                       };
+                  #                       search = {
+                  #                         matches = {
+                  #                           foreground = "#000000";
+                  #                           background = "#ffcc00";
+                  #                         };
+                  #                         focused_match = {
+                  #                           foreground = "#000000";
+                  #                           background = "#ffcc00";
+                  #                         };
+                  # 
+                  #                         bar = {
+                  #                           background = "#000000";
+                  #                           foreground = "#ffffff";
+                  #                         };
+                  #                       };
+                  #                       hints = {
+                  #                         start = {
+                  #                           foreground = "#000000";
+                  #                           background = "#ffbb00";
+                  #                         };
+                  #                         end = {
+                  #                           foreground = "#ffbb00";
+                  #                           background = "#000000";
+                  #                         };
+                  #                       };
+                  #                       line_indicator = {
+                  #                         foreground = "None";
+                  #                         background = "None";
+                  #                       };
+                  #                       selection = {
+                  #                         text = "CellBackground";
+                  #                         background = "CellForeground";
+                  #                       };
+                  #                       normal = {
+                  #                         black = "#000000";
+                  #                         red = "#bd000d";
+                  #                         green = "#006607";
+                  #                         yellow = "#ffbb00";
+                  #                         blue = "#004ce6";
+                  #                         magenta = "#ad007f";
+                  #                         cyan = "#005a61";
+                  #                         white = "#aaaaaa";
+                  #                       };
+                  #                       bright = {
+                  #                         black = "#000000";
+                  #                         red = "#bd000d";
+                  #                         green = "#006607";
+                  #                         yellow = "#ffbb00";
+                  #                         blue = "#004ce6";
+                  #                         magenta = "#ad007f";
+                  #                         cyan = "#005a61";
+                  #                         white = "#ffffff";
+                  #                       };
+                  #                       dim = {
+                  #                         black = "#000000";
+                  #                         red = "#bd000d";
+                  #                         green = "#006607";
+                  #                         yellow = "#ffbb00";
+                  #                         blue = "#004ce6";
+                  #                         magenta = "#ad007f";
+                  #                         cyan = "#005a61";
+                  #                         white = "#aaaaaa";
+                  #                       };
+                  # 
+                  #                       # # Colors (Solarized Light)
+                  #                       # # Default colors
+                  #                       # primary = {
+                  #                       #   background = "#fdf6e3";
+                  #                       #   foreground = "#586e75";
+                  #                       # };
+                  # 
+                  #                       # # Normal colors
+                  #                       # normal = {
+                  #                       #   black = "#073642";
+                  #                       #   red = "#dc322f";
+                  #                       #   green = "#859900";
+                  #                       #   yellow = "#b58900";
+                  #                       #   blue = "#268bd2";
+                  #                       #   magenta = "#d33682";
+                  #                       #   cyan = "#2aa198";
+                  #                       #   white = "#eee8d5";
+                  #                       # };
+                  # 
+                  #                       # # Bright colors
+                  #                       # bright = {
+                  #                       #   black = "#002b36";
+                  #                       #   red = "#cb4b16";
+                  #                       #   green = "#586e75";
+                  #                       #   yellow = "#657b83";
+                  #                       #   blue = "#839496";
+                  #                       #   magenta = "#6c71c4";
+                  #                       #   cyan = "#93a1a1";
+                  #                       #   white = "#fdf6e3";
+                  #                       # };
+                  #                     });
 
-                      # Colors (Contrasty Darkness)
-                      primary = {
-                        background = "#000000";
-                        foreground = "#ffffff";
 
-                        dim_foreground = "#ffffff";
-                        bright_foreground = "#ffffff";
-                      };
-
-                      cursor = {
-                        text = "CellBackground";
-                        cursor = "CellForeground";
-                      };
-
-                      vi_mode_cursor = {
-                        text = "CellBackground";
-                        cursor = "CellForeground";
-                      };
-
-                      search = {
-                        matches = {
-                          foreground = "#ffffff";
-                          background = "#1a66ff";
-                        };
-                        focused_match = {
-                          foreground = "#ffffff";
-                          background = "#1a66ff";
-                        };
-
-                        bar = {
-                          background = "#ffffff";
-                          foreground = "#000000";
-                        };
-                      };
-                      hints = {
-                        start = {
-                          foreground = "#ffffff";
-                          background = "#1a66ff";
-                        };
-
-                        end = {
-                          foreground = "#1a66ff";
-                          background = "#ffffff";
-                        };
-                      };
-                      line_indicator = {
-                        foreground = "None";
-                        background = "None";
-                      };
-
-                      selection = {
-                        text = "CellBackground";
-                        background = "CellForeground";
-                      };
-
-                      normal = {
-                        black = "#000000";
-                        red = "#ff7c4d";
-                        green = "#22ff00";
-                        yellow = "#ffcc00";
-                        blue = "#1a66ff";
-                        magenta = "#ff61df";
-                        cyan = "#00ffff";
-                        white = "#888888";
-                      };
-
-                      bright = {
-                        black = "#000000";
-                        red = "#ff7c4d";
-                        green = "#22ff00";
-                        yellow = "#ffcc00";
-                        blue = "#1a66ff";
-                        magenta = "#ff61df";
-                        cyan = "#00ffff";
-                        white = "#ffffff";
-                      };
-
-                      dim = {
-                        black = "#000000";
-                        red = "#ff7c4d";
-                        green = "#22ff00";
-                        yellow = "#ffcc00";
-                        blue = "#1a66ff";
-                        magenta = "#ff61df";
-                        cyan = "#00ffff";
-                        white = "#888888";
-                      };
-
-
-
-
-                      # # Colors (Solarized Dark)
-                      # # Default colors
-                      # primary = {
-                      #   background = "#002b36"; # base03
-                      #   foreground = "#839496"; # base0
-                      # };
-
-                      # # Cursor colors
-                      # cursor = {
-                      #   text = "#002b36"; # base03
-                      #   cursor = "#839496"; # base0
-                      # };
-
-                      # # Normal colors
-                      # normal = {
-                      #   black = "#073642"; # base02
-                      #   red = "#dc322f"; # red
-                      #   green = "#859900"; # green
-                      #   yellow = "#b58900"; # yellow
-                      #   blue = "#268bd2"; # blue
-                      #   magenta = "#d33682"; # magenta
-                      #   cyan = "#2aa198"; # cyan
-                      #   white = "#eee8d5"; # base2
-                      # };
-
-                      # # Bright colors
-                      # bright = {
-                      #   black = "#586e75"; # base01
-                      #   red = "#cb4b16"; # orange
-                      #   green = "#586e75"; # base01
-                      #   yellow = "#657b83"; # base00
-                      #   blue = "#839496"; # base0
-                      #   magenta = "#6c71c4"; # violet
-                      #   cyan = "#93a1a1"; # base1
-                      #   white = "#fdf6e3"; # base3
-                      # };
-                    } else {
-                      # https://www.markusweimar.de/static/contrasty-brightness-alacritty.txt
-
-                      # Colors (Contrasty Brightness)
-                      primary = {
-                        background = "#ffffff";
-                        foreground = "#000000";
-
-                        dim_foreground = "#000000";
-                        bright_foreground = "#000000";
-                      };
-                      cursor = {
-                        text = "CellBackground";
-                        cursor = "CellForeground";
-                      };
-                      vi_mode_cursor = {
-                        text = "CellBackground";
-                        cursor = "CellForeground";
-                      };
-                      search = {
-                        matches = {
-                          foreground = "#000000";
-                          background = "#ffcc00";
-                        };
-                        focused_match = {
-                          foreground = "#000000";
-                          background = "#ffcc00";
-                        };
-
-                        bar = {
-                          background = "#000000";
-                          foreground = "#ffffff";
-                        };
-                      };
-                      hints = {
-                        start = {
-                          foreground = "#000000";
-                          background = "#ffbb00";
-                        };
-                        end = {
-                          foreground = "#ffbb00";
-                          background = "#000000";
-                        };
-                      };
-                      line_indicator = {
-                        foreground = "None";
-                        background = "None";
-                      };
-                      selection = {
-                        text = "CellBackground";
-                        background = "CellForeground";
-                      };
-                      normal = {
-                        black = "#000000";
-                        red = "#bd000d";
-                        green = "#006607";
-                        yellow = "#ffbb00";
-                        blue = "#004ce6";
-                        magenta = "#ad007f";
-                        cyan = "#005a61";
-                        white = "#aaaaaa";
-                      };
-                      bright = {
-                        black = "#000000";
-                        red = "#bd000d";
-                        green = "#006607";
-                        yellow = "#ffbb00";
-                        blue = "#004ce6";
-                        magenta = "#ad007f";
-                        cyan = "#005a61";
-                        white = "#ffffff";
-                      };
-                      dim = {
-                        black = "#000000";
-                        red = "#bd000d";
-                        green = "#006607";
-                        yellow = "#ffbb00";
-                        blue = "#004ce6";
-                        magenta = "#ad007f";
-                        cyan = "#005a61";
-                        white = "#aaaaaa";
-                      };
-
-                      # # Colors (Solarized Light)
-                      # # Default colors
-                      # primary = {
-                      #   background = "#fdf6e3";
-                      #   foreground = "#586e75";
-                      # };
-
-                      # # Normal colors
-                      # normal = {
-                      #   black = "#073642";
-                      #   red = "#dc322f";
-                      #   green = "#859900";
-                      #   yellow = "#b58900";
-                      #   blue = "#268bd2";
-                      #   magenta = "#d33682";
-                      #   cyan = "#2aa198";
-                      #   white = "#eee8d5";
-                      # };
-
-                      # # Bright colors
-                      # bright = {
-                      #   black = "#002b36";
-                      #   red = "#cb4b16";
-                      #   green = "#586e75";
-                      #   yellow = "#657b83";
-                      #   blue = "#839496";
-                      #   magenta = "#6c71c4";
-                      #   cyan = "#93a1a1";
-                      #   white = "#fdf6e3";
-                      # };
-                    });
                 };
               };
 
