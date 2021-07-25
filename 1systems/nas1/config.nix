@@ -420,4 +420,6 @@ in
   #     server.http_listen_port = 3100;
   #   };
   # };
+
+  boot.supportedFilesystems = [ "exfat" ]; # canon sd card
 }

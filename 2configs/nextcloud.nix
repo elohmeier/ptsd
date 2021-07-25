@@ -77,7 +77,9 @@ in
     script = ''
       /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/FPV
       /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Hörspiele
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/iOS
       /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Pocket
+      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Lightroom-Export
       /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/LuNo
       /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Scans
       /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Templates
@@ -155,7 +157,7 @@ in
         "/var/lib/nextcloud/data/enno/files/Scans" = {
           label = "enno/Scans";
           id = "ezjwj-xgnhe";
-          devices = [ "tp1" "ws1" "ws2" ];
+          devices = [ "tp1" "ws1" "ws2" "iph3" ];
         };
         "/var/lib/nextcloud/data/enno/files/Templates" = {
           label = "enno/Templates";
@@ -171,6 +173,12 @@ in
           label = "enno/iOS";
           id = "qm9ln-btyqu";
           devices = [ "iph3" "tp1" "ws1" "ws2" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/Lightroom-Export" = {
+          label = "enno/Lightroom-Export";
+          id = "uxsxc-bjqrg";
+          devices = [ "iph3" ];
+          ignoreDelete = true;
         };
 
         # "/var/lib/nextcloud/data/luisa/files/LuNo" = {

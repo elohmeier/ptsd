@@ -92,6 +92,7 @@ in
 
         # hardening
         DynamicUser = true;
+        User = "photoprism"; # needs to be set for shared uid
         StartLimitBurst = 5;
         AmbientCapabilities = "cap_net_bind_service";
         CapabilityBoundingSet = "cap_net_bind_service";
@@ -121,6 +122,59 @@ in
         SystemCallArchitectures = "native";
         UMask = "0066";
         IPAddressAllow = cfg.httpHost;
+      };
+    };
+
+    systemd.services.photoprism-index = {
+      description = "PhotoPrism: index media files in originals folder";
+      environment = {
+        HOME = "/var/lib/photoprism"; # fix glib warning
+      };
+
+      script = ''
+        ${cmd} index
+      '';
+
+      serviceConfig = {
+        # execution
+        Restart = "on-failure";
+        Type = "oneshot";
+
+        # folders
+        RuntimeDirectory = "photoprism";
+        StateDirectory = "photoprism";
+        CacheDirectory = "photoprism";
+        LogsDirectory = "photoprism";
+        EnvironmentFile = config.ptsd.secrets.files."photoprism.env".path;
+
+        # hardening
+        DynamicUser = true;
+        User = "photoprism"; # needs to be set for shared uid
+        NoNewPrivileges = true;
+        LimitNPROC = 64;
+        LimitNOFILE = 1048576;
+        PrivateTmp = true;
+        PrivateDevices = true;
+        PrivateUsers = true;
+        ProtectHome = true;
+        ProtectSystem = "strict";
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        ProtectProc = "noaccess";
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        RestrictAddressFamilies = "";
+        RestrictNamespaces = true;
+        DevicePolicy = "closed";
+        RestrictRealtime = true;
+        SystemCallFilter = "@system-service";
+        SystemCallErrorNumber = "EPERM";
+        SystemCallArchitectures = "native";
+        UMask = "0066";
       };
     };
 

@@ -7,7 +7,7 @@ let
   configOptions = {
     MusicFolder = cfg.musicFolder;
     DataFolder = "/var/lib/navidrome";
-    ScanInterval = "1m";
+    ScanSchedule = "@every 1h";
     LogLevel = "info";
     Port = config.ptsd.nwtraefik.ports.navidrome;
     Address = "127.0.0.1";
