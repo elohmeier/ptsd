@@ -28,18 +28,21 @@ in
     {
       device = "${vgPrefix}-home";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/nix" =
     {
       device = "${vgPrefix}-nix";
       fsType = "ext4";
+      options = [ "nodev" ];
     };
 
   fileSystems."/persist" =
     {
       device = "${vgPrefix}-persist";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/var/src" =
@@ -47,14 +50,21 @@ in
       device = "${vgPrefix}-var--src";
       fsType = "ext4";
       neededForBoot = true; # mount early for passwd provisioning
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/boot" =
     {
       device = "${disk}-part1";
       fsType = "vfat";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
+
+  fileSystems."/mnt/sdcard/eosr6" = {
+    device = "/dev/disk/by-label/EOS_DIGITAL";
+    fsType = "exfat";
+    options = [ "nofail" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=1ms" "nodev" "nosuid" "noexec" ];
+  };
 
   swapDevices =
     [
