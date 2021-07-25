@@ -49,7 +49,7 @@ in
 
         config.colors = {
           background = colors.primary.background;
-          focused = { background = "#285577"; border = "#4c7899"; childBorder = "#285577"; indicator = "#2e9ef4"; text = "#ffffff"; };
+          focused = { background = "#285577"; border = colors.primary.accent; childBorder = "#285577"; indicator = "#2e9ef4"; text = "#ffffff"; };
         };
 
         extraConfig = ''
