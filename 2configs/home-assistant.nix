@@ -8,7 +8,10 @@ in
     package = pkgs.home-assistant-variants.bs53;
   };
 
-  networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
+  networking.firewall.interfaces.br0 = {
+    allowedTCPPorts = [ 1400 ]; # for sonos
+    allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
+  };
 
   ptsd.nwtraefik.services = [
     {
