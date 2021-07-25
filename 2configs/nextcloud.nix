@@ -142,12 +142,6 @@ in
           id = "xxdwi-yom6n";
           devices = [ "tp1" "ws1" "ws1-win10n" ];
         };
-        "/var/lib/nextcloud/data/enno/files/Hörspiele" = {
-          label = "enno/Hörspiele";
-          id = "rqnvn-lmhcm";
-          devices = [ "ext-arvid" "tp1" ];
-          type = "receiveonly";
-        };
         "/var/lib/nextcloud/data/enno/files/Pocket" = {
           label = "enno/Pocket";
           id = "hmekh-kgprn";
@@ -171,7 +165,12 @@ in
         "/var/lib/nextcloud/data/enno/files/repos-ws1" = {
           label = "enno/repos-ws1";
           id = "jihdi-qxmi3";
-          devices = [ "tp1" "ws1" ];
+          devices = [ "ws1" ];
+        };
+        "/var/lib/nextcloud/data/enno/files/iOS" = {
+          label = "enno/iOS";
+          id = "qm9ln-btyqu";
+          devices = [ "iph3" "tp1" "ws1" "ws2" ];
         };
 
         # "/var/lib/nextcloud/data/luisa/files/LuNo" = {
