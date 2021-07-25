@@ -40,18 +40,21 @@ in
       {
         device = "${disk}-part1";
         fsType = "vfat";
+        options = [ "nodev" "nosuid" "noexec" ];
       };
 
     "/home" =
       {
         device = "${vgPrefix}-home";
         fsType = "ext4";
+        options = [ "nodev" "nosuid" "noexec" ];
       };
 
     "/nix" =
       {
         device = "${vgPrefix}-nix";
         fsType = "ext4";
+        options = [ "nodev" ];
       };
 
     "/var" =
@@ -59,24 +62,34 @@ in
         device = "${vgPrefix}-var";
         fsType = "ext4";
         neededForBoot = true; # mount early for passwd provisioning
+        options = [ "nodev" "nosuid" "noexec" ];
       };
 
     "/var/lib/private/octoprint" = {
       device = "${vgPrefix}-var--lib--private--octoprint";
       fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
     };
 
     "/var/lib/prometheus2" =
       {
         device = "${vgPrefix}-var--lib--prometheus2";
         fsType = "ext4";
+        options = [ "nodev" "nosuid" "noexec" ];
       };
 
     "/var/log" =
       {
         device = "${vgPrefix}-var--log";
         fsType = "ext4";
+        options = [ "nodev" "nosuid" "noexec" ];
       };
+
+    "/mnt/sdcard/eosr6" = {
+      device = "/dev/disk/by-label/EOS_DIGITAL";
+      fsType = "exfat";
+      options = [ "nofail" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=1ms" "nodev" "nosuid" "noexec" ];
+    };
   };
 
   swapDevices =

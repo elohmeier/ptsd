@@ -6,7 +6,7 @@ let
 
   cmd = ''
     ${cfg.package}/bin/photoprism \
-      --read-only \
+      --sponsor \
       --http-host "${cfg.httpHost}" \
       --http-port "${toString cfg.httpPort}" \
       --site-title "PhotoPrism" \
@@ -55,6 +55,8 @@ in
 
     environment.systemPackages = [ cfg.package ];
 
+    users.groups.rawphotos = { };
+
     ptsd.secrets.files."photoprism.env" = {
       dependants = [ "photoprism.service" ];
     };
@@ -93,6 +95,7 @@ in
         # hardening
         DynamicUser = true;
         User = "photoprism"; # needs to be set for shared uid
+        SupplementaryGroups = "rawphotos";
         StartLimitBurst = 5;
         AmbientCapabilities = "cap_net_bind_service";
         CapabilityBoundingSet = "cap_net_bind_service";
@@ -150,6 +153,7 @@ in
         # hardening
         DynamicUser = true;
         User = "photoprism"; # needs to be set for shared uid
+        SupplementaryGroups = "rawphotos";
         NoNewPrivileges = true;
         LimitNPROC = 64;
         LimitNOFILE = 1048576;
