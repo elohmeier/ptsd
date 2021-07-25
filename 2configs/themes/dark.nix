@@ -30,6 +30,7 @@ in
       bgColor = colors.primary.background;
       fgColor = colors.primary.foreground;
       contrastColor = colors.primary.contrast;
+      accentColor = colors.primary.accent;
     };
   };
 

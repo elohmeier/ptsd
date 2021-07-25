@@ -1220,7 +1220,7 @@ in
 
                   #workspaces button.focused {
                       background-color: ${cfg.waybar.contrastColor};
-                      border-bottom: 1px solid #ff0;
+                      border-bottom: 1px solid ${cfg.waybar.accentColor};
                   }
 
                   #workspaces button.urgent {
