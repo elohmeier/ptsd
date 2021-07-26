@@ -108,7 +108,8 @@ in
       {
         description = "Mosquitto MQTT Broker Daemon";
         wantedBy = [ "multi-user.target" ];
-        after = [ "network.target" ];
+        wants = [ "network.target" "network-online.target" ];
+        after = [ "network.target" "network-online.target" ];
         serviceConfig = {
           Type = "notify";
           NotifyAccess = "main";
@@ -117,6 +118,7 @@ in
           ExecReload = "${pkgs.coreutils}/bin/kill -HUP $MAINPID";
           DynamicUser = true;
           Restart = "always";
+          RestartSec = 3;
           AmbientCapabilities = "cap_net_bind_service";
           CapabilityBoundingSet = "cap_net_bind_service";
           NoNewPrivileges = true;
