@@ -359,10 +359,15 @@ in
                       config = "lua require'lspconfig'.gopls.setup{}";
                     }
                     {
-                      plugin = nerdtree;
-                      config = "map <C-n> :NERDTreeToggle<CR>";
+                      plugin = nvim-tree-lua;
+                      config = "map <C-n> :NvimTreeToggle<CR>";
                     }
                     vim-css-color
+                    hop-nvim
+                    nvim-compe
+                    formatter-nvim
+                    telescope-nvim
+                    lualine-nvim
                   ];
                 };
               };
