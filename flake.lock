@@ -160,11 +160,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1626804018,
-        "narHash": "sha256-SfRKMEVGFSB0VZV9T02nu9vGr7saq2MzVfq/SmWsmlI=",
+        "lastModified": 1627321101,
+        "narHash": "sha256-KzLyZhZHeerEF0IEGbuOANvFUW5ZhEthZ4Y4umutt14=",
         "ref": "master",
-        "rev": "a149424e37e2a6960b648f60f724c2f55af2c736",
-        "revCount": 33,
+        "rev": "5630766c7db76f68cca4acdc760eef0b10389347",
+        "revCount": 34,
         "type": "git",
         "url": "ssh://git@git.fraam.de/fraam/frix"
       },

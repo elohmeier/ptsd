@@ -57,7 +57,7 @@
             ({ pkgs, ... }: {
               home-manager.users.mainUser = { ... }: {
                 imports = [ nix-doom-emacs.hmModule ];
-                home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec;
+                home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec_no_pyenv;
               };
             })
           ];

@@ -28,6 +28,8 @@ let
       mypy
       isort
       nobbofin
+      sshtunnel
+      mysql-connector
     ]
   );
 
