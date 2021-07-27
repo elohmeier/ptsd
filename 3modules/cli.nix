@@ -363,14 +363,56 @@ in
                       config = "map <C-n> :NvimTreeToggle<CR>";
                     }
                     vim-css-color
-                    hop-nvim
+                    {
+                      plugin = hop-nvim;
+                      config = ''
+                        nnoremap <leader>hl :HopLine<CR>
+                      '';
+                    }
                     nvim-compe
-                    formatter-nvim
+                    {
+                      plugin = formatter-nvim;
+                      config = ''
+                        lua << EOF
+                          require('formatter').setup({
+                            filetype = {
+                              go = {
+                                function()
+                                  return {
+                                    exe = "${pkgs.go}/bin/gofmt",
+                                    stdin = true
+                                  }
+                                end
+                              },
+                              nix = {
+                                function()
+                                  return {
+                                    exe = "${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt",
+                                    stdin = true
+                                  }
+                                end
+                              },
+                              python = {
+                                function()
+                                  return {
+                                    exe = "${pkgs.python3Packages.black}/bin/black",
+                                    args = {"-"},
+                                    stdin = true
+                                  }
+                                end
+                              }
+                            }
+                          })
+                        EOF
+                        nnoremap <silent> <leader>i :Format<CR>
+                      '';
+                    }
                     telescope-nvim
                     lualine-nvim
                   ];
                 };
               };
+
               home.packages = with pkgs; [
                 nix-zsh-completions
                 pueue
