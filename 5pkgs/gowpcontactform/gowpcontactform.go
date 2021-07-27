@@ -10,6 +10,7 @@ import (
 	"net"
 	"net/http"
 	"net/smtp"
+	"strconv"
 	"strings"
 )
 
@@ -73,7 +74,7 @@ func send_mail(addr string, smtphost string, rcpt string, txt string) error {
 	return nil
 }
 
-func gen_form_handler(addr string, smtphost string, rcpt string) http.HandlerFunc {
+func gen_form_handler(addr string, smtphost string) http.HandlerFunc {
 	fn := func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodPost:
@@ -96,6 +97,21 @@ func gen_form_handler(addr string, smtphost string, rcpt string) http.HandlerFun
 				if txt == "" {
 					log.Println("no text submitted")
 					http.Error(w, "no text submitted", http.StatusBadRequest)
+					return
+				}
+
+				formId := 0
+				if formId, err = strconv.Atoi(r.FormValue("_wpcf7")); err != nil {
+					log.Println("could not convert formId")
+					http.Error(w, "invalid id", http.StatusBadRequest)
+					return
+				}
+
+				rcpt := ""
+				ok := false
+				if rcpt, ok = GetRcpts()[formId]; !ok {
+					log.Println("could not lookup mail rcpt")
+					http.Error(w, "invalid id", http.StatusBadRequest)
 					return
 				}
 
@@ -133,10 +149,9 @@ func main() {
 	listen := flag.String("listen", ":8081", "listen address & port")
 	addr := flag.String("addr", "smtp-relay.gmail.com:587", "smtp host address & port")
 	smtphost := flag.String("smtphost", "smtp-relay.gmail.com", "smtp host name")
-	rcpt := flag.String("rcpt", "enno.richter@fraam.de", "e-mail recipient")
 	flag.Parse()
 
-	http.HandleFunc("/", gen_form_handler(*addr, *smtphost, *rcpt))
+	http.HandleFunc("/", gen_form_handler(*addr, *smtphost))
 	log.Printf("starting listener on %s", *listen)
 	log.Fatal(http.ListenAndServe(*listen, nil))
 }

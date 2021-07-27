@@ -1599,7 +1599,10 @@ in
                   modifier = cfg.modifier;
                   keybindings = keybindings;
                   modes = modes;
-                  window.commands = window_commands;
+                  window = {
+                    commands = window_commands;
+                    hideEdgeBorders = "smart";
+                  };
                   fonts = fonts;
                   bars = [ ];
 
