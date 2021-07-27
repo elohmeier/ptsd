@@ -407,8 +407,23 @@ in
                         nnoremap <silent> <leader>i :Format<CR>
                       '';
                     }
-                    telescope-nvim
-                    lualine-nvim
+                    {
+                      plugin = telescope-nvim;
+                      config = ''
+                        nnoremap <leader>ff <cmd>Telescope find_files<cr>
+                        nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+                        nnoremap <leader>fb <cmd>Telescope buffers<cr>
+                        nnoremap <leader>fh <cmd>Telescope help_tags<cr>
+                      '';
+                    }
+                    {
+                      plugin = lualine-nvim;
+                      config = ''
+                        lua << EOF
+                          require('lualine').setup()
+                        EOF
+                      '';
+                    }
                   ];
                 };
               };
