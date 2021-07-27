@@ -154,6 +154,9 @@ in
   services.avahi.enable = true;
 
   services.logind.lidSwitch = "suspend-then-hibernate";
+  systemd.sleep.extraConfig = ''
+    HibernateDelaySec=12h
+  '';
 
   services.udev.extraRules = ''
     # Suspend the system when battery level drops to 5% or lower
