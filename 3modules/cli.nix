@@ -355,6 +355,23 @@ in
                     vim-nix
                     nnn-vim
                     {
+                      plugin = (nvim-treesitter.withPlugins (plugins: with plugins; [
+                        tree-sitter-go
+                        tree-sitter-nix
+                        tree-sitter-python
+                      ]));
+                      config = ''
+                        lua <<EOF
+                          require'nvim-treesitter.configs'.setup {
+                            highlight = {
+                              enable = true,
+                              additional_vim_regex_highlighting = false,
+                            },
+                          }
+                        EOF
+                      '';
+                    }
+                    {
                       plugin = nvim-lspconfig;
                       config = "lua require'lspconfig'.gopls.setup{}";
                     }
@@ -369,7 +386,28 @@ in
                         nnoremap <leader>hl :HopLine<CR>
                       '';
                     }
-                    nvim-compe
+                    {
+                      plugin = nvim-compe;
+                      config = ''
+                        lua << EOF
+                        vim.o.completeopt = "menuone,noselect"
+                        require'compe'.setup({
+                          enabled = true,
+                          source = {
+                            path = true,
+                            buffer = true,
+                            nvim_lsp = true,
+                          },
+                        })
+                        EOF
+
+                        inoremap <silent><expr> <C-Space> compe#complete()
+                        inoremap <silent><expr> <CR>      compe#confirm('<CR>')
+                        inoremap <silent><expr> <C-e>     compe#close('<C-e>')
+                        inoremap <silent><expr> <C-f>     compe#scroll({ 'delta': +4 })
+                        inoremap <silent><expr> <C-d>     compe#scroll({ 'delta': -4 })
+                      '';
+                    }
                     {
                       plugin = formatter-nvim;
                       config = ''
@@ -424,6 +462,7 @@ in
                         EOF
                       '';
                     }
+                    neorg
                   ];
                 };
               };
