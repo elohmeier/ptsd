@@ -15,8 +15,8 @@ let
       --import-path "/var/lib/photoprism/import" \
       --originals-path "/var/lib/photoprism/originals" \
       --assets-path "${cfg.package}/assets" \
-      --darktable-bin "${pkgs.darktable}/bin/darktable" \
-      --rawtherapee-bin "${pkgs.rawtherapee}/bin/rawtherapee" \
+      --darktable-bin "${pkgs.darktable}/bin/darktable-cli" \
+      --rawtherapee-bin "${pkgs.rawtherapee}/bin/rawtherapee-cli" \
       --heifconvert-bin "${pkgs.libheif}/bin/heif-convert" \
       --ffmpeg-bin "${pkgs.ffmpeg}/bin/ffmpeg" \
       --exiftool-bin "${pkgs.exiftool}/bin/exiftool" \
