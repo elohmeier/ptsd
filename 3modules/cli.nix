@@ -352,8 +352,9 @@ in
                   withPython3 = true;
                   extraPython3Packages = ps: with ps; [ python-language-server ];
                   plugins = with pkgs.vimPlugins; [
-                    vim-nix
-                    nnn-vim
+                    vim-nix # TODO: rm when tree-sitter-nix works
+                    #nnn-vim
+                    vim-css-color
                     {
                       plugin = (nvim-treesitter.withPlugins (plugins: with plugins; [
                         tree-sitter-go
@@ -373,13 +374,23 @@ in
                     }
                     {
                       plugin = nvim-lspconfig;
-                      config = "lua require'lspconfig'.gopls.setup{}";
+                      config = ''
+                        lua <<EOF
+                        require'lspconfig'.gopls.setup{
+                          cmd = { "${pkgs.gopls}/bin/gopls" },
+                        }
+                        require'lspconfig'.rnix.setup{
+                          cmd = { "${pkgs.rnix-lsp}/bin/rnix-lsp" },
+                        }
+                        require'lspconfig'.pyright.setup{
+                          cmd = { "${pkgs.pyright}/bin/pyright-langserver", "--stdio" },
+                        }
+                        EOF'';
                     }
                     {
                       plugin = nvim-tree-lua;
                       config = "map <C-n> :NvimTreeToggle<CR>";
                     }
-                    vim-css-color
                     {
                       plugin = hop-nvim;
                       config = ''
@@ -471,7 +482,6 @@ in
                 nix-zsh-completions
                 pueue
                 yank
-                gopls
               ];
             };
           }
