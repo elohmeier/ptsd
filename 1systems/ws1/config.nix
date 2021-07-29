@@ -16,7 +16,7 @@ in
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
 
-    ../../2configs/themes/fraam.nix
+    ../../2configs/themes/dark.nix
     ../../2configs/mfc7440n.nix
     ../../2configs/prometheus/node.nix
 
@@ -103,9 +103,6 @@ in
 
   ptsd.desktop = {
     enable = true;
-    darkmode = true;
-    terminalConfig = "alacritty";
-    waybar.enable = true;
     waybar.co2 = true;
     profiles = [
       "3dprinting"
