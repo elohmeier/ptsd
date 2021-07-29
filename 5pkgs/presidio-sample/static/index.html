@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presidio Demo</title>
+    <link rel="icon" href="https://www.fraam.de/wp-content/uploads/2019/05/cropped-fraam_icon-192x192.png"
+        sizes="192x192" />
+    <link rel="apple-touch-icon"
+        href="https://www.fraam.de/wp-content/uploads/2019/05/cropped-fraam_icon-180x180.png" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <style>
+        :root {
+            --links: #173557;
+        }
+
+        h3 {
+            padding-top: 2rem;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="vueapp">
+
+    <img style="height: 4rem; float: right;" src="fraam.svg">
+    <h1>Textanonymisierung</h1>
+
+    <p>Dieses Beispiel dient dazu, die Anonymisierung im Rahmen der Urteilsveröffentlichungen zu demonstrieren.</p>
+
+
+    <h3>Zu anonymisierender Text</h3>
+    <p>
+        Geben Sie hier den zu anonymisierenden Text ein.
+    </p>
+    <form>
+        <textarea id="story" v-model="story" placeholder="Text eingeben..."></textarea>
+    </form>
+
+    <button v-on:click="xhr">Check your data</button><button v-on:click="xhr1">Anonymize</button>
+
+    <h3>Ausgabe</h3>
+    <p>
+        Hier erscheint die Ausgabe der Anonymisierung.
+    </p>
+    <form>
+        <textarea v-model="analyze.text" id="analyze" name="text" placeholder="Ausgabe..."></textarea>
+    </form>
+
+    <h3>Gefundene Textbausteine</h3>
+    <p>Hier erscheint eine Liste der in dem Text gefundenen persönlichen Merkmale.</p>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Entity Type</th>
+                <th>Score</th>
+                <th>Text</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr v-for="item in items">
+                <td>{{ item.entity_type }}</td>
+                <td>{{ item.score }}</td>
+                <td>{{ story.slice(item.start,item.end) }}</td>
+            </tr>
+
+
+        </tbody>
+    </table>
+    </div>
+    <script src="https://unpkg.com/vue@2.2.4/dist/vue.js"></script>
+
+    <script type="text/javascript">
+          //         'use strict';
+          //var input = document.getElementById("story").value;
+          //console.log(input)
+          new Vue({
+
+            el: '#vueapp',
+            data: {
+              url: "/anonymize",
+              url1: "/analyze",
+              info: "",
+              analyze: "",
+              text: "",
+              story: "Enter your Data right here",
+              items: [],
+            },
+
+            methods: {
+              xhr1: function(){
+                var rq = new XMLHttpRequest();
+                rq.onreadystatechange = function(vm) {
+                  if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                      vm.analyze = JSON.parse(this.responseText);
+                    } else {
+                      vm.info = "Request Failed";
+                    }
+                  }
+                }.bind(rq, this);
+
+                rq.open("POST", this.url);
+                rq.setRequestHeader("Content-Type", "application/json");
+                rq.send(JSON.stringify({"text":this.story,"analyzer_results":JSON.parse(this.usethis),"anonymizers":{"DEFAULT": {"type":"replace","new_value":"ANONYMIZED" },"PHONE_NUMBER": {"type": "mask", "masking_char": "*", "chars_to_mask":4, "from_end": true}}}));
+
+              },
+              xhr: function() {
+
+                console.log(this.story[0-23]);
+
+                this.info = "Requesting ...";
+                var req = new XMLHttpRequest();
+                req.onreadystatechange = function(vm) {
+                  if (this.readyState === XMLHttpRequest.DONE) {
+                    if (this.status === 200) {
+                      vm.info1 = this.responseText;
+                      vm.items = JSON.parse(this.responseText);
+                      vm.usethis = this.responseText;
+                      console.log(responseText);
+                    } else {
+                      //rq.send(JSON.stringify){
+                      vm.info = "Request Failed";
+                    }
+                  }
+                }.bind(req, this);
+
+                req.open("POST", this.url1);
+                req.setRequestHeader("Content-Type", "application/json");
+                req.send(JSON.stringify({"text":this.story, "language":"de"}));
+
+              }
+            }
+          });
+
+        </script>
+
+
+    <footer>&copy; 2021 <a href="https://www.fraam.de">fraam.de</a>
+        <img style="height: 1rem; float:right;"
+            src="https://www.fraam.de/wp-content/uploads/2019/05/cropped-fraam_icon-192x192.png">
+    </footer>
+
+</body>
+
+</html>
