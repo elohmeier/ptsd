@@ -110,6 +110,13 @@ in
       options = [ "nofail" "remove_hiberfile" "nodev" "nosuid" "noexec" ];
     };
 
+  fileSystems."/mnt/photos" =
+    {
+      device = "${vgPrefix}/photos";
+      fsType = "ext4";
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
+    };
+
   swapDevices =
     [
       { device = "${vgPrefix}/swap"; }

@@ -139,6 +139,12 @@ in
           devices = [ "ext-arvid" ];
         };
 
+        "/tank/enc/rawphotos/photos" = {
+          label = "photos";
+          id = "rqvar-xdhbm";
+          devices = [ "ws1" ];
+        };
+
         "/var/lib/nextcloud/data/enno/files/FPV" = {
           label = "enno/FPV";
           id = "xxdwi-yom6n";
