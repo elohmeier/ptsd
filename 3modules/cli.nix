@@ -433,6 +433,24 @@ in
                                   }
                                 end
                               },
+                              html = {
+                                function()
+                                  return {
+                                    exe = "${pkgs.nodePackages.prettier}/bin/prettier",
+                                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+                                    stdin = true,
+                                  }
+                                  end
+                              },
+                              javascript = {
+                                function()
+                                  return {
+                                    exe = "${pkgs.nodePackages.prettier}/bin/prettier",
+                                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+                                    stdin = true,
+                                  }
+                                  end
+                              },
                               nix = {
                                 function()
                                   return {
