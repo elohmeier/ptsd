@@ -64,6 +64,7 @@ in
   ptsdPy3 = self.python3.override {
     packageOverrides = self: super: rec {
       black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+      icloudpd = self.callPackage ../5pkgs/icloudpd {};
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
       presidio-analyzer = self.callPackage ../5pkgs/presidio/analyzer.nix { };
