@@ -4,7 +4,7 @@ with lib;
 let
   cfg = config.ptsd.desktop;
 
-  py3env = pkgs.ptsdPy3.withPackages (
+  py3env = pkgs.ptsd-python3.withPackages (
     pythonPackages: with pythonPackages; [
       authlib
       beancount
@@ -479,14 +479,8 @@ let
     ];
     "media" = pkgs: with pkgs;[
       audacity
-      (
-        ffmpeg-full.override {
-          nonfreeLicensing = true;
-          fdkaacExtlib = true;
-          qtFaststartProgram = false;
-        }
-      )
-      #ffmpeg-full
+      ptsd-ffmpeg
+      mpeg-full
       mpv
       imagemagick
       ffmpeg-normalize

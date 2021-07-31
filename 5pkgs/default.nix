@@ -61,15 +61,21 @@ in
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
   zathura-single = self.callPackage ./zathura-single { };
 
-  ptsdPy3 = self.python3.override {
+  ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
       black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
-      icloudpd = self.callPackage ../5pkgs/icloudpd {};
+      icloudpd = self.callPackage ../5pkgs/icloudpd { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
       presidio-analyzer = self.callPackage ../5pkgs/presidio/analyzer.nix { };
       presidio-anonymizer = self.callPackage ../5pkgs/presidio/anonymizer.nix { };
     };
+  };
+
+  ptsd-ffmpeg = self.ffmpeg-full.override {
+    nonfreeLicensing = true;
+    fdkaacExtlib = true;
+    qtFaststartProgram = false;
   };
 
   neovim = pkgs_master.neovim;

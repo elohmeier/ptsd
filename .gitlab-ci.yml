@@ -17,7 +17,7 @@ build art:
 build ffmpeg:
   stage: build
   script:
-  - nix build .#ffmpeg -o ffmpeg
+  - nix build .#ptsd-ffmpeg -o ffmpeg
   - ./cachix/bin/cachix push fraam ffmpeg
 
 # build hass-bs53:

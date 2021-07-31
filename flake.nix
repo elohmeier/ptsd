@@ -29,17 +29,9 @@
         {
           inherit packages;
           /*packages = flake-utils.lib.flattenTree {
-            art = pkgs.callPackage ./5pkgs/art { };
-            cachix = pkgs.cachix;
-            ffmpeg =
-              pkgs.ffmpeg-full.override {
-                nonfreeLicensing = true;
-                fdkaacExtlib = true;
-                qtFaststartProgram = false;
-              };
             hass-bs53 = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).bs53;
             hass-dlrg = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).dlrg;
-          };*/
+            };*/
           devShell = import ./shell.nix { pkgs = packages; };
         })
     // {
