@@ -22,12 +22,13 @@
     flake-utils.lib.eachDefaultSystem
       (system:
         let
-          pkgs = import nixpkgs {
-            config.allowUnfree = true; inherit system;
+          packages = import nixpkgs {
+            config.allowUnfree = true; inherit system; config.packageOverrides = import ./5pkgs packages;
           };
         in
         {
-          packages = flake-utils.lib.flattenTree {
+          inherit packages;
+          /*packages = flake-utils.lib.flattenTree {
             art = pkgs.callPackage ./5pkgs/art { };
             cachix = pkgs.cachix;
             ffmpeg =
@@ -38,8 +39,8 @@
               };
             hass-bs53 = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).bs53;
             hass-dlrg = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).dlrg;
-          };
-          devShell = import ./shell.nix { inherit pkgs; };
+          };*/
+          devShell = import ./shell.nix { pkgs = packages; };
         })
     // {
 
