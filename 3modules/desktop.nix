@@ -480,7 +480,6 @@ let
     "media" = pkgs: with pkgs;[
       audacity
       ptsd-ffmpeg
-      mpeg-full
       mpv
       imagemagick
       ffmpeg-normalize

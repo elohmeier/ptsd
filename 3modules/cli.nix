@@ -120,7 +120,7 @@ in
                 NNN_PLUG = "i:nobbofin-insert";
               };
 
-              home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsdPy3.pkgs.nobbofin}/bin/nobbofin-insert";
+              home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
 
               programs = {
 
