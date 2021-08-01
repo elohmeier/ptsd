@@ -22,6 +22,7 @@ in
     ../../2configs/postgresql.nix
     ../../2configs/prometheus/server.nix
     ../../2configs/prometheus/node.nix
+    ../../2configs/icloudpd.nix
 
     #../../2configs/xrdp.nix
 
