@@ -114,8 +114,6 @@ in
         ${pyenv}/bin/manage.py importtimesheets 3
         ${pyenv}/bin/manage.py updatebalances
         ${pyenv}/bin/manage.py updatepnsquotas
-
-        ${pyenv}/bin/manage.py mondayarchive
       '';
 
       serviceConfig = {
