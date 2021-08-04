@@ -67,8 +67,6 @@ in
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
-      presidio-analyzer = self.callPackage ../5pkgs/presidio/analyzer.nix { };
-      presidio-anonymizer = self.callPackage ../5pkgs/presidio/anonymizer.nix { };
     };
   };
 
