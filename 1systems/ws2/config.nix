@@ -12,7 +12,7 @@ in
     ../../2configs/mainUser.nix
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
-    ../../2configs/themes/fraam.nix
+    ../../2configs/themes/dark.nix
 
     ../../2configs/prometheus/node.nix
 
