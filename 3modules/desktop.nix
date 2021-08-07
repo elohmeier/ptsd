@@ -51,50 +51,6 @@ let
   py2env = py2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto requests ]);
 
   exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
-  open_codium_mode = "codium: [p]tsd, nobbo[f]in, [n]ixpkgs";
-
-  terminalConfigs = {
-    alacritty = rec {
-      package = pkgs.alacritty;
-      binary = "${pkgs.alacritty}/bin/alacritty";
-      exec = prog: dir: "${binary}${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
-      execFloating = prog: dir: "${binary} --class Alacritty.floating${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
-      extraPackages = [ ];
-      extraAliases = { };
-    };
-    kitty = rec {
-      package = pkgs.kitty;
-      binary = "${package}/bin/kitty";
-      exec = prog: dir: "${binary}${if dir != "" then " --directory \"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
-      execFloating = exec; # not supported
-      extraPackages = [ ];
-      extraAliases.icat = "kitty +kitten icat";
-    };
-    termite = rec {
-      package = pkgs.termite;
-      binary = "${package}/bin/termite";
-      exec = prog: dir: "${binary}${if dir != "" then " --directory=\"${dir}\"" else ""}${if prog != "" then " --exec=\"${prog}\"" else ""}";
-      execFloating = exec; # not supported
-      extraPackages = [ ];
-      extraAliases = { };
-    };
-    urxvt = rec {
-      package = config.programs.urxvt.package;
-      binary = "${package}/bin/urxvt";
-      exec = prog: dir: "${binary}${if dir != "" then " -cd \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
-      execFloating = exec; # not supported
-      extraPackages = [ pkgs.xsel ]; # required by urxvt clipboard integration
-      extraAliases = { };
-    };
-    xterm = rec {
-      package = pkgs.xterm;
-      binary = "${package}/bin/xterm";
-      exec = prog: dir: "${binary}${if prog != "" then " -e ${prog}" else ""}"; # xterm does not support working directory switching
-      execFloating = exec; # not supported
-      extraPackages = [ ];
-      extraAliases = { };
-    };
-  };
 
   themeConfigs = rec {
     dark = {
@@ -125,7 +81,13 @@ let
     };
   };
 
-  term = terminalConfigs.${cfg.terminalConfig};
+  term = rec {
+    package = pkgs.foot;
+    binary = "${pkgs.foot}/bin/footclient"; # requires foot-server.service
+    exec = prog: dir: "${binary}${if dir != "" then " --working-directory=\"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
+    execFloating = prog: dir: "${binary} --app-id=term.floating${if dir != "" then " --working-directory=\"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
+  };
+
   theme = themeConfigs.${cfg.themeConfig};
 
   lockCmd =
@@ -274,8 +236,6 @@ let
       # not working
       #"${cfg.modifier}+p" = ''[instance="scratch-term"] scratchpad show'';
 
-      "${cfg.modifier}+c" = ''mode "${open_codium_mode}"'';
-
       "${cfg.modifier}+Shift+e" = ''mode "${exit_mode}"'';
 
       #"${cfg.modifier}+numbersign" = "split horizontal;; exec ${term.exec "" "`${cwdCmd}`"}";
@@ -295,14 +255,6 @@ let
     };
 
   modes = {
-    "${open_codium_mode}" = {
-      "n" = ''exec codium /home/enno/repos/nixpkgs; mode "default"'';
-      "p" = ''exec codium /home/enno/repos/ptsd; mode "default"'';
-      "f" = ''exec codium /home/enno/repos/nobbofin; mode "default"'';
-      "Escape" = ''mode "default"'';
-      "Return" = ''mode "default"'';
-    };
-
     "${exit_mode}" = {
       "l" = ''exec swaymsg exit; mode "default"'';
       "r" = ''exec systemctl reboot; mode "default"'';
@@ -368,7 +320,7 @@ let
       command = "kill";
     }
     {
-      criteria.app_id = "Alacritty.floating";
+      criteria.app_id = "term.floating";
       command = "floating enable";
     }
   ];
@@ -639,10 +591,6 @@ in
         description = "Pulseaudio speaker device name";
         default = "@DEFAULT_SINK@";
       };
-      terminalConfig = mkOption {
-        type = types.strMatching "alacritty|kitty|termite|urxvt|xterm";
-        default = "alacritty";
-      };
       themeConfig = mkOption {
         type = types.str;
         default = "dark";
@@ -829,18 +777,6 @@ in
 
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
-    # disabled to workaround random mouse freezes, issue: https://github.com/swaywm/sway/issues/5591
-    # systemd.user.services.gammastep = {
-    #   description = "Screen color temperature manager";
-    #   partOf = [ "graphical-session.target" ];
-    #   wantedBy = [ "graphical-session.target" ];
-    #   serviceConfig = {
-    #     ExecStart = "${pkgs.gammastep}/bin/gammastep -l 53:10";
-    #     RestartSec = 3;
-    #     Restart = "on-failure";
-    #   };
-    # };
-
     # yubikey
     services.udev.packages = [ pkgs.libu2f-host pkgs.yubikey-personalization ];
     services.pcscd.enable = true;
@@ -1004,6 +940,59 @@ in
               };
               Install = { WantedBy = [ "sockets.target" ]; };
             };
+
+            programs.foot = {
+              enable = true;
+              server.enable = true;
+              settings = {
+                main = {
+                  font = "SauceCodePro Nerd Font:size=${toString (cfg.fontSize - 3.0)}";
+                  dpi-aware = "yes";
+                };
+              };
+            };
+
+            # TODO: socket-activate foot-server
+            # systemd.user.services.foot-server = {
+            #   Unit = {
+            #     Description = "Foot Terminal Server";
+            #     Documentation = "man:foot(1)";
+            #     PartOf = [ "graphical-session.target" ];
+            #     After = [ "graphical-session.target" ];
+            #     ConditionEnvironment = "WAYLAND_DISPLAY";
+            #   };
+
+            #   Service = {
+            #     ExecStart = "${pkgs.foot}/bin/foot --server";
+            #   };
+            #   Install = { WantedBy = [ "graphical-session.target" ]; };
+            # };
+
+            # systemd.user.services.foot-proxy = {
+            #   Unit = {
+            #     Description = "Foot Terminal Server Proxy";
+            #     Documentation = "man:foot(1)";
+            #     PartOf = [ "graphical-session.target" ];
+            #     After = [ "graphical-session.target" "foot-server.service" ];
+            #     Requires = [ "foot-server.service" ];
+            #     ConditionEnvironment = "WAYLAND_DISPLAY";
+            #   };
+
+            #   Service = {
+            #     StandardInput = "socket";
+            #     ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd /run/user/1000/foot-wayland-1.sock";
+            #     #ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd $XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock";
+            #   };
+            #   Install = { WantedBy = [ "graphical-session.target" ]; };
+            # };
+
+            # systemd.user.sockets.foot-proxy = {
+            #   Socket = {
+            #     ListenFIFO = "%t/foot-proxy.sock";
+            #     SocketMode = "0600";
+            #   };
+            #   Install = { WantedBy = [ "sockets.target" ]; };
+            # };
 
             ptsd.pcmanfm = {
               enable = elem "office" cfg.profiles;
@@ -1541,7 +1530,7 @@ in
                 nsjail
               ] ++ optionals (cfg.baresip.enable) [ baresip ] ++ optionals (cfg.flameshot.enable) [
                 flameshot
-              ] ++ term.extraPackages ++ [
+              ] ++ [
                 swaylock
                 grim
                 slurp
@@ -1570,7 +1559,6 @@ in
                   exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
                 fi
               '';
-              shellAliases = term.extraAliases;
             };
 
             gtk = {
@@ -1625,432 +1613,6 @@ in
                   resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
                   before-sleep '${lockCmd}'
               '';
-            };
-
-            programs.alacritty = mkIf
-              (cfg.terminalConfig == "alacritty")
-              {
-                enable = true;
-                settings = {
-                  env.TERM = "xterm-256color";
-                  background_opacity = 0.95;
-                  font =
-                    # see `fc-list` output
-                    let
-                      #family = cfg.fontMono;
-                      family = "SauceCodePro Nerd Font";
-                    in
-                    {
-                      normal = {
-                        inherit family;
-                      };
-                      bold =
-                        {
-                          inherit family;
-                        };
-                      italic = {
-                        inherit
-                          family;
-                      };
-                      size = cfg.fontSize;
-                    };
-
-                  draw_bold_text_with_bright_colors = true;
-
-                  #                   colors =
-                  #                     (if cfg.darkmode then {
-                  # 
-                  #                       # Colors (Contrasty Darkness)
-                  #                       primary = {
-                  #                         background = "#000000";
-                  #                         foreground = "#ffffff";
-                  # 
-                  #                         dim_foreground = "#ffffff";
-                  #                         bright_foreground = "#ffffff";
-                  #                       };
-                  # 
-                  #                       cursor = {
-                  #                         text = "CellBackground";
-                  #                         cursor = "CellForeground";
-                  #                       };
-                  # 
-                  #                       vi_mode_cursor = {
-                  #                         text = "CellBackground";
-                  #                         cursor = "CellForeground";
-                  #                       };
-                  # 
-                  #                       search = {
-                  #                         matches = {
-                  #                           foreground = "#ffffff";
-                  #                           background = "#1a66ff";
-                  #                         };
-                  #                         focused_match = {
-                  #                           foreground = "#ffffff";
-                  #                           background = "#1a66ff";
-                  #                         };
-                  # 
-                  #                         bar = {
-                  #                           background = "#ffffff";
-                  #                           foreground = "#000000";
-                  #                         };
-                  #                       };
-                  #                       hints = {
-                  #                         start = {
-                  #                           foreground = "#ffffff";
-                  #                           background = "#1a66ff";
-                  #                         };
-                  # 
-                  #                         end = {
-                  #                           foreground = "#1a66ff";
-                  #                           background = "#ffffff";
-                  #                         };
-                  #                       };
-                  #                       line_indicator = {
-                  #                         foreground = "None";
-                  #                         background = "None";
-                  #                       };
-                  # 
-                  #                       selection = {
-                  #                         text = "CellBackground";
-                  #                         background = "CellForeground";
-                  #                       };
-                  # 
-                  #                       normal = {
-                  #                         black = "#000000";
-                  #                         red = "#ff7c4d";
-                  #                         green = "#22ff00";
-                  #                         yellow = "#ffcc00";
-                  #                         blue = "#1a66ff";
-                  #                         magenta = "#ff61df";
-                  #                         cyan = "#00ffff";
-                  #                         white = "#888888";
-                  #                       };
-                  # 
-                  #                       bright = {
-                  #                         black = "#000000";
-                  #                         red = "#ff7c4d";
-                  #                         green = "#22ff00";
-                  #                         yellow = "#ffcc00";
-                  #                         blue = "#1a66ff";
-                  #                         magenta = "#ff61df";
-                  #                         cyan = "#00ffff";
-                  #                         white = "#ffffff";
-                  #                       };
-                  # 
-                  #                       dim = {
-                  #                         black = "#000000";
-                  #                         red = "#ff7c4d";
-                  #                         green = "#22ff00";
-                  #                         yellow = "#ffcc00";
-                  #                         blue = "#1a66ff";
-                  #                         magenta = "#ff61df";
-                  #                         cyan = "#00ffff";
-                  #                         white = "#888888";
-                  #                       };
-                  # 
-                  # 
-                  # 
-                  # 
-                  #                       # # Colors (Solarized Dark)
-                  #                       # # Default colors
-                  #                       # primary = {
-                  #                       #   background = "#002b36"; # base03
-                  #                       #   foreground = "#839496"; # base0
-                  #                       # };
-                  # 
-                  #                       # # Cursor colors
-                  #                       # cursor = {
-                  #                       #   text = "#002b36"; # base03
-                  #                       #   cursor = "#839496"; # base0
-                  #                       # };
-                  # 
-                  #                       # # Normal colors
-                  #                       # normal = {
-                  #                       #   black = "#073642"; # base02
-                  #                       #   red = "#dc322f"; # red
-                  #                       #   green = "#859900"; # green
-                  #                       #   yellow = "#b58900"; # yellow
-                  #                       #   blue = "#268bd2"; # blue
-                  #                       #   magenta = "#d33682"; # magenta
-                  #                       #   cyan = "#2aa198"; # cyan
-                  #                       #   white = "#eee8d5"; # base2
-                  #                       # };
-                  # 
-                  #                       # # Bright colors
-                  #                       # bright = {
-                  #                       #   black = "#586e75"; # base01
-                  #                       #   red = "#cb4b16"; # orange
-                  #                       #   green = "#586e75"; # base01
-                  #                       #   yellow = "#657b83"; # base00
-                  #                       #   blue = "#839496"; # base0
-                  #                       #   magenta = "#6c71c4"; # violet
-                  #                       #   cyan = "#93a1a1"; # base1
-                  #                       #   white = "#fdf6e3"; # base3
-                  #                       # };
-                  #                     } else {
-                  #                       # https://www.markusweimar.de/static/contrasty-brightness-alacritty.txt
-                  # 
-                  #                       # Colors (Contrasty Brightness)
-                  #                       primary = {
-                  #                         background = "#ffffff";
-                  #                         foreground = "#000000";
-                  # 
-                  #                         dim_foreground = "#000000";
-                  #                         bright_foreground = "#000000";
-                  #                       };
-                  #                       cursor = {
-                  #                         text = "CellBackground";
-                  #                         cursor = "CellForeground";
-                  #                       };
-                  #                       vi_mode_cursor = {
-                  #                         text = "CellBackground";
-                  #                         cursor = "CellForeground";
-                  #                       };
-                  #                       search = {
-                  #                         matches = {
-                  #                           foreground = "#000000";
-                  #                           background = "#ffcc00";
-                  #                         };
-                  #                         focused_match = {
-                  #                           foreground = "#000000";
-                  #                           background = "#ffcc00";
-                  #                         };
-                  # 
-                  #                         bar = {
-                  #                           background = "#000000";
-                  #                           foreground = "#ffffff";
-                  #                         };
-                  #                       };
-                  #                       hints = {
-                  #                         start = {
-                  #                           foreground = "#000000";
-                  #                           background = "#ffbb00";
-                  #                         };
-                  #                         end = {
-                  #                           foreground = "#ffbb00";
-                  #                           background = "#000000";
-                  #                         };
-                  #                       };
-                  #                       line_indicator = {
-                  #                         foreground = "None";
-                  #                         background = "None";
-                  #                       };
-                  #                       selection = {
-                  #                         text = "CellBackground";
-                  #                         background = "CellForeground";
-                  #                       };
-                  #                       normal = {
-                  #                         black = "#000000";
-                  #                         red = "#bd000d";
-                  #                         green = "#006607";
-                  #                         yellow = "#ffbb00";
-                  #                         blue = "#004ce6";
-                  #                         magenta = "#ad007f";
-                  #                         cyan = "#005a61";
-                  #                         white = "#aaaaaa";
-                  #                       };
-                  #                       bright = {
-                  #                         black = "#000000";
-                  #                         red = "#bd000d";
-                  #                         green = "#006607";
-                  #                         yellow = "#ffbb00";
-                  #                         blue = "#004ce6";
-                  #                         magenta = "#ad007f";
-                  #                         cyan = "#005a61";
-                  #                         white = "#ffffff";
-                  #                       };
-                  #                       dim = {
-                  #                         black = "#000000";
-                  #                         red = "#bd000d";
-                  #                         green = "#006607";
-                  #                         yellow = "#ffbb00";
-                  #                         blue = "#004ce6";
-                  #                         magenta = "#ad007f";
-                  #                         cyan = "#005a61";
-                  #                         white = "#aaaaaa";
-                  #                       };
-                  # 
-                  #                       # # Colors (Solarized Light)
-                  #                       # # Default colors
-                  #                       # primary = {
-                  #                       #   background = "#fdf6e3";
-                  #                       #   foreground = "#586e75";
-                  #                       # };
-                  # 
-                  #                       # # Normal colors
-                  #                       # normal = {
-                  #                       #   black = "#073642";
-                  #                       #   red = "#dc322f";
-                  #                       #   green = "#859900";
-                  #                       #   yellow = "#b58900";
-                  #                       #   blue = "#268bd2";
-                  #                       #   magenta = "#d33682";
-                  #                       #   cyan = "#2aa198";
-                  #                       #   white = "#eee8d5";
-                  #                       # };
-                  # 
-                  #                       # # Bright colors
-                  #                       # bright = {
-                  #                       #   black = "#002b36";
-                  #                       #   red = "#cb4b16";
-                  #                       #   green = "#586e75";
-                  #                       #   yellow = "#657b83";
-                  #                       #   blue = "#839496";
-                  #                       #   magenta = "#6c71c4";
-                  #                       #   cyan = "#93a1a1";
-                  #                       #   white = "#fdf6e3";
-                  #                       # };
-                  #                     });
-
-
-                };
-              };
-
-
-            programs.urxvt =
-              let
-                themes = {
-                  solarized_dark = {
-                    "background" = "#002b36";
-                    "foreground" = "#839496";
-                    "fadeColor" = "#002b36";
-                    "cursorColor" = "#93a1a1";
-                    "pointerColorBackground" = "#586e75";
-                    "pointerColorForeground" = "#93a1a1";
-                    "color0" = "#073642";
-                    "color8" = "#002b36";
-                    "color1" = "#dc322f";
-                    "color9" = "#cb4b16";
-                    "color2" = "#859900";
-                    "color10" = "#586e75";
-                    "color3" = "#b58900";
-                    "color11" = "#657b83";
-                    "color4" = "#268bd2";
-                    "color12" = "#839496";
-                    "color5" = "#d33682";
-                    "color13" = "#6c71c4";
-                    "color6" = "#2aa198";
-                    "color14" = "#93a1a1";
-                    "color7" = "#eee8d5";
-                    "color15" = "#fdf6e3";
-                  };
-                  solarized_light = {
-                    "background" = "#fdf6e3";
-                    "foreground" = "#657b83";
-                    "fadeColor" = "#fdf6e3";
-                    "cursorColor" = "#586e75";
-                    "pointerColorBackground" = "#93a1a1";
-                    "pointerColorForeground" = "#586e75";
-                    "color0" = "#073642";
-                    "color8" = "#002b36";
-                    "color1" = "#dc322f";
-                    "color9" = "#cb4b16";
-                    "color2" = "#859900";
-                    "color10" = "#586e75";
-                    "color3" = "#b58900";
-                    "color11" = "#657b83";
-                    "color4" = "#268bd2";
-                    "color12" = "#839496";
-                    "color5" = "#d33682";
-                    "color13" = "#6c71c4";
-                    "color6" = "#2aa198";
-                    "color14" = "#93a1a1";
-                    "color7" = "#eee8d5";
-                    "color15" = "#fdf6e3";
-                  };
-                };
-              in
-              mkIf
-                (cfg.terminalConfig == "urxvt")
-                {
-                  enable = true;
-                  extraConfig = {
-                    saveLines = 100000;
-
-                    urgentOnBell = true;
-
-                    perl-ext-common = "default,clipboard,font-size,url-select,keyboard-select";
-
-                    "url-select.underline" = true;
-                    "url-select.launcher" = "${pkgs.xdg_utils}/bin/xdg-open";
-                    "matcher.button" = 1; # allow left click on url
-
-                    #termName = "rxvt-unicode"; # fix bash backspace not working
-                    termName = "xterm";
-                  } // themes."${cfg.theme}";
-                  fonts = [
-                    "xft:${cfg.fontMono}:size=${toString cfg.fontSize}"
-                    "xft:${cfg.fontMono}:size=${toString cfg.fontSize}:bold"
-                  ];
-                  keybindings = {
-                    # font size
-                    "C-0x2b" = "font-size:increase"; # Ctrl+'+'
-                    "C-0x2d" = "font-size:decrease"; # Ctrl+'-'
-                    "C-0" = "font-size:reset";
-
-                    # Common Keybinds for Navigation
-                    "Shift-Up" = "command:\\033]720;1\\007"; # scroll one line higher
-                    "Shift-Down" = "command:\\033]721;1\\007"; # scroll one line lower
-                    "Control-Up" = "\\033[1;5A";
-                    "Control-Down" = "\\033[1;5B";
-                    "Control-Left" = "\\033[1;5D"; # jump to the previous word
-                    "Control-Right" = "\\033[1;5C"; # jump to the next word
-                    "Home" = "\\033[1~";
-                    "KP_Home" = "\\033[1~";
-                    "End" = "\\033[4~";
-                    "KP_End" = "\\033[4~";
-
-                    "Shift-Control-V" = "perl:clipboard:paste";
-
-                    "M-u" = "perl:url-select:select_next";
-
-                    "M-Escape" = "perl:keyboard-select:activate";
-                    "M-s" = "perl:keyboard-select:search";
-
-                    #"M-F1" = "command:\\033]710;xft:${cfg.font}:size=6\\007\\033]711;xft:${cfg.font}:size=6:bold\\007";
-                    #"M-F2" = "command:\\033]710;xft:${cfg.font}:size=${toString cfg.fontSize}\\007\\033]711;xft:${cfg.font}:size=${toString cfg.fontSize}:bold\\007";
-                    #"M-F3" = "command:\\033]710;xft:${cfg.font}:size=11\\007\\033]711;xft:${cfg.font}:size=11:bold\\007";
-                    #"M-F4" = "command:\\033]710;xft:${cfg.font}:size=25\\007\\033]711;xft:${cfg.font}:size=25:bold\\007";
-                    #"M-F5" = "command:\\033]710;xft:${cfg.font}:size=30\\007\\033]711;xft:${cfg.font}:size=30:bold\\007";
-                  };
-                };
-
-            programs.kitty = {
-              enable = lib.mkDefault (cfg.terminalConfig == "kitty");
-              font.name = cfg.fontMono;
-
-              # solarized dark
-              # source: https://github.com/kovidgoyal/kitty/issues/897#issuecomment-419220650
-              settings = {
-                background = "#002b36";
-                foreground = "#839496";
-                cursor = "#93a1a1";
-                selection_background = "#81908f";
-                selection_foreground = "#002831";
-                color0 = "#073642";
-                color1 = "#dc322f";
-                color2 = "#859900";
-                color3 = "#b58900";
-                color4 = "#268bd2";
-                color5 = "#d33682";
-                color6 = "#2aa198";
-                color7 = "#eee8d5";
-                color9 = "#cb4b16";
-                color8 = "#002b36";
-                color10 = "#586e75";
-                color11 = "#657b83";
-                color12 = "#839496";
-                color13 = "#6c71c4";
-                color14 = "#93a1a1";
-                color15 = "#fdf6e3";
-
-                font_size = cfg.fontSize;
-              };
-
-              keybindings = {
-                "ctrl+plus" = "change_font_size all +2.0";
-                "ctrl+minus" = "change_font_size all -2.0";
-              };
             };
 
           };
