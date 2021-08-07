@@ -14,7 +14,7 @@ in
     ptsd.cli = {
       enable = mkEnableOption "cli";
       defaultShell = mkOption {
-        type = types.enum [ "zsh" "fish" ];
+        type = types.enum [ "zsh" "fish" "nushell" ];
         default = "zsh";
       };
       users = mkOption {
@@ -23,11 +23,15 @@ in
       };
       fish.enable = mkOption {
         type = types.bool;
-        default = false;
+        default = cfg.defaultShell == "fish";
+      };
+      nushell.enable = mkOption {
+        type = types.bool;
+        default = cfg.defaultShell == "nushell";
       };
       zsh.enable = mkOption {
         type = types.bool;
-        default = true;
+        default = cfg.defaultShell == "zsh";
       };
     };
   };
@@ -35,12 +39,12 @@ in
   config = mkIf cfg.enable
     {
 
-      programs.fish.enable = cfg.defaultShell == "fish";
+      programs.fish.enable = cfg.fish.enable;
 
       # Make sure zsh lands in /etc/shells
       # to not be affected by user not showing up in LightDM
       # as in https://discourse.nixos.org/t/normal-users-not-appearing-in-login-manager-lists/4619
-      programs.zsh.enable = cfg.defaultShell == "zsh";
+      programs.zsh.enable = cfg.zsh.enable;
 
       users.users =
         (
@@ -50,7 +54,13 @@ in
                 (
                   user: {
                     name = user;
-                    value = { shell = { "zsh" = pkgs.zsh; "fish" = pkgs.fish; }."${cfg.defaultShell}"; };
+                    value = {
+                      shell = {
+                        "zsh" = pkgs.zsh;
+                        "fish" = pkgs.fish;
+                        "nushell" = pkgs.nushell;
+                      }."${cfg.defaultShell}";
+                    };
                   }
                 )
                 cfg.users
@@ -82,7 +92,6 @@ in
         screen
         tig
         unzip
-        #vims.big
         wget
         shellcheck
         nixpkgs-fmt
@@ -202,8 +211,22 @@ in
                   fileWidgetOptions = [ "--preview '${pkgs.bat}/bin/bat -r :20 --color always {}'" ];
                 };
 
-                z-lua = {
+                #z-lua = {
+                #  enable = true;
+                #};
+
+                zoxide.enable = true;
+
+                nushell = mkIf cfg.nushell.enable {
                   enable = true;
+
+                  settings = {
+                    prompt = "__zoxide_hook;__zoxide_prompt";
+                    startup = (mapAttrsToList (alias: cmd: "alias ${alias} = ${cmd}") shellAliases.nuAliases) ++ [
+                      "zoxide init nushell --hook prompt | save ~/.zoxide.nu"
+                      "source ~/.zoxide.nu"
+                    ];
+                  };
                 };
 
                 fish = mkIf cfg.fish.enable {
@@ -261,13 +284,6 @@ in
                         end
                       end
                     '';
-                  };
-                };
-
-                starship = {
-                  enable = true;
-                  settings = {
-                    aws.disabled = true;
                   };
                 };
 

@@ -1,5 +1,16 @@
-{
-  aliases = {
+rec {
+  generic = {
+    ping6 = "ping -6";
+    telnet = "screen //telnet";
+    nr = "sudo nixos-rebuild --flake \"/home/enno/repos/ptsd/.#$hostname\"";
+  };
+
+  nuAliases = generic // abbreviations // {
+    l = "ls -al";
+    ll = "ls -l";
+  };
+
+  aliases = nuAliases // {
     gapf = "git commit --amend --no-edit && git push --force";
     gaapf = "git add . && git commit --amend --no-edit && git push --force";
     grep = "grep --color";
@@ -7,9 +18,6 @@
     la = "ls -alh --color";
     ll = "ls -l --color";
     ls = "ls --color";
-    ping6 = "ping -6";
-    telnet = "screen //telnet";
-    nr = "sudo nixos-rebuild --flake /home/enno/repos/ptsd/.#$hostname";
   };
 
   abbreviations = {

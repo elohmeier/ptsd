@@ -26,8 +26,7 @@ in
 
   ptsd.cli = {
     enable = true;
-    fish.enable = true;
-    defaultShell = "fish";
+    defaultShell = "nushell";
   };
 
   ptsd.nwbackup = {

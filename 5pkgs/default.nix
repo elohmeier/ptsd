@@ -78,4 +78,7 @@ in
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
   vimPlugins = pkgs_master.vimPlugins;
+
+  nushell = pkgs_master.nushell;
+  zoxide = pkgs_master.zoxide;
 }
