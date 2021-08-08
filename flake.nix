@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-21.05;
+    nixpkgs-master.url = github:NixOS/nixpkgs/master;
     home-manager.url = github:nix-community/home-manager/release-21.05;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
@@ -17,42 +18,73 @@
     frix.inputs.home-manager.follows = "home-manager";
   };
 
-  outputs = { self, nixpkgs, home-manager, nixos-hardware, flake-utils, nix-doom-emacs, frix, ... }:
+  outputs =
+    { self
+    , nixpkgs
+    , nixpkgs-master
+    , home-manager
+    , nixos-hardware
+    , flake-utils
+    , nix-doom-emacs
+    , frix
+    , ...
+    }:
 
     flake-utils.lib.eachDefaultSystem
       (system:
-        let
-          packages = import nixpkgs {
-            config.allowUnfree = true; inherit system; config.packageOverrides = import ./5pkgs packages;
-          };
-        in
-        {
-          inherit packages;
-          /*packages = flake-utils.lib.flattenTree {
-            hass-bs53 = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).bs53;
-            hass-dlrg = (pkgs.callPackage ./5pkgs/home-assistant-variants { }).dlrg;
-            };*/
-          devShell = import ./shell.nix { pkgs = packages; };
-        })
+      let
+        pkgs_master = import nixpkgs-master { inherit system; };
+        packages = import nixpkgs {
+          config.allowUnfree = true; inherit system;
+          config.packageOverrides = import ./5pkgs packages pkgs_master;
+        };
+      in
+      {
+        inherit packages;
+        devShell = import ./shell.nix { pkgs = packages; };
+      })
     // {
 
       nixosConfigurations =
         let
-          defaultModules = [{
-            nix.nixPath = [
-              "home-manager=${home-manager}"
-              "nixpkgs=${nixpkgs}"
-            ];
-          }];
+          defaultModules = [
+            ({ pkgs, ... }:
+              let
+                pkgs_master = import nixpkgs-master { system = pkgs.system; };
+              in
+              {
+                nix.nixPath = [
+                  "home-manager=${home-manager}"
+                  "nixpkgs=${nixpkgs}"
+                ];
+                nixpkgs.config = {
+                  allowUnfree = true;
+                  packageOverrides = import ./5pkgs pkgs pkgs_master;
+                };
+              })
+          ];
           desktopModules = [
             "${frix}"
+            {
+              nix.nixPath = [
+                "nixpkgs-master=${nixpkgs-master}"
+              ];
+            }
             home-manager.nixosModule
-            ({ pkgs, ... }: {
-              home-manager.users.mainUser = { ... }: {
-                imports = [ nix-doom-emacs.hmModule ];
-                home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec_no_pyenv;
-              };
-            })
+            ({ pkgs, ... }:
+              let
+                pkgs_master = import nixpkgs-master { system = pkgs.system; };
+              in
+              {
+                home-manager.users.mainUser = { ... }: {
+                  imports = [ nix-doom-emacs.hmModule ];
+                  home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec_no_pyenv;
+                  nixpkgs.config = {
+                    allowUnfree = true;
+                    packageOverrides = import ./5pkgs pkgs pkgs_master;
+                  };
+                };
+              })
           ];
         in
         {

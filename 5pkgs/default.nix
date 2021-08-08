@@ -20,15 +20,7 @@
 #   hasura-cli
 #   hasura-graphql-engine
 # };
-self: super:
-let
-  pkgs_master = import
-    (fetchTarball {
-      url = https://github.com/NixOS/nixpkgs/archive/c48be3c17d2754d396790fb30405d625a562d1a5.tar.gz;
-      sha256 = "sha256:1c5vg6g0m0syrrh538ill3p2m78c8dr4knixashc738m9r2gvkj0";
-    })
-    { system = self.system; };
-in
+self: pkgs_master: super:
 {
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
@@ -75,10 +67,10 @@ in
     qtFaststartProgram = false;
   };
 
+  # pull in recent versions from >21.05
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
-  vimPlugins = pkgs_master.vimPlugins;
-
   nushell = pkgs_master.nushell;
+  vimPlugins = pkgs_master.vimPlugins;
   zoxide = pkgs_master.zoxide;
 }
