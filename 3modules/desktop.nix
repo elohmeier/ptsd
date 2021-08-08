@@ -421,8 +421,9 @@ let
     "games" = pkgs: with pkgs; [
       epsxe
       mupen64plus
-      wine
-      winetricks
+      # wine # 32-bit only
+      wineWowPackages.stable # 32-bit & 64-bit
+      (winetricks.override { wine = wineWowPackages.stable; })
       #ppsspp # TODO: wait for https://github.com/NixOS/nixpkgs/pull/124162
     ];
     "kvm" = pkgs: with pkgs;[

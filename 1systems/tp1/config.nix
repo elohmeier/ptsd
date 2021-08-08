@@ -60,6 +60,7 @@ in
       "admin"
       "dev"
       "fpv"
+      "games"
       "kvm"
       "media"
       "office"
