@@ -130,6 +130,7 @@
           wireguard.pubkey = "BJD/QMJ/hF2opW+tVGYFjdY14+y60QQQlP6X5bdgK1w=";
         };
       };
+      syncthing.id = "3R7SFB7-A3EV77C-ACD4U32-CB7GWDB-DSBWODH-ENVTZN4-TL2EL2N-M3YCZQ7";
     };
 
     iph3 = {

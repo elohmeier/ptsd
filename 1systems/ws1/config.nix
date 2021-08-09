@@ -26,6 +26,18 @@ in
     ../../2configs/nvidia-headless.nix
   ];
 
+  ptsd.photoprism = {
+    enable = true;
+    httpHost = "127.0.0.1";
+    httpPort = 2342;
+    siteUrl = "http://127.0.0.1/";
+    dataDirectory = "/mnt/photos/photos";
+    cacheDirectory = "/mnt/photos/photoprism-cache";
+    user = "enno";
+    group = "users";
+    autostart = false;
+  };
+
   services.usbguard = {
     enable = false;
     IPCAllowedUsers = [ "enno" "root" ];
@@ -483,6 +495,11 @@ in
       "/mnt/photos/photos" = {
         label = "photos";
         id = "rqvar-xdhbm";
+        devices = [ "nas1" ];
+      };
+      "/mnt/photos/photoprism-cache" = {
+        label = "photoprism-cache";
+        id = "tsfyr-53d26";
         devices = [ "nas1" ];
       };
     };

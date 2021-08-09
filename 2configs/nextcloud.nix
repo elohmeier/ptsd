@@ -212,6 +212,11 @@ in
           id = "dnryo-kz7io";
           devices = [ "tp2" "mb1" "ws1" ];
         };
+        "/var/cache/photoprism" = {
+          label = "photoprism-cache";
+          id = "tsfyr-53d26";
+          devices = [ "ws1" ];
+        };
       };
     };
   };

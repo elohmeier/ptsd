@@ -12,18 +12,16 @@ let
       --site-title "PhotoPrism" \
       --site-caption "Browse Your Life" \
       --site-url "${cfg.siteUrl}" \
-      --import-path "/var/lib/photoprism/import" \
-      --originals-path "/var/lib/photoprism/originals" \
+      --import-path "${cfg.dataDirectory}/import" \
+      --originals-path "${cfg.dataDirectory}/originals" \
       --assets-path "${cfg.package}/assets" \
       --darktable-bin "${pkgs.darktable}/bin/darktable-cli" \
       --rawtherapee-bin "${pkgs.rawtherapee}/bin/rawtherapee-cli" \
       --heifconvert-bin "${pkgs.libheif}/bin/heif-convert" \
       --ffmpeg-bin "${pkgs.ffmpeg}/bin/ffmpeg" \
       --exiftool-bin "${pkgs.exiftool}/bin/exiftool" \
-      --log-filename "$LOGS_DIRECTORY/photoprism.log" \
-      --pid-filename "$RUNTIME_DIRECTORY/photoprism.pid" \
-      --cache-path "$CACHE_DIRECTORY" \
-      --storage-path "$STATE_DIRECTORY" ${concatStringsSep " " cfg.extraArgs}'';
+      --cache-path "${cfg.cacheDirectory}" \
+      --storage-path "${cfg.dataDirectory}" ${concatStringsSep " " cfg.extraArgs}'';
 in
 {
   options.ptsd.photoprism = {
@@ -49,6 +47,26 @@ in
       type = with types; listOf str;
       default = [ ];
     };
+    dataDirectory = mkOption {
+      type = types.str;
+      default = "/var/lib/photoprism";
+    };
+    cacheDirectory = mkOption {
+      type = types.str;
+      default = "/var/cache/photoprism";
+    };
+    user = mkOption {
+      type = types.str;
+      default = "photoprism";
+    };
+    group = mkOption {
+      type = types.str;
+      default = "photoprism";
+    };
+    autostart = mkOption {
+      type = types.bool;
+      default = true;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -63,13 +81,13 @@ in
 
     systemd.services.photoprism = {
       description = "PhotoPrism Photo Management";
-      wantedBy = [ "multi-user.target" ];
+      wantedBy = mkIf cfg.autostart [ "multi-user.target" ];
       after = [ "network.target" ];
       wants = [ "network.target" ];
 
       preStart = ''
-        mkdir -p /var/lib/photoprism/originals
-        mkdir -p /var/lib/photoprism/import
+        mkdir -p "${cfg.dataDirectory}/originals"
+        mkdir -p "${cfg.dataDirectory}/import"
       '';
 
       script = ''
@@ -78,7 +96,7 @@ in
       '';
 
       environment = {
-        HOME = "/var/lib/photoprism"; # fix glib warning
+        HOME = cfg.dataDirectory; # fix glib warning
       };
 
       serviceConfig = {
@@ -86,52 +104,51 @@ in
         Restart = "on-failure";
 
         # folders
-        RuntimeDirectory = "photoprism";
         StateDirectory = "photoprism";
         CacheDirectory = "photoprism";
-        LogsDirectory = "photoprism";
         EnvironmentFile = config.ptsd.secrets.files."photoprism.env".path;
 
         # hardening
-        DynamicUser = true;
-        User = "photoprism"; # needs to be set for shared uid
-        SupplementaryGroups = "rawphotos";
-        StartLimitBurst = 5;
-        AmbientCapabilities = "cap_net_bind_service";
-        CapabilityBoundingSet = "cap_net_bind_service";
-        NoNewPrivileges = true;
-        LimitNPROC = 64;
-        LimitNOFILE = 1048576;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        PrivateUsers = true;
-        ProtectHome = true;
-        ProtectSystem = "strict";
-        ProtectControlGroups = true;
-        ProtectClock = true;
-        ProtectHostname = true;
-        ProtectKernelLogs = true;
-        ProtectKernelModules = true;
-        ProtectKernelTunables = true;
-        ProtectProc = "noaccess";
-        LockPersonality = true;
-        MemoryDenyWriteExecute = true;
-        RestrictAddressFamilies = "AF_INET AF_INET6";
-        RestrictNamespaces = true;
-        DevicePolicy = "closed";
-        RestrictRealtime = true;
-        SystemCallFilter = "@system-service";
-        SystemCallErrorNumber = "EPERM";
-        SystemCallArchitectures = "native";
-        UMask = "0066";
-        IPAddressAllow = cfg.httpHost;
+        #DynamicUser = true;
+        User = cfg.user; # needs to be set for shared uid
+        Group = cfg.group;
+        #  SupplementaryGroups = "rawphotos";
+        #  StartLimitBurst = 5;
+        #  AmbientCapabilities = "cap_net_bind_service";
+        #  CapabilityBoundingSet = "cap_net_bind_service";
+        #  NoNewPrivileges = true;
+        #  LimitNPROC = 64;
+        #  LimitNOFILE = 1048576;
+        #  PrivateTmp = true;
+        #  PrivateDevices = true;
+        #  PrivateUsers = true;
+        #  ProtectHome = true;
+        #  ProtectSystem = "strict";
+        #  ProtectControlGroups = true;
+        #  ProtectClock = true;
+        #  ProtectHostname = true;
+        #  ProtectKernelLogs = true;
+        #  ProtectKernelModules = true;
+        #  ProtectKernelTunables = true;
+        #  ProtectProc = "noaccess";
+        #  LockPersonality = true;
+        #  MemoryDenyWriteExecute = true;
+        #  RestrictAddressFamilies = "AF_INET AF_INET6";
+        #  RestrictNamespaces = true;
+        #  DevicePolicy = "closed";
+        #  RestrictRealtime = true;
+        #  SystemCallFilter = "@system-service";
+        #  SystemCallErrorNumber = "EPERM";
+        #  SystemCallArchitectures = "native";
+        #  UMask = "0066";
+        #  IPAddressAllow = cfg.httpHost;
       };
     };
 
     systemd.services.photoprism-index = {
       description = "PhotoPrism: index media files in originals folder";
       environment = {
-        HOME = "/var/lib/photoprism"; # fix glib warning
+        HOME = cfg.dataDirectory; # fix glib warning
       };
 
       script = ''
@@ -140,19 +157,17 @@ in
 
       serviceConfig = {
         # execution
-        Restart = "on-failure";
         Type = "oneshot";
 
         # folders
-        RuntimeDirectory = "photoprism";
         StateDirectory = "photoprism";
         CacheDirectory = "photoprism";
-        LogsDirectory = "photoprism";
         EnvironmentFile = config.ptsd.secrets.files."photoprism.env".path;
 
         # hardening
-        DynamicUser = true;
-        User = "photoprism"; # needs to be set for shared uid
+        #DynamicUser = true;
+        User = cfg.user; # needs to be set for shared uid
+        Group = cfg.group;
         SupplementaryGroups = "rawphotos";
         NoNewPrivileges = true;
         LimitNPROC = 64;
