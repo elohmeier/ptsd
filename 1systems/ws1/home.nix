@@ -15,21 +15,16 @@
 
   wayland.windowManager.sway = {
     extraConfig = ''
-      output DP-3 pos 0 0 mode 3840x2160@59.997002Hz scale 1.859375
-      output DP-4 pos 2064 0 mode 3840x2160@59.997002Hz scale 1.859375
+      output "Goldstar Company Ltd LG UltraFine 701NTAB7S144" pos 0 0 mode 4096x2304@59.999Hz scale 2
+      output "Dell Inc. DELL P2415Q D8VXF96K09HB" pos 0 1152 mode 3840x2160@59.997Hz scale 2
+      output "Dell Inc. DELL P2415Q D8VXF64G0LGL" pos 1920 1152 mode 3840x2160@59.997Hz scale 2
     '';
 
     # extraConfig = ''
-    #   output DP-4 pos 0 1052 mode 3840x2160@59.997002Hz scale 1.859375
-    #   output DP-8 pos 0 0 mode 4096x2304@59.999001Hz scale 2.191406
-    #   output DP-2 pos 2064 1052 mode 3840x2160@59.997002Hz scale 1.859375
-    # '';
-
-    # both on nvidia:
-    # extraConfig = ''
-    #   output DP-3 pos 0 0 mode 3840x2160@59.997002Hz scale 2
-    #   output DP-4 pos 1920 0 mode 3840x2160@59.999001Hz scale 2
-    # '';
+    #  output "Goldstar Company Ltd LG UltraFine 701NTAB7S144" pos 0 0 mode 4096x2304@59.999Hz scale 2.191406
+    #  output "Dell Inc. DELL P2415Q D8VXF96K09HB" pos 0 1052 mode 3840x2160@59.997Hz scale 1.859375
+    #  output "Dell Inc. DELL P2415Q D8VXF64G0LGL" pos 2064 1052 mode 3840x2160@59.997Hz scale 1.859375
+    #'';
   };
 
   home = {

@@ -23,7 +23,7 @@ in
     # 
     # ../../2configs/home-secrets.nix
 
-    #../../2configs/nvidia-headless.nix
+    ../../2configs/nvidia-headless.nix
   ];
 
   services.usbguard = {
@@ -95,8 +95,7 @@ in
 
   ptsd.cli = {
     enable = true;
-    fish.enable = true;
-    defaultShell = "fish";
+    defaultShell = "nushell";
   };
 
   ptsd.nwacme.hostCert.enable = false;
@@ -463,7 +462,7 @@ in
       "/home/enno/Scans" = {
         label = "Scans";
         id = "ezjwj-xgnhe";
-        devices = [ "nas1" "tp1" "ws2" ];
+        devices = [ "nas1" "tp1" "ws2" "iph3" ];
       };
       "/home/enno/Scans-Luisa" = {
         label = "Scans-Luisa";
