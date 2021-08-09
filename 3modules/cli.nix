@@ -123,7 +123,7 @@ in
         (
           user: {
             name = user;
-            value = { pkgs, ... }: {
+            value = { config, pkgs, ... }: {
               home.sessionVariables = {
                 EDITOR = "vim";
                 NNN_PLUG = "i:nobbofin-insert";
@@ -226,6 +226,12 @@ in
                       "zoxide init nushell --hook prompt | save ~/.zoxide.nu"
                       "source ~/.zoxide.nu"
                     ];
+                    #env = config.home.sessionVariables; # TODO: only works partly
+
+                    env = {
+                      PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
+                      SSH_AUTH_SOCK = "/run/user/1000/gnupg/S.gpg-agent.ssh";
+                    };
                   };
                 };
 
