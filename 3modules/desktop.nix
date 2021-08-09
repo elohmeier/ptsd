@@ -4,6 +4,8 @@ with lib;
 let
   cfg = config.ptsd.desktop;
 
+  writeNu = pkgs.writers.makeScriptWriter { interpreter = "${pkgs.nushell}/bin/nu"; };
+
   py3env = pkgs.ptsd-python3.withPackages (
     pythonPackages: with pythonPackages; [
       authlib
@@ -1058,6 +1060,7 @@ in
                     "network#tun0"
                     "cpu"
                     "memory"
+                    "custom/nvidia"
                     #"backlight"
                     "battery"
                     "clock"
@@ -1120,6 +1123,13 @@ in
                     memory = {
                       format = "{}% ";
                       on-click-right = term.execFloating "${pkgs.procps}/bin/watch -n1 ${pkgs.coreutils}/bin/cat /proc/meminfo" "";
+                    };
+                    "custom/nvidia" = {
+                      format = "nv {}";
+                      exec = writeNu "nv-status" ''
+                        nvidia-smi --query-gpu=pstate,utilization.gpu,utilization.memory,temperature.gpu --format=csv,nounits | from csv | str trim  | each { echo $"($it.pstate) ($it.' utilization.gpu [%]')%C ($it.' utilization.memory [%]')%M ($it.' temperature.gpu')C" }
+                      '';
+                      interval = 30;
                     };
                     battery = {
                       states = { warning = 30; critical = 15; };
