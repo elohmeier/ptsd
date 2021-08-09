@@ -53,9 +53,9 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  programs.doom-emacs = {
-    enable = true;
-    doomPrivateDir = ../../src/doom.d;
-  };
+  # programs.doom-emacs = {
+  #   enable = true;
+  #   doomPrivateDir = ../../src/doom.d;
+  # };
 
 }

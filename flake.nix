@@ -8,9 +8,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
-    nix-doom-emacs.url = github:vlaci/nix-doom-emacs;
-    nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
-    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
+    #nix-doom-emacs.url = github:vlaci/nix-doom-emacs;
+    #nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
+    #nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
     frix.url = "git+ssh://git@git.fraam.de/fraam/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
     frix.inputs.flake-utils.follows = "flake-utils";
@@ -25,7 +25,7 @@
     , home-manager
     , nixos-hardware
     , flake-utils
-    , nix-doom-emacs
+      #, nix-doom-emacs
     , frix
     , ...
     }:
@@ -77,7 +77,7 @@
               in
               {
                 home-manager.users.mainUser = { ... }: {
-                  imports = [ nix-doom-emacs.hmModule ];
+                  #imports = [ nix-doom-emacs.hmModule ];
                   home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec_no_pyenv;
                   nixpkgs.config = {
                     allowUnfree = true;
