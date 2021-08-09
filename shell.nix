@@ -1,20 +1,6 @@
 { pkgs ? import <nixpkgs> { } }:
 let
   scripts = pkgs.lib.mapAttrsToList (name: value: pkgs.writeShellScriptBin name value) {
-    mk-pretty = ''
-      set -e
-      ROOT=$(${pkgs.git}/bin/git rev-parse --show-toplevel)
-      ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/1systems
-      ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/2configs
-      ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/3modules
-      ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/5pkgs
-      ${pkgs.nixpkgs-fmt}/bin/nixpkgs-fmt $ROOT/*.nix      
-      ${pkgs.python3Packages.black}/bin/black $ROOT/.
-      ${pkgs.python3Packages.isort}/bin/isort $ROOT/5pkgs
-      ${pkgs.python3Packages.black}/bin/black $ROOT/src/*.pyw
-      ${pkgs.python3Packages.isort}/bin/isort $ROOT/src/*.pyw
-      ${pkgs.gofumpt}/bin/gofumpt -w $ROOT/5pkgs
-    '';
     mk-conftest = ''
       HOSTNAME="''${1?must provide hostname}"
       nix-instantiate '<nixpkgs/nixos>' -A system -I nixos-config=1systems/$HOSTNAME/physical.nix -I secrets-shared=dummy-secrets -I client-secrets=dummy-secrets -I secrets=dummy-secrets -I ptsd=$(pwd) ''${@:2}
