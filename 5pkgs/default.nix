@@ -71,6 +71,7 @@ self: pkgs_master: super:
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
   nushell = pkgs_master.nushell;
+  foot = pkgs_master.foot;
   vimPlugins = pkgs_master.vimPlugins;
   zoxide = pkgs_master.zoxide;
 }

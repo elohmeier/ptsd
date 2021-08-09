@@ -39,7 +39,7 @@ in
     shellAliases = (import ./aliases.nix).aliases // (import ./aliases.nix).abbreviations;
     systemPackages = with pkgs; [
       git # required for krops
-      kitty-terminfo
+      foot.terminfo
     ];
   };
 
