@@ -36,7 +36,7 @@ in
     httpHost = "191.18.19.37";
     httpPort = 2342;
     siteUrl = "https://fotos.nerdworks.de/";
-    dataDirectory = "/tank/enc/rawphotos/photos";
+    photosDirectory = "/tank/enc/rawphotos/photos";
     user = "nextcloud";
     group = "nginx";
   };

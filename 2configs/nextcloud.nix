@@ -170,11 +170,11 @@ in
           id = "gnwqu-yt7qc";
           devices = [ "nuc1" "tp1" "ws1" "ws2" ];
         };
-        "/var/lib/nextcloud/data/enno/files/repos-ws1" = {
-          label = "enno/repos-ws1";
-          id = "jihdi-qxmi3";
-          devices = [ "ws1" ];
-        };
+        # "/var/lib/nextcloud/data/enno/files/repos-ws1" = {
+        #   label = "enno/repos-ws1";
+        #   id = "jihdi-qxmi3";
+        #   devices = [ "ws1" ];
+        # };
         "/var/lib/nextcloud/data/enno/files/iOS" = {
           label = "enno/iOS";
           id = "qm9ln-btyqu";
@@ -215,6 +215,11 @@ in
         "/var/cache/photoprism" = {
           label = "photoprism-cache";
           id = "tsfyr-53d26";
+          devices = [ "ws1" ];
+        };
+        "/var/lib/photoprism" = {
+          label = "photoprism-lib";
+          id = "3tf3k-nohyy";
           devices = [ "ws1" ];
         };
       };

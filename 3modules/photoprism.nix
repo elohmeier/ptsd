@@ -12,8 +12,8 @@ let
       --site-title "PhotoPrism" \
       --site-caption "Browse Your Life" \
       --site-url "${cfg.siteUrl}" \
-      --import-path "${cfg.dataDirectory}/import" \
-      --originals-path "${cfg.dataDirectory}/originals" \
+      --import-path "${cfg.photosDirectory}/import" \
+      --originals-path "${cfg.photosDirectory}/originals" \
       --assets-path "${cfg.package}/assets" \
       --darktable-bin "${pkgs.darktable}/bin/darktable-cli" \
       --rawtherapee-bin "${pkgs.rawtherapee}/bin/rawtherapee-cli" \
@@ -55,6 +55,11 @@ in
       type = types.str;
       default = "/var/cache/photoprism";
     };
+    photosDirectory = mkOption {
+      type = types.str;
+      default = "/var/lib/photoprism";
+      description = "folder containing `originals` & `import` folders";
+    };
     user = mkOption {
       type = types.str;
       default = "photoprism";
@@ -86,8 +91,8 @@ in
       wants = [ "network.target" ];
 
       preStart = ''
-        mkdir -p "${cfg.dataDirectory}/originals"
-        mkdir -p "${cfg.dataDirectory}/import"
+        mkdir -p "${cfg.photosDirectory}/originals"
+        mkdir -p "${cfg.photosDirectory}/import"
       '';
 
       script = ''
