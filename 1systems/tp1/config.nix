@@ -26,7 +26,7 @@ in
 
   ptsd.cli = {
     enable = true;
-    defaultShell = "nushell";
+    nushell.enable = true;
   };
 
   ptsd.nwbackup = {
