@@ -1,7 +1,7 @@
 { ... }:
 let
   disk = "/dev/disk/by-id/nvme-SAMSUNG_MZVLB512HAJQ-000L7_S3TNNF1K627058";
-  vgPrefix = "/dev/disk/by-id/dm-name-p2vg";
+  vgPrefix = "/dev/sysVG";
 in
 {
   imports =
@@ -18,36 +18,41 @@ in
 
   fileSystems."/" =
     {
-      #device = "${vgPrefix}-root";
-      #fsType = "ext4";
       fsType = "tmpfs";
       options = [ "size=2000M" "mode=1755" ];
     };
 
   fileSystems."/home" =
     {
-      device = "${vgPrefix}-home";
+      device = "${vgPrefix}/home";
       fsType = "ext4";
       options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/nix" =
     {
-      device = "${vgPrefix}-nix";
+      device = "${vgPrefix}/nix";
       fsType = "ext4";
       options = [ "nodev" ];
     };
 
   fileSystems."/persist" =
     {
-      device = "${vgPrefix}-persist";
+      device = "${vgPrefix}/persist";
+      fsType = "ext4";
+      options = [ "nodev" "nosuid" "noexec" ];
+    };
+
+  fileSystems."/var/log" =
+    {
+      device = "${vgPrefix}/var-log";
       fsType = "ext4";
       options = [ "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/var/src" =
     {
-      device = "${vgPrefix}-var--src";
+      device = "${vgPrefix}/var-src";
       fsType = "ext4";
       neededForBoot = true; # mount early for passwd provisioning
       options = [ "nodev" "nosuid" "noexec" ];
@@ -60,21 +65,11 @@ in
       options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
-  fileSystems."/mnt/sdcard/eosr6" = {
-    device = "/dev/disk/by-label/EOS_DIGITAL";
-    fsType = "exfat";
-    options = [ "nofail" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=1ms" "nodev" "nosuid" "noexec" ];
-  };
-
   swapDevices =
     [
-      { device = "${vgPrefix}-swap"; }
+      { device = "${vgPrefix}/swap"; }
     ];
 
   networking.hostId = "d0ee5ec4"; # required for zfs
   boot.kernelParams = [ "systemd.machine_id=5d2b800f3d82434b8f7a656d2e130e06" ];
-
-  #boot.initrd.postDeviceCommands = lib.mkAfter ''
-  #  ${pkgs.e2fsprogs}/bin/mkfs.ext4 ${vgPrefix}-root
-  #'';
 }
