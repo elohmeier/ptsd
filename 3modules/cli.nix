@@ -15,7 +15,7 @@ in
       enable = mkEnableOption "cli";
       defaultShell = mkOption {
         type = types.enum [ "zsh" "fish" "nushell" ];
-        default = "zsh";
+        default = "fish";
       };
       users = mkOption {
         type = with types; listOf str;

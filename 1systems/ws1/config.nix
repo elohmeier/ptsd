@@ -31,8 +31,9 @@ in
     httpHost = "127.0.0.1";
     httpPort = 2342;
     siteUrl = "http://127.0.0.1/";
-    dataDirectory = "/mnt/photos/photos";
     cacheDirectory = "/mnt/photos/photoprism-cache";
+    dataDirectory = "/mnt/photos/photoprism-lib";
+    photosDirectory = "/mnt/photos/photos";
     user = "enno";
     group = "users";
     autostart = false;
@@ -107,7 +108,7 @@ in
 
   ptsd.cli = {
     enable = true;
-    defaultShell = "nushell";
+    nushell.enable = true;
   };
 
   ptsd.nwacme.hostCert.enable = false;
@@ -500,6 +501,11 @@ in
       "/mnt/photos/photoprism-cache" = {
         label = "photoprism-cache";
         id = "tsfyr-53d26";
+        devices = [ "nas1" ];
+      };
+      "/mnt/photos/photoprism-lib" = {
+        label = "photoprism-lib";
+        id = "3tf3k-nohyy";
         devices = [ "nas1" ];
       };
     };
