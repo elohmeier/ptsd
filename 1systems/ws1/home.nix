@@ -7,11 +7,6 @@
   ];
 
   home.stateVersion = "20.09";
-  programs.fish = {
-    enable = true;
-    shellAliases = (import ../../2configs/aliases.nix).aliases;
-    shellAbbrs = (import ../../2configs/aliases.nix).abbreviations;
-  };
 
   wayland.windowManager.sway = {
     extraConfig = ''

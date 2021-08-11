@@ -17,6 +17,7 @@
       default-cache-ttl 60
       max-cache-ttl 120
     '';
+    pinentryFlavor = "gnome3";
   };
 
   programs.ssh = {

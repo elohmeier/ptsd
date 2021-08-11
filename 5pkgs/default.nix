@@ -68,10 +68,10 @@ self: pkgs_master: super:
   };
 
   # pull in recent versions from >21.05
+  foot = pkgs_master.foot;
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
   nushell = pkgs_master.nushell;
-  foot = pkgs_master.foot;
   vimPlugins = pkgs_master.vimPlugins;
   zoxide = pkgs_master.zoxide;
 }

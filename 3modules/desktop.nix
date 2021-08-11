@@ -713,6 +713,8 @@ in
     security.pam.services.lightdm.enableGnomeKeyring = mkIf (builtins.elem "office" cfg.profiles) true;
     services.gnome.gnome-keyring.enable = mkIf (builtins.elem "office" cfg.profiles) true;
 
+    services.dbus.packages = [ pkgs.gcr ]; # for pinentry-gnome3 for gnupg
+
     # required for evolution
     programs.dconf.enable = mkIf (builtins.elem "office" cfg.profiles) true;
     systemd.packages = mkIf (builtins.elem "office" cfg.profiles) [ pkgs.gnome3.evolution-data-server ];
