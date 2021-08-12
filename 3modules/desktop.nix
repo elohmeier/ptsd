@@ -896,6 +896,10 @@ in
               ./home
             ];
 
+            programs.mako = {
+              enable = true;
+            };
+
             programs.zathura = mkIf (elem "office" cfg.profiles) {
               enable = true;
               extraConfig =
