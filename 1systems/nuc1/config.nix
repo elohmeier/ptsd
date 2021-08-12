@@ -66,12 +66,6 @@
     ];
   };
 
-  ptsd.cli = {
-    enable = true;
-    fish.enable = true;
-    defaultShell = "fish";
-  };
-
   # set low priority for nix daemon to ensure desktop responsiveness while updating
   nix = {
     daemonNiceLevel = 19;

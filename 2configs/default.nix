@@ -3,40 +3,16 @@
 { config, lib, pkgs, ... }:
 with lib;
 let
-  sshPubKeys = import ./ssh-pubkeys.nix;
-  authorizedKeys = [
-    sshPubKeys.sshPub.ipd1_terminus
-    sshPubKeys.sshPub.iph1_terminus
-    sshPubKeys.sshPub.iph3_terminus
-    sshPubKeys.sshPub.enno_yubi41
-    sshPubKeys.sshPub.enno_yubi49
-  ];
   universe = import ./universe.nix;
 in
 {
   imports = [
-    # {
-    #   users.users =
-    #     mapAttrs
-    #       (_: h: { hashedPassword = h; })
-    #       (import <secrets/hashedPasswords.nix>);
-    # }
-    {
-      # make sure the /var/src fs is marked for early mounting with
-      # neededForBoot = true
-      users.users = {
-        root = {
-          openssh.authorizedKeys.keys = authorizedKeys;
-          passwordFile = "/var/src/secrets/root.passwd";
-        };
-      };
-    }
+    ./users/root.nix
   ];
 
   console.keyMap = mkDefault "de-latin1";
 
   environment = {
-    shellAliases = (import ./aliases.nix).aliases // (import ./aliases.nix).abbreviations;
     systemPackages = with pkgs; [
       git # required for krops
       foot.terminfo
@@ -62,7 +38,11 @@ in
     '';
   };
 
-  boot.initrd.network.ssh.authorizedKeys = authorizedKeys;
+  boot.initrd.network.ssh.authorizedKeys =
+    let
+      sshPubKeys = import ./users/ssh-pubkeys.nix;
+    in
+    sshPubKeys.authorizedKeys_enno;
 
   i18n.defaultLocale = "de_DE.UTF-8";
 

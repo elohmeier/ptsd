@@ -1,4 +1,4 @@
-{
+rec {
   sshPub = {
 
     enno_yubi41 =
@@ -32,4 +32,12 @@
     drone_exec_runner_ws1 =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0LQDlDqSKf73+YwK0aWobCzaOM5Aqm3fGkkfYYGqnGnU8V9oUjbFiUt2XDkwzf8O8khs5wkzceFiteE8532qmkVD3RUJEtgNiaOMfy2MGOVwXVshiQFNwBxW33Bh3ey3w1EsCjIL+0Xu8qBxtylrcXYK5/0W5qtYA9AJXDFbAzWdO5kjeef1LAhWvHX35kaploTz12j7y6pNxkbPMekiUhNnwt7hRePcKToNopw9ZPoZ0cHoYJngIWSw+SQaGb/lmQJJe+kjNZe5XwPuCT3ofFeyEyxdeacfiPJ4Ny8ht5Y2QOYR10cd1B5p2O0xr6bfttRvAj5OMHbki8hpQDOld drone-exec-runner@ws1";
   };
+
+  authorizedKeys_enno = [
+    sshPub.ipd1_terminus
+    sshPub.iph1_terminus
+    sshPub.iph3_terminus
+    sshPub.enno_yubi41
+    sshPub.enno_yubi49
+  ];
 }

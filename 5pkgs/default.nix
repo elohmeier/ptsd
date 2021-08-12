@@ -25,6 +25,7 @@ self: pkgs_master: super:
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
+  file-renamer = self.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
@@ -39,6 +40,14 @@ self: pkgs_master: super:
   nwbackup-env = self.callPackage ./nwbackup-env { };
   nwfonts = self.callPackage ./nwfonts { };
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
+  pdfconcat = self.writers.writePython3 "pdfconcat"
+    {
+      flakeIgnore = [ "E203" "E501" "W503" ];
+    }
+    (self.substituteAll {
+      src = ../4scripts/pdfconcat.py;
+      inherit (self) pdftk;
+    });
   pdfduplex = self.callPackage ./pdfduplex { };
   photoprism = self.callPackage ./photoprism { };
   ptsdbootstrap = self.callPackage ./ptsdbootstrap { };
@@ -52,20 +61,70 @@ self: pkgs_master: super:
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
   zathura-single = self.callPackage ./zathura-single { };
 
+  ptsd-python2 = self.python2.override {
+    packageOverrides = self: super: rec {
+      certifi = super.buildPythonPackage rec {
+        pname = "certifi";
+        version = "2020.04.05.1"; # last version with python2 support
+        src = self.fetchFromGitHub {
+          owner = pname;
+          repo = "python-certifi";
+          rev = version;
+          sha256 = "sha256-scdb86Bg5tTUDwm5OZ8HXar7VCNlbPMtt4ZzGu/2O4w=";
+        };
+      };
+    };
+  };
+
+  ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto requests ]);
+
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
       black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+      davphonebook = self.callPackage ../5pkgs/davphonebook { };
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
     };
   };
 
+  ptsd-py3env = self.ptsd-python3.withPackages (
+    pythonPackages: with pythonPackages; [
+      authlib
+      beancount
+      black
+      black_nbconvert
+      # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
+      jupyterlab
+      lxml
+      keyring
+      nbconvert
+      pandas
+      pdfminer
+      pillow
+      requests
+      selenium
+      tabulate
+      orgparse
+      weasyprint
+      beautifulsoup4
+      pytest
+      mypy
+      isort
+      nobbofin
+      sshtunnel
+      mysql-connector
+    ]
+  );
+
+
   ptsd-ffmpeg = self.ffmpeg-full.override {
     nonfreeLicensing = true;
     fdkaacExtlib = true;
     qtFaststartProgram = false;
   };
+
+  ptsd-nnn = self.nnn.override { withNerdIcons = true; };
 
   # pull in recent versions from >21.05
   foot = pkgs_master.foot;

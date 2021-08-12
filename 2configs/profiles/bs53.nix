@@ -2,6 +2,6 @@
 
 {
   imports = [
-    ../3modules/desktop.nix
+    ../printers/mfc7440n.nix
   ];
 }

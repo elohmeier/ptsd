@@ -6,52 +6,6 @@ let
 
   writeNu = pkgs.writers.makeScriptWriter { interpreter = "${pkgs.nushell}/bin/nu"; };
 
-  py3env = pkgs.ptsd-python3.withPackages (
-    pythonPackages: with pythonPackages; [
-      authlib
-      beancount
-      black
-      black_nbconvert
-      # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
-      jupyterlab
-      lxml
-      keyring
-      nbconvert
-      pandas
-      pdfminer
-      pillow
-      requests
-      selenium
-      tabulate
-      orgparse
-      weasyprint
-      beautifulsoup4
-      pytest
-      mypy
-      isort
-      nobbofin
-      sshtunnel
-      mysql-connector
-    ]
-  );
-
-  py2 = pkgs.python2.override {
-    packageOverrides = self: super: rec {
-      certifi = super.buildPythonPackage rec {
-        pname = "certifi";
-        version = "2020.04.05.1"; # last version with python2 support
-        src = pkgs.fetchFromGitHub {
-          owner = pname;
-          repo = "python-certifi";
-          rev = version;
-          sha256 = "sha256-scdb86Bg5tTUDwm5OZ8HXar7VCNlbPMtt4ZzGu/2O4w=";
-        };
-      };
-    };
-  };
-
-  py2env = py2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto requests ]);
-
   exit_mode = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
 
   themeConfigs = rec {
@@ -194,8 +148,7 @@ let
       "${cfg.modifier}+Shift+Return" = "exec ${term.exec "" "`${cwdCmd}`"}";
       #"${cfg.modifier}+Shift+c" = "exec codium \"`${cwdCmd}`\"";
       "${cfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
-      "${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm";
-      #"${cfg.modifier}+e" = mkIf (elem "office" cfg.profiles) "exec pcmanfm \"`${cwdCmd}`\"";
+
 
       "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+ | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
       "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%- | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
@@ -208,7 +161,7 @@ let
         "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --unmute --increase 5 && ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
       "XF86AudioMicMute" = mkIf (cfg.audio.enable && cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
-      "XF86Calculator" = "exec ${term.execFloating (if builtins.elem "dev" cfg.profiles then "${py3env}/bin/ipython" else "${pkgs.bc}/bin/bc -l") ""}";
+      "XF86Calculator" = lib.mkDefault "exec ${term.execFloating "${pkgs.bc}/bin/bc -l" ""}";
       "XF86HomePage" = "exec firefox";
       "XF86Search" = "exec firefox";
       "XF86Mail" = "exec evolution";
@@ -248,12 +201,9 @@ let
 
       # screenshots
       "Print" = ''exec ${pkgs.grim}/bin/grim -t png ~/Pocket/Screenshots/$(${pkgs.coreutils}/bin/date +"%Y-%m-%d_%H:%M:%S.png")'';
-      "${cfg.modifier}+Ctrl+Shift+4" = mkIf (builtins.elem "office" cfg.profiles) (
-        if cfg.flameshot.enable
-        then "exec ${pkgs.flameshot}/bin/flameshot gui"
-        #else ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
-        else ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -''
-      );
+      "${cfg.modifier}+Ctrl+Shift+4" =
+        #''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
+        ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -'';
     };
 
   modes = {
@@ -345,222 +295,6 @@ let
     set $ws10 10
   '';
 
-  all_profiles = {
-    "3dprinting" = pkgs: with pkgs; [
-      prusa-slicer
-      # todo: add
-      # https://github.com/triplus/PieMenu
-      # https://github.com/triplus/Glass
-      freecad
-      cura
-      prusa-slicer
-      f3d
-    ];
-    "admin" = pkgs: with pkgs; [
-      tigervnc
-      ethtool
-      gparted
-      git
-      gnupg
-      # TODO: broken lxqt-policykit, replace/fix
-      #lxqt.lxqt-policykit # provides a default authentification client for policykit
-      xdg_utils
-      gen-secrets
-      syncthing-device-id
-      nwvpn-qr
-      paperkey
-      nixpkgs-fmt
-      #asciinema
-      rclone
-      #teamviewer
-      qrencode
-      sshfs
-      dnsmasq
-      freerdp
-      openvpn
-      lftp
-      cifs-utils
-      home-assistant-cli
-
-      (writers.writeBashBin "edit-hosts" ''
-        set -e
-        cat /etc/hosts > /etc/hosts.edit
-        vim /etc/hosts.edit
-        mv /etc/hosts.edit /etc/hosts
-      '')
-
-    ];
-    "dev" = pkgs: with pkgs;
-      [
-        gitAndTools.hub
-        nix-tree
-        nbconvert
-        sqlitebrowser
-        #filezilla
-        sqlitebrowser
-        gnumake
-        #nix-deploy
-        #hcloud
-        dep2nix
-        #dbeaver
-        drone-cli
-        #openshift
-        #minishift
-        cachix
-        py3env
-        #docker_compose
-        #kakoune
-        go
-        python3Packages.graphtage
-        clang
-        nix-prefetch-git
-        jetbrains.datagrip
-      ];
-    "fpv" = pkgs: with pkgs; [
-      betaflight-configurator
-    ];
-    "games" = pkgs: with pkgs; [
-      epsxe
-      mupen64plus
-      # wine # 32-bit only
-      wineWowPackages.stable # 32-bit & 64-bit
-      (winetricks.override { wine = wineWowPackages.stable; })
-      #ppsspp # TODO: wait for https://github.com/NixOS/nixpkgs/pull/124162
-    ];
-    "kvm" = pkgs: with pkgs;[
-      virtviewer
-      virtmanager
-    ];
-    "media" = pkgs: with pkgs;[
-      audacity
-      ptsd-ffmpeg
-      mpv
-      imagemagick
-      ffmpeg-normalize
-      youtube-dl
-      spotify
-      vlc
-      #mediathekview
-      obs-studio
-      v4l-utils
-      pulseeffects-pw
-      wf-recorder
-      art
-      exiftool
-      espeak
-    ];
-    "office" = pkgs: with pkgs;
-      let
-        py3 = python3.override {
-          packageOverrides = self: super: rec {
-            davphonebook = self.callPackage ../5pkgs/davphonebook { };
-          };
-        };
-      in
-      [
-        quirc # qr scanner
-        aliza
-        google-drive-ocamlfuse
-        gnome3.file-roller
-        xournalpp
-        #calibre
-        transmission-gtk
-        fava
-        beancount
-        anki
-        sylpheed
-        claws-mail
-        #zoom-us
-        #nerdworks-motivation
-        keepassxc
-        (pdftk.override { jre = openjdk11; })
-        libreoffice-fresh
-        inkscape
-        gimp
-        portfolio
-        shrinkpdf
-        py3.pkgs.davphonebook
-        teams
-        zoom-us
-        element-desktop
-        signal-desktop
-        aspell
-        aspellDicts.de
-        aspellDicts.en
-        aspellDicts.en-computers
-        aspellDicts.en-science
-        hunspellDicts.de-de
-        hunspellDicts.en-gb-large
-        hunspellDicts.en-us-large
-        mumble
-        noisetorch
-        tg
-        tdesktop
-        (drawio.overrideAttrs (oldAttrs: {
-          # fix wrong file handling in default desktop file for file manager integration
-          patchPhase = ''
-            substituteInPlace usr/share/applications/drawio.desktop \
-              --replace 'drawio %U' 'drawio %f'
-          '';
-        }))
-
-        (writeTextFile {
-          name = "drawio-mimetype";
-          text = ''
-            <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-              <mime-type type="application/vnd.jgraph.mxfile">
-                <comment>draw.io Diagram</comment>
-                <glob pattern="*.drawio" case-sensitive="true"/>
-              </mime-type>
-            </mime-info>
-          '';
-          destination = "/share/mime/packages/drawio.xml";
-        })
-        pdfduplex
-        pdf2svg
-
-        zathura-single
-        (makeDesktopItem {
-          name = "zathura";
-          desktopName = "Zathura";
-          exec = "${pkgs.zathura}/bin/zathura %f";
-          mimeType = "application/pdf";
-          type = "Application";
-        })
-
-        wkhtmltopdf-qt4
-      ];
-    # see also https://jjjollyjim.github.io/arewehackersyet/index.html
-    "sec" = pkgs: with pkgs;[
-      # included via frix/hackertools
-
-      # proxychains
-      # sshuttle
-      # ghidra-bin
-      # rlwrap
-      # hash-identifier
-      # net-snmp
-      # metasploit
-      # postgresql # for msfdb
-      # wpscan
-      # john
-      # gobuster
-      # burpsuite-pro
-      # hashcat
-      # sqlmap
-      # nbtscanner
-      # wireshark-qt
-      # pwndbg
-      # # TODO: add wordlists from https://github.com/NixOS/nixpkgs/pull/104712
-      # nikto
-      # py2env
-      # (writers.writePython2Bin "kirbi2hashcat"
-      #   {
-      #     libraries = [ python2Packages.pyasn1 ];
-      #     flakeIgnore = [ "E501" "W503" ]; # line length (black)
-      #   } ../4scripts/kirbi2hashcat.py)
-    ];
-  };
 in
 {
   options = {
@@ -635,14 +369,6 @@ in
         type = types.bool;
         default = true;
       };
-      flameshot.enable = mkOption {
-        type = types.bool;
-        default = false;
-      };
-      profiles = mkOption {
-        type = with types; listOf str;
-        description = "package profiles to configure, see all_profiles";
-      };
       numlockAuto = mkOption {
         type = types.bool;
         default = true;
@@ -709,18 +435,9 @@ in
 
     boot.supportedFilesystems = [ "exfat" ]; # canon sd card
 
-    security.pam.services.lightdm.enableGnomeKeyring = mkIf (builtins.elem "office" cfg.profiles) true;
-    services.gnome.gnome-keyring.enable = mkIf (builtins.elem "office" cfg.profiles) true;
-
     services.dbus.packages = [ pkgs.gcr ]; # for pinentry-gnome3 for gnupg
 
-    # required for evolution
-    programs.dconf.enable = mkIf (builtins.elem "office" cfg.profiles) true;
-    systemd.packages = mkIf (builtins.elem "office" cfg.profiles) [ pkgs.gnome3.evolution-data-server ];
-
     security.polkit.enable = true;
-
-    virtualisation.spiceUSBRedirection.enable = mkIf (builtins.elem "kvm" cfg.profiles) true;
 
     environment.variables = {
       PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
@@ -740,6 +457,7 @@ in
       XDG_SESSION_TYPE = "wayland";
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
+      _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
 
     } // optionalAttrs cfg.rclone.enable {
       RCLONE_CONFIG =
@@ -774,10 +492,8 @@ in
       pavucontrol
       pasystray
       jack2
-    ] ++ [
-      gammastep
-    ] ++ (flatten (map (profile: (all_profiles."${profile}" pkgs)) cfg.profiles));
-    services.gvfs.enable = mkIf (builtins.elem "office" cfg.profiles) true; # allow smb:// mounts in pcmanfm
+    ];
+
 
     boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
 
@@ -812,7 +528,6 @@ in
     '';
 
     services.upower.enable = true;
-    services.lorri.enable = elem "dev" cfg.profiles;
 
     sound.enable = true;
 
@@ -870,21 +585,6 @@ in
       };
     };
 
-    security.rtkit.enable = cfg.audio.enable && cfg.pipewire.enable;
-
-    hardware.opengl = {
-      enable = true;
-      driSupport = true;
-      driSupport32Bit = mkIf (elem "games" cfg.profiles) true; # for Steam
-    };
-
-    programs.steam.enable = elem "games" cfg.profiles;
-
-    nixpkgs.config = {
-      permittedInsecurePackages = optionals (elem "games" cfg.profiles) [
-        "openssl-1.0.2u" # epsxe
-      ];
-    };
 
     home-manager =
       {
@@ -897,32 +597,6 @@ in
 
             programs.mako = {
               enable = true;
-            };
-
-            programs.zathura = mkIf (elem "office" cfg.profiles) {
-              enable = true;
-              extraConfig =
-                let
-                  file-renamer = pkgs.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
-                  cmd = term.execFloating "${file-renamer} \"%\"" "";
-                in
-                ''
-                  map <C-o> exec '${cmd}'
-                '';
-            };
-
-            systemd.user.services.flameshot = mkIf cfg.flameshot.enable {
-              Unit = {
-                Description = "Flameshot screenshot tool";
-                PartOf = [ "graphical-session.target" ];
-              };
-
-              Service = {
-                ExecStart = "${pkgs.flameshot}/bin/flameshot";
-                RestartSec = 1;
-                Restart = "on-failure";
-              };
-              Install = { WantedBy = [ "graphical-session.target" ]; };
             };
 
             systemd.user.services.wob = {
@@ -1002,45 +676,6 @@ in
             #   Install = { WantedBy = [ "sockets.target" ]; };
             # };
 
-            ptsd.pcmanfm = {
-              enable = elem "office" cfg.profiles;
-              term = term.binary;
-
-              actions = {
-                pdfconcat = mkIf (builtins.elem "office" cfg.profiles) {
-                  title = "Concat PDF files";
-                  title_de = "PDF-Dateien aneinanderhängen";
-                  mimetypes = [ "application/pdf" ];
-                  cmd = # https://black.readthedocs.io/en/stable/the_black_code_style.html#line-length
-                    let script = pkgs.writers.writePython3 "pdfconcat"
-                      {
-                        flakeIgnore = [ "E203" "E501" "W503" ];
-                      }
-                      (pkgs.substituteAll {
-                        src = ./pdfconcat.py;
-                        inherit (pkgs) pdftk;
-                      });
-                    in "${pkgs.alacritty}/bin/alacritty --hold -e ${script} %F";
-                  # #"${script} %F";
-                };
-
-                pdfduplex = mkIf (builtins.elem "office" cfg.profiles) {
-                  title = "Convert A & B PDF to Duplex-PDF";
-                  title_de = "Konvertiere A & B PDF zu Duplex-PDF";
-                  mimetypes = [ "application/pdf" ];
-                  cmd = "${pkgs.pdfduplex}/bin/pdfduplex %F";
-                  selectionCount = 2;
-                };
-              };
-
-              thumbnailers = {
-                imagemagick = mkIf (builtins.elem "office" cfg.profiles) {
-                  mimetypes = [ "application/pdf" "application/x-pdf" "image/pdf" ];
-                  # imagemagickBig needed because of ghostscript dependency
-                  cmd = ''${pkgs.imagemagickBig}/bin/convert %i[0] -background "#FFFFFF" -flatten -thumbnail %s %o'';
-                };
-              };
-            };
 
             programs.waybar = {
               enable = true;
@@ -1528,9 +1163,7 @@ in
               [
                 bubblewrap
                 nsjail
-              ] ++ optionals (cfg.baresip.enable) [ baresip ] ++ optionals (cfg.flameshot.enable) [
-                flameshot
-              ] ++ [
+              ] ++ optionals (cfg.baresip.enable) [ baresip ] ++ [
                 swaylock
                 grim
                 slurp
@@ -1551,29 +1184,6 @@ in
                 end
               '';
             };
-            programs.nushell = {
-              settings.startup =
-                let
-                  script = pkgs.writeShellScript "sway-init" ''
-                    if [ -z $DISPLAY ] && [ "$(tty)" = "/dev/tty1" ]; then
-                      cd $HOME
-                      # pass sway log output to journald
-                      exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
-                    fi
-                  '';
-                in
-                [ script ];
-            };
-            programs.zsh = {
-              loginExtra = ''
-                # If running from tty1 start sway
-                if [ "$(tty)" = "/dev/tty1" ]; then
-                  # pass sway log output to journald
-                  exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
-                fi
-              '';
-            };
-
             gtk = {
               enable = true;
               font = {

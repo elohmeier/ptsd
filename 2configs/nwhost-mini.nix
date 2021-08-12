@@ -7,6 +7,7 @@ in
 {
   imports = [
     ../3modules
+    ./fish.nix
     ./tor-ssh.nix
   ];
 
@@ -51,6 +52,7 @@ in
     }
   ];
 
+  users.defaultUserShell = pkgs.fish;
   users.groups.certs = { };
   ptsd.nwtraefik.groups = "certs";
 
@@ -63,4 +65,6 @@ in
       mode = "0444";
     };
   };
+
+  environment.variables = { EDITOR = "nvim"; };
 }

@@ -201,37 +201,20 @@ in
   };
 
   users.users = {
-    #   sharath = {
-    #     name = "sharath";
-    #     isNormalUser = true;
-    #     home = "/home/sharath";
-    #     createHome = true;
-    #     useDefaultShell = true;
-    #     uid = 1001;
-    #     description = "Sharath Kumar Soudamalla";
-    #     extraGroups = [ "wheel" ];
-    #     openssh.authorizedKeys.keys = [
-    #       "ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAgT/DdIqnIHX1Fomu2AxL6U0GmCBSllqAdIGV6920IYR/CbRzkILxnLNEF109lWG4/xg/VamXHobcNLy3EecQBFZKYBbsFV4x6FRa/dd1dYUGFVu746NY+kiV1ienoAOjs7/eUuKr5poppQD7snfPY8+fC/lCOU2yooepxlAi+XzvBDtfY5B7Ws52K0I4K+Sgpoej7sy0UipQsia1VehvakZ5M7toUj7Vu8R/jMWRnC5yGD6nX1xTJniIy1xB/MGLFigQrHY1cLgBPDLQOvEIRykqZiCJHCcq0lQax8unBgWPgt4bEr4m7JX4lrgKoqk3HOqy5qs61IVrXnwmAdF0XQ== rsa-key-20200427"
-    #     ];
-    #   };
-
     intweb = {
       group = "nginx";
       shell = "/bin/sh";
       isSystemUser = true;
       openssh.authorizedKeys.keys =
         let
-          sshPubKeys = import ../../2configs/ssh-pubkeys.nix; in
+          sshPubKeys = import ../../2configs/users/ssh-pubkeys.nix; in
         [
           "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHLSWKSbb4KpKq9XqzyzvthDiL2I3RPkqpX4UgtpTkpM"
           sshPubKeys.sshPub.enno_yubi41
           sshPubKeys.sshPub.enno_yubi49
         ];
     };
-
   };
-
-  # security.sudo.wheelNeedsPassword = false;
 
   environment.systemPackages = with pkgs; [ tmux htop mc ];
 
@@ -259,25 +242,6 @@ in
     domain = "db.fraam.de";
     entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
   };
-
-  # services.murmur =
-  #   let
-  #     secrets = import <secrets/murmur.nix>;
-  #   in
-  #   {
-  #     enable = true;
-  #     allowHtml = false;
-  #     password = secrets.password;
-  #     registerHostname = "fraam.de";
-  #     registerName = "fraam.de";
-  #     sendVersion = false;
-  #     sslCert = "/var/lib/acme/fraam.de/cert.pem";
-  #     sslKey = "/var/lib/acme/fraam.de/key.pem";
-  #     users = 20;
-  #   };
-  # users.groups.certs.members = [ "murmur" ];
-  # networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.services.murmur.port ];
-  # networking.firewall.interfaces.ens3.allowedUDPPorts = [ config.services.murmur.port ];
 
   programs.mosh.enable = true;
 

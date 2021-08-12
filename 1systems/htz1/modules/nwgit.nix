@@ -14,7 +14,7 @@ in
     description = "Gitea Service";
     home = stateDir;
     createHome = true;
-    useDefaultShell = true; # this is required (if false "nologin" will block access to Gitea/ssh)
+    shell = pkgs.bash; # this is required (if false "nologin" will block access to Gitea/ssh)
     isSystemUser = true;
   };
 

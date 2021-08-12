@@ -9,15 +9,13 @@ in
   imports = [
     ../..
     ../../2configs
-    #../../2configs/awscli.nix
     ../../2configs/desktop.nix
-    #../../2configs/gcalcli.nix
-    ../../2configs/mainUser.nix
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
 
     ../../2configs/themes/dark.nix
-    ../../2configs/mfc7440n.nix
+    ../../2configs/profiles/bs53.nix
+    ../../2configs/profiles/workstation.nix
     ../../2configs/prometheus/node.nix
 
     # 
@@ -37,36 +35,6 @@ in
     user = "enno";
     group = "users";
     autostart = false;
-  };
-
-  services.usbguard = {
-    enable = false;
-    IPCAllowedUsers = [ "enno" "root" ];
-
-    # generated using `usbguard generate-policy` & edited
-    rules = ''
-      allow id 1d6b:0002 serial "0000:2a:00.1" name "xHCI Host Controller" hash "7LbED1GqzetHdUEZDcU3D8XZQDP/YnFMhAimHAESkbc=" parent-hash "+vZ8CHLTZn4IvyjR2V7r5H+abDxkcncYE6vL2axVWvQ=" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0003 serial "0000:2a:00.1" name "xHCI Host Controller" hash "advuFkDyZlv4Ibuzeh6DyyLwXwYHO4H3qo/VwazQTyM=" parent-hash "+vZ8CHLTZn4IvyjR2V7r5H+abDxkcncYE6vL2axVWvQ=" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0002 serial "0000:2a:00.3" name "xHCI Host Controller" hash "vawpCqjGEnZlurUwVcF9OmK3uHHbR+bDL2dxfeB0YtU=" parent-hash "jAgnD8mqIyEYjHCzCdMacLXGa7T/W9QEMF2NUPf1NU8=" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0003 serial "0000:2a:00.3" name "xHCI Host Controller" hash "Jw0VE3YYVEKSw9aKBD0nOs7XZzQCd3DPI0GvLp7P+Bs=" parent-hash "jAgnD8mqIyEYjHCzCdMacLXGa7T/W9QEMF2NUPf1NU8=" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0002 serial "0000:2d:00.2" name "xHCI Host Controller" hash "a1ohYJvgNFtB0scybuUYViVOTAfycbXNIBQpjTHTXDo=" parent-hash "hwRjSoLx859h0ekQihZXoOOcvH1sNYO5Be/W5QADPPw=" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0003 serial "0000:2d:00.2" name "xHCI Host Controller" hash "kV90I4+CdfIkiHCdBmlOUtIJlZF+3DN8jlllN2sBkjU=" parent-hash "hwRjSoLx859h0ekQihZXoOOcvH1sNYO5Be/W5QADPPw=" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0002 serial "0000:2f:00.3" name "xHCI Host Controller" hash "FJMky+ph03HBWDrD+oRitafrQikQKNR8n4h1MaHV68o=" parent-hash "Ol7ZwZpUoDxZCwmqn/CwYMBm9GAl4zTMDzR2w2wdwqo=" with-interface 09:00:00 with-connect-type ""
-      allow id 1d6b:0003 serial "0000:2f:00.3" name "xHCI Host Controller" hash "mStuRxuVKXIlG/+/sHtcTH4iCf/Rw/t7BKj5TG194cU=" parent-hash "Ol7ZwZpUoDxZCwmqn/CwYMBm9GAl4zTMDzR2w2wdwqo=" with-interface 09:00:00 with-connect-type ""
-      allow id 046d:c52b serial "" name "USB Receiver" hash "2jD4laupwOlO9G4MODYJC0mRE0Z4v+lbYeEUvdLrZPg=" parent-hash "7LbED1GqzetHdUEZDcU3D8XZQDP/YnFMhAimHAESkbc=" via-port "1-5" with-interface { 03:01:01 03:01:02 03:00:00 } with-connect-type "hotplug"
-      allow id 046d:0892 serial "F31F411F" name "HD Pro Webcam C920" hash "tH2q1g+bWcXRIVQq7svH20hfcLZ/ezVlgl4TjasaM7M=" parent-hash "7LbED1GqzetHdUEZDcU3D8XZQDP/YnFMhAimHAESkbc=" with-interface { 0e:01:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 0e:02:00 01:01:00 01:02:00 01:02:00 01:02:00 01:02:00 } with-connect-type "hotplug"
-      allow id 0a5c:21e8 serial "5CF370938B37" name "BCM20702A0" hash "e28H2zxtRh799KwHL5QdsG4+bU4X4gmJClQyfQPE7Ls=" parent-hash "vawpCqjGEnZlurUwVcF9OmK3uHHbR+bDL2dxfeB0YtU=" with-interface { ff:01:01 ff:01:01 ff:01:01 ff:01:01 ff:01:01 ff:01:01 ff:01:01 ff:ff:ff fe:01:01 } with-connect-type "hotplug"
-      allow id 1462:7c37 serial "A02019050806" name "MYSTIC LIGHT " hash "FWs3ySVTvrqTDwDSre1c8/i24p9ge2mJEy4Zz6nww+E=" parent-hash "vawpCqjGEnZlurUwVcF9OmK3uHHbR+bDL2dxfeB0YtU=" with-interface 03:00:00 with-connect-type "unknown"
-      allow id 05e3:0608 serial "" name "USB2.0 Hub" hash "yIjW/Cyf9Hw+fZCT+H0TSxdcxuaT0ynygaCDFwdnGlw=" parent-hash "vawpCqjGEnZlurUwVcF9OmK3uHHbR+bDL2dxfeB0YtU=" via-port "3-6" with-interface 09:00:00 with-connect-type "unknown"
-      allow id 043e:9a46 serial "" name "USB2.1 Hub" hash "hHHED0h2zzQlpF++B6gljcZJuXGxQQeGpVETLDYRg0g=" parent-hash "a1ohYJvgNFtB0scybuUYViVOTAfycbXNIBQpjTHTXDo=" via-port "5-1" with-interface { 09:00:01 09:00:02 } with-connect-type "unknown"
-      allow id 045e:082c serial "603912700821" name "Microsoft Ergonomic Keyboard" hash "6cBqtPpb456flyfj3raspZ1sbK8vmPRlURWX/Rq8kbs=" parent-hash "FJMky+ph03HBWDrD+oRitafrQikQKNR8n4h1MaHV68o=" with-interface { 03:01:01 03:00:00 } with-connect-type "hotplug"
-      allow id 0499:1730 serial "" name "Steinberg UR44C" hash "U+za8vS9mmBYXmkJPmJTaWcHh6HOaP2Gku1R9/C4+oc=" parent-hash "mStuRxuVKXIlG/+/sHtcTH4iCf/Rw/t7BKj5TG194cU=" via-port "8-1" with-interface { 01:01:20 01:02:20 01:02:20 01:02:20 01:02:20 01:03:00 ff:01:20 ff:02:20 ff:02:20 ff:02:20 ff:02:20 ff:03:ff ff:ff:ff } with-connect-type "hotplug"
-      allow id 1050:0407 serial "" name "YubiKey OTP+FIDO+CCID" hash "UP/fS/jaI4Elg4Fej+gf1QXLWPleJ54MqMtO16eSmr8=" with-connect-type "hotplug"
-      allow id 058f:8468 serial "158F84688461" name "Mass Storage Device" hash "uT5w4BkZnTZg0EJeCm1cD9vhwaS9V54ojFd2eNtaZqY=" parent-hash "hHHED0h2zzQlpF++B6gljcZJuXGxQQeGpVETLDYRg0g=" with-interface 08:06:50 with-connect-type "unknown"
-      allow id 043e:9a48 serial "" name "" hash "xN00U9+GRxTZL94NiMZsn7iHvyMyqf12eqLMl/QyyZg=" parent-hash "hHHED0h2zzQlpF++B6gljcZJuXGxQQeGpVETLDYRg0g=" via-port "5-1.4" with-interface 09:00:00 with-connect-type "unknown"
-      allow id 043e:9a42 serial "" name "USB Audio" hash "/MskUBZYKp1Sza5dwaI5pn0Bg02qL1EUJiPQzOzLRYc=" parent-hash "xN00U9+GRxTZL94NiMZsn7iHvyMyqf12eqLMl/QyyZg=" via-port "5-1.4.1" with-interface { 01:01:00 01:02:00 01:02:00 } with-connect-type "unknown"
-      allow id 043e:9a40 serial "" name "USB Controls" hash "2lvYZ07xBCw2kaqrCiFdFhcXkHBZyRdOztpWZqsX3QA=" parent-hash "xN00U9+GRxTZL94NiMZsn7iHvyMyqf12eqLMl/QyyZg=" via-port "5-1.4.4" with-interface { 03:00:00 03:00:00 03:00:00 } with-connect-type "unknown"
-    '';
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -90,43 +58,11 @@ in
     options kvm ignore_msrs=1
   '';
 
-  # systemd.services.wol-eth0 = {
-  #   description = "Wake-on-LAN for enp39s0";
-  #   requires = [ "network.target" ];
-  #   after = [ "network.target" ];
-  #   wantedBy = [ "multi-user.target" ];
-  #   serviceConfig = {
-  #     Type = "oneshot";
-  #     ExecStart = "${pkgs.ethtool}/bin/ethtool -s enp39s0 wol g"; # magicpacket
-  #   };
-  # };
-
-
-  # sample to pass USB access to VM
-  # see https://github.com/NixOS/nixpkgs/issues/27199
-  # SUBSYSTEM=="usb", ATTR{idVendor}=="072f", ATTR{idProduct}=="90cc", GROUP="users", MODE="0777"
-
-  ptsd.cli = {
-    enable = true;
-    nushell.enable = true;
-  };
-
   ptsd.nwacme.hostCert.enable = false;
 
   ptsd.desktop = {
     enable = true;
     waybar.co2 = true;
-    profiles = [
-      "3dprinting"
-      "admin"
-      "dev"
-      "fpv"
-      "games"
-      "kvm"
-      "media"
-      "office"
-      "sec"
-    ];
     autolock.enable = false;
     baresip = {
       enable = true;
@@ -491,7 +427,6 @@ in
         label = "repos";
         id = "jihdi-qxmi3";
         devices = [ "nas1" "tp1" ];
-        type = "sendonly";
       };
       "/mnt/photos/photos" = {
         label = "photos";

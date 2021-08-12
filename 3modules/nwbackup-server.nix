@@ -17,12 +17,12 @@ let
     in
     ''command="${cdCommand} && ${serveCommand}",restrict ${key}'';
 
-  sshPubKeys = import ../2configs/ssh-pubkeys.nix;
+  sshPubKeys = import ../2configs/users/ssh-pubkeys.nix;
 
   mkUsersConfig = name: client: {
     users."borg-${name}" = {
       openssh.authorizedKeys.keys = map (mkAuthorizedKey name client) [ client.borg.pubkey sshPubKeys.sshPub.enno_yubi41 sshPubKeys.sshPub.enno_yubi49 ];
-      useDefaultShell = true;
+      shell = pkgs.bash;
       group = "borg";
       isSystemUser = true;
     };
