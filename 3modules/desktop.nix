@@ -395,7 +395,6 @@ let
         gitAndTools.hub
         nix-tree
         nbconvert
-        vscodium
         sqlitebrowser
         #filezilla
         sqlitebrowser
@@ -1405,22 +1404,6 @@ in
                         Exec = "xdg-email --attach %F";
                       };
                     };
-
-                  # "file-manager/actions/codium.desktop".text = lib.generators.toINI
-                  #   { }
-                  #   {
-                  #     "Desktop Entry" = {
-                  #       Type = "Action";
-                  #       Name = "Open folder in VSCodium";
-                  #       "Name[de]" = "Ordner in VSCodium öffnen";
-                  #       Profiles = "codium;";
-                  #     };
-
-                  #     "X-Action-Profile codium" = {
-                  #       MimeTypes = "inode/directory";
-                  #       Exec = "codium %F";
-                  #     };
-                  #   };
 
                   "file-manager/actions/print-lp.desktop".text = lib.generators.toINI
                     { }

@@ -58,4 +58,21 @@
   #   doomPrivateDir = ../../src/doom.d;
   # };
 
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium;
+    userSettings = {
+      "editor.fontFamily" = "'SauceCodePro Nerd Font'";
+      "update.channel" = "none";
+      "[nix]"."editor.tabSize" = 2;
+      "gitlens.advanced.telemetry.enabled" = false;
+    };
+    extensions = with pkgs.vscode-extensions; [
+      eamodio.gitlens
+      editorconfig.editorconfig
+      jnoortheen.nix-ide
+      ms-python.python
+    ];
+  };
+
 }
