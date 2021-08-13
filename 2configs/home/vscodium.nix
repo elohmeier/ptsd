@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    package = pkgs.ptsd-vscodium;
     userSettings = {
       "editor.fontFamily" = "'SauceCodePro Nerd Font'";
       "git.smartCommitChanges" = "all";

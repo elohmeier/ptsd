@@ -126,6 +126,12 @@ self: pkgs_master: super:
 
   ptsd-nnn = self.nnn.override { withNerdIcons = true; };
 
+  ptsd-vscodium = self.vscodium.overrideAttrs (oldAttrs: {
+    postInstall = ''
+      makeWrapper $out/bin/codium $out/bin/codium-wayland --add-flags " --enable-features=UseOzonePlatform --ozone-platform=wayland"
+    '';
+  });
+
   # pull in recent versions from >21.05
   foot = pkgs_master.foot;
   neovim = pkgs_master.neovim;
