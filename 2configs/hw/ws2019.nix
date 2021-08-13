@@ -30,7 +30,6 @@
   };
 
   console.font = "${pkgs.terminus_font}/share/consolefonts/ter-v24n.psf.gz";
-  #console.font = "${pkgs.uni-vga}/share/consolefonts/u_vga16.psf.gz";
   console.keyMap = "de-latin1";
 
   environment.systemPackages = with pkgs; [
@@ -41,6 +40,7 @@
     cpu.amd.updateMicrocode = true;
     firmware = with pkgs; [
       firmwareLinuxNonfree
+      broadcom-bt-firmware # for the plugable USB stick
     ];
     opengl = {
       enable = true;

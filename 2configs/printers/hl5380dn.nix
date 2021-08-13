@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
+  services.printing.enable = true;
 
   hardware.printers = {
     ensurePrinters = [

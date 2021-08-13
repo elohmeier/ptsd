@@ -1,7 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.printing.drivers = [ pkgs.brlaser ];
+  services.printing = {
+    enable = true;
+    drivers = [ pkgs.brlaser ];
+  };
 
   hardware.printers = {
     ensureDefaultPrinter = "MFC7440N";
