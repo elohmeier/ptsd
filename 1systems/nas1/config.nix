@@ -7,26 +7,23 @@ in
   imports = [
     ../..
     ../../2configs
-    ../../2configs/fraam-gdrive-backup.nix
-    ../../2configs/grafana.nix
     ../../2configs/hardened.nix
-    ../../2configs/home-assistant.nix
-    ../../2configs/mainUser.nix
-    ../../2configs/mfc7440n.nix
-    ../../2configs/nextcloud.nix
-    ../../2configs/nextcloud-vsftpd-scans.nix
+    ../../2configs/printers/mfc7440n.nix
     ../../2configs/nwhost.nix
     # TODO: fix tmp folder error
     # TODO: activate prometheus http monitoring
-    ../../2configs/nwoctoprint.nix
-    ../../2configs/postgresql.nix
-    ../../2configs/prometheus/server.nix
     ../../2configs/prometheus/node.nix
-    ../../2configs/icloudpd.nix
 
-    #../../2configs/xrdp.nix
-
-    ./backup.nix
+    ./modules/backup.nix
+    ./modules/fraam-gdrive-backup.nix
+    ./modules/grafana.nix
+    ./modules/home-assistant.nix
+    ./modules/icloudpd.nix
+    ./modules/nextcloud.nix
+    ./modules/nextcloud-vsftpd-scans.nix
+    ./modules/nwoctoprint.nix
+    ./modules/postgresql.nix
+    ./modules/prometheus/server.nix
   ];
 
   ptsd.nwbackup.enable = false;
