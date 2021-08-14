@@ -1,33 +1,22 @@
 { config, lib, pkgs, ... }:
 let
   universe = import ../../2configs/universe.nix;
-  virshNatIpPrefix = "192.168.197"; # "XXX.XXX.XXX" without last block
-  virshNatIf = "virsh-nat";
 in
 {
   imports = [
     ../..
     ../../2configs
-    #../../2configs/awscli.nix
     ../../2configs/desktop.nix
-    #../../2configs/gcalcli.nix
-    ../../2configs/mainUser.nix
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
 
     ../../2configs/themes/dark.nix
-    ../../2configs/mfc7440n.nix
-    ../../2configs/hl5380dn.nix
+    ../../2configs/printers/hl5380dn.nix
     ../../2configs/prometheus/node.nix
 
-    # 
-    # ../../2configs/home-secrets.nix
+    ../../2configs/profiles/bs53.nix
+    ../../2configs/profiles/workstation
   ];
-
-  ptsd.cli = {
-    enable = true;
-    nushell.enable = true;
-  };
 
   ptsd.nwbackup = {
     paths = [ "/home" ];
@@ -55,27 +44,18 @@ in
   ptsd.desktop = {
     enable = true;
     trayOutput = "eDP-1";
-    profiles = [
-      "3dprinting"
-      "admin"
-      "dev"
-      "fpv"
-      "games"
-      "kvm"
-      "media"
-      "office"
-      "sec"
-    ];
   };
 
-  home-manager = {
-    users.mainUser = { pkgs, ... }:
-      {
-        imports = [
-          ./home-common.nix
-        ];
+  home-manager.users.mainUser = { ... }:
+    {
+
+      home.stateVersion = "20.09";
+
+      wayland.windowManager.sway = {
+        config.input."1739:0:Synaptics_TM3381-002".events = "disabled";
+        extraConfig = "output eDP-1 pos 0 0 mode 1920x1080@70.001Hz scale 1.3";
       };
-  };
+    };
 
   nix.gc.automatic = false;
 
@@ -135,14 +115,6 @@ in
   #   script = "${pkgs.utillinux}/bin/rfkill block bluetooth";
   # };
 
-  # fonts.fontconfig = {
-  #   antialias = false;
-  #   hinting.enable = false;
-  #   subpixel.rgba = "none";
-  # };
-
-  services.printing.enable = true;
-  nixpkgs.config.allowUnfree = true;
   services.printing.drivers = with pkgs; [
     brlaser
     gutenprint
@@ -186,37 +158,7 @@ in
 
     wireless.iwd.enable = true;
 
-    firewall.interfaces."${virshNatIf}" = {
-      allowedTCPPorts = [ 53 631 445 139 ];
-      allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
-    };
-
-    nat = {
-      enable = true;
-      externalInterface = "wlan0";
-      internalInterfaces = [ virshNatIf ];
-    };
-  };
-
-  systemd.network = {
-    netdevs = {
-      "40-${virshNatIf}" = {
-        netdevConfig = {
-          Name = virshNatIf;
-          Kind = "bridge";
-        };
-      };
-    };
-    networks = {
-      "40-${virshNatIf}" = {
-        matchConfig.Name = virshNatIf;
-        networkConfig = {
-          ConfigureWithoutCarrier = true;
-          DHCPServer = true;
-          Address = "${virshNatIpPrefix}.1/24";
-        };
-      };
-    };
+    nat.externalInterface = "wlan0";
   };
 
   services.resolved = {
@@ -238,28 +180,6 @@ in
     '')
   ];
 
-  services.samba = {
-    enable = true;
-    enableNmbd = false;
-    enableWinbindd = false;
-    securityType = "user";
-    extraConfig = ''
-      workgroup = WORKGROUP
-      server string = ${config.networking.hostName}
-      netbios name = ${config.networking.hostName}
-      hosts allow = ${virshNatIpPrefix}.0/24 # virshNat network
-      hosts deny = 0.0.0.0/0
-    '';
-    shares = {
-      home = {
-        path = "/home/enno";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "no";
-      };
-    };
-  };
-
   ptsd.wireguard.networks = {
     dlrgvpn = {
       enable = false;
@@ -269,18 +189,6 @@ in
         { routeConfig = { Destination = "192.168.168.0/24"; }; }
       ];
       keyname = "nwvpn.key";
-    };
-  };
-
-  virtualisation = {
-    docker = {
-      enable = true;
-      enableOnBoot = false; # will be socket-activated
-    };
-    libvirtd = {
-      enable = true;
-      qemuPackage = pkgs.qemu_kvm;
-      qemuRunAsRoot = false; # TODO: test permissions
     };
   };
 
