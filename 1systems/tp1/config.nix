@@ -16,6 +16,8 @@ in
 
     ../../2configs/profiles/bs53.nix
     ../../2configs/profiles/workstation
+
+    ./modules/syncthing.nix
   ];
 
   ptsd.nwbackup = {
@@ -24,20 +26,6 @@ in
 
   services.hardware.bolt.enable = true;
 
-  # workaround random wifi drops
-  # see https://bugzilla.kernel.org/show_bug.cgi?id=203709
-  boot.kernelPatches = [
-    {
-      name = "beacon_timeout.patch";
-      patch = pkgs.fetchpatch {
-        url = "https://raw.githubusercontent.com/mikezackles/linux-beacon-pkgbuild/8b6f0781a063405df78d6e31eabb12e60c51c814/beacon_timeout.patch";
-        sha256 = "sha256-xBOvDaCqoK8Xa89ml4F14l6uokWMWsvdPnNg5HYMMag=";
-      };
-    }
-  ];
-  boot.extraModprobeConfig = ''
-    options iwlwifi beacon_timeout=256
-  '';
 
   ptsd.nwacme.hostCert.enable = false;
 
@@ -192,51 +180,4 @@ in
     };
   };
 
-  ptsd.nwsyncthing = {
-    enable = true;
-
-    folders = {
-      "/home/enno/FPV" = {
-        label = "FPV";
-        id = "xxdwi-yom6n";
-        devices = [ "nas1" "tp1-win10" "ws1" "ws1-win10" "ws1-win10n" ];
-      };
-      # "/home/enno/Hörspiele" = {
-      #   id = "rqnvn-lmhcm";
-      #   devices = [ "ext-arvid" "nas1" ];
-      #   type = "sendonly";
-      # };
-      "/home/enno/LuNo" = {
-        label = "LuNo";
-        id = "3ull9-9deg4";
-        devices = [ "mb1" "nas1" "tp2" "ws1" ];
-      };
-      "/home/enno/Pocket" = {
-        label = "Pocket";
-        id = "hmekh-kgprn";
-        devices = [ "nas1" "nuc1" "tp1-win10" "ws1" "ws1-win10" "ws2" ];
-      };
-      "/home/enno/Scans" = {
-        label = "Scans";
-        id = "ezjwj-xgnhe";
-        devices = [ "nas1" "ws1" "ws2" "iph3" ];
-      };
-      "/home/enno/Templates" = {
-        label = "Templates";
-        id = "gnwqu-yt7qc";
-        devices = [ "nas1" "nuc1" "ws1" "ws2" ];
-      };
-      "/home/enno/iOS" = {
-        label = "iOS";
-        id = "qm9ln-btyqu";
-        devices = [ "iph3" ];
-      };
-      # "/home/enno/repos-ws1" = {
-      #   id = "jihdi-qxmi3";
-      #   devices = [ "nas1" "ws1" ];
-      #   type = "receiveonly";
-      #   label = "repos-ws1";
-      # };
-    };
-  };
 }

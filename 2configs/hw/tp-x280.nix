@@ -34,9 +34,23 @@
     # "i8042.dumpkbd"
   ];
 
+
+  # workaround random wifi drops
+  # see https://bugzilla.kernel.org/show_bug.cgi?id=203709
+  boot.kernelPatches = [
+    {
+      name = "beacon_timeout.patch";
+      patch = pkgs.fetchpatch {
+        url = "https://raw.githubusercontent.com/mikezackles/linux-beacon-pkgbuild/8b6f0781a063405df78d6e31eabb12e60c51c814/beacon_timeout.patch";
+        sha256 = "sha256-xBOvDaCqoK8Xa89ml4F14l6uokWMWsvdPnNg5HYMMag=";
+      };
+    }
+  ];
+
   hardware.firmware = with pkgs; [ wireless-regdb firmwareLinuxNonfree ];
   boot.extraModprobeConfig = ''
     options cfg80211 ieee80211_regdom="DE"
+    options iwlwifi beacon_timeout=256
   '';
 
   nix.maxJobs = lib.mkDefault 8;
