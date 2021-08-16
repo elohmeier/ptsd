@@ -4,11 +4,13 @@
     package = pkgs.ptsd-vscodium;
     userSettings = {
       "editor.fontFamily" = "'SauceCodePro Nerd Font'";
-      "git.smartCommitChanges" = "all";
       "gitlens.advanced.telemetry.enabled" = false;
       "[nix]"."editor.tabSize" = 2;
       "update.channel" = "none";
-      "workbench.startupEditor" = "none";
+      "workbench.startupEditor" = "newUntitledFile";
+      "update.mode" = "none";
+      "git.confirmSync" = false;
+      "git.enableSmartCommit" = true;
     };
     extensions = with pkgs.vscode-extensions; [
       eamodio.gitlens

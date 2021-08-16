@@ -115,4 +115,7 @@ in
 
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 
+  # increase user watches for synchting, see
+  # https://docs.syncthing.net/users/faq.html#inotify-limits
+  boot.kernel.sysctl."fs.inotify.max_user_watches" = 204800;
 }
