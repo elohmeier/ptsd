@@ -8,6 +8,7 @@ in
   imports = [
     ../3modules
     ./fish.nix
+    #./neovim.nix
     ./tor-ssh.nix
   ];
 

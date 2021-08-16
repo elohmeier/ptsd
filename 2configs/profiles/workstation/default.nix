@@ -10,6 +10,7 @@ let
 in
 {
   imports = [
+    ../../neovim.nix
     ./packages.nix
     ./virtualisation.nix
 
@@ -51,7 +52,6 @@ in
         ../../home/firefox.nix
         ../../home/fish.nix
         ../../home/gpg.nix
-        ../../home/neovim.nix
         ../../home/tmux.nix
         ../../home/vscodium.nix
       ];

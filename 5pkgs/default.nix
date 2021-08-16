@@ -124,12 +124,13 @@ self: pkgs_master: super:
     ]
   );
 
-
   ptsd-ffmpeg = self.ffmpeg-full.override {
     nonfreeLicensing = true;
     fdkaacExtlib = true;
     qtFaststartProgram = false;
   };
+
+  ptsd-neovim = self.callPackage ./ptsd-neovim { };
 
   ptsd-nnn = self.nnn.override { withNerdIcons = true; };
 
@@ -143,6 +144,8 @@ self: pkgs_master: super:
   foot = pkgs_master.foot;
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
+  neovimUtils = pkgs_master.neovimUtils;
+  wrapNeovimUnstable = pkgs_master.wrapNeovimUnstable;
   nushell = pkgs_master.nushell;
   vimPlugins = pkgs_master.vimPlugins;
   zoxide = pkgs_master.zoxide;
