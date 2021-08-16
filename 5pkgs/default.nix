@@ -61,6 +61,13 @@ self: pkgs_master: super:
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
   zathura-single = self.callPackage ./zathura-single { };
 
+  ptsd-octoprintPlugins = plugins: {
+    telegram = plugins.callPackage ./octoprint-plugins/telegram.nix;
+    octolapse = plugins.callPackage ./octoprint-plugins/octolapse.nix;
+    prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix.nix;
+    prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix;
+  };
+
   ptsd-python2 = self.python2.override {
     packageOverrides = self: super: rec {
       certifi = super.buildPythonPackage rec {

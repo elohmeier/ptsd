@@ -8,13 +8,17 @@ in
     port = config.ptsd.nwtraefik.ports.octoprint;
 
     package = pkgs.octoprint;
-    plugins = plugins: [
-      plugins.printtimegenius
-      (plugins.callPackage ../5pkgs/octoprint-plugins/telegram.nix { })
-      (plugins.callPackage ../5pkgs/octoprint-plugins/octolapse.nix { })
-      (plugins.callPackage ../5pkgs/octoprint-plugins/prusalevelingguide.nix { })
-      (plugins.callPackage ../5pkgs/octoprint-plugins/prusaslicerthumbnails.nix { })
-    ];
+    plugins = plugins:
+      let
+        ptsdPlugins = pkgs.ptsd-octoprintPlugins plugins;
+      in
+      [
+        plugins.printtimegenius
+        ptsdPlugins.telegram
+        ptsdPlugins.octolapse
+        ptsdPlugins.prusalevelingguide
+        ptsdPlugins.prusaslicerthumbnails
+      ];
     #deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d3-1\\x2d3:1.0-ttyUSB0-tty-ttyUSB0.device";
     #webcamStreamUrl = "https://${domain}/mjpg/?action=stream";
     #webcamSnapshotUrl = "https://${domain}/mjpg/?action=snapshot";

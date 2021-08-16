@@ -24,6 +24,7 @@ in
     ./modules/nwoctoprint.nix
     ./modules/postgresql.nix
     ./modules/prometheus/server.nix
+    ./modules/syncthing.nix
   ];
 
   ptsd.nwbackup.enable = false;
@@ -42,21 +43,6 @@ in
     enable = true;
     domain = "monica.services.nerdworks.de";
     entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
-  };
-
-  home-manager = {
-    users.mainUser = { ... }:
-      {
-        imports = [
-          ./home.nix
-        ];
-      };
-    users.root = { ... }:
-      {
-        imports = [
-          ./home.nix
-        ];
-      };
   };
 
   users.groups.photosync-enno = { };

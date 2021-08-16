@@ -2,7 +2,7 @@
 
 with lib;
 let
-  fraamCfg = import ./fraam-gdrives.nix;
+  fraamCfg = import ../../../2configs/fraam-gdrives.nix;
 
   genCfg = drive_name: drive_id: nameValuePair
     drive_name

@@ -187,7 +187,6 @@
             system = "x86_64-linux";
             modules = defaultModules ++ [
               ./1systems/nas1/physical.nix
-              home-manager.nixosModule
             ];
           };
 
