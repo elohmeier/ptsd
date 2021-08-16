@@ -10,14 +10,6 @@ in
     ./users/root.nix
   ];
 
-  console.keyMap = mkDefault "de-latin1";
-
-  environment = {
-    systemPackages = with pkgs; [
-      git # required for krops
-      foot.terminfo
-    ];
-  };
 
   users.mutableUsers = false;
 
