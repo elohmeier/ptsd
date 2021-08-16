@@ -15,12 +15,15 @@
     };
   };
 
-  home-manager.users.mainUser = { pkgs, ... }:
-    {
-      imports = [
-        ../home/fish.nix
-        ../home/neovim.nix
-        ../home/tmux.nix
-      ];
-    };
+  #  home-manager.users.root = { pkgs, lib, ... }:
+  #  {
+  #  home.stateVersion = lib.mkDefault "20.09";
+
+  #      imports = [
+  #        ../home/fish.nix
+  #        ../home/neovim.nix
+  #        ../home/tmux.nix
+  #      ];
+  #    };
+
 }

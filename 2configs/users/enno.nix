@@ -24,8 +24,10 @@ with lib;
     };
   };
 
-  home-manager.users.mainUser = { pkgs, ... }:
+  home-manager.users.mainUser = { pkgs, lib, ... }:
     {
+      home.stateVersion = lib.mkDefault "20.09";
+
       programs.git = {
         enable = true;
         package = pkgs.git;
