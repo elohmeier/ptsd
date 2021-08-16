@@ -7,11 +7,15 @@ in
     [
       ../..
       ../../2configs
-      ../../2configs/gitlab-runner-hcloud.nix
       ../../2configs/hardened.nix
       ../../2configs/nwhost-mini.nix
 
       ../../2configs/prometheus/node.nix
+
+      ./modules/fraamdb.nix
+      ./modules/fraam-gitlab.nix
+      ./modules/fraam-www.nix
+      ./modules/gitlab-runner-hcloud.nix
     ];
 
   ptsd.nwbackup = {

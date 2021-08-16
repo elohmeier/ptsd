@@ -79,8 +79,8 @@ in
         { config, pkgs, ... }:
         {
           imports = [
-            ../.
-            ../2configs
+            ../../../.
+            ../../../2configs
           ];
 
           boot.isContainer = true;
@@ -246,7 +246,7 @@ in
             enable = true;
             listenAddress = cfg.containerAddress;
             port = config.ptsd.nwtraefik.ports.prometheus-node;
-            enabledCollectors = import ../2configs/prometheus/node_collectors.nix;
+            enabledCollectors = import ../../../2configs/prometheus/node_collectors.nix;
           };
         };
     };

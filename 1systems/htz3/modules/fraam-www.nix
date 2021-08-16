@@ -47,71 +47,77 @@ in
       };
     };
 
-    containers.wpjail = {
-      autoStart = true;
-      privateNetwork = true;
-      hostAddress = cfg.hostAddress;
-      localAddress = cfg.containerAddress;
-      bindMounts = {
-        "/var/lib/mysql" = {
-          hostPath = "${cfg.mysqlPath}";
-          isReadOnly = false;
+    containers.wpjail =
+      let
+        hostConfig = config;
+      in
+      {
+        autoStart = true;
+        privateNetwork = true;
+        hostAddress = cfg.hostAddress;
+        localAddress = cfg.containerAddress;
+        bindMounts = {
+          "/var/lib/mysql" = {
+            hostPath = "${cfg.mysqlPath}";
+            isReadOnly = false;
+          };
+          "/var/backup/mysql" = {
+            hostPath = "${cfg.mysqlBackupPath}";
+            isReadOnly = false;
+          };
+          "/var/www/static" = {
+            hostPath = "${cfg.staticPath}";
+            isReadOnly = false;
+          };
+          "/var/www/wp" = {
+            hostPath = "${cfg.wwwPath}";
+            isReadOnly = false;
+          };
         };
-        "/var/backup/mysql" = {
-          hostPath = "${cfg.mysqlBackupPath}";
-          isReadOnly = false;
-        };
-        "/var/www/static" = {
-          hostPath = "${cfg.staticPath}";
-          isReadOnly = false;
-        };
-        "/var/www/wp" = {
-          hostPath = "${cfg.wwwPath}";
-          isReadOnly = false;
-        };
-      };
-      ephemeral = true;
+        ephemeral = true;
 
-      config =
-        { config, pkgs, ... }:
-        {
-          imports = [
-            ../.
-            ../2configs
-            ../2configs/fraam-wordpress.nix
-          ];
-
-          boot.isContainer = true;
-
-          networking = {
-            useHostResolvConf = false;
-            nameservers = [ "8.8.8.8" "8.8.4.4" ];
-            useNetworkd = true;
-            firewall.allowedTCPPorts = [
-              config.ptsd.nwtraefik.ports.prometheus-node
+        config =
+          { config, pkgs, ... }:
+          {
+            imports = [
+              ../../../.
+              ../../../2configs
+              ./fraam-wordpress.nix
             ];
-          };
 
-          time.timeZone = "Europe/Berlin";
+            nixpkgs.config.packageOverrides = hostConfig.nixpkgs.config.packageOverrides;
 
-          i18n = {
-            defaultLocale = "de_DE.UTF-8";
-            supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-          };
+            boot.isContainer = true;
 
-          services.mysqlBackup = {
-            enable = true;
-            databases = [ "wordpress" ];
-          };
+            networking = {
+              useHostResolvConf = false;
+              nameservers = [ "8.8.8.8" "8.8.4.4" ];
+              useNetworkd = true;
+              firewall.allowedTCPPorts = [
+                config.ptsd.nwtraefik.ports.prometheus-node
+              ];
+            };
 
-          services.prometheus.exporters.node = {
-            enable = true;
-            listenAddress = cfg.containerAddress;
-            port = config.ptsd.nwtraefik.ports.prometheus-node;
-            enabledCollectors = import ../2configs/prometheus/node_collectors.nix;
+            time.timeZone = "Europe/Berlin";
+
+            i18n = {
+              defaultLocale = "de_DE.UTF-8";
+              supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
+            };
+
+            services.mysqlBackup = {
+              enable = true;
+              databases = [ "wordpress" ];
+            };
+
+            services.prometheus.exporters.node = {
+              enable = true;
+              listenAddress = cfg.containerAddress;
+              port = config.ptsd.nwtraefik.ports.prometheus-node;
+              enabledCollectors = import ../../../2configs/prometheus/node_collectors.nix;
+            };
           };
-        };
-    };
+      };
 
     ptsd.nwtraefik.services = [
       {

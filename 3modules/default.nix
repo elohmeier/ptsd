@@ -7,9 +7,6 @@ _:
     ./cups-airprint.nix
     #./desktop.nix  # prevent pulling in where no home-manager is present
     ./drone-server.nix
-    ./fraamdb.nix
-    ./fraam-gitlab.nix
-    ./fraam-www.nix
     ./loki.nix
     ./maddy.nix
     ./mautrix-whatsapp.nix
