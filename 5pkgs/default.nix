@@ -130,7 +130,12 @@ self: pkgs_master: super:
     qtFaststartProgram = false;
   };
 
-  ptsd-neovim = self.callPackage ./ptsd-neovim { };
+  ptsd-neovim-small = self.callPackage ./ptsd-neovim {
+    enableLSP = false;
+    enableFormatters = false;
+  };
+
+  ptsd-neovim-full = self.callPackage ./ptsd-neovim { };
 
   ptsd-nnn = self.nnn.override { withNerdIcons = true; };
 

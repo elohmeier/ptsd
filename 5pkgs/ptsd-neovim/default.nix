@@ -1,4 +1,5 @@
-{ wrapNeovimUnstable
+{ lib
+, wrapNeovimUnstable
 , neovim-unwrapped
 , neovimUtils
 , vimPlugins
@@ -9,14 +10,17 @@
 , nodePackages
 , nixpkgs-fmt
 , python3Packages
+, enableFormatters ? true
+, enableLSP ? true
 }:
+with lib;
 
 wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
   viAlias = true;
   vimAlias = true;
   withRuby = false;
   withPython3 = false;
-  extraPython3Packages = ps: with ps; [ python-language-server ];
+  extraPython3Packages = ps: with ps; optionals enableLSP [ python-language-server ];
 
   configure.packages.ptsd.start = with vimPlugins; [
     vim-nix
@@ -25,15 +29,14 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
     nvim-web-devicons
     neogit
     nvim-treesitter
-    nvim-lspconfig
     nvim-tree-lua
     hop-nvim
     nvim-compe
-    formatter-nvim
     telescope-nvim
     lualine-nvim
     neorg
-  ];
+  ] ++ (optional enableLSP nvim-lspconfig)
+  ++ (optional enableFormatters formatter-nvim);
 
   plugins = with vimPlugins; [
     vim-nix # TODO: rm when tree-sitter-nix works
@@ -71,21 +74,6 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
       '';
     }
     {
-      plugin = nvim-lspconfig;
-      config = ''
-        lua <<EOF
-        require'lspconfig'.gopls.setup{
-          cmd = { "${gopls}/bin/gopls" },
-        }
-        require'lspconfig'.rnix.setup{
-          cmd = { "${rnix-lsp}/bin/rnix-lsp" },
-        }
-        require'lspconfig'.pyright.setup{
-          cmd = { "${pyright}/bin/pyright-langserver", "--stdio" },
-        }
-        EOF'';
-    }
-    {
       plugin = nvim-tree-lua;
       config = "map <C-n> :NvimTreeToggle<CR>";
     }
@@ -118,61 +106,6 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
       '';
     }
     {
-      plugin = formatter-nvim;
-      config = ''
-        lua << EOF
-          require('formatter').setup({
-            filetype = {
-              go = {
-                function()
-                  return {
-                    exe = "${go}/bin/gofmt",
-                    stdin = true
-                  }
-                end
-              },
-              html = {
-                function()
-                  return {
-                    exe = "${nodePackages.prettier}/bin/prettier",
-                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
-                    stdin = true,
-                  }
-                  end
-              },
-              javascript = {
-                function()
-                  return {
-                    exe = "${nodePackages.prettier}/bin/prettier",
-                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
-                    stdin = true,
-                  }
-                  end
-              },
-              nix = {
-                function()
-                  return {
-                    exe = "${nixpkgs-fmt}/bin/nixpkgs-fmt",
-                    stdin = true
-                  }
-                end
-              },
-              python = {
-                function()
-                  return {
-                    exe = "${python3Packages.black}/bin/black",
-                    args = {"-"},
-                    stdin = true
-                  }
-                end
-              }
-            }
-          })
-        EOF
-        nnoremap <silent> <leader>i :Format<CR>
-      '';
-    }
-    {
       plugin = telescope-nvim;
       config = ''
         nnoremap <leader>ff <cmd>Telescope find_files<cr>
@@ -190,5 +123,83 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
       '';
     }
     neorg
-  ];
+  ]
+  ++ (optional enableLSP
+    {
+      plugin = nvim-lspconfig;
+      config = ''
+        lua <<EOF
+        require'lspconfig'.gopls.setup{
+          cmd = { "${gopls}/bin/gopls" },
+        }
+        require'lspconfig'.rnix.setup{
+          cmd = { "${rnix-lsp}/bin/rnix-lsp" },
+        }
+        require'lspconfig'.pyright.setup{
+          cmd = { "${pyright}/bin/pyright-langserver", "--stdio" },
+        }
+        EOF'';
+    }) ++
+
+  (
+    optional
+      enableFormatters
+      {
+        plugin = formatter-nvim;
+        config = ''
+          lua << EOF
+            require('formatter').setup({
+              filetype = {
+                go = {
+                  function()
+                    return {
+                      exe = "${go}/bin/gofmt",
+                      stdin = true
+                    }
+                  end
+                },
+                html = {
+                  function()
+                    return {
+                      exe = "${nodePackages.prettier}/bin/prettier",
+                      args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+                      stdin = true,
+                    }
+                    end
+                },
+                javascript = {
+                  function()
+                    return {
+                      exe = "${nodePackages.prettier}/bin/prettier",
+                      args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+                      stdin = true,
+                    }
+                    end
+                },
+                nix = {
+                  function()
+                    return {
+                      exe = "${nixpkgs-fmt}/bin/nixpkgs-fmt",
+                      stdin = true
+                    }
+                  end
+                },
+                python = {
+                  function()
+                    return {
+                      exe = "${python3Packages.black}/bin/black",
+                      args = {"-"},
+                      stdin = true
+                    }
+                  end
+                }
+              }
+            })
+          EOF
+          nnoremap <silent> <leader>i :Format<CR>
+        '';
+      }
+
+
+  );
 })

@@ -8,9 +8,10 @@ in
   imports = [
     ../3modules
     ./fish.nix
-    #./neovim.nix
     ./tor-ssh.nix
   ];
+
+  ptsd.neovim.enable = true;
 
   console.keyMap = mkDefault "de-latin1";
 

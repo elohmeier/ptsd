@@ -10,12 +10,13 @@ let
 in
 {
   imports = [
-    ../../neovim.nix
     ./packages.nix
     ./virtualisation.nix
 
     ../../users/enno.nix
   ];
+
+  ptsd.neovim.package = pkgs.ptsd-neovim-full;
 
   environment.variables = {
     GOPATH = "/home/enno/go";

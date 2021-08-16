@@ -14,6 +14,7 @@ _:
     ./monica.nix
     ./mosquitto.nix
     ./navidrome.nix
+    ./neovim.nix
     ./nwacme.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
