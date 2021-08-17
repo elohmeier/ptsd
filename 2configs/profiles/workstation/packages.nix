@@ -110,7 +110,6 @@
     nbconvert
     sqlitebrowser
     #filezilla
-    sqlitebrowser
     gnumake
     #nix-deploy
     #hcloud

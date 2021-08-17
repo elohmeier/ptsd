@@ -83,21 +83,21 @@ with lib;
   };
 
   services.samba.shares = {
-      scans = {
-        path = "/home/enno/repos/nobbofin/000_INBOX/scans";
-        browseable = "no";
-        "read only" = "no";
-        "guest ok" = "no";
-        "force group" = "users";
-        "force user" = "enno";
-      };
-      public = {
-        path = "/home/public";
-        browseable = "yes";
-        "read only" = "no";
-        "guest ok" = "yes";
-      };
+    scans = {
+      path = "/home/enno/repos/nobbofin/000_INBOX/scans";
+      browseable = "no";
+      "read only" = "no";
+      "guest ok" = "no";
+      "force group" = "users";
+      "force user" = "enno";
     };
+    public = {
+      path = "/home/public";
+      browseable = "yes";
+      "read only" = "no";
+      "guest ok" = "yes";
+    };
+  };
 
   users.users.scanner = { isSystemUser = true; };
 
