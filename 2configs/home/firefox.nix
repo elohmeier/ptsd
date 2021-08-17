@@ -8,7 +8,7 @@
         (fetchFirefoxAddon {
           name = "ublock_origin";
           url = "https://addons.mozilla.org/firefox/downloads/file/3816867/ublock_origin-1.37.2-an+fx.xpi";
-          sha256 = "sha256-2e73AbmYZlZXCP5ptYVcFjQYdjDp4iPoEPEOSCVF5sA=";
+          sha256 = "sha256-s6PIGJGstGIOM91Ui1A3Wq2CY3YESmFDtalH0EBqVZ4=";
         })
 
         (fetchFirefoxAddon {
