@@ -122,7 +122,24 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
         EOF
       '';
     }
-    neorg
+    {
+      plugin = neorg;
+      config = ''
+        lua << EOF
+          require('neorg').setup {
+            load = {
+              ["core.defaults"] = {},
+              ["core.keybinds"] = {
+                config = {
+                  default_keybinds = true,
+                },
+              },
+              ["core.norg.concealer"] = {},
+            },
+          }
+        EOF
+      '';
+    }
   ]
   ++ (optional enableLSP
     {
