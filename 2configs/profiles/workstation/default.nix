@@ -52,10 +52,13 @@ in
         ../../home/chromium.nix
         ../../home/firefox.nix
         ../../home/fish.nix
+        ../../home/git.nix
         ../../home/gpg.nix
         ../../home/tmux.nix
         ../../home/vscodium.nix
       ];
+
+      home.stateVersion = lib.mkDefault "20.09";
 
       programs.zathura = {
         enable = true;

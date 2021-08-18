@@ -14,6 +14,8 @@ in
     # TODO: activate prometheus http monitoring
     ../../2configs/prometheus/node.nix
 
+    ../../2configs/users/enno.nix # for git repo support
+
     ./modules/backup.nix
     ./modules/fraam-gdrive-backup.nix
     ./modules/grafana.nix
