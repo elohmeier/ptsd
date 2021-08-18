@@ -7,11 +7,7 @@ in
   imports = [
     ./config.nix
     ../../2configs/hw/ws2019.nix
-    ../../2configs/luks-ssh-unlock.nix
   ];
-
-  # fix often full /boot directory
-  # boot.loader.systemd-boot.configurationLimit = 2;
 
   system.stateVersion = "19.09";
 

@@ -70,7 +70,6 @@ in
   };
 
   home-manager.users.mainUser = { pkgs, ... }: {
-    home.stateVersion = "20.09";
     wayland.windowManager.sway = {
       extraConfig = ''
         output "Goldstar Company Ltd LG UltraFine 701NTAB7S144" pos 0 0 mode 4096x2304@59.999Hz scale 2
@@ -151,7 +150,7 @@ in
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
   boot.kernelParams = [
-    "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off"
+    #"ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off"
     "mitigations=off" # make linux fast again
     "amd_iommu=on"
     "video=vesafb:off"
@@ -184,7 +183,6 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    home-manager
     efibootmgr
     efitools
     tpm2-tools
