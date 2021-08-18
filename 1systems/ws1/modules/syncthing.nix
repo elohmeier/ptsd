@@ -44,7 +44,7 @@
       "/home/enno/repos" = {
         label = "repos";
         id = "jihdi-qxmi3";
-        devices = [ "nas1" "tp1" ];
+        devices = [ "nas1" "tp1" "ws2" ];
       };
       "/mnt/photos/photos" = {
         label = "photos";
