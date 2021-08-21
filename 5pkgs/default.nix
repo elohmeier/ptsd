@@ -88,8 +88,10 @@ self: pkgs_master: super:
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
       black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+      bloodhound-import = self.callPackage ../5pkgs/bloodhound-import { };
       davphonebook = self.callPackage ../5pkgs/davphonebook { };
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
+      neo4j-driver = self.callPackage ../5pkgs/neo4j-driver { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
     };
@@ -101,6 +103,7 @@ self: pkgs_master: super:
       beancount
       black
       black_nbconvert
+      bloodhound-import
       # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
       jupyterlab
       lxml
@@ -121,6 +124,7 @@ self: pkgs_master: super:
       nobbofin
       sshtunnel
       mysql-connector
+      boto3
     ]
   );
 
