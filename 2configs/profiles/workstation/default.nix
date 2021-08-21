@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
   term = rec {
@@ -54,6 +54,7 @@ in
         ../../home/fish.nix
         ../../home/git.nix
         ../../home/gpg.nix
+        ../../home/mpv.nix
         ../../home/tmux.nix
         ../../home/vscodium.nix
       ];
