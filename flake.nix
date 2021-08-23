@@ -190,6 +190,13 @@
             ];
           };
 
+          rpi4 = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./1systems/rpi4/physical.nix
+            ];
+          };
+
           tp1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ desktopModules ++ [

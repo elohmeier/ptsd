@@ -1,9 +1,8 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   imports = [
     ./config.nix
-    <nixpkgs/nixos/modules/installer/scan/not-detected.nix> # required for wifi
   ];
 
   boot.loader.grub.enable = false;
@@ -30,11 +29,11 @@
 
   boot.consoleLogLevel = 7;
 
-  hardware.opengl = {
-    enable = true;
-    setLdLibraryPath = true;
-    package = pkgs.mesa_drivers;
-  };
+  #hardware.opengl = {
+  #  enable = true;
+  #  setLdLibraryPath = true;
+  #  package = pkgs.mesa_drivers;
+  #};
   # hardware.deviceTree = {
   #   kernelPackage = pkgs.linux_rpi4;
   #   overlays = [
@@ -75,28 +74,28 @@
   #     { name = "vc4-fkms-v3d"; dtboFile = "${pkgs.device-tree_rpi.overlays}/vc4-fkms-v3d.dtbo"; }
   #   ];
   # };
-  services.xserver.videoDrivers = [ "modesetting" ];
+  #services.xserver.videoDrivers = [ "modesetting" ];
 
   boot.supportedFilesystems = [ "vfat" ];
 
-  fileSystems = {
-    "/boot" = {
-      # sdcard
-      #device = "/dev/disk/by-label/NIXOS_BOOT";
+  #  fileSystems = {
+  #    "/boot" = {
+  #      # sdcard
+  #      #device = "/dev/disk/by-label/NIXOS_BOOT";
 
-      # usb drive
-      device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
-      fsType = "vfat";
-    };
-    "/" = {
-      # sdcard
-      #device = "/dev/disk/by-label/NIXOS_SD";
+  #      # usb drive
+  #      device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part1";
+  #      fsType = "vfat";
+  #    };
+  #    "/" = {
+  #      # sdcard
+  #      #device = "/dev/disk/by-label/NIXOS_SD";
 
-      # usb drive
-      device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part2";
-      fsType = "ext4";
-    };
-  };
+  #      # usb drive
+  #      device = "/dev/disk/by-id/ata-Samsung_SSD_840_PRO_Series_S1AXNSADB07578D-part2";
+  #      fsType = "ext4";
+  #    };
+  #  };
 
   console.keyMap = "de-latin1";
 
