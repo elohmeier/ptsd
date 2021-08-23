@@ -62,10 +62,13 @@ self: pkgs_master: super:
   zathura-single = self.callPackage ./zathura-single { };
 
   ptsd-octoprintPlugins = plugins: {
-    telegram = plugins.callPackage ./octoprint-plugins/telegram.nix;
-    octolapse = plugins.callPackage ./octoprint-plugins/octolapse.nix;
-    prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix.nix;
-    prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix;
+    bedlevelvisualizer = plugins.callPackage ./octoprint-plugins/bedlevelvisualizer.nix { };
+    bltouch = plugins.callPackage ./octoprint-plugins/bltouch.nix { };
+    m73progress = plugins.callPackage ./octoprint-plugins/m73progress.nix { };
+    octolapse = plugins.callPackage ./octoprint-plugins/octolapse.nix { };
+    prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix.nix { };
+    prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
+    telegram = plugins.callPackage ./octoprint-plugins/telegram.nix { };
   };
 
   ptsd-python2 = self.python2.override {

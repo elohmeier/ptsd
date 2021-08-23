@@ -9,9 +9,10 @@ in
       ../../2configs
       ../../2configs/hardened.nix
       ../../2configs/nwhost.nix
-      ../../2configs/nerdworks-www.nix
-      ../../2configs/nwgit.nix
       ../../2configs/prometheus/node.nix
+
+      ./modules/nerdworks-www.nix
+      ./modules/nwgit.nix
     ];
 
   ptsd.nwbackup = {

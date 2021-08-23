@@ -6,8 +6,9 @@ with lib;
     ../../2configs
     ../../2configs/nwhost-mini.nix
     ../../2configs/prometheus/node.nix
-    ../../2configs/octoprint-klipper-ender3.nix
-    ../../2configs/hl5380dn.nix
+    ../../2configs/printers/hl5380dn.nix
+
+    ./modules/octoprint-klipper-ender3.nix
   ];
 
   ptsd.mjpg-streamer = {

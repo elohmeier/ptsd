@@ -6,15 +6,19 @@
   services.octoprint = {
     enable = true;
     port = config.ptsd.nwtraefik.ports.octoprint;
-    plugins = plugins: with plugins; [
-      printtimegenius
-      (callPackage ../5pkgs/octoprint-plugins/telegram.nix { })
-      curaenginelegacy
-      gcodeeditor
-      octoklipper
-      (callPackage ../5pkgs/octoprint-plugins/bedlevelvisualizer.nix { })
-      (callPackage ../5pkgs/octoprint-plugins/m73progress.nix { })
-    ];
+    plugins = plugins:
+      let
+        ptsdPlugins = pkgs.ptsd-octoprintPlugins plugins;
+      in
+      [
+        plugins.printtimegenius
+        ptsdPlugins.telegram
+        plugins.curaenginelegacy
+        plugins.gcodeeditor
+        plugins.octoklipper
+        ptsdPlugins.bedlevelvisualizer
+        ptsdPlugins.m73progress
+      ];
     extraConfig = {
       plugins = {
         _disabled = [
