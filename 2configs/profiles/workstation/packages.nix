@@ -1,6 +1,7 @@
 { pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
+    awscli2
     gcolor3
     syncthing
     geckodriver
