@@ -27,6 +27,11 @@ in
   security.pam.services.lightdm.enableGnomeKeyring = true;
   services.gnome.gnome-keyring.enable = true;
 
+  i18n = {
+    defaultLocale = "en_IE.UTF-8";
+    extraLocaleSettings.LC_TIME = "en_DK.UTF-8"; # ISO 8601 dates
+    supportedLocales = [ "en_IE.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
+  };
 
   virtualisation.spiceUSBRedirection.enable = true;
 

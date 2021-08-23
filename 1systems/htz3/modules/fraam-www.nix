@@ -98,13 +98,6 @@ in
               ];
             };
 
-            time.timeZone = "Europe/Berlin";
-
-            i18n = {
-              defaultLocale = "de_DE.UTF-8";
-              supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-            };
-
             services.mysqlBackup = {
               enable = true;
               databases = [ "wordpress" ];
