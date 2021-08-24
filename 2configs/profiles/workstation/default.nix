@@ -16,6 +16,13 @@ in
     ../../users/enno.nix
   ];
 
+  environment.pathsToLink = [ "/share/nmap" ];
+
+  # for BloodHound
+  services.neo4j = {
+    enable = true;
+  };
+
   ptsd.neovim.package = pkgs.ptsd-neovim-full;
 
   environment.variables = {

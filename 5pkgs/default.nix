@@ -72,8 +72,8 @@ self: pkgs_master: super:
   };
 
   ptsd-python2 = self.python2.override {
-    packageOverrides = self: super: rec {
-      certifi = super.buildPythonPackage rec {
+    packageOverrides = pyself: pysuper: rec {
+      certifi = pysuper.buildPythonPackage rec {
         pname = "certifi";
         version = "2020.04.05.1"; # last version with python2 support
         src = self.fetchFromGitHub {
@@ -128,6 +128,8 @@ self: pkgs_master: super:
       sshtunnel
       mysql-connector
       boto3
+      impacket
+      pycrypto
     ]
   );
 

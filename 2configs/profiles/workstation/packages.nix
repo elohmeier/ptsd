@@ -120,6 +120,7 @@
     #openshift
     #minishift
     cachix
+    ptsd-py2env
     ptsd-py3env
     #docker_compose
     #kakoune
