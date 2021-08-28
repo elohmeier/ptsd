@@ -104,7 +104,6 @@ in
       in
       [
         (crt "auth.nerdworks.de")
-        (crt "mail.nerdworks.de")
         (crt "matrix.nerdworks.de")
       ];
     services = [
@@ -159,6 +158,7 @@ in
       };
 
       # configured in nwacme module
+      # make sure to update the TLSA record as well when updating the certificates
       "htz2.host.nerdworks.de" = {
         extraDomainNames = [ "mail.nerdworks.de" ];
         postRun = "systemctl restart maddy.service traefik.service";
