@@ -10,6 +10,7 @@
 , nodePackages
 , nixpkgs-fmt
 , python3Packages
+, clang-tools
 , enableFormatters ? true
 , enableLSP ? true
 }:
@@ -167,6 +168,26 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
           lua << EOF
             require('formatter').setup({
               filetype = {
+                c = {
+                  function()
+                    return {
+                      exe = "${clang-tools}/bin/clang-format",
+                      args = {"--assume-filename", vim.api.nvim_buf_get_name(0)},
+                      stdin = true,
+                      cwd = vim.fn.expand('%:p:h')
+                    }
+                  end
+                },
+                cpp = {
+                  function()
+                    return {
+                      exe = "${clang-tools}/bin/clang-format",
+                      args = {"--assume-filename", vim.api.nvim_buf_get_name(0)},
+                      stdin = true,
+                      cwd = vim.fn.expand('%:p:h')
+                    }
+                  end
+                },
                 go = {
                   function()
                     return {
@@ -185,6 +206,15 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
                     end
                 },
                 javascript = {
+                  function()
+                    return {
+                      exe = "${nodePackages.prettier}/bin/prettier",
+                      args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+                      stdin = true,
+                    }
+                    end
+                },
+                json = {
                   function()
                     return {
                       exe = "${nodePackages.prettier}/bin/prettier",
