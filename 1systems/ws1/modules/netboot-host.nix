@@ -1,4 +1,4 @@
-{ config, lib, modulesPath, pkgs, nixpkgs, ... }:
+{ config, lib, modulesPath, pkgs, nixpkgs, nixos-hardware, ... }:
 
 let
   interface = "enp39s0";
@@ -7,9 +7,57 @@ let
   bootSystem = nixpkgs.lib.nixosSystem {
     system = "aarch64-linux";
     modules = [
-      (modulesPath + "/installer/netboot/netboot-minimal.nix")
+      nixos-hardware.nixosModules.raspberry-pi-4
+      (modulesPath + "/installer/netboot/netboot.nix")
+      ../../..
 
       ({ pkgs, ... }: {
+        boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
+
+        hardware.raspberry-pi."4".fkms-3d.enable = true;
+
+        hardware.opengl = {
+          enable = true;
+          driSupport = true;
+        };
+
+        nix.nixPath = [
+          "nixpkgs=${nixpkgs}"
+        ];
+
+        console.keyMap = "de-latin1";
+
+        programs.sway = {
+          enable = true;
+        };
+
+        networking = {
+          useNetworkd = true;
+          useDHCP = false;
+          hostName = "rpi4";
+          interfaces.eth0.useDHCP = true;
+        };
+
+        users.users.enno = {
+          isNormalUser = true;
+          extraGroups = [ "wheel" "networkmanager" "video" ];
+          initialHashedPassword = "";
+          openssh.authorizedKeys.keys =
+            let
+              sshPubKeys = import ../../../2configs/users/ssh-pubkeys.nix; in
+            [
+              sshPubKeys.sshPub.enno_yubi41
+              sshPubKeys.sshPub.enno_yubi49
+            ];
+        };
+
+        services.openssh.enable = true;
+        services.getty.autologinUser = "enno";
+        security.sudo = {
+          enable = true;
+          wheelNeedsPassword = false;
+        };
+
         system.build.firmware =
           let
             configTxt = pkgs.writeText "config.txt" ''
@@ -24,6 +72,10 @@ let
               # Otherwise the resolution will be weird in most cases, compared to
               # what the pi3 firmware does by default.
               disable_overscan=1
+
+              # GPU config
+              dtoverlay=vc4-kms-v3d-pi4
+              gpu_mem=128
 
               [all]
               # Boot in 64-bit mode.
@@ -55,32 +107,23 @@ let
             # Add pi4 specific files
             cp ${pkgs.ubootRaspberryPi4_64bit}/u-boot.bin $out/u-boot-rpi4.bin
             cp ${pkgs.raspberrypi-armstubs}/armstub8-gic.bin $out/armstub8-gic.bin
-            cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb $out/   
+            cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb $out/
           '';
       })
-
     ];
   };
 
   # see https://github.com/ARM-software/u-boot/blob/master/doc/README.pxe
-  pxelinuxMenu = pkgs.writeTextFile
-    {
-      name = "pxelinux-menu";
-      text = ''
-        menu title Linux selections
-
-        label nixos
-          kernel Image
-          append init=${bootSystem.config.system.build.toplevel}/init ${toString bootSystem.config.boot.kernelParams}
-          initrd initrd
-      '';
-      destination = "/pxelinux.cfg/menus/base.menu";
-    };
-
   pxelinuxConfig = pkgs.writeTextFile {
     name = "pxelinux-config";
     text = ''
-      menu include pxelinux.cfg/menus/base.menu
+      menu title Linux selections
+
+      label nixos
+        kernel Image
+        append init=${bootSystem.config.system.build.toplevel}/init ${toString bootSystem.config.boot.kernelParams}
+        initrd initrd
+    
       timeout 10
 
       default nixos
@@ -93,41 +136,15 @@ let
     paths = [
       netbootRamdisk
       kernel
+      "${kernel}/dtbs" # rpi expects "overlays" folder on root level
       firmware
       pxelinuxConfig
-      pxelinuxMenu
     ];
   };
 in
 {
-
-  services.nginx = {
-    enable = true;
-    virtualHosts = {
-      "${localIP}" = {
-        listen = [{
-          addr = localIP;
-        }];
-        locations."/" = {
-          root = tftpRoot;
-        };
-      };
-    };
-  };
-
-  services.atftpd = {
-    enable = false;
-    root = tftpRoot;
-    extraOptions = [
-      "--verbose=7"
-      "--bind-address ${localIP}"
-    ];
-  };
-
   networking = {
     firewall = {
-      trustedInterfaces = [ interface ];
-
       interfaces."${interface}" = {
         allowedTCPPorts = [
           53 # dns
@@ -155,15 +172,34 @@ in
         #DHCPServer = true;
         Address = "${localIP}/24";
       };
-      #dhcpServerConfig = {
-      #  SendOption = [
-      #    "0:string:bla"
-      #    "67:string:ipxe.efi"
-      #    "128:ipv4address:${localIP}"
-      #  ];
-      #};
+      dhcpServerConfig = {
+        # requires systemd v248, see
+        # https://github.com/systemd/systemd/commit/986c0edfcb9f69160658fd8a88cb72f0d7d208d3
+        # (NixOS 21.05 has v247)
+        #  SendOption = [
+        #    "60:string:PXEClient"
+        #    #"60:ipv4address:${localIP}"
+        #     "128:ipv4address:${localIP}"
+        #  ];
+        #  SendVendorOption = [
+        #    "6:uint8:3"
+        #    "10:string:PXE"
+        #    "9:string:Raspberry Pi Boot"
+        #  ];
+      };
     };
   };
+
+  # for later use with systemd-networkd
+  # services.atftpd = {
+  #   enable = true;
+  #   root = tftpRoot;
+  #   extraOptions = [
+  #     "--verbose=7"
+  #     "--bind-address ${localIP}"
+  #   ];
+  # };
+
 
   services.dnsmasq = {
     enable = true;
@@ -172,10 +208,8 @@ in
       interface=${interface}
       bind-interfaces
 
-      # disable dns
-      port=0
-
       dhcp-range=172.16.77.20,172.16.77.50
+      dhcp-host=dc:a6:32:cb:6a:bc,rpi4,172.16.77.2
       log-dhcp
 
       enable-tftp

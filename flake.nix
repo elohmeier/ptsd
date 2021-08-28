@@ -210,6 +210,7 @@
             modules = defaultModules ++ desktopModules ++ [
               ./1systems/ws1/physical.nix
             ];
+            specialArgs = { inherit nixpkgs nixos-hardware; };
           };
 
           ws2 = nixpkgs.lib.nixosSystem {
