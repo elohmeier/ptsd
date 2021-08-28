@@ -19,7 +19,28 @@ in
     ../../2configs/nvidia-headless.nix
 
     ./modules/syncthing.nix
+    ./modules/netboot-host.nix
   ];
+
+  programs.ssh.knownHosts."18.193.115.167".publicKey =
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJYuIUn5f2MGpd2+nTkLBdQ4zTC/3TMvUpf6D1+dtE+F";
+
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+
+  #   nix = {
+  #     distributedBuilds = true;
+  #     buildMachines = [
+  #       {
+  #         hostName = "18.193.115.167";
+  #         maxJobs = 64;
+  #         sshKey = "/home/enno/repos/ptsd/awsbuilder.id_ed25519";
+  #         sshUser = "root";
+  #         system = "aarch64-linux";
+  #         supportedFeatures = [ "big-parallel" ];
+  #       }
+  #     ];
+  #   };
 
   ptsd.photoprism = {
     enable = true;
