@@ -52,4 +52,6 @@
       ${pkgs.zoxide}/bin/zoxide init fish | source
     '';
   };
+
+  environment.systemPackages = [ pkgs.zoxide ];
 }
