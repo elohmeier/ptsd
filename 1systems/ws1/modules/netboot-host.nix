@@ -1,10 +1,10 @@
-{ config, lib, modulesPath, pkgs, nixpkgs, nixos-hardware, ... }:
+{ config, lib, modulesPath, pkgs, nixpkgs-master, nixos-hardware, ... }:
 
 let
   interface = "enp39s0";
   localIP = "172.16.77.1";
 
-  bootSystem = nixpkgs.lib.nixosSystem {
+  bootSystem = nixpkgs-master.lib.nixosSystem {
     system = "aarch64-linux";
     modules = [
       nixos-hardware.nixosModules.raspberry-pi-4
@@ -14,6 +14,8 @@ let
       ({ pkgs, ... }: {
         boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
 
+        boot.kernelParams = [ "nomodeset" ];
+
         hardware.raspberry-pi."4".fkms-3d.enable = true;
 
         hardware.opengl = {
@@ -22,7 +24,7 @@ let
         };
 
         nix.nixPath = [
-          "nixpkgs=${nixpkgs}"
+          "nixpkgs=${nixpkgs-master}"
         ];
 
         console.keyMap = "de-latin1";
@@ -58,6 +60,7 @@ let
           wheelNeedsPassword = false;
         };
 
+        # https://github.com/raspberrypi/linux/issues/4020
         system.build.firmware =
           let
             configTxt = pkgs.writeText "config.txt" ''
@@ -73,9 +76,13 @@ let
               # what the pi3 firmware does by default.
               disable_overscan=1
 
-              # GPU config
-              dtoverlay=vc4-kms-v3d-pi4
-              gpu_mem=128
+              # GPU/Display config
+              ignore_lcd=0
+              dtoverlay=vc4-fkms-v3d-pi4
+              #dtoverlay=vc4-kms-dsi-7inch
+              #gpu_mem=128
+              max_framebuffers=2
+              disable_fw_kms_setup=1
 
               [all]
               # Boot in 64-bit mode.
