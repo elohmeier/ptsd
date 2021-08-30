@@ -1,4 +1,4 @@
-{ config, lib, modulesPath, pkgs, nixpkgs-master, nixos-hardware, ... }:
+{ config, lib, modulesPath, pkgs, home-manager, nixpkgs-master, nixos-hardware, ... }:
 
 let
   interface = "enp39s0";
@@ -8,13 +8,14 @@ let
     system = "aarch64-linux";
     modules = [
       nixos-hardware.nixosModules.raspberry-pi-4
+      home-manager.nixosModule
       (modulesPath + "/installer/netboot/netboot.nix")
       ../../..
+      #../../../2configs/fish.nix
 
       ({ pkgs, ... }: {
         boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
-
-        boot.kernelParams = [ "nomodeset" ];
+        #boot.kernelParams = [ "nomodeset" ];
 
         hardware.raspberry-pi."4".fkms-3d.enable = true;
 
@@ -24,6 +25,7 @@ let
         };
 
         nix.nixPath = [
+          #          "home-manager=${home-manager}"
           "nixpkgs=${nixpkgs-master}"
         ];
 
@@ -31,7 +33,22 @@ let
 
         programs.sway = {
           enable = true;
+          extraPackages = with pkgs; [
+            foot
+            dmenu
+          ];
         };
+
+        environment.variables = {
+          # enable touchscreen support in firefox
+          MOZ_USE_XINPUT2 = 1;
+        };
+
+        # initrd shouldn't get too large...
+        # environment.systemPackages = with pkgs; [
+        #   firefox
+        #   glxinfo
+        # ];
 
         networking = {
           useNetworkd = true;
@@ -51,7 +68,45 @@ let
               sshPubKeys.sshPub.enno_yubi41
               sshPubKeys.sshPub.enno_yubi49
             ];
+          #          shell = pkgs.fish;
         };
+
+
+        programs.bash = {
+          loginShellInit = ''
+            # If running from tty1 start sway
+            if [ "$(tty)" = "/dev/tty1" ]; then
+              # pass sway log output to journald
+              exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
+            fi
+          '';
+        };
+
+        home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
+          {
+            imports = [
+              #../../../2configs/home/fish.nix
+            ];
+
+            wayland.windowManager.sway = {
+              enable = true;
+              config = {
+                input = {
+                  "*" = {
+                    xkb_layout = "de";
+                  };
+
+                  raspberrypi-ts = {
+                    map_to_output = "DSI-1";
+                  };
+                };
+                modifier = "Mod4";
+                terminal = "${pkgs.foot}/bin/foot";
+              };
+            };
+
+            home.stateVersion = "21.05";
+          };
 
         services.openssh.enable = true;
         services.getty.autologinUser = "enno";
@@ -63,59 +118,60 @@ let
         # https://github.com/raspberrypi/linux/issues/4020
         system.build.firmware =
           let
-            configTxt = pkgs.writeText "config.txt" ''
-              [pi3]
-              kernel=u-boot-rpi3.bin
+            configTxt = pkgs.writeText
+              "config.txt"
+              ''
+                [pi3]
+                kernel=u-boot-rpi3.bin
 
-              [pi4]
-              kernel=u-boot-rpi4.bin
-              enable_gic=1
-              armstub=armstub8-gic.bin
+                [pi4]
+                kernel=u-boot-rpi4.bin
+                enable_gic=1
+                armstub=armstub8-gic.bin
 
-              # Otherwise the resolution will be weird in most cases, compared to
-              # what the pi3 firmware does by default.
-              disable_overscan=1
+                # Otherwise the resolution will be weird in most cases, compared to
+                # what the pi3 firmware does by default.
+                disable_overscan=1
 
-              # GPU/Display config
-              ignore_lcd=0
-              dtoverlay=vc4-fkms-v3d-pi4
-              #dtoverlay=vc4-kms-dsi-7inch
-              #gpu_mem=128
-              max_framebuffers=2
-              disable_fw_kms_setup=1
+                # GPU/Display config
+                dtoverlay=vc4-fkms-v3d
+                gpu_mem=128                
 
-              [all]
-              # Boot in 64-bit mode.
-              arm_64bit=1
+                [all]
+                # Boot in 64-bit mode.
+                arm_64bit=1
 
-              # U-Boot needs this to work, regardless of whether UART is actually used or not.
-              # Look in arch/arm/mach-bcm283x/Kconfig in the U-Boot tree to see if this is still
-              # a requirement in the future.
-              enable_uart=1
+                # U-Boot needs this to work, regardless of whether UART is actually used or not.
+                # Look in arch/arm/mach-bcm283x/Kconfig in the U-Boot tree to see if this is still
+                # a requirement in the future.
+                enable_uart=1
 
-              # Prevent the firmware from smashing the framebuffer setup done by the mainline kernel
-              # when attempting to show low-voltage or overtemperature warnings.
-              avoid_warnings=1
+                # Prevent the firmware from smashing the framebuffer setup done by the mainline kernel
+                # when attempting to show low-voltage or overtemperature warnings.
+                avoid_warnings=1
 
-              # disable missing sdcard log spam
-              dtparam=sd_poll_once=on
-            '';
+                # disable missing sdcard log spam
+                dtparam=sd_poll_once=on
+              '';
           in
-          pkgs.runCommand "firmware" { } ''
-            mkdir -p $out
-            (cd ${pkgs.raspberrypifw}/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $out/)
+          pkgs.runCommand
+            "firmware"
+            { }
+            ''
+              mkdir -p $out
+              (cd ${pkgs.raspberrypifw}/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $out/)
 
-            # Add the config
-            cp ${configTxt} $out/config.txt
+              # Add the config
+              cp ${configTxt} $out/config.txt
 
-            # Add pi3 specific files
-            cp ${pkgs.ubootRaspberryPi3_64bit}/u-boot.bin $out/u-boot-rpi3.bin
+              # Add pi3 specific files
+              cp ${pkgs.ubootRaspberryPi3_64bit}/u-boot.bin $out/u-boot-rpi3.bin
 
-            # Add pi4 specific files
-            cp ${pkgs.ubootRaspberryPi4_64bit}/u-boot.bin $out/u-boot-rpi4.bin
-            cp ${pkgs.raspberrypi-armstubs}/armstub8-gic.bin $out/armstub8-gic.bin
-            cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb $out/
-          '';
+              # Add pi4 specific files
+              cp ${pkgs.ubootRaspberryPi4_64bit}/u-boot.bin $out/u-boot-rpi4.bin
+              cp ${pkgs.raspberrypi-armstubs}/armstub8-gic.bin $out/armstub8-gic.bin
+              cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb $out/
+            '';
       })
     ];
   };

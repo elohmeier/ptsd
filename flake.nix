@@ -197,6 +197,17 @@
             ];
           };
 
+          rpi4_netboot = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ({ modulesPath, ... }: {
+                imports = [
+                  (modulesPath + "/installer/netboot/netboot-minimal.nix")
+                ];
+              })
+            ];
+          };
+
           tp1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ desktopModules ++ [
@@ -210,7 +221,7 @@
             modules = defaultModules ++ desktopModules ++ [
               ./1systems/ws1/physical.nix
             ];
-            specialArgs = { inherit nixpkgs nixos-hardware; };
+            specialArgs = { inherit nixpkgs-master nixos-hardware home-manager; };
           };
 
           ws2 = nixpkgs.lib.nixosSystem {
