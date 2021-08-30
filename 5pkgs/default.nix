@@ -107,6 +107,7 @@ self: pkgs_master: super:
       black
       black_nbconvert
       bloodhound-import
+      holidays
       # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
       jupyterlab
       lxml

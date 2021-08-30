@@ -1,6 +1,7 @@
 { pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
+    discord
     awscli2
     gcolor3
     syncthing
@@ -150,7 +151,7 @@
     # *** media ***
     audacity
     ptsd-ffmpeg
-    mpv
+    #mpv # via home-manager...
     imagemagick
     ffmpeg-normalize
     youtube-dl

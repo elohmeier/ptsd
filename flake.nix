@@ -192,20 +192,25 @@
 
           rpi4 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = defaultModules ++ [
-              ./1systems/rpi4/physical.nix
+            modules = [
+              ./1systems/rpi4/config.nix
+              nixos-hardware.nixosModules.raspberry-pi-4
+              home-manager.nixosModule
             ];
+            specialArgs = { inherit nixpkgs-master; };
           };
 
-          rpi4_netboot = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
+          rpi4_netboot = nixpkgs-master.lib.nixosSystem {
+            system = "aarch64-linux";
             modules = [
+              ./1systems/rpi4/config.nix
+              nixos-hardware.nixosModules.raspberry-pi-4
+              home-manager.nixosModule
               ({ modulesPath, ... }: {
-                imports = [
-                  (modulesPath + "/installer/netboot/netboot-minimal.nix")
-                ];
+                imports = [ (modulesPath + "/installer/netboot/netboot.nix") ];
               })
             ];
+            specialArgs = { inherit nixpkgs-master; };
           };
 
           tp1 = nixpkgs.lib.nixosSystem {
