@@ -15,6 +15,9 @@ let
     system = "aarch64-linux";
     modules = [
       ../../rpi4/config.nix
+      #../../rpi4/sway.nix
+
+      ../../rpi4/kodi.nix
 
       ({ modulesPath, pkgs, ... }: {
         imports = [

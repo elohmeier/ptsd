@@ -7,7 +7,6 @@
 {
   imports = [
     ../..
-    ../../2configs/fish.nix
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
@@ -35,24 +34,11 @@
 
   console.keyMap = "de-latin1";
 
-  programs.sway = {
-    enable = true;
-    extraPackages = with pkgs; [
-      foot
-      dmenu
-    ];
-  };
-
   environment.variables = {
     # enable touchscreen support in firefox
     MOZ_USE_XINPUT2 = "1";
   };
 
-  # initrd shouldn't get too large...
-  # environment.systemPackages = with pkgs; [
-  #   firefox
-  #   glxinfo
-  # ];
 
   networking = {
     useNetworkd = true;
@@ -72,7 +58,6 @@
         sshPubKeys.sshPub.enno_yubi41
         sshPubKeys.sshPub.enno_yubi49
       ];
-    #          shell = pkgs.fish;
   };
 
   programs.bash = {
@@ -84,40 +69,6 @@
       fi
     '';
   };
-
-  home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
-    {
-      imports = [
-        ../../2configs/home/fish.nix
-      ];
-
-      wayland.windowManager.sway = {
-        enable = true;
-        config = {
-          bars = [{
-            command = "${pkgs.waybar}/bin/waybar";
-          }];
-
-          input = {
-            "*" = {
-              xkb_layout = "de";
-            };
-
-            raspberrypi-ts = {
-              map_to_output = "DSI-1";
-            };
-          };
-          modifier = "Mod4";
-          terminal = "${pkgs.foot}/bin/foot";
-        };
-      };
-
-      programs.waybar = {
-        enable = true;
-      };
-
-      home.stateVersion = "21.05";
-    };
 
   services.openssh.enable = true;
   services.getty.autologinUser = "enno";
