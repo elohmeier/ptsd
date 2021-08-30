@@ -1252,13 +1252,28 @@ in
                       repeat_rate = "45";
                     };
                   };
+
+                  focus.mouseWarping = false;
+
+                  seat = {
+                    "*" = {
+                      xcursor_theme = "Adwaita 16";
+                      hide_cursor = toString (cfg.hideCursorIdleSec * 1000);
+                    };
+                  };
+
+                  startup = [
+                    {
+                      command = "systemctl --user restart foot.service";
+                    }
+                    {
+                      command = "${config.programs.waybar.package}/bin/waybar";
+                    }
+                  ];
                 };
 
               extraConfig = extraConfig + ''
-                set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock  
-                seat * hide_cursor ${toString (cfg.hideCursorIdleSec * 1000)}
-                mouse_warping none
-                exec ${config.programs.waybar.package}/bin/waybar
+                set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
               '' + optionalString (cfg.autolock.enable) ''
                 exec ${pkgs.swayidle}/bin/swayidle -w \
                   timeout 300 '${lockCmd}' \
