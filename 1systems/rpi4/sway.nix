@@ -1,9 +1,6 @@
 { pkgs, ... }:
 
 {
-  imports = [
-    ../../2configs/fish.nix
-  ];
 
   programs.sway = {
     enable = true;
@@ -19,18 +16,10 @@
   #   glxinfo
   # ];
 
-  users.users.enno.shell = pkgs.fish;
-
   fonts.fonts = with pkgs; [ source-code-pro ];
-
-
 
   home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
     {
-      imports = [
-        ../../2configs/home/fish.nix
-      ];
-
       wayland.windowManager.sway = {
         enable = true;
         config = {
@@ -96,7 +85,5 @@
           }
         '';
       };
-
-      home.stateVersion = "21.05";
     };
 }

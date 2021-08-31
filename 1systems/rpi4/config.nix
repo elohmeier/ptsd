@@ -7,6 +7,7 @@
 {
   imports = [
     ../..
+    ../../2configs/fish.nix
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
@@ -39,6 +40,7 @@
     MOZ_USE_XINPUT2 = "1";
   };
 
+  environment.systemPackages = [ pkgs.foot.terminfo ];
 
   networking = {
     useNetworkd = true;
@@ -58,7 +60,17 @@
         sshPubKeys.sshPub.enno_yubi41
         sshPubKeys.sshPub.enno_yubi49
       ];
+    shell = pkgs.fish;
   };
+
+  home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
+    {
+      imports = [
+        ../../2configs/home/fish.nix
+      ];
+
+      home.stateVersion = "21.05";
+    };
 
   programs.bash = {
     loginShellInit = ''
