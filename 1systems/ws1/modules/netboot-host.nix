@@ -15,16 +15,73 @@ let
     system = "aarch64-linux";
     modules = [
       ../../rpi4/config.nix
-      #../../rpi4/sway.nix
+      ../../rpi4/sway.nix
 
-      ../../rpi4/kodi.nix
+      #../../rpi4/kodi.nix
 
-      ({ modulesPath, pkgs, ... }: {
+      ({ modulesPath, config, pkgs, ... }: {
         imports = [
           nixos-hardware.nixosModules.raspberry-pi-4
           home-manager.nixosModule
-          (modulesPath + "/installer/netboot/netboot.nix")
         ];
+
+        boot.kernelParams = [ "ip=dhcp" ];
+
+        boot.initrd.network.enable = true;
+        boot.initrd.availableKernelModules = [ "overlay" ];
+        boot.initrd.kernelModules = [ "overlay" ];
+
+        # required networking config for successful nfsroot boot
+        networking = {
+          useNetworkd = lib.mkForce false;
+          useDHCP = lib.mkForcefalse;
+          interfaces.eth0.useDHCP = lib.mkForce false;
+        };
+
+        fileSystems."/" = {
+          fsType = "tmpfs";
+          options = [ "mode=0755" ];
+        };
+
+        fileSystems."/nix/.ro-store" = {
+          fsType = "nfs";
+          device = "${localIP}:/";
+          options = [ "nfsvers=4" ];
+          neededForBoot = true;
+        };
+
+        fileSystems."/nix/.rw-store" = {
+          fsType = "tmpfs";
+          options = [ "mode=0755" ];
+          neededForBoot = true;
+        };
+
+        fileSystems."/nix/store" = {
+          fsType = "overlay";
+          device = "overlay";
+          options = [
+            "lowerdir=/nix/.ro-store"
+            "upperdir=/nix/.rw-store/store"
+            "workdir=/nix/.rw-store/work"
+          ];
+          depends = [
+            "/nix/.ro-store"
+            "/nix/.rw-store/store"
+            "/nix/.rw-store/work"
+          ];
+        };
+
+        boot.postBootCommands =
+          ''
+            # After booting, register the contents of the Nix store
+            # in the Nix database in the tmpfs.
+            ${config.nix.package}/bin/nix-store --load-db < /nix/store/nix-path-registration
+
+            # nixos-rebuild also requires a "system" profile and an
+            # /etc/NIXOS tag.
+            touch /etc/NIXOS
+            ${config.nix.package}/bin/nix-env -p /nix/var/nix/profiles/system --set /run/current-system
+          '';
 
         # https://github.com/raspberrypi/linux/issues/4020
         system.build.firmware =
@@ -36,7 +93,8 @@ let
                 kernel=u-boot-rpi3.bin
 
                 [pi4]
-                kernel=u-boot-rpi4.bin
+                kernel=Image
+                initramfs initrd
                 enable_gic=1
                 armstub=armstub8-gic.bin
 
@@ -52,11 +110,6 @@ let
                 # Boot in 64-bit mode.
                 arm_64bit=1
 
-                # U-Boot needs this to work, regardless of whether UART is actually used or not.
-                # Look in arch/arm/mach-bcm283x/Kconfig in the U-Boot tree to see if this is still
-                # a requirement in the future.
-                enable_uart=1
-
                 # Prevent the firmware from smashing the framebuffer setup done by the mainline kernel
                 # when attempting to show low-voltage or overtemperature warnings.
                 avoid_warnings=1
@@ -64,6 +117,8 @@ let
                 # disable missing sdcard log spam
                 dtparam=sd_poll_once=on
               '';
+
+            cmdlineTxt = pkgs.writeText "cmdline.txt" "init=${bootSystem.config.system.build.toplevel}/init ${toString bootSystem.config.boot.kernelParams}";
           in
           pkgs.runCommand
             "firmware"
@@ -72,66 +127,60 @@ let
               mkdir -p $out
               (cd ${pkgs.raspberrypifw}/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $out/)
 
-              # Add the config
+              # Add the config / cmdline
               cp ${configTxt} $out/config.txt
-
-              # Add pi3 specific files
-              cp ${pkgs.ubootRaspberryPi3_64bit}/u-boot.bin $out/u-boot-rpi3.bin
+              cp ${cmdlineTxt} $out/cmdline.txt
 
               # Add pi4 specific files
-              cp ${pkgs.ubootRaspberryPi4_64bit}/u-boot.bin $out/u-boot-rpi4.bin
               cp ${pkgs.raspberrypi-armstubs}/armstub8-gic.bin $out/armstub8-gic.bin
               cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb $out/
             '';
+
+        system.build.nfsroot = pkgs.runCommand "nfsroot" { } ''
+          closureInfo=${pkgs.closureInfo { rootPaths = [ config.system.build.toplevel ]; }}
+          mkdir $out
+          cp $closureInfo/registration nix-path-registration
+          cp -r nix-path-registration $(cat $closureInfo/store-paths) $out
+        '';
       })
     ];
     specialArgs = { inherit nixpkgs-master; };
   };
 
-  # see https://github.com/ARM-software/u-boot/blob/master/doc/README.pxe
-  pxelinuxConfig = pkgs.writeTextFile {
-    name = "pxelinux-config";
-    text = ''
-      menu title Linux selections
-
-      label nixos
-        kernel Image
-        append init=${bootSystem.config.system.build.toplevel}/init ${toString bootSystem.config.boot.kernelParams}
-        initrd initrd
-    
-      timeout 10
-
-      default nixos
-    '';
-    destination = "/pxelinux.cfg/default";
-  };
-
   tftpRoot = with bootSystem.config.system.build; pkgs.symlinkJoin {
     name = "ipxeBootDir";
     paths = [
-      netbootRamdisk
+      initialRamdisk
       kernel
       "${kernel}/dtbs" # rpi expects "overlays" folder on root level
       firmware
-      pxelinuxConfig
     ];
   };
+
 in
 {
+  services.nfs.server = {
+    enable = true;
+    exports = ''
+      ${bootSystem.config.system.build.nfsroot} 172.16.77.0/24(fsid=0,ro,async,no_root_squash,no_subtree_check)
+    '';
+  };
+
   networking = {
     firewall = {
       interfaces."${interface}" = {
         allowedTCPPorts = [
           53 # dns
-          4011 # pixiecore
-          config.services.pixiecore.port
-          config.services.pixiecore.statusPort
+          111 # nfs
+          2049 # nfs
         ];
         allowedUDPPorts = [
           53 #dns
           67 # dhcp
           68 # dhcp
           69 # tftp
+          111 # nfs
+          2049 # nfs
         ];
       };
       connectionTrackingModules = [ "tftp" ];
