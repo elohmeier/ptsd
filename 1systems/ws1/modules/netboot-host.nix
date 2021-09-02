@@ -19,7 +19,7 @@ let
 
       #../../rpi4/kodi.nix
 
-      ({ modulesPath, config, pkgs, ... }: {
+      ({ modulesPath, config, lib, pkgs, ... }: {
         imports = [
           nixos-hardware.nixosModules.raspberry-pi-4
           home-manager.nixosModule
@@ -34,7 +34,7 @@ let
         # required networking config for successful nfsroot boot
         networking = {
           useNetworkd = lib.mkForce false;
-          useDHCP = lib.mkForcefalse;
+          useDHCP = lib.mkForce false;
           interfaces.eth0.useDHCP = lib.mkForce false;
         };
 

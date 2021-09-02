@@ -10,11 +10,11 @@
     ];
   };
 
-  # initrd shouldn't get too large...
-  # environment.systemPackages = with pkgs; [
-  #   firefox
-  #   glxinfo
-  # ];
+  environment.systemPackages = with pkgs; [
+    firefox
+    glxinfo
+    kodi-wayland
+  ];
 
   fonts.fonts = with pkgs; [ source-code-pro ];
 
@@ -36,6 +36,9 @@
               map_to_output = "DSI-1";
             };
           };
+
+          output.DSI-1.bg = "#3B6EA5 solid_color";
+
           menu = "${pkgs.bemenu}/bin/bemenu-run --fn 'Source Code Pro'";
           modifier = "Mod4";
           terminal = "${pkgs.foot}/bin/footclient";
@@ -58,11 +61,11 @@
         settings = [{
           layer = "top";
           position = "top";
-          height = 50;
+          height = 40;
           output = [ "DSI-1" ];
-          modules-left = [ "sway/workspaces" "sway/mode" "wlr/taskbar" ];
-          modules-center = [ "sway/window" ];
-          modules-right = [ "temperature" ];
+          modules-left = [ "sway/workspaces" "sway/mode" ];
+          modules-center = [ ];
+          modules-right = [ "network" "cpu" "memory" "temperature" "clock" "tray" ];
           modules = {
             "sway/workspaces" = {
               disable-scroll = true;
