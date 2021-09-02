@@ -38,7 +38,7 @@
       "/home/enno/iOS" = {
         label = "iOS";
         id = "qm9ln-btyqu";
-        devices = [ "iph3" "nas1" "ws1" ];
+        devices = [ "iph3" "nas1" "ws1" "ws2" ];
       };
       "/home/enno/repos" = {
         id = "yqa69-2zjmt";
