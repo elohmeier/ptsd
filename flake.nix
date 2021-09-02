@@ -30,13 +30,19 @@
     , ...
     }:
 
+    let
+      pkgOverrides = pkgs:
+        let
+          pkgs_master = import nixpkgs-master { system = pkgs.system; };
+        in
+        super: (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
+    in
     flake-utils.lib.eachDefaultSystem
       (system:
       let
-        pkgs_master = import nixpkgs-master { inherit system; };
         packages = import nixpkgs {
           config.allowUnfree = true; inherit system;
-          config.packageOverrides = import ./5pkgs packages pkgs_master;
+          config.packageOverrides = pkgOverrides packages;
         };
       in
       {
@@ -49,9 +55,6 @@
         let
           defaultModules = [
             ({ pkgs, ... }:
-              let
-                pkgs_master = import nixpkgs-master { system = pkgs.system; };
-              in
               {
                 nix.nixPath = [
                   "home-manager=${home-manager}"
@@ -59,7 +62,10 @@
                 ];
                 nixpkgs.config = {
                   allowUnfree = true;
-                  packageOverrides = import ./5pkgs pkgs pkgs_master;
+                  #packageOverrides = import ./5pkgs pkgs pkgs_master;
+                  #packageOverrides = import "${frix}/5pkgs" pkgs pkgs_master;
+                  #packageOverrides = super: { } // (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
+                  packageOverrides = pkgOverrides pkgs;
                 };
               })
           ];
@@ -72,16 +78,13 @@
             }
             home-manager.nixosModule
             ({ pkgs, ... }:
-              let
-                pkgs_master = import nixpkgs-master { system = pkgs.system; };
-              in
               {
                 home-manager.users.mainUser = { ... }: {
                   #imports = [ nix-doom-emacs.hmModule ];
                   home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec_no_pyenv;
                   nixpkgs.config = {
                     allowUnfree = true;
-                    packageOverrides = import ./5pkgs pkgs pkgs_master;
+                    packageOverrides = pkgOverrides pkgs;
                   };
                 };
               })
