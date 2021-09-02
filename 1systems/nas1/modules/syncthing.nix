@@ -6,8 +6,6 @@ let
   universe = import ../../../2configs/universe.nix;
 in
 {
-
-
   systemd.services.nextcloud-reindex-syncthing-folders = {
     description = "Update the NextCloud index for folders managed by Syncthing";
     wants = [ "network.target" "network-online.target" ];
@@ -93,7 +91,7 @@ in
         "/tank/enc/repos" = {
           label = "enno/repos";
           id = "yqa69-2zjmt";
-          devices = [ "tp1" "ws1" ];
+          devices = [ "tp1" "ws1" "ws2" ];
         };
         "/var/lib/nextcloud/data/enno/files/iOS" = {
           label = "enno/iOS";
