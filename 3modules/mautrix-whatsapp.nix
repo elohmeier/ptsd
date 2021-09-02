@@ -64,7 +64,7 @@ in
       wantedBy = [ "multi-user.target" ];
 
       serviceConfig = {
-        ExecStart = "${pkgs.mautrix-whatsapp}/bin/mautrix-whatsapp -c ${configFile}";
+        ExecStart = "${pkgs.mautrix-whatsapp}/bin/mautrix-whatsapp -c ${settingsFile}";
 
         Type = "exec";
         DynamicUser = true;

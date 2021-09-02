@@ -72,15 +72,20 @@ in
     };
   };
 
-  # ptsd.mautrix-whatsapp = {
-  #   enable = true;
-  #   settings = {
-  #     homeserver = {
-  #       address = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.synapse}";
-  #       domain = serverName;
+  #   ptsd.mautrix-whatsapp = {
+  #     enable = true;
+  #     settings = {
+  #       homeserver = {
+  #         address = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.synapse}";
+  #         domain = serverName;
+  #       };
+  # 
+  #       bridge.permissions = {
+  #         "${serverName}" = "user";
+  #         "@enno:${serverName}" = "admin";
+  #       };
   #     };
   #   };
-  # };
 
   services.postgresql = {
     enable = true;
