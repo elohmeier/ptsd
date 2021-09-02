@@ -477,7 +477,10 @@ in
       extraPortals = with pkgs;[ xdg-desktop-portal-wlr xdg-desktop-portal-gtk ];
     };
 
-    boot.supportedFilesystems = [ "exfat" ]; # canon sd card
+    boot.supportedFilesystems = [
+      "exfat" # canon sd card
+      "nfs"
+    ];
 
     services.dbus.packages = [ pkgs.gcr ]; # for pinentry-gnome3 for gnupg
 
