@@ -16,6 +16,7 @@
     frix.inputs.flake-utils.follows = "flake-utils";
     frix.inputs.nixos-hardware.follows = "nixos-hardware";
     frix.inputs.home-manager.follows = "home-manager";
+    nur.url = github:nix-community/NUR;
   };
 
   outputs =
@@ -27,6 +28,7 @@
     , flake-utils
       #, nix-doom-emacs
     , frix
+    , nur
     , ...
     }:
 
@@ -67,6 +69,7 @@
                   #packageOverrides = super: { } // (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
                   packageOverrides = pkgOverrides pkgs;
                 };
+                nixpkgs.overlays = [ nur.overlay ];
               })
           ];
           desktopModules = [
@@ -86,6 +89,7 @@
                     allowUnfree = true;
                     packageOverrides = pkgOverrides pkgs;
                   };
+                  nixpkgs.overlays = [ nur.overlay ];
                 };
               })
           ];
