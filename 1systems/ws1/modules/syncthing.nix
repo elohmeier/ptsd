@@ -43,7 +43,7 @@
       };
       "/home/enno/repos" = {
         label = "repos";
-        id = "jihdi-qxmi3";
+        id = "yqa69-2zjmt";
         devices = [ "nas1" "tp1" "ws2" ];
       };
       "/mnt/photos/photos" = {

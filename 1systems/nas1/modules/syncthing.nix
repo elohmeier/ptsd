@@ -92,7 +92,7 @@ in
         };
         "/tank/enc/repos" = {
           label = "enno/repos";
-          id = "jihdi-qxmi3";
+          id = "yqa69-2zjmt";
           devices = [ "tp1" "ws1" ];
         };
         "/var/lib/nextcloud/data/enno/files/iOS" = {

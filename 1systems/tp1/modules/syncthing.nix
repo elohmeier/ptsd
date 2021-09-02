@@ -41,7 +41,7 @@
         devices = [ "iph3" "nas1" "ws1" ];
       };
       "/home/enno/repos" = {
-        id = "jihdi-qxmi3";
+        id = "yqa69-2zjmt";
         devices = [ "nas1" "ws1" "ws2" ];
         label = "repos";
       };
