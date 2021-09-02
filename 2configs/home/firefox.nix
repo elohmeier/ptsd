@@ -3,37 +3,33 @@
   programs.firefox = {
     enable = true;
 
-    package = with pkgs; wrapFirefox firefox-unwrapped {
-      nixExtensions = [
-        (fetchFirefoxAddon {
-          name = "ublock_origin";
-          url = "https://addons.mozilla.org/firefox/downloads/file/3816867/ublock_origin-1.37.2-an+fx.xpi";
-          sha256 = "sha256-s6PIGJGstGIOM91Ui1A3Wq2CY3YESmFDtalH0EBqVZ4=";
-        })
+    package = with pkgs; wrapFirefox firefox-esr-unwrapped {
+      forceWayland = true;
 
-        (fetchFirefoxAddon {
-          name = "auto_tab_discard";
-          url = "https://addons.mozilla.org/firefox/downloads/file/3767563/auto_tab_discard-0.4.7-an+fx.xpi";
-          sha256 = "sha256-Ov16BZlQecfGR8egGgfdAzseR+57VoRuM+LZSasQyYo=";
-        })
-
-        # browserpass
-        # cookie autodelete
-        # dark reader
-        # tridactyl
-        # read aloud
+      nixExtensions = with pkgs.ptsd-firefoxAddons; [
+        ublock-origin
+        auto-tab-discard
+        browserpass
+        cookie-autodelete
+        darkreader
+        tridactyl
+        read-aloud
       ];
 
+      # see https://github.com/mozilla/policy-templates/blob/master/README.md
       extraPolicies = {
         CaptivePortal = false;
         DisableFirefoxStudies = true;
         DisablePocket = true;
         DisableTelemetry = true;
         DisableFirefoxAccounts = true;
+        DontCheckDefaultBrowser = true;
         FirefoxHome = {
           Pocket = false;
           Snippets = false;
         };
+        PasswordManagerEnabled = false;
+        PromptForDownloadLocation = true;
         UserMessaging = {
           ExtensionRecommendations = false;
           SkipOnboarding = true;
@@ -45,8 +41,9 @@
         lockPref("security.identityblock.show_extended_validation", true);
       '';
     };
-  };
 
+    profiles.default = { };
+  };
 
   programs.browserpass = {
     enable = true;
