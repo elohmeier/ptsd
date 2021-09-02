@@ -155,7 +155,13 @@ self: pkgs_master: super:
     '';
   });
 
+  ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
+
   # pull in recent versions from >21.05
+  wrapFirefox = pkgs_master.wrapFirefox;
+  firefox-esr = pkgs_master.firefox-esr;
+  firefox-esr-wayland = pkgs_master.firefox-esr-wayland;
+  firefox-esr-unwrapped = pkgs_master.firefox-esr-unwrapped;
   foot = pkgs_master.foot;
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
