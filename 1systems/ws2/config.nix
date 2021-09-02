@@ -17,6 +17,8 @@ with lib;
 
     #../../2configs/nvidia-headless.nix
     ../../2configs/profiles/workstation
+
+    ./modules/syncthing.nix
   ];
 
   # ptsd.fraamdb = {
@@ -100,33 +102,6 @@ with lib;
   };
 
   users.users.scanner = { isSystemUser = true; };
-
-  ptsd.nwsyncthing = {
-    enable = true;
-
-    folders = {
-      "/home/enno/Pocket" = {
-        label = "Pocket";
-        id = "hmekh-kgprn";
-        devices = [ "nas1" "nuc1" "tp1" "tp1-win10" "ws1" "ws1-win10" ];
-      };
-      "/home/enno/Templates" = {
-        label = "Templates";
-        id = "gnwqu-yt7qc";
-        devices = [ "nas1" "tp1" "ws1" ];
-      };
-      "/home/enno/Scans" = {
-        label = "Scans";
-        id = "ezjwj-xgnhe";
-        devices = [ "nas1" "tp1" "ws1" ];
-      };
-      "/home/enno/repos" = {
-        label = "repos";
-        id = "jihdi-qxmi3";
-        devices = [ "nas1" "tp1" "ws1" ];
-      };
-    };
-  };
 
   hardware.printers = {
     ensureDefaultPrinter = "HL5380DN";
