@@ -66,7 +66,7 @@ self: pkgs_master: super:
     bltouch = plugins.callPackage ./octoprint-plugins/bltouch.nix { };
     m73progress = plugins.callPackage ./octoprint-plugins/m73progress.nix { };
     octolapse = plugins.callPackage ./octoprint-plugins/octolapse.nix { };
-    prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix.nix { };
+    prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix { };
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
     telegram = plugins.callPackage ./octoprint-plugins/telegram.nix { };
   };
