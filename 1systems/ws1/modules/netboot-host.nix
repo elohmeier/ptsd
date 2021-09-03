@@ -110,6 +110,9 @@ let
                 # Boot in 64-bit mode.
                 arm_64bit=1
 
+                # required for Carberry
+                enable_uart=1
+
                 # Prevent the firmware from smashing the framebuffer setup done by the mainline kernel
                 # when attempting to show low-voltage or overtemperature warnings.
                 avoid_warnings=1

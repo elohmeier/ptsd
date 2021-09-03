@@ -8,6 +8,8 @@
   imports = [
     ../..
     ../../2configs/fish.nix
+
+    ./carberry.nix
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
@@ -40,8 +42,13 @@
     MOZ_USE_XINPUT2 = "1";
   };
 
-  environment.systemPackages = [ pkgs.foot.terminfo ];
+  environment.systemPackages = with pkgs; [
+    brightnessctl
+    foot.terminfo
+    tmux
+  ];
 
+  # partly overridden by netboot
   networking = {
     useNetworkd = true;
     useDHCP = false;
@@ -49,9 +56,14 @@
     interfaces.eth0.useDHCP = true;
   };
 
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
+
   users.users.enno = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "video" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "dialout" ];
     initialHashedPassword = "";
     openssh.authorizedKeys.keys =
       let
