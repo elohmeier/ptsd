@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs;[ screen minicom socat ];
+  # environment.systemPackages = with pkgs;[ screen minicom socat python3 vim ];
 
   systemd.services.carberry-shutdown = {
     description = "Carberry shutdown daemon";
@@ -26,14 +26,21 @@
     '';
   };
 
-  systemd.services.carberry-proxy = {
-    description = "Carberry TCP to serial proxy";
-    wantedBy = [ "multi-user.target" ];
+  # see https://www.carberry.it/wiki/carberry/sw_comm
+  systemd.services.carberry-serialmux =
+    let serialmux = pkgs.writers.writePython3 "serialmux"
+      {
+        libraries = [ pkgs.python3Packages.pyserial ];
+        flakeIgnore = [ "E501" ]; # line length (black)
+      } ./serialmux.py;
 
-    # see https://www.carberry.it/wiki/carberry/sw_comm
-    serviceConfig = {
-      # TODO: forward carberry responses to all connected clients, currently only works for single client
-      ExecStart = "${pkgs.socat}/bin/socat /dev/ttyS0,b115200,raw,echo=0,crnl tcp-listen:5000,fork,bind=127.0.0.1";
+    in
+    {
+      description = "Carberry TCP to serial proxy";
+      wantedBy = [ "multi-user.target" ];
+
+      serviceConfig = {
+        ExecStart = "${serialmux} --device /dev/ttyS0 --listen 127.0.0.1 --port 5000";
+      };
     };
-  };
 }
