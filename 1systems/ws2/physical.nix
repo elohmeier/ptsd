@@ -104,7 +104,7 @@
     {
       device = "/dev/sysVG/home";
       fsType = "ext4";
-      options = [ "nodev" "nosuid" "noexec" ];
+      options = [ "nodev" "nosuid" ];
     };
 
   fileSystems."/nix" =
