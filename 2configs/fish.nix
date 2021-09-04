@@ -21,6 +21,9 @@
     shellAbbrs = {
       "br" = "broot";
       "cd.." = "cd ..";
+      vi = "vim";
+
+      # git
       ga = "git add";
       "ga." = "git add .";
       gc = "git commit";
@@ -31,7 +34,15 @@
       gs = "git status";
       gp = "git pull";
       gpp = "git push";
-      vi = "vim";
+
+      # systemd
+      ctl = "systemctl";
+      utl = "systemctl --user";
+      jtl = "journalctl";
+      ut = "systemctl --user start";
+      un = "systemctl --user stop";
+      up = "systemctl start";
+      dn = "systemctl stop";
     };
 
     interactiveShellInit = ''
