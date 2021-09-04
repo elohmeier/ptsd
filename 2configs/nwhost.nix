@@ -18,6 +18,7 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    bottom
     cryptsetup
     dnsutils
     fd
