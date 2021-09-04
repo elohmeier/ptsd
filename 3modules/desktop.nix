@@ -110,29 +110,27 @@ let
       # cycle through border styles
       "${cfg.modifier}+b" = "border toggle";
 
-      # "Space-Hack" to fix the ordering in the generated config file
-      # This prevents that i3 uses this order: 10, 1, 2, ...
-      " ${cfg.modifier}+1" = "workspace $ws1";
-      " ${cfg.modifier}+2" = "workspace $ws2";
-      " ${cfg.modifier}+3" = "workspace $ws3";
-      " ${cfg.modifier}+4" = "workspace $ws4";
-      " ${cfg.modifier}+5" = "workspace $ws5";
-      " ${cfg.modifier}+6" = "workspace $ws6";
-      " ${cfg.modifier}+7" = "workspace $ws7";
-      " ${cfg.modifier}+8" = "workspace $ws8";
-      " ${cfg.modifier}+9" = "workspace $ws9";
-      "${cfg.modifier}+0" = "workspace $ws10";
+      "${cfg.modifier}+1" = "workspace number 1";
+      "${cfg.modifier}+2" = "workspace number 2";
+      "${cfg.modifier}+3" = "workspace number 3";
+      "${cfg.modifier}+4" = "workspace number 4";
+      "${cfg.modifier}+5" = "workspace number 5";
+      "${cfg.modifier}+6" = "workspace number 6";
+      "${cfg.modifier}+7" = "workspace number 7";
+      "${cfg.modifier}+8" = "workspace number 8";
+      "${cfg.modifier}+9" = "workspace number 9";
+      "${cfg.modifier}+0" = "workspace number 10";
 
-      "${cfg.modifier}+Shift+1" = "move container to workspace $ws1";
-      "${cfg.modifier}+Shift+2" = "move container to workspace $ws2";
-      "${cfg.modifier}+Shift+3" = "move container to workspace $ws3";
-      "${cfg.modifier}+Shift+4" = "move container to workspace $ws4";
-      "${cfg.modifier}+Shift+5" = "move container to workspace $ws5";
-      "${cfg.modifier}+Shift+6" = "move container to workspace $ws6";
-      "${cfg.modifier}+Shift+7" = "move container to workspace $ws7";
-      "${cfg.modifier}+Shift+8" = "move container to workspace $ws8";
-      "${cfg.modifier}+Shift+9" = "move container to workspace $ws9";
-      "${cfg.modifier}+Shift+0" = "move container to workspace $ws10";
+      "${cfg.modifier}+Shift+1" = "move container to workspace number 1";
+      "${cfg.modifier}+Shift+2" = "move container to workspace number 2";
+      "${cfg.modifier}+Shift+3" = "move container to workspace number 3";
+      "${cfg.modifier}+Shift+4" = "move container to workspace number 4";
+      "${cfg.modifier}+Shift+5" = "move container to workspace number 5";
+      "${cfg.modifier}+Shift+6" = "move container to workspace number 6";
+      "${cfg.modifier}+Shift+7" = "move container to workspace number 7";
+      "${cfg.modifier}+Shift+8" = "move container to workspace number 8";
+      "${cfg.modifier}+Shift+9" = "move container to workspace number 9";
+      "${cfg.modifier}+Shift+0" = "move container to workspace number 10";
 
       "${cfg.modifier}+Control+Mod1+h" = "move container to workspace prev_on_output";
       "${cfg.modifier}+Control+Mod1+l" = "move container to workspace next_on_output";
@@ -182,10 +180,10 @@ let
       "${cfg.modifier}+Shift+o" = "resize grow height 20 px or 20 ppt";
       "${cfg.modifier}+Shift+p" = "resize grow width 20 px or 20 ppt";
 
-      "${cfg.modifier}+Home" = "workspace 1";
+      "${cfg.modifier}+Home" = "workspace number 1";
       "${cfg.modifier}+Prior" = "workspace prev";
       "${cfg.modifier}+Next" = "workspace next";
-      "${cfg.modifier}+End" = "workspace 10";
+      "${cfg.modifier}+End" = "workspace number 10";
       "${cfg.modifier}+Tab" = "workspace back_and_forth";
 
       # not working
@@ -281,19 +279,6 @@ let
     names = [ cfg.fontSans ];
     size = cfg.fontSize;
   };
-
-  extraConfig = ''
-    set $ws1 1
-    set $ws2 2
-    set $ws3 3
-    set $ws4 4
-    set $ws5 5
-    set $ws6 6
-    set $ws7 7
-    set $ws8 8
-    set $ws9 9
-    set $ws10 10
-  '';
 
   # src: https://github.com/kaihendry/dotfiles/blob/master/bin/xdg-open
   choose-browser = pkgs.writers.writeDash "choose-browser" ''
@@ -1269,13 +1254,17 @@ in
                     {
                       command = "systemctl --user restart foot.service";
                     }
+                    #{
+                    #  command = "${config.programs.waybar.package}/bin/waybar";
+                    #}
                     {
-                      command = "${config.programs.waybar.package}/bin/waybar";
+                      command = toString (pkgs.writers.writePython3 "autoname-workspaces" { libraries = [ pkgs.python3Packages.i3ipc ]; flakeIgnore = [ "E501" ]; } ../4scripts/autoname-workspaces.py);
+                      always = true;
                     }
                   ];
                 };
 
-              extraConfig = extraConfig + ''
+              extraConfig = ''
                 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
               '' + optionalString (cfg.autolock.enable) ''
                 exec ${pkgs.swayidle}/bin/swayidle -w \
