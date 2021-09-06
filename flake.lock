@@ -32,11 +32,11 @@
         "nixpkgs-master": "nixpkgs-master"
       },
       "locked": {
-        "lastModified": 1630567868,
-        "narHash": "sha256-vKlse/pJ3BBcnKWp9/ZaETePehwbA0P3qSPP4cv4tgk=",
+        "lastModified": 1630908880,
+        "narHash": "sha256-ewHiozexzdZj+AfZtbdOyz6hs+4VD4qvAgGqgTawDHA=",
         "ref": "master",
-        "rev": "d47c0a5fc34ccf8e2e1a127c012c19edbfb4586f",
-        "revCount": 77,
+        "rev": "7ea319c0619449a9e99bed1b82fa2d2cd21267dd",
+        "revCount": 80,
         "type": "git",
         "url": "ssh://git@git.fraam.de/fraam/frix"
       },
@@ -84,11 +84,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1630481079,
-        "narHash": "sha256-leWXLchbAbqOlLT6tju631G40SzQWPqaAXQG3zH1Imw=",
+        "lastModified": 1630845541,
+        "narHash": "sha256-DKj/0V+NNJe3sgRAZFb4yYFZFH0gXD1qNU8xiI87+GA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "110a2c9ebbf5d4a94486854f18a37a938cfacbbb",
+        "rev": "1e5c35dfbc8e0ad8c35aa1a6446f442ca1ec5234",
         "type": "github"
       },
       "original": {
@@ -116,11 +116,11 @@
     },
     "nixpkgs-master_2": {
       "locked": {
-        "lastModified": 1630587436,
-        "narHash": "sha256-pmlBWH3jKtDnI14MwZ1+wC0i0+nCiPlMnAj49Gn8JQQ=",
+        "lastModified": 1630938467,
+        "narHash": "sha256-GiSjPKDmFJPaM10lMWhwOrZViAB2kLX6NsHjRSZ/vWE=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1a34874288afb8811593559e9c8433ce29f15a2f",
+        "rev": "efcfe3676268c789e78a22b20a94c00227d20bc8",
         "type": "github"
       },
       "original": {
@@ -132,11 +132,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1630590845,
-        "narHash": "sha256-kE/u2o0/vT0gZBuhxF1Ea24B5MYZTIB2lqte38eKGs4=",
+        "lastModified": 1630937837,
+        "narHash": "sha256-WxP2U/6WGwj/Aia+MV49f1qgsNmpuRWXYB2fpxp6dnk=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "963ad92df21773ee8fae40b567a545b6d56e54af",
+        "rev": "eb92f0f3991c22af009f2056d47dab09e4cdf562",
         "type": "github"
       },
       "original": {
