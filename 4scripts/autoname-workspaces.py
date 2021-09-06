@@ -17,11 +17,16 @@ import sys
 
 # copy "icon" from https://www.nerdfonts.com/cheat-sheet
 WINDOW_ICONS = {
+    "burp-startburp": "ﰍ",
     "firefox": "",
     "chromium-browser": "",
     "foot": "",
     "pcmanfm": "",
     "org.pwmt.zathura": "",
+    "vscodium": "",
+    "kodi": "",
+    "element": "ﬧ",
+    "spotify": "",
 }
 
 DEFAULT_ICON = ""

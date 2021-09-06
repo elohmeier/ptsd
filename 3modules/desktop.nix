@@ -660,59 +660,38 @@ in
               server.enable = true;
               settings = {
                 main = {
-                  font = "SauceCodePro Nerd Font:size=${toString (cfg.fontSize - 3.0)}";
-                  dpi-aware = "yes";
+                  font = lib.mkDefault "SauceCodePro Nerd Font:size=${toString (cfg.fontSize - 3.0)}";
+                  dpi-aware = lib.mkDefault "yes";
                 };
                 scrollback.lines = 50000;
               };
             };
 
-            # TODO: socket-activate foot-server
-            # systemd.user.services.foot-server = {
-            #   Unit = {
-            #     Description = "Foot Terminal Server";
-            #     Documentation = "man:foot(1)";
-            #     PartOf = [ "graphical-session.target" ];
-            #     After = [ "graphical-session.target" ];
-            #     ConditionEnvironment = "WAYLAND_DISPLAY";
-            #   };
+            systemd.user.services.autoname-workspaces = {
+              Unit = {
+                Description = "Autoname Sway Workspaces";
+                BindsTo = [ "graphical-session.target" ];
+              };
 
-            #   Service = {
-            #     ExecStart = "${pkgs.foot}/bin/foot --server";
-            #   };
-            #   Install = { WantedBy = [ "graphical-session.target" ]; };
-            # };
-
-            # systemd.user.services.foot-proxy = {
-            #   Unit = {
-            #     Description = "Foot Terminal Server Proxy";
-            #     Documentation = "man:foot(1)";
-            #     PartOf = [ "graphical-session.target" ];
-            #     After = [ "graphical-session.target" "foot-server.service" ];
-            #     Requires = [ "foot-server.service" ];
-            #     ConditionEnvironment = "WAYLAND_DISPLAY";
-            #   };
-
-            #   Service = {
-            #     StandardInput = "socket";
-            #     ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd /run/user/1000/foot-wayland-1.sock";
-            #     #ExecStart = "${pkgs.systemd}/lib/systemd/systemd-socket-proxyd $XDG_RUNTIME_DIR/foot-$WAYLAND_DISPLAY.sock";
-            #   };
-            #   Install = { WantedBy = [ "graphical-session.target" ]; };
-            # };
-
-            # systemd.user.sockets.foot-proxy = {
-            #   Socket = {
-            #     ListenFIFO = "%t/foot-proxy.sock";
-            #     SocketMode = "0600";
-            #   };
-            #   Install = { WantedBy = [ "sockets.target" ]; };
-            # };
-
+              Service =
+                let
+                  autoname-workspaces =
+                    pkgs.writers.writePython3
+                      "autoname-workspaces"
+                      {
+                        libraries = [ pkgs.python3Packages.i3ipc ];
+                        flakeIgnore = [ "E501" ];
+                      }
+                      ../4scripts/autoname-workspaces.py;
+                in
+                {
+                  ExecStart = toString autoname-workspaces;
+                };
+            };
 
             programs.waybar = {
               enable = true;
-              systemd.enable = false;
+              systemd.enable = true;
               settings = [
                 {
                   layer = "top";
@@ -1252,14 +1231,7 @@ in
 
                   startup = [
                     {
-                      command = "systemctl --user restart foot.service";
-                    }
-                    #{
-                    #  command = "${config.programs.waybar.package}/bin/waybar";
-                    #}
-                    {
-                      command = toString (pkgs.writers.writePython3 "autoname-workspaces" { libraries = [ pkgs.python3Packages.i3ipc ]; flakeIgnore = [ "E501" ]; } ../4scripts/autoname-workspaces.py);
-                      always = true;
+                      command = "systemctl --user restart foot.service waybar.service autoname-workspaces.service";
                     }
                   ];
                 };
