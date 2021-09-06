@@ -23,7 +23,7 @@ in
     ./modules/icloudpd.nix
     ./modules/nextcloud.nix
     ./modules/nextcloud-vsftpd-scans.nix
-    ./modules/nwoctoprint.nix
+    ./modules/octoprint.nix
     ./modules/postgresql.nix
     ./modules/prometheus/server.nix
     ./modules/syncthing.nix
