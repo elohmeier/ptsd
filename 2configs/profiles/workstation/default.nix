@@ -62,7 +62,6 @@ in
     {
       imports = [
         ../../home/chromium.nix
-        ../../home/firefox.nix
         ../../home/fish.nix
         ../../home/git.nix
         ../../home/gpg.nix
@@ -70,6 +69,10 @@ in
         ../../home/tmux.nix
         ../../home/vscodium.nix
       ];
+
+      ptsd.firefox = {
+        enable = true;
+      };
 
       home.stateVersion = lib.mkDefault "20.09";
 

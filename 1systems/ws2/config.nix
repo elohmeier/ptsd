@@ -8,7 +8,7 @@ with lib;
     ../../2configs/desktop.nix
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
-    ../../2configs/themes/dark.nix
+    ../../2configs/themes/white.nix
 
     ../../2configs/prometheus/node.nix
 

@@ -42,34 +42,32 @@ in
   home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
     {
 
-      # https://codeberg.org/dnkl/foot/src/branch/master/themes/selenized-black
+      # https://codeberg.org/dnkl/foot/src/branch/master/themes/selenized-white
       programs.foot.settings = {
-        cursor.color = "";
+        cursor.color = "ffffff 009a8a";
         colors = {
-          background = "181818";
-          foreground = "b9b9b9";
+          background = "ffffff";
+          foreground = "474747";
 
-          regular0 = "252525";
-          regular1 = "ed4a46";
-          regular2 = "70b433";
-          regular3 = "dbb32d";
-          regular4 = "368aeb";
-          regular5 = "eb6eb7";
-          regular6 = "3fc5b7";
-          regular7 = "777777";
+          regular0 = "ebebeb";
+          regular1 = "d6000c";
+          regular2 = "1d9700";
+          regular3 = "c49700";
+          regular4 = "0064e4";
+          regular5 = "dd0f9d";
+          regular6 = "00ad9c";
+          regular7 = "878787";
 
-          bright0 = "3b3b3b";
-          bright1 = "ff5e56";
-          bright2 = "83c746";
-          bright3 = "efc541";
-          bright4 = "4f9cfe";
-          bright5 = "ff81ca";
-          bright6 = "56d8c9";
-          bright7 = "dedede";
+          bright0 = "cdcdcd";
+          bright1 = "bf0000";
+          bright2 = "008400";
+          bright3 = "af8500";
+          bright4 = "0054cf";
+          bright5 = "c7008b";
+          bright6 = "009a8a";
+          bright7 = "282828";
         };
       };
-
-      ptsd.firefox.extraExtensions = [ pkgs.ptsd-firefoxAddons.darkreader ];
 
       programs.alacritty.settings.colors = colors;
 
@@ -86,7 +84,7 @@ in
       };
       gtk = {
         theme = {
-          name = "Adwaita-dark";
+          name = "Adwaita";
           package = pkgs.gnome-themes-standard;
         };
       };
