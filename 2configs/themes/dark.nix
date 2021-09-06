@@ -43,6 +43,8 @@ in
     {
 
 
+      ptsd.firefox.extraExtensions = [ pkgs.ptsd-firefoxAddons.darkreader ];
+
       programs.alacritty.settings.colors = colors;
 
       wayland.windowManager.sway = {
