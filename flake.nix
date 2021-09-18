@@ -13,6 +13,7 @@
     #nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
     frix.url = "git+ssh://git@git.fraam.de/fraam/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
+    frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
     frix.inputs.flake-utils.follows = "flake-utils";
     frix.inputs.nixos-hardware.follows = "nixos-hardware";
     frix.inputs.home-manager.follows = "home-manager";

@@ -9,9 +9,10 @@ in
       ../..
       ../../2configs
       ../../2configs/hardened.nix
-      ../../2configs/matrix.nix
       ../../2configs/nwhost.nix
       ../../2configs/prometheus/node.nix
+
+      ./modules/matrix.nix
     ];
 
   ptsd.maddy = {

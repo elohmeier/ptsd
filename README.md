@@ -64,7 +64,7 @@ Setup disk
 ```bash
 export pass="YOURPASSWORD"
 
-sgdisk -og -a1 -n1:2048:+200M -t1:8300 -n3:-1M:0 -t3:EF02 -n2:0:0 -t2:8300 /dev/sda
+sgdisk -og -a1 -n1:2048:+200M -t1:8300 -n3:-1M:0 -t3:EF02 -n2:0:0 -t2:8309 /dev/sda
 echo -n $pass | cryptsetup -q luksFormat /dev/sda2
 echo -n $pass | cryptsetup luksOpen /dev/sda2 sda2_crypt
 pvcreate /dev/mapper/sda2_crypt

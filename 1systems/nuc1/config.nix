@@ -20,8 +20,6 @@
 
     ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-
   home-manager = {
     users.mainUser = { ... }:
       {

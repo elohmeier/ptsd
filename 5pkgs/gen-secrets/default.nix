@@ -13,15 +13,8 @@ writers.writeDashBin "gen-secrets" ''
   ${openssl}/bin/openssl ecparam -name secp384r1 -genkey -noout -out $TMPDIR/syncthing.key 2>/dev/null > /dev/null
   ${openssl}/bin/openssl req -new -x509 -key $TMPDIR/syncthing.key -out $TMPDIR/syncthing.crt -days 10000 -subj "/CN=syncthing" 2>/dev/null > /dev/null
 
-  cat <<EOF > $TMPDIR/hashedPasswords.nix
-  {
-    root = "$HASHED_PASSWORD";
-    mainUser = "$HASHED_PASSWORD";
-  }
-  EOF
-
-  cat $HASHED_PASSWORD > $TMPDIR/mainUser.passwd
-  cat $HASHED_PASSWORD > $TMPDIR/root.passwd
+  echo $HASHED_PASSWORD > $TMPDIR/mainUser.passwd
+  echo $HASHED_PASSWORD > $TMPDIR/root.passwd
 
   cd $TMPDIR
   for x in *; do
@@ -41,7 +34,6 @@ writers.writeDashBin "gen-secrets" ''
       };
     };
     borg.pubkey = "$(cat $TMPDIR/nwbackup.id_ed25519.pub)";
-    ssh.privkey.path = <secrets/ssh.id_ed25519>;
     ssh.pubkey = "$(cat $TMPDIR/ssh.id_ed25519.pub)";
     syncthing.id = "$(${syncthing-device-id}/bin/syncthing-device-id $TMPDIR/syncthing.crt)";
   };
