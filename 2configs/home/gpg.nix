@@ -30,7 +30,8 @@
       #};
 
       "htz3-1022" = {
-        hostname = "191.18.19.41";
+        #hostname = "191.18.19.41";
+        hostname = "htz3.host.fraam.de";
         port = 1022;
       };
 
