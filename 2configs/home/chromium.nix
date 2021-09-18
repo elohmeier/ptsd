@@ -6,9 +6,4 @@
       { id = "naepdomgkenhinolocfifgehidddafch"; } # browserpass
     ];
   };
-
-  programs.browserpass = {
-    enable = true;
-    browsers = [ "chromium" ];
-  };
 }

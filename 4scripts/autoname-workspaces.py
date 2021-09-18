@@ -20,6 +20,7 @@ WINDOW_ICONS = {
     "burp-startburp": "ﰍ",
     "firefox": "",
     "chromium-browser": "",
+    "chromium": "",
     "foot": "",
     "pcmanfm": "",
     "org.pwmt.zathura": "",
@@ -27,6 +28,12 @@ WINDOW_ICONS = {
     "kodi": "",
     "element": "ﬧ",
     "spotify": "",
+    "pavucontrol": "醙",
+    "sxiv": "",
+    ".virt-manager-wrapped": "",
+    "soffice": "",
+    "libreoffice-writer": "",
+    "libreoffice-startcenter": "",
 }
 
 DEFAULT_ICON = ""

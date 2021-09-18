@@ -110,15 +110,17 @@ let
       # cycle through border styles
       "${cfg.modifier}+b" = "border toggle";
 
-      "${cfg.modifier}+1" = "workspace number 1";
-      "${cfg.modifier}+2" = "workspace number 2";
-      "${cfg.modifier}+3" = "workspace number 3";
-      "${cfg.modifier}+4" = "workspace number 4";
-      "${cfg.modifier}+5" = "workspace number 5";
-      "${cfg.modifier}+6" = "workspace number 6";
-      "${cfg.modifier}+7" = "workspace number 7";
-      "${cfg.modifier}+8" = "workspace number 8";
-      "${cfg.modifier}+9" = "workspace number 9";
+      # "Space-Hack" to fix the ordering in the generated config file
+      # This prevents that i3 uses this order: 10, 1, 2, ...
+      " ${cfg.modifier}+1" = "workspace number 1";
+      " ${cfg.modifier}+2" = "workspace number 2";
+      " ${cfg.modifier}+3" = "workspace number 3";
+      " ${cfg.modifier}+4" = "workspace number 4";
+      " ${cfg.modifier}+5" = "workspace number 5";
+      " ${cfg.modifier}+6" = "workspace number 6";
+      " ${cfg.modifier}+7" = "workspace number 7";
+      " ${cfg.modifier}+8" = "workspace number 8";
+      " ${cfg.modifier}+9" = "workspace number 9";
       "${cfg.modifier}+0" = "workspace number 10";
 
       "${cfg.modifier}+Shift+1" = "move container to workspace number 1";
@@ -452,6 +454,8 @@ in
         ];
       }
     ];
+
+    programs.browserpass.enable = true;
 
     # speed up networking
     boot.kernelModules = [ "tcp_bbr" ];
@@ -1229,12 +1233,6 @@ in
                       hide_cursor = toString (cfg.hideCursorIdleSec * 1000);
                     };
                   };
-
-                  startup = [
-                    {
-                      command = "systemctl --user restart foot.service waybar.service autoname-workspaces.service";
-                    }
-                  ];
                 };
 
               extraConfig = ''
