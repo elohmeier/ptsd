@@ -112,16 +112,24 @@ in
       "loopback6-https".address = "[::1]:443";
     };
 
-    services = [{
-      name = "nginx-fraam-intweb";
-      rule = "Host(`int.fraam.de`)";
-      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+    services = [
+      {
+        name = "nginx-fraam-intweb";
+        rule = "Host(`int.fraam.de`)";
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
 
-      auth.forwardAuth = {
-        address = "http://localhost:4181";
-        authResponseHeaders = [ "X-Forwarded-User" ];
-      };
-    }];
+        auth.forwardAuth = {
+          address = "http://localhost:4181";
+          authResponseHeaders = [ "X-Forwarded-User" ];
+        };
+      }
+      {
+        name = "nginx-wellknown-matrix";
+        rule = "PathPrefix(`/.well-known/matrix`)";
+        priority = 9999; # high-priority for router
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+      }
+    ];
   };
 
   ptsd.fraam-www = {
@@ -260,6 +268,33 @@ in
 
         root = "/var/www/intweb";
       };
+
+      nginx-wellknown-matrix = {
+        listen = [{
+          addr = "127.0.0.1";
+          port = config.ptsd.nwtraefik.ports.nginx-wellknown-matrix;
+        }];
+        locations."/.well-known/matrix/server".extraConfig =
+          let
+            server = { "m.server" = "matrix.fraam.de:443"; };
+          in
+          ''
+            add_header Content-Type application/json;
+            return 200 '${builtins.toJSON server}';
+          '';
+
+        locations."/.well-known/matrix/client".extraConfig =
+          let
+            client = {
+              "m.homeserver".base_url = "https://matrix.fraam.de";
+              "m.identity_server".base_url = "https://vector.im";
+            };
+          in
+          ''
+            add_header Content-Type application/json;
+            return 200 '${builtins.toJSON client}';
+          '';
+      };
     };
   };
 
@@ -269,4 +304,6 @@ in
     chgrp -R nginx /var/www
     chmod -R u+rwX,go+rX,go-w /var/www
   '';
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 }
