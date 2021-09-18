@@ -24,6 +24,7 @@ self: pkgs_master: super:
 {
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
+  carberryd = self.callPackage ./carberryd { };
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
   file-renamer = self.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
@@ -108,6 +109,7 @@ self: pkgs_master: super:
       black_nbconvert
       bloodhound-import
       holidays
+      i3ipc
       # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
       jupyterlab
       lxml

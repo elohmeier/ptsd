@@ -37,7 +37,7 @@
             };
           };
 
-          output.DSI-1.bg = "#3B6EA5 solid_color";
+          output.DSI-1.bg = "#000000 solid_color";
 
           menu = "${pkgs.bemenu}/bin/bemenu-run --fn 'Source Code Pro'";
           modifier = "Mod4";
@@ -80,8 +80,8 @@
             font-family: Source Code Pro;
             }
           window#waybar {
-            background: #16191C;
-            color: #AAB2BF;
+            background: #111111;
+            color: #FFFFFF;
           }
           #workspaces button {
             padding: 0 5px;
