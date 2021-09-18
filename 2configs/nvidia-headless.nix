@@ -19,7 +19,6 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    clinfo # opencl info tool
     nvidia_x11.bin
     nvidia_x11.settings
     nvidia_x11.persistenced
