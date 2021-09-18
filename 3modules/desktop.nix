@@ -390,6 +390,7 @@ in
         type = types.bool;
         default = true;
       };
+      nvidia.enable = mkOption { type = types.bool; default = false; };
       bluetooth.enable = mkOption {
         type = types.bool;
         default = true;
@@ -712,7 +713,7 @@ in
                     "network#tun0"
                     "cpu"
                     "memory"
-                    "custom/nvidia"
+                  ] ++ optional cfg.nvidia.enable "custom/nvidia" ++ [
                     #"backlight"
                     "battery"
                     "clock"
@@ -776,7 +777,7 @@ in
                       format = "{}% ";
                       on-click-right = term.execFloating "${pkgs.procps}/bin/watch -n1 ${pkgs.coreutils}/bin/cat /proc/meminfo" "";
                     };
-                    "custom/nvidia" = {
+                    "custom/nvidia" = mkIf cfg.nvidia.enable {
                       format = "nv {}";
                       exec = writeNu "nv-status" ''
                         nvidia-smi --query-gpu=pstate,utilization.gpu,utilization.memory,temperature.gpu --format=csv,nounits | from csv | str trim  | each { echo $"($it.pstate) ($it.' utilization.gpu [%]')%C ($it.' utilization.memory [%]')%M ($it.' temperature.gpu')C" }
