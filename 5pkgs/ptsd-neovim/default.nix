@@ -16,6 +16,13 @@
 }:
 with lib;
 
+let
+  treesitter = (vimPlugins.nvim-treesitter.withPlugins (plugins: with plugins; [
+    tree-sitter-go
+    tree-sitter-nix
+    tree-sitter-python
+  ]));
+in
 wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
   viAlias = true;
   vimAlias = true;
@@ -24,12 +31,9 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
   extraPython3Packages = ps: with ps; optionals enableLSP [ python-language-server ];
 
   configure.packages.ptsd.start = with vimPlugins; [
-    vim-nix
     vim-css-color
-    diffview-nvim
     nvim-web-devicons
-    neogit
-    nvim-treesitter
+    treesitter
     nvim-tree-lua
     hop-nvim
     nvim-compe
@@ -40,29 +44,10 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
   ++ (optional enableFormatters formatter-nvim);
 
   plugins = with vimPlugins; [
-    vim-nix # TODO: rm when tree-sitter-nix works
-    #nnn-vim
     vim-css-color
-    diffview-nvim
     nvim-web-devicons
     {
-      plugin = neogit;
-      config = ''
-        lua <<EOF
-        require'neogit'.setup {
-          integrations = {
-            diffview = true,
-          },
-        }
-        EOF
-      '';
-    }
-    {
-      plugin = (nvim-treesitter.withPlugins (plugins: with plugins; [
-        tree-sitter-go
-        tree-sitter-nix
-        tree-sitter-python
-      ]));
+      plugin = treesitter;
       config = ''
         lua <<EOF
           require'nvim-treesitter.configs'.setup {
@@ -71,6 +56,7 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
               additional_vim_regex_highlighting = false,
             },
           }
+          vim.api.nvim_command('autocmd BufRead,BufNewFile *.nix set filetype=nix')
         EOF
       '';
     }
@@ -88,15 +74,15 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
       plugin = nvim-compe;
       config = ''
         lua << EOF
-        vim.o.completeopt = "menuone,noselect"
-        require'compe'.setup({
-          enabled = true,
-          source = {
-            path = true,
-            buffer = true,
-            nvim_lsp = true,
-          },
-        })
+          vim.o.completeopt = "menuone,noselect"
+          require'compe'.setup({
+            enabled = true,
+            source = {
+              path = true,
+              buffer = true,
+              nvim_lsp = true,
+            },
+          })
         EOF
 
         inoremap <silent><expr> <C-Space> compe#complete()
@@ -246,7 +232,5 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
           nnoremap <silent> <leader>i :Format<CR>
         '';
       }
-
-
   );
 })
