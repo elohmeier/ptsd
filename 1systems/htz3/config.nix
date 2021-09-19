@@ -304,6 +304,4 @@ in
     chgrp -R nginx /var/www
     chmod -R u+rwX,go+rX,go-w /var/www
   '';
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 }

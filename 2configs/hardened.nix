@@ -6,7 +6,8 @@ with lib;
     "kernel.dmesg_restrict" = true;
   };
 
-  boot.kernelPackages = mkDefault pkgs.linuxPackages_hardened;
+  # build fails often
+  # boot.kernelPackages = mkDefault pkgs.linuxPackages_hardened;
 
   nix.allowedUsers = mkDefault [ "@users" ];
 
@@ -27,7 +28,7 @@ with lib;
 
   security.virtualisation.flushL1DataCache = mkDefault "always";
 
-  # TODO: Troubleeshoot
+  # TODO: Troubleshoot
   #security.apparmor.enable = mkDefault true;
 
   boot.kernelParams = [
@@ -63,6 +64,8 @@ with lib;
     "jfs"
     "minix"
     "nilfs2"
+    "ntfs"
+    "omfs"
     "qnx4"
     "qnx6"
     "sysv"
