@@ -12,7 +12,7 @@
       in
       [
         plugins.printtimegenius
-        ptsdPlugins.telegram
+        plugins.telegram
         plugins.curaenginelegacy
         plugins.gcodeeditor
         plugins.octoklipper

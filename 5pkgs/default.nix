@@ -69,7 +69,6 @@ self: pkgs_master: super:
     octolapse = plugins.callPackage ./octoprint-plugins/octolapse.nix { };
     prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix { };
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
-    telegram = plugins.callPackage ./octoprint-plugins/telegram.nix { };
   };
 
   ptsd-python2 = self.python2.override {
