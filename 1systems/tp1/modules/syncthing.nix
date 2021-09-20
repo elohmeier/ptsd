@@ -44,6 +44,7 @@
         id = "yqa69-2zjmt";
         devices = [ "nas1" "ws1" "ws2" ];
         label = "repos";
+        ignorePerms = false;
       };
     };
   };

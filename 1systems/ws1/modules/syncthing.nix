@@ -45,6 +45,7 @@
         label = "repos";
         id = "yqa69-2zjmt";
         devices = [ "nas1" "tp1" "ws2" ];
+        ignorePerms = false;
       };
       "/mnt/photos/photos" = {
         label = "photos";
