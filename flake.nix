@@ -11,7 +11,7 @@
     #nix-doom-emacs.url = github:vlaci/nix-doom-emacs;
     #nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
     #nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
-    frix.url = "git+ssh://git@git.fraam.de/fraam/frix";
+    frix.url = "git+https://git.fraam.de/fraam/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
     frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
     frix.inputs.flake-utils.follows = "flake-utils";
