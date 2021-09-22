@@ -662,7 +662,6 @@ in
 
             programs.foot = {
               enable = true;
-              server.enable = true;
               settings = {
                 main = {
                   font = lib.mkDefault "SauceCodePro Nerd Font:size=${toString (cfg.fontSize - 3.0)}";
@@ -672,31 +671,8 @@ in
               };
             };
 
-            systemd.user.services.autoname-workspaces = {
-              Unit = {
-                Description = "Autoname Sway Workspaces";
-                BindsTo = [ "graphical-session.target" ];
-              };
-
-              Service =
-                let
-                  autoname-workspaces =
-                    pkgs.writers.writePython3
-                      "autoname-workspaces"
-                      {
-                        libraries = [ pkgs.python3Packages.i3ipc ];
-                        flakeIgnore = [ "E501" ];
-                      }
-                      ../4scripts/autoname-workspaces.py;
-                in
-                {
-                  ExecStart = toString autoname-workspaces;
-                };
-            };
-
             programs.waybar = {
               enable = true;
-              systemd.enable = true;
               settings = [
                 {
                   layer = "top";
@@ -1233,18 +1209,25 @@ in
                       hide_cursor = toString (cfg.hideCursorIdleSec * 1000);
                     };
                   };
+
+                  startup = [
+                    { command = "${config.programs.waybar.package}/bin/waybar"; }
+                    { command = "${config.programs.foot.package}/bin/foot --server"; }
+                    { command = toString pkgs.autoname-workspaces; }
+                  ] ++ optional cfg.autolock.enable {
+                    command = ''${pkgs.swayidle}/bin/swayidle -w \
+        timeout 300 '${lockCmd}' \
+        timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
+        resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
+        timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
+        resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
+        before-sleep '${lockCmd}'
+        '';
+                  };
                 };
 
               extraConfig = ''
                 set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
-              '' + optionalString (cfg.autolock.enable) ''
-                exec ${pkgs.swayidle}/bin/swayidle -w \
-                  timeout 300 '${lockCmd}' \
-                  timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
-                  resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
-                  timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
-                  resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
-                  before-sleep '${lockCmd}'
               '';
             };
 

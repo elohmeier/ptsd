@@ -34,6 +34,7 @@ WINDOW_ICONS = {
     "soffice": "",
     "libreoffice-writer": "",
     "libreoffice-startcenter": "",
+    "signal": "",
 }
 
 DEFAULT_ICON = ""

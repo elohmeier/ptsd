@@ -24,6 +24,14 @@ self: pkgs_master: super:
 {
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
+  autoname-workspaces =
+    self.writers.writePython3
+      "autoname-workspaces"
+      {
+        libraries = [ self.python3Packages.i3ipc ];
+        flakeIgnore = [ "E501" ];
+      }
+      ../4scripts/autoname-workspaces.py;
   carberryd = self.callPackage ./carberryd { };
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
   file-renamer = self.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
