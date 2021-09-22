@@ -43,14 +43,40 @@
     flake-utils.lib.eachDefaultSystem
       (system:
       let
-        packages = import nixpkgs {
+        pkgs = import nixpkgs {
           config.allowUnfree = true; inherit system;
-          config.packageOverrides = pkgOverrides packages;
+          config.packageOverrides = pkgOverrides pkgs;
         };
       in
       {
-        inherit packages;
-        devShell = import ./shell.nix { pkgs = packages; };
+        packages = pkgs // {
+          mk-pretty =
+            let
+              path = pkgs.lib.makeBinPath (with pkgs; [
+                git
+                nixpkgs-fmt
+                python3Packages.black
+                python3Packages.isort
+                gofumpt
+              ]);
+            in
+            pkgs.writeShellScriptBin "mk-pretty" ''
+              set -e
+              export PATH=${path}
+              ROOT=$(git rev-parse --show-toplevel)
+              nixpkgs-fmt $ROOT/1systems
+              nixpkgs-fmt $ROOT/2configs
+              nixpkgs-fmt $ROOT/3modules
+              nixpkgs-fmt $ROOT/5pkgs
+              nixpkgs-fmt $ROOT/*.nix      
+              black $ROOT/.
+              isort $ROOT/5pkgs
+              black $ROOT/src/*.pyw
+              isort $ROOT/src/*.pyw
+              gofumpt -w $ROOT/5pkgs
+            '';
+        };
+        devShell = import ./shell.nix { inherit pkgs; };
       })
     // {
 
