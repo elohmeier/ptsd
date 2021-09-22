@@ -17,6 +17,7 @@ let
   manage = pkgs.writeShellScript "fraamdb-manage" ''
     export DJANGO_SETTINGS_MODULE="fraamdb.settings";    
     export DATABASE_URL="sqlite:////var/lib/fraamdb/fraamdb.sqlite";
+    export GOOGLE_SERVICE_ACCOUNT_JSON="${config.ptsd.secrets.files."google-service-fraamdb.json".path}"
     ${pyenv}/bin/manage.py ''${@:1}
   '';
 in
@@ -48,6 +49,10 @@ in
   };
 
   config = mkIf cfg.enable {
+    
+    ptsd.secrets.files."google-service-fraamdb.json" = {
+      owner = "fraamdb";
+    };
 
     systemd.services.fraamdb = {
       description = "fraamdb django app";
@@ -63,6 +68,7 @@ in
         STATIC_ROOT = fraamdb.static;
         DEBUG = if cfg.debug then "1" else "0";
         HTTPS_ONLY = if cfg.httpsOnly then "1" else "0";
+        GOOGLE_SERVICE_ACCOUNT_JSON = "${config.ptsd.secrets.files."google-service-fraamdb.json".path}";
       };
 
       preStart = ''
@@ -88,19 +94,21 @@ in
         RestrictAddressFamilies = "AF_INET AF_INET6";
         NoNewPrivileges = true;
         StateDirectory = "fraamdb";
+        SupplementaryGroups = "keys";
       };
     };
 
     systemd.services.fraamdb-importtimesheets = {
       description = "fraamdb import timesheets";
       wantedBy = [ "multi-user.target" ];
-      wants = [ "network.target" ];
-      after = [ "network.target" ];
+      wants = [ "network.target" "fraamdb.service" ];
+      after = [ "network.target" "fraamdb.service" ];
 
       environment = {
         DJANGO_SETTINGS_MODULE = "fraamdb.settings";
         PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
         DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
+        GOOGLE_SERVICE_ACCOUNT_JSON = "${config.ptsd.secrets.files."google-service-fraamdb.json".path}";
       };
 
       preStart = ''
@@ -114,6 +122,7 @@ in
         ${pyenv}/bin/manage.py importtimesheets 3
         ${pyenv}/bin/manage.py updatebalances
         ${pyenv}/bin/manage.py updatepnsquotas
+        ${pyenv}/bin/manage.py updatevacationcalendar
       '';
 
       serviceConfig = {
@@ -122,6 +131,7 @@ in
         NoNewPrivileges = true;
         LockPersonality = true;
         StateDirectory = "fraamdb";
+        SupplementaryGroups = "keys";
       };
 
       startAt = "*-*-* 06:00:00";
