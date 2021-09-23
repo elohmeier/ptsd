@@ -60,6 +60,7 @@ self: pkgs_master: super:
   pdfduplex = self.callPackage ./pdfduplex { };
   photoprism = self.callPackage ./photoprism { };
   ptsdbootstrap = self.callPackage ./ptsdbootstrap { };
+  read-co2-status = self.writeShellScriptBin "read-co2-status" ../4scripts/read-co2-status.sh;
   shrinkpdf = self.callPackage ./shrinkpdf { };
   swayassi = self.callPackage ./swayassi { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };

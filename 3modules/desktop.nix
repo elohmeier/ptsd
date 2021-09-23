@@ -710,11 +710,9 @@ in
                     };
                     "custom/co2" = mkIf cfg.waybar.co2 {
                       format = "co2 {}ppm";
-                      exec = pkgs.writeShellScript "read-co2-status" ''
-                        export $(grep -v '^#' /run/keys/hass-cli.env | xargs -d '\n')
-                        hass-cli -o table --no-headers --columns STATE=state state get sensor.fraam_co2_mhz19b_carbondioxide
-                      '';
+                      exec = "${pkgs.read-co2-status}/bin/read-co2-status";
                       interval = 30;
+                      return-type = "json";
                     };
                     "custom/nobbofin-inbox" = {
                       format = "nbf {}";
@@ -877,6 +875,11 @@ in
                           background-color: #d33682;
                           color: #93a1a1;
                       }
+                  }
+
+                  #custom-co2.alert {
+                    background-color: #dc322f;
+                    color: #ffffff;
                   }
 
                   #battery.critical:not(.charging) {
