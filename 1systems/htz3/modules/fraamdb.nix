@@ -49,7 +49,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    
+
     ptsd.secrets.files."google-service-fraamdb.json" = {
       owner = "fraamdb";
     };
