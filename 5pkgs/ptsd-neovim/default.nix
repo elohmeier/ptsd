@@ -11,6 +11,7 @@
 , nixpkgs-fmt
 , python3Packages
 , clang-tools
+, shfmt
 , enableFormatters ? true
 , enableLSP ? true
 }:
@@ -221,6 +222,15 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
                   function()
                     return {
                       exe = "${python3Packages.black}/bin/black",
+                      args = {"-"},
+                      stdin = true
+                    }
+                  end
+                },
+                sh = {
+                  function()
+                    return {
+                      exe = "${shfmt}/bin/shfmt",
                       args = {"-"},
                       stdin = true
                     }
