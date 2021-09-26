@@ -678,8 +678,8 @@ in
                 {
                   layer = "top";
                   position = "bottom";
-                  height = 21;
-                  modules-left = [ "sway/workspaces" "sway/mode" ];
+                  #height = 21;
+                  modules-left = [ "custom/add-workspace" "sway/workspaces" "sway/mode" ];
                   modules-center = [
                   ];
                   modules-right = (lib.optional cfg.autolock.enable "idle_inhibitor") ++ [ "custom/nobbofin-inbox" ] ++ (lib.optional cfg.waybar.co2
@@ -709,6 +709,10 @@ in
                         activated = "";
                         deactivated = "";
                       };
+                    };
+                    "custom/add-workspace" = {
+                      format = "  ";
+                      on-click = toString pkgs.add-workspace;
                     };
                     "custom/co2" = mkIf cfg.waybar.co2 {
                       format = "co2 {}ppm";
@@ -867,7 +871,7 @@ in
                       border-bottom: 1px solid #dc322f;
                   }
 
-                  #clock, #battery, #cpu, #memory, #backlight, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 #custom-mouse-battery {
+                  #clock, #battery, #cpu, #memory, #backlight, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #custom-co2, #custom-mouse-battery, custom-add-workspace {
                       padding: 0 10px;
                       margin: 0 2px;
                       background-color: ${cfg.waybar.bgColor};
