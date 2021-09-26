@@ -61,6 +61,7 @@ self: pkgs_master: super:
   photoprism = self.callPackage ./photoprism { };
   ptsdbootstrap = self.callPackage ./ptsdbootstrap { };
   read-co2-status = self.writeShellScriptBin "read-co2-status" ../4scripts/read-co2-status.sh;
+  read-battery-status = self.writeShellScriptBin "read-battery-status" ../4scripts/read-battery-status.sh;
   shrinkpdf = self.callPackage ./shrinkpdf { };
   swayassi = self.callPackage ./swayassi { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };

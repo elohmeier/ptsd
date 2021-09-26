@@ -696,6 +696,7 @@ in
                   ] ++ optional cfg.nvidia.enable "custom/nvidia" ++ [
                     #"backlight"
                     "battery"
+                    "custom/mouse-battery"
                     "clock"
                     "tray"
                   ];
@@ -711,6 +712,13 @@ in
                     "custom/co2" = mkIf cfg.waybar.co2 {
                       format = "co2 {}ppm";
                       exec = "${pkgs.read-co2-status}/bin/read-co2-status";
+                      interval = 30;
+                      return-type = "json";
+                    };
+                    # see also https://github.com/Alexays/Waybar/issues/975
+                    "custom/mouse-battery" = {
+                      format = " {}";
+                      exec = "${pkgs.read-battery-status}/bin/read-battery-status";
                       interval = 30;
                       return-type = "json";
                     };
@@ -858,7 +866,7 @@ in
                       border-bottom: 1px solid #dc322f;
                   }
 
-                  #clock, #battery, #cpu, #memory, #backlight, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 {
+                  #clock, #battery, #cpu, #memory, #backlight, #network, #pulseaudio, #tray, #mode, #idle_inhibitor, #disk, #custom-co2 #custom-mouse-battery {
                       padding: 0 10px;
                       margin: 0 2px;
                       background-color: ${cfg.waybar.bgColor};
@@ -877,7 +885,7 @@ in
                       }
                   }
 
-                  #custom-co2.alert {
+                  #custom-co2.alert, #custom-mouse-battery.alert {
                     background-color: #dc322f;
                     color: #ffffff;
                   }
