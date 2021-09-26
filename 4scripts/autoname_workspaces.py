@@ -1,19 +1,22 @@
 # !/usr/bin/env nix-shell
 # !nix-shell -i python3 -p python3Packages.i3ipc
 
-# This script requires i3ipc-python package (install it from a system package manager
-# or pip).
-# It adds icons to the workspace name for each open window.
-# Set your keybindings like this: set $workspace1 workspace number 1
-# Add your icons to WINDOW_ICONS.
-# Based on https://github.com/maximbaz/dotfiles/blob/master/bin/i3-autoname-workspaces
+"""
+This script requires i3ipc-python package (install it from a system package manager or pip).
+It adds icons to the workspace name for each open window.
+Set your keybindings like this: set $workspace1 workspace number 1
+Add your icons to WINDOW_ICONS.
+Based on https://github.com/maximbaz/dotfiles/blob/master/bin/i3-autoname-workspaces
+"""
 
 import argparse
-import i3ipc
 import logging
 import re
 import signal
 import sys
+from typing import Dict
+
+import i3ipc
 
 # copy "icon" from https://www.nerdfonts.com/cheat-sheet
 WINDOW_ICONS = {
@@ -40,7 +43,9 @@ WINDOW_ICONS = {
 DEFAULT_ICON = ""
 
 
-def icon_for_window(window):
+def icon_for_window(window: i3ipc.Con) -> str:
+    """ find icon for a i3 window object """
+
     name = None
     if window.app_id is not None and len(window.app_id) > 0:
         name = window.app_id.lower()
@@ -50,26 +55,30 @@ def icon_for_window(window):
     if name in WINDOW_ICONS:
         return WINDOW_ICONS[name]
 
-    logging.info("No icon available for window with name: %s" % str(name))
+    logging.info("No icon available for window with name: %s", name)
     return DEFAULT_ICON
 
 
-def rename_workspaces(ipc):
+def rename_workspaces(ipc: i3ipc.Connection, duplicates: bool) -> None:
+    """ scans for windows in all workspaces as renames the workspaces """
+
     for workspace in ipc.get_tree().workspaces():
         name_parts = parse_workspace_name(workspace.name)
         icon_tuple = ()
-        for w in workspace:
-            if w.app_id is not None or w.window_class is not None:
-                icon = icon_for_window(w)
-                if not ARGUMENTS.duplicates and icon in icon_tuple:
+        for wksp in workspace:
+            if wksp.app_id is not None or wksp.window_class is not None:
+                icon = icon_for_window(wksp)
+                if not duplicates and icon in icon_tuple:
                     continue
                 icon_tuple += (icon,)
-        name_parts["icons"] = "  ".join(icon_tuple) + " "
+        name_parts["icons"] = "  ".join(icon_tuple)
         new_name = construct_workspace_name(name_parts)
         ipc.command('rename workspace "%s" to "%s"' % (workspace.name, new_name))
 
 
-def undo_window_renaming(ipc):
+def undo_window_renaming(ipc: i3ipc.Connection) -> None:
+    """ reset workspace names to original name """
+
     for workspace in ipc.get_tree().workspaces():
         name_parts = parse_workspace_name(workspace.name)
         name_parts["icons"] = None
@@ -79,13 +88,17 @@ def undo_window_renaming(ipc):
     sys.exit(0)
 
 
-def parse_workspace_name(name):
+def parse_workspace_name(name: str) -> Dict:
+    """ analyses workspace name structure """
+
     return re.match(
         r"(?P<num>[0-9]+):?(?P<shortname>\w+)? ?(?P<icons>.+)?", name
     ).groupdict()
 
 
-def construct_workspace_name(parts):
+def construct_workspace_name(parts: Dict) -> str:
+    """ generate name of workspace """
+
     new_name = str(parts["num"])
     if parts["shortname"] or parts["icons"]:
         new_name += ":"
@@ -99,7 +112,9 @@ def construct_workspace_name(parts):
     return new_name
 
 
-if __name__ == "__main__":
+def main():
+    """ main entrypoint """
+
     parser = argparse.ArgumentParser(
         description="This script automatically changes the workspace name in sway depending on your open applications."
     )
@@ -117,12 +132,10 @@ if __name__ == "__main__":
         help="Path for the logfile.",
     )
     args = parser.parse_args()
-    global ARGUMENTS
-    ARGUMENTS = args
 
     logging.basicConfig(
         level=logging.INFO,
-        filename=ARGUMENTS.logfile,
+        filename=args.logfile,
         filemode="w",
         format="%(message)s",
     )
@@ -132,12 +145,18 @@ if __name__ == "__main__":
     for sig in [signal.SIGINT, signal.SIGTERM]:
         signal.signal(sig, lambda signal, frame: undo_window_renaming(ipc))
 
-    def window_event_handler(ipc, e):
-        if e.change in ["new", "close", "move"]:
-            rename_workspaces(ipc)
+    def window_event_handler(ipc: i3ipc.Connection, evnt: i3ipc.WindowEvent):
+        """ handle i3 window event """
+
+        if evnt.change in ["new", "close", "move"]:
+            rename_workspaces(ipc, args.duplicates)
 
     ipc.on("window", window_event_handler)
 
-    rename_workspaces(ipc)
+    rename_workspaces(ipc, args.duplicates)
 
     ipc.main()
+
+
+if __name__ == "__main__":
+    main()

@@ -31,7 +31,7 @@ self: pkgs_master: super:
         libraries = [ self.python3Packages.i3ipc ];
         flakeIgnore = [ "E501" ];
       }
-      ../4scripts/autoname-workspaces.py;
+      ../4scripts/autoname_workspaces.py;
   carberryd = self.callPackage ./carberryd { };
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
   file-renamer = self.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
@@ -141,6 +141,7 @@ self: pkgs_master: super:
       boto3
       impacket
       pycrypto
+      pylint
     ]
   );
 
