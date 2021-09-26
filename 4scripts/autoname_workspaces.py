@@ -38,6 +38,7 @@ WINDOW_ICONS = {
     "libreoffice-writer": "",
     "libreoffice-startcenter": "",
     "signal": "",
+    "ghidra": "ﯢ",
 }
 
 DEFAULT_ICON = ""

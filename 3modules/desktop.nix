@@ -634,6 +634,7 @@ in
 
             programs.mako = {
               enable = true;
+              font = "${cfg.fontSans} ${toString cfg.fontSize}";
             };
 
             systemd.user.services.wob = {
@@ -664,7 +665,7 @@ in
               enable = true;
               settings = {
                 main = {
-                  font = lib.mkDefault "SauceCodePro Nerd Font:size=${toString (cfg.fontSize - 3.0)}";
+                  font = lib.mkDefault "SauceCodePro Nerd Font:size=8";
                   dpi-aware = lib.mkDefault "yes";
                 };
                 scrollback.lines = 50000;
@@ -1178,8 +1179,9 @@ in
             gtk = {
               enable = true;
               font = {
-                name = "${cfg.fontSans} ${toString cfg.fontSize}";
-                #package = pkgs.iosevka; # TODO: replace, pulls in i686-unsupported dependencies
+                name = cfg.fontSans;
+                size = builtins.floor cfg.fontSize;
+                package = pkgs.iosevka; # TODO: replace, pulls in i686-unsupported dependencies
               };
               iconTheme = {
                 name = "Adwaita";
