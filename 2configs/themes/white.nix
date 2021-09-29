@@ -25,7 +25,7 @@ let
 in
 {
   ptsd.desktop = {
-    bemenuArgs = "--fn '${font}' --nb '${colors.primary.background}' --nf '${colors.primary.foreground}' --hb '${colors.primary.contrast}' --hf '${colors.primary.accent}' --tb '${colors.primary.contrast}' --tf '${colors.primary.accent}'";
+    bemenuArgs = "--fn '${font} ${toString config.ptsd.desktop.fontSize}' --nb '${colors.primary.background}' --nf '${colors.primary.foreground}' --hb '${colors.primary.contrast}' --hf '${colors.primary.accent}' --tb '${colors.primary.contrast}' --tf '${colors.primary.accent}'";
     waybar = {
       bgColor = colors.primary.background;
       fgColor = colors.primary.foreground;
