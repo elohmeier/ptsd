@@ -25,6 +25,7 @@ WINDOW_ICONS = {
     "chromium-browser": "",
     "chromium": "",
     "foot": "",
+    "term.floating": "",
     "pcmanfm": "",
     "org.pwmt.zathura": "",
     "vscodium": "",
@@ -39,6 +40,9 @@ WINDOW_ICONS = {
     "libreoffice-startcenter": "",
     "signal": "",
     "ghidra": "ﯢ",
+    "microsoft teams - preview": "",
+    "swappy": "",
+    "gcr-prompter": "",
 }
 
 DEFAULT_ICON = ""
@@ -52,6 +56,9 @@ def icon_for_window(window: i3ipc.Con) -> str:
         name = window.app_id.lower()
     elif window.window_class is not None and len(window.window_class) > 0:
         name = window.window_class.lower()
+
+    if name is None:
+        return DEFAULT_ICON
 
     if name in WINDOW_ICONS:
         return WINDOW_ICONS[name]
@@ -144,10 +151,13 @@ def main():
     ipc = i3ipc.Connection()
 
     for sig in [signal.SIGINT, signal.SIGTERM]:
-        signal.signal(sig, lambda signal, frame: undo_window_renaming(ipc))
+        signal.signal(sig, lambda _, __: undo_window_renaming(ipc))
 
-    def window_event_handler(ipc: i3ipc.Connection, evnt: i3ipc.WindowEvent):
+    def window_event_handler(ipc: i3ipc.Connection, evnt: i3ipc.events.IpcBaseEvent):
         """ handle i3 window event """
+
+        if not isinstance(evnt, i3ipc.events.WindowEvent):
+            return
 
         if evnt.change in ["new", "close", "move"]:
             rename_workspaces(ipc, args.duplicates)
