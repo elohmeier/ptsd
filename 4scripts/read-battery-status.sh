@@ -2,6 +2,7 @@
 
 DEVICE=/org/freedesktop/UPower/devices/mouse_hidpp_battery_0
 BATTERY_POWER=$(upower -i "$DEVICE" | grep -E percentage | awk '{print $2}' | tr -d '%')
+BATTERY_STATE=$(upower -i "$DEVICE" | grep -E state | awk '{print $2}')
 
 if [[ "${BATTERY_POWER}" -gt 87 ]]; then
 	BATTERY_ICON=""
@@ -21,4 +22,4 @@ if (($BATTERY_POWER < 13)); then
 	class="alert"
 fi
 
-jq --null-input --unbuffered --compact-output --arg text "${BATTERY_ICON}" --arg percentage "${BATTERY_POWER}" --arg tooltip "${DEVICE}: ${BATTERY_POWER}%" --arg class "$class" '{"text": $text, "tooltip": $tooltip, "percentage": $percentage, "class": $class}'
+jq --null-input --unbuffered --compact-output --arg text "${BATTERY_ICON}" --arg percentage "${BATTERY_POWER}" --arg tooltip "${DEVICE}: ${BATTERY_POWER}% (${BATTERY_STATE})" --arg class "$class" '{"text": $text, "tooltip": $tooltip, "percentage": $percentage, "class": $class}'
