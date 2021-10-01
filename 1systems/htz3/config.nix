@@ -118,10 +118,10 @@ in
         rule = "Host(`int.fraam.de`)";
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
 
-        auth.forwardAuth = {
-          address = "http://localhost:4181";
-          authResponseHeaders = [ "X-Forwarded-User" ];
-        };
+        # auth.forwardAuth = {
+        #   address = "http://localhost:4181";
+        #   authResponseHeaders = [ "X-Forwarded-User" ];
+        # };
       }
       {
         name = "nginx-wellknown-matrix";
@@ -266,7 +266,9 @@ in
           port = config.ptsd.nwtraefik.ports.nginx-fraam-intweb;
         }];
 
-        root = "/var/www/intweb";
+        extraConfig = ''
+          return 301 https://db.fraam.de;
+        '';
       };
 
       nginx-wellknown-matrix = {
