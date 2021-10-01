@@ -18,6 +18,8 @@ in
     ../../users/enno.nix
   ];
 
+  networking.firewall.allowedTCPPorts = [ 80 443 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
+
   environment.pathsToLink = [ "/share/nmap" ];
 
   # for BloodHound
