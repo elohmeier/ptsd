@@ -20,6 +20,17 @@ let
     export GOOGLE_SERVICE_ACCOUNT_JSON="${config.ptsd.secrets.files."google-service-fraamdb.json".path}"
     ${pyenv}/bin/manage.py ''${@:1}
   '';
+  environment = {
+    DJANGO_SETTINGS_MODULE = "fraamdb.settings";
+    PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
+    DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
+    ALLOWED_HOSTS = cfg.domain;
+    STATIC_ROOT = fraamdb.static;
+    DEBUG = if cfg.debug then "1" else "0";
+    HTTPS_ONLY = if cfg.httpsOnly then "1" else "0";
+    GOOGLE_SERVICE_ACCOUNT_JSON = "${config.ptsd.secrets.files."google-service-fraamdb.json".path}";
+    PNS_SSL_NO_VERIFY = "1"; # TODO: rm when fixed by Curema, Mail sent on 2021-10-01
+  };
 in
 {
   # run `/var/lib/fraamdb/manage createsuperuser` as root to create an admin user
@@ -55,21 +66,12 @@ in
     };
 
     systemd.services.fraamdb = {
+      inherit environment;
+
       description = "fraamdb django app";
       wantedBy = [ "multi-user.target" ];
       wants = [ "network.target" ];
       after = [ "network.target" ];
-
-      environment = {
-        DJANGO_SETTINGS_MODULE = "fraamdb.settings";
-        PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
-        DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
-        ALLOWED_HOSTS = cfg.domain;
-        STATIC_ROOT = fraamdb.static;
-        DEBUG = if cfg.debug then "1" else "0";
-        HTTPS_ONLY = if cfg.httpsOnly then "1" else "0";
-        GOOGLE_SERVICE_ACCOUNT_JSON = "${config.ptsd.secrets.files."google-service-fraamdb.json".path}";
-      };
 
       preStart = ''
         if [[ $(readlink /var/lib/fraamdb/manage) != "${manage}" ]]; then
@@ -99,17 +101,12 @@ in
     };
 
     systemd.services.fraamdb-importtimesheets = {
+      inherit environment;
+
       description = "fraamdb import timesheets";
       wantedBy = [ "multi-user.target" ];
       wants = [ "network.target" "fraamdb.service" ];
       after = [ "network.target" "fraamdb.service" ];
-
-      environment = {
-        DJANGO_SETTINGS_MODULE = "fraamdb.settings";
-        PYTHONPATH = "${pyenv}/${pyenv.python.sitePackages}/";
-        DATABASE_URL = "sqlite:////var/lib/fraamdb/fraamdb.sqlite";
-        GOOGLE_SERVICE_ACCOUNT_JSON = "${config.ptsd.secrets.files."google-service-fraamdb.json".path}";
-      };
 
       preStart = ''
         if [[ $(readlink /var/lib/fraamdb/manage) != "${manage}" ]]; then
@@ -123,6 +120,7 @@ in
         ${pyenv}/bin/manage.py updatebalances
         ${pyenv}/bin/manage.py updatepnsquotas
         ${pyenv}/bin/manage.py updatevacationcalendar
+        ${pyenv}/bin/manage.py updatedrives
       '';
 
       serviceConfig = {
