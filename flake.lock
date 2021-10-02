@@ -34,11 +34,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1632905209,
-        "narHash": "sha256-XBGXcfqc4L1gNaHlmuT+nNiLTA+ZoO9KGDDAMfruSDU=",
+        "lastModified": 1633174285,
+        "narHash": "sha256-m8PU/V4zUmCosN0YMH3CnwLFw+IzkE1PCPc6JNi9KfQ=",
         "ref": "master",
-        "rev": "b8d387e720e9e535998a44dcfb9701531b54d700",
-        "revCount": 116,
+        "rev": "2b9284eee9a8bec5f13cd1f81f727d0cdc4660d7",
+        "revCount": 122,
         "type": "git",
         "url": "https://git.fraam.de/fraam/frix"
       },
@@ -102,11 +102,11 @@
     },
     "nixpkgs-master": {
       "locked": {
-        "lastModified": 1633074215,
-        "narHash": "sha256-epmR1H1amgFWuU7xW9OXGjsAqltMqCSqkv1U2+9rOlM=",
+        "lastModified": 1633173762,
+        "narHash": "sha256-qu994VT28HEv7+lzvaZ+eRerDx6ffrBc4p1eYT2jLiQ=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "378d2c5dcec7fef958cca3760448c09a9be2b7a3",
+        "rev": "5bfa40e1b7473397d6de0dfd0e8e86c3733b8250",
         "type": "github"
       },
       "original": {
@@ -118,11 +118,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1633061261,
-        "narHash": "sha256-RL39mBdL+ep9fAmKjqbDJfRtSN5X8Ed2tWEXScElAi4=",
+        "lastModified": 1633161488,
+        "narHash": "sha256-CcmXjmwy1aqP0FXD/gXV2l2YU399+oPoY8K3flMfd3E=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "61458c353eb9dd700c7576cafaf56771426addb0",
+        "rev": "cc825de043a3e9970d4d89af64133b60f457e43a",
         "type": "github"
       },
       "original": {
