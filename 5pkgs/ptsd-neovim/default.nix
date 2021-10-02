@@ -56,6 +56,9 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
               enable = true,
               additional_vim_regex_highlighting = false,
             },
+            indent = {
+              enable = false,
+            },
           }
           vim.api.nvim_command('autocmd BufRead,BufNewFile *.nix set filetype=nix')
         EOF
