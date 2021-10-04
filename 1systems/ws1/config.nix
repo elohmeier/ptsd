@@ -54,7 +54,7 @@ in
     autostart = false;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_5_13; # nvidia_x11 not backported for >=5.14 (https://github.com/NixOS/nixpkgs/pull/136205)
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
