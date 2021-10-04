@@ -21,7 +21,7 @@ in
     paths = [
       "/tank/enc"
       "/var/backup"
-      "/var/cache/private/photoprism"
+      "/var/cache/photoprism"
       "/var/lib"
     ];
     exclude = [
