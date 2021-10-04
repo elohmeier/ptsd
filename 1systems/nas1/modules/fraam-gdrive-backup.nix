@@ -9,14 +9,18 @@ let
     {
       type = "drive";
       client_id = "110476733789902981992";
-      scope = "drive.readonly";
+      # scope = "drive.readonly";
+      scope = "drive"; # write-access required for dedupe operation
       service_account_file = "$CREDENTIALS_DIRECTORY/gdrive-key";
       impersonate = "klaus.stammerjohann@fraam.de";
       team_drive = drive_id;
     };
 
   # add `--dry-run` to test the command
-  genJob = drive_name: drive_id: "rclone sync --drive-skip-shortcuts ${drive_name}: /tank/enc/fraam-gdrive-backup/${drive_id}";
+  genJob = drive_name: drive_id: ''
+    rclone dedupe --dedupe-mode rename "${drive_name}:"
+    rclone sync --drive-skip-shortcuts "${drive_name}:" "/tank/enc/fraam-gdrive-backup/${drive_id}"
+  '';
 in
 {
   users.groups.fraam-gdrive-backup = { };
