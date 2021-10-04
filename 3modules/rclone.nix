@@ -12,9 +12,8 @@ let
   mkJobService = name: jobCfg:
     nameValuePair "rclone-${name}" {
       description = "rclone job ${name}";
-      script = ''
-        ${pkgs.rclone}/bin/rclone ${jobCfg.cmd}
-      '';
+      path = with pkgs; [ rclone ];
+      script = jobCfg.script;
       serviceConfig = {
         # execution
         Type = "oneshot";
@@ -83,7 +82,7 @@ in
                   type = types.str;
                   default = config._module.args.name;
                 };
-                cmd = mkOption {
+                script = mkOption {
                   type = types.str;
                 };
                 user = mkOption {

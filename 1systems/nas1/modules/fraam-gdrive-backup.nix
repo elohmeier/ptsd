@@ -15,16 +15,8 @@ let
       team_drive = drive_id;
     };
 
-  genJob = drive_name: drive_id: nameValuePair
-    drive_name
-    {
-      # add `--dry-run` to test the command
-      cmd = "sync --drive-skip-shortcuts ${drive_name}: /tank/enc/fraam-gdrive-backup/${drive_id}";
-      user = "fraam-gdrive-backup";
-      group = "fraam-gdrive-backup";
-      rwpaths = [ "/tank/enc/fraam-gdrive-backup" ];
-      startAt = "*-*-* 05:00:00";
-    };
+  # add `--dry-run` to test the command
+  genJob = drive_name: drive_id: "rclone sync --drive-skip-shortcuts ${drive_name}: /tank/enc/fraam-gdrive-backup/${drive_id}";
 in
 {
   users.groups.fraam-gdrive-backup = { };
@@ -36,7 +28,13 @@ in
 
   ptsd.rclone = {
     config = mapAttrs' genCfg fraamCfg.drives;
-    jobs = mapAttrs' genJob fraamCfg.drives;
+    jobs.fraam-gdrive-backup = {
+      user = "fraam-gdrive-backup";
+      group = "fraam-gdrive-backup";
+      rwpaths = [ "/tank/enc/fraam-gdrive-backup" ];
+      startAt = "*-*-* 05:00:00";
+      script = concatStringsSep "\n" (mapAttrsToList genJob fraamCfg.drives);
+    };
 
     # passed via systemd with LoadCredential
     credentials =
