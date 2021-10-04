@@ -8,7 +8,7 @@ let
     drive_name
     {
       type = "drive";
-      client_id = "100812309064118189865";
+      client_id = "110476733789902981992";
       scope = "drive.readonly";
       service_account_file = "$CREDENTIALS_DIRECTORY/gdrive-key";
       impersonate = "klaus.stammerjohann@fraam.de";
@@ -38,9 +38,10 @@ in
     config = mapAttrs' genCfg fraamCfg.drives;
     jobs = mapAttrs' genJob fraamCfg.drives;
 
+    # passed via systemd with LoadCredential
     credentials =
       {
-        "gdrive-key" = "/var/src/secrets/fraam-gdrive-backup-3b42c04ff1ec.json";
+        "gdrive-key" = "/var/src/secrets/fraam-gdrive-backup-2dcf90646dee.json";
       };
   };
 }
