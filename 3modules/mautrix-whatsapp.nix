@@ -70,7 +70,7 @@ in
         DynamicUser = true;
         WorkingDirectory = "/var/lib/mautrix-whatsapp";
         StateDirectory = "mautrix-whatsapp";
-        LoggingDirectory = "mautrix-whatsapp";
+        LogsDirectory = "mautrix-whatsapp";
         Restart = "on-failure";
         RestartSec = 30;
 
