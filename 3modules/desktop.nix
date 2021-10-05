@@ -726,6 +726,7 @@ in
                       exec = "${pkgs.read-battery-status}/bin/read-battery-status";
                       interval = 30;
                       return-type = "json";
+                      on-click-right = term.execFloating "${pkgs.procps}/bin/watch -n1 ${pkgs.upower}/bin/upower -d" "";
                     };
                     "custom/nobbofin-inbox" = {
                       format = "nbf {}";
