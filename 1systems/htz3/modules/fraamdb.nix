@@ -29,7 +29,6 @@ let
     DEBUG = if cfg.debug then "1" else "0";
     HTTPS_ONLY = if cfg.httpsOnly then "1" else "0";
     GOOGLE_SERVICE_ACCOUNT_JSON = "${config.ptsd.secrets.files."google-service-fraamdb.json".path}";
-    PNS_SSL_NO_VERIFY = "1"; # TODO: rm when fixed by Curema, Mail sent on 2021-10-01
   };
 in
 {
