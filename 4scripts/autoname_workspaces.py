@@ -36,13 +36,17 @@ WINDOW_ICONS = {
     "sxiv": "",
     ".virt-manager-wrapped": "",
     "soffice": "",
-    "libreoffice-writer": "",
     "libreoffice-startcenter": "",
+    "libreoffice-writer": "",
+    "libreoffice-calc": "",
+    "libreoffice-impress": "",
+    "gimp-2.10": "",
     "signal": "",
     "ghidra": "ﯢ",
     "microsoft teams - preview": "",
     "swappy": "",
     "gcr-prompter": "",
+    "sylpheed": "",
 }
 
 DEFAULT_ICON = ""
