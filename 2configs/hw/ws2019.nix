@@ -60,4 +60,21 @@
   nix.maxJobs = lib.mkDefault 24;
 
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+
+  services.xserver = {
+    videoDrivers = [ "amdgpu" ];
+    xrandrHeads = [
+      {
+        output = "DisplayPort-0";
+        monitorConfig = ''Option "Above" "DisplayPort-1"'';
+      }
+      {
+        output = "DisplayPort-1";
+        primary = true; # fixes missing tray in i3bar
+      }
+      {
+        output = "DisplayPort-2";
+      }
+    ];
+  };
 }

@@ -134,6 +134,10 @@ in
           };
         };
       };
+      keybindings = mkOption {
+        default = { };
+        type = types.attrs;
+      };
     };
   };
 }

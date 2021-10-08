@@ -147,9 +147,12 @@ with lib;
   #"${cfg.modifier}+a" = ''[class="Firefox"] scratchpad show'';
   #"${cfg.modifier}+b" = ''[class="Firefox"] scratchpad show'';
 
+  "${cfg.modifier}+e" = "exec pcmanfm";
+  #"${cfg.modifier}+e" ="exec pcmanfm \"`${cwdCmd}`\"";
+
   # screenshots
   "Print" = ''exec ${pkgs.grim}/bin/grim -t png ~/Pocket/Screenshots/$(${pkgs.coreutils}/bin/date +"%Y-%m-%d_%H:%M:%S.png")'';
-  "${cfg.modifier}+Ctrl+Shift+4" =
+  "${cfg.modifier}+Ctrl+Shift+4" = if cfg.i3compat then "exec ${pkgs.flameshot}/bin/flameshot gui" else
     #''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
-    ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -'';
-}
+  ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -'';
+} // cfg.keybindings

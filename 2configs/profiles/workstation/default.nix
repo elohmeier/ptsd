@@ -117,20 +117,16 @@ in
         };
       };
 
-      wayland.windowManager.sway.config.keybindings = {
-
-        "${desktopCfg.modifier}+e" = "exec pcmanfm";
-        #"${cfg.modifier}+e" ="exec pcmanfm \"`${cwdCmd}`\"";
-
-        "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
-      };
-
       home.sessionVariables = {
         NNN_PLUG = "i:nobbofin-insert";
       };
 
       home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
     };
+
+  ptsd.desktop.keybindings = {
+    "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
+  };
 
   services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
 

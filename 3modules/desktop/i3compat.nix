@@ -5,6 +5,9 @@ let
 in
 {
   config = lib.mkIf (cfg.enable && cfg.i3compat) {
+
+    environment.systemPackages = with pkgs; [ arandr ];
+
     services.xserver = {
       enable = true;
       desktopManager.xterm.enable = false;
@@ -40,7 +43,51 @@ in
             };
             startup = [
               { command = toString pkgs.autoname-workspaces; }
+              { command = "${pkgs.flameshot}/bin/flameshot"; }
             ];
+            bars = [{
+              mode = "dock";
+              hiddenState = "hide";
+              position = "bottom";
+              workspaceButtons = true;
+              workspaceNumbers = true;
+              statusCommand = "${pkgs.i3status}/bin/i3status";
+              fonts = {
+                names = [ cfg.fontSans ];
+                size = cfg.fontSize;
+              };
+              trayOutput = "primary";
+              colors = {
+                background = "#000000";
+                statusline = "#ffffff";
+                separator = "#666666";
+                focusedWorkspace = {
+                  border = "#4c7899";
+                  background = "#285577";
+                  text = "#ffffff";
+                };
+                activeWorkspace = {
+                  border = "#333333";
+                  background = "#5f676a";
+                  text = "#ffffff";
+                };
+                inactiveWorkspace = {
+                  border = "#333333";
+                  background = "#222222";
+                  text = "#888888";
+                };
+                urgentWorkspace = {
+                  border = "#2f343a";
+                  background = "#900000";
+                  text = "#ffffff";
+                };
+                bindingMode = {
+                  border = "#2f343a";
+                  background = "#900000";
+                  text = "#ffffff";
+                };
+              };
+            }];
           };
         };
 
@@ -48,36 +95,52 @@ in
           enable = true;
           enableDefault = true;
           modules = {
+
+            "wireless _first_".settings = {
+              format_up = "  (%quality at %essid) %ip";
+              format_down = "  down";
+            };
+
+            "ethernet _first_".settings = {
+              format_up = "ﯱ e: %ip (%speed)";
+              format_down = " e: down";
+            };
+
             "ethernet nwvpn" = {
               position = 3;
               settings = {
-                format_up = "nw: %ip";
-                format_down = "nw: down";
+                format_up = "旅 nw: %ip";
+                format_down = " nw: down";
               };
             };
 
             "ethernet tun0" = {
               position = 3;
               settings = {
-                format_up = "t0: %ip";
-                format_down = "t0: down";
+                format_up = "旅 t0: %ip";
+                format_down = " t0: down";
               };
             };
 
+            "disk /".settings.format = " / %avail";
+
             "disk /home" = {
               position = 5;
-              settings.format = "h %avail";
+              settings.format = " h %avail";
             };
 
             "disk /nix" = {
               position = 5;
-              settings.format = "n %avail";
+              settings.format = " n %avail";
             };
 
             "disk /run/user/1000" = {
               position = 5;
-              settings.format = "xrd %avail";
+              settings.format = " xrd %avail";
             };
+
+            load.settings.format = " %1min";
+            memory.settings.format = " %used | %available";
           };
         };
 
@@ -90,6 +153,7 @@ in
               };
               size = cfg.fontSize;
             };
+            env.WINIT_X11_SCALE_FACTOR = "1.0";
           };
         };
       };
