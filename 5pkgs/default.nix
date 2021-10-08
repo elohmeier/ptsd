@@ -41,6 +41,7 @@ self: pkgs_master: super:
       }
       ../4scripts/autoname_workspaces.py;
   carberryd = self.callPackage ./carberryd { };
+  choose-browser = self.writers.writeDashBin "choose-browser" ../4scripts/choose-browser.sh;
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
   file-renamer = self.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
@@ -78,6 +79,7 @@ self: pkgs_master: super:
   tg = self.callPackage ./tg { };
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
+  writeNu = self.writers.makeScriptWriter { interpreter = "${self.nushell}/bin/nu"; };
   zathura-single = self.callPackage ./zathura-single { };
 
   ptsd-octoprintPlugins = plugins: {

@@ -3,9 +3,7 @@ _:
   imports = [
     ./acme-dns.nix
     ./alertmanager-bot.nix
-    #./cli.nix  # prevent pulling in where no home-manager is present
     ./cups-airprint.nix
-    #./desktop.nix  # prevent pulling in where no home-manager is present
     ./drone-server.nix
     ./loki.nix
     ./maddy.nix

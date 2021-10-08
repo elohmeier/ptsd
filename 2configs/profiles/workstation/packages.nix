@@ -60,6 +60,8 @@
     ptsd-nnn
     bat
 
+    bubblewrap
+    nsjail
 
 
     # *** 3dprinting ***

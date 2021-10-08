@@ -10,7 +10,7 @@ let
 in
 {
   imports = [
-    ../../../3modules/desktop.nix
+    ../../../3modules/desktop
 
     ./packages.nix
     ./virtualisation.nix
