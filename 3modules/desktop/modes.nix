@@ -2,7 +2,7 @@
 
 {
   "${cfg.exit_mode}" = {
-    "l" = ''exec swaymsg exit; mode "default"'';
+    "l" = if cfg.i3compat then ''exec i3-msg exit; mode "default"'' else ''exec swaymsg exit; mode "default"'';
     "r" = ''exec systemctl reboot; mode "default"'';
     "w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';
     "s" = ''exec systemctl poweroff; mode "default"'';

@@ -2,7 +2,7 @@
 #src: https://github.com/kaihendry/dotfiles/blob/master/bin/xdg-open
 
 profile="$(\
-    cat <<- EOF | bemenu $BEMENU_ARGS --list 10
+    cat <<- EOF | bemenu --list 10
 Firefox
 Chromium
 Firefox-bwrap-enno

@@ -8,6 +8,7 @@ in
   options = {
     ptsd.desktop = {
       enable = mkEnableOption "ptsd.desktop";
+      i3compat = mkEnableOption "use i3 instead of sway";
       fontSans = mkOption {
         type = types.str;
         default = "Ioseka Sans"; # TODO: expose package, e.g. for gtk
@@ -51,7 +52,6 @@ in
         type = types.int;
         default = 1;
       };
-      bemenuArgs = mkOption { type = types.str; default = ""; };
       waybar.co2 = mkOption {
         type = types.bool;
         default = false;

@@ -6,7 +6,7 @@ let
   cfg = nixosConfig.ptsd.desktop;
 in
 {
-  programs.waybar = {
+  programs.waybar = mkIf (!cfg.i3compat) {
     enable = true;
     settings = [
       {
@@ -105,7 +105,7 @@ in
           };
           "custom/nvidia" = mkIf cfg.nvidia.enable {
             format = "nv {}";
-            exec = writeNu "nv-status" ''
+            exec = pkgs.writeNu "nv-status" ''
               nvidia-smi --query-gpu=pstate,utilization.gpu,utilization.memory,temperature.gpu --format=csv,nounits | from csv | str trim  | each { echo $"($it.pstate) ($it.' utilization.gpu [%]')%C ($it.' utilization.memory [%]')%M ($it.' temperature.gpu')C" }
             '';
             interval = 30;

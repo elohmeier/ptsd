@@ -8,6 +8,8 @@ in
   imports = [
     ./bluetooth.nix
     ./fonts.nix
+    ./gtk.nix
+    ./i3compat.nix
     ./options.nix
     ./pipewire.nix
     ./rclone.nix
@@ -61,7 +63,6 @@ in
     environment.variables = {
       PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
       TERMINAL = cfg.term.binary;
-      BEMENU_ARGS = cfg.bemenuArgs;
     };
 
     environment.systemPackages = with pkgs; [
@@ -105,7 +106,6 @@ in
             imports = [
               ../home
               ./baresip.nix
-              ./gtk.nix
               ./waybar.nix
               ./xdg.nix
             ];

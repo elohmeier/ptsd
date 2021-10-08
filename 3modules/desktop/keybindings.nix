@@ -4,7 +4,7 @@ with lib;
 {
   "${cfg.modifier}+Return" = "exec ${cfg.term.exec "" ""}";
   "${cfg.modifier}+Shift+q" = "kill";
-  "${cfg.modifier}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run ${cfg.bemenuArgs} --list 10 --prompt 'Run:'";
+  "${cfg.modifier}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run --list 10 --prompt 'Run:'";
 
   #"${cfg.modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu -p \"Run:\" -l 10 | ${pkgs.findutils}/bin/xargs ${pkgs.sway}/bin/swaymsg exec";
 

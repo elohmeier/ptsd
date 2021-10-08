@@ -1,12 +1,7 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
-  term = rec {
-    package = pkgs.foot;
-    binary = "${pkgs.foot}/bin/footclient"; # requires foot-server.service
-    exec = prog: dir: "${binary}${if dir != "" then " --working-directory=\"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
-    execFloating = prog: dir: "${binary} --app-id=term.floating${if dir != "" then " --working-directory=\"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}";
-  };
+  desktopCfg = config.ptsd.desktop;
 in
 {
   imports = [
@@ -84,7 +79,7 @@ in
         enable = true;
         extraConfig =
           let
-            cmd = term.execFloating "${pkgs.file-renamer} \"%\"" "";
+            cmd = desktopCfg.term.execFloating "${pkgs.file-renamer} \"%\"" "";
           in
           ''
             map <C-o> exec '${cmd}'
@@ -93,7 +88,7 @@ in
 
       ptsd.pcmanfm = {
         enable = true;
-        term = term.binary;
+        term = desktopCfg.term.binary;
 
         actions = {
           pdfconcat = {
@@ -124,10 +119,10 @@ in
 
       wayland.windowManager.sway.config.keybindings = {
 
-        "${nixosConfig.ptsd.desktop.modifier}+e" = "exec pcmanfm";
+        "${desktopCfg.modifier}+e" = "exec pcmanfm";
         #"${cfg.modifier}+e" ="exec pcmanfm \"`${cwdCmd}`\"";
 
-        "XF86Calculator" = "exec ${term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
+        "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
       };
 
       home.sessionVariables = {

@@ -4,28 +4,39 @@
 let
   # structure like in alacritty
   colors = {
+    # https://github.com/jan-warchol/selenized/blob/master/terminals/alacritty/selenized-white.yml
     primary = {
-      background = "#000000";
-      foreground = "#ffffff";
+      background = "#ffffff";
+      foreground = "#474747";
       contrast = "#151515"; # added
       accent = "#1a66ff"; # blue
     };
     normal = {
-      black = "#000000";
-      red = "#ff7c4d";
-      green = "#22ff00";
-      yellow = "#ffcc00";
-      blue = "#1a66ff";
-      magenta = "#ff61df";
-      cyan = "#00ffff";
-      white = "#888888";
+      black = "#ebebeb";
+      red = "#d6000c";
+      green = "#1d9700";
+      yellow = "#c49700";
+      blue = "#0064e4";
+      magenta = "#dd0f9d";
+      cyan = "#00ad9c";
+      white = "#878787";
+    };
+    bright = {
+      black = "#cdcdcd";
+      red = "#bf0000";
+      green = "#008400";
+      yellow = "#af8500";
+      blue = "#0054cf";
+      magenta = "#c7008b";
+      cyan = "#009a8a";
+      white = "#282828";
     };
   };
+
   font = "SauceCodePro Nerd Font";
 in
 {
   ptsd.desktop = {
-    bemenuArgs = "--fn '${font} ${toString config.ptsd.desktop.fontSize}' --nb '${colors.primary.background}' --nf '${colors.primary.foreground}' --hb '${colors.primary.contrast}' --hf '${colors.primary.accent}' --tb '${colors.primary.contrast}' --tf '${colors.primary.accent}'";
     waybar = {
       bgColor = colors.primary.background;
       fgColor = colors.primary.foreground;
@@ -37,6 +48,7 @@ in
   environment.variables = {
     # https://github.com/jarun/nnn/wiki/Usage#configuration
     NNN_FCOLORS = "c1e2272e006033f7c6d6abc4";
+    BEMENU_OPTS = "--fn ${font} ${toString config.ptsd.desktop.fontSize} --nb ${colors.primary.background} --nf ${colors.primary.foreground} --hb ${colors.primary.contrast} --hf ${colors.primary.accent} --tb ${colors.primary.contrast} --tf ${colors.primary.accent}";
   };
 
   home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:

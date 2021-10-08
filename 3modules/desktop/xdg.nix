@@ -52,7 +52,7 @@ in
                   Categories = "Network;WebBrowser;";
                   Name = "Choose Browser";
                   Comment = "";
-                  Exec = "${pkgs.choose-browser} %U";
+                  Exec = "${pkgs.choose-browser}/bin/choose-browser %U";
                   Terminal = false;
                   Type = "Application";
                   MimeType = "text/html;text/xml;application/xhtml+xml;x-scheme-handler/http;x-scheme-handler/https;x-scheme-handler/ftp";
