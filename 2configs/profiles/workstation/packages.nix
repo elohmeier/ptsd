@@ -15,9 +15,7 @@
     screenkey
     hydra-check
     dfeet
-    fishPlugins.fzf-fish
     fishPlugins.done
-    fzf
     zoxide
     bc
     bind

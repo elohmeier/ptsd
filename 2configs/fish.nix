@@ -64,5 +64,9 @@
     '';
   };
 
-  environment.systemPackages = [ pkgs.zoxide ];
+  environment.systemPackages = with pkgs; [
+    zoxide
+    fishPlugins.fzf-fish
+    fzf
+  ];
 }
