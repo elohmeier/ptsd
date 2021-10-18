@@ -49,7 +49,7 @@ WINDOW_ICONS = {
     "swappy": "",
     "gcr-prompter": "",
     "sylpheed": "",
-    "com.github.wwmm.easyeffects":"שּׂ",
+    "com.github.wwmm.easyeffects": "שּׂ",
 }
 
 DEFAULT_ICON = ""

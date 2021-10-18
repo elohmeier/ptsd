@@ -31,7 +31,7 @@ in
   ptsd.desktop = {
     enable = true;
     trayOutput = "eDP-1";
-   # i3compat = true;
+    # i3compat = true;
   };
 
   home-manager.users.mainUser = { ... }:
