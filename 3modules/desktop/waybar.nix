@@ -12,8 +12,13 @@ in
       {
         layer = "top";
         position = "bottom";
-        #height = 21;
-        modules-left = [ "custom/add-workspace" "sway/workspaces" "sway/mode" ];
+        height = 33;
+        modules-left = [
+          "custom/add-workspace"
+          "sway/workspaces"
+          "sway/mode"
+          "custom/mediaplayer"
+        ];
         modules-center = [
         ];
         modules-right = (optional cfg.autolock.enable "idle_inhibitor") ++ [ "custom/nobbofin-inbox" ] ++ (optional cfg.waybar.co2
@@ -54,6 +59,15 @@ in
             interval = 30;
             return-type = "json";
           };
+
+          "custom/mediaplayer" = {
+            format = " {}";
+            escape = true;
+            return-type = "json";
+            max-length = 40;
+            exec = "${pkgs.read-mediaplayer-status}/bin/read-mediaplayer-status";
+          };
+
           # see also https://github.com/Alexays/Waybar/issues/975
           "custom/mouse-battery" = {
             format = " {}";
