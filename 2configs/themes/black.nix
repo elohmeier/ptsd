@@ -3,6 +3,7 @@
 
 let
   # structure like in alacritty
+  # from https://github.com/jan-warchol/selenized/blob/master/terminals/alacritty/selenized-black.yml
   colors = {
     primary = {
       background = "#000000";
@@ -75,10 +76,48 @@ in
 
       wayland.windowManager.sway = {
 
-        config.colors = {
-          background = colors.primary.background;
-          focused = { background = "#285577"; border = colors.primary.accent; childBorder = "#285577"; indicator = "#2e9ef4"; text = "#ffffff"; };
-        };
+        config.colors =
+          let
+            black = "#252525";
+            blue = "#368aeb";
+            cyan = "#3fc5b7";
+            violet = "#a580e2";
+            fg = "#b9b9b9";
+            white = "#777777";
+            yellow = "#dbb32d";
+            orange = "#e67f43";
+          in
+          {
+            background = colors.primary.background;
+            focused = {
+              border = colors.primary.accent;
+              background = colors.primary.accent;
+              text = black;
+              indicator = blue;
+              childBorder = colors.primary.accent;
+            };
+            focusedInactive = {
+              border = cyan;
+              background = cyan;
+              text = black;
+              indicator = violet;
+              childBorder = cyan;
+            };
+            unfocused = {
+              border = black;
+              background = black;
+              text = fg;
+              indicator = white;
+              childBorder = black;
+            };
+            urgent = {
+              border = yellow;
+              background = yellow;
+              text = black;
+              indicator = orange;
+              childBorder = yellow;
+            };
+          };
 
         extraConfig = ''
           output "*" bg /home/enno/Pocket/P1080645.jpg fill

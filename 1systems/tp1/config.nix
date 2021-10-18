@@ -9,7 +9,7 @@ in
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
 
-    ../../2configs/themes/dark.nix
+    ../../2configs/themes/black.nix
     ../../2configs/printers/hl5380dn.nix
     ../../2configs/prometheus/node.nix
 
@@ -31,6 +31,7 @@ in
   ptsd.desktop = {
     enable = true;
     trayOutput = "eDP-1";
+   # i3compat = true;
   };
 
   home-manager.users.mainUser = { ... }:
