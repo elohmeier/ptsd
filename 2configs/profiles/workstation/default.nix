@@ -13,7 +13,11 @@ in
     ../../users/enno.nix
   ];
 
-  networking.firewall.allowedTCPPorts = [ 80 443 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
+  specialisation = {
+    i3compat.configuration = { ptsd.desktop.i3compat = true; };
+  };
+
+  networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
 
   environment.pathsToLink = [ "/share/nmap" ];
 
@@ -49,8 +53,15 @@ in
 
   programs.steam.enable = true;
 
-
   nixpkgs.config = {
+    packageOverrides = pkgs: {
+      steam = pkgs.steam.override {
+        extraPkgs = pkgs: [
+          pkgs.openssl_1_0_2 # velocidrone
+        ];
+      };
+    };
+
     permittedInsecurePackages = [
       "openssl-1.0.2u" # epsxe
     ];

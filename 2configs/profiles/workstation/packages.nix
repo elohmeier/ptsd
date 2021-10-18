@@ -161,7 +161,7 @@
     #mediathekview
     obs-studio
     v4l-utils
-    pulseeffects-pw
+    easyeffects
     wf-recorder
     art
     exiftool
@@ -181,7 +181,6 @@
     anki
     sylpheed
     claws-mail
-    #zoom-us
     #nerdworks-motivation
     keepassxc
     (pdftk.override { jre = openjdk11; })
@@ -192,7 +191,6 @@
     shrinkpdf
     ptsd-python3.pkgs.davphonebook
     teams
-    zoom-us
     element-desktop
     signal-desktop
     aspell
