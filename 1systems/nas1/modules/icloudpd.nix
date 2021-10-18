@@ -22,6 +22,8 @@
       Group = "nginx";
       StateDirectory = "icloudpd";
     };
+
+    startAt = "*-*-* 05:30:00";
   };
 
   ptsd.secrets.files."icloud.env" = {
