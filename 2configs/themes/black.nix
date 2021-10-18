@@ -37,7 +37,7 @@ in
   environment.variables = {
     # https://github.com/jarun/nnn/wiki/Usage#configuration
     NNN_FCOLORS = "c1e2272e006033f7c6d6abc4";
-    BEMENU_OPTS = "--fn ${font} ${toString config.ptsd.desktop.fontSize} --nb ${colors.primary.background} --nf ${colors.primary.foreground} --hb ${colors.primary.contrast} --hf ${colors.primary.accent} --tb ${colors.primary.contrast} --tf ${colors.primary.accent}";
+    BEMENU_OPTS = "--fn \\\"${font} ${toString config.ptsd.desktop.fontSize}\\\" --nb ${colors.primary.background} --nf ${colors.primary.foreground} --hb ${colors.primary.contrast} --hf ${colors.primary.accent} --tb ${colors.primary.contrast} --tf ${colors.primary.accent}";
   };
 
   home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
