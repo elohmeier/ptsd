@@ -66,7 +66,12 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
     }
     {
       plugin = nvim-tree-lua;
-      config = "map <C-n> :NvimTreeToggle<CR>";
+      config = ''
+        lua <<EOF
+          require'nvim-tree'.setup()
+        EOF
+        map <C-n> :NvimTreeToggle<CR>
+      '';
     }
     {
       plugin = hop-nvim;
@@ -84,6 +89,7 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
             source = {
               path = true,
               buffer = true,
+              neorg = true,
               nvim_lsp = true,
             },
           })
@@ -120,12 +126,25 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
           require('neorg').setup {
             load = {
               ["core.defaults"] = {},
-              ["core.keybinds"] = {
+              ["core.norg.completion"] = {
                 config = {
-                  default_keybinds = true,
+                  engine = "nvim-compe",
                 },
               },
               ["core.norg.concealer"] = {},
+              ["core.norg.dirman"] = {
+                config = {
+                  workspaces = {
+                    my_workspace = "~/Pocket",
+                  },
+                },
+              },
+              ["core.keybinds"] = {
+                config = {
+                  default_keybinds = true,
+                  neorg_leader = "<Leader>o",
+                },
+              },
             },
           }
         EOF
