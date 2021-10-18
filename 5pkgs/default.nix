@@ -185,6 +185,7 @@ self: pkgs_master: super:
   firefox-esr-wayland = pkgs_master.firefox-esr-wayland;
   firefox-esr-unwrapped = pkgs_master.firefox-esr-unwrapped;
   foot = pkgs_master.foot;
+  easyeffects = pkgs_master.easyeffects;
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
   neovimUtils = pkgs_master.neovimUtils;
