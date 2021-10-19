@@ -224,12 +224,13 @@
             ];
           };
 
-          rpi4 = nixpkgs.lib.nixosSystem {
+          rpi4 = nixpkgs-master.lib.nixosSystem {
             system = "aarch64-linux";
             modules = [
               ./1systems/rpi4/config.nix
               nixos-hardware.nixosModules.raspberry-pi-4
               home-manager.nixosModule
+              { fileSystems."/".fsType = "tmpfs"; }
             ];
             specialArgs = { inherit nixpkgs-master; };
           };
@@ -243,6 +244,18 @@
               ({ modulesPath, ... }: {
                 imports = [ (modulesPath + "/installer/netboot/netboot.nix") ];
               })
+            ];
+            specialArgs = { inherit nixpkgs-master; };
+          };
+
+          # build using `nix build .#nixosConfigurations.rpi4_sdimage.config.system.build.sdImage`
+          rpi4_sdimage = nixpkgs-master.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = [
+              ./1systems/rpi4/config.nix
+              nixos-hardware.nixosModules.raspberry-pi-4
+              home-manager.nixosModule
+              ./1systems/rpi4/sd-image.nix
             ];
             specialArgs = { inherit nixpkgs-master; };
           };
