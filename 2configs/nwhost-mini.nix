@@ -22,8 +22,6 @@ in
     ];
   };
 
-  programs.command-not-found.enable = false;
-
   boot.tmpOnTmpfs = true;
 
   nix.gc = {

@@ -67,6 +67,8 @@
     shell = pkgs.fish;
   };
 
+  home-manager.useGlobalPkgs = true;
+  home-manager.useUserPackages = true;
   home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
     {
       imports = [
@@ -94,4 +96,6 @@
     enable = true;
     wheelNeedsPassword = false;
   };
+
+  ptsd.neovim.enable = true;
 }

@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   programs.fish = {
@@ -45,14 +45,14 @@
       dn = "systemctl stop";
     };
 
-    interactiveShellInit = ''
+    interactiveShellInit = lib.optionalString (!config.services.qemuGuest.enable) ''
       set -U fish_greeting
       set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
       set built (readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})
       if test "$booted" != "$built"
         echo "please reboot"
       end
-                    
+    '' + ''
       function posix-source
         for i in (cat $argv)
           set arr (echo $i |tr = \n)

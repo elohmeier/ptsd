@@ -201,7 +201,7 @@
           # use `nix run .#rpi4-vm` to launch QEMU vm
           rpi4_vm = nixpkgs-master.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = [
+            modules = defaultModules ++ [
               ./1systems/rpi4/config.nix
               ./1systems/rpi4/mobile.nix
               ./1systems/rpi4/sway.nix
@@ -209,9 +209,10 @@
               ({ modulesPath, ... }: {
                 imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
               })
-              #{ fileSystems."/".fsType = "tmpfs"; }
               {
-                virtualisation.qemu.options = [ "-vga virtio" ];
+                home-manager.users.enno = { ... }: {
+                  wayland.windowManager.sway.config.modifier = "Mod1";
+                };
               }
             ];
             specialArgs = { inherit nixpkgs-master; };

@@ -41,6 +41,8 @@ in
     supportedLocales = [ "en_US.UTF-8/UTF-8" "de_DE.UTF-8/UTF-8" ];
   };
 
+  programs.command-not-found.enable = false;
+
   time.timeZone = "Europe/Berlin";
 
   services.openssh = {

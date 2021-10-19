@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-
   programs.sway = {
     enable = true;
     extraPackages = with pkgs; [
@@ -29,7 +28,7 @@
     };
   };
 
-  home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
+  home-manager.users.enno = { config, nixosConfig, lib, pkgs, ... }:
     {
       wayland.windowManager.sway = {
         enable = true;
@@ -48,10 +47,11 @@
             };
           };
 
-          output.DSI-1.bg = "#000000 solid_color";
+          # output.DSI-1.bg = "#000000 solid_color";
+          output."*".bg = "#000000 solid_color";
 
           menu = "${pkgs.bemenu}/bin/bemenu-run --fn 'Source Code Pro'";
-          modifier = "Mod4";
+          modifier = lib.mkDefault "Mod4";
           terminal = "${pkgs.foot}/bin/footclient";
         };
       };
@@ -73,7 +73,7 @@
           layer = "top";
           position = "top";
           height = 40;
-          output = [ "DSI-1" ];
+          # output = [ "DSI-1" ];
           modules-left = [ "sway/workspaces" "sway/mode" ];
           modules-center = [ ];
           modules-right = [ "network" "cpu" "memory" "temperature" "clock" "tray" ];
