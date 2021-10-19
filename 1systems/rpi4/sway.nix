@@ -14,9 +14,20 @@
     firefox
     glxinfo
     kodi-wayland
+    pavucontrol
   ];
 
   fonts.fonts = with pkgs; [ source-code-pro ];
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    media-session = {
+      enable = true;
+    };
+  };
 
   home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
     {

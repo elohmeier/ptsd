@@ -25,7 +25,6 @@ in
     qjackctl
     config.hardware.pulseaudio.package
     pavucontrol
-    pasystray
     jack2
   ];
 }

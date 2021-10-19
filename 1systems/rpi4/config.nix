@@ -13,6 +13,7 @@
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
+  boot.tmpOnTmpfs = true;
 
   hardware.raspberry-pi."4".fkms-3d.enable = true;
 
@@ -53,7 +54,6 @@
     useNetworkd = true;
     useDHCP = false;
     hostName = "rpi4";
-    interfaces.eth0.useDHCP = true;
   };
 
   services.resolved = {

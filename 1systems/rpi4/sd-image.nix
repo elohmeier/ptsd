@@ -6,14 +6,11 @@ let
   firmwarePartitionOffset = 8;
   firmwarePartitionID = "0x2178694e";
   firmwarePartitionName = "FIRMWARE";
-  firmwareSize = 30;
+  firmwareSize = 200; # in MB
 
   populateFirmwareCommands =
     let
       configTxt = pkgs.writeText "config.txt" ''
-        [pi3]
-        kernel=u-boot-rpi3.bin
-
         [pi4]
         kernel=Image
         initramfs initrd
@@ -26,7 +23,7 @@ let
 
         # GPU/Display config
         dtoverlay=vc4-fkms-v3d
-        gpu_mem=128                
+        gpu_mem=128
 
         [all]
         # Boot in 64-bit mode.
@@ -52,18 +49,16 @@ let
       # Add pi4 specific files
       cp ${pkgs.raspberrypi-armstubs}/armstub8-gic.bin firmware/armstub8-gic.bin
       cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb firmware/
+
+      # Add kernel & initrd
+      cp -r ${config.system.build.kernel}/Image firmware/
+      cp -r ${config.system.build.kernel}/dtbs/* firmware/
+      cp -r ${config.system.build.initialRamdisk}/initrd firmware/
     '';
-
-  populateRootCommands = ''
-    mkdir -p ./files/boot
-    ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
-  '';
-
 
   rootfsImage = pkgs.callPackage ./make-ext4-fs.nix ({
     storePaths = [ config.system.build.toplevel ];
     compressImage = true;
-    populateImageCommands = populateRootCommands;
     volumeLabel = "NIXOS_SD";
   });
 in

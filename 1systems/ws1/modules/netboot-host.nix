@@ -89,9 +89,6 @@ let
             configTxt = pkgs.writeText
               "config.txt"
               ''
-                [pi3]
-                kernel=u-boot-rpi3.bin
-
                 [pi4]
                 kernel=Image
                 initramfs initrd
@@ -104,7 +101,7 @@ let
 
                 # GPU/Display config
                 dtoverlay=vc4-fkms-v3d
-                gpu_mem=128                
+                gpu_mem=128
 
                 [all]
                 # Boot in 64-bit mode.
