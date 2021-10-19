@@ -24,6 +24,6 @@ in
           # pass sway log output to journald
           exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
         end
-      end    
+      end
     '';
 }
