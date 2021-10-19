@@ -8,20 +8,12 @@
   imports = [
     ../..
     ../../2configs/fish.nix
-
-    ./carberry.nix
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "usbhid" ];
   boot.tmpOnTmpfs = true;
 
-  hardware.raspberry-pi."4".fkms-3d.enable = true;
-
   # save space
-  hardware.enableRedistributableFirmware = lib.mkForce false;
-  hardware.firmware = [ pkgs.raspberrypiWirelessFirmware ];
-  hardware.wirelessRegulatoryDatabase = true;
-  services.udisks2.enable = false;
   #environment.noXlibs = true;
   documentation.enable = false;
   documentation.nixos.enable = false;
@@ -95,7 +87,9 @@
   };
 
   services.openssh.enable = true;
+
   services.getty.autologinUser = "enno";
+
   security.sudo = {
     enable = true;
     wheelNeedsPassword = false;

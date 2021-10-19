@@ -4,3 +4,4 @@ result-*
 */.vscode/settings.json
 *.pyc
 
+rpi4.qcow2

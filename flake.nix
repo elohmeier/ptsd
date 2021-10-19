@@ -39,47 +39,6 @@
           pkgs_master = import nixpkgs-master { system = pkgs.system; };
         in
         super: (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
-    in
-    flake-utils.lib.eachDefaultSystem
-      (system:
-      let
-        pkgs = import nixpkgs {
-          config.allowUnfree = true; inherit system;
-          config.packageOverrides = pkgOverrides pkgs;
-        };
-      in
-      {
-        packages = pkgs // {
-          mk-pretty =
-            let
-              path = pkgs.lib.makeBinPath (with pkgs; [
-                git
-                nixpkgs-fmt
-                python3Packages.black
-                python3Packages.isort
-                gofumpt
-              ]);
-            in
-            pkgs.writeShellScriptBin "mk-pretty" ''
-              set -e
-              export PATH=${path}
-              ROOT=$(git rev-parse --show-toplevel)
-              nixpkgs-fmt $ROOT/1systems
-              nixpkgs-fmt $ROOT/2configs
-              nixpkgs-fmt $ROOT/3modules
-              nixpkgs-fmt $ROOT/5pkgs
-              nixpkgs-fmt $ROOT/*.nix      
-              black $ROOT/.
-              isort $ROOT/5pkgs
-              black $ROOT/src/*.pyw
-              isort $ROOT/src/*.pyw
-              gofumpt -w $ROOT/5pkgs
-            '';
-        };
-        devShell = import ./shell.nix { inherit pkgs; };
-      })
-    // {
-
       nixosConfigurations =
         let
           defaultModules = [
@@ -228,9 +187,32 @@
             system = "aarch64-linux";
             modules = [
               ./1systems/rpi4/config.nix
+              ./1systems/rpi4/carberry.nix
+              ./1systems/rpi4/hardware.nix
+              ./1systems/rpi4/mobile.nix
+              ./1systems/rpi4/sway.nix
               nixos-hardware.nixosModules.raspberry-pi-4
               home-manager.nixosModule
               { fileSystems."/".fsType = "tmpfs"; }
+            ];
+            specialArgs = { inherit nixpkgs-master; };
+          };
+
+          # use `nix run .#rpi4-vm` to launch QEMU vm
+          rpi4_vm = nixpkgs-master.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ./1systems/rpi4/config.nix
+              ./1systems/rpi4/mobile.nix
+              ./1systems/rpi4/sway.nix
+              home-manager.nixosModule
+              ({ modulesPath, ... }: {
+                imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
+              })
+              #{ fileSystems."/".fsType = "tmpfs"; }
+              {
+                virtualisation.qemu.options = [ "-vga virtio" ];
+              }
             ];
             specialArgs = { inherit nixpkgs-master; };
           };
@@ -239,6 +221,8 @@
             system = "aarch64-linux";
             modules = [
               ./1systems/rpi4/config.nix
+              ./1systems/rpi4/carberry.nix
+              ./1systems/rpi4/hardware.nix
               nixos-hardware.nixosModules.raspberry-pi-4
               home-manager.nixosModule
               ({ modulesPath, ... }: {
@@ -253,6 +237,8 @@
             system = "aarch64-linux";
             modules = [
               ./1systems/rpi4/config.nix
+              ./1systems/rpi4/carberry.nix
+              ./1systems/rpi4/hardware.nix
               ./1systems/rpi4/mobile.nix
               ./1systems/rpi4/sway.nix
               nixos-hardware.nixosModules.raspberry-pi-4
@@ -285,5 +271,51 @@
             ];
           };
         };
+    in
+    flake-utils.lib.eachDefaultSystem
+      (system:
+      let
+        pkgs = import nixpkgs {
+          config.allowUnfree = true; inherit system;
+          config.packageOverrides = pkgOverrides pkgs;
+        };
+
+      in
+      {
+        apps.rpi4-vm = {
+          type = "app";
+          program = "${nixosConfigurations.rpi4_vm.config.system.build.vm}/bin/run-rpi4-vm";
+        };
+        packages = pkgs // {
+          mk-pretty =
+            let
+              path = pkgs.lib.makeBinPath (with pkgs; [
+                git
+                nixpkgs-fmt
+                python3Packages.black
+                python3Packages.isort
+                gofumpt
+              ]);
+            in
+            pkgs.writeShellScriptBin "mk-pretty" ''
+              set -e
+              export PATH=${path}
+              ROOT=$(git rev-parse --show-toplevel)
+              nixpkgs-fmt $ROOT/1systems
+              nixpkgs-fmt $ROOT/2configs
+              nixpkgs-fmt $ROOT/3modules
+              nixpkgs-fmt $ROOT/5pkgs
+              nixpkgs-fmt $ROOT/*.nix      
+              black $ROOT/.
+              isort $ROOT/5pkgs
+              black $ROOT/src/*.pyw
+              isort $ROOT/src/*.pyw
+              gofumpt -w $ROOT/5pkgs
+            '';
+        };
+        devShell = import ./shell.nix { inherit pkgs; };
+      })
+    // {
+      inherit nixosConfigurations;
     };
 }
