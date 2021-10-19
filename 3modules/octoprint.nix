@@ -51,7 +51,7 @@ in
       plugins = mkOption {
         default = plugins: [ ];
         defaultText = "plugins: []";
-        example = literalExample "plugins: [ m3d-fio ]";
+        example = literalExpression "plugins: [ m3d-fio ]";
         description = "Additional plugins.";
       };
       extraConfig = mkOption {
