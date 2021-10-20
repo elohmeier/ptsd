@@ -185,7 +185,7 @@
 
           rpi4 = nixpkgs-master.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = [
+            modules = defaultModules ++ [
               ./1systems/rpi4/config.nix
               ./1systems/rpi4/carberry.nix
               ./1systems/rpi4/desktop.nix
@@ -221,7 +221,7 @@
 
           rpi4_netboot = nixpkgs-master.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = [
+            modules = defaultModules ++ [
               ./1systems/rpi4/config.nix
               ./1systems/rpi4/carberry.nix
               ./1systems/rpi4/hardware.nix
@@ -237,7 +237,7 @@
           # build using `nix build .#nixosConfigurations.rpi4_sdimage.config.system.build.sdImage`
           rpi4_sdimage = nixpkgs-master.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = [
+            modules = defaultModules ++ [
               ./1systems/rpi4/config.nix
               ./1systems/rpi4/carberry.nix
               ./1systems/rpi4/desktop.nix

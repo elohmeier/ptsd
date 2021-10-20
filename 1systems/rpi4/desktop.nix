@@ -1,17 +1,17 @@
 { config, lib, pkgs, ... }:
 
 let
-  font = "Source Code Pro";
-  fontSize = "8";
-  alacrittyConfig = pkgs.writeText "alacritty.yml" ''
-    font:
-      normal:
-        family: ${font}
-      size: ${fontSize}
-  '';
+  font = "Cozette";
+  fontSize = "11";
   toml = pkgs.formats.toml { };
   i3StatusRsConfig = toml.generate "i3status-rs.toml" {
     block = [
+      {
+        block = "custom";
+        command = "echo pavucontrol";
+        on_click = "${pkgs.pavucontrol}/bin/pavucontrol";
+        interval = "once";
+      }
       {
         block = "custom";
         command = "echo onboard";
@@ -22,6 +22,18 @@ let
         block = "custom";
         command = "echo kill kodi";
         on_click = "${pkgs.procps}/bin/pkill -9 kodi";
+        interval = "once";
+      }
+      {
+        block = "custom";
+        command = "echo B+";
+        on_click = "${pkgs.brightnessctl}/bin/brightnessctl s 10%+";
+        interval = "once";
+      }
+      {
+        block = "custom";
+        command = "echo B-";
+        on_click = "${pkgs.brightnessctl}/bin/brightnessctl s 10%-";
         interval = "once";
       }
       {
@@ -43,6 +55,11 @@ let
       }
     ];
   };
+  st-config = pkgs.substituteAll {
+    src = ./st-config.def.h;
+    inherit font fontSize;
+  };
+  myst = pkgs.st.override { conf = builtins.readFile st-config; };
 in
 {
   programs.sway = {
@@ -53,6 +70,10 @@ in
     ];
   };
 
+  environment.variables = {
+    BEMENU_OPTS = "--fn \\\"${font} ${fontSize}\\\"";
+  };
+
   environment.systemPackages = with pkgs; [
     firefox
     glxinfo
@@ -60,8 +81,9 @@ in
     pavucontrol
   ];
 
-  fonts.fonts = with pkgs; [ source-code-pro ];
+  fonts.fonts = with pkgs; [ cozette ];
 
+  sound.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -103,9 +125,10 @@ in
     ''
       set $mod ${modifier}
       floating_modifier $mod
+      font xft:${font} ${fontSize}
+      workspace_layout tabbed
 
-      font pango:${font} ${fontSize}
-      bindsym $mod+Return exec ${pkgs.alacritty}/bin/alacritty --config-file ${alacrittyConfig}
+      bindsym $mod+Return exec ${myst}/bin/st
       bindsym $mod+d exec ${pkgs.bemenu}/bin/bemenu-run
 
       bindsym $mod+Shift+q kill
@@ -161,77 +184,4 @@ in
 
       exec ${pkgs.kodi}/bin/kodi
     '';
-
-  # home-manager.users.enno = { config, nixosConfig, lib, pkgs, ... }:
-  #   {
-  #     wayland.windowManager.sway = {
-  #       enable = true;
-  #       config = {
-  #         bars = [{
-  #           command = "${pkgs.waybar}/bin/waybar";
-  #         }];
-
-  #         input = {
-  #           "*" = {
-  #             xkb_layout = "de";
-  #           };
-
-  #           raspberrypi-ts = {
-  #             map_to_output = "DSI-1";
-  #           };
-  #         };
-
-  #         # output.DSI-1.bg = "#000000 solid_color";
-  #         output."*".bg = "#000000 solid_color";
-
-  #         menu = "${pkgs.bemenu}/bin/bemenu-run --fn '${font}'";
-  #         modifier = lib.mkDefault "Mod4";
-  #         terminal = "${pkgs.foot}/bin/footclient";
-  #       };
-  #     };
-
-  #     programs.foot = {
-  #       enable = true;
-  #       server.enable = true;
-  #       settings = {
-  #         main = {
-  #           font = "${font}:size=${fontSize}";
-  #           dpi-aware = "yes";
-  #         };
-  #       };
-  #     };
-
-  #     programs.waybar = {
-  #       enable = true;
-  #       settings = [{
-  #         layer = "top";
-  #         position = "top";
-  #         height = 40;
-  #         # output = [ "DSI-1" ];
-  #         modules-left = [ "sway/workspaces" "sway/mode" ];
-  #         modules-center = [ ];
-  #         modules-right = [ "network" "cpu" "memory" "temperature" "clock" "tray" ];
-  #         modules = {
-  #           "sway/workspaces" = {
-  #             disable-scroll = true;
-  #             all-outputs = true;
-  #           };
-  #         };
-  #       }];
-  #       style = ''
-  #         * {
-  #           border: none;
-  #           border-radius: 0;
-  #           font-family: Source Code Pro;
-  #           }
-  #         window#waybar {
-  #           background: #111111;
-  #           color: #FFFFFF;
-  #         }
-  #         #workspaces button {
-  #           padding: 0 5px;
-  #         }
-  #       '';
-  #     };
-  #   };
 }
