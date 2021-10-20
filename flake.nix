@@ -188,9 +188,9 @@
             modules = [
               ./1systems/rpi4/config.nix
               ./1systems/rpi4/carberry.nix
+              ./1systems/rpi4/desktop.nix
               ./1systems/rpi4/hardware.nix
               ./1systems/rpi4/mobile.nix
-              ./1systems/rpi4/sway.nix
               nixos-hardware.nixosModules.raspberry-pi-4
               home-manager.nixosModule
               { fileSystems."/".fsType = "tmpfs"; }
@@ -203,15 +203,16 @@
             system = "x86_64-linux";
             modules = defaultModules ++ [
               ./1systems/rpi4/config.nix
+              ./1systems/rpi4/desktop.nix
               ./1systems/rpi4/mobile.nix
-              ./1systems/rpi4/sway.nix
-              home-manager.nixosModule
               ({ modulesPath, ... }: {
                 imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
               })
               {
-                home-manager.users.enno = { ... }: {
-                  wayland.windowManager.sway.config.modifier = "Mod1";
+                virtualisation = {
+                  memorySize = 4096;
+                  resolution = { x = 800; y = 600; }; # RPi 7" Touchscreen Display has 800x480, 800x600 is closest available option
+                  qemu.options = [ "-vga virtio" ];
                 };
               }
             ];
@@ -239,9 +240,9 @@
             modules = [
               ./1systems/rpi4/config.nix
               ./1systems/rpi4/carberry.nix
+              ./1systems/rpi4/desktop.nix
               ./1systems/rpi4/hardware.nix
               ./1systems/rpi4/mobile.nix
-              ./1systems/rpi4/sway.nix
               nixos-hardware.nixosModules.raspberry-pi-4
               home-manager.nixosModule
               ./1systems/rpi4/sd-image.nix

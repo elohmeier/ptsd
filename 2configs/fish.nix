@@ -45,8 +45,9 @@
       dn = "systemctl stop";
     };
 
-    interactiveShellInit = lib.optionalString (!config.services.qemuGuest.enable) ''
+    interactiveShellInit = ''
       set -U fish_greeting
+    '' + lib.optionalString (!config.services.qemuGuest.enable) ''
       set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
       set built (readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})
       if test "$booted" != "$built"

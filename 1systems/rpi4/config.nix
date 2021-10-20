@@ -67,29 +67,28 @@
     shell = pkgs.fish;
   };
 
-  home-manager.useGlobalPkgs = true;
-  home-manager.useUserPackages = true;
-  home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
-    {
-      imports = [
-        ../../2configs/home/fish.nix
-      ];
+  # home-manager.useGlobalPkgs = true;
+  # home-manager.useUserPackages = true;
+  # home-manager.users.enno = { config, nixosConfig, pkgs, ... }:
+  #   {
+  #     imports = [
+  #       ../../2configs/home/fish.nix
+  #     ];
 
-      home.stateVersion = "21.05";
-    };
+  #     home.stateVersion = "21.05";
+  #   };
 
-  programs.bash = {
-    loginShellInit = ''
-      # If running from tty1 start sway
-      if [ "$(tty)" = "/dev/tty1" ]; then
-        # pass sway log output to journald
-        exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
-      fi
-    '';
-  };
+  # programs.bash = {
+  #   loginShellInit = ''
+  #     # If running from tty1 start sway
+  #     if [ "$(tty)" = "/dev/tty1" ]; then
+  #       # pass sway log output to journald
+  #       exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
+  #     fi
+  #   '';
+  # };
 
   services.openssh.enable = true;
-
   services.getty.autologinUser = "enno";
 
   security.sudo = {
