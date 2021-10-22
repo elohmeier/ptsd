@@ -4,6 +4,7 @@
 , nixpkgs-master
 , nixos-hardware
 , home-manager
+, pkgOverrides
 , ...
 }:
 
@@ -15,15 +16,17 @@ let
     system = "aarch64-linux";
     modules = [
       ../../rpi4/config.nix
-      ../../rpi4/sway.nix
-
-      #../../rpi4/kodi.nix
+      ../../rpi4/carberry.nix
+      ../../rpi4/desktop.nix
+      ../../rpi4/hardware.nix
 
       ({ modulesPath, config, lib, pkgs, ... }: {
         imports = [
           nixos-hardware.nixosModules.raspberry-pi-4
           home-manager.nixosModule
         ];
+
+        nixpkgs.config.packageOverrides = pkgOverrides pkgs;
 
         boot.kernelParams = [ "ip=dhcp" ];
 
@@ -102,6 +105,8 @@ let
                 # GPU/Display config
                 dtoverlay=vc4-fkms-v3d
                 gpu_mem=128
+                
+                dtoverlay=hifiberry-dacplus
 
                 [all]
                 # Boot in 64-bit mode.

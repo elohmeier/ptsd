@@ -18,7 +18,7 @@ in
     ../../2configs/nvidia-headless.nix
 
     ./modules/syncthing.nix
-    #./modules/netboot-host.nix
+    ./modules/netboot-host.nix
   ];
 
   programs.ssh.knownHosts."18.193.115.167".publicKey =

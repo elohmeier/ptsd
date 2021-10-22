@@ -25,6 +25,8 @@ let
         dtoverlay=vc4-fkms-v3d
         gpu_mem=128
 
+        dtoverlay=hifiberry-dacplus
+
         [all]
         # Boot in 64-bit mode.
         arm_64bit=1

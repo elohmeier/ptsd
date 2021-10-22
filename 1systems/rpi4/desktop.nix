@@ -8,6 +8,12 @@ let
     block = [
       {
         block = "custom";
+        command = "echo st";
+        on_click = "${myst}/bin/st";
+        interval = "once";
+      }
+      {
+        block = "custom";
         command = "echo pavucontrol";
         on_click = "${pkgs.pavucontrol}/bin/pavucontrol";
         interval = "once";
@@ -70,6 +76,40 @@ in
     ];
   };
 
+  services.touchegg.enable = true;
+
+  system.activationScripts.configure-touchegg =
+    let toucheggConf = pkgs.writeText "touchegg.conf" ''
+      <touchégg>
+        <application name="All">
+          <gesture type="SWIPE" fingers="2" direction="DOWN">
+            <action type="RUN_COMMAND">
+              <repeat>true</repeat>
+              <command>${pkgs.xdotool}/bin/xdotool click 4</command>
+              <decreaseCommand>${pkgs.xdotool}/bin/xdotool click 5</decreaseCommand>
+            </action>
+          </gesture>
+          <gesture type="SWIPE" fingers="2" direction="UP">
+            <action type="RUN_COMMAND">
+              <repeat>true</repeat>
+              <command>${pkgs.xdotool}/bin/xdotool click 5</command>
+              <decreaseCommand>${pkgs.xdotool}/bin/xdotool click 4</decreaseCommand>
+            </action>
+          </gesture>
+        </application>
+      </touchégg>
+    '';
+    in
+    lib.stringAfter [ "users" "groups" ]
+      ''
+        mkdir -p /home/enno/.config/touchegg
+        chown enno:users /home/enno
+        chown enno:users /home/enno/.config
+        chown enno:users /home/enno/.config/touchegg
+        rm -f /home/enno/.config/touchegg/touchegg.conf
+        ln -sf ${toucheggConf} /home/enno/.config/touchegg/touchegg.conf
+      '';
+
   environment.variables = {
     BEMENU_OPTS = "--fn \\\"${font} ${fontSize}\\\"";
   };
@@ -79,6 +119,8 @@ in
     glxinfo
     kodi-wayland
     pavucontrol
+    myst
+    xdotool
   ];
 
   fonts.fonts = with pkgs; [ cozette ];
@@ -182,6 +224,6 @@ in
         status_command ${pkgs.i3status-rust}/bin/i3status-rs ${i3StatusRsConfig}
       }
 
-      exec ${pkgs.kodi}/bin/kodi
+      #exec ${pkgs.kodi}/bin/kodi
     '';
 }

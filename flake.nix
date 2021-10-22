@@ -263,7 +263,7 @@
             modules = defaultModules ++ desktopModules ++ [
               ./1systems/ws1/physical.nix
             ];
-            specialArgs = { inherit nixpkgs-master nixos-hardware home-manager; };
+            specialArgs = { inherit nixpkgs-master nixos-hardware home-manager pkgOverrides; };
           };
 
           ws2 = nixpkgs.lib.nixosSystem {
