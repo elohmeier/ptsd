@@ -2,6 +2,7 @@
   description = "ptsd";
 
   inputs = {
+    # use e.g. `nix flake update --override-input nixpkgs github:NixOS/nixpkgs/83667ff` to update to specific commit
     nixpkgs.url = github:NixOS/nixpkgs/nixos-21.05;
     nixpkgs-master.url = github:NixOS/nixpkgs/master;
     home-manager.url = github:nix-community/home-manager/release-21.05;

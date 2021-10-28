@@ -153,7 +153,8 @@
     audacity
     ptsd-ffmpeg
     #mpv # via home-manager...
-    imagemagick
+    imagemagickBig
+    ghostscript
     ffmpeg-normalize
     youtube-dl
     spotify
