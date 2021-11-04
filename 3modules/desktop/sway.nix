@@ -119,6 +119,7 @@ in
         programs.mako = {
           enable = true;
           font = "${cfg.fontSans} ${toString cfg.fontSize}";
+          defaultTimeout = 3;
         };
 
         # OSD
