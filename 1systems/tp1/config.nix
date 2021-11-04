@@ -25,13 +25,15 @@ in
 
   services.hardware.bolt.enable = true;
 
-
   ptsd.nwacme.hostCert.enable = false;
 
   ptsd.desktop = {
     enable = true;
     trayOutput = "eDP-1";
-    # i3compat = true;
+    # fontSize = 11.0;
+    # fontMono = "Cozette";
+    fontSize = 12.0;
+    fontMono = "Spleen";
   };
 
   home-manager.users.mainUser = { ... }:
