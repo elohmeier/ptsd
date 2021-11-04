@@ -4,8 +4,10 @@
   inputs = {
     # use e.g. `nix flake update --override-input nixpkgs github:NixOS/nixpkgs/83667ff` to update to specific commit
     nixpkgs.url = github:NixOS/nixpkgs/nixos-21.05;
+    #nixpkgs.url = github:NixOS/nixpkgs/nixos-unstable;
     nixpkgs-master.url = github:NixOS/nixpkgs/master;
     home-manager.url = github:nix-community/home-manager/release-21.05;
+    #home-manager.url = github:nix-community/home-manager/master;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
