@@ -15,7 +15,7 @@ in
       };
       fontMono = mkOption {
         type = types.str;
-        default = "Consolas";
+        default = "SauceCodePro Nerd Font";
       };
       fontSize = mkOption {
         type = types.float;

@@ -114,8 +114,8 @@ in
               enable = true;
               settings = {
                 main = {
-                  font = lib.mkDefault "SauceCodePro Nerd Font:size=8";
-                  dpi-aware = lib.mkDefault "yes";
+                  font = lib.mkDefault "${cfg.fontMono}:size=${toString cfg.fontSize}";
+                  dpi-aware = lib.mkDefault "no";
                 };
                 scrollback.lines = 50000;
               };
