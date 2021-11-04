@@ -31,5 +31,6 @@ _:
     ./vdi-container.nix
     ./wireguard.nix
     ./xrdp.nix
+    ./systemd-boot
   ];
 }
