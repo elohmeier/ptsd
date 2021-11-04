@@ -127,7 +127,7 @@ in
     description = "Cleanup matrix media files";
     script = ''
       ${pkgs.curl}/bin/curl -H "Authorization: Bearer $ACCESS_TOKEN" -X POST \
-        https://${fqdn}/_synapse/admin/v1/media/${serverName}/delete\?before_ts=$(date +%s000 --date '30 days ago')
+        https://${fqdn}/_synapse/admin/v1/media/${serverName}/delete\?before_ts=$(date +%s000 --date '10 days ago')
     '';
     startAt = "daily";
 

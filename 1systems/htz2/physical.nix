@@ -40,6 +40,12 @@ in
         options = [ "nofail" ];
       };
 
+    "/var/lib/matrix-synapse" = {
+      device = "${vgPrefix}/var-lib-matrix-synapse";
+      fsType = "ext4";
+      options = [ "nofail" ];
+    };
+
     "/var/lib/private/maddy" = {
       device = "${vgPrefix}/var-lib-private-maddy";
       fsType = "ext4";
