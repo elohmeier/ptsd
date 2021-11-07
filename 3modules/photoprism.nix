@@ -76,7 +76,7 @@ in
 
   config = mkIf cfg.enable {
 
-    environment.systemPackages = [ cfg.package ];
+    environment.systemPackages = [ cfg.package pkgs.exiftool ];
 
     users.groups.rawphotos = { };
 
@@ -173,32 +173,32 @@ in
         #DynamicUser = true;
         User = cfg.user; # needs to be set for shared uid
         Group = cfg.group;
-        SupplementaryGroups = "rawphotos";
-        NoNewPrivileges = true;
-        LimitNPROC = 64;
-        LimitNOFILE = 1048576;
-        PrivateTmp = true;
-        PrivateDevices = true;
-        PrivateUsers = true;
-        ProtectHome = true;
-        ProtectSystem = "strict";
-        ProtectControlGroups = true;
-        ProtectClock = true;
-        ProtectHostname = true;
-        ProtectKernelLogs = true;
-        ProtectKernelModules = true;
-        ProtectKernelTunables = true;
-        ProtectProc = "noaccess";
-        LockPersonality = true;
-        MemoryDenyWriteExecute = true;
-        RestrictAddressFamilies = "";
-        RestrictNamespaces = true;
-        DevicePolicy = "closed";
-        RestrictRealtime = true;
-        SystemCallFilter = "@system-service";
-        SystemCallErrorNumber = "EPERM";
-        SystemCallArchitectures = "native";
-        UMask = "0066";
+        #  SupplementaryGroups = "rawphotos";
+        #  NoNewPrivileges = true;
+        #  LimitNPROC = 64;
+        #  LimitNOFILE = 1048576;
+        #  PrivateTmp = true;
+        #  PrivateDevices = true;
+        #  PrivateUsers = true;
+        #  ProtectHome = true;
+        #  ProtectSystem = "strict";
+        #  ProtectControlGroups = true;
+        #  ProtectClock = true;
+        #  ProtectHostname = true;
+        #  ProtectKernelLogs = true;
+        #  ProtectKernelModules = true;
+        #  ProtectKernelTunables = true;
+        #  ProtectProc = "noaccess";
+        #  LockPersonality = true;
+        #  MemoryDenyWriteExecute = true;
+        #  RestrictAddressFamilies = "";
+        #  RestrictNamespaces = true;
+        #  DevicePolicy = "closed";
+        #  RestrictRealtime = true;
+        #  SystemCallFilter = "@system-service";
+        #  SystemCallErrorNumber = "EPERM";
+        #  SystemCallArchitectures = "native";
+        #  UMask = "0066";
       };
     };
 
