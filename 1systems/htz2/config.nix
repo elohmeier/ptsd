@@ -19,16 +19,28 @@ in
     enable = true;
   };
 
+  ptsd.secrets.files = {
+    "nwbackup.id_ed25519" = {
+      path = "/root/.ssh/id_ed25519";
+    };
+  };
+
   ptsd.nwbackup = {
     enable = true;
     paths = [
-      "/var/lib/postgresql" # configure backup script
-      "/var/lib/matrix-synapse"
+      "/var/backup"
+      # disabled to save space
+      #"/var/lib/matrix-synapse"
       "/var/lib/acme"
       "/var/lib/private/acme-dns"
       "/var/lib/private/radicale"
       "/var/lib/private/traefik"
     ];
+  };
+
+  services.postgresqlBackup = {
+    enable = true;
+    backupAll = true;
   };
 
   networking = {
