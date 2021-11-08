@@ -14,7 +14,16 @@ with lib;
       uid = 1000;
       description = "Enno Richter";
       extraGroups =
-        [ "wheel" "networkmanager" "libvirtd" "docker" "syncthing" "video" "dialout" ];
+        [
+          "wheel"
+          "networkmanager"
+          "libvirtd"
+          "docker"
+          "syncthing"
+          "video"
+          "dialout"
+          "input" # useful for dosbox on tty
+        ];
       openssh.authorizedKeys.keys =
         let
           sshPubKeys = import ./ssh-pubkeys.nix;

@@ -50,6 +50,7 @@ WINDOW_ICONS = {
     "gcr-prompter": "",
     "sylpheed": "",
     "com.github.wwmm.easyeffects": "שּׂ",
+    "portfolio performance": "",
 }
 
 DEFAULT_ICON = ""

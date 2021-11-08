@@ -30,6 +30,7 @@ in
 
   environment.variables = {
     GOPATH = "/home/enno/go";
+    NIXPKGS_ALLOW_UNFREE = "1";
   };
 
   nix.trustedUsers = [ "root" "enno" ];

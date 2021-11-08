@@ -18,7 +18,8 @@ in
     ];
 
     environment.variables = {
-      SDL_VIDEODRIVER = "wayland";
+      # disabled to allow xwayland mode by default for sdl apps
+      # SDL_VIDEODRIVER = "wayland";
       # Fix for some Java AWT applications (e.g. Android Studio),
       # use this if they aren't displayed properly:
       _JAVA_AWT_WM_NONREPARENTING = "1";
