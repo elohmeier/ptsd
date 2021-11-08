@@ -19,6 +19,8 @@ in
     ./modules/syncthing.nix
   ];
 
+  services.gpm.enable = true;
+
   ptsd.nwbackup = {
     paths = [ "/home" ];
   };
