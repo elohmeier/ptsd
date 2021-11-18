@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  font = "Cozette";
+  font = "Spleen";
   fontSize = "11";
   toml = pkgs.formats.toml { };
   i3StatusRsConfig = toml.generate "i3status-rs.toml" {
@@ -123,7 +123,7 @@ in
     xdotool
   ];
 
-  fonts.fonts = with pkgs; [ cozette ];
+  fonts.fonts = with pkgs; [ spleen ];
 
   sound.enable = true;
   services.pipewire = {
