@@ -97,6 +97,6 @@ in
       { device = "${vgPrefix}-swap"; }
     ];
 
-  powerManagement.cpuFreqGovernor = "powersave";
+  powerManagement.cpuFreqGovernor = "schedutil";
   networking.hostId = "1591AF90"; # required for zfs
 }

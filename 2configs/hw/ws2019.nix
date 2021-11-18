@@ -60,7 +60,7 @@
 
   nix.maxJobs = lib.mkDefault 24;
 
-  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "schedutil";
 
   services.xserver = {
     videoDrivers = [ "amdgpu" ];

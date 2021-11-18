@@ -4,7 +4,7 @@
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   nix.maxJobs = lib.mkDefault 16;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "schedutil";
   hardware.cpu.amd.updateMicrocode = true;
   hardware.firmware = with pkgs; [
     firmwareLinuxNonfree

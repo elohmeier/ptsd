@@ -54,7 +54,7 @@
   '';
 
   nix.maxJobs = lib.mkDefault 8;
-  powerManagement.cpuFreqGovernor = lib.mkDefault "powersave";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "schedutil";
 
   # sample to pass USB access to VM
   # see https://github.com/NixOS/nixpkgs/issues/27199
