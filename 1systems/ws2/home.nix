@@ -12,8 +12,4 @@
         output "Iiyama North America PL2791Q 1153903322321" pos 2560 0 mode 2560x1440@60Hz scale 1
       '';
   };
-  # programs.foot.settings.main = {
-  #   font = "Cozette";
-  #   dpi-aware = "no";
-  # };
 }
