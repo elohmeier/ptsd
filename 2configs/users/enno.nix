@@ -23,6 +23,7 @@ with lib;
           "video"
           "dialout"
           "input" # useful for dosbox on tty
+          "vboxusers"
         ];
       openssh.authorizedKeys.keys =
         let

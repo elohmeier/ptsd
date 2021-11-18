@@ -16,6 +16,10 @@ in
       qemuPackage = pkgs.qemu_kvm;
       qemuRunAsRoot = false;
     };
+    virtualbox.host = {
+      enable = true;
+      enableExtensionPack = true;
+    };
   };
 
   services.samba = {

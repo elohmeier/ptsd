@@ -37,12 +37,9 @@ in
 
   home-manager.users.mainUser = { ... }:
     {
-
       home.stateVersion = "20.09";
-
       wayland.windowManager.sway = {
         config.input."1739:0:Synaptics_TM3381-002".events = "disabled";
-        # extraConfig = "output eDP-1 pos 0 0 mode 1920x1080@70.001Hz scale 1.3";
       };
     };
 
