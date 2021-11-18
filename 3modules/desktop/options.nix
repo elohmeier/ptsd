@@ -109,7 +109,7 @@ in
         default = "${pkgs.swaycwd}/bin/swaycwd";
       };
       exit_mode = mkOption {
-        default = "exit: [l]ogout, [r]eboot, reboot-[w]indows, [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
+        default = "exit: [l]ogout, [r]eboot, reboot-[w]indows, reboot-to-[e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end";
       };
       term = mkOption {
         default = { };

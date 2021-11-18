@@ -1,7 +1,17 @@
-{ cfg }:
+{ cfg, lib, pkgs }:
 
 {
   "${cfg.exit_mode}" = {
+    "e" =
+      let
+        script = pkgs.writeShellScript "reboot-to-entry"
+          ''
+            set -e
+            entry=$(systemctl reboot --boot-loader-entry=help | tac | bemenu --list 10 --prompt 'Select entry:')
+            systemctl reboot "--boot-loader-entry=''${entry}"
+          '';
+      in
+      ''exec ${script}; mode "default"'';
     "l" = if cfg.i3compat then ''exec i3-msg exit; mode "default"'' else ''exec swaymsg exit; mode "default"'';
     "r" = ''exec systemctl reboot; mode "default"'';
     "w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';

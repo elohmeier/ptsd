@@ -36,7 +36,7 @@ in
           config = {
             modifier = cfg.modifier;
             keybindings = import ./keybindings.nix { inherit cfg lib pkgs; };
-            modes = import ./modes.nix { inherit cfg; };
+            modes = import ./modes.nix { inherit cfg lib pkgs; };
             fonts = {
               names = [ cfg.fontSans ];
               size = cfg.fontSize;
