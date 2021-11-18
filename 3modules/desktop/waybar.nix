@@ -117,13 +117,13 @@ in
             format = "{}% ";
             on-click-right = cfg.term.execFloating "${pkgs.procps}/bin/watch -n1 ${pkgs.coreutils}/bin/cat /proc/meminfo" "";
           };
-          "custom/nvidia" = mkIf cfg.nvidia.enable {
-            format = "nv {}";
-            exec = pkgs.writeNu "nv-status" ''
-              nvidia-smi --query-gpu=pstate,utilization.gpu,utilization.memory,temperature.gpu --format=csv,nounits | from csv | str trim  | each { echo $"($it.pstate) ($it.' utilization.gpu [%]')%C ($it.' utilization.memory [%]')%M ($it.' temperature.gpu')C" }
-            '';
-            interval = 30;
-          };
+          #"custom/nvidia" = mkIf cfg.nvidia.enable {
+          #  format = "nv {}";
+          #  exec = pkgs.writeNu "nv-status" ''
+          #    nvidia-smi --query-gpu=pstate,utilization.gpu,utilization.memory,temperature.gpu --format=csv,nounits | from csv | str trim  | each { echo $"($it.pstate) ($it.' utilization.gpu [%]')%C ($it.' utilization.memory [%]')%M ($it.' temperature.gpu')C" }
+          #  '';
+          #  interval = 30;
+          #};
           battery = {
             states = { warning = 30; critical = 15; };
             format = "{capacity}% {icon}";
@@ -151,8 +151,8 @@ in
           pulseaudio = mkIf cfg.audio.enable {
             format = "{volume}% {icon} {format_source}";
             format-bluetooth = "{volume}% {icon} {format_source}";
-            format-bluetooth-muted = " {icon} {format_source}";
-            format-muted = " {format_source}";
+            format-bluetooth-muted = " {icon} {format_source}";
+            format-muted = " {format_source}";
             format-source = "{volume}% ";
             format-source-muted = "";
             format-icons = {

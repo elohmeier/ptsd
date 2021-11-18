@@ -83,7 +83,6 @@ self: pkgs_master: super:
   tg = self.callPackage ./tg { };
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
-  writeNu = self.writers.makeScriptWriter { interpreter = "${self.nushell}/bin/nu"; };
   zathura-single = self.callPackage ./zathura-single { };
 
   ptsd-octoprintPlugins = plugins: {
@@ -194,7 +193,6 @@ self: pkgs_master: super:
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
   neovimUtils = pkgs_master.neovimUtils;
   wrapNeovimUnstable = pkgs_master.wrapNeovimUnstable;
-  nushell = pkgs_master.nushell;
   vimPlugins = pkgs_master.vimPlugins;
   zoxide = pkgs_master.zoxide;
 }
