@@ -32,10 +32,7 @@ in
   ptsd.desktop = {
     enable = true;
     trayOutput = "eDP-1";
-    # fontSize = 11.0;
-    # fontMono = "Cozette";
     fontSize = 12.0;
-    fontMono = "Spleen";
   };
 
   home-manager.users.mainUser = { ... }:

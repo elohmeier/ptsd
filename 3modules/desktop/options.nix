@@ -15,7 +15,8 @@ in
       };
       fontMono = mkOption {
         type = types.str;
-        default = "SauceCodePro Nerd Font";
+        #default = "SauceCodePro Nerd Font";
+        default = "Spleen";
       };
       fontSize = mkOption {
         type = types.float;
