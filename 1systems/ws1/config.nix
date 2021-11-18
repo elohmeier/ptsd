@@ -15,8 +15,6 @@ in
     ../../2configs/profiles/workstation
     ../../2configs/prometheus/node.nix
 
-    ../../2configs/nvidia-headless.nix
-
     ./modules/syncthing.nix
     ./modules/netboot-host.nix
   ];
@@ -62,25 +60,12 @@ in
   ptsd.boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  boot.blacklistedKernelModules = [
-    "nouveau"
-    # "nvidia"
-    # "nvidia_drm"
-    # "nvidia_uvm"
-    # "nvidia_modeset"
-    # "i2c_nvidia_gpu"
-  ];
-  boot.kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
-  boot.extraModprobeConfig = ''
-    options kvm ignore_msrs=1
-  '';
-
   ptsd.nwacme.hostCert.enable = false;
 
   ptsd.desktop = {
     enable = true;
     waybar.co2 = true;
-    nvidia.enable = true;
+    # nvidia.enable = true; # todo: replace writeNu in desktop module
     autolock.enable = false;
     baresip = {
       enable = true;
@@ -214,4 +199,11 @@ in
     efitools
     tpm2-tools
   ];
+
+  specialisation = {
+    block-nvidia.configuration = {
+      ptsd.nvidia.headless.enable = false;
+      ptsd.nvidia.vfio.enable = true;
+    };
+  };
 }

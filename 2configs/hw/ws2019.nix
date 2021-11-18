@@ -77,4 +77,6 @@
       }
     ];
   };
+
+  ptsd.nvidia.headless.enable = lib.mkDefault true;
 }

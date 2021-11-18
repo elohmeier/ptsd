@@ -13,6 +13,7 @@ _:
     ./mosquitto.nix
     ./navidrome.nix
     ./neovim.nix
+    ./nvidia.nix
     ./nwacme.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
