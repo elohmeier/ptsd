@@ -88,6 +88,7 @@ self: pkgs_master: super:
   ptsd-octoprintPlugins = plugins: {
     bedlevelvisualizer = plugins.callPackage ./octoprint-plugins/bedlevelvisualizer.nix { };
     bltouch = plugins.callPackage ./octoprint-plugins/bltouch.nix { };
+    firmwareupdater = plugins.callPackage ./octoprint-plugins/firmwareupdater.nix { };
     m73progress = plugins.callPackage ./octoprint-plugins/m73progress.nix { };
     octolapse = plugins.callPackage ./octoprint-plugins/octolapse.nix { };
     prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix { };

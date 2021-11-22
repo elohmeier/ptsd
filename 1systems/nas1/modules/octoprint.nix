@@ -15,6 +15,7 @@ in
       [
         plugins.printtimegenius
         plugins.telegram
+        ptsdPlugins.firmwareupdater
         ptsdPlugins.octolapse
         ptsdPlugins.prusalevelingguide
         ptsdPlugins.prusaslicerthumbnails
@@ -25,6 +26,21 @@ in
     # webcamStreamUrl = "https://${domain}/ipcam/video";
     # webcamSnapshotUrl = "https://${domain}/ipcam/shot.jpg";
     serialDevice = "/dev/ttyACM0"; # prusa
+
+    extraConfig = {
+      plugins.firmwareupdater = {
+        _selected_profile = 0;
+        profiles = [{
+          # prusa config
+          _name = "Default";
+          flash_method = "avrdude";
+          avrdude_avrmcu = "m2560";
+          avrdude_path = "${pkgs.avrdude}/bin/avrdude";
+          avrdude_programmer = "wiring";
+          serial_port = "/dev/ttyACM0";
+        }];
+      };
+    };
   };
 
   # environment.systemPackages = [ (pkgs.v4l-utils.override { withGUI = false; }) ];
