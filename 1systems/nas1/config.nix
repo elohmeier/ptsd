@@ -411,4 +411,13 @@ in
   # };
 
   boot.supportedFilesystems = [ "exfat" ]; # canon sd card
+
+  # compensate flaky airprint service
+  systemd.services.restart-cups = {
+    description = "Restart cups every morning";
+    startAt = "*-*-* 03:30:00";
+    serviceConfig = {
+      ExecStart = "${pkgs.systemd}/bin/systemctl restart cups.service";
+    };
+  };
 }
