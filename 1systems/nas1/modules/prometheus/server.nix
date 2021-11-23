@@ -108,6 +108,7 @@ in
       (nwJob "htz3" "htz3" "node" true)
       (nwJob "htz3" "gitlab" "node" true)
       (nwJob "htz3" "wpjail" "node" true)
+      (nwJob "nas1" "nas1" "node" true)
       (nwJob "ws1" "ws1" "node" false)
       (nwJob "ws2" "ws2" "node" true)
       (nwJob "tp1" "tp1" "node" false)
@@ -451,6 +452,15 @@ in
               annotations = {
                 summary = "Certificate for {{ $labels.instance }} expiring soon";
                 description = "Certificate is about to expire in less than 28 days.";
+              };
+            }
+            {
+              alert = "CheckSSLCertFailed";
+              expr = "check_ssl_cert_result > 0";
+              labels.severity = "critical";
+              annotations = {
+                summary = "Certificate check failed";
+                description = "Certificate check for {{ $labels.protocol }}://{{ $labels.host }}:{{ $labels.port }} failed with exit code {{ $value }}.";
               };
             }
             {

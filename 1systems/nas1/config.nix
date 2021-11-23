@@ -420,4 +420,22 @@ in
       ExecStart = "${pkgs.systemd}/bin/systemctl restart cups.service";
     };
   };
+
+  systemd.services.prometheus-check_ssl_cert = {
+    description = "monitor ssl/tlsa/dane for nerdworks.de mail";
+    path = with pkgs; [
+      # checkSSLCert deps
+      dig
+      gawk
+      glibc
+      nettools
+
+      bash
+      checkSSLCert
+      moreutils
+    ];
+    script = ''
+      ${../../4scripts/prometheus-check_ssl_cert.sh} | sponge /var/log/prometheus-check_ssl_cert.prom
+    '';
+  };
 }

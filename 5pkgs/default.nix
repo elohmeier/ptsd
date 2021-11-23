@@ -184,6 +184,17 @@ self: pkgs_master: super:
   ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
 
   # pull in recent versions from >21.05
+  checkSSLCert = pkgs_master.checkSSLCert.overrideAttrs (oldAttrs: rec {
+    # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
+    version = "2.12.0";
+    src = pkgs_master.fetchFromGitHub {
+      owner = "matteocorti";
+      repo = "check_ssl_cert";
+      rev = "v${version}";
+      sha256 = "sha256-Y7NLCooMP78EesG9zivyuaHwl9qHY2GSOTKuHzYWj6c=";
+    };
+    patches = [ ];
+  });
   wrapFirefox = pkgs_master.wrapFirefox;
   firefox-esr = pkgs_master.firefox-esr;
   firefox-esr-wayland = pkgs_master.firefox-esr-wayland;
