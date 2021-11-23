@@ -19,6 +19,7 @@ in
 
   environment.systemPackages = with pkgs; [
     bottom
+    checkSSLCert
     cryptsetup
     dnsutils
     fd
