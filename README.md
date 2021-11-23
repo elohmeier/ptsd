@@ -160,3 +160,8 @@ e.g. `udevadm test-builtin net_id /sys/class/net/enp39s0`
 
 ### Force cert renewal
 Add `security.acme.validMinDays = 999;` to your config and rebuild. Remember to remove it again...
+
+## Generate TLSA DANE record for mailserver
+
+Run `tlsa --port 25 --starttls smtp --create htz2.host.nerdworks.de --selector 1` to generate updated hash from mailserver certificate.
+
