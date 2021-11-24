@@ -16,6 +16,6 @@
     extraPackages = with pkgs; [ amdvlk ];
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
-  console.font = "${pkgs.spleen}/share/consolefonts/spleen-12x24.psfu";
+  console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
   console.keyMap = "de-latin1";
 }

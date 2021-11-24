@@ -69,7 +69,7 @@ with lib;
   ptsd.desktop = {
     enable = true;
     rclone.enable = true;
-    fontSize = 14.0;
+    fontSize = 12.0;
   };
 
   ptsd.nwacme.hostCert.enable = false;
@@ -96,6 +96,9 @@ with lib;
     };
   };
 
-  users.users.scanner.isSystemUser = true;
+  users = {
+    users.scanner = { group = "scanner"; isSystemUser = true; };
+    groups.scanner = { };
+  };
   hardware.printers.ensureDefaultPrinter = "HL5380DN";
 }
