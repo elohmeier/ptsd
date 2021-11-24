@@ -8,15 +8,10 @@ with lib;
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
     ../../2configs/themes/white.nix
-
     ../../2configs/prometheus/node.nix
-
     #../../2configs/octoprint-klipper-ender3.nix
     ../../2configs/printers/hl5380dn.nix
-
-    #../../2configs/nvidia-headless.nix
     ../../2configs/profiles/workstation
-
     ./modules/syncthing.nix
   ];
 
@@ -74,6 +69,7 @@ with lib;
   ptsd.desktop = {
     enable = true;
     rclone.enable = true;
+    fontSize = 14.0;
   };
 
   ptsd.nwacme.hostCert.enable = false;
@@ -100,9 +96,6 @@ with lib;
     };
   };
 
-  users.users.scanner = { isSystemUser = true; };
-
-  hardware.printers = {
-    ensureDefaultPrinter = "HL5380DN";
-  };
+  users.users.scanner.isSystemUser = true;
+  hardware.printers.ensureDefaultPrinter = "HL5380DN";
 }
