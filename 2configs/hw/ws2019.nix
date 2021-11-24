@@ -29,7 +29,6 @@
     kernelModules = [ "kvm-amd" "wl" ];
   };
 
-  #console.font = "${pkgs.terminus_font}/share/consolefonts/ter-v24n.psf.gz";
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-12x24.psfu";
   console.keyMap = "de-latin1";
 

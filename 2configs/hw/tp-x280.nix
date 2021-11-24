@@ -130,7 +130,6 @@
       EOF
     '';
   };
-  #console.font = "${pkgs.terminus_font}/share/consolefonts/ter-v18n.psf.gz";
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
   environment.variables = {
     QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # honor screen DPI
