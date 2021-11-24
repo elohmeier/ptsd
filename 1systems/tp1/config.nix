@@ -178,4 +178,7 @@ in
     };
   };
 
+  # faster boot
+  systemd.services.NetworkManager-wait-online.enable = false;
+  services.samba.enableNmbd = false;
 }
