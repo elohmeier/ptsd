@@ -37,9 +37,9 @@ in
       after = [ "network.target" "alertmanager.service" ];
       serviceConfig = {
         ExecStart = ''${pkgs.alertmanager-bot}/bin/alertmanager-bot \
-        --alertmanager.url="${cfg.alertmanagerUrl}" --log.level=info \
-        --store=bolt --bolt.path=/var/lib/alertmanager-bot/bot.db \
-        --listen.addr="${cfg.listenAddress}" \
+          --alertmanager.url="${cfg.alertmanagerUrl}" --log.level=info \
+          --store=bolt --bolt.path=/var/lib/alertmanager-bot/bot.db \
+          --listen.addr="${cfg.listenAddress}" \
           --template.paths="${cfg.templatePath}"'';
         PrivateTmp = true;
         ProtectSystem = "full";
