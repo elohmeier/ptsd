@@ -179,12 +179,6 @@ self: pkgs_master: super:
 
   ptsd-nnn = self.nnn.override { withNerdIcons = true; };
 
-  ptsd-vscodium = self.vscodium.overrideAttrs (oldAttrs: {
-    postInstall = ''
-      makeWrapper $out/bin/codium $out/bin/codium-wayland --add-flags " --enable-features=UseOzonePlatform --ozone-platform=wayland"
-    '';
-  });
-
   ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
 
   # pull in recent versions from >21.05
@@ -208,7 +202,10 @@ self: pkgs_master: super:
   neovim = pkgs_master.neovim;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
   neovimUtils = pkgs_master.neovimUtils;
+  sqlfluff = pkgs_master.sqlfluff;
   wrapNeovimUnstable = pkgs_master.wrapNeovimUnstable;
   vimPlugins = pkgs_master.vimPlugins;
+  vscode = pkgs_master.vscode;
+  vscode-extensions = pkgs_master.vscode-extensions;
   zoxide = pkgs_master.zoxide;
 }
