@@ -14,6 +14,7 @@
 , shfmt
 , enableFormatters ? true
 , enableLSP ? true
+, sqlfluff
 }:
 with lib;
 
@@ -257,7 +258,25 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
                       stdin = true
                     }
                   end
-                }
+                },
+                sql = {
+                  function()
+                    return {
+                      exe = "${sqlfluff}/bin/sqlfluff",
+                      args = {"fix", "--force", "--dialect", "postgres", "-"},
+                      stdin = true
+                    }
+                  end
+                },
+                typescriptreact = {
+                  function()
+                    return {
+                      exe = "${nodePackages.prettier}/bin/prettier",
+                      args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+                      stdin = true,
+                    }
+                    end
+                },
               }
             })
           EOF
