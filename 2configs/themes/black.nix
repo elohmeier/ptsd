@@ -50,7 +50,7 @@ in
 
       # https://codeberg.org/dnkl/foot/src/branch/master/themes/selenized-black
       programs.foot.settings = {
-        cursor.color = "";
+        cursor.color = "181818 56d8c9";
         colors = {
           background = "181818";
           foreground = "b9b9b9";

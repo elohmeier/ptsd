@@ -8,7 +8,7 @@ let
     primary = {
       background = "#ffffff";
       foreground = "#474747";
-      contrast = "#151515"; # added
+      contrast = "#eeeeee"; # added
       accent = "#1a66ff"; # blue
     };
     normal = {
