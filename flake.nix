@@ -11,9 +11,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
-    #nix-doom-emacs.url = github:vlaci/nix-doom-emacs;
-    #nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
-    #nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
+    nix-doom-emacs.url = github:vlaci/nix-doom-emacs;
+    nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
+    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
     frix.url = "git+https://git.fraam.de/fraam/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
     frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
@@ -30,7 +30,7 @@
     , home-manager
     , nixos-hardware
     , flake-utils
-      #, nix-doom-emacs
+    , nix-doom-emacs
     , frix
     , nur
     , ...
@@ -39,7 +39,10 @@
     let
       pkgOverrides = pkgs:
         let
-          pkgs_master = import nixpkgs-master { system = pkgs.system; };
+          pkgs_master = import nixpkgs-master {
+            config.allowUnfree = true;
+            system = pkgs.system;
+          };
         in
         super: (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
       nixosConfigurations =
@@ -72,7 +75,7 @@
             ({ pkgs, ... }:
               {
                 home-manager.users.mainUser = { ... }: {
-                  #imports = [ nix-doom-emacs.hmModule ];
+                  imports = [ nix-doom-emacs.hmModule ];
                   home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec_no_pyenv;
                   nixpkgs.config = {
                     allowUnfree = true;
