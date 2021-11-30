@@ -1,6 +1,8 @@
 { pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
+    sqlfluff
+    dbeaver
     clinfo
     discord
     awscli2
@@ -140,9 +142,7 @@
     mupen64plus
     # wine # 32-bit only
     wineWowPackages.stable # 32-bit & 64-bit
-    (winetricks.override {
-      wine = wineWowPackages.stable;
-    })
+    winetricks
     #ppsspp # TODO: wait for https://github.com/NixOS/nixpkgs/pull/124162
 
     # *** kvm ***

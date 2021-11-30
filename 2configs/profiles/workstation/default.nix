@@ -134,6 +134,11 @@ in
       };
 
       home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
+
+      programs.doom-emacs = {
+        enable = true;
+        doomPrivateDir = ../../../src/doom.d;
+      };
     };
 
   ptsd.desktop.keybindings = {
