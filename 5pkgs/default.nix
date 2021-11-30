@@ -85,6 +85,10 @@ self: pkgs_master: super:
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
   zathura-single = self.callPackage ./zathura-single { };
 
+  ptsd-fishPlugins = {
+    hydro = self.callPackage ./fish-plugins/hydro.nix { };
+  };
+
   ptsd-octoprintPlugins = plugins: {
     bedlevelvisualizer = plugins.callPackage ./octoprint-plugins/bedlevelvisualizer.nix { };
     bltouch = plugins.callPackage ./octoprint-plugins/bltouch.nix { };

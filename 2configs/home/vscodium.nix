@@ -1,7 +1,8 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
+{
   programs.vscode = {
     enable = true;
-    package = pkgs.ptsd-vscodium;
+    package = pkgs.vscode;
     userSettings = {
       "editor.fontFamily" = "'SauceCodePro Nerd Font'";
       "gitlens.advanced.telemetry.enabled" = false;
@@ -11,12 +12,16 @@
       "update.mode" = "none";
       "git.confirmSync" = false;
       "git.enableSmartCommit" = true;
+      "telemetry.telemetryLevel" = "off";
+      "telemetry.enableCrashReporter" = false;
+      "telemetry.enableTelemetry" = false;
     };
     extensions = with pkgs.vscode-extensions; [
       eamodio.gitlens
       editorconfig.editorconfig
       jnoortheen.nix-ide
       ms-python.python
+      github.copilot
     ];
   };
 }
