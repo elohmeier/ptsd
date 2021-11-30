@@ -20,8 +20,10 @@ with lib;
 
 let
   treesitter = (vimPlugins.nvim-treesitter.withPlugins (plugins: with plugins; [
+    # tree-sitter-beancount # TODO: wait for https://github.com/NixOS/nixpkgs/pull/145057
     tree-sitter-go
     tree-sitter-nix
+    tree-sitter-norg
     tree-sitter-python
   ]));
 in
