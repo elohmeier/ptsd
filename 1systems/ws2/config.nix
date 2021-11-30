@@ -100,5 +100,6 @@ with lib;
     users.scanner = { group = "scanner"; isSystemUser = true; };
     groups.scanner = { };
   };
+
   hardware.printers.ensureDefaultPrinter = "HL5380DN";
 }
