@@ -61,6 +61,7 @@ in
       waybar.fgColor = mkOption { type = types.str; default = "#000000"; };
       waybar.contrastColor = mkOption { type = types.str; default = "#111111"; };
       waybar.accentColor = mkOption { type = types.str; default = "#1a1a1a"; };
+      waybar.primaryOutput = mkOption { type = types.str; default = ""; };
       audio.enable = mkOption {
         type = types.bool;
         default = true;
