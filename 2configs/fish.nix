@@ -68,6 +68,7 @@
   environment.systemPackages = with pkgs; [
     zoxide
     fishPlugins.fzf-fish
+    ptsd-fishPlugins.hydro
     fzf
   ];
 }

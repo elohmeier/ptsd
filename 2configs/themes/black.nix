@@ -2,6 +2,7 @@
 
 
 let
+  accent = "1a66ff"; # blue
   # structure like in alacritty
   # from https://github.com/jan-warchol/selenized/blob/master/terminals/alacritty/selenized-black.yml
   colors = {
@@ -9,7 +10,7 @@ let
       background = "#000000";
       foreground = "#ffffff";
       contrast = "#151515"; # added
-      accent = "#1a66ff"; # blue
+      accent = "#${accent}";
     };
     normal = {
       black = "#000000";
@@ -33,6 +34,10 @@ in
       accentColor = colors.primary.accent;
     };
   };
+
+  programs.fish.interactiveShellInit = ''
+    set --global hydro_color_prompt ${accent};
+  '';
 
   environment.variables = {
     # https://github.com/jarun/nnn/wiki/Usage#configuration
