@@ -125,6 +125,7 @@ self: pkgs_master: super:
       neo4j-driver = self.callPackage ../5pkgs/neo4j-driver { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
+      pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
     };
   };
 
@@ -161,6 +162,8 @@ self: pkgs_master: super:
       impacket
       pycrypto
       pylint
+      pyxlsb
+      psycopg2
     ]
   );
 
