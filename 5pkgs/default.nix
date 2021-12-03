@@ -185,10 +185,10 @@ self: pkgs_master: super:
   ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
 
   # pull in recent versions from >21.05
-  checkSSLCert = pkgs_master.checkSSLCert.overrideAttrs (oldAttrs: rec {
+  checkSSLCert = super.checkSSLCert.overrideAttrs (oldAttrs: rec {
     # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
     version = "2.12.0";
-    src = pkgs_master.fetchFromGitHub {
+    src = self.fetchFromGitHub {
       owner = "matteocorti";
       repo = "check_ssl_cert";
       rev = "v${version}";
@@ -196,19 +196,4 @@ self: pkgs_master: super:
     };
     patches = [ ];
   });
-  wrapFirefox = pkgs_master.wrapFirefox;
-  firefox-esr = pkgs_master.firefox-esr;
-  firefox-esr-wayland = pkgs_master.firefox-esr-wayland;
-  firefox-esr-unwrapped = pkgs_master.firefox-esr-unwrapped;
-  foot = pkgs_master.foot;
-  easyeffects = pkgs_master.easyeffects;
-  neovim = pkgs_master.neovim;
-  neovim-unwrapped = pkgs_master.neovim-unwrapped;
-  neovimUtils = pkgs_master.neovimUtils;
-  sqlfluff = pkgs_master.sqlfluff;
-  wrapNeovimUnstable = pkgs_master.wrapNeovimUnstable;
-  vimPlugins = pkgs_master.vimPlugins;
-  vscode = pkgs_master.vscode;
-  vscode-extensions = pkgs_master.vscode-extensions;
-  zoxide = pkgs_master.zoxide;
 }

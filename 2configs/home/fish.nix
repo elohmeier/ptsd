@@ -11,7 +11,7 @@ in
   # faster than hm default fenv sourcing
   xdg.configFile."fish/config.fish".text =
     let
-      hm-session-vars = pkgs.writeText "hm-session-vars.sh" (config.lib.shell.exportAll config.home.sessionVariables);
+      hm-session-vars = pkgs.writeText "hm-session-vars.sh" ((config.lib.shell.exportAll config.home.sessionVariables) + "\n" + config.home.sessionVariablesExtra);
     in
     ''
       if not set -q __fish_general_config_sourced

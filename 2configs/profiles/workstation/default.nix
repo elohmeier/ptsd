@@ -13,9 +13,10 @@ in
     ../../users/enno.nix
   ];
 
-  specialisation = {
-    i3compat.configuration = { ptsd.desktop.i3compat = true; };
-  };
+  # TODO: wait for https://github.com/NixOS/nixpkgs/pull/148315
+  #specialisation = {
+  #  i3compat.configuration = { ptsd.desktop.i3compat = true; };
+  #};
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
 
@@ -135,10 +136,11 @@ in
 
       home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
 
-      programs.doom-emacs = {
-        enable = true;
-        doomPrivateDir = ../../../src/doom.d;
-      };
+      # TODO: wait for https://github.com/vlaci/nix-doom-emacs/pull/396
+      # programs.doom-emacs = {
+      #   enable = true;
+      #   doomPrivateDir = ../../../src/doom.d;
+      # };
     };
 
   ptsd.desktop.keybindings = {

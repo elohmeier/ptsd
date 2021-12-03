@@ -33,12 +33,10 @@ in
       configDir = "/home/enno/.config/syncthing";
       dataDir = "/home/enno/";
 
-      declarative = {
-        key = "/run/keys/syncthing.key";
-        cert = "/run/keys/syncthing.crt";
-        devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
-        folders = cfg.folders;
-      };
+      key = "/run/keys/syncthing.key";
+      cert = "/run/keys/syncthing.crt";
+      devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
+      folders = cfg.folders;
     };
 
     # open the syncthing ports

@@ -13,8 +13,10 @@ in
     };
     libvirtd = {
       enable = true;
-      qemuPackage = pkgs.qemu_kvm;
-      qemuRunAsRoot = false;
+      qemu = {
+        package = pkgs.qemu_kvm;
+        runAsRoot = false;
+      };
     };
     virtualbox.host = {
       enable = true;
