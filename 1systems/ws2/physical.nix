@@ -67,6 +67,8 @@
       options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
+  swapDevices = [{ device = "/dev/sysVG/swap"; }];
+
   # 800M /var/log drive
   services.journald.extraConfig = ''
     SystemMaxUse=750M
