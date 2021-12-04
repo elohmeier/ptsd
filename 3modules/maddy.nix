@@ -12,6 +12,7 @@ let
     postmaster: enno@nerdworks.de
     e.lohmeier@gmx.de: enno@nerdworks.de
     lulu@nerdworks.de: enno@nerdworks.de
+    paypal@nerdworks.de: enno@nerdworks.de
   '';
 
   filterCommand = pkgs.writers.writePython3 "maddy-filter" { } ../4scripts/maddy-filter.py;
