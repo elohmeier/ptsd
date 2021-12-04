@@ -35,9 +35,9 @@ in
     };
   };
 
-  programs.fish.interactiveShellInit = ''
-    set --global hydro_color_prompt ${accent};
-  '';
+  # programs.fish.interactiveShellInit = ''
+  #   set --global hydro_color_prompt ${accent};
+  # '';
 
   environment.variables = {
     # https://github.com/jarun/nnn/wiki/Usage#configuration
