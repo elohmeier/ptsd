@@ -64,6 +64,14 @@ in
       owner = "fraamdb";
     };
 
+    users.users.fraamdb = {
+      description = "fraamdb user";
+      isSystemUser = true;
+      group = "fraamdb";
+      extraGroups = [ "keys" ];
+    };
+    users.groups.fraamdb = { };
+
     systemd.services.fraamdb = {
       inherit environment;
 
@@ -88,7 +96,6 @@ in
 
       serviceConfig = {
         EnvironmentFile = "/var/src/secrets/fraamdb.env";
-        DynamicUser = true;
         User = "fraamdb"; # needs to be set for shared uid
         CapabilityBoundingSet = "cap_net_bind_service";
         LockPersonality = true;
@@ -123,7 +130,6 @@ in
       '';
 
       serviceConfig = {
-        DynamicUser = true;
         User = "fraamdb"; # needs to be set for shared uid
         NoNewPrivileges = true;
         LockPersonality = true;
