@@ -24,9 +24,9 @@ in
 
   config = mkIf cfg.enable {
 
-    ptsd.secrets.files."bitwarden.env" = { dependants = [ "bitwarden_rs.service" ]; };
+    ptsd.secrets.files."bitwarden.env" = { dependants = [ "vaultwarden.service" ]; };
 
-    services.bitwarden_rs = {
+    services.vaultwarden = {
       enable = true;
       dbBackend = "postgresql";
       config = {
@@ -40,8 +40,8 @@ in
       environmentFile = config.ptsd.secrets.files."bitwarden.env".path;
     };
 
-    systemd.services.bitwarden_rs = {
-      # ensure that postgres is running *before* running bitwarden_rs
+    systemd.services.vaultwarden = {
+      # ensure that postgres is running *before* running vaultwarden
       wants = [ "postgresql.service" ];
       after = [ "postgresql.service" ];
 
@@ -77,7 +77,7 @@ in
       ensureDatabases = [ "bitwarden" ];
       ensureUsers = [
         {
-          name = "bitwarden_rs"; # authenticated via Unix socket authentication
+          name = "vaultwarden"; # authenticated via Unix socket authentication
           ensurePermissions."DATABASE bitwarden" = "ALL PRIVILEGES";
         }
       ];
@@ -96,7 +96,7 @@ in
     # TODO: configure as in
     # https://github.com/dani-garcia/bitwarden_rs/wiki/Fail2Ban-Setup
     # services.fail2ban.jails = {
-    #   bitwarden_rs = { 
+    #   vaultwarden = { 
 
     #   };
     # };
