@@ -45,7 +45,7 @@ Hi! Folgende Kommandos sind möglich:
 
 def impfcode_alarm_factory(plz: str):
     def alarm(context: CallbackContext) -> None:
-        """ sucht ohne Vermittlungscode nach Terminen, damit man einen Vermittlungscode bekommen kann """
+        """sucht ohne Vermittlungscode nach Terminen, damit man einen Vermittlungscode bekommen kann"""
         job = context.job
 
         try:
@@ -68,7 +68,7 @@ def impfcode_alarm_factory(plz: str):
 
 
 def termin_alarm_factory(impfcode: str, plz: str):
-    """ Sucht zu einem vorhandenen Vermittlungscode Termine """
+    """Sucht zu einem vorhandenen Vermittlungscode Termine"""
 
     def alarm(context: CallbackContext) -> None:
         job = context.job

@@ -57,7 +57,7 @@ DEFAULT_ICON = ""
 
 
 def icon_for_window(window: i3ipc.Con) -> str:
-    """ find icon for a i3 window object """
+    """find icon for a i3 window object"""
 
     name = None
     if window.app_id is not None and len(window.app_id) > 0:
@@ -76,7 +76,7 @@ def icon_for_window(window: i3ipc.Con) -> str:
 
 
 def rename_workspaces(ipc: i3ipc.Connection, duplicates: bool) -> None:
-    """ scans for windows in all workspaces as renames the workspaces """
+    """scans for windows in all workspaces as renames the workspaces"""
 
     for workspace in ipc.get_tree().workspaces():
         name_parts = parse_workspace_name(workspace.name)
@@ -93,7 +93,7 @@ def rename_workspaces(ipc: i3ipc.Connection, duplicates: bool) -> None:
 
 
 def undo_window_renaming(ipc: i3ipc.Connection) -> None:
-    """ reset workspace names to original name """
+    """reset workspace names to original name"""
 
     for workspace in ipc.get_tree().workspaces():
         name_parts = parse_workspace_name(workspace.name)
@@ -105,7 +105,7 @@ def undo_window_renaming(ipc: i3ipc.Connection) -> None:
 
 
 def parse_workspace_name(name: str) -> Dict:
-    """ analyses workspace name structure """
+    """analyses workspace name structure"""
 
     return re.match(
         r"(?P<num>[0-9]+):?(?P<shortname>\w+)? ?(?P<icons>.+)?", name
@@ -113,7 +113,7 @@ def parse_workspace_name(name: str) -> Dict:
 
 
 def construct_workspace_name(parts: Dict) -> str:
-    """ generate name of workspace """
+    """generate name of workspace"""
 
     new_name = str(parts["num"])
     if parts["shortname"] or parts["icons"]:
@@ -129,7 +129,7 @@ def construct_workspace_name(parts: Dict) -> str:
 
 
 def main():
-    """ main entrypoint """
+    """main entrypoint"""
 
     parser = argparse.ArgumentParser(
         description="This script automatically changes the workspace name in sway depending on your open applications."
@@ -162,7 +162,7 @@ def main():
         signal.signal(sig, lambda _, __: undo_window_renaming(ipc))
 
     def window_event_handler(ipc: i3ipc.Connection, evnt: i3ipc.events.IpcBaseEvent):
-        """ handle i3 window event """
+        """handle i3 window event"""
 
         if not isinstance(evnt, i3ipc.events.WindowEvent):
             return
