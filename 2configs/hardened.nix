@@ -7,7 +7,7 @@ with lib;
   };
 
   # build fails often
-  # boot.kernelPackages = mkDefault pkgs.linuxPackages_hardened;
+  boot.kernelPackages = mkDefault pkgs.linuxPackages_hardened;
 
   nix.allowedUsers = mkDefault [ "@users" ];
 

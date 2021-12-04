@@ -12,6 +12,8 @@ in
     owner = "grafana";
   };
 
+  users.groups.keys.members = [ "grafana" ];
+
   services.grafana =
     {
       enable = true;
@@ -25,24 +27,6 @@ in
       provision = {
         enable = true;
         datasources = [
-          # {
-          #   name = "InfluxDB Telegraf";
-          #   type = "influxdb";
-          #   isDefault = true;
-          #   database = "telegraf";
-          #   user = "grafana";
-          #   password = grafanaSecrets.influxPassword;
-          #   url = "https://influxdb.services.nerdworks.de";
-          # }
-          # {
-          #   name = "InfluxDB Home Assistant";
-          #   type = "influxdb";
-          #   isDefault = false;
-          #   database = "hass";
-          #   user = "grafana";
-          #   password = grafanaSecrets.influxPassword;
-          #   url = "https://influxdb.services.nerdworks.de";
-          # }
           {
             name = "Prometheus";
             type = "prometheus";

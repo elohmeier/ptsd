@@ -16,7 +16,9 @@ in
     createHome = true;
     shell = pkgs.bash; # this is required (if false "nologin" will block access to Gitea/ssh)
     isSystemUser = true;
+    group = "git";
   };
+  users.groups.git = { };
 
   services.gitea = {
     enable = true;

@@ -73,7 +73,7 @@ buildGoModule rec {
     tf1_pkgs.python37.pkgs.tensorflow_1.libtensorflow
   ];
 
-  buildFlagsArray = [ "-ldflags=-s -w -X main.version=${version}" ];
+  ldflags = [ "-s" "-w" "-X main.version=${version}" ];
 
   postInstall = ''
     cp -r assets $out/assets

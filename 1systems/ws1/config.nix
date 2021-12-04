@@ -59,7 +59,7 @@ in
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
   # Use the systemd-boot EFI boot loader.
-  ptsd.boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   ptsd.nwacme.hostCert.enable = false;

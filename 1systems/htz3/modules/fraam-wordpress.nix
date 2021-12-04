@@ -54,13 +54,12 @@ in
   # TODO: add https://github.com/yaoweibin/ngx_http_substitutions_filter_module
   services.nginx = {
     enable = true;
+    serverNamesHashBucketSize = 128;
 
     # logError = "stderr debug";
 
     commonHttpConfig = ''
       charset UTF-8;
-      types_hash_max_size 4096;
-      server_names_hash_bucket_size 128;
       port_in_redirect off;
     '';
 

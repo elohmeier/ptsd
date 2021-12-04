@@ -64,7 +64,8 @@ buildPythonPackage rec {
     substituteInPlace requirements.txt \
       --replace 'tqdm==4.56.0' 'tqdm' \
       --replace 'schema==0.7.2' 'schema' \
-      --replace 'click==6.7' 'click'
+      --replace 'click==6.7' 'click' \
+      --replace 'python_dateutil==2.8.1' 'python_dateutil'
   '';
 
   propagatedBuildInputs = [

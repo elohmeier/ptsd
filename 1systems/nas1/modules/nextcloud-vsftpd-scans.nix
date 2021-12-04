@@ -2,18 +2,6 @@
 
 with lib;
 let
-  # logins = pkgs.writeText "logins.txt" ''
-  #   enno
-  #   enno
-  #   luisa
-  #   luisa
-  # '';
-  # logins = <secrets/vsftpd-logins.txt>;
-  # userDb =
-  #   pkgs.runCommand "userDb.db"
-  #     { preferLocalBuild = true; } ''
-  #     ${pkgs.db}/bin/db_load -T -t hash -f ${logins} $out
-  #   '';
   cfg = {
     allow_writeable_chroot = "yes";
     anonymous_enable = "no";
@@ -41,8 +29,6 @@ let
   );
 in
 {
-  # environment.etc."vsftpd/userDb.db".source = userDb;
-
   systemd.services.vsftpd = {
     description = "Vsftpd Server";
     wantedBy = [ "multi-user.target" ];
@@ -52,11 +38,6 @@ in
       Type = "forking";
     };
   };
-
-  # security.pam.services.vsftpd.text = ''
-  #   auth required pam_userdb.so db=/etc/vsftpd/userDb
-  #   account required pam_userdb.so db=/etc/vsftpd/userDb
-  # '';
 
   ptsd.secrets.files."vsftpd-logins.db" = {
     dependants = [ "vsftpd.service" ];
@@ -73,8 +54,10 @@ in
   ];
 
   users.users.vsftpd = {
-    uid = config.ids.uids.vsftpd;
     description = "VSFTPD user";
     home = "/homeless-shelter";
+    isSystemUser = true;
+    group = "vsftpd";
   };
+  users.groups.vsftpd = { };
 }

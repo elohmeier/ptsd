@@ -13,10 +13,9 @@ in
     ../../users/enno.nix
   ];
 
-  # TODO: wait for https://github.com/NixOS/nixpkgs/pull/148315
-  #specialisation = {
-  #  i3compat.configuration = { ptsd.desktop.i3compat = true; };
-  #};
+  specialisation = {
+    i3compat.configuration = { ptsd.desktop.i3compat = true; };
+  };
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
 

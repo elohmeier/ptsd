@@ -3,6 +3,7 @@
 with lib;
 let
   cfg = config.ptsd.samba-sonos;
+  mediaUser = "media";
 in
 {
   options = {
@@ -10,10 +11,6 @@ in
       enable = mkEnableOption "samba-sonos";
       mediaPath = mkOption {
         type = types.str;
-      };
-      mediaUsername = mkOption {
-        type = types.str;
-        default = "media";
       };
       hostsAllow = mkOption {
         type = types.str;
@@ -26,14 +23,16 @@ in
 
     # remember to set the password manually
     # using `smbpasswd -a <username>`
-    users.users.${cfg.mediaUsername} = {
-      name = cfg.mediaUsername;
+    users.users.${mediaUser} = {
+      name = mediaUser;
       isSystemUser = true;
       home = cfg.mediaPath;
       createHome = false;
       useDefaultShell = true;
       description = "Media User";
+      group = mediaUser;
     };
+    users.groups.${mediaUser} = { };
 
     services.samba = {
       enable = true;

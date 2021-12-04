@@ -19,7 +19,6 @@ let
     gmp
     iconv
     intl
-    json
     mbstring
     mysqli
     opcache
