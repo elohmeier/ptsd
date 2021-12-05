@@ -6,6 +6,60 @@ in
   services.home-assistant = {
     enable = true;
     package = pkgs.home-assistant-variants.bs53;
+
+    config = {
+
+      http = {
+        use_x_forwarded_for = true;
+        trusted_proxies = [ "::1" ];
+      };
+      prometheus = { };
+      device_automation = { };
+      config = { };
+      frontend = { };
+      history = { };
+      logbook = { };
+      map = { };
+      mobile_app = { };
+      person = { };
+      recorder.db_url = "postgresql://@/home-assistant";
+      sun = { };
+      system_health = { };
+      zeroconf = { };
+      sonos.media_player.hosts = [ "192.168.178.57" "192.168.178.56" ];
+      homematic =
+        let
+          host = "192.168.178.20";
+          resolvenames = "json";
+          username = "hass";
+          password = "!secret homematic_password";
+        in
+        {
+          interfaces = {
+            ip = { inherit host resolvenames username password; port = 2010; };
+            rf = { inherit host resolvenames username password; port = 2001; };
+          };
+          hosts.ccu3 = { inherit host username password; };
+        };
+      sensor = {
+        platform = "dwd_weather_warnings";
+        region_name = "Hansestadt Hamburg";
+      };
+      mqtt = {
+        broker = "mqtt.nerdworks.de";
+        port = 8883;
+        username = "hass";
+        password = "!secret mqtt_password";
+        certificate = "/etc/ssl/certs/ca-certificates.crt";
+        discovery = true;
+      };
+      fritzbox = { };
+      brother = { };
+      ipp = { };
+      spotify = { };
+      octoprint = { };
+      automation = "!include automations.yaml";
+    };
   };
 
   networking.firewall.interfaces.br0 = {
