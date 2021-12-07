@@ -6,7 +6,7 @@ in
   services.postgresql = {
     enable = true;
     enableTCPIP = true;
-    package = pkgs.postgresql_11;
+    package = pkgs.postgresql_13;
     settings = {
       ssl = "on";
       ssl_cert_file = "/var/lib/postgresql/cert-postgresql.pem";
