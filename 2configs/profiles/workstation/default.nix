@@ -135,11 +135,10 @@ in
 
       home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
 
-      # TODO: wait for https://github.com/vlaci/nix-doom-emacs/pull/396
-      # programs.doom-emacs = {
-      #   enable = true;
-      #   doomPrivateDir = ../../../src/doom.d;
-      # };
+      programs.doom-emacs = {
+        enable = true;
+        doomPrivateDir = ../../../src/doom.d;
+      };
     };
 
   ptsd.desktop.keybindings = {
