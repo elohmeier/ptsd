@@ -70,6 +70,7 @@ with lib;
     enable = true;
     rclone.enable = true;
     fontSize = 12.0;
+    waybar.primaryOutput = "Iiyama North America PL2791Q 1153904821492";
   };
 
   ptsd.nwacme.hostCert.enable = false;

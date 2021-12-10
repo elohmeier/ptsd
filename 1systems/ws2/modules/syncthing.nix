@@ -23,7 +23,7 @@
       "/home/enno/Scans" = {
         label = "Scans";
         id = "ezjwj-xgnhe";
-        devices = [ "nas1" "tp1" "ws1" ];
+        devices = [ "nas1" "tp1" "ws1" "iph3" ];
       };
       "/home/enno/repos" = {
         label = "repos";
