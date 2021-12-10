@@ -300,7 +300,7 @@
               path = pkgs.lib.makeBinPath (with pkgs; [
                 git
                 nixpkgs-fmt
-                python3Packages.black
+                ptsd-python3.pkgs.black
                 python3Packages.isort
                 gofumpt
               ]);

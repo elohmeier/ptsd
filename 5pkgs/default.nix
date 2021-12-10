@@ -57,6 +57,7 @@ self: pkgs_master: super:
   nerdworks-artwork = self.callPackage ./nerdworks-artwork { };
   nwbackup-env = self.callPackage ./nwbackup-env { };
   nwfonts = self.callPackage ./nwfonts { };
+  nwvpn-plain = self.callPackage ./nwvpn-plain { };
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
   pdfconcat = self.writers.writePython3 "pdfconcat"
     {
@@ -118,7 +119,9 @@ self: pkgs_master: super:
 
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
-      black_nbconvert = self.callPackage ../5pkgs/black_nbconvert { };
+      black = super.black.overrideAttrs (old: {
+        propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ];
+      });
       bloodhound-import = self.callPackage ../5pkgs/bloodhound-import { };
       davphonebook = self.callPackage ../5pkgs/davphonebook { };
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
@@ -134,7 +137,6 @@ self: pkgs_master: super:
       authlib
       beancount
       black
-      black_nbconvert
       bloodhound-import
       holidays
       i3ipc
@@ -164,6 +166,7 @@ self: pkgs_master: super:
       pylint
       pyxlsb
       psycopg2
+      faker
     ]
   );
 
