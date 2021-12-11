@@ -130,10 +130,11 @@ in
       };
 
       home.sessionVariables = {
-        NNN_PLUG = "i:nobbofin-insert";
+        NNN_PLUG = "i:nobbofin-insert;p:preview-tui";
       };
 
       home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
+      home.file.".config/nnn/plugins/preview-tui".source = "${pkgs.nnn-preview-tui}/bin/nnn-preview-tui";
 
       programs.doom-emacs = {
         enable = true;

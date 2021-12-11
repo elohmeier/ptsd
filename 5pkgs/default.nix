@@ -55,6 +55,10 @@ self: pkgs_master: super:
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };
   nerdworks-artwork = self.callPackage ./nerdworks-artwork { };
+  nnn-preview-tui = self.writers.writeDashBin "nnn-preview-tui" ''
+    export PATH=$PATH:${self.libsixel}/bin:${self.imagemagickBig}/bin:${self.ptsd-py3env}/bin:${self.bat}/bin:${self.exa}/bin
+    ${../4scripts/nnn-preview-tui.sh}
+  '';
   nwbackup-env = self.callPackage ./nwbackup-env { };
   nwfonts = self.callPackage ./nwfonts { };
   nwvpn-plain = self.callPackage ./nwvpn-plain { };
