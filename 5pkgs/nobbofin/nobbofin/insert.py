@@ -4,9 +4,9 @@ import re
 import subprocess
 import sys
 from datetime import date, datetime
-from io import BytesIO, StringIO
+from io import StringIO
 from pathlib import Path
-from typing import IO, Dict, List
+from typing import IO, Dict, List,Optional
 
 from nobbofin.accounts import gen_acc_list, get_dir
 from pdfminer.converter import TextConverter
@@ -51,14 +51,14 @@ def get_nnn_selection() -> List[Path]:
 
 def fzf_choose(choices: List[str]) -> str:
     p = subprocess.Popen(["fzf"], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
-    out, err = p.communicate("\n".join(choices).encode("utf-8"))
+    out, _ = p.communicate("\n".join(choices).encode("utf-8"))
     p.wait()
     if p.returncode != 0:
         raise Exception("fzf aborted")
     return out.decode("utf-8").strip()
 
 
-def get_date_from_filename(filename: str) -> date:
+def get_date_from_filename(filename: str) -> Optional[date]:
     if m := re.search(r"\D(\d{2})\.(\d{2})\.(\d{4})", filename):
         return date(int(m.group(3)), int(m.group(2)), int(m.group(1)))
     if m := re.search(r"(\d{4})-(\d{1,2})-(\d{1,2})\D", filename):
@@ -73,7 +73,7 @@ def get_date_from_filename(filename: str) -> date:
         return datetime.strptime(m.group(1), "%d-%m-%Y").date()
 
 
-def get_date_from_pdf_txt(f: Path) -> date:
+def get_date_from_pdf_txt(f: Path) -> Optional[date]:
     with f.open("rb") as fp:
         txt = pdf2txt(fp)
 
@@ -103,7 +103,7 @@ def get_date(f: Path) -> date:
     raise Exception("could not get date for file %s" % f)
 
 
-def move(files: List[Path], file_dt: Dict[Path, int], acc: str):
+def move(files: List[Path], file_dt: Dict[Path, date], acc: str):
     for f in files:
         dest_dir = get_dir(acc, file_dt[f].year)
         dest_dir.mkdir(parents=True, exist_ok=True)
