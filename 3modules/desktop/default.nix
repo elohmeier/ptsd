@@ -28,15 +28,21 @@ in
       owner = config.users.users.mainUser.name;
     };
 
-    security.sudo.extraRules = lib.mkAfter [
-      {
-        users = [ config.users.users.mainUser.name ];
-        commands = [
-          { command = "${config.nix.package}/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }
-          { command = "${pkgs.iftop}/bin/iftop"; options = [ "NOPASSWD" ]; }
-        ];
-      }
-    ];
+    security.sudo = {
+      extraConfig = ''
+        # disable sudo warning
+        Defaults lecture=never
+      '';
+      extraRules = lib.mkAfter [
+        {
+          users = [ config.users.users.mainUser.name ];
+          commands = [
+            { command = "${config.nix.package}/bin/nix-collect-garbage"; options = [ "NOPASSWD" ]; }
+            { command = "${pkgs.iftop}/bin/iftop"; options = [ "NOPASSWD" ]; }
+          ];
+        }
+      ];
+    };
 
     programs.browserpass.enable = true;
 
