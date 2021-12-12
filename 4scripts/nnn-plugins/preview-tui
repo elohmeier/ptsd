@@ -1,5 +1,6 @@
 #!/usr/bin/env nix-shell
 #!nix-shell -i sh -p libsixel -p imagemagickBig -p bat -p exa -p python3Packages.jupyter -p python3Packages.nbconvert
+
 # based on https://github.com/jarun/nnn/blob/master/plugins/preview-tui
 
 PAGER="${PAGER:-less -P?n -R}"
@@ -8,8 +9,8 @@ BAT_STYLE="${BAT_STYLE:-numbers}"
 BAT_THEME="${BAT_THEME:-ansi}"
 # Consider setting NNN_PREVIEWDIR to $XDG_CACHE_HOME/nnn/previews if you want to keep previews on disk between reboots
 NNN_PREVIEWDIR="${NNN_PREVIEWDIR:-$TMPDIR/nnn/previews}"
-NNN_PREVIEWWIDTH="${NNN_PREVIEWWIDTH:-1920}"
-NNN_PREVIEWHEIGHT="${NNN_PREVIEWHEIGHT:-1080}"
+NNN_PREVIEWWIDTH="${NNN_PREVIEWWIDTH:-2500}"
+NNN_PREVIEWHEIGHT="${NNN_PREVIEWHEIGHT:-1400}"
 NNN_PARENT="${NNN_FIFO#*.}"
 [ "$NNN_PARENT" -eq "$NNN_PARENT" ] 2>/dev/null || NNN_PARENT=""
 FIFOPID="$TMPDIR/nnn-preview-tui-fifopid.$NNN_PARENT"

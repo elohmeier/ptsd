@@ -1,0 +1,17 @@
+#!/usr/bin/env sh
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+trans=$(/home/enno/repos/nobbofin/list-transactions.py | fzf)
+
+if [ -s "$selection" ]; then
+	echo "$(cat "$selection")"
+
+	# Clear selection
+	if [ -p "$NNN_PIPE" ]; then
+		printf "-" >"$NNN_PIPE"
+	fi
+else
+	# no selection, use hovered file
+	/home/enno/repos/nobbofin/assign-document.py "$trans" "$1"
+fi

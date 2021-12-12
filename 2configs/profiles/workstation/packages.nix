@@ -5,6 +5,8 @@
     dbeaver
     clinfo
     discord
+    libsixel
+    exa
     awscli2
     gcolor3
     syncthing
@@ -17,7 +19,9 @@
     screenkey
     hydra-check
     dfeet
+    fishPlugins.fzf-fish
     fishPlugins.done
+    fzf
     zoxide
     bc
     bind

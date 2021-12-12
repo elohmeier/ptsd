@@ -130,11 +130,15 @@ in
       };
 
       home.sessionVariables = {
-        NNN_PLUG = "i:nobbofin-insert;p:preview-tui";
+        NNN_PLUG = "i:assign-transaction;p:preview-tui;f:fzcd;a:autojump";
       };
 
-      home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
-      home.file.".config/nnn/plugins/preview-tui".source = "${pkgs.nnn-preview-tui}/bin/nnn-preview-tui";
+      #home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
+      home.file.".config/nnn/plugins/preview-tui".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/preview-tui;
+      home.file.".config/nnn/plugins/.nnn-plugin-helper".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/.nnn-plugin-helper;
+      home.file.".config/nnn/plugins/fzcd".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/fzcd;
+      home.file.".config/nnn/plugins/autojump".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/autojump;
+      home.file.".config/nnn/plugins/assign-transaction".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction;
 
       programs.doom-emacs = {
         enable = true;
