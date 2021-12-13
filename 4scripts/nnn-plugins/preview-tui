@@ -1,5 +1,7 @@
+#!/usr/bin/env sh
+
 #!/usr/bin/env nix-shell
-#!nix-shell -i sh -p libsixel -p imagemagickBig -p bat -p exa -p python3Packages.jupyter -p python3Packages.nbconvert
+#!nix-shell -i sh -p libsixel -p mupdf -p bat -p exa -p python3Packages.jupyter -p python3Packages.nbconvert
 
 # based on https://github.com/jarun/nnn/blob/master/plugins/preview-tui
 
@@ -9,8 +11,8 @@ BAT_STYLE="${BAT_STYLE:-numbers}"
 BAT_THEME="${BAT_THEME:-ansi}"
 # Consider setting NNN_PREVIEWDIR to $XDG_CACHE_HOME/nnn/previews if you want to keep previews on disk between reboots
 NNN_PREVIEWDIR="${NNN_PREVIEWDIR:-$TMPDIR/nnn/previews}"
-NNN_PREVIEWWIDTH="${NNN_PREVIEWWIDTH:-2500}"
-NNN_PREVIEWHEIGHT="${NNN_PREVIEWHEIGHT:-1400}"
+NNN_PREVIEWWIDTH="${NNN_PREVIEWWIDTH:-1920}"
+NNN_PREVIEWHEIGHT="${NNN_PREVIEWHEIGHT:-1080}"
 NNN_PARENT="${NNN_FIFO#*.}"
 [ "$NNN_PARENT" -eq "$NNN_PARENT" ] 2>/dev/null || NNN_PARENT=""
 FIFOPID="$TMPDIR/nnn-preview-tui-fifopid.$NNN_PARENT"
@@ -104,14 +106,17 @@ preview_file() {
 } 2>/dev/null
 
 generate_preview() {
-	if [ ! -f "$NNN_PREVIEWDIR/$3.jpg" ] || [ -n "$(find -L "$3" -newer "$NNN_PREVIEWDIR/$3.jpg")" ]; then
+	if [ ! -f "$NNN_PREVIEWDIR/$3.png" ] || [ -n "$(find -L "$3" -newer "$NNN_PREVIEWDIR/$3.png")" ]; then
 		mkdir -p "$NNN_PREVIEWDIR/${3%/*}"
 		case $4 in
-		pdf) convert -resize "$NNN_PREVIEWWIDTH"x"$NNN_PREVIEWHEIGHT"\> "$3"[0] "$NNN_PREVIEWDIR/$3.jpg" ;;
+		pdf)
+			mutool convert -F png -o "$NNN_PREVIEWDIR/$3.png" -O height=$NNN_PREVIEWHEIGHT "$3" 1
+			mv "$NNN_PREVIEWDIR/$31.png" "$NNN_PREVIEWDIR/$3.png"
+			;;
 		esac
 	fi >/dev/null
-	if [ -f "$NNN_PREVIEWDIR/$3.jpg" ]; then
-		image_preview "$1" "$2" "$NNN_PREVIEWDIR/$3.jpg"
+	if [ -f "$NNN_PREVIEWDIR/$3.png" ]; then
+		image_preview "$1" "$2" "$NNN_PREVIEWDIR/$3.png"
 	fi
 } 2>/dev/null
 

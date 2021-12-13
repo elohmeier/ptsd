@@ -6,7 +6,7 @@ import sys
 from datetime import date, datetime
 from io import StringIO
 from pathlib import Path
-from typing import IO, Dict, List,Optional
+from typing import IO, Dict, List, Optional
 
 from nobbofin.accounts import gen_acc_list, get_dir
 from pdfminer.converter import TextConverter

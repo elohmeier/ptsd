@@ -5,6 +5,7 @@
     dbeaver
     clinfo
     discord
+    mupdf
     libsixel
     exa
     awscli2
