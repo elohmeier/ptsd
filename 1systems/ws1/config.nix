@@ -206,9 +206,9 @@ in
   ];
 
   specialisation = {
-    block-nvidia.configuration = {
-      ptsd.nvidia.headless.enable = false;
-      ptsd.nvidia.vfio.enable = true;
+    nvidia-headless.configuration = {
+      ptsd.nvidia.headless.enable = true;
+      ptsd.nvidia.vfio.enable = false;
     };
   };
 }

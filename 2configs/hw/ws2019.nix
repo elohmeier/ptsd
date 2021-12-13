@@ -78,5 +78,6 @@
     ];
   };
 
-  ptsd.nvidia.headless.enable = lib.mkDefault true;
+  ptsd.nvidia.headless.enable = lib.mkDefault false;
+  ptsd.nvidia.vfio.enable = lib.mkDefault true;
 }
