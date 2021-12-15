@@ -115,7 +115,7 @@ let
       };
       cpu = {
         format = "{usage}% ";
-        on-click-right = cfg.term.execFloating "${pkgs.htop}/bin/htop" "";
+        on-click-right = cfg.term.execFloating "${pkgs.btop}/bin/btop" "";
       };
       memory = {
         format = "{}% ";
