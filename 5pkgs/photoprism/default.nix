@@ -2,13 +2,13 @@
 
 let
   pname = "photoprism";
-  version = "211018-e200f322";
+  version = "211215-93b26f19";
 
   src = fetchFromGitHub {
     owner = pname;
     repo = pname;
     rev = version;
-    sha256 = "sha256-24yQlBtiMfdfThQTMGopfq0xfPm5WArIy5iCTuncaKA=";
+    sha256 = "sha256-clIdVrTmv6NjP0E6c0q8LNTqsEOg4IPf0V6/S/pKp/Y=";
   };
 
   nodePackages = import ./node-composition.nix {
@@ -61,7 +61,7 @@ buildGoModule rec {
     sha256 = "sha256-v5rglF0qxTrD2ycIIWLSud2luixWTA5MT1OfMfi2cK8=";
   };
 
-  vendorSha256 = "sha256-Gp3Eea1de6CjYFz6/S/KCJF5GqKTXST/GZ3AvmnSrWo=";
+  vendorSha256 = "sha256-OeQk4B3MNNnyrt0EhMIFE6VEL08twzFHhAmNBWQki54=";
 
   buildInputs = [
     # nas1 supports SSE4.2 (long build)
