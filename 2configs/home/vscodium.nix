@@ -15,6 +15,8 @@
       "telemetry.telemetryLevel" = "off";
       "telemetry.enableCrashReporter" = false;
       "telemetry.enableTelemetry" = false;
+      "[typescript]"."editor.defaultFormatter"="esbenp.prettier-vscode";
+      "[typescriptreact]"."editor.defaultFormatter"="esbenp.prettier-vscode";
     };
     extensions = with pkgs.vscode-extensions; [
       eamodio.gitlens
