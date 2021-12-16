@@ -58,6 +58,8 @@ in
       };
     };
 
+    firewall.trustedInterfaces = [ virshNatIf ];
+
     nat = {
       enable = true;
       internalInterfaces = [ virshNatIf ];
