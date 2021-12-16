@@ -31,6 +31,7 @@ WINDOW_ICONS = {
     "org.pwmt.zathura": "",
     "vscodium": "",
     "codium": "",
+    "code": "",
     "kodi": "",
     "element": "ﬧ",
     "spotify": "",
