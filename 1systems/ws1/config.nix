@@ -174,6 +174,12 @@ in
     "video=efifb:off"
   ];
 
+  # ptsd.wireguard.networks.fraam_buero_vpn = {
+  #   enable = true;
+  #   ip = universe.hosts."${config.networking.hostName}".nets.fraam_buero_vpn.ip4.addr;
+  #   keyname = "nwvpn.key";
+  # };
+
   # ptsd.wireguard.networks = {
   #   dlrgvpn = {
   #     enable = true;

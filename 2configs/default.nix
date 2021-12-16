@@ -106,6 +106,14 @@ in
       server.listenPort = 55557;
     };
 
+    fraam_buero_vpn = {
+      publicKey = "edW3MrRctb1Yed5fHRiSPcDMdvCU/zZpLG1CBqiFY0k=";
+      client = {
+        endpoint = "94.134.201.30:55555";
+        allowedIPs = [ "191.18.23.0/24" ];
+      };
+    };
+
     nwvpn = {
       publicKey = "UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=";
       client = {

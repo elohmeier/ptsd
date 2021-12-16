@@ -484,6 +484,10 @@
 
     wrt2 = {
       nets = {
+        fraam_buero_vpn = {
+          ip4.addr = "191.18.23.45";
+          wireguard.pubkey = "edW3MrRctb1Yed5fHRiSPcDMdvCU/zZpLG1CBqiFY0k=";
+        };
         nwvpn = {
           ip4.addr = "191.18.19.45";
           aliases = [
@@ -499,6 +503,11 @@
 
     ws1 = {
       nets = {
+        fraam_buero_vpn = {
+          ip4.addr = "191.18.23.80";
+          wireguard.pubkey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
+        };
+
         nwvpn = {
           ip4.addr = "191.18.19.80";
           aliases = [
@@ -563,6 +572,15 @@
 
     ext-stefan = {
       syncthing.id = "LRSIJOJ-VDYM3PR-RULNIWS-LFP4NO5-ENQNAEK-BMFLTVH-VG6BVCI-EJ27KQV";
+    };
+
+    ext-susann = {
+      nets = {
+        fraam_buero_vpn = {
+          ip4.addr = "191.18.23.54";
+          wireguard.pubkey = "Qmk8C0TomZP8ubRCztAIn9adfFY6J47pzKTvPWoL4GQ=";
+        };
+      };
     };
 
     svb-win1 = {
