@@ -9,10 +9,10 @@
       gapf = "git commit --amend --no-edit && git push --force";
       gaapf = "git add . && git commit --amend --no-edit && git push --force";
       grep = "grep --color";
-      l = "ls -alh --color";
-      la = "ls -alh --color";
-      ll = "ls -l --color";
-      ls = "ls --color";
+      l = "exa -al";
+      la = "exa -al";
+      ll = "exa -l";
+      ls = "exa";
       ping6 = "ping -6";
       telnet = "screen //telnet";
       nr = "sudo nixos-rebuild --flake \"/home/enno/repos/ptsd/.#$hostname\"";

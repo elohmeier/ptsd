@@ -23,6 +23,7 @@ in
     checkSSLCert
     cryptsetup
     dnsutils
+    exa
     fd
     mc
     ncdu
