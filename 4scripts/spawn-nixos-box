@@ -1,0 +1,26 @@
+#! /usr/bin/env nix-shell
+#! nix-shell -i bash -p hcloud -p jq
+# vi: ft=sh
+
+set -e
+
+#sshkey=$(pass hosts/tp1/nwbackup.id_ed25519.pub)
+sshkeyname="nwbackup-tp1"
+#hcloud ssh-key create --name "$sshkeyname" --public-key "$sshkey"
+
+name=$(pwgen 8 1)
+echo name: $name
+
+hcloud server create --image debian-11 --type ccx62 --ssh-key enno_yubi49 --ssh-key enno_yubi41 --ssh-key "$sshkeyname" --name "$name"
+ip=$(hcloud server describe "$name" -o json | jq -r ".public_net.ipv4.ip")
+
+echo "Waiting for ssh port on $ip"
+while ! nc -z "$ip" 22; do
+	sleep 0.1 # wait for 1/10 of the second before check again
+done
+
+scp ./nixos-infect root@$ip:
+ssh root@$ip ./nixos-infect
+
+# see https://nixos.org/manual/nix/unstable/advanced-topics/distributed-builds.html
+echo "use e.g. \`nix build .#nixosConfigurations.tp1.config.system.build.toplevel --builders 'ssh://root@$ip x86_64-linux - 96 - big-parallel' --max-jobs 0\` to compile remotely"
