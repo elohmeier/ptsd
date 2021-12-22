@@ -38,6 +38,7 @@ WINDOW_ICONS = {
     "pavucontrol": "醙",
     "sxiv": "",
     ".virt-manager-wrapped": "",
+    "virt-manager": "",
     "soffice": "",
     "libreoffice-startcenter": "",
     "libreoffice-writer": "",
@@ -52,6 +53,8 @@ WINDOW_ICONS = {
     "sylpheed": "",
     "com.github.wwmm.easyeffects": "שּׂ",
     "portfolio performance": "",
+    "prusaslicer": "",
+    "betaflight-configurator": "",
 }
 
 DEFAULT_ICON = ""
