@@ -1,6 +1,8 @@
 { pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
+    hcloud
+    tmuxinator
     sqlfluff
     dbeaver
     clinfo
