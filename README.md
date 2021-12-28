@@ -165,3 +165,6 @@ Add `security.acme.validMinDays = 999;` to your config and rebuild. Remember to 
 
 Run `tlsa --port 25 --starttls smtp --create htz2.host.nerdworks.de --selector 1` to generate updated hash from mailserver certificate.
 
+Run `check_ssl_cert -H htz2.host.nerdworks.de -p 25 -P smtp --dane 1` to check it.
+
+

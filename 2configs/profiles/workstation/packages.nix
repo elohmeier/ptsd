@@ -1,6 +1,7 @@
 { pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
+    hash-slinger # tlsa
     hcloud
     tmuxinator
     sqlfluff
