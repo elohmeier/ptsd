@@ -1,6 +1,12 @@
 { pkgs, ... }: {
 
   environment.systemPackages = with pkgs; [
+    pkgsCross.avr.buildPackages.gcc # avr-gcc
+    arduino
+    avrdude
+
+    wtype
+
     hash-slinger # tlsa
     hcloud
     tmuxinator
