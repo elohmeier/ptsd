@@ -153,9 +153,9 @@ def preview_sxiv(path: str, env: NnnEnv, i3: Connection):
 def preview_file(path: str, env: NnnEnv, ipc: Connection):
     kill_old_preview()
 
-    if path.endswith(".pdf"):
+    if path.lower().endswith(".pdf"):
         preview_zathura(path, env, ipc)
-    if path.endswith(".png"):
+    if path.lower().endswith(".png"):
         preview_sxiv(path, env, ipc)
     else:
         print(path)

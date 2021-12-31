@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+if [ -s "$selection" ]; then
+	arr=$(tr '\0' '\n' <"$selection")
+	if [ "$(echo "$arr" | wc -l)" -ne 2 ]; then
+		echo "Please select exactly two files."
+		exit 1
+	fi
+
+	file="$(basename "$(echo "$arr" | sed -n '1p')")_duplex.pdf"
+	echo "Duplexing $(tr '\0' ' ' <"$selection")"
+
+	pdftk A="$(echo "$arr" | sed -n '1p')" B="$(echo "$arr" | sed -n '2p')" shuffle A Bend-1 output "$file"
+fi
+
+# Clear selection
+if [ -p "$NNN_PIPE" ]; then
+	printf "-" >"$NNN_PIPE"
+fi

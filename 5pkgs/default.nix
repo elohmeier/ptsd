@@ -59,7 +59,7 @@ self: pkgs_master: super:
   nwfonts = self.callPackage ./nwfonts { };
   nwvpn-plain = self.callPackage ./nwvpn-plain { };
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
-  pdfconcat = self.writers.writePython3 "pdfconcat"
+  pdfconcat = self.writers.writePython3Bin "pdfconcat"
     {
       flakeIgnore = [ "E203" "E501" "W503" ];
     }

@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+
+if [ -s "$selection" ]; then
+	arr=$(tr '\0' '\n' <"$selection")
+	if [ "$(echo "$arr" | wc -l)" -lt 2 ]; then
+		echo "Please select at least two files."
+		exit 1
+	fi
+
+	file="$(basename "$(echo "$arr" | sed -n '1p')")_concat.pdf"
+	echo "Concatenating $(tr '\0' ' ' <"$selection")"
+
+	pdftk $(tr '\0' ' ' <"$selection") cat output "$file"
+fi
+
+# # Clear selection
+# if [ -p "$NNN_PIPE" ]; then
+# 	printf "-" >"$NNN_PIPE"
+# fi

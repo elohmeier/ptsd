@@ -5,6 +5,8 @@
     arduino
     avrdude
 
+    pdfconcat
+
     wtype
 
     hash-slinger # tlsa

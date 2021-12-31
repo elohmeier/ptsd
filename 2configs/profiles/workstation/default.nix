@@ -107,7 +107,7 @@ in
             title = "Concat PDF files";
             title_de = "PDF-Dateien aneinanderhängen";
             mimetypes = [ "application/pdf" ];
-            cmd = "${pkgs.alacritty}/bin/alacritty --hold -e ${pkgs.pdfconcat} %F";
+            cmd = "${pkgs.alacritty}/bin/alacritty --hold -e ${pkgs.pdfconcat}/bin/pdfconcat %F";
             # #"${script} %F";
           };
 
@@ -130,7 +130,7 @@ in
       };
 
       home.sessionVariables = {
-        NNN_PLUG = "i:assign-transaction;j:assign-transaction-prevyear;p:preview-tui;o:preview-sway;f:fzcd;a:autojump";
+        NNN_PLUG = "i:assign-transaction;j:assign-transaction-prevyear;p:preview-tui;o:preview-sway;f:fzcd;a:autojump;c:pdfconcat;d:pdfduplex;";
       };
 
       #home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
@@ -141,6 +141,8 @@ in
       home.file.".config/nnn/plugins/autojump".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/autojump;
       home.file.".config/nnn/plugins/assign-transaction".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction;
       home.file.".config/nnn/plugins/assign-transaction-prevyear".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction-prevyear;
+      home.file.".config/nnn/plugins/pdfconcat".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfconcat;
+      home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
 
       programs.doom-emacs = {
         enable = true;
