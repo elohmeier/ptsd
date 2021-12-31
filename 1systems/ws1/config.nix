@@ -151,6 +151,13 @@ in
           }
         ];
       };
+
+      "40-enp39s0" = {
+        networkConfig = {
+          Address = "192.168.123.1/24";
+          DHCPServer = true;
+        };
+      };
     };
   };
 
