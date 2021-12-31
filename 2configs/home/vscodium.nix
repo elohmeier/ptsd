@@ -21,9 +21,14 @@
     extensions = with pkgs.vscode-extensions; [
       eamodio.gitlens
       editorconfig.editorconfig
+      esbenp.prettier-vscode
+      github.copilot
+      jkillian.custom-local-formatters
       jnoortheen.nix-ide
       ms-python.python
-      github.copilot
+      ms-toolsai.jupyter
+      ms-vscode-remote.remote-ssh
+      ms-vscode.cpptools
     ];
   };
 }
