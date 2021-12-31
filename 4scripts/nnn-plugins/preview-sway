@@ -2,17 +2,18 @@
 
 from dataclasses import dataclass
 from typing import Optional
-import argparse
+import logging
 import os
-import re
 import tempfile
 import subprocess
 import sys
 from i3ipc import Connection, Con
 from i3ipc.events import IpcBaseEvent, WindowEvent
 
-ZATHURA_PROC = None
-ZATHURA_WINDOW = None
+logger = logging.getLogger("preview-sway")
+logging.basicConfig(level=logging.INFO)
+
+PREVIEW_PROC = None
 
 
 def read_pid(path: str) -> Optional[int]:
@@ -27,10 +28,12 @@ def read_pid(path: str) -> Optional[int]:
 class NnnEnv:
     previewMode: bool = os.environ.get("PREVIEW_MODE", "0") == "1"
     tmpdir: str = tempfile.gettempdir()
-    fifo: str = os.environ.get("NNN_FIFO")
-    parent: str = fifo.split(".")[1]  # '/tmp/nnn-fifo.268629' -> '268629'
-    fifopid: int = read_pid(f"{tmpdir}/nnn-preview-i3-fifopid.{parent}")
-    pwd: str = os.environ.get("PWD")
+    fifo: Optional[str] = os.environ.get("NNN_FIFO")
+    parent: Optional[str] = (
+        fifo.split(".")[1] if fifo else None
+    )  # '/tmp/nnn-fifo.268629' -> '268629'
+    fifopid: Optional[int] = read_pid(f"{tmpdir}/nnn-preview-i3-fifopid.{parent}")
+    pwd: Optional[str] = os.environ.get("PWD")
     nnn_window_id: int = int(os.environ.get("NNN_WINDOW_ID", "-1"))
 
     def focus_nnn(self, i3: Connection):
@@ -43,18 +46,37 @@ class NnnEnv:
             )
 
 
-def wait_for_container(app_id: str, i3: Connection):
+def wait_for_container(ident_fn, i3: Connection) -> Optional[Con]:
     container = None
+
     def window_event_handler(i3: Connection, evnt: IpcBaseEvent):
+        if not isinstance(evnt, WindowEvent):
+            return
         nonlocal container
-        if evnt.change == "new" and evnt.container.app_id == app_id:
-            container = evnt.container
-            i3.main_quit()
+        if evnt.change == "new":
+            is_ident = False
+            try:
+                is_ident = ident_fn(evnt.container)
+            except Exception as e:
+                logger.error(f"failed to identify container: {e}")
+                logger.debug(f"container ipc_data: {evnt.container.ipc_data}")
+                i3.main_quit()
+            if is_ident:
+                logger.debug("new window: %s", evnt.container.ipc_data)
+                container = evnt.container
+                i3.main_quit()
 
     i3.on("window", window_event_handler)
     i3.main(timeout=10)
     i3.off(window_event_handler)
     return container
+
+
+def wait_for_container_with_app_id(app_id: str, i3: Connection) -> Optional[Con]:
+    return wait_for_container(lambda c: c.app_id == app_id, i3)
+
+def wait_for_container_with_window_instance(instance: str, i3: Connection) -> Optional[Con]:
+    return wait_for_container(lambda c: c.window_instance == instance, i3)
 
 
 def start_preview(env: NnnEnv, i3: Connection):
@@ -70,7 +92,7 @@ def start_preview(env: NnnEnv, i3: Connection):
     subprocess.Popen(
         ["footclient", "--app-id", "term.nnn-preview", "-e", "sh", "-c", command]
     )
-    wait_for_container("term.nnn-preview", i3)
+    wait_for_container_with_app_id("term.nnn-preview", i3)
     env.focus_nnn(i3)
 
 
@@ -82,10 +104,10 @@ def toggle_preview(env: NnnEnv, i3: Connection):
 
 
 def kill_old_preview():
-    global ZATHURA_PROC
-    if ZATHURA_PROC:
-        ZATHURA_PROC.kill()
-        ZATHURA_PROC = None
+    global PREVIEW_PROC
+    if PREVIEW_PROC:
+        PREVIEW_PROC.kill()
+        PREVIEW_PROC = None
 
 
 def float_over(w_btm: Con, w_top: Con) -> None:
@@ -97,17 +119,34 @@ def float_over(w_btm: Con, w_top: Con) -> None:
         print("Failed to float over: top window not set")
         return
 
-    cmd = f"floating enable, move container to workspace number {w_btm.workspace().num}, resize set width {w_btm.rect.width} height {w_btm.rect.height}, move absolute position {w_btm.rect.x} {w_btm.rect.y}, focus"
+    w_btm_ws = w_btm.workspace()
+
+    if not w_btm_ws:
+        return    
+    cmd = f"floating enable, move container to workspace number {w_btm_ws.num}, resize set width {w_btm.rect.width} height {w_btm.rect.height}, move absolute position {w_btm.rect.x} {w_btm.rect.y}, focus"
+    logger.debug("float_over cmd: %s", cmd)
     res = w_top.command(cmd)
+    logger.debug("float_over res: %s", res)
     if not all([r.success for r in res]):
         raise Exception("command `%s` failed: %s" % (cmd, [r.ipc_data for r in res]))
 
 
 def preview_zathura(path: str, env: NnnEnv, i3: Connection):
-    global ZATHURA_PROC
-    ZATHURA_PROC = subprocess.Popen(["zathura", path])
-    zathura_container = wait_for_container("org.pwmt.zathura", i3)
-    float_over(find_by_appid("term.nnn-preview", i3), zathura_container)
+    global PREVIEW_PROC
+    if preview_window := find_by_appid("term.nnn-preview", i3):
+        PREVIEW_PROC = subprocess.Popen(["zathura", path])
+        if zathura_container := wait_for_container_with_app_id("org.pwmt.zathura", i3):
+            float_over(preview_window, zathura_container)
+    subprocess.run(["wtype", "a", "-P", "home", "-p", "home"]) # zathura adjust window in best-fit mode and goto first page
+    env.focus_nnn(i3)
+
+
+def preview_sxiv(path: str, env: NnnEnv, i3: Connection):
+    global PREVIEW_PROC
+    if preview_window := find_by_appid("term.nnn-preview", i3):
+        PREVIEW_PROC = subprocess.Popen(["sxiv", "-N", "sxiv.nnn-preview", path])
+        if sxiv_container := wait_for_container_with_window_instance("sxiv.nnn-preview", i3):
+            float_over(preview_window, sxiv_container)
     env.focus_nnn(i3)
 
 
@@ -116,11 +155,15 @@ def preview_file(path: str, env: NnnEnv, ipc: Connection):
 
     if path.endswith(".pdf"):
         preview_zathura(path, env, ipc)
+    if path.endswith(".png"):
+        preview_sxiv(path, env, ipc)
     else:
         print(path)
 
 
 def preview_fifo(env: NnnEnv, ipc: Connection):
+    if not env.fifo:
+        return
     with open(env.fifo) as f:
         while True:
             line = f.readline()
@@ -133,11 +176,12 @@ def preview_fifo(env: NnnEnv, ipc: Connection):
                 print("Failed to preview file:", line.strip())
 
 
-def find_by_appid(app_id: str, i3: Connection) -> Con:
+def find_by_appid(app_id: str, i3: Connection) -> Optional[Con]:
     for con in i3.get_tree():
         if con.app_id == app_id:
             return con
     return None
+
 
 
 def main():
@@ -150,7 +194,10 @@ def main():
 
         input("press enter to continue")
     else:
-        env.nnn_window_id = i3.get_tree().find_focused().id
+        nnn_window = i3.get_tree().find_focused()
+        if not nnn_window:
+            return
+        env.nnn_window_id = nnn_window.id
         toggle_preview(env, i3)
 
 

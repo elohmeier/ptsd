@@ -2,7 +2,7 @@
 
 selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 
-trans=$(/home/enno/repos/nobbofin/list-transactions.py | fzf)
+trans=$(/home/enno/repos/nobbofin/list-transactions.py | fzf --ansi)
 
 if [ -s "$selection" ]; then
 	echo "$(cat "$selection")"
