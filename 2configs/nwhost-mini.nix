@@ -17,7 +17,6 @@ in
 
   environment = {
     systemPackages = with pkgs; [
-      git # required for krops
       foot.terminfo
     ];
   };

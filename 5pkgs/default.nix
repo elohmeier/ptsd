@@ -199,4 +199,5 @@ self: pkgs_master: super:
     };
     patches = [ ];
   });
+  klipper = pkgs_master.klipper;
 }

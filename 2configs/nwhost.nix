@@ -17,6 +17,13 @@ in
     enable = lib.mkDefault true;
   };
 
+  programs.fish.shellAliases = {
+    l = "exa -al";
+    la = "exa -al";
+    ll = "exa -l";
+    ls = "exa";
+  };
+
   environment.systemPackages = with pkgs; [
     bottom
     btop
@@ -25,6 +32,7 @@ in
     dnsutils
     exa
     fd
+    git
     mc
     ncdu
     ptsd-nnn
