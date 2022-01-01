@@ -4,9 +4,7 @@
 
   services.fluidd = {
     enable = true;
+    hostName = "eee1.fritz.box";
   };
-  services.moonraker = {
-    enable = true;
 
-  };
 }

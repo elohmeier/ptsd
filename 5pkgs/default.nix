@@ -187,7 +187,7 @@ self: pkgs_master: super:
 
   ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
 
-  # pull in recent versions from >21.05
+  # pull in recent versions from >21.11
   checkSSLCert = super.checkSSLCert.overrideAttrs (oldAttrs: rec {
     # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
     version = "2.12.0";
@@ -199,5 +199,9 @@ self: pkgs_master: super:
     };
     patches = [ ];
   });
-  klipper = pkgs_master.klipper;
+
+  klipper = super.klipper.overrideAttrs (oldAttrs: {
+    version = pkgs_master.klipper.version;
+    src = pkgs_master.klipper.src;
+  });
 }

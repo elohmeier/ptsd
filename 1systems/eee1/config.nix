@@ -10,6 +10,7 @@ with lib;
 
     ./modules/fluidd.nix
     ./modules/klipper.nix
+    ./modules/moonraker.nix
     #./modules/octoprint.nix
   ];
 
@@ -73,8 +74,8 @@ with lib;
 
   systemd.network.networks = {
     "40-enp4s0" = {
-      networkConfig = {
-        ConfigureWithoutCarrier = true;
+      linkConfig = {
+        ActivationPolicy = "manual";
       };
     };
   };
