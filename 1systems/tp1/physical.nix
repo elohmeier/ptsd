@@ -33,7 +33,8 @@ in
     {
       device = "${vgPrefix}/nix";
       fsType = "ext4";
-      options = [ "nodev" ];
+      options = [ "nodev" "noatime" ];
+      neededForBoot = true;
     };
 
   fileSystems."/persist" =
