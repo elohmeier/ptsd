@@ -25,25 +25,28 @@
     {
       device = "/dev/sysVG/boot";
       fsType = "ext4";
-      options = [ "nofail" ];
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/nix" =
     {
       device = "/dev/sysVG/nix";
       fsType = "ext4";
+      neededForBoot = true;
+      options = [ "nodev" "noatime" ];
     };
 
   fileSystems."/var/log" = {
     device = "/dev/sysVG/var-log";
     fsType = "ext4";
-    options = [ "nofail" ];
+    options = [ "nofail" "nodev" "nosuid" "noexec" ];
   };
 
   fileSystems."/var/src" = {
     device = "/dev/sysVG/var-src";
     fsType = "ext4";
     neededForBoot = true; # mount early for passwd provisioning
+    options = [ "nodev" "nosuid" "noexec" ];
   };
 
   zramSwap = {

@@ -10,8 +10,6 @@ let
   indentGcode = s: "\n${concatMapStringsSep "\n" (x: "  ${x}") (splitString "\n" s)}";
 in
 {
-  # https://simons.tech.blog/2020/01/19/creality-ender-3-v-1-1-3-tmc2208-uart-mod/
-
   users = {
     users.klipper = { isSystemUser = true; group = "klipper"; };
     groups.klipper = { };
@@ -29,6 +27,24 @@ in
       pause_resume = { };
       display_status = { };
       virtual_sdcard.path = "/var/lib/klipper/gcode_files";
+
+      # https://simons.tech.blog/2020/01/19/creality-ender-3-v-1-1-3-tmc2208-uart-mod/
+      "tmc2208 stepper_x" = {
+        uart_pin = "PA0";
+        run_current = "0.800";
+      };
+      "tmc2208 stepper_y" = {
+        uart_pin = "PB7";
+        run_current = "0.800";
+      };
+      "tmc2208 stepper_z" = {
+        uart_pin = "PB6";
+        run_current = "0.650";
+      };
+      "tmc2208 extruder" = {
+        uart_pin = "PB5";
+        run_current = "0.800";
+      };
 
       stepper_x = {
         step_pin = "PD7";
@@ -279,8 +295,8 @@ in
       deviceService = "sys-devices-pci0000:00-0000:00:1d.0-usb2-2\\x2d2-2\\x2d2:1.0-ttyUSB0-tty-ttyUSB0.device";
     in
     {
-      bindsTo = [ deviceService ];
-      wantedBy = [ deviceService ];
+      # bindsTo = [ deviceService ];
+      # wantedBy = [ deviceService ];
       serviceConfig = {
         Nice = -10;
         StateDirectory = "klipper";
