@@ -9,10 +9,11 @@ in
       ../..
       ../../2configs
       ../../2configs/hardened.nix
-      ../../2configs/nwhost.nix
+      ../../2configs/nwhost-mini.nix
       ../../2configs/prometheus/node.nix
 
       ./modules/matrix.nix
+      ./modules/postgres.nix
     ];
 
   ptsd.maddy = {
@@ -231,4 +232,5 @@ in
       };
 
     };
+
 }

@@ -46,6 +46,10 @@ in
             interval: 1d
           - shortest_max_lifetime: 3d
             interval: 1d
+      
+      federation_domain_whitelist:
+        - ${serverName}
+        - matrix.org
     '';
   };
 
@@ -87,28 +91,6 @@ in
   #     };
   #   };
 
-  services.postgresql = {
-    enable = true;
-    package = pkgs.postgresql_11;
-    initialScript = pkgs.writeText "synapse-init.sql" ''
-      CREATE DATABASE "synapse"
-        ENCODING "UTF-8"
-        LC_COLLATE = "C"
-        LC_CTYPE = "C"
-        TEMPLATE template0;
-    '';
-    ensureUsers = [
-      {
-        name = "matrix-synapse"; # must match service user
-        ensurePermissions."DATABASE synapse" = "ALL PRIVILEGES";
-      }
-      {
-        name = "root";
-        ensurePermissions."ALL TABLES IN SCHEMA public" = "ALL PRIVILEGES";
-      }
-    ];
-  };
-
   ptsd.nwtraefik.services = [
     {
       name = "synapse";
@@ -126,7 +108,7 @@ in
   systemd.services.matrix-cleanup = {
     description = "Cleanup matrix media files";
     script = ''
-      ${pkgs.curl}/bin/curl -H "Authorization: Bearer $ACCESS_TOKEN" -X POST \
+      ${pkgs.curl}/bin/curl -v -H "Authorization: Bearer $ACCESS_TOKEN" -X POST \
         https://${fqdn}/_synapse/admin/v1/media/${serverName}/delete\?before_ts=$(date +%s000 --date '10 days ago')
     '';
     startAt = "daily";
@@ -157,8 +139,6 @@ in
       SystemCallErrorNumber = "EPERM";
       SystemCallArchitectures = "native";
       UMask = "0066";
-      IPAddressDeny = "any";
-      IPAddressAllow = "localhost";
     };
   };
 }

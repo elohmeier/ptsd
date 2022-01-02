@@ -3,6 +3,7 @@
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
+    ../profiles/minimal.nix
   ];
 
   boot.loader.grub = {

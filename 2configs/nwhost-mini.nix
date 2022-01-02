@@ -11,8 +11,6 @@ in
     ./tor-ssh.nix
   ];
 
-  ptsd.neovim.enable = true;
-
   console.keyMap = mkDefault "de-latin1";
 
   environment = {
@@ -74,5 +72,15 @@ in
     };
   };
 
+  ptsd.neovim.enable = true;
   environment.variables = { EDITOR = "nvim"; };
+
+  ptsd.nwacme = {
+    enable = lib.mkDefault true;
+    hostCert.enable = lib.mkDefault true;
+  };
+
+  ptsd.nwbackup = {
+    enable = lib.mkDefault true;
+  };
 }

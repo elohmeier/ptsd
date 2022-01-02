@@ -8,15 +8,6 @@ in
     ./nwhost-mini.nix
   ];
 
-  ptsd.nwacme = {
-    enable = lib.mkDefault true;
-    hostCert.enable = lib.mkDefault true;
-  };
-
-  ptsd.nwbackup = {
-    enable = lib.mkDefault true;
-  };
-
   programs.fish.shellAliases = {
     l = "exa -al";
     la = "exa -al";
@@ -43,6 +34,6 @@ in
     (writers.writePython3Bin "macos-fix-filefoldernames" { } ../4scripts/macos-fix-filefoldernames.py)
   ];
 
-  programs.mosh.enable = lib.mkDefault true;
+  # programs.mosh.enable = lib.mkDefault true;
   services.fail2ban.enable = lib.mkDefault true;
 }

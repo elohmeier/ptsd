@@ -168,3 +168,32 @@ Run `tlsa --port 25 --starttls smtp --create htz2.host.nerdworks.de --selector 1
 Run `check_ssl_cert -H htz2.host.nerdworks.de -p 25 -P smtp --dane 1` to check it.
 
 
+
+
+## Upgrade postgres
+
+```
+  environment.systemPackages =
+    let newpg = pkgs.postgresql_13;
+    in [
+      (pkgs.writeScriptBin "upgrade-pg-cluster" ''
+        set -x
+        export OLDDATA="${config.services.postgresql.dataDir}"
+        export NEWDATA="/var/lib/postgresql/${newpg.psqlSchema}"
+        export OLDBIN="${config.services.postgresql.package}/bin"
+        export NEWBIN="${newpg}/bin"
+
+        install -d -m 0700 -o postgres -g postgres "$NEWDATA"
+        cd "$NEWDATA"
+        sudo -u postgres $NEWBIN/initdb -D "$NEWDATA" --locale=de_DE.UTF-8
+
+        systemctl stop postgresql    # old one
+
+        sudo -u postgres $NEWBIN/pg_upgrade \
+          --old-datadir "$OLDDATA" --new-datadir "$NEWDATA" \
+          --old-bindir $OLDBIN --new-bindir $NEWBIN \
+          "$@"
+      '')
+    ];
+```
+
