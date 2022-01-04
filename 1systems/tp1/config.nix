@@ -33,6 +33,11 @@ in
     enable = true;
     trayOutput = "eDP-1";
     fontSize = 12.0;
+
+    baresip = {
+      enable = true;
+      netInterface = "nwvpn";
+    };
   };
 
   home-manager.users.mainUser = { ... }:

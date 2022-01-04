@@ -71,9 +71,6 @@ in
     autolock.enable = false;
     baresip = {
       enable = true;
-      audioPlayer = "alsa_output.usb-Yamaha_Corporation_Steinberg_UR44C-00.analog-surround-21";
-      audioSource = "alsa_input.usb-046d_HD_Pro_Webcam_C920_F31F411F-02.pro-input-0";
-      audioAlert = "alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo";
     };
     fontSize = 18.0;
     waybar.primaryOutput = "Dell Inc. DELL P2415Q D8VXF96K09HB";

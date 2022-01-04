@@ -96,9 +96,6 @@ in
         type = types.submodule {
           options = {
             enable = mkEnableOption "baresip";
-            audioPlayer = mkOption { type = types.str; default = ""; };
-            audioSource = mkOption { type = types.str; default = ""; };
-            audioAlert = mkOption { type = types.str; default = ""; };
             sipListen = mkOption { type = types.str; default = ""; example = "10.0.0.2:5060"; };
             netInterface = mkOption { type = types.str; default = ""; example = "nwvpn"; };
           };

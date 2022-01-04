@@ -18,20 +18,12 @@ in
         module_path ${pkgs.baresip}/lib/baresip/modules
         module stdio.so  # UI
 
-        module g711.so # Audio codec
+        module g711.so  # Audio codec
 
-        module pulse.so  # Audio driver
-
-        ${optionalString (cfg.baresip.audioPlayer != "") ''
-        audio_player pulse,${cfg.baresip.audioPlayer}
-      ''}
-        ${optionalString (cfg.baresip.audioSource != "") ''
-        audio_source pulse,${cfg.baresip.audioSource}
-      ''}
-        ${optionalString (cfg.baresip.audioAlert != "") ''
-        # Ring
-        audio_alert pulse,${cfg.baresip.audioAlert}
-      ''}
+        module portaudio.so  # Audio driver
+        audio_player portaudio
+        audio_source portaudio
+        audio_alert portaudio
 
         ${optionalString (cfg.baresip.sipListen != "") ''
         sip_listen ${cfg.baresip.sipListen}
@@ -41,12 +33,13 @@ in
         net_interface ${cfg.baresip.netInterface}
       ''}
 
+        module mixminus.so # conferencing
+        module sndfile.so # call recording
         module stun.so
         module turn.so
         module ice.so
-        module_tmp uuid.so
-        module_tmp account.so
-        module_app auloop.so
+        module uuid.so
+        module_app account.so
         module_app contact.so
         module_app menu.so
     '';
