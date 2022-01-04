@@ -26,7 +26,10 @@ in
       # moonraker config requirements
       pause_resume = { };
       display_status = { };
-      virtual_sdcard.path = "/var/lib/klipper/gcode_files";
+      virtual_sdcard.path = "/var/lib/klipper/";
+
+      # hide octoprint menu item
+      "menu __main __octoprint".type = "disabled";
 
       # https://simons.tech.blog/2020/01/19/creality-ender-3-v-1-1-3-tmc2208-uart-mod/
       "tmc2208 stepper_x" = {
@@ -145,7 +148,7 @@ in
         control_pin = "PA4";
         x_offset = "67"; # make sure to update bed_mesh
         y_offset = "0";
-        z_offset = "1.4"; # calibrated 04.05.2021
+        z_offset = "1.6";
         speed = "5.0";
       };
 
@@ -166,8 +169,8 @@ in
 
       skew_correction = { };
 
-      # prevent M205 warnings
-      "gcode_macro M205".gcode = "\n  G4";
+      # # prevent M205 warnings
+      # "gcode_macro M205".gcode = "\n  G4";
 
       # use this start code in prusa slicer:
       # START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
@@ -299,7 +302,11 @@ in
       # wantedBy = [ deviceService ];
       serviceConfig = {
         Nice = -10;
-        StateDirectory = "klipper";
       };
     };
+
+  # group-accessible state dir for moonraker upload
+  systemd.tmpfiles.rules = [
+    "d /var/lib/klipper 0775 klipper klipper - -"
+  ];
 }
