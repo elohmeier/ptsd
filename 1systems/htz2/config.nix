@@ -12,8 +12,10 @@ in
       ../../2configs/nwhost-mini.nix
       ../../2configs/prometheus/node.nix
 
+      ./modules/maddy.nix
       ./modules/matrix.nix
       ./modules/postgres.nix
+      ./modules/rspamd.nix
     ];
 
   ptsd.maddy = {

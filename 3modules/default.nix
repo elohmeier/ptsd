@@ -6,7 +6,6 @@ _:
     ./cups-airprint.nix
     ./drone-server.nix
     ./loki.nix
-    ./maddy.nix
     ./mautrix-whatsapp.nix
     ./mjpg-streamer.nix
     ./monica.nix

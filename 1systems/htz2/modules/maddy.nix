@@ -15,7 +15,7 @@ let
     paypal@nerdworks.de: enno@nerdworks.de
   '';
 
-  filterCommand = pkgs.writers.writePython3 "maddy-filter" { } ../4scripts/maddy-filter.py;
+  filterCommand = pkgs.writers.writePython3 "maddy-filter" { } ./maddy-filter.py;
 
   configFile = pkgs.writeText "maddy.conf" ''
     ## Maddy Mail Server - default configuration file (2021-03-07)
@@ -84,6 +84,10 @@ let
       # destination lists.example.org {
       #   deliver_to lmtp tcp://127.0.0.1:8024
       # }
+
+      check {
+        rspamd
+      }
 
       destination $(local_domains) {
         modify {
