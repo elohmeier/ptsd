@@ -124,11 +124,13 @@ self: pkgs_master: super:
       });
       bloodhound-import = self.callPackage ../5pkgs/bloodhound-import { };
       davphonebook = self.callPackage ../5pkgs/davphonebook { };
+      finance-dl = self.callPackage ../5pkgs/finance-dl { };
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
       neo4j-driver = self.callPackage ../5pkgs/neo4j-driver { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
       pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
+      selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
     };
   };
 
@@ -167,6 +169,7 @@ self: pkgs_master: super:
       pyxlsb
       psycopg2
       faker
+      finance-dl
     ]
   );
 
