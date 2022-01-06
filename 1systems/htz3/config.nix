@@ -16,6 +16,7 @@ in
       ./modules/fraam-gitlab.nix
       ./modules/fraam-www.nix
       ./modules/gitlab-runner-hcloud.nix
+      ./modules/murmur.nix
     ];
 
   ptsd.nwbackup = {
@@ -86,6 +87,7 @@ in
         (crt "int.fraam.de")
         (crt "git.fraam.de")
         (crt "vault.fraam.de")
+        (crt "voice.fraam.de")
       ];
     entryPoints = {
       "www4-http" = {
@@ -197,6 +199,13 @@ in
           credentialsFile = envFile "vault.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
+        };
+
+        "voice.fraam.de" = {
+          webroot = config.ptsd.nwacme.http.webroot;
+          credentialsFile = envFile "voice.fraam.de";
+          group = "certs";
+          postRun = "systemctl restart murmur.service";
         };
 
         # remember to add new certs to the traefik cert list :-)

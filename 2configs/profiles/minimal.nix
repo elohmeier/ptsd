@@ -2,7 +2,7 @@
 
 {
   # reduce size
-  environment.noXlibs = true;
+  environment.noXlibs = lib.mkDefault true;
   documentation = {
     enable = false;
     man.enable = false;
