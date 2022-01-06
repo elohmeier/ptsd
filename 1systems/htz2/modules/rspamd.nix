@@ -15,7 +15,7 @@
           nameserver = "master-slave:127.0.0.1:53:10,8.8.8.8:53:1";
         }
       '';
-
+      "worker-controller.inc".source = config.ptsd.secrets.files."rspamd-worker-controller.inc".path;
     };
 
     workers = {
@@ -55,4 +55,15 @@
     };
   };
 
+  systemd.services.rspamd.serviceConfig.LogNamespace = "mail";
+  systemd.services.redis.serviceConfig.LogNamespace = "mail";
+  systemd.services.unbound.serviceConfig.LogNamespace = "mail";
+
+  ptsd.secrets.files."rspamd-worker-controller.inc" = {
+    dependants = [ "rspamd.service" ];
+    owner = config.services.rspamd.user;
+    group-name = config.services.rspamd.group;
+  };
+
+  users.groups.keys.members = [ config.services.rspamd.user ];
 }

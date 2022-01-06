@@ -224,6 +224,8 @@ in
 
       # see https://github.com/foxcpp/maddy/blob/master/dist/systemd/maddy.service
       serviceConfig = {
+        LogNamespace = "mail";
+
         Type = "notify";
         NotifyAccess = "main";
         WorkingDirectory = "/var/lib/maddy";
