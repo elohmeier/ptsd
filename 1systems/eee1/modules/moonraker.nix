@@ -23,6 +23,6 @@
 
   systemd.services.moonraker = {
     serviceConfig.SupplementaryGroups = "klipper";
-    documentation = [ (toString config.environment.etc."moonraker.cfg".source) ]; # ensure moonraker restart on config change
+    restartTriggers = [ (toString config.environment.etc."moonraker.cfg".source) ]; # restart on config change
   };
 }
