@@ -94,7 +94,7 @@ in
 
   fileSystems."/tmp" = {
     fsType = "tmpfs";
-    options = [ "size=6G" "mode=1700" "nodev" "nosuid" "noexec" ];
+    options = [ "size=6G" "mode=1700" "nodev" "nosuid" ];
   };
 
   fileSystems."/boot" =
