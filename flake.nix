@@ -20,6 +20,11 @@
     frix.inputs.nixos-hardware.follows = "nixos-hardware";
     frix.inputs.home-manager.follows = "home-manager";
     nur.url = github:nix-community/NUR;
+
+    mobile-nixos = {
+      url = github:NixOS/mobile-nixos;
+      flake = false;
+    };
   };
 
   outputs =
@@ -32,6 +37,7 @@
     , nix-doom-emacs
     , frix
     , nur
+    , mobile-nixos
     , ...
     }:
 
@@ -277,6 +283,15 @@
               ./1systems/ws2/physical.nix
             ];
           };
+
+          pine1 = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = [
+              (import "${mobile-nixos}/lib/configuration.nix" {
+                device = "pine64-pinephone";
+              })
+            ];
+          };
         };
     in
     flake-utils.lib.eachDefaultSystem
@@ -352,5 +367,14 @@
       })
     // {
       inherit nixosConfigurations;
+
+      pine1-disk-image =
+        (import "${mobile-nixos}/lib/eval-with-configuration.nix" {
+          configuration = [
+            ./1systems/pine1/physical.nix
+          ];
+          device = "pine64-pinephone";
+          pkgs = nixpkgs.legacyPackages.aarch64-linux;
+        }).outputs.disk-image;
     };
 }
