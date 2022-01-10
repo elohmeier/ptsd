@@ -289,9 +289,37 @@
 
       in
       {
-        apps.rpi4-vm = {
-          type = "app";
-          program = "${nixosConfigurations.rpi4_vm.config.system.build.vm}/bin/run-rpi4-vm";
+        apps = {
+          rpi4-vm = {
+            type = "app";
+            program = "${nixosConfigurations.rpi4_vm.config.system.build.vm}/bin/run-rpi4-vm";
+          };
+
+
+          win-vm = {
+            type = "app";
+            program = toString (pkgs.writeShellScript "run-win-vm" ''
+              if [ ! -f win-vm.qcow2 ]; then
+                echo "generating win-vm.qcow2 overlay image"
+                qemu-img create \
+                  -f qcow2 win-vm.qcow2 128G \
+                  -b "${pkgs.windows-vm-image}/windows-vm-image.qcow2" -F qcow2
+              else
+                echo "reusing existing win-vm.qcow2 overlay image, delete that file if you need a fresh windows environment"
+              fi
+
+              qemu-system-x86_64 \
+                -enable-kvm \
+                -cpu host -smp 12 \
+                -drive file=win-vm.qcow2,if=ide \
+                -net nic -net user,hostname=winvm \
+                -m 4G \
+                -monitor stdio \
+                -name winvm \
+                -device usb-ehci,id=ehci \
+                -device usb-tablet,bus=ehci.0
+            '');
+          };
         };
         packages = pkgs // {
           mk-pretty =
