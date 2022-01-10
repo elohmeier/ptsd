@@ -208,4 +208,9 @@ self: pkgs_master: super:
     version = pkgs_master.klipper.version;
     src = pkgs_master.klipper.src;
   });
+
+  baresip = pkgs_master.baresip;
+  libre = pkgs_master.libre;
+  librem = pkgs_master.librem;
+
 }
