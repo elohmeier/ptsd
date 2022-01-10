@@ -2,11 +2,6 @@
 let
   domain = "git.nerdworks.de";
   stateDir = "/var/lib/gitea";
-  pyenv = pkgs.python3.withPackages (
-    pythonPackages: with pythonPackages; [
-      jupyter
-    ]
-  );
 in
 {
   # git user is required for the openssh integration using "git@..." clone url
@@ -57,7 +52,7 @@ in
       "markup.jupyter" = {
         ENABLED = true;
         FILE_EXTENSIONS = ".ipynb";
-        RENDER_COMMAND = "${pyenv}/bin/jupyter nbconvert --stdout --to html --template basic";
+        RENDER_COMMAND = "${pkgs.python3Packages.nbconvert}/bin/jupyter-nbconvert --stdout --to html --template basic";
         IS_INPUT_FILE = true;
       };
     };
