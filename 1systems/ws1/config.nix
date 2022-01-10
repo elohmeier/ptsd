@@ -128,7 +128,11 @@ in
       };
     };
 
-    nat.externalInterface = "eth0";
+    nat = {
+      enable = true;
+      externalInterface = "eth0";
+      internalInterfaces = [ "enp39s0" ];
+    };
   };
 
   ptsd.secrets.files."Bundesdatenschutzzentrale 5GHz.psk" = {
@@ -150,8 +154,17 @@ in
       };
 
       "40-enp39s0" = {
+        matchConfig = {
+          Name = "enp39s0";
+        };
+
+        linkConfig = {
+          RequiredForOnline = "no";
+        };
+
         networkConfig = {
           Address = "192.168.123.1/24";
+          ConfigureWithoutCarrier = true;
           DHCPServer = true;
         };
       };
