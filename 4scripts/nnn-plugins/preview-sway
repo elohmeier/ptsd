@@ -75,7 +75,10 @@ def wait_for_container(ident_fn, i3: Connection) -> Optional[Con]:
 def wait_for_container_with_app_id(app_id: str, i3: Connection) -> Optional[Con]:
     return wait_for_container(lambda c: c.app_id == app_id, i3)
 
-def wait_for_container_with_window_instance(instance: str, i3: Connection) -> Optional[Con]:
+
+def wait_for_container_with_window_instance(
+    instance: str, i3: Connection
+) -> Optional[Con]:
     return wait_for_container(lambda c: c.window_instance == instance, i3)
 
 
@@ -122,7 +125,7 @@ def float_over(w_btm: Con, w_top: Con) -> None:
     w_btm_ws = w_btm.workspace()
 
     if not w_btm_ws:
-        return    
+        return
     cmd = f"floating enable, move container to workspace number {w_btm_ws.num}, resize set width {w_btm.rect.width} height {w_btm.rect.height}, move absolute position {w_btm.rect.x} {w_btm.rect.y}, focus"
     logger.debug("float_over cmd: %s", cmd)
     res = w_top.command(cmd)
@@ -137,7 +140,9 @@ def preview_zathura(path: str, env: NnnEnv, i3: Connection):
         PREVIEW_PROC = subprocess.Popen(["zathura", path])
         if zathura_container := wait_for_container_with_app_id("org.pwmt.zathura", i3):
             float_over(preview_window, zathura_container)
-    subprocess.run(["wtype", "a", "-P", "home", "-p", "home"]) # zathura adjust window in best-fit mode and goto first page
+    subprocess.run(
+        ["wtype", "a", "-P", "home", "-p", "home"]
+    )  # zathura adjust window in best-fit mode and goto first page
     env.focus_nnn(i3)
 
 
@@ -145,17 +150,20 @@ def preview_sxiv(path: str, env: NnnEnv, i3: Connection):
     global PREVIEW_PROC
     if preview_window := find_by_appid("term.nnn-preview", i3):
         PREVIEW_PROC = subprocess.Popen(["sxiv", "-N", "sxiv.nnn-preview", path])
-        if sxiv_container := wait_for_container_with_window_instance("sxiv.nnn-preview", i3):
+        if sxiv_container := wait_for_container_with_window_instance(
+            "sxiv.nnn-preview", i3
+        ):
             float_over(preview_window, sxiv_container)
     env.focus_nnn(i3)
 
 
 def preview_file(path: str, env: NnnEnv, ipc: Connection):
     kill_old_preview()
+    lp = path.lower()
 
-    if path.lower().endswith(".pdf"):
+    if lp.endswith(".pdf"):
         preview_zathura(path, env, ipc)
-    if path.lower().endswith(".png"):
+    if lp.endswith(".png") or lp.endswith(".jpg"):
         preview_sxiv(path, env, ipc)
     else:
         print(path)
@@ -181,7 +189,6 @@ def find_by_appid(app_id: str, i3: Connection) -> Optional[Con]:
         if con.app_id == app_id:
             return con
     return None
-
 
 
 def main():
