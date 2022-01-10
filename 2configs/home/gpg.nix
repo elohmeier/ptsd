@@ -35,6 +35,12 @@
         port = 1022;
       };
 
+      "fbdjmp" = {
+        hostname = "192.168.178.135";
+        user = "sysadmin";
+        port = 12345;
+      };
+
       #"awsbuilder" = {
       #  hostname = "35.157.132.66";
       #  user = "admin";
