@@ -10,6 +10,7 @@ in
     ./users/root.nix
   ];
 
+  environment.systemPackages = with pkgs;[ foot.terminfo ];
 
   users.mutableUsers = false;
 
@@ -50,6 +51,11 @@ in
     permitRootLogin = mkDefault "prohibit-password";
     passwordAuthentication = mkDefault false;
     challengeResponseAuthentication = false;
+
+    # sshtunnel compat
+    extraConfig = ''
+      PubkeyAcceptedKeyTypes=+ssh-rsa
+    '';
 
     knownHosts =
       mapAttrs
