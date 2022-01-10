@@ -301,7 +301,7 @@
           };
         };
         bs53lan = {
-          ip4.addr = "192.168.178.12";
+          ip4.addr = "192.168.178.12"; # ip hardcoded for scan-to-ftp on prt1, remember to update as well
         };
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
