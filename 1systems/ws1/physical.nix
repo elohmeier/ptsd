@@ -1,7 +1,7 @@
 { ... }:
 let
   disk = "/dev/disk/by-id/nvme-Force_MP600_192482300001285612C9";
-  vgPrefix = "/dev/p5vg";
+  vgPrefix = "/dev/sysVG";
 in
 {
   imports = [
@@ -12,6 +12,10 @@ in
   system.stateVersion = "19.09";
 
   boot.initrd.luks.devices = {
+    p4 = {
+      device = "${disk}-part4";
+    };
+
     p5 = {
       device = "${disk}-part5";
     };
@@ -100,11 +104,18 @@ in
       options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
-  fileSystems."/mnt/win" =
+  # fileSystems."/mnt/win" =
+  #   {
+  #     device = "${disk}-part4";
+  #     fsType = "ntfs-3g";
+  #     options = [ "nofail" "remove_hiberfile" "nodev" "nosuid" "noexec" ];
+  #   };
+
+  fileSystems."/mnt/luisa" =
     {
-      device = "${disk}-part4";
-      fsType = "ntfs-3g";
-      options = [ "nofail" "remove_hiberfile" "nodev" "nosuid" "noexec" ];
+      device = "${vgPrefix}/luisa";
+      fsType = "ext4";
+      options = [ "nofail" "nodev" "nosuid" "noexec" ];
     };
 
   fileSystems."/mnt/photos" =

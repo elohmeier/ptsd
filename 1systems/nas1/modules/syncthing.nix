@@ -113,17 +113,17 @@ in
       "/var/lib/nextcloud/data/luisa/files/Bilder" = {
         label = "luisa/Bilder";
         id = "ugmai-ti6vl";
-        devices = [ "tp2" "mb1" ];
+        devices = [ "tp2" "mb1" "ws1" ];
       };
       "/var/lib/nextcloud/data/luisa/files/Dokumente" = {
         label = "luisa/Dokumente";
         id = "sqkfd-m9he7";
-        devices = [ "tp2" "mb1" ];
+        devices = [ "tp2" "mb1" "ws1" ];
       };
       "/var/lib/nextcloud/data/luisa/files/Musik" = {
         label = "luisa/Musik";
         id = "zvffu-ff92z";
-        devices = [ "tp2" "mb1" ];
+        devices = [ "tp2" "mb1" "ws1" ];
       };
       "/var/lib/nextcloud/data/luisa/files/Scans" = {
         label = "luisa/Scans";

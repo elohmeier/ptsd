@@ -31,11 +31,6 @@
         id = "ezjwj-xgnhe";
         devices = [ "nas1" "tp1" "ws2" "iph3" ];
       };
-      "/home/enno/Scans-Luisa" = {
-        label = "Scans-Luisa";
-        id = "dnryo-kz7io";
-        devices = [ "nas1" ];
-      };
       "/home/enno/Templates" = {
         label = "Templates";
         id = "gnwqu-yt7qc";
@@ -62,6 +57,28 @@
         id = "3tf3k-nohyy";
         devices = [ "nas1" ];
       };
+
+      "/mnt/luisa/Bilder" = {
+        label = "luisa/Bilder";
+        id = "ugmai-ti6vl";
+        devices = [ "tp2" "mb1" "nas1" ];
+      };
+      "/mnt/luisa/Dokumente" = {
+        label = "luisa/Dokumente";
+        id = "sqkfd-m9he7";
+        devices = [ "tp2" "mb1" "nas1" ];
+      };
+      "/mnt/luisa/Musik" = {
+        label = "luisa/Musik";
+        id = "zvffu-ff92z";
+        devices = [ "tp2" "mb1" "nas1" ];
+      };
+      "/mnt/luisa/Scans" = {
+        label = "luisa/Scans";
+        id = "dnryo-kz7io";
+        devices = [ "tp2" "mb1" "nas1" ];
+      };
+
     };
   };
 }
