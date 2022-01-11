@@ -212,5 +212,6 @@ self: pkgs_master: super:
   baresip = pkgs_master.baresip;
   libre = pkgs_master.libre;
   librem = pkgs_master.librem;
-
+  vimPlugins = pkgs_master.vimPlugins;
+  neovim-unwrapped = pkgs_master.neovim-unwrapped;
 }

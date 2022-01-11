@@ -44,10 +44,12 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
     telescope-nvim
     lualine-nvim
     neorg
+    copilot-vim
   ] ++ (optional enableLSP nvim-lspconfig)
   ++ (optional enableFormatters formatter-nvim);
 
   plugins = with vimPlugins; [
+    copilot-vim
     vim-css-color
     nvim-web-devicons
     {
