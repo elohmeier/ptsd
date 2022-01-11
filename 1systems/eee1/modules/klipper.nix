@@ -295,11 +295,11 @@ in
   # start klipper on usb connect
   systemd.services.klipper =
     let
-      deviceService = "sys-devices-pci0000:00-0000:00:1d.0-usb2-2\\x2d2-2\\x2d2:1.0-ttyUSB0-tty-ttyUSB0.device";
+      deviceService = "dev-ttyUSB0.device";
     in
     {
-      # bindsTo = [ deviceService ];
-      # wantedBy = [ deviceService ];
+      bindsTo = [ deviceService ];
+      wantedBy = [ deviceService ];
       serviceConfig = {
         Nice = -10;
       };
