@@ -161,6 +161,8 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    run-kali-vm
+    run-win-vm
     powertop
     networkmanagerapplet
     samba

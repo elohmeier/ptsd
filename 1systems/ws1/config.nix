@@ -126,6 +126,7 @@ in
       eth0 = {
         allowedTCPPorts = [ 3389 ]; # for optional rdp forwarding
       };
+      enp39s0.allowedUDPPorts = [ 67 68 ]; # DHCPServer
     };
 
     nat = {
@@ -223,6 +224,8 @@ in
   };
 
   environment.systemPackages = with pkgs; [
+    run-kali-vm
+    run-win-vm
     efibootmgr
     efitools
     tpm2-tools
