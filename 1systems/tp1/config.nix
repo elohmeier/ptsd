@@ -19,6 +19,9 @@ in
     ./modules/syncthing.nix
   ];
 
+  # backup after boot
+  systemd.timers.borgbackup-job-nwbackup-nas1.timerConfig.OnBootSec = "3m";
+
   services.gpm.enable = true;
 
   ptsd.nwbackup = {
