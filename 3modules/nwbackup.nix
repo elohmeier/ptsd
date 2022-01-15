@@ -59,63 +59,6 @@ let
     chmod o+r /var/log/borg_backup_${name}.prom
   '';
 
-  postCreateTelegraf = name: ''
-    TMP_FILE=`mktemp`
-    IQL_PREFIX="borgbackup,target=${name},host=${config.networking.hostName}"
-    echo $IQL_PREFIX backup_completion_time=$(date +%s) > $TMP_FILE
-
-    LIST=$(${pkgs.borgbackup}/bin/borg list |${pkgs.gawk}/bin/awk '{print $1}')
-    COUNTER=0
-    for i in $LIST; do
-      COUNTER=$((COUNTER+1))
-    done
-
-    BORG_INFO=$(${pkgs.borgbackup}/bin/borg info "::$archiveName")
-
-    echo "$IQL_PREFIX backup_count=$COUNTER" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_files=$(echo "$BORG_INFO" | grep "Number of files" | ${pkgs.gawk}/bin/awk '{print $4}')" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_chunks_unique=$(echo "$BORG_INFO" | grep "Chunk index" | ${pkgs.gawk}/bin/awk '{print $3}')" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_chunks_total=$(echo "$BORG_INFO" | grep "Chunk index" | ${pkgs.gawk}/bin/awk '{print $4}')" >> $TMP_FILE
-
-    function calc_bytes {
-      NUM=$1
-      UNIT=$2
-
-      case "$UNIT" in
-        kB)
-          echo $NUM | ${pkgs.gawk}/bin/awk '{ print $1 * 1024 }'
-          ;;
-        MB)
-          echo $NUM | ${pkgs.gawk}/bin/awk '{ print $1 * 1024 * 1024 }'
-          ;;
-        GB)
-          echo $NUM | ${pkgs.gawk}/bin/awk '{ print $1 * 1024 * 1024 * 1024 }'
-          ;;
-        TB)
-          echo $NUM | ${pkgs.gawk}/bin/awk '{ print $1 * 1024 * 1024 * 1024 * 1024 }'
-          ;;
-      esac
-    }
-
-    # byte size
-    LAST_SIZE=$(calc_bytes $(echo "$BORG_INFO" |grep "This archive" |${pkgs.gawk}/bin/awk '{print $3}') $(echo "$BORG_INFO" |grep "This archive" |${pkgs.gawk}/bin/awk '{print $4}'))
-    LAST_SIZE_COMPRESSED=$(calc_bytes $(echo "$BORG_INFO" |grep "This archive" |${pkgs.gawk}/bin/awk '{print $5}') $(echo "$BORG_INFO" |grep "This archive" |${pkgs.gawk}/bin/awk '{print $6}'))
-    LAST_SIZE_DEDUP=$(calc_bytes $(echo "$BORG_INFO" |grep "This archive" |${pkgs.gawk}/bin/awk '{print $7}') $(echo "$BORG_INFO" |grep "This archive" |${pkgs.gawk}/bin/awk '{print $8}'))
-    TOTAL_SIZE=$(calc_bytes $(echo "$BORG_INFO" |grep "All archives" |${pkgs.gawk}/bin/awk '{print $3}') $(echo "$BORG_INFO" |grep "All archives" |${pkgs.gawk}/bin/awk '{print $4}'))
-    TOTAL_SIZE_COMPRESSED=$(calc_bytes $(echo "$BORG_INFO" |grep "All archives" |${pkgs.gawk}/bin/awk '{print $5}') $(echo "$BORG_INFO" |grep "All archives" |${pkgs.gawk}/bin/awk '{print $6}'))
-    TOTAL_SIZE_DEDUP=$(calc_bytes $(echo "$BORG_INFO" |grep "All archives" |${pkgs.gawk}/bin/awk '{print $7}') $(echo "$BORG_INFO" |grep "All archives" |${pkgs.gawk}/bin/awk '{print $8}'))
-
-    echo "$IQL_PREFIX backup_last_size=$LAST_SIZE" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_last_size_compressed=$LAST_SIZE_COMPRESSED" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_last_size_dedup=$LAST_SIZE_DEDUP" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_total_size=$TOTAL_SIZE" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_total_size_compressed=$TOTAL_SIZE_COMPRESSED" >> $TMP_FILE
-    echo "$IQL_PREFIX backup_total_size_dedup=$TOTAL_SIZE_DEDUP" >> $TMP_FILE
-
-    mv $TMP_FILE /var/log/borg_backup_${name}.iql
-    chmod o+r /var/log/borg_backup_${name}.iql
-  '';
-
   generateJob = name: values:
     nameValuePair "nwbackup-${name}" {
       paths = cfg.paths ++ cfg.extraPaths;
@@ -212,6 +155,7 @@ in
           "/home/enno/.config/*/CacheStorage"
           "/home/enno/go"
           "*.pyc"
+          "*.qcow2"
           "/var/lib/libvirt"
           "/var/lib/docker"
           "/var/lib/octoprint/timelapse"
