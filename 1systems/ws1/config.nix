@@ -22,8 +22,6 @@ in
   programs.ssh.knownHosts."18.193.115.167".publicKey =
     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJYuIUn5f2MGpd2+nTkLBdQ4zTC/3TMvUpf6D1+dtE+F";
 
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
   #   nix = {
   #     distributedBuilds = true;
   #     buildMachines = [

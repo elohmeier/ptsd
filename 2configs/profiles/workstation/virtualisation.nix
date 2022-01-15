@@ -5,6 +5,7 @@ let
   virshNatIf = "virsh-nat";
 in
 {
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   virtualisation = {
     docker = {
