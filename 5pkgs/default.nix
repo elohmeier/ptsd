@@ -84,6 +84,7 @@ self: pkgs_master: super:
   tg = self.callPackage ./tg { };
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
+  wvkbd = self.callPackage ./wvkbd { };
   zathura-single = self.callPackage ./zathura-single { };
 
   ptsd-fishPlugins = {
