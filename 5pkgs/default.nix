@@ -83,7 +83,6 @@ self: pkgs_master: super:
   traefik-forward-auth = self.callPackage ./traefik-forward-auth { };
   tg = self.callPackage ./tg { };
   win10fonts = self.callPackage ./win10fonts { };
-  windows-vm-image = self.callPackage ./windows-vm-image { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
   zathura-single = self.callPackage ./zathura-single { };
 

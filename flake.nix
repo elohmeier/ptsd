@@ -296,6 +296,61 @@
               ./1systems/pine1/physical.nix
             ];
           };
+
+          gitlab-runner = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ({ modulesPath, ... }: {
+                imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
+              })
+              ({ lib, pkgs, ... }: {
+                services.gitlab-runner = {
+                  enable = true;
+                  services.nix = {
+                    registrationConfigFile = pkgs.writeText "gitlab-runner-registration" ''
+                      CI_SERVER_URL=https://git.fraam.de/
+                      REGISTRATION_TOKEN=
+                    '';
+                    dockerImage = "alpine";
+                    dockerVolumes = [
+                      "/nix/store:/nix/store:ro"
+                      "/nix/var/nix/db:/nix/var/nix/db:ro"
+                      "/nix/var/nix/daemon-socket:/nix/var/nix/daemon-socket:ro"
+                    ];
+                    dockerDisableCache = true;
+                    preBuildScript = pkgs.writeScript "setup-container" ''
+                      mkdir -p -m 0755 /nix/var/log/nix/drvs
+                      mkdir -p -m 0755 /nix/var/nix/gcroots
+                      mkdir -p -m 0755 /nix/var/nix/profiles
+                      mkdir -p -m 0755 /nix/var/nix/temproots
+                      mkdir -p -m 0755 /nix/var/nix/userpool
+                      mkdir -p -m 1777 /nix/var/nix/gcroots/per-user
+                      mkdir -p -m 1777 /nix/var/nix/profiles/per-user
+                      mkdir -p -m 0755 /nix/var/nix/profiles/per-user/root
+                      mkdir -p -m 0700 "$HOME/.nix-defexpr"
+
+                      . ${pkgs.nix}/etc/profile.d/nix.sh
+
+                      ${pkgs.nix}/bin/nix-env -i ${lib.concatStringsSep " " (with pkgs; [ nix cacert git openssh ])}
+
+                      ${pkgs.nix}/bin/nix-channel --add https://nixos.org/channels/nixpkgs-unstable
+                      ${pkgs.nix}/bin/nix-channel --update nixpkgs
+                    '';
+                    environmentVariables = {
+                      ENV = "/etc/profile";
+                      #USER = "root";
+                      USER = "bldusr";
+                      NIX_REMOTE = "daemon";
+                      PATH = "/nix/var/nix/profiles/default/bin:/nix/var/nix/profiles/default/sbin:/bin:/sbin:/usr/bin:/usr/sbin";
+                      NIX_SSL_CERT_FILE = "/nix/var/nix/profiles/default/etc/ssl/certs/ca-bundle.crt";
+                    };
+                    tagList = [ "nix" ];
+                  };
+                };
+                users.groups.bldgrp = { };
+                users.users.bldusr = { isSystemUser = true; group = "bldgrp"; };
+                console.keyMap = "de-latin1";
+                services.getty.autologinUser = "root";
               })
             ];
           };
@@ -315,32 +370,6 @@
           rpi4-vm = {
             type = "app";
             program = "${nixosConfigurations.rpi4_vm.config.system.build.vm}/bin/run-rpi4-vm";
-          };
-
-
-          win-vm = {
-            type = "app";
-            program = toString (pkgs.writeShellScript "run-win-vm" ''
-              if [ ! -f win-vm.qcow2 ]; then
-                echo "generating win-vm.qcow2 overlay image"
-                qemu-img create \
-                  -f qcow2 win-vm.qcow2 128G \
-                  -b "${pkgs.windows-vm-image}/windows-vm-image.qcow2" -F qcow2
-              else
-                echo "reusing existing win-vm.qcow2 overlay image, delete that file if you need a fresh windows environment"
-              fi
-
-              qemu-system-x86_64 \
-                -enable-kvm \
-                -cpu host -smp 12 \
-                -drive file=win-vm.qcow2,if=ide \
-                -net nic -net user,hostname=winvm \
-                -m 4G \
-                -monitor stdio \
-                -name winvm \
-                -device usb-ehci,id=ehci \
-                -device usb-tablet,bus=ehci.0
-            '');
           };
         };
         packages = pkgs // {
