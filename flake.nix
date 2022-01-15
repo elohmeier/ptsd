@@ -22,9 +22,13 @@
     nur.url = github:nix-community/NUR;
 
     mobile-nixos = {
-      url = github:NixOS/mobile-nixos;
-      flake = false;
+      #url = github:NixOS/mobile-nixos;
+      #url = github:elohmeier/mobile-nixos/ptsd;
+      url = "/home/enno/repos/mobile-nixos";
+      # flake = false;
     };
+    mobile-nixos.inputs.nixpkgs.follows = "nixpkgs";
+    mobile-nixos.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs =
@@ -284,11 +288,14 @@
             ];
           };
 
+          # use `nix build .#nixosConfigurations.pine1.config.mobile.outputs.default` to build a disk image
           pine1 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = [
-              (import "${mobile-nixos}/lib/configuration.nix" {
-                device = "pine64-pinephone";
+              mobile-nixos.nixosModules.pine64-pinephone
+              ./1systems/pine1/physical.nix
+            ];
+          };
               })
             ];
           };
@@ -367,14 +374,5 @@
       })
     // {
       inherit nixosConfigurations;
-
-      pine1-disk-image =
-        (import "${mobile-nixos}/lib/eval-with-configuration.nix" {
-          configuration = [
-            ./1systems/pine1/physical.nix
-          ];
-          device = "pine64-pinephone";
-          pkgs = nixpkgs.legacyPackages.aarch64-linux;
-        }).outputs.disk-image;
     };
 }
