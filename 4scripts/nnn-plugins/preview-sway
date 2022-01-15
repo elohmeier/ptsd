@@ -159,14 +159,18 @@ def preview_sxiv(path: str, env: NnnEnv, i3: Connection):
 
 def preview_file(path: str, env: NnnEnv, ipc: Connection):
     kill_old_preview()
-    lp = path.lower()
-
-    if lp.endswith(".pdf"):
+    _, ext = os.path.splitext(path.lower())
+    
+    if os.path.isdir(path):
+        subprocess.run(["clear"])
+        subprocess.run(["exa", "-l", path])
+    elif ext == ".pdf":
         preview_zathura(path, env, ipc)
-    if lp.endswith(".png") or lp.endswith(".jpg"):
+    elif ext in [".png", ".jpg"]:
         preview_sxiv(path, env, ipc)
     else:
-        print(path)
+        subprocess.run(["clear"])
+        subprocess.run(["bat", "--paging=never", path])
 
 
 def preview_fifo(env: NnnEnv, ipc: Connection):
