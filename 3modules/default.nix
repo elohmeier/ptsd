@@ -26,6 +26,7 @@ _:
     ./rclone.nix
     ./samba-sonos.nix
     ./secrets.nix
+    ./tor-ssh.nix
     ./traefik-forward-auth.nix
     ./traggo.nix
     ./vdi-container.nix
