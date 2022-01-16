@@ -10,6 +10,8 @@
 
     wtype
 
+    whois
+
     hash-slinger # tlsa
     hcloud
     tmuxinator

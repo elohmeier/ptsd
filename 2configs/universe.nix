@@ -176,6 +176,7 @@
     };
 
     htz1 = {
+      domain = "nn42.de";
       nets = {
         www = {
           ip4.addr = "159.69.186.234";

@@ -7,5 +7,5 @@ check_smtp () {
 	echo check_ssl_cert_completion_time${labels} $(date +%s)
 }
 
-check_smtp htz2.host.nerdworks.de 25
+check_smtp htz2.nn42.de 25
 
