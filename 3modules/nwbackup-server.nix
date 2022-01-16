@@ -12,7 +12,7 @@ let
       cdCommand = "cd ${escapeShellArg "${cfg.mountRoot}/${name}/borg"}";
       restrictedArg = "--restrict-to-repository .";
       appendOnlyArg = "--append-only";
-      quotaArg = optionalString (client.borg.quota != null) "--storage-quota ${client.borg.quota}";
+      quotaArg = optionalString ((hasAttr "quota" client.borg) && client.borg.quota != null) "--storage-quota ${client.borg.quota}";
       serveCommand = "borg serve ${restrictedArg} ${appendOnlyArg} ${quotaArg}";
     in
     ''command="${cdCommand} && ${serveCommand}",restrict ${key}'';
@@ -48,8 +48,7 @@ let
           ${pkgs.zfs}/bin/zfs set mountpoint=${cfg.mountRoot}/${name} ${cfg.zpool}${cfg.zfsPath}/${name}
         fi
 
-        echo "setting quota"
-        ${pkgs.zfs}/bin/zfs set quota=${client.borg.quota} ${cfg.zpool}${cfg.zfsPath}/${name}
+        ${lib.optionalString (hasAttr "quota" client.borg) "echo 'setting quota' && ${pkgs.zfs}/bin/zfs set quota=${client.borg.quota} ${cfg.zpool}${cfg.zfsPath}/${name}"}
 
         echo "creating borg directory"
         mkdir -p ${cfg.mountRoot}/${name}/borg
