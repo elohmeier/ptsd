@@ -51,7 +51,6 @@ in
       };
     };
 
-  nix.gc.automatic = false;
 
   #   services.vsftpd = {
   #     enable = true;

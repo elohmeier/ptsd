@@ -13,6 +13,8 @@ in
     ../../users/enno.nix
   ];
 
+  nix.gc.automatic = false;
+
   specialisation = {
     i3compat.configuration = { ptsd.desktop.i3compat = true; };
   };
