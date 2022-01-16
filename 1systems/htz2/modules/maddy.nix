@@ -13,6 +13,7 @@ let
     e.lohmeier@gmx.de: enno@nerdworks.de
     lulu@nerdworks.de: enno@nerdworks.de
     paypal@nerdworks.de: enno@nerdworks.de
+    hallo@bullerbü-in-hamburg.de: luno@nn42.de
   '';
 
   filterCommand = pkgs.writers.writePython3 "maddy-filter" { } ./maddy-filter.py;
@@ -31,9 +32,9 @@ let
     # ----------------------------------------------------------------------------
     # Base variables
 
-    $(hostname) = htz2.host.nerdworks.de
+    $(hostname) = htz2.nn42.de
     $(primary_domain) = nerdworks.de
-    $(local_domains) = $(primary_domain) ennolohmeier.de nerd-works.de
+    $(local_domains) = $(primary_domain) nerd-works.de bullerbü-in-hamburg.de
 
     tls file /var/lib/acme/$(hostname)/fullchain.pem /var/lib/acme/$(hostname)/key.pem
 
