@@ -2,7 +2,7 @@
   description = "ptsd";
 
   inputs = {
-    # use e.g. `nix flake update --override-input nixpkgs github:NixOS/nixpkgs/83667ff` to update to specific commit
+    # use e.g. `nix build .#nixosConfigurations.XXX.config.system.build.toplevel --override-input nixpkgs github:NixOS/nixpkgs/83667ff` to update to specific commit
     nixpkgs.url = github:NixOS/nixpkgs/nixos-21.11;
     #nixpkgs.url = "/home/enno/repos/nixpkgs";
     nixpkgs-master.url = github:NixOS/nixpkgs/master;
@@ -291,8 +291,19 @@
           # use `nix build .#nixosConfigurations.pine1.config.mobile.outputs.default` to build a disk image
           pine1 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = [
+            modules = defaultModules ++ [
               mobile-nixos.nixosModules.pine64-pinephone
+              home-manager.nixosModule
+              ({ pkgs, ... }:
+                {
+                  home-manager.users.mainUser = { ... }: {
+                    nixpkgs.config = {
+                      allowUnfree = true;
+                      packageOverrides = pkgOverrides pkgs;
+                    };
+                    nixpkgs.overlays = [ nur.overlay ];
+                  };
+                })
               ./1systems/pine1/physical.nix
             ];
           };

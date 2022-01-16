@@ -44,6 +44,7 @@ self: pkgs_master: super:
   choose-browser = self.writers.writeDashBin "choose-browser" ../4scripts/choose-browser.sh;
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
   file-renamer = self.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
+  firefox-mobile = self.callPackage ./firefox-mobile { };
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
@@ -52,6 +53,7 @@ self: pkgs_master: super:
   hidclient = self.callPackage ./hidclient { };
   home-assistant-variants = self.callPackage ./home-assistant-variants { };
   kitty-terminfo = self.callPackage ./kitty-terminfo { };
+  mobile-config-firefox = self.callPackage ./mobile-config-firefox { };
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };
   nerdworks-artwork = self.callPackage ./nerdworks-artwork { };
@@ -78,6 +80,7 @@ self: pkgs_master: super:
   '';
   shrinkpdf = self.callPackage ./shrinkpdf { };
   swayassi = self.callPackage ./swayassi { };
+  sxmo-utils = self.callPackage ./sxmo-utils { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };
   telegram-sh = self.callPackage ./telegram-sh { };
   traefik-forward-auth = self.callPackage ./traefik-forward-auth { };
@@ -214,4 +217,7 @@ self: pkgs_master: super:
   librem = pkgs_master.librem;
   vimPlugins = pkgs_master.vimPlugins;
   neovim-unwrapped = pkgs_master.neovim-unwrapped;
+
+  btop = pkgs_master.btop;
+  mepo = pkgs_master.mepo;
 }

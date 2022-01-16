@@ -331,6 +331,22 @@
       syncthing.id = "J5JHNBN-YZYVP3A-ROFYSWJ-NIWXSUW-FDSGNUB-6UO47NL-LIGRLDM-RMSZBAQ";
     };
 
+    pine1 = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.54";
+          aliases = [
+            "pine1.nw"
+          ];
+          wireguard.pubkey = "WLcaTqoitN/s2bipMgnCSLEFN9ctsJ5hzejwZAqbU1s=";
+        };
+      };
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPy1yvDDoqvuIPRWdmBvuVUEtZ2WUrS8AdD8Ju/dMW+F ";
+      borg.quota = "10G";
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDtRR7MYLLZ+NWxnd7gqUot8SH1PN+qGb/LqaIWvPsjH ";
+      syncthing.id = "DB64C44-HK2EDBV-5UNZNZ3-77UCGRZ-GJNRNU7-3OAEHEI-GC435NT-NVR76Q3";
+    };
+
     rpi1 = {
       nets = {
         nwvpn = {

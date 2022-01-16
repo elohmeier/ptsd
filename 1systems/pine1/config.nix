@@ -1,17 +1,33 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ../..
+    ../../2configs
+    ../../2configs/nwhost.nix
+
+    ../../2configs/users/enno.nix
+  ];
+
+  ptsd.nwbackup.enable = false;
+  ptsd.nwacme.enable = false;
+  ptsd.tor-ssh.enable = false;
+
   services.openssh = {
     enable = true;
     permitRootLogin = "yes";
   };
-  users.users.root.password = "nixos";
-  users.users.enno = {
-    password = "nixos";
-    isNormalUser = true;
-  };
   services.getty.autologinUser = "enno";
-  environment.systemPackages = with pkgs; [ foot.terminfo htop firefox ];
+  environment.systemPackages = with pkgs; [
+    htop
+    wvkbd
+    bemenu
+    foot
+    foot.terminfo
+    # element-desktop # todo: rm gcc dep
+    wev
+    mepo
+  ];
   programs.sway = {
     enable = true;
     wrapperFeatures.gtk = true;
@@ -22,4 +38,36 @@
     fi
   '';
   environment.variables.MOZ_USE_XINPUT2 = "1";
+
+  home-manager.users.mainUser = { ... }: { imports = [ ./home.nix ]; };
+
+
+  networking = {
+    hostName = "pine1";
+    useNetworkd = true;
+    useDHCP = false;
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+      wifi = {
+        backend = "iwd";
+        macAddress = "random";
+        powersave = true;
+      };
+    };
+
+    wireless.iwd.enable = true;
+
+    # missing kernel module?
+    firewall.enable = false;
+  };
+
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
+
+  services.udev.packages = [ pkgs.sxmo-utils ];
+
+  services.logind.extraConfig = "HandlePowerKey=ignore";
 }

@@ -224,8 +224,8 @@
         ]
       },
       "locked": {
-        "lastModified": 1642254294,
-        "narHash": "sha256-k7VNKF7lZA/4K8RNoAw9y1kRrJzCdj766NEkD0im044=",
+        "lastModified": 1642282068,
+        "narHash": "sha256-M4p4UwB0vIHs9PjDOceBE1fWFHILpOquihavsQRddV8=",
         "type": "git",
         "url": "file:///home/enno/repos/mobile-nixos"
       },
@@ -325,11 +325,11 @@
     },
     "nixpkgs-master": {
       "locked": {
-        "lastModified": 1642280949,
-        "narHash": "sha256-MUNKIT/dVg+ZD5EDwMaBZ/1msBm0Knh4Y7bjWyiNwlA=",
+        "lastModified": 1642316726,
+        "narHash": "sha256-tseF4RID6jIkBrpR5YKbheOwa8W5OoLK2EW2IHQo6YM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0c7342b6e730ddbf6ba9a1bd596d8f8cab9356f2",
+        "rev": "94640d1555aee108174a6a107120dc074c787e80",
         "type": "github"
       },
       "original": {
@@ -357,11 +357,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1642279973,
-        "narHash": "sha256-70FJTtuyyBgoULwFV/Mtq/0MaQ+JzwKsbumTn1esyAU=",
+        "lastModified": 1642317675,
+        "narHash": "sha256-EQi5sBYQWjSkfyaoeIrERYr/Aoiks+NFRYBwUB81mKg=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "1e902304a2288d3652b81bcebd81e324b33b6bcd",
+        "rev": "3eb2786538ef1beb3e5922f78b07a7f493facd20",
         "type": "github"
       },
       "original": {

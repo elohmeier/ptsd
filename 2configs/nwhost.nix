@@ -35,5 +35,5 @@ in
   ];
 
   # programs.mosh.enable = lib.mkDefault true;
-  services.fail2ban.enable = lib.mkDefault true;
+  services.fail2ban.enable = lib.mkDefault config.networking.firewall.enable;
 }

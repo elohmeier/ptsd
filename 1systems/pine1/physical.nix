@@ -19,7 +19,7 @@
         label = "luks-root";
       };
     };
-    "/boot" = { device = "/dev/disk/by-path/platform-1c11000.mmc-part3"; fsType = "ext4"; };
+    # "/boot" = { device = "/dev/disk/by-path/platform-1c11000.mmc-part3"; fsType = "ext4"; };
   };
 
   system.stateVersion = "21.11";
