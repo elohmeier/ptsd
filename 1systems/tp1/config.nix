@@ -163,7 +163,6 @@ in
     run-kali-vm
     run-win-vm
     powertop
-    networkmanagerapplet
     samba
     home-manager
     efibootmgr
