@@ -58,6 +58,9 @@ in
         shared_store = "filesystem";
         compaction_interval = "10m";
         working_directory = "/var/lib/loki/compactor";
+        retention_enabled=true;
+  retention_delete_delay= "7d";
+  retention_delete_worker_count=150;
       };
     };
   };
