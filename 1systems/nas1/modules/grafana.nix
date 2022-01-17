@@ -33,6 +33,11 @@ in
             url = "http://localhost:${toString config.ptsd.nwtraefik.ports.prometheus}";
             isDefault = true;
           }
+          {
+            name = "Loki";
+            type = "loki";
+            url = "http://localhost:${toString config.ptsd.nwtraefik.ports.loki}";
+          }
         ];
       };
     };

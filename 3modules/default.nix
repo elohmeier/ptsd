@@ -5,7 +5,7 @@ _:
     ./alertmanager-bot.nix
     ./cups-airprint.nix
     ./drone-server.nix
-    ./loki.nix
+    ./fluent-bit.nix
     ./mautrix-whatsapp.nix
     ./mjpg-streamer.nix
     ./monica.nix

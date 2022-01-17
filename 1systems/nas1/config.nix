@@ -21,6 +21,7 @@ in
     ./modules/grafana.nix
     ./modules/home-assistant.nix
     ./modules/icloudpd.nix
+    ./modules/loki.nix
     ./modules/nextcloud.nix
     ./modules/nextcloud-vsftpd-scans.nix
     ./modules/octoprint.nix
@@ -28,6 +29,10 @@ in
     ./modules/prometheus/server.nix
     ./modules/syncthing.nix
   ];
+
+  ptsd.fluent-bit = {
+    enable = true;
+  };
 
   ptsd.nwbackup.enable = false;
 
@@ -399,15 +404,6 @@ in
       endscript
     }
   '';
-
-  # ptsd.loki = {
-  #   enable = true;
-  #   config = {
-  #     # https://grafana.com/docs/loki/latest/configuration/examples/
-  #     auth_enabled = false;
-  #     server.http_listen_port = 3100;
-  #   };
-  # };
 
   boot.supportedFilesystems = [ "exfat" ]; # canon sd card
 
