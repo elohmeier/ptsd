@@ -70,4 +70,20 @@
   services.udev.packages = [ pkgs.sxmo-utils ];
 
   services.logind.extraConfig = "HandlePowerKey=ignore";
+
+
+
+
+  systemd.services.sxmo-setpermissions = {
+    description = "Set device-specific permissions for sxmo";
+    wantedBy = [
+      "multi-user.target"
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.sxmo-utils}/bin/sxmo_setpermissions.sh";
+    };
+  };
+
+  virtualisation.waydroid.enable = true;
 }

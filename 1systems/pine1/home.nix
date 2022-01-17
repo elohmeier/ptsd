@@ -17,6 +17,22 @@
   wayland.windowManager.sway = {
     enable = true;
     config = {
+      bars = [
+        # {
+        #   position = "top";
+        #   statusCommand = "${pkgs.sxmo-utils}/bin/sxmo_statusbar.sh";
+        #   fonts.names = [ "Mono" ];
+        #   colors = {
+        #     statusline = "#ffffff";
+        #     background = "#323232";
+        #     inactiveWorkspace = {
+        #       border = "#32323200";
+        #       background = "#32323200";
+        #       text = "#5c5c5c";
+        #     };
+        #   };
+        # }
+      ];
       terminal = "${pkgs.foot}/bin/foot";
       modifier = "Mod1"; # Alt
       input =
@@ -54,7 +70,11 @@
       keybindings = lib.mkOptionDefault {
         "Mod1+d" = "exec ${pkgs.bemenu}/bin/bemenu-run --list 10 --prompt 'Run:'";
       };
-      output.DSI-1.scale = "1.5";
+      output.DSI-1 = {
+        bg = "${pkgs.sxmo-utils}/share/sxmo/background.jpg fill";
+        scale = "1.5";
+      };
+      startup = [{ command = "${config.programs.waybar.package}/bin/waybar"; }];
     };
 
     extraConfig = ''
@@ -95,7 +115,10 @@
   programs.firefox = {
     enable = true;
     package = pkgs.firefox-mobile;
-    profiles.default = { };
+    profiles.default = {
+      userChrome = builtins.readFile "${pkgs.mobile-config-firefox}/etc/mobile-config-firefox/userChrome.css";
+      userContent = builtins.readFile "${pkgs.mobile-config-firefox}/etc/mobile-config-firefox/userContent.css";
+    };
   };
 
   programs.foot = {
@@ -105,14 +128,22 @@
 
   home.packages = with pkgs;[
     sxmo-utils
-
-    # sxmo-utils deps
-    busybox
-    jq
   ];
 
   home.sessionVariables = {
     SXMO_WM = "sway";
+  };
+
+  programs.waybar = {
+    enable = true;
+    settings = [{
+      layer = "top";
+      position = "top";
+      height = 20;
+      output = "DSI-1";
+      modules-left = [ "sway/workspaces" "sway/mode" ];
+      modules-right = [ "battery" "temperature" "clock" "tray" ];
+    }];
   };
 
   home.stateVersion = "21.11";
