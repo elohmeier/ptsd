@@ -34,7 +34,7 @@ let
 
     $(hostname) = htz2.nn42.de
     $(primary_domain) = nerdworks.de
-    $(local_domains) = $(primary_domain) nerd-works.de bullerbü-in-hamburg.de
+    $(local_domains) = $(primary_domain) nerd-works.de bullerbü-in-hamburg.de nn42.de
 
     tls file /var/lib/acme/$(hostname)/fullchain.pem /var/lib/acme/$(hostname)/key.pem
 
