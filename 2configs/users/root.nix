@@ -1,4 +1,4 @@
-{ ... }:
+{ config, lib, pkgs, ... }:
 
 {
   users.users = {
@@ -11,7 +11,7 @@
 
       # make sure the /var/src fs is marked for early mounting with
       # neededForBoot = true
-      passwordFile = "/var/src/secrets/root.passwd";
+      passwordFile = lib.mkIf config.ptsd.secrets.enable "/var/src/secrets/root.passwd";
     };
   };
 

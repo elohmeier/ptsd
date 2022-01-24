@@ -30,7 +30,7 @@ with lib;
           sshPubKeys = import ./ssh-pubkeys.nix;
         in
         sshPubKeys.authorizedKeys_enno;
-      passwordFile = "/var/src/secrets/mainUser.passwd";
+      passwordFile = lib.mkIf config.ptsd.secrets.enable "/var/src/secrets/mainUser.passwd";
     };
   };
 }

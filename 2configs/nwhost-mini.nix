@@ -28,7 +28,7 @@ in
   };
 
   services.timesyncd = {
-    enable = true;
+    enable = mkDefault true;
     servers = [
       "0.de.pool.ntp.org"
       "1.de.pool.ntp.org"
@@ -49,7 +49,7 @@ in
     ip = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
   };
 
-  services.openssh.hostKeys = [
+  services.openssh.hostKeys = lib.mkIf config.ptsd.secrets.enable [
     {
       # configure path explicitely to have correct configuration
       # when built under /mnt (e.g. in installer-situation)
@@ -67,11 +67,7 @@ in
   #  enable = true;
   #};
 
-  ptsd.secrets.files = {
-    "ssh.id_ed25519.pub" = {
-      mode = "0444";
-    };
-  };
+  ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
 
   ptsd.neovim.enable = true;
   environment.variables = { EDITOR = "nvim"; };

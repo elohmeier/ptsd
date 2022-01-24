@@ -38,6 +38,10 @@ in
 {
   options = {
     ptsd.secrets = {
+      enable = mkOption {
+        type = types.bool;
+        default = true;
+      };
       files = mkOption {
         type = types.attrsOf (
           types.submodule (
@@ -80,7 +84,7 @@ in
     };
   };
 
-  config = mkIf (cfg.files != { }) {
+  config = mkIf (cfg.enable && cfg.files != { }) {
     systemd.services = mapAttrs' generateUnit cfg.files;
   };
 }

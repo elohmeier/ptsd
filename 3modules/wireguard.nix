@@ -54,7 +54,7 @@ let
       };
 
       wireguardConfig = {
-        PrivateKeyFile = config.ptsd.secrets.files."${netcfg.keyname}".path;
+        PrivateKeyFile = mkIf config.ptsd.secrets.enable config.ptsd.secrets.files."${netcfg.keyname}".path;
       } // optionalAttrs netcfg.server.enable {
         ListenPort = netcfg.server.listenPort;
       };
