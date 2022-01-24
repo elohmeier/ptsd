@@ -85,11 +85,11 @@ in
         options = [ "nodev" "nosuid" "noexec" ];
       };
 
-    "/mnt/sdcard/eosr6" = {
-      device = "/dev/disk/by-label/EOS_DIGITAL";
-      fsType = "exfat";
-      options = [ "nofail" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=1ms" "nodev" "nosuid" "noexec" ];
-    };
+    # "/mnt/sdcard/eosr6" = {
+    #   device = "/dev/disk/by-label/EOS_DIGITAL";
+    #   fsType = "exfat";
+    #   options = [ "nofail" "noauto" "x-systemd.automount" "x-systemd.idle-timeout=1min" "x-systemd.device-timeout=1ms" "nodev" "nosuid" "noexec" ];
+    # };
   };
 
   swapDevices =

@@ -26,7 +26,7 @@ in
     ./modules/nextcloud-vsftpd-scans.nix
     ./modules/octoprint.nix
     ./modules/postgresql.nix
-    ./modules/prometheus/server.nix
+    ./modules/prometheus
     ./modules/syncthing.nix
   ];
 
