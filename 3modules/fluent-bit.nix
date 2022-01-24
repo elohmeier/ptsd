@@ -32,10 +32,9 @@ let
       name = "loki";
       match = "*";
       host = "127.0.0.1";
-      port = config.ptsd.nwtraefik.ports.loki;
+      port = config.ptsd.ports.loki;
       labels = "job=fluent-bit,host=${config.networking.hostName}";
     };
-
   });
 in
 {

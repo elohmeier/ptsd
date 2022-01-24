@@ -135,7 +135,7 @@ let
                 loadBalancer = {
                   passHostHeader = svc.passHostHeader;
                   servers = [
-                    { url = if (svc.url != "") then svc.url else "http://localhost:${toString cfg.ports."${svc.name}"}"; }
+                    { url = if (svc.url != "") then svc.url else "http://localhost:${toString config.ptsd.ports."${svc.name}"}"; }
                   ];
                 };
               };
@@ -155,8 +155,13 @@ let
     providers.file.filename = configFile "traefik-dynamic-config.toml" dynamicConfigOptions;
     log.level = cfg.logLevel;
     accessLog = {
-      filePath = "/var/log/traefik/access.log";
+      filePath = "/var/log/traefik/access.log.json";
       bufferingSize = 100;
+      format = "json";
+      fields = {
+        defaultMode = "keep";
+        headers.defaultMode = "keep";
+      };
     };
     entryPoints =
       (mapAttrs'
@@ -197,12 +202,6 @@ in
   options = {
     ptsd.nwtraefik = {
       enable = mkEnableOption "nwtraefik";
-
-      ports = mkOption {
-        internal = true;
-        description = "The HTTP ports used by Traefik backends.";
-        type = types.attrsOf types.int;
-      };
 
       entryPoints = mkOption {
         description = "Entrypoints to listen on.";
@@ -324,148 +323,120 @@ in
     };
   };
 
-  config = mkMerge [
-    {
-      ptsd.nwtraefik.ports = {
-        acme-dns-http = 10001;
-        alertmanager = 10002;
-        bitwarden = 10003;
-        dokuwiki = 10004;
-        droneci = 10005;
-        fraam-wordpress = 10006;
-        fraam-wwwstatic = 10007;
-        grafana = 10008;
-        home-assistant = 8123; # TODO: update yaml like in octoprint module
-        influxdb = 10009;
-        kapacitor = 10010;
-        loki = 10011;
-        mjpg-streamer = 10012;
-        nerdworkswww = 10013;
-        nextcloud = 10014;
-        nginx-monica = 10015;
-        nginx-nwacme = 10016;
-        nwgit = 10017;
-        octoprint = 10018;
-        radicale = 10019;
-        synapse = 10020;
-        gitweb = 10021;
-        nginx-fraam-intweb = 10022;
-        nginx-wellknown-matrix = 10023;
-        prometheus-node = 10024;
-        prometheus-gitlab = 10025;
-        fraamdb = 10026;
-        prometheus = 10027; # server
-        navidrome = 10028;
-        prometheus-maddy = 10029;
-        photoprism = 10030;
-        acme-dns-dns = 10031;
-        gowpcontactform = 10032;
-      };
-    }
-    (
-      mkIf cfg.enable {
-        assertions = [
-          {
-            assertion = cfg.acmeEnabled -> hasAttr cfg.acmeEntryPoint cfg.entryPoints;
-            message = "ptsd.nwtraefik.acmeEntryPoint \"${cfg.acmeEntryPoint}\" has to be defined in ptsd.nwtraefik.entryPoints";
-          }
-        ] ++ flatten (
+  config = mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = cfg.acmeEnabled -> hasAttr cfg.acmeEntryPoint cfg.entryPoints;
+        message = "ptsd.nwtraefik.acmeEntryPoint \"${cfg.acmeEntryPoint}\" has to be defined in ptsd.nwtraefik.entryPoints";
+      }
+    ] ++ flatten (
+      map
+        (
+          svc:
           map
             (
-              svc:
-              map
-                (
-                  entryPoint: {
-                    assertion = hasAttr entryPoint cfg.entryPoints;
-                    message = "ptsd.nwtraefik.services: entryPoint \"${entryPoint}\" used by service \"${svc.name}\" has to be defined in ptsd.nwtraefik.entryPoints";
-                  }
-                )
-                svc.entryPoints
-            )
-            cfg.services
-        ) ++ (
-          map
-            (
-              svc:
-              {
-                assertion = svc.entryPoints != [ ];
-                message = "ptsd.nwtraefik.services: entrypoints have to be defined for service \"${svc.name}\"";
+              entryPoint: {
+                assertion = hasAttr entryPoint cfg.entryPoints;
+                message = "ptsd.nwtraefik.services: entryPoint \"${entryPoint}\" used by service \"${svc.name}\" has to be defined in ptsd.nwtraefik.entryPoints";
               }
             )
-            cfg.services
-        );
-
-        # TODO: evaluate https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/security/systemd-confinement.nix
-
-        systemd.services.traefik = {
-          description = "Traefik web server";
-          wants = [ "network.target" ];
-          after = [ "network.target" ];
-          wantedBy = [ "multi-user.target" ];
-          serviceConfig = {
-            ExecStart = ''${cfg.package}/bin/traefik --configfile=${configFile "traefik-static-conf.toml" staticConfigOptions}'';
-            ExecStartPre = "+${migrateLogs}";
-            DynamicUser = true;
-            Type = "notify";
-            WatchdogSec = "1s";
-            Restart = "always";
-            StartLimitBurst = 5;
-            AmbientCapabilities = "cap_net_bind_service";
-            CapabilityBoundingSet = "cap_net_bind_service";
-            NoNewPrivileges = true;
-            LimitNPROC = 256;
-            LimitNOFILE = 1048576 * 2;
-            PrivateTmp = true;
-            PrivateDevices = true;
-            ProtectHome = true;
-            ProtectSystem = "strict";
-            StateDirectory = "traefik";
-            LogsDirectory = "traefik";
-            SupplementaryGroups = cfg.groups;
-            ProtectControlGroups = true;
-            ProtectClock = true;
-            ProtectHostname = true;
-            ProtectKernelLogs = true;
-            ProtectKernelModules = true;
-            ProtectKernelTunables = true;
-            LockPersonality = true;
-            MemoryDenyWriteExecute = true;
-            RestrictAddressFamilies = "AF_UNIX AF_INET AF_INET6"; # AF_UNIX required for watchdog
-            RestrictNamespaces = true;
-            DevicePolicy = "closed";
-            RestrictRealtime = true;
-            SystemCallFilter = "@system-service";
-            SystemCallErrorNumber = "EPERM";
-            SystemCallArchitectures = "native";
-          };
-          unitConfig = {
-            StartLimitInterval = 86400;
-          };
-        };
-
-        networking = {
-          firewall = {
-            allowedTCPPorts = [ 80 443 ];
-          } // optionalAttrs (config.ptsd.wireguard.networks.nwvpn.enable) {
-            interfaces.nwvpn.allowedTCPPorts = [ 9101 ]; # traefik metrics port
-          };
-        };
-
-        ptsd.nwlogrotate.config = ''
-          /var/log/traefik/*.log {
-            daily
-            rotate 7
-            missingok
-            notifempty
-            compress
-            dateext
-            dateformat .%Y-%m-%d
-            postrotate
-              systemctl kill -s USR1 traefik.service
-            endscript
+            svc.entryPoints
+        )
+        cfg.services
+    ) ++ (
+      map
+        (
+          svc:
+          {
+            assertion = svc.entryPoints != [ ];
+            message = "ptsd.nwtraefik.services: entrypoints have to be defined for service \"${svc.name}\"";
           }
-        '';
+        )
+        cfg.services
+    );
+
+    # TODO: evaluate https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/security/systemd-confinement.nix
+
+    systemd.services.traefik = {
+      description = "Traefik web server";
+      wants = [ "network.target" ];
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        ExecStart = ''${cfg.package}/bin/traefik --configfile=${configFile "traefik-static-conf.toml" staticConfigOptions}'';
+        ExecStartPre = "+${migrateLogs}";
+        DynamicUser = true;
+        Type = "notify";
+        WatchdogSec = "1s";
+        Restart = "always";
+        StartLimitBurst = 5;
+        AmbientCapabilities = "cap_net_bind_service";
+        CapabilityBoundingSet = "cap_net_bind_service";
+        NoNewPrivileges = true;
+        LimitNPROC = 256;
+        LimitNOFILE = 1048576 * 2;
+        PrivateTmp = true;
+        PrivateDevices = true;
+        ProtectHome = true;
+        ProtectSystem = "strict";
+        StateDirectory = "traefik";
+        LogsDirectory = "traefik";
+        SupplementaryGroups = cfg.groups;
+        ProtectControlGroups = true;
+        ProtectClock = true;
+        ProtectHostname = true;
+        ProtectKernelLogs = true;
+        ProtectKernelModules = true;
+        ProtectKernelTunables = true;
+        LockPersonality = true;
+        MemoryDenyWriteExecute = true;
+        RestrictAddressFamilies = "AF_UNIX AF_INET AF_INET6"; # AF_UNIX required for watchdog
+        RestrictNamespaces = true;
+        DevicePolicy = "closed";
+        RestrictRealtime = true;
+        SystemCallFilter = "@system-service";
+        SystemCallErrorNumber = "EPERM";
+        SystemCallArchitectures = "native";
+      };
+      unitConfig = {
+        StartLimitInterval = 86400;
+      };
+    };
+
+    networking = {
+      firewall = {
+        allowedTCPPorts = [ 80 443 ];
+      } // optionalAttrs (config.ptsd.wireguard.networks.nwvpn.enable) {
+        interfaces.nwvpn.allowedTCPPorts = [ 9101 ]; # traefik metrics port
+      };
+    };
+
+    ptsd.nwlogrotate.config = ''
+      /var/log/traefik/*.log {
+        daily
+        rotate 7
+        missingok
+        notifempty
+        compress
+        dateext
+        dateformat .%Y-%m-%d
+        postrotate
+          systemctl kill -s USR1 traefik.service
+        endscript
       }
-    )
-  ];
+
+      /var/log/traefik/*.log.json {
+        daily
+        rotate 7
+        missingok
+        notifempty
+        compress
+        dateext
+        dateformat .%Y-%m-%d
+        postrotate
+          systemctl kill -s USR1 traefik.service
+        endscript
+      }
+    '';
+  };
 }

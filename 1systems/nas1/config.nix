@@ -164,7 +164,7 @@ in
     '';
     virtualHosts = {
       "nas1.host.nerdworks.de" = {
-        listen = [{ addr = "127.0.0.1"; port = config.ptsd.nwtraefik.ports.gitweb; }];
+        listen = [{ addr = "127.0.0.1"; port = config.ptsd.ports.gitweb; }];
 
         # as in https://fishilico.github.io/generic-config/etc-server/web/gitweb.html#nginx-configuration
         locations = {

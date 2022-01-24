@@ -17,7 +17,7 @@ in
   services.grafana =
     {
       enable = true;
-      port = config.ptsd.nwtraefik.ports.grafana;
+      port = config.ptsd.ports.grafana;
       rootUrl = "https://${domain}/";
       security = {
         adminUser = "enno";
@@ -30,13 +30,13 @@ in
           {
             name = "Prometheus";
             type = "prometheus";
-            url = "http://localhost:${toString config.ptsd.nwtraefik.ports.prometheus}";
+            url = "http://localhost:${toString config.ptsd.ports.prometheus-server}";
             isDefault = true;
           }
           {
             name = "Loki";
             type = "loki";
-            url = "http://localhost:${toString config.ptsd.nwtraefik.ports.loki}";
+            url = "http://localhost:${toString config.ptsd.ports.loki}";
           }
         ];
       };

@@ -192,7 +192,7 @@ in
     virtualHosts.nginx-wellknown-matrix = {
       listen = [{
         addr = "127.0.0.1";
-        port = config.ptsd.nwtraefik.ports.nginx-wellknown-matrix;
+        port = config.ptsd.ports.nginx-wellknown-matrix;
       }];
       locations."/.well-known/matrix/server".extraConfig =
         let

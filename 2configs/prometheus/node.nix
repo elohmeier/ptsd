@@ -6,7 +6,7 @@ in
   services.prometheus.exporters.node = {
     enable = true;
     listenAddress = "127.0.0.1";
-    port = config.ptsd.nwtraefik.ports.prometheus-node;
+    port = config.ptsd.ports.prometheus-node;
     enabledCollectors = import ./node_collectors.nix;
     extraFlags = [
       "--collector.textfile.directory=/var/log"

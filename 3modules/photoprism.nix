@@ -32,11 +32,11 @@ in
     };
     httpPort = mkOption {
       type = types.int;
-      default = config.ptsd.nwtraefik.ports.photoprism;
+      default = config.ptsd.ports.photoprism;
     };
     siteUrl = mkOption {
       type = types.str;
-      default = "http://localhost:${toString config.ptsd.nwtraefik.ports.photoprism}/";
+      default = "http://localhost:${toString config.ptsd.ports.photoprism}/";
     };
     package = mkOption {
       type = types.package;

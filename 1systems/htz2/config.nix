@@ -140,7 +140,7 @@ in
           service = "acme-dns-tcp";
         };
         services.acme-dns-tcp.loadBalancer.servers = [{
-          address = "127.0.0.1:${toString config.ptsd.nwtraefik.ports.acme-dns-dns}";
+          address = "127.0.0.1:${toString config.ptsd.ports.acme-dns-dns}";
         }];
       };
       udp = {
@@ -152,7 +152,7 @@ in
           service = "acme-dns-udp";
         };
         services.acme-dns-udp.loadBalancer.servers = [{
-          address = "127.0.0.1:${toString config.ptsd.nwtraefik.ports.acme-dns-dns}";
+          address = "127.0.0.1:${toString config.ptsd.ports.acme-dns-dns}";
         }];
       };
     };
@@ -215,7 +215,7 @@ in
       ];
 
       generalOptions = {
-        listen = "127.0.0.1:${toString config.ptsd.nwtraefik.ports.acme-dns-dns}";
+        listen = "127.0.0.1:${toString config.ptsd.ports.acme-dns-dns}";
         protocol = "both4";
       };
 
@@ -229,7 +229,7 @@ in
         use_header = true;
         header_name = "X-Forwarded-For";
         ip = "127.0.0.1";
-        port = toString config.ptsd.nwtraefik.ports.acme-dns-http;
+        port = toString config.ptsd.ports.acme-dns-http;
         tls = "none";
       };
 

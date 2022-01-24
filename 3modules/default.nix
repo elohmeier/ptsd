@@ -22,6 +22,7 @@ _:
     ./nwtraefik.nix
     ./octoprint.nix
     ./photoprism.nix
+    ./ports.nix
     ./radicale.nix
     ./rclone.nix
     ./samba-sonos.nix

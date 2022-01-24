@@ -272,7 +272,7 @@ in
       "fraam-intweb" = {
         listen = [{
           addr = "127.0.0.1";
-          port = config.ptsd.nwtraefik.ports.nginx-fraam-intweb;
+          port = config.ptsd.ports.nginx-fraam-intweb;
         }];
 
         extraConfig = ''
@@ -283,7 +283,7 @@ in
       nginx-wellknown-matrix = {
         listen = [{
           addr = "127.0.0.1";
-          port = config.ptsd.nwtraefik.ports.nginx-wellknown-matrix;
+          port = config.ptsd.ports.nginx-wellknown-matrix;
         }];
         locations."/.well-known/matrix/server".extraConfig =
           let

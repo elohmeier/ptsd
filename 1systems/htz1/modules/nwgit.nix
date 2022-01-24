@@ -24,7 +24,7 @@ in
     rootUrl = "https://${domain}/";
     log = { level = "Warn"; };
     httpAddress = "127.0.0.1";
-    httpPort = config.ptsd.nwtraefik.ports.nwgit;
+    httpPort = config.ptsd.ports.nwgit;
     disableRegistration = true;
     user = "git";
     database.user = "git";

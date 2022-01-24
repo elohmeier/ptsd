@@ -91,8 +91,8 @@ in
             useNetworkd = true;
             firewall.allowedTCPPorts = [
               80 # for nginx
-              config.ptsd.nwtraefik.ports.prometheus-node
-              config.ptsd.nwtraefik.ports.prometheus-gitlab
+              config.ptsd.ports.prometheus-node
+              config.ptsd.ports.prometheus-gitlab
             ];
           };
 
@@ -183,7 +183,7 @@ in
                     ip_whitelist = [ "${cfg.hostAddress}/32" ];
                     sidekiq_exporter = {
                       address = cfg.containerAddress;
-                      port = config.ptsd.nwtraefik.ports.prometheus-gitlab;
+                      port = config.ptsd.ports.prometheus-gitlab;
                     };
                   };
                 };
@@ -238,7 +238,7 @@ in
           services.prometheus.exporters.node = {
             enable = true;
             listenAddress = cfg.containerAddress;
-            port = config.ptsd.nwtraefik.ports.prometheus-node;
+            port = config.ptsd.ports.prometheus-node;
             enabledCollectors = import ../../../2configs/prometheus/node_collectors.nix;
           };
         };
@@ -266,7 +266,7 @@ in
           name = "prometheus-gitlab-node";
           entryPoints = [ "nwvpn-prometheus-http" ];
           rule = "PathPrefix(`/gitlab/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
-          url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-node}";
+          url = "http://${cfg.containerAddress}:${toString config.ptsd.ports.prometheus-node}";
           tls = false;
           extraMiddlewares = [ "prom-stripprefix" ];
         }
@@ -274,7 +274,7 @@ in
           name = "prometheus-gitlab-gitlab";
           entryPoints = [ "nwvpn-prometheus-http" ];
           rule = "PathPrefix(`/gitlab/gitlab`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
-          url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-gitlab}";
+          url = "http://${cfg.containerAddress}:${toString config.ptsd.ports.prometheus-gitlab}";
           tls = false;
           extraMiddlewares = [ "prom-stripprefix" ];
         }

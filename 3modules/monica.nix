@@ -238,7 +238,7 @@ in
           listen = [
             {
               addr = "127.0.0.1";
-              port = config.ptsd.nwtraefik.ports.nginx-monica;
+              port = config.ptsd.ports.nginx-monica;
             }
           ];
 

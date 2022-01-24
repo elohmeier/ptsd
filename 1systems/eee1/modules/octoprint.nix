@@ -23,7 +23,7 @@
 
   services.octoprint = {
     enable = true;
-    port = config.ptsd.nwtraefik.ports.octoprint;
+    port = config.ptsd.ports.octoprint;
     plugins = plugins:
       let
         ptsdPlugins = pkgs.ptsd-octoprintPlugins plugins;
@@ -68,7 +68,7 @@
       };
       webcam = {
         stream = "http://eee1.nw/mjpg/?action=stream";
-        snapshot = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.mjpg-streamer}/?action=snapshot";
+        snapshot = "http://127.0.0.1:${toString config.ptsd.ports.mjpg-streamer}/?action=snapshot";
       };
     };
   };
@@ -76,7 +76,7 @@
   #ptsd.mjpg-streamer = {
   #  enable = true;
   #  inputPlugin = "input_uvc.so -f 15 -r 640x480"; # physical resolution: 1280x1024 (1.3 MP)
-  #  outputPlugin = "output_http.so -w @www@ -n -p ${toString config.ptsd.nwtraefik.ports.mjpg-streamer}";
+  #  outputPlugin = "output_http.so -w @www@ -n -p ${toString config.ptsd.ports.mjpg-streamer}";
   #  deviceService = "sys-devices-pci0000:00-0000:00:1d.0-usb2-2\\x2d2-2\\x2d2:1.0-ttyUSB0-tty-ttyUSB0.device"; # only run if printer is connected (cpu-intensive)
   #};
 

@@ -49,7 +49,7 @@ in
           listen = [
             {
               addr = "127.0.0.1";
-              port = config.ptsd.nwtraefik.ports.nginx-nwacme;
+              port = config.ptsd.ports.nginx-nwacme;
             }
           ];
 

@@ -19,7 +19,7 @@ in
     };
     listeners = [
       {
-        port = config.ptsd.nwtraefik.ports.synapse;
+        port = config.ptsd.ports.synapse;
         bind_address = "127.0.0.1";
         type = "http";
         tls = false;
@@ -65,7 +65,7 @@ in
     environmentFile = config.ptsd.secrets.files."mautrix-telegram.env".path;
     settings = {
       homeserver = {
-        address = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.synapse}";
+        address = "http://127.0.0.1:${toString config.ptsd.ports.synapse}";
         domain = serverName;
       };
 
@@ -80,7 +80,7 @@ in
   #     enable = true;
   #     settings = {
   #       homeserver = {
-  #         address = "http://127.0.0.1:${toString config.ptsd.nwtraefik.ports.synapse}";
+  #         address = "http://127.0.0.1:${toString config.ptsd.ports.synapse}";
   #         domain = serverName;
   #       };
   # 

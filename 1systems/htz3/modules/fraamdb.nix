@@ -89,7 +89,7 @@ in
       script = ''
         ${pyenv}/bin/manage.py migrate
         ${pyenv}/bin/gunicorn fraamdb.wsgi \
-          -b 127.0.0.1:${toString config.ptsd.nwtraefik.ports.fraamdb} \
+          -b 127.0.0.1:${toString config.ptsd.ports.fraamdb} \
           --workers=2 \
           --threads=2
       '';

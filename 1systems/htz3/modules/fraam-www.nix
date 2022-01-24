@@ -94,7 +94,7 @@ in
               nameservers = [ "8.8.8.8" "8.8.4.4" ];
               useNetworkd = true;
               firewall.allowedTCPPorts = [
-                config.ptsd.nwtraefik.ports.prometheus-node
+                config.ptsd.ports.prometheus-node
               ];
             };
 
@@ -106,7 +106,7 @@ in
             services.prometheus.exporters.node = {
               enable = true;
               listenAddress = cfg.containerAddress;
-              port = config.ptsd.nwtraefik.ports.prometheus-node;
+              port = config.ptsd.ports.prometheus-node;
               enabledCollectors = import ../../../2configs/prometheus/node_collectors.nix;
             };
           };
@@ -116,7 +116,7 @@ in
       {
         name = "fraam-wordpress-auth";
         rule = "Host(`dev.fraam.de`)";
-        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.ports.fraam-wordpress}";
         auth.forwardAuth = {
           address = "http://localhost:4181";
           authResponseHeaders = [ "X-Forwarded-User" ];
@@ -128,13 +128,13 @@ in
         # host entry to 127.0.0.1 needs to be set
         name = "fraam-wordpress-local";
         rule = "Host(`dev.fraam.de`)";
-        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wordpress}";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.ports.fraam-wordpress}";
         entryPoints = [ "loopback4-https" ];
       }
       {
         name = "fraam-wwwstatic";
         rule = "Host(`www.fraam.de`) || Host(`fraam.de`)";
-        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.fraam-wwwstatic}";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.ports.fraam-wwwstatic}";
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
       {
@@ -146,7 +146,7 @@ in
         name = "prometheus-node-wpjail";
         entryPoints = [ "nwvpn-prometheus-http" ];
         rule = "PathPrefix(`/wpjail/node`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
-        url = "http://${cfg.containerAddress}:${toString config.ptsd.nwtraefik.ports.prometheus-node}";
+        url = "http://${cfg.containerAddress}:${toString config.ptsd.ports.prometheus-node}";
         tls = false;
         extraMiddlewares = [ "prom-stripprefix" ];
       }
@@ -175,7 +175,7 @@ in
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         ExecStart = ''${pkgs.gowpcontactform}/bin/gowpcontactform \
-                      -listen localhost:${toString config.ptsd.nwtraefik.ports.gowpcontactform}'';
+                      -listen localhost:${toString config.ptsd.ports.gowpcontactform}'';
         DynamicUser = true;
         Restart = "on-failure";
         StartLimitBurst = 5;

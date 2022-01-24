@@ -33,7 +33,7 @@ in
         domain = "https://${cfg.domain}";
         signupsAllowed = true;
         rocketAddress = "127.0.0.1"; # listen address
-        rocketPort = toString config.ptsd.nwtraefik.ports.bitwarden; # listen port
+        rocketPort = toString config.ptsd.ports.bitwarden; # listen port
         rocketLog = "critical";
         databaseUrl = "postgresql:///bitwarden";
       } // cfg.extraConfig;

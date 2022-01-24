@@ -10,7 +10,7 @@ in
     configuration = {
       server = {
         http_listen_address = "127.0.0.1";
-        http_listen_port = config.ptsd.nwtraefik.ports.loki;
+        http_listen_port = config.ptsd.ports.loki;
       };
       auth_enabled = false; # single-tenant mode
       schema_config = {

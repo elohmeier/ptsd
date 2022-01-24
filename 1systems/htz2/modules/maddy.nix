@@ -206,7 +206,7 @@ let
       storage &local_mailboxes
     }
 
-    openmetrics tcp://127.0.0.1:${toString config.ptsd.nwtraefik.ports.prometheus-maddy} { }
+    openmetrics tcp://127.0.0.1:${toString config.ptsd.ports.prometheus-maddy} { }
   '';
 in
 {

@@ -5,7 +5,7 @@ in
 {
   ptsd.octoprint = {
     enable = true;
-    port = config.ptsd.nwtraefik.ports.octoprint;
+    port = config.ptsd.ports.octoprint;
 
     package = pkgs.octoprint;
     plugins = plugins:
@@ -48,7 +48,7 @@ in
   ptsd.mjpg-streamer = {
     enable = true;
     inputPlugin = "input_uvc.so -f 30 -r 1280x720";
-    outputPlugin = "output_http.so -w @www@ -n -p ${toString config.ptsd.nwtraefik.ports.mjpg-streamer}";
+    outputPlugin = "output_http.so -w @www@ -n -p ${toString config.ptsd.ports.mjpg-streamer}";
     #deviceService = "sys-devices-pci0000:00-0000:00:15.0-usb1-1\\x2d7-1\\x2d7:1.2-sound-card1.device";
   };
 

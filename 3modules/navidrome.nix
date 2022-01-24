@@ -9,7 +9,7 @@ let
     DataFolder = "/var/lib/navidrome";
     ScanSchedule = "@every 1h";
     LogLevel = "info";
-    Port = config.ptsd.nwtraefik.ports.navidrome;
+    Port = config.ptsd.ports.navidrome;
     Address = "127.0.0.1";
     BaseUrl = "/music"; # only the path (e.g. /music)
   };

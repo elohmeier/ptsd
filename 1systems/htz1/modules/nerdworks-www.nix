@@ -20,7 +20,7 @@ in
         listen = [
           {
             addr = "127.0.0.1";
-            port = config.ptsd.nwtraefik.ports.nerdworkswww;
+            port = config.ptsd.ports.nerdworkswww;
           }
         ];
         root = "/var/www/nerdworks.de/prod-v2";
@@ -37,7 +37,7 @@ in
         listen = [
           {
             addr = "127.0.0.1";
-            port = config.ptsd.nwtraefik.ports.nerdworkswww;
+            port = config.ptsd.ports.nerdworkswww;
           }
         ];
         globalRedirect = "www.nerdworks.de";
