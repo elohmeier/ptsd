@@ -222,14 +222,12 @@
               ./1systems/rpi4/mobile.nix
               ({ modulesPath, ... }: {
                 imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
-              })
-              {
                 virtualisation = {
                   memorySize = 4096;
                   resolution = { x = 800; y = 600; }; # RPi 7" Touchscreen Display has 800x480, 800x600 is closest available option
                   qemu.options = [ "-vga virtio" ];
                 };
-              }
+              })
             ];
             specialArgs = { inherit nixpkgs-master; };
           };
@@ -308,6 +306,35 @@
             ];
           };
 
+          # use `nix run .#pine1-vm` to launch QEMU vm
+          pine1_vm = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              home-manager.nixosModule
+              ({ pkgs, ... }:
+                {
+                  home-manager.users.mainUser = { ... }: {
+                    nixpkgs.config = {
+                      allowUnfree = true;
+                      packageOverrides = pkgOverrides pkgs;
+                    };
+                    nixpkgs.overlays = [ nur.overlay ];
+                  };
+                })
+              ./1systems/pine1/config.nix
+              ({ modulesPath, ... }: {
+                imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
+                virtualisation = {
+                  memorySize = 2048;
+                  qemu.options = [ "-vga virtio" ];
+                };
+                users.users.mainUser.password = "nixos";
+                users.users.root.password = "nixos";
+                ptsd.secrets.enable = false;
+              })
+            ];
+          };
+
           gitlab-runner = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
@@ -378,6 +405,11 @@
       in
       {
         apps = {
+          pine1-vm = {
+            type = "app";
+            program = "${nixosConfigurations.pine1_vm.config.system.build.vm}/bin/run-pine1-vm";
+          };
+
           rpi4-vm = {
             type = "app";
             program = "${nixosConfigurations.rpi4_vm.config.system.build.vm}/bin/run-rpi4-vm";
