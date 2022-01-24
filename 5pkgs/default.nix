@@ -72,6 +72,7 @@ self: pkgs_master: super:
   pdfduplex = self.callPackage ./pdfduplex { };
   photoprism = self.callPackage ./photoprism { };
   ptsdbootstrap = self.callPackage ./ptsdbootstrap { };
+  quotes-exporter = self.callPackage ./quotes-exporter { };
   read-co2-status = self.writeShellScriptBin "read-co2-status" ../4scripts/read-co2-status.sh;
   read-battery-status = self.writeShellScriptBin "read-battery-status" ../4scripts/read-battery-status.sh;
   read-mediaplayer-status = self.writeShellScriptBin "read-mediaplayer-status" ''
