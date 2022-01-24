@@ -1,19 +1,17 @@
 { config, pkgs, ... }:
-let
-  bridgeIfs = [
-    "enp1s0"
-    "enp2s0"
-    "enp3s0"
-  ];
-  universe = import ../../2configs/universe.nix;
-in
+
 {
   imports = [
     ../..
     ../../2configs
-    ../../2configs/hardened.nix
-    ../../2configs/nwhost.nix
+    # ../../2configs/hardened.nix # prevents DNAT `--to` forwarding, therefore disabled
+    ../../2configs/nwhost-mini.nix
+    ../../2configs/profiles/minimal.nix
     ../../2configs/prometheus/node.nix
+
+    ./modules/hass.nix
+    ./modules/networking.nix
+    ./modules/nginx.nix
   ];
 
   ptsd.nwbackup = {
@@ -29,62 +27,8 @@ in
     ];
   };
 
-  environment.systemPackages = with pkgs; [ htop tmux vim ];
-
-  ptsd.mosquitto = {
-    enable = true;
-    listeners = [{
-      interface = "br0";
-      address = "192.168.168.41";
-    }];
-  };
-
-  ptsd.wireguard = {
-    enableGlobalForwarding = true;
-    networks.dlrgvpn = {
-      enable = true;
-      ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
-      natForwardIf = "br0"; # not sure if really needed (is it routing or NATing?), kept for backward compatibility
-      client.allowedIPs = [ "192.168.178.0/24" ];
-      routes = [
-        { routeConfig = { Destination = "192.168.178.0/24"; }; }
-      ];
-    };
-  };
-
-  networking = {
-    useNetworkd = true;
-    useDHCP = false;
-    hostName = "apu2";
-    bridges.br0.interfaces = bridgeIfs;
-    interfaces.br0.useDHCP = true;
-  };
-
-  systemd.network.networks = builtins.listToAttrs (
-    map
-      (
-        brName: {
-          name = "40-${brName}";
-          value = {
-            networkConfig = {
-              ConfigureWithoutCarrier = true;
-            };
-          };
-        }
-      )
-      bridgeIfs
-  );
-
-  services.home-assistant = {
-    enable = true;
-    package = pkgs.home-assistant-variants.dlrg;
-  };
-
-  networking.firewall.allowedTCPPorts = [
-    8123 # hass
-    config.ptsd.mosquitto.portPlain
-  ];
-  networking.firewall.allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
+  environment.systemPackages = with pkgs; [ htop vim ];
+  ptsd.neovim.enable = false;
 
   # TODO: prometheus-migrate
   # ptsd.nwtelegraf.inputs = {
@@ -107,102 +51,9 @@ in
   #  ''
   #];
 
-  services.nginx = {
-    enable = true;
-    serverNamesHashBucketSize = 128;
-
-    commonHttpConfig = ''
-      charset UTF-8;
-      port_in_redirect off;
-    '';
-
-    virtualHosts = {
-      "192.168.168.41" = {
-        listen = [
-          {
-            addr = "192.168.168.41";
-            port = 8123;
-          }
-          {
-            addr = "191.18.19.34";
-            port = 8123;
-          }
-        ];
-
-        locations =
-          let
-            dlrgProxyCfg = ''
-              proxy_pass https://www.dlrg.cloud:443;
-            '';
-          in
-          {
-
-            # proxy hass traffic
-            # hass is configured to listen on 127.0.0.1:8123
-            "/" = {
-              extraConfig = ''
-                proxy_pass http://127.0.0.1:8123;
-              '';
-            };
-            "/api/websocket" = {
-              extraConfig = ''
-                proxy_pass http://127.0.0.1:8123;
-                proxy_http_version 1.1;
-                proxy_set_header Upgrade $http_upgrade;
-                proxy_set_header Connection "Upgrade";
-                proxy_set_header Host $host;
-              '';
-            };
-
-            # proxy DLRG cloud to work around CSP iframe restrictions 
-            # for calendar embedding
-            "/apps" = {
-              extraConfig = dlrgProxyCfg;
-            };
-            "/css" = {
-              extraConfig = dlrgProxyCfg;
-            };
-            "/core" = {
-              extraConfig = dlrgProxyCfg;
-            };
-            "/js" = {
-              extraConfig = dlrgProxyCfg;
-            };
-            "/remote.php" = {
-              extraConfig = dlrgProxyCfg;
-            };
-          };
-      };
-    };
-  };
-
-  ptsd.nwlogrotate.config = ''
-    /var/log/nginx/access.log {
-      daily
-      rotate 7
-      missingok
-      notifempty
-      compress
-      dateext
-      dateformat .%Y-%m-%d
-      postrotate
-        systemctl kill -s USR1 nginx.service
-      endscript
-    }
-  '';
-
   ptsd.secrets.files = {
     "nwbackup.id_ed25519" = {
       path = "/root/.ssh/id_ed25519";
-    };
-  };
-
-  # compensate flaky home-assistant <-> homematic connection
-  systemd.services.restart-home-assistant = {
-    description = "Restart home-assistant every morning";
-    startAt = "*-*-* 03:30:00";
-    serviceConfig = {
-      ExecStart = "${pkgs.systemd}/bin/systemctl restart home-assistant.service";
     };
   };
 }

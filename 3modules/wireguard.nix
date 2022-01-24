@@ -40,6 +40,7 @@ let
             AllowedIPs = netcfg.client.allowedIPs;
             Endpoint = netcfg.client.endpoint;
             PersistentKeepalive = netcfg.persistentKeepalive;
+            PresharedKeyFile = mkIf (netcfg.enablePsk && config.ptsd.secrets.enable) config.ptsd.secrets.files."${netcfg.pskname}".path;
           };
         }
       ];
@@ -55,8 +56,7 @@ let
 
       wireguardConfig = {
         PrivateKeyFile = mkIf config.ptsd.secrets.enable config.ptsd.secrets.files."${netcfg.keyname}".path;
-      } // optionalAttrs netcfg.server.enable {
-        ListenPort = netcfg.server.listenPort;
+        ListenPort = mkIf netcfg.server.enable netcfg.server.listenPort;
       };
 
       wireguardPeers = generateWireguardPeers netname netcfg;
@@ -201,6 +201,14 @@ in
                 keyname = mkOption {
                   type = types.str;
                   default = "${config.ifname}.key";
+                };
+                enablePsk = mkOption {
+                  type = types.bool;
+                  default = false;
+                };
+                pskname = mkOption {
+                  type = types.str;
+                  default = "${config.ifname}.psk";
                 };
                 client = mkOption {
                   type = types.submodule {

@@ -36,6 +36,7 @@ in
         "caldav"
         "dwd_weather_warnings"
         "fritzbox"
+        "frontend"
         "met"
         "mobile_app"
         "mqtt"

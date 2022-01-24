@@ -69,7 +69,7 @@ in
 
   ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
 
-  ptsd.neovim.enable = true;
+  ptsd.neovim.enable = lib.mkDefault true;
   environment.variables = { EDITOR = "nvim"; };
 
   ptsd.nwacme = {
