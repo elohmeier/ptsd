@@ -11,6 +11,7 @@
     wtype
 
     whois
+    nix-top
 
     hash-slinger # tlsa
     hcloud
