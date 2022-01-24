@@ -51,4 +51,40 @@
       ${pkgs.rsync}/bin/rsync -a ${kernel}/dtbs "$DESTDIR/boot/mobile-nixos/recovery/"
     '';
 
+  networking = {
+    useNetworkd = true;
+    useDHCP = false;
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+      wifi = {
+        backend = "iwd";
+        macAddress = "random";
+        powersave = true;
+      };
+    };
+
+    wireless.iwd.enable = true;
+
+    # missing kernel module?
+    # firewall.enable = false;
+  };
+
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
+
+  services.logind.extraConfig = "HandlePowerKey=ignore";
+  services.udev.packages = [ pkgs.sxmo-utils ];
+  systemd.services.sxmo-setpermissions = {
+    description = "Set device-specific permissions for sxmo";
+    wantedBy = [
+      "multi-user.target"
+    ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.sxmo-utils}/bin/sxmo_setpermissions.sh";
+    };
+  };
 }
