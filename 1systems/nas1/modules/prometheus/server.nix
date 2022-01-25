@@ -107,7 +107,7 @@ in
                 };
               }
             )
-            (filterAttrs (hostname: _: elem hostname [ "rpi2" "htz4" "wrt1" "wrt2" "mb1" ]) (vpnNodes "nwvpn"))
+            (filterAttrs (hostname: _: elem hostname [ "htz4" "wrt1" "wrt2" "mb1" ]) (vpnNodes "nwvpn"))
         );
       }
 
