@@ -4,19 +4,31 @@
     enable = true;
     package = pkgs.vscode;
     userSettings = {
+      "[nix]" = {
+        "editor.tabSize" = 2;
+      };
+      "[typescript]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
+      "[typescriptreact]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
       "editor.fontFamily" = "'SauceCodePro Nerd Font'";
-      "gitlens.advanced.telemetry.enabled" = false;
-      "[nix]"."editor.tabSize" = 2;
-      "update.channel" = "none";
-      "workbench.startupEditor" = "newUntitledFile";
-      "update.mode" = "none";
       "git.confirmSync" = false;
       "git.enableSmartCommit" = true;
-      "telemetry.telemetryLevel" = "off";
+      "gitlens.advanced.telemetry.enabled" = false;
       "telemetry.enableCrashReporter" = false;
       "telemetry.enableTelemetry" = false;
-      "[typescript]"."editor.defaultFormatter" = "esbenp.prettier-vscode";
-      "[typescriptreact]"."editor.defaultFormatter" = "esbenp.prettier-vscode";
+      "telemetry.telemetryLevel" = "off";
+      "update.channel" = "none";
+      "update.mode" = "none";
+      "workbench.startupEditor" = "newUntitledFile";
+      "typescript.updateImportsOnFileMove.enabled" = "always";
+      "explorer.confirmDragAndDrop" = false;
+      "javascript.updateImportsOnFileMove.enabled" = "always";
+      "editor.inlineSuggest.enabled" = true;
+      "window.zoomLevel" = 2;
+      "workbench.colorTheme" = "Default High Contrast";
     };
     extensions = with pkgs.vscode-extensions; [
       eamodio.gitlens
