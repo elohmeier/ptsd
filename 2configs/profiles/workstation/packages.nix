@@ -1,6 +1,6 @@
 { pkgs, ... }: {
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; hackertools ++ [
     nodejs # for copilot.vim
     pkgsCross.avr.buildPackages.gcc # avr-gcc
     arduino

@@ -83,14 +83,9 @@
             home-manager.nixosModule
             ({ pkgs, ... }:
               {
+                home-manager.useGlobalPkgs = true;
                 home-manager.users.mainUser = { ... }: {
                   imports = [ nix-doom-emacs.hmModule ];
-                  home.packages = (import "${frix}/2configs/hackertools.nix" { inherit pkgs; }).infosec_no_pyenv;
-                  nixpkgs.config = {
-                    allowUnfree = true;
-                    packageOverrides = pkgOverrides pkgs;
-                  };
-                  nixpkgs.overlays = [ nur.overlay ];
                 };
               })
           ];
