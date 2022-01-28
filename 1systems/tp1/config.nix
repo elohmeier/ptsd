@@ -100,8 +100,6 @@ in
   # programs.adb.enable = true;
   # users.users.mainUser.extraGroups = [ "adbusers" ];
 
-  ptsd.wireguard.networks.nwvpn.client.allowedIPs = [ "192.168.178.0/24" ];
-
   # systemd.services.disable-bluetooth = {
   #   description = "Disable Bluetooth after boot to save energy";
   #   wantedBy = [ "multi-user.target" ];
@@ -160,8 +158,8 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    run-kali-vm
-    run-win-vm
+   # run-kali-vm
+   # run-win-vm
     powertop
     samba
     home-manager
@@ -184,9 +182,26 @@ in
       ];
       keyname = "nwvpn.key";
     };
+
+    nwvpn = {
+      # SIP
+      client.allowedIPs = [ "192.168.178.1/32" ];
+      routes = [
+        { routeConfig = { Destination = "192.168.178.1/32"; }; }
+      ];
+    };
   };
 
   # faster boot
   systemd.services.NetworkManager-wait-online.enable = false;
   services.samba.enableNmbd = false;
+
+  # services.postgresql = {
+  #   enable = true;
+  #   ensureDatabases = [ "faraday" ];
+  #   ensureUsers = [{
+  #     name = "enno";
+  #     ensurePermissions."DATABASE faraday" = "ALL PRIVILEGES";
+  #   }];
+  # };
 }
