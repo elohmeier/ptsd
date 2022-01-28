@@ -146,6 +146,79 @@
             # ];
           };
 
+          rescue = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ./2configs/profiles/minimal.nix
+              ./2configs/hw/ws2019/kernel.nix
+              ({ config, lib, pkgs, ... }: {
+                console.keyMap = "de-latin1";
+                i18n.defaultLocale = "en_US.UTF-8";
+                i18n.supportedLocales = [ "en_US.UTF-8/UTF-8" ];
+                environment.defaultPackages = [ ];
+                boot.enableContainers = false;
+                system.build.squashfsStore = pkgs.callPackage "${nixpkgs}/nixos/lib/make-squashfs.nix" {
+                  storeContents = [ config.system.build.toplevel ];
+                  comp = "xz -Xdict-size 100%";
+                };
+                system.build.update-rescue =
+                  let
+                    bootcfg = pkgs.writeText "rescue.conf" ''
+                      title rescue
+                      linux /efi/rescue/bzImage
+                      initrd /efi/rescue/initrd
+                      options init=${config.system.build.toplevel}/init ${toString config.boot.kernelParams}
+                    '';
+                  in
+                  pkgs.writeShellScriptBin "update-rescue" ''
+                    echo updating rescue image
+                    cp ${config.system.build.squashfsStore} /boot/rescue.squashfs
+                    cp ${config.system.build.initialRamdisk}/initrd /boot/EFI/rescue/initrd
+                    cp ${config.system.build.kernel}/bzImage /boot/EFI/rescue/bzImage
+                    cp ${bootcfg} /boot/loader/entries/rescue.conf
+                  '';
+                fileSystems = {
+                  "/" = {
+                    fsType = "tmpfs";
+                    options = [ "mode=0755" ];
+                  };
+                  "/efi" = {
+                    device = "/dev/disk/by-id/nvme-Force_MP600_192482300001285612C9-part1";
+                    neededForBoot = true;
+                    noCheck = true;
+                  };
+                  "/nix/.ro-store" = {
+                    fsType = "squashfs";
+                    device = "/efi/rescue.squashfs";
+                    options = [ "loop" ];
+                    neededForBoot = true;
+                  };
+                  "/nix/.rw-store" = {
+                    fsType = "tmpfs";
+                    options = [ "mode=0755" ];
+                    neededForBoot = true;
+                  };
+                  "/nix/store" = {
+                    fsType = "overlay";
+                    device = "overlay";
+                    options =
+                      [
+                        "lowerdir=/nix/.ro-store"
+                        "upperdir=/nix/.rw-store/store"
+                        "workdir=/nix/.rw-store/work"
+                      ];
+                    depends = [
+                      "/nix/.ro-store"
+                      "/nix/.rw-store/store"
+                      "/nix/.rw-store/work"
+                    ];
+                  };
+                };
+                boot.loader.grub.enable = false;
+              })
+            ];
+          };
+
           apu2 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [

@@ -6,7 +6,7 @@ in
 {
   imports = [
     ./config.nix
-    ../../2configs/hw/ws2019.nix
+    ../../2configs/hw/ws2019
   ];
 
   system.stateVersion = "19.09";
