@@ -66,8 +66,10 @@ in
   };
 
   ptsd.secrets.files."loki.htpasswd" = {
-    dependants = [ "loki.service" ];
+    dependants = [ "traefik.service" ];
+    owner = "traefik";
   };
+  users.groups.keys.members = [ "traefik" ];
 
   ptsd.nwtraefik = {
     entryPoints = {
