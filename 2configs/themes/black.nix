@@ -124,9 +124,7 @@ in
             };
           };
 
-        extraConfig = ''
-          output "*" bg /home/enno/Pocket/P1080645.jpg fill
-        '';
+        config.output."*".bg = "/home/enno/Pocket/P1080645.jpg fill";
       };
       gtk = {
         theme = {
