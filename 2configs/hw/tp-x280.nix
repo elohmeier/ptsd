@@ -64,18 +64,20 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  # intel-compute-runtime replaces intel-ocl for newer GPU generations
+  # see https://github.com/intel/compute-runtime#supported-platforms
   hardware.opengl = {
     enable = true;
     extraPackages = with pkgs; [
-      vaapiIntel
-      libvdpau-va-gl
-      vaapiVdpau
-      intel-ocl
       intel-compute-runtime
+      libvdpau-va-gl
+      vaapiIntel
+      vaapiVdpau
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [
-      vaapiIntel
+      # intel-compute-runtime  # not available for i686
       libvdpau-va-gl
+      vaapiIntel
       vaapiVdpau
     ];
   };

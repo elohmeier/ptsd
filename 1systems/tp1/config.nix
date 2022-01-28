@@ -158,8 +158,8 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-   # run-kali-vm
-   # run-win-vm
+    # run-kali-vm
+    # run-win-vm
     powertop
     samba
     home-manager
