@@ -46,8 +46,8 @@ in
         '';
       in
       {
-        extraCommands = forwardSipToFritzbox "A";
-        extraStopCommands = forwardSipToFritzbox "D";
+        # extraCommands = forwardSipToFritzbox "A";
+        # extraStopCommands = forwardSipToFritzbox "D";
 
         interfaces.br0 = {
           allowedTCPPorts = [
@@ -56,6 +56,7 @@ in
           ];
           allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
           allowedUDPPorts = [ 5060 ]; # SIP
+          allowedUDPPortRanges = [{ from = config.services.siproxd.rtpPortLow; to = config.services.siproxd.rtpPortHigh; }];
         };
 
         allowedTCPPorts = [
@@ -63,6 +64,16 @@ in
         ];
       };
   };
+
+  services.siproxd = {
+    enable = true;
+    ifInbound = "br0";
+    ifOutbound = "dlrgvpn";
+    hostsAllowReg = [ "192.168.168.1/32" ];
+    hostsAllowSip = [ "192.168.168.1/32" ];
+  };
+  users.users.siproxyd.group = "siproxyd";
+  users.groups.siproxyd = {};
 
   systemd.network.networks = builtins.listToAttrs (
     map

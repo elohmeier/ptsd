@@ -27,7 +27,7 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [ htop vim ];
+  environment.systemPackages = with pkgs; [ htop vim tcpdump ];
   ptsd.neovim.enable = false;
 
   # TODO: prometheus-migrate
