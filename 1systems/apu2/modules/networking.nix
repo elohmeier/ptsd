@@ -73,7 +73,7 @@ in
     hostsAllowSip = [ "192.168.168.1/32" ];
   };
   users.users.siproxyd.group = "siproxyd";
-  users.groups.siproxyd = {};
+  users.groups.siproxyd = { };
 
   systemd.network.networks = builtins.listToAttrs (
     map
