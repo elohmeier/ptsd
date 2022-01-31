@@ -65,11 +65,7 @@ in
     };
   };
 
-  ptsd.secrets.files."loki.htpasswd" = {
-    dependants = [ "traefik.service" ];
-    owner = "traefik";
-  };
-  users.groups.keys.members = [ "traefik" ];
+  systemd.services.traefik.serviceConfig.LoadCredential = "loki.htpasswd:/var/src/secrets/loki.htpasswd";
 
   ptsd.nwtraefik = {
     entryPoints = {
@@ -79,7 +75,7 @@ in
     };
     middlewares = {
       loki-auth.basicAuth = {
-        usersFile = config.ptsd.secrets.files."loki.htpasswd".path;
+        usersFile = "/run/credentials/traefik.service/loki.htpasswd";
         realm = "loki";
       };
     };
