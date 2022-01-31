@@ -32,9 +32,10 @@ in
       workgroup = WORKGROUP
       server string = ${config.networking.hostName}
       netbios name = ${config.networking.hostName}
-      hosts allow = ${virshNatIpPrefix}.0/24 # virshNat network
-      hosts deny = 0.0.0.0/0
     '';
+    # hosts allow = ${virshNatIpPrefix}.0/24 # virshNat network
+    # hosts deny = 0.0.0.0/0
+
     shares = {
       home = {
         path = "/home/enno";

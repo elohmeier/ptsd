@@ -196,6 +196,25 @@ in
   systemd.services.NetworkManager-wait-online.enable = false;
   services.samba.enableNmbd = false;
 
+  services.samba.shares = {
+    scans = {
+      path = "/home/enno/Scans";
+      browseable = "no";
+      "read only" = "no";
+      "guest ok" = "no";
+      "force group" = "users";
+      "force user" = "enno";
+    };
+  };
+
+  # Samba
+  networking.firewall.interfaces."wlan0".allowedTCPPorts = [ 445 139 ];
+
+  users = {
+    users.scanner = { group = "scanner"; isSystemUser = true; };
+    groups.scanner = { };
+  };
+
   # services.postgresql = {
   #   enable = true;
   #   ensureDatabases = [ "faraday" ];
