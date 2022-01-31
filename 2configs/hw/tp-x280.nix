@@ -73,6 +73,7 @@
       libvdpau-va-gl
       vaapiIntel
       vaapiVdpau
+      intel-media-driver
     ];
     extraPackages32 = with pkgs.pkgsi686Linux; [
       # intel-compute-runtime  # not available for i686
