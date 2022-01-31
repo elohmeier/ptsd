@@ -258,12 +258,6 @@ in
 
   services.fail2ban.enable = true;
 
-  ptsd.fraamdb = {
-    enable = true;
-    domain = "db.fraam.de";
-    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-  };
-
   programs.mosh.enable = true;
 
   services.nginx = {

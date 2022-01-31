@@ -161,6 +161,26 @@
         "type": "github"
       }
     },
+    "fraamdb": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1643640294,
+        "narHash": "sha256-/8mk28E8TG500eu39d6vZsF2N3P2uoqMHKXO4LY+WVM=",
+        "ref": "master",
+        "rev": "b3921f506e104777ecd3617478ad81014f74e07e",
+        "revCount": 205,
+        "type": "git",
+        "url": "file:///home/enno/repos/fraamdb"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:///home/enno/repos/fraamdb"
+      }
+    },
     "frix": {
       "inputs": {
         "flake-utils": [
@@ -472,6 +492,7 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
+        "fraamdb": "fraamdb",
         "frix": "frix",
         "home-manager": "home-manager",
         "mobile-nixos": "mobile-nixos",
