@@ -223,7 +223,6 @@
     hunspellDicts.en-gb-large
     hunspellDicts.en-us-large
     mumble
-    noisetorch
     tg
     tdesktop
     (drawio.overrideAttrs (oldAttrs: {
@@ -292,4 +291,6 @@
     #   } ../4scripts/kirbi2hashcat.py)
 
   ];
+
+  programs.noisetorch.enable = true;
 }
