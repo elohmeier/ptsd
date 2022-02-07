@@ -13,6 +13,7 @@ in
     la = "exa -al";
     ll = "exa -l";
     ls = "exa";
+    tree = "exa --tree";
   };
 
   environment.systemPackages = with pkgs; [
@@ -30,7 +31,6 @@ in
     ripgrep
     # telegram-sh
     tmux
-    tree
     (writers.writePython3Bin "macos-fix-filefoldernames" { } ../4scripts/macos-fix-filefoldernames.py)
   ];
 
