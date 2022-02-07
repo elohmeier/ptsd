@@ -50,6 +50,7 @@ in
       federation_domain_whitelist:
         - ${serverName}
         - matrix.org
+        - fraam.de
     '';
   };
 
