@@ -35,6 +35,7 @@ makeConf() {
   ];
   environment.systemPackages = with pkgs; [ foot.terminfo btop ];
   boot.kernelParams = [ "mitigations=off" ]; # make linux fast again
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 }
 EOF
 
