@@ -163,4 +163,6 @@ in
       echo "please reboot"
     fi
   '';
+
+  boot.loader.systemd-boot.editor = lib.mkDefault false;
 }
