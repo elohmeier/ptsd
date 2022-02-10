@@ -51,10 +51,10 @@ in
   hardware.opengl = {
     enable = true;
     driSupport = true;
-    driSupport32Bit = true;
+    driSupport32Bit = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
   };
 
-  programs.steam.enable = true;
+  programs.steam.enable = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
 
   nixpkgs.config = {
     packageOverrides = pkgs: {

@@ -6,6 +6,7 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-21.11;
     #nixpkgs.url = "/home/enno/repos/nixpkgs";
     nixpkgs-master.url = github:NixOS/nixpkgs/master;
+    nixpkgs-local.url = "/home/enno/repos/nixpkgs";
     home-manager.url = github:nix-community/home-manager/release-21.11;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
@@ -14,6 +15,7 @@
     nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
     nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
     frix.url = "git+https://git.fraam.de/fraam/frix";
+    #frix.url = "/home/enno/repos/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
     frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
     frix.inputs.flake-utils.follows = "flake-utils";
@@ -38,6 +40,7 @@
     { self
     , nixpkgs
     , nixpkgs-master
+    , nixpkgs-local
     , home-manager
     , nixos-hardware
     , flake-utils
@@ -64,14 +67,10 @@
             ({ pkgs, ... }:
               {
                 nix.nixPath = [
-                  "home-manager=${home-manager}"
                   "nixpkgs=${nixpkgs}"
                 ];
                 nixpkgs.config = {
                   allowUnfree = true;
-                  #packageOverrides = import ./5pkgs pkgs pkgs_master;
-                  #packageOverrides = import "${frix}/5pkgs" pkgs pkgs_master;
-                  #packageOverrides = super: { } // (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
                   packageOverrides = pkgOverrides pkgs;
                 };
                 nixpkgs.overlays = [ nur.overlay ];
@@ -81,6 +80,7 @@
             "${frix}"
             {
               nix.nixPath = [
+                "home-manager=${home-manager}"
                 "nixpkgs-master=${nixpkgs-master}"
               ];
             }
@@ -89,7 +89,10 @@
               {
                 home-manager.useGlobalPkgs = true;
                 home-manager.users.mainUser = { ... }: {
-                  imports = [ nix-doom-emacs.hmModule ];
+                  imports = [
+                    nix-doom-emacs.hmModule
+                    ./3modules/home
+                  ];
                 };
               })
           ];
@@ -404,6 +407,23 @@
                 users.users.mainUser.password = "nixos";
                 users.users.root.password = "nixos";
                 ptsd.secrets.enable = false;
+              })
+            ];
+          };
+
+          pine2 = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ desktopModules ++ [
+              ./1systems/pine2/physical.nix
+            ];
+          };
+
+          pine2_cross = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = [
+              ./1systems/pine2/physical.nix
+              ({ lib, ... }: {
+                nixpkgs.crossSystem = lib.systems.examples.aarch64-multiplatform;
               })
             ];
           };

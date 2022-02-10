@@ -174,7 +174,7 @@ self: pkgs_master: super:
       pyxlsb
       psycopg2
       faker
-      finance-dl
+      netifaces
     ]
   );
 

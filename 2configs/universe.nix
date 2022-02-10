@@ -336,7 +336,7 @@
     pine1 = {
       nets = {
         nwvpn = {
-          ip4.addr = "191.18.19.54";
+          ip4.addr = "191.18.19.55";
           aliases = [
             "pine1.nw"
           ];
@@ -347,6 +347,21 @@
       borg.quota = "10G";
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDtRR7MYLLZ+NWxnd7gqUot8SH1PN+qGb/LqaIWvPsjH ";
       syncthing.id = "DB64C44-HK2EDBV-5UNZNZ3-77UCGRZ-GJNRNU7-3OAEHEI-GC435NT-NVR76Q3";
+    };
+
+    pine2 = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.56";
+          aliases = [
+            "pine2.nw"
+          ];
+          wireguard.pubkey = "kIsdr5zQZZ4/a57L34usMp7iDerpFnhso1iJZULYeB0=";
+        };
+      };
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII3m3FVgXDnF1tvbxxjHUbuMUWC9apNz9+ik/dFeRHGW ";
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIe64IM1iczrndEOxXnS3u2wLK+PL/BxYfLzNca8uEc/ ";
+      syncthing.id = "6PLUM7O-R2WRQ2B-7VXR3U2-MTFMAD2-4W64UYE-D6LOYA6-VO53HK2-MEYKMQH";
     };
 
     rpi1 = {

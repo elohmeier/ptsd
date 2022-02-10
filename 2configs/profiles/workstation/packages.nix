@@ -20,7 +20,6 @@
     sqlfluff
     dbeaver
     clinfo
-    discord
     mupdf
     libsixel
     exa
@@ -153,18 +152,9 @@
     python3Packages.graphtage
     clang
     nix-prefetch-git
-    jetbrains.datagrip
+    #jetbrains.datagrip
 
-    # *** fpv ***
-    betaflight-configurator
 
-    # *** games ***
-    epsxe
-    mupen64plus
-    # wine # 32-bit only
-    wineWowPackages.stable # 32-bit & 64-bit
-    winetricks
-    #ppsspp # TODO: wait for https://github.com/NixOS/nixpkgs/pull/124162
 
     # *** kvm ***
     virtviewer
@@ -178,12 +168,10 @@
     ghostscript
     ffmpeg-normalize
     youtube-dl
-    spotify
     vlc
     #mediathekview
     obs-studio
     v4l-utils
-    easyeffects
     wf-recorder
     art
     exiftool
@@ -209,12 +197,9 @@
     libreoffice-fresh
     inkscape
     gimp
-    portfolio
     shrinkpdf
     ptsd-python3.pkgs.davphonebook
-    teams
     element-desktop
-    signal-desktop
     aspell
     aspellDicts.de
     aspellDicts.en
@@ -226,26 +211,6 @@
     mumble
     tg
     tdesktop
-    (drawio.overrideAttrs (oldAttrs: {
-      # fix wrong file handling in default desktop file for file manager integration
-      patchPhase = ''
-        substituteInPlace usr/share/applications/drawio.desktop \
-          --replace 'drawio %U' 'drawio %f'
-      '';
-    }))
-
-    (writeTextFile {
-      name = "drawio-mimetype";
-      text = ''
-        <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
-          <mime-type type="application/vnd.jgraph.mxfile">
-            <comment>draw.io Diagram</comment>
-            <glob pattern="*.drawio" case-sensitive="true"/>
-          </mime-type>
-        </mime-info>
-      '';
-      destination = "/share/mime/packages/drawio.xml";
-    })
     pdfduplex
     pdf2svg
 
@@ -291,6 +256,49 @@
     #     flakeIgnore = [ "E501" "W503" ]; # line length (black)
     #   } ../4scripts/kirbi2hashcat.py)
 
+  ] ++ lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
+
+    # *** fpv ***
+    betaflight-configurator
+
+    discord
+    spotify
+    easyeffects
+
+    # *** games ***
+    # wine # 32-bit only
+    wineWowPackages.stable # 32-bit & 64-bit
+    winetricks
+    #ppsspp # TODO: wait for https://github.com/NixOS/nixpkgs/pull/124162
+    epsxe
+    mupen64plus
+
+
+
+    portfolio
+    teams
+    signal-desktop
+
+    (drawio.overrideAttrs (oldAttrs: {
+      # fix wrong file handling in default desktop file for file manager integration
+      patchPhase = ''
+        substituteInPlace usr/share/applications/drawio.desktop \
+          --replace 'drawio %U' 'drawio %f'
+      '';
+    }))
+
+    (writeTextFile {
+      name = "drawio-mimetype";
+      text = ''
+        <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+          <mime-type type="application/vnd.jgraph.mxfile">
+            <comment>draw.io Diagram</comment>
+            <glob pattern="*.drawio" case-sensitive="true"/>
+          </mime-type>
+        </mime-info>
+      '';
+      destination = "/share/mime/packages/drawio.xml";
+    })
   ];
 
   programs.noisetorch.enable = true;

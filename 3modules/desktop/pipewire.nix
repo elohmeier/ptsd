@@ -21,7 +21,7 @@ in
   environment.systemPackages = with pkgs; optionals cfg.audio.enable [
     pamixer
     playerctl
-    cadence
+    #cadence
     qjackctl
     config.hardware.pulseaudio.package
     pavucontrol
