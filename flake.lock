@@ -197,14 +197,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1644398574,
-        "narHash": "sha256-g06LvnaofM7p2LkdXmQtHu7S9C723sJo0LfJpo7/2dM=",
+        "lastModified": 1644510342,
+        "narHash": "sha256-7VhbSvyY7vWQwC0Uff5h5dTYtoI5rnxSde9jdYUxG3A=",
+        "ref": "master",
+        "rev": "98eb4349883a639bcea042a23db6acb7895defda",
+        "revCount": 192,
         "type": "git",
-        "url": "file:///home/enno/repos/frix"
+        "url": "https://git.fraam.de/fraam/frix"
       },
       "original": {
         "type": "git",
-        "url": "file:///home/enno/repos/frix"
+        "url": "https://git.fraam.de/fraam/frix"
       }
     },
     "home-manager": {
