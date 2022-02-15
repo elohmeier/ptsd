@@ -14,9 +14,7 @@
   services.tlp.enable = true; # TLP Linux Advanced Power Management
   services.fwupd.enable = true;
 
-  services.xserver = {
-    videoDrivers = [ "modesetting" ];
-  };
+  services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
 
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "hid_microsoft" ];
