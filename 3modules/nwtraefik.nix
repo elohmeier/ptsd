@@ -118,7 +118,7 @@ let
           browserXSSFilter = true;
           contentSecurityPolicy = cfg.contentSecurityPolicy;
           referrerPolicy = "strict-origin";
-        };
+        } // cfg.extraSecurityHeaders;
 
         "${mwHttpsRedirect}".redirectScheme = {
           permanent = true;
@@ -263,7 +263,7 @@ in
 
       logLevel = mkOption {
         type = types.str;
-        default = "ERROR";
+        default = "WARN";
       };
 
       groups = mkOption {
@@ -314,6 +314,11 @@ in
       contentSecurityPolicy = mkOption {
         default = "frame-ancestors 'self' https://*.nerdworks.de";
         type = types.str;
+      };
+
+      extraSecurityHeaders = mkOption {
+        default = { };
+        type = types.attrs;
       };
 
       extraDynamicConfig = mkOption {

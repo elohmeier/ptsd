@@ -70,8 +70,11 @@ in
 
   ptsd.nwtraefik = {
     enable = true;
-    #logLevel = "DEBUG";
+    logLevel = "WARN";
     contentSecurityPolicy = "frame-ancestors 'self' https://*.fraam.de";
+    extraSecurityHeaders = {
+      accessControlAllowOriginList = [ "https://chat.fraam.de" ];
+    };
     certificates =
       let
         crt = domain: {
@@ -127,7 +130,7 @@ in
       }
       {
         name = "nginx-wellknown-matrix";
-        rule = "PathPrefix(`/.well-known/matrix`)";
+        rule = "PathPrefix(`/.well-known/matrix`) && Host(`fraam.de`)";
         priority = 9999; # high-priority for router
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
