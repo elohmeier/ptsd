@@ -114,6 +114,7 @@ in
               ./baresip.nix
               ./waybar.nix
               ./xdg.nix
+              ../../2configs/home/fish.nix
             ];
 
             programs.foot = {
@@ -128,7 +129,7 @@ in
             };
 
             home.keyboard = {
-              layout = "de";
+              layout = lib.mkDefault "de";
               variant = "nodeadkeys";
             };
 

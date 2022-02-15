@@ -19,6 +19,8 @@ in
             package = pkgs.gnome3.adwaita-icon-theme;
           };
         };
+
+        dconf.enable = true;
       };
 
     services.dbus.packages = with pkgs; [ gnome3.dconf ];

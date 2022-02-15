@@ -12,7 +12,7 @@ in
       enable = true;
       desktopManager.xterm.enable = false;
       displayManager.defaultSession = "none+i3";
-      layout = "de";
+      layout = lib.mkDefault "de";
       libinput.enable = true;
       libinput.mouse.naturalScrolling = true;
       windowManager.i3.enable = true;

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 {
   programs.vscode = {
-    enable = true;
+    enable = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
     package = pkgs.vscode;
     userSettings = {
       "[nix]" = {

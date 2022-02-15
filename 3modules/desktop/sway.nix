@@ -79,7 +79,7 @@ in
               input = {
                 "*" = {
                   natural_scroll = "enabled";
-                  xkb_layout = "de";
+                  xkb_layout = lib.mkDefault "de";
                   xkb_numlock = if cfg.numlockAuto then "enabled" else "disabled";
                   repeat_delay = "200";
                   repeat_rate = "45";
