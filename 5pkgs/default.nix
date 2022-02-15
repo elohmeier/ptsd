@@ -222,4 +222,7 @@ self: pkgs_master: super:
   btop = pkgs_master.btop;
   mepo = pkgs_master.mepo;
   nix-top = pkgs_master.nix-top;
+
+  sway = pkgs_master.sway;
+  wlroots = pkgs_master.wlroots;
 }

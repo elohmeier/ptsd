@@ -22,7 +22,7 @@ in
       if status is-login
         if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
           # pass sway log output to journald
-          exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --my-next-gpu-wont-be-nvidia
+          exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --unsupported-gpu
         end
       end
     '';
