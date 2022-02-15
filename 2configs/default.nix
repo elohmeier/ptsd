@@ -102,16 +102,16 @@ in
 
   ptsd.wireguard.networks = {
     dlrgvpn = {
-      # publicKey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
-      publicKey = "DXmzQWZjP7EeW9P6lysxpEVi3Cq6zfqAHg2od3bCZ20=";
+      publicKey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
+      # publicKey = "DXmzQWZjP7EeW9P6lysxpEVi3Cq6zfqAHg2od3bCZ20="; # avm labor vpn
       client = {
         #endpoint = "hvrhukr39ruezms4.myfritz.net:55557"; # old 7490
-        #endpoint = "letvjkxepuccuto1.myfritz.net:55557"; # new 7590
-        endpoint = "letvjkxepuccuto1.myfritz.net:51551"; # avm labor vpn
+        endpoint = "letvjkxepuccuto1.myfritz.net:55557"; # new 7590
+        # endpoint = "letvjkxepuccuto1.myfritz.net:51551"; # avm labor vpn
         reresolveDns = true;
-        # allowedIPs = [ "191.18.21.0/24" ];
+        allowedIPs = [ "191.18.21.0/24" ];
       };
-      # server.listenPort = 55557;
+      server.listenPort = 55557; # on rpi2
     };
 
     fraam_buero_vpn = {

@@ -56,12 +56,12 @@
         };
 
         dlrgvpn = {
-          #ip4.addr = "191.18.21.34";
-          ip4.addr = "192.168.178.201"; # avm integrated wireguard
-          #wireguard = {
-          #pubkey = "eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=";
-          #networks = [ "192.168.168.0/24" ];
-          #};
+          ip4.addr = "191.18.21.34";
+          # ip4.addr = "192.168.178.201"; # avm integrated wireguard
+          wireguard = {
+            pubkey = "eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=";
+            networks = [ "192.168.168.0/24" ];
+          };
         };
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;

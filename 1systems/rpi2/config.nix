@@ -6,9 +6,7 @@ in
   imports = [
     ../..
     ../../2configs
-    ../../2configs/hardened.nix
     ../../2configs/nwhost-mini.nix
-
     ../../2configs/prometheus/node.nix
   ];
 
@@ -17,7 +15,7 @@ in
     networks.dlrgvpn = {
       enable = true;
       ip = universe.hosts."${config.networking.hostName}".nets.dlrgvpn.ip4.addr;
-      natForwardIf = "eth0"; # not sure if really needed (is it routing or NATing?), kept for backward compatibility
+      natForwardIf = "eth0";
       server.enable = true;
       routes = [
         { routeConfig = { Destination = "192.168.168.0/24"; }; }
@@ -25,17 +23,28 @@ in
     };
   };
 
-  ptsd.nwbackup = {
-    enable = true;
-  };
-
-  # fix often full /boot directory
-  boot.loader.grub.configurationLimit = 2;
+  ptsd.nwacme.enable = false;
+  ptsd.nwbackup.enable = false;
+  ptsd.neovim.enable = false;
+  ptsd.tor-ssh.enable = false;
 
   networking = {
     useNetworkd = true;
     useDHCP = false;
     hostName = "rpi2";
     interfaces.eth0.useDHCP = true;
+    wireless.enable = true;
+  };
+
+  systemd.network.networks."40-eth0" = {
+    matchConfig = {
+      Name = "eth0";
+    };
+    linkConfig = {
+      RequiredForOnline = "no";
+    };
+    networkConfig = {
+      ConfigureWithoutCarrier = true;
+    };
   };
 }
