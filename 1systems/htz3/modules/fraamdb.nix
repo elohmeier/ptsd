@@ -10,6 +10,7 @@ in
     bind = "127.0.0.1:${toString config.ptsd.ports.fraamdb}";
     envFile = "/var/src/secrets/fraamdb.env";
     googleJson = "/var/src/secrets/google-service-fraamdb.json";
+    debug = false;
   };
 
   ptsd.nwtraefik.services = [
