@@ -223,7 +223,6 @@
       type = "Application";
     })
 
-    wkhtmltopdf-qt4
 
     # *** infosec ***
     # see also https://jjjollyjim.github.io/arewehackersyet/index.html
@@ -299,6 +298,8 @@
       '';
       destination = "/share/mime/packages/drawio.xml";
     })
+
+    wkhtmltopdf-qt4
   ];
 
   programs.noisetorch.enable = true;
