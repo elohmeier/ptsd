@@ -71,6 +71,9 @@
                 ];
                 nixpkgs.config = {
                   allowUnfree = true;
+                  #packageOverrides = import ./5pkgs pkgs pkgs_master;
+                  #packageOverrides = import "${frix}/5pkgs" pkgs pkgs_master;
+                  #packageOverrides = super: { } // (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
                   packageOverrides = pkgOverrides pkgs;
                 };
                 nixpkgs.overlays = [ nur.overlay ];
@@ -78,6 +81,7 @@
           ];
           desktopModules = [
             "${frix}"
+            ./2configs/users/enno.nix
             {
               nix.nixPath = [
                 "home-manager=${home-manager}"
