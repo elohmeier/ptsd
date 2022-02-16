@@ -1,7 +1,7 @@
 #!/usr/bin/env nix-shell
 #! nix-shell -i bash -p nodePackages.node2nix
 
-release=211018-e200f322
+release=220121-2b4c8e1f
 
 # Download package.json and package-lock.json from the release
 curl https://raw.githubusercontent.com/photoprism/photoprism/${release}/frontend/package.json -o package.json

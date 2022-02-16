@@ -2,13 +2,13 @@
 
 let
   pname = "photoprism";
-  version = "211018-e200f322";
+  version = "220121-2b4c8e1f"; # remember to update generate-dependencies.sh and run it
 
   src = fetchFromGitHub {
     owner = pname;
     repo = pname;
     rev = version;
-    sha256 = "sha256-24yQlBtiMfdfThQTMGopfq0xfPm5WArIy5iCTuncaKA=";
+    sha256 = "sha256-N8PhBQRFlMFbzmNFk77rMofMFgY7XNG+DRWUyhs2Pjw=";
   };
 
   nodePackages = import ./node-composition.nix {
@@ -46,22 +46,26 @@ in
 buildGoModule rec {
   inherit pname version src;
 
+  postPatch = ''
+    rm -r docker
+  '';
+
   srcNsfw = fetchurl {
     url = "https://dl.photoprism.org/tensorflow/nsfw.zip";
-    sha256 = "sha256-615dIuN5YcMZKkdX7/+IP3e8mJwO/Oq7E5XglZ2WbxQ=";
+    sha256 = "sha256-615dIuN5YcMZKkdX7/+IP3e8mJwO/Oq7E5XglZ2WbxQ="; # up-to-date as of 2022-02-16
   };
 
   srcNasnet = fetchurl {
     url = "https://dl.photoprism.org/tensorflow/nasnet.zip";
-    sha256 = "sha256-oOGtjVpaD/nvxLPtiYmL8AhWPuNsrNDIBKOE+PxmFYg=";
+    sha256 = "sha256-oOGtjVpaD/nvxLPtiYmL8AhWPuNsrNDIBKOE+PxmFYg="; # up-to-date as of 2022-02-16
   };
 
   srcFacenet = fetchurl {
     url = "https://dl.photoprism.org/tensorflow/facenet.zip";
-    sha256 = "sha256-v5rglF0qxTrD2ycIIWLSud2luixWTA5MT1OfMfi2cK8=";
+    sha256 = "sha256-v5rglF0qxTrD2ycIIWLSud2luixWTA5MT1OfMfi2cK8="; # up-to-date as of 2022-02-16
   };
 
-  vendorSha256 = "sha256-Gp3Eea1de6CjYFz6/S/KCJF5GqKTXST/GZ3AvmnSrWo=";
+  vendorSha256 = "sha256-OLEoBLohZtHAQd2JUXX0jH2M0QBoB/0POoeOoChyYwY=";
 
   buildInputs = [
     # nas1 supports SSE4.2 (long build)
