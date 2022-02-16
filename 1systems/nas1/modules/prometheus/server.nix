@@ -120,6 +120,7 @@ in
       (nwJob "htz3" "gitlab" "node" true)
       (nwJob "htz3" "wpjail" "node" true)
       (nwJob "nas1" "nas1" "node" true)
+      (nwJob "rpi2" "rpi2" "node" true)
       (nwJob "ws1" "ws1" "node" false)
       (nwJob "ws2" "ws2" "node" false)
       (nwJob "tp1" "tp1" "node" false)
