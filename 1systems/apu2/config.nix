@@ -4,7 +4,6 @@
   imports = [
     ../..
     ../../2configs
-    # ../../2configs/hardened.nix # prevents DNAT `--to` forwarding, therefore disabled
     ../../2configs/nwhost-mini.nix
     ../../2configs/profiles/minimal.nix
     ../../2configs/prometheus/node.nix
