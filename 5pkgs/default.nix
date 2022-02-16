@@ -122,7 +122,7 @@ self: pkgs_master: super:
 
   ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto requests ]);
 
-  ptsd-python3 = self.python3.override {
+  ptsd-python3 = pkgs_master.python3.override {
     packageOverrides = self: super: rec {
       black = super.black.overrideAttrs (old: {
         propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ];
@@ -134,6 +134,7 @@ self: pkgs_master: super:
       neo4j-driver = self.callPackage ../5pkgs/neo4j-driver { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
       orgparse = self.callPackage ../5pkgs/orgparse { };
+      postgrest-py = self.callPackage ../5pkgs/postgrest-py { };
       pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
       selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
     };
@@ -175,6 +176,13 @@ self: pkgs_master: super:
       psycopg2
       faker
       netifaces
+
+      # faraday-cli frix port
+      arrow
+      cmd2
+      faraday-plugins
+      termcolor
+      postgrest-py
     ]
   );
 
