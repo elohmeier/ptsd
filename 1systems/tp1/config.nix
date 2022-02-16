@@ -185,10 +185,10 @@ in
 
     nwvpn = {
       # SIP
-      client.allowedIPs = [ "192.168.178.1/32" ];
-      routes = [
-        { routeConfig = { Destination = "192.168.178.1/32"; }; }
-      ];
+      #client.allowedIPs = [ "192.168.178.1/32" ];
+      #routes = [
+      #  { routeConfig = { Destination = "192.168.178.1/32"; }; }
+      #];
     };
   };
 
