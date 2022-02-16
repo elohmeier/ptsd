@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ config, lib, pkgs,nixosConfig, ... }:
 
 {
   programs.git = {
-    enable = !config.ptsd.minimal;
+    enable = !nixosConfig.ptsd.minimal;
     package = pkgs.git;
     userName = "Enno Richter";
     userEmail = "enno@nerdworks.de";

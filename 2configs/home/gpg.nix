@@ -1,14 +1,14 @@
-{ config, pkgs, ... }:
+{ config,lib, pkgs,nixosConfig, ... }:
 
 {
 
   programs.gpg = {
-    enable = !config.ptsd.minimal;
+    enable = !nixosConfig.ptsd.minimal;
     settings.throw-keyids = true;
   };
 
   services.gpg-agent = {
-    enable = !config.ptsd.minimal;
+    enable = !nixosConfig.ptsd.minimal;
     enableSshSupport = true;
     enableExtraSocket = true;
     extraConfig = ''

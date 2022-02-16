@@ -174,7 +174,7 @@ let
   };
 in
 {
-  programs.waybar = mkIf (!cfg.i3compat && !config.ptsd.bootstrap) {
+  programs.waybar = mkIf (!cfg.i3compat && !nixosConfig.ptsd.bootstrap) {
     enable = true;
     settings =
       if cfg.waybar.primaryOutput == "" then [

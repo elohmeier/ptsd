@@ -19,10 +19,10 @@ in
         runAsRoot = false;
       };
     };
-    virtualbox.host = {
-      enable = true;
-      enableExtensionPack = true;
-    };
+    #    virtualbox.host =  {
+    #      enable = true;
+    #      enableExtensionPack = true;
+    #    };
   };
 
   services.samba = {

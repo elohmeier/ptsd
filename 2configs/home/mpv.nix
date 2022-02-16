@@ -1,8 +1,8 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, nixosConfig, ... }:
 
 {
   programs.mpv = {
-    enable = !config.ptsd.minimal;
+    enable = !nixosConfig.ptsd.minimal;
     config = {
       hwdec = "auto-safe";
       vo = "gpu";

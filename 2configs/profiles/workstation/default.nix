@@ -13,6 +13,15 @@ in
     ../../users/enno.nix
   ];
 
+  # services.postgresql = {
+  #   enable = true;
+  #   ensureDatabases = [ "faraday" ];
+  #   ensureUsers = [{
+  #     name = "enno";
+  #     ensurePermissions."DATABASE faraday" = "ALL PRIVILEGES";
+  #   }];
+  # };
+
   nix.gc.automatic = false;
 
   specialisation = mkIf (!config.ptsd.minimal) {
@@ -90,13 +99,13 @@ in
       ];
 
       ptsd.firefox = {
-        enable = !config.ptsd.minimal;
+        enable = !nixosConfig.ptsd.minimal;
       };
 
       home.stateVersion = lib.mkDefault "20.09";
 
       programs.zathura = {
-        enable = !config.ptsd.minimal;
+        enable = !nixosConfig.ptsd.minimal;
         extraConfig =
           let
             cmd = desktopCfg.term.execFloating "${pkgs.file-renamer} \"%\"" "";
@@ -107,7 +116,7 @@ in
       };
 
       ptsd.pcmanfm = {
-        enable = !config.ptsd.minimal;
+        enable = !nixosConfig.ptsd.minimal;
         term = desktopCfg.term.binary;
 
         actions = mkIf (!nixosConfig.ptsd.minimal) {
@@ -153,13 +162,14 @@ in
       home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
 
       programs.doom-emacs = {
-        enable = !config.ptsd.minimal;
+        enable = !nixosConfig.ptsd.minimal;
         doomPrivateDir = ../../../src/doom.d;
       };
     };
 
   ptsd.desktop.keybindings = mkIf (!config.ptsd.minimal) {
     "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
+    "${desktopCfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
   };
 
   services.gvfs.enable = mkDefault true; # allow smb:// mounts in pcmanfm

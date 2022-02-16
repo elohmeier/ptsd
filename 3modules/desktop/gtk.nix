@@ -12,7 +12,7 @@ in
           font = {
             name = cfg.fontSans;
             size = builtins.floor cfg.fontSize;
-            package = pkgs.iosevka; # TODO: replace, pulls in i686-unsupported dependencies
+            #package = pkgs.iosevka; # TODO: replace, pulls in i686-unsupported dependencies
           };
           iconTheme = {
             name = "Adwaita";

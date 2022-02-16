@@ -7,7 +7,7 @@ in
   xdg =
     {
       mimeApps = {
-        enable = !config.ptsd.bootstrap;
+        enable = !nixosConfig.ptsd.bootstrap;
 
         # verify using `xdg-mime query default <mimetype>`
         defaultApplications = {

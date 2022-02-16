@@ -94,8 +94,6 @@ with lib;
 
   "${cfg.modifier}+Shift+Delete" = "exec ${cfg.lockCmd}";
   "${cfg.modifier}+Shift+Return" = "exec ${cfg.term.exec "" "`${cfg.cwdCmd}`"}";
-  #"${cfg.modifier}+Shift+c" = "exec codium \"`${cfg.cwdCmd}`\"";
-  "${cfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
 
   "${cfg.modifier}+Shift+w" = "exec ${cfg.term.exec "nmtui" ""}";
 

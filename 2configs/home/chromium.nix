@@ -1,6 +1,6 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs,nixosConfig, ... }: {
   programs.chromium = {
-    enable = !config.ptsd.minimal;
+    enable = !nixosConfig.ptsd.minimal;
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
       { id = "naepdomgkenhinolocfifgehidddafch"; } # browserpass
