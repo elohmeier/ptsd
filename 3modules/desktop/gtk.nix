@@ -4,7 +4,7 @@ let
   cfg = config.ptsd.desktop;
 in
 {
-  config = lib.mkIf cfg.enable {
+  config = lib.mkIf (cfg.enable && !config.ptsd.bootstrap) {
     home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
       {
         gtk = {

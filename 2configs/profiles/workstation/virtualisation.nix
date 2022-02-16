@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-
+with lib;
 let
   virshNatIpPrefix = "192.168.197"; # "XXX.XXX.XXX" without last block
   virshNatIf = "virsh-nat";
@@ -9,11 +9,11 @@ in
 
   virtualisation = {
     docker = {
-      enable = true;
+      enable = mkDefault true;
       enableOnBoot = false; # will be socket-activated
     };
     libvirtd = {
-      enable = true;
+      enable = mkDefault true;
       qemu = {
         package = pkgs.qemu_kvm;
         runAsRoot = false;
@@ -26,7 +26,7 @@ in
   };
 
   services.samba = {
-    enable = true;
+    enable = mkDefault true;
     securityType = "user";
     extraConfig = ''
       workgroup = WORKGROUP
@@ -46,7 +46,7 @@ in
     };
   };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; mkIf (!config.ptsd.minimal) [
     samba
   ];
 

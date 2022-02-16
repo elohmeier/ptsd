@@ -2,7 +2,7 @@
 
 {
   programs.git = {
-    enable = true;
+    enable = !config.ptsd.minimal;
     package = pkgs.git;
     userName = "Enno Richter";
     userEmail = "enno@nerdworks.de";

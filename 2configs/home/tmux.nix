@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }: {
 
   programs.tmux = {
-    enable = true;
+    enable = !config.ptsd.minimal;
     clock24 = true;
     extraConfig = ''
       # pane movement

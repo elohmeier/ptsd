@@ -1,6 +1,6 @@
-{ pkgs, ... }: {
+{ config, lib, pkgs, ... }: {
 
-  environment.systemPackages = with pkgs; hackertools ++ [
+  environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) (hackertools ++ [
     AusweisApp2
     nodejs # for copilot.vim
     pkgsCross.avr.buildPackages.gcc # avr-gcc
@@ -84,6 +84,8 @@
 
     bubblewrap
     nsjail
+
+    nodePackages.prettier
 
 
     # *** 3dprinting ***
@@ -223,6 +225,9 @@
       type = "Application";
     })
 
+    dbmate
+    haskellPackages.postgrest
+    shfmt
 
     # *** infosec ***
     # see also https://jjjollyjim.github.io/arewehackersyet/index.html
@@ -300,7 +305,7 @@
     })
 
     wkhtmltopdf-qt4
-  ];
+  ]);
 
-  programs.noisetorch.enable = true;
+  programs.noisetorch.enable = !config.ptsd.minimal;
 }

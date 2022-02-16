@@ -4,7 +4,7 @@ let
   cfg = config.ptsd.desktop;
 in
 {
-  config = lib.mkIf (cfg.enable && cfg.i3compat) {
+  config = lib.mkIf (cfg.enable && cfg.i3compat && !config.ptsd.bootstrap) {
 
     environment.systemPackages = with pkgs; [ arandr ];
 

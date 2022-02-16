@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }:
-
+with lib;
 let
   desktopCfg = config.ptsd.desktop;
 in
@@ -15,8 +15,10 @@ in
 
   nix.gc.automatic = false;
 
-  specialisation = {
-    i3compat.configuration = { ptsd.desktop.i3compat = true; };
+  specialisation = mkIf (!config.ptsd.minimal) {
+    i3compat.configuration = {
+      ptsd.desktop.i3compat = true;
+    };
   };
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
@@ -37,8 +39,8 @@ in
 
   nix.trustedUsers = [ "root" "enno" ];
 
-  security.pam.services.lightdm.enableGnomeKeyring = true;
-  services.gnome.gnome-keyring.enable = true;
+  # security.pam.services.lightdm.enableGnomeKeyring = true; # needed?
+  services.gnome.gnome-keyring.enable = mkDefault true;
 
   i18n = {
     defaultLocale = "en_IE.UTF-8";
@@ -46,7 +48,7 @@ in
     supportedLocales = [ "en_IE.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
   };
 
-  virtualisation.spiceUSBRedirection.enable = true;
+  virtualisation.spiceUSBRedirection.enable = mkDefault true;
 
   hardware.opengl = {
     enable = true;
@@ -73,6 +75,10 @@ in
 
   home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
     {
+      nixpkgs.config.packageOverrides = pkgs: {
+        glibcLocales = nixosConfig.i18n.glibcLocales;
+      };
+
       imports = [
         ../../home/chromium.nix
         ../../home/fish.nix
@@ -84,13 +90,13 @@ in
       ];
 
       ptsd.firefox = {
-        enable = true;
+        enable = !config.ptsd.minimal;
       };
 
       home.stateVersion = lib.mkDefault "20.09";
 
       programs.zathura = {
-        enable = true;
+        enable = !config.ptsd.minimal;
         extraConfig =
           let
             cmd = desktopCfg.term.execFloating "${pkgs.file-renamer} \"%\"" "";
@@ -101,10 +107,10 @@ in
       };
 
       ptsd.pcmanfm = {
-        enable = true;
+        enable = !config.ptsd.minimal;
         term = desktopCfg.term.binary;
 
-        actions = {
+        actions = mkIf (!nixosConfig.ptsd.minimal) {
           pdfconcat = {
             title = "Concat PDF files";
             title_de = "PDF-Dateien aneinanderhängen";
@@ -122,7 +128,7 @@ in
           };
         };
 
-        thumbnailers = {
+        thumbnailers = mkIf (!nixosConfig.ptsd.minimal) {
           imagemagick = {
             mimetypes = [ "application/pdf" "application/x-pdf" "image/pdf" ];
             # imagemagickBig needed because of ghostscript dependency
@@ -147,16 +153,16 @@ in
       home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
 
       programs.doom-emacs = {
-        enable = true;
+        enable = !config.ptsd.minimal;
         doomPrivateDir = ../../../src/doom.d;
       };
     };
 
-  ptsd.desktop.keybindings = {
+  ptsd.desktop.keybindings = mkIf (!config.ptsd.minimal) {
     "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
   };
 
-  services.gvfs.enable = true; # allow smb:// mounts in pcmanfm
+  services.gvfs.enable = mkDefault true; # allow smb:// mounts in pcmanfm
 
   # increase user watches for synchting, see
   # https://docs.syncthing.net/users/faq.html#inotify-limits

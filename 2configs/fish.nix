@@ -1,5 +1,6 @@
 { config, lib, pkgs, ... }:
 
+with lib;
 {
   programs.fish = {
     enable = true;
@@ -47,7 +48,7 @@
 
     interactiveShellInit = ''
       set -U fish_greeting
-    '' + lib.optionalString (!config.services.qemuGuest.enable) ''
+    '' + optionalString (!config.services.qemuGuest.enable) ''
       set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
       set built (readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})
       if test "$booted" != "$built"
@@ -65,7 +66,7 @@
     '';
   };
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; mkIf config.programs.fish.enable [
     fishPlugins.fzf-fish
     fzf
     zoxide

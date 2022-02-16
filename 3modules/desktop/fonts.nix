@@ -4,7 +4,7 @@ let
   cfg = config.ptsd.desktop;
 in
 {
-  fonts.fonts = with pkgs; lib.mkIf cfg.enable [
+  fonts.fonts = with pkgs; lib.mkIf (cfg.enable && !config.ptsd.bootstrap) [
     # cozette
     # iosevka # pulls in i686-incompatible dependencies
     nerdfonts

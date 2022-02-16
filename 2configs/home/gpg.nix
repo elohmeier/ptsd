@@ -3,12 +3,12 @@
 {
 
   programs.gpg = {
-    enable = true;
+    enable = !config.ptsd.minimal;
     settings.throw-keyids = true;
   };
 
   services.gpg-agent = {
-    enable = true;
+    enable = !config.ptsd.minimal;
     enableSshSupport = true;
     enableExtraSocket = true;
     extraConfig = ''

@@ -7,7 +7,7 @@ in
   xdg =
     {
       mimeApps = {
-        enable = true;
+        enable = !config.ptsd.bootstrap;
 
         # verify using `xdg-mime query default <mimetype>`
         defaultApplications = {

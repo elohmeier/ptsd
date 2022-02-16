@@ -16,7 +16,7 @@ in
     ./sway.nix
   ];
 
-  config = mkIf cfg.enable {
+  config = mkIf (cfg.enable && !config.ptsd.bootstrap) {
 
     ptsd.secrets.files."hass-cli.env" = mkIf cfg.waybar.co2 {
       owner = config.users.users.mainUser.name;
@@ -64,7 +64,7 @@ in
 
     services.dbus.packages = [ pkgs.gcr ]; # for pinentry-gnome3 for gnupg
 
-    security.polkit.enable = true;
+    security.polkit.enable = mkDefault true;
 
     environment.variables = {
       PASSWORD_STORE_DIR = "/home/enno/repos/password-store";

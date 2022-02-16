@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }: {
   programs.chromium = {
-    enable = true;
+    enable = !config.ptsd.minimal;
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin
       { id = "naepdomgkenhinolocfifgehidddafch"; } # browserpass

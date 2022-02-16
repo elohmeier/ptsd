@@ -6,12 +6,11 @@ in
 {
   hardware = {
     bluetooth = {
-      enable = cfg.bluetooth.enable;
-      hsphfpd.enable = true;
+      enable = cfg.bluetooth.enable && !config.ptsd.bootstrap;
+      hsphfpd.enable = cfg.bluetooth.enable && !config.ptsd.bootstrap;
       package = pkgs.bluezFull;
     };
   };
 
-  services.blueman.enable = cfg.bluetooth.enable;
-
+  services.blueman.enable = lib.mkDefault (cfg.bluetooth.enable && !config.ptsd.bootstrap);
 }

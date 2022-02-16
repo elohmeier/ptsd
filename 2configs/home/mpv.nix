@@ -1,8 +1,8 @@
-{ pkgs, ... }:
+{ lib, pkgs, ... }:
 
 {
   programs.mpv = {
-    enable = true;
+    enable = !config.ptsd.minimal;
     config = {
       hwdec = "auto-safe";
       vo = "gpu";

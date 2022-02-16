@@ -7,6 +7,7 @@ _:
     ./drone-server.nix
     ./fluent-bit.nix
     ./mautrix-whatsapp.nix
+    ./minimal.nix
     ./mjpg-streamer.nix
     ./monica.nix
     ./mosquitto.nix
