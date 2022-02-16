@@ -1,11 +1,16 @@
 { config, lib, pkgs, ... }:
 
 let
+  # just take the needed firmware files to reduce size
+  firmware-rockchip = pkgs.runCommand "firmware-rockchip" { } ''          
+          mkdir -p $out/lib/firmware
+          ${pkgs.rsync}/bin/rsync -av ${pkgs.firmwareLinuxNonfree}/lib/firmware/{brcm,cypress,rockchip} $out/lib/firmware/
+        '';
   firmware-bcm43 = pkgs.callPackage ./firmware-bcm43.nix { };
 in
 {
   hardware.firmware = with pkgs; [
-    firmwareLinuxNonfree
+    firmware-rockchip
     firmware-bcm43
   ];
 

@@ -94,16 +94,16 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.users.mainUser = { nixosConfig, ... }:
                   {
-                  imports = [
-                    nix-doom-emacs.hmModule
-                    ./3modules/home
-                  ];
+                    imports = [
+                      nix-doom-emacs.hmModule
+                      ./3modules/home
+                    ];
 
                     # workaround https://github.com/nix-community/home-manager/issues/2333
                     disabledModules = [ "config/i18n.nix" ];
                     home.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
                     systemd.user.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
-                };
+                  };
               })
           ];
         in
@@ -432,6 +432,16 @@
             system = "aarch64-linux";
             modules = defaultModules ++ desktopModules ++ [
               ./1systems/pine2/physical.nix
+            ];
+          };
+
+          pine2_bootstrap = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ desktopModules ++ [
+              ./1systems/pine2/physical.nix
+              {
+                ptsd.bootstrap = true;
+              }
             ];
           };
 
