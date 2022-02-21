@@ -161,10 +161,10 @@ in
       home.file.".config/nnn/plugins/pdfconcat".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfconcat;
       home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
 
-      programs.doom-emacs = {
-        enable = !nixosConfig.ptsd.minimal;
-        doomPrivateDir = ../../../src/doom.d;
-      };
+      # programs.doom-emacs = {
+      #   enable = !nixosConfig.ptsd.minimal;
+      #   doomPrivateDir = ../../../src/doom.d;
+      # };
     };
 
   ptsd.desktop.keybindings = mkIf (!config.ptsd.minimal) {
@@ -177,4 +177,8 @@ in
   # increase user watches for synchting, see
   # https://docs.syncthing.net/users/faq.html#inotify-limits
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 204800;
+
+  programs.screen.screenrc = ''
+    defscrollback 100000
+  '';
 }
