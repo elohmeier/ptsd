@@ -86,6 +86,7 @@
     nsjail
 
     nodePackages.prettier
+    f2fs-tools
 
 
     # *** 3dprinting ***
@@ -175,7 +176,7 @@
     obs-studio
     v4l-utils
     wf-recorder
-    art
+    #art
     exiftool
     espeak
 
