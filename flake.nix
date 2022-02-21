@@ -284,6 +284,13 @@
             ];
           };
 
+          rpi1 = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./1systems/rpi1/physical.nix
+            ];
+          };
+
           rpi2 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [

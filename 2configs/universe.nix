@@ -368,9 +368,15 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.13";
-          wireguard.pubkey = "DtNG2BXRCww/p140Cpme4UyE5ZTAxyh0fMi9a9lplHs=";
+          aliases = [
+            "rpi1.nw"
+          ];
+          wireguard.pubkey = "XLWYA662V7Nki+Y3XFv0SwuIdcEX4971M2VHGfy7vQg=";
         };
       };
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIO1zsBwsqn5wFRUvhheLRY0tGph2zka6jWN4AR6lw/ol ";
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIeWY71r2ca5O+HH5Zqk2o9Xu0wZfVSFWnaLSC6BExR1 ";
+      syncthing.id = "2UYTNUI-HEJ7Q2C-RNP424P-AF3SXFJ-2BU7WDO-PIOBR7C-P4GNFH4-LUJPYQ5";
     };
 
     rpi2 = {

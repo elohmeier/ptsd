@@ -239,4 +239,6 @@ self: pkgs_master: nixpkgs_master: super:
 
   sway = pkgs_master.sway;
   wlroots = pkgs_master.wlroots;
+  # fix build on aarch64 emulation
+  iwd = super.iwd.overrideAttrs (_: { doCheck = false; });
 }
