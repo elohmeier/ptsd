@@ -6,6 +6,7 @@ _:
     ./cups-airprint.nix
     ./drone-server.nix
     ./fluent-bit.nix
+    ./kanboard.nix
     ./mautrix-whatsapp.nix
     ./minimal.nix
     ./mjpg-streamer.nix
