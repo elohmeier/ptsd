@@ -42,7 +42,12 @@ in
 {
   users.groups.keys.members = [ "prometheus" ];
 
-  ptsd.secrets.files."hass-token-nas1-prometheus" = {
+  ptsd.secrets.files."hass-token-nas1-prometheus-bs53" = {
+    dependants = [ "prometheus.service" ];
+    owner = "prometheus";
+  };
+
+  ptsd.secrets.files."hass-token-nas1-prometheus-dlrg" = {
     dependants = [ "prometheus.service" ];
     owner = "prometheus";
   };
@@ -60,11 +65,23 @@ in
         job_name = "hass";
         scrape_interval = "60s";
         metrics_path = "/api/prometheus";
-        bearer_token_file = config.ptsd.secrets.files."hass-token-nas1-prometheus".path;
+        bearer_token_file = config.ptsd.secrets.files."hass-token-nas1-prometheus-bs53".path;
         scheme = "https";
         static_configs = [{
           targets = [
             "hass.services.nerdworks.de"
+          ];
+        }];
+      }
+      {
+        job_name = "hass";
+        scrape_interval = "60s";
+        metrics_path = "/api/prometheus";
+        bearer_token_file = config.ptsd.secrets.files."hass-token-nas1-prometheus-dlrg".path;
+        scheme = "http";
+        static_configs = [{
+          targets = [
+            "apu2.nw:8123"
           ];
         }];
       }
@@ -194,12 +211,23 @@ in
         ];
       })
       (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_home_assistant";
-        params.module = [ "http_home_assistant" ];
+        job_name = "blackbox_http_home_assistant_bs53";
+        params.module = [ "http_home_assistant_bs53" ];
         static_configs = [
           {
             targets = [
               "https://hass.services.nerdworks.de"
+            ];
+          }
+        ];
+      })
+      (blackboxGenericScrapeConfig // {
+        job_name = "blackbox_http_home_assistant_dlrg";
+        params.module = [ "http_home_assistant_dlrg" ];
+        static_configs = [
+          {
+            targets = [
+              "http://apu2.nw:8123"
             ];
           }
         ];
