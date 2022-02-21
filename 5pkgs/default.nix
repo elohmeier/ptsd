@@ -140,6 +140,7 @@ self: pkgs_master: nixpkgs_master: super:
       selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
 
       # pull in some newer versions
+      cmd2 = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/cmd2" { };
       httpcore = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpcore" { };
       httpx = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpx" { };
       pydantic = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/pydantic" { };
