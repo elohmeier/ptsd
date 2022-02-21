@@ -8,7 +8,7 @@
     ../../2configs/profiles/minimal.nix
     ../../2configs/prometheus/node.nix
 
-    ./modules/hass.nix
+    ./modules/home-assistant.nix
     ./modules/networking.nix
     ./modules/nginx.nix
   ];
