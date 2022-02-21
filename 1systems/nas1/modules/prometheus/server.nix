@@ -62,7 +62,7 @@ in
 
     scrapeConfigs = [
       {
-        job_name = "hass";
+        job_name = "hass_bs53";
         scrape_interval = "60s";
         metrics_path = "/api/prometheus";
         bearer_token_file = config.ptsd.secrets.files."hass-token-nas1-prometheus-bs53".path;
@@ -74,7 +74,7 @@ in
         }];
       }
       {
-        job_name = "hass";
+        job_name = "hass_dlrg";
         scrape_interval = "60s";
         metrics_path = "/api/prometheus";
         bearer_token_file = config.ptsd.secrets.files."hass-token-nas1-prometheus-dlrg".path;
