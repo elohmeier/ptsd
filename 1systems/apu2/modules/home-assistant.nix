@@ -121,9 +121,10 @@
 
       homematic =
         let
-          "host" = "192.168.168.20";
-          "username" = "Admin";
-          "password" = "!secret homematic_password";
+          host = "192.168.168.20";
+          resolvenames = "json";
+          username = "Admin";
+          password = "!secret homematic_password";
         in
         {
           interfaces = {
@@ -165,8 +166,7 @@
       system_health = { };
       fritzbox = { };
       met = { };
-      dwd_weather_warnings = { };
-      caldav = { };
+      ssdp = { };
     };
   };
 
