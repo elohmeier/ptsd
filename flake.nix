@@ -60,7 +60,7 @@
             system = pkgs.system;
           };
         in
-        super: (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
+        super: (import ./5pkgs pkgs pkgs_master nixpkgs-master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
       nixosConfigurations =
         let
           defaultModules = [

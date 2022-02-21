@@ -20,7 +20,7 @@
 #   hasura-cli
 #   hasura-graphql-engine
 # };
-self: pkgs_master: super:
+self: pkgs_master: nixpkgs_master: super:
 {
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
@@ -122,9 +122,10 @@ self: pkgs_master: super:
 
   ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto requests ]);
 
-  ptsd-python3 = pkgs_master.python3.override {
+  ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
       black = super.black.overrideAttrs (old: {
+        # support reformatting ipynb files
         propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ];
       });
       bloodhound-import = self.callPackage ../5pkgs/bloodhound-import { };
@@ -137,6 +138,11 @@ self: pkgs_master: super:
       postgrest-py = self.callPackage ../5pkgs/postgrest-py { };
       pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
       selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
+
+      # pull in some newer versions
+      httpcore = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpcore" { };
+      httpx = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpx" { };
+      pydantic = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/pydantic" { };
     };
   };
 
