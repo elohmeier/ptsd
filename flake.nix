@@ -22,8 +22,8 @@
     frix.inputs.nixos-hardware.follows = "nixos-hardware";
     frix.inputs.home-manager.follows = "home-manager";
     nur.url = github:nix-community/NUR;
-    #fraamdb.url = "git+https://git.fraam.de/fraam/fraamdb";
-    fraamdb.url = "/home/enno/repos/fraamdb";
+    fraamdb.url = "git+ssh://git@git.fraam.de/fraam/fraamdb";
+    #fraamdb.url = "/home/enno/repos/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
 
     mobile-nixos = {
