@@ -1,5 +1,12 @@
 { config, lib, pkgs, ... }:
 
+let
+  # just take the needed firmware files to reduce size
+  firmware-brcm = pkgs.runCommand "firmware-brcm" { } ''          
+    mkdir -p $out/lib/firmware
+    ${pkgs.rsync}/bin/rsync -av ${pkgs.firmwareLinuxNonfree}/lib/firmware/{brcm,cypress} $out/lib/firmware/
+  '';
+in
 {
   zramSwap = {
     enable = true;
@@ -19,7 +26,7 @@
     dev.enable = false;
   };
   hardware.enableRedistributableFirmware = false;
-  hardware.firmware = [ pkgs.raspberrypiWirelessFirmware ];
+  hardware.firmware = [ firmware-brcm ];
   hardware.wirelessRegulatoryDatabase = true;
   services.udisks2.enable = false;
   security.polkit.enable = false;
@@ -145,6 +152,8 @@
 
     cp -v ${configTxt} "$DESTDIR/boot/config.txt"
 
+    # free up space
+    rm -rf "$DESTDIR/boot/nixos/"
     ${pkgs.rsync}/bin/rsync -av ${extlinuxBoot}/ "$DESTDIR/boot/"
   '';
 
