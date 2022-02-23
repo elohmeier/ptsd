@@ -12,6 +12,7 @@ _:
     ./mjpg-streamer.nix
     ./monica.nix
     ./mosquitto.nix
+    ./motion.nix
     ./navidrome.nix
     ./neovim.nix
     ./nvidia.nix

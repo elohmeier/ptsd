@@ -55,6 +55,7 @@ self: pkgs_master: nixpkgs_master: super:
   kitty-terminfo = self.callPackage ./kitty-terminfo { };
   mobile-config-firefox = self.callPackage ./mobile-config-firefox { };
   monica = self.callPackage ./monica { };
+  motion-web = self.callPackage ./motion-web { };
   nbconvert = self.callPackage ./nbconvert { };
   nerdworks-artwork = self.callPackage ./nerdworks-artwork { };
   nwbackup-env = self.callPackage ./nwbackup-env { };
