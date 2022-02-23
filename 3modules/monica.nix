@@ -191,11 +191,11 @@ in
         mkdir -p storage/framework/sessions
         mkdir -p storage/framework/views
 
-        # migrate db schema
-        php artisan monica:update --force -vv
-
         # cleanup cache
         rm -f cache/*
+
+        # migrate db schema
+        php artisan monica:update --force -vv
       '';
 
       serviceConfig = {
@@ -234,7 +234,7 @@ in
       enable = true;
 
       virtualHosts = {
-        "${cfg.domain}" = {
+        ${cfg.domain} = {
           listen = [
             {
               addr = "127.0.0.1";
@@ -250,7 +250,7 @@ in
             extraConfig = ''try_files $uri $uri/ /index.php;'';
           };
 
-          locations."~ \.php$" = {
+          locations."~ \\.php$" = {
             extraConfig = ''
               try_files $uri $uri/ /index.php;
               include ${pkgs.nginx}/conf/fastcgi_params;
