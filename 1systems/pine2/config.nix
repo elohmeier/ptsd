@@ -21,15 +21,15 @@
     useNetworkd = true;
     useDHCP = false;
     wireless.iwd.enable = true;
-    # networkmanager = {
-    #   enable = true;
-    #   dns = "systemd-resolved";
-    #   wifi = {
-    #     backend = "iwd";
-    #     macAddress = "random";
-    #     powersave = true;
-    #   };
-    # };
+    networkmanager = {
+      enable = true;
+      dns = "systemd-resolved";
+      wifi = {
+        backend = "iwd";
+        macAddress = "random";
+        powersave = true;
+      };
+    };
   };
 
   # ptsd.nwbackup.enable = false;
@@ -88,18 +88,4 @@
       };
     };
   };
-
-  # reduce size
-  environment.noXlibs = true;
-  documentation = {
-    enable = false;
-    man.enable = false;
-    info.enable = false;
-    doc.enable = false;
-    dev.enable = false;
-  };
-  hardware.enableRedistributableFirmware = false;
-  hardware.wirelessRegulatoryDatabase = true;
-  services.udisks2.enable = false;
-  security.polkit.enable = false;
 }
