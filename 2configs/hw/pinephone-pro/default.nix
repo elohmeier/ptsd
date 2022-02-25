@@ -16,21 +16,33 @@ in
 
   nixpkgs.config.packageOverrides = pkgs: pkgs.lib.recursiveUpdate pkgs {
     linuxKernel.kernels.linux_megi = pkgs.linuxKernel.manualConfig rec {
-      inherit (pkgs) stdenv lib;
+      inherit (pkgs) lib;
+
+      stdenv = pkgs.stdenvAdapters.addAttrsToDerivation
+        {
+          # from https://wiki.gentoo.org/wiki/PINE64_ROCKPro64#GCC_optimization
+          NIX_CFLAGS_COMPILE = [
+            "-march=armv8-a+crc+crypto"
+            "-mtune=cortex-a72.cortex-a53"
+            "-mfix-cortex-a53-835769"
+            "-mfix-cortex-a53-843419"
+          ];
+        }
+        pkgs.stdenv;
 
       # config from postmarketos, see
       # https://gitlab.com/postmarketOS/pmaports/-/tree/master/device/testing/linux-pine64-pinephonepro
       configfile = ./config-pine64-pinephonepro.aarch64;
 
-      version = "5.17.0-rc3";
+      version = "5.17.0-rc5";
 
       # prefetch sources remotely using
-      # nix-shell -p git -p nix-prefetch-github --run "nix-prefetch-github --rev orange-pi-5.17-20220210-0212 megous linux"
+      # nix-shell -p git -p nix-prefetch-github --run "nix-prefetch-github --rev orange-pi-5.17-20220223-0235 megous linux"
       src = pkgs.fetchFromGitHub {
         owner = "megous";
         repo = "linux";
-        rev = "orange-pi-5.17-20220210-0212";
-        sha256 = "134m6x087bjc25scn61cymva8xxnkb7a6bcrld66gaj9vq73fnwj";
+        rev = "orange-pi-5.17-20220223-0235";
+        sha256 = "1pl6iwxrsm2lzmv97qdj3yr8wwmzfsqindczryd0xdx15ibdjdal";
       };
       allowImportFromDerivation = true;
     };
