@@ -6,7 +6,7 @@
     nixpkgs.url = github:NixOS/nixpkgs/nixos-21.11;
     #nixpkgs.url = "/home/enno/repos/nixpkgs";
     nixpkgs-master.url = github:NixOS/nixpkgs/master;
-    nixpkgs-local.url = "/home/enno/repos/nixpkgs";
+    #nixpkgs-local.url = "/home/enno/repos/nixpkgs";
     home-manager.url = github:nix-community/home-manager/release-21.11;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
@@ -28,8 +28,8 @@
 
     mobile-nixos = {
       #url = github:NixOS/mobile-nixos;
-      #url = github:elohmeier/mobile-nixos/ptsd;
-      url = "/home/enno/repos/mobile-nixos";
+      url = github:elohmeier/mobile-nixos/ptsd;
+      #url = "/home/enno/repos/mobile-nixos";
       # flake = false;
     };
     mobile-nixos.inputs.nixpkgs.follows = "nixpkgs";
@@ -40,7 +40,7 @@
     { self
     , nixpkgs
     , nixpkgs-master
-    , nixpkgs-local
+    #, nixpkgs-local
     , home-manager
     , nixos-hardware
     , flake-utils
