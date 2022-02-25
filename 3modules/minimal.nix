@@ -54,6 +54,7 @@ in
     (mkIf cfg.bootstrap {
       hardware.opengl.enable = mkForce false;
       networking.networkmanager.enable = mkForce false;
+      environment.defaultPackages = [ ];
     })
 
   ];

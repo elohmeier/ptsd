@@ -5,34 +5,34 @@
     ../..
     ../../2configs
     ../../2configs/hw/pinephone-pro
-    ../../2configs/nwhost.nix
-    ../../3modules/desktop
-    ../../2configs/profiles/workstation
-    ../../2configs/themes/black.nix
+    # ../../2configs/nwhost.nix
+    # ../../3modules/desktop
+    # ../../2configs/profiles/workstation
+    # ../../2configs/themes/black.nix
   ];
 
-  ptsd.desktop.enable = true;
+  # ptsd.desktop.enable = true;
 
-  ptsd.nwacme.hostCert.enable = false;
-  ptsd.tor-ssh.enable = false;
+  # ptsd.nwacme.hostCert.enable = false;
+  # ptsd.tor-ssh.enable = false;
 
   networking = {
     hostName = "pine2";
     useNetworkd = true;
     useDHCP = false;
     wireless.iwd.enable = true;
-    networkmanager = {
-      enable = true;
-      dns = "systemd-resolved";
-      wifi = {
-        backend = "iwd";
-        macAddress = "random";
-        powersave = true;
-      };
-    };
+    # networkmanager = {
+    #   enable = true;
+    #   dns = "systemd-resolved";
+    #   wifi = {
+    #     backend = "iwd";
+    #     macAddress = "random";
+    #     powersave = true;
+    #   };
+    # };
   };
 
-  ptsd.nwbackup.enable = false;
+  # ptsd.nwbackup.enable = false;
 
   system.build.format-disk = pkgs.writeShellScriptBin "format-disk" ''
     DISK="''${1?must provide a block device, e.g. /dev/sda}"
@@ -50,6 +50,16 @@
     ${pkgs.f2fs-tools}/bin/mkfs.f2fs -f -l nix ''${DISK}3 || exit 1
   '';
 
+  system.build.mount-sdcard = pkgs.writeShellScriptBin "mount-sdcard" ''
+    DISK="''${1?must provide a block device, e.g. /dev/sda}"
+    DIR="''${2?must provide a directory, e.g. /mnt/sd}"
+    
+    mkdir -p $DIR/{boot,nix/store,var/src}
+    mount ''${DISK}1 $DIR/boot
+    mount ''${DISK}2 $DIR/var/src
+    mount ''${DISK}3 $DIR/nix
+  '';
+
   system.build.copy-to-dir =
     with config.system.build;
     let
@@ -63,10 +73,9 @@
       DESTDIR="''${1?must provide destination directory}"
       mkdir -p "$DESTDIR/nix/store"
 
-      rsync -av --files-from=${closureInfo}/store-paths -r / "$DESTDIR/"
+      rsync -av --files-from=${closureInfo}/store-paths -r --delete / "$DESTDIR/"
+      rsync -av --delete ${extlinuxBoot}/ "$DESTDIR/boot/"
       cp -v ${closureInfo}/registration "$DESTDIR/boot/nix-path-registration"
-
-      rsync -av ${extlinuxBoot}/ "$DESTDIR/boot/"
     '';
 
   home-manager.users.mainUser = { pkgs, ... }: {
@@ -79,4 +88,18 @@
       };
     };
   };
+
+  # reduce size
+  environment.noXlibs = true;
+  documentation = {
+    enable = false;
+    man.enable = false;
+    info.enable = false;
+    doc.enable = false;
+    dev.enable = false;
+  };
+  hardware.enableRedistributableFirmware = false;
+  hardware.wirelessRegulatoryDatabase = true;
+  services.udisks2.enable = false;
+  security.polkit.enable = false;
 }

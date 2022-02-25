@@ -5,30 +5,32 @@
     ./config.nix
   ];
 
-  fileSystems."/" = {
-    fsType = "tmpfs";
-    options = [ "size=200M" "mode=1755" ];
-  };
-
   fileSystems."/boot" = {
     fsType = "ext4";
-    device = "/dev/disk/by-label/boot";
-    neededForBoot = true;
-  };
-
-  fileSystems."/nix" = {
-    fsType = "f2fs";
-    device = "/dev/disk/by-label/nix";
+    device = "/dev/mmcblk2p1";
     neededForBoot = true;
   };
 
   fileSystems."/var/src" = {
     fsType = "ext4";
-    device = "/dev/disk/by-label/var-src";
+    device = "/dev/mmcblk2p2";
+    neededForBoot = true;
+  };
+
+  fileSystems."/" = {
+    fsType = "tmpfs";
+    options = [ "size=200M" "mode=1755" ];
+  };
+
+  fileSystems."/nix" = {
+    fsType = "f2fs";
+    device = "/dev/mmcblk2p3";
     neededForBoot = true;
   };
 
   boot = {
+    consoleLogLevel = 7;
+
     loader = {
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
@@ -47,6 +49,8 @@
       fi
     '';
   };
+
+  services.journald.console = "/dev/ttyS2";
 
   console.keyMap = "us";
 }
