@@ -40,7 +40,7 @@
     { self
     , nixpkgs
     , nixpkgs-master
-    #, nixpkgs-local
+      #, nixpkgs-local
     , home-manager
     , nixos-hardware
     , flake-utils
@@ -458,6 +458,27 @@
               ./1systems/pine2/physical.nix
               ({ lib, ... }: {
                 nixpkgs.crossSystem = lib.systems.examples.aarch64-multiplatform;
+              })
+            ];
+          };
+
+          # run `nix build .#nixosConfigurations.pine2_sdimage.config.system.build.sdImage` to build image
+          pine2_sdimage = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = [
+              ({ config, lib, modulesPath, ... }: {
+                imports = [
+                  ./2configs/sd-image.nix
+                  ./2configs/hw/pinephone-pro
+                ];
+
+                sdImage = {
+                  populateFirmwareCommands = "";
+                  populateRootCommands = ''
+                    mkdir -p ./files/boot
+                    ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
+                  '';
+                };
               })
             ];
           };

@@ -51,6 +51,4 @@
   };
 
   services.journald.console = "/dev/ttyS2";
-
-  console.keyMap = "us";
 }

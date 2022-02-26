@@ -50,6 +50,11 @@ in
 
   boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linuxKernel.kernels.linux_megi;
 
+  boot.loader = {
+    grub.enable = false;
+    generic-extlinux-compatible.enable = true;
+  };
+
   boot.initrd.availableKernelModules = [
     "gpu_sched"
     "dw_wdt"
@@ -60,7 +65,7 @@ in
   ];
 
   # a lot of default modules are not included in our kconfig
-  boot.initrd.includeDefaultModules = false;
+  boot.initrd.includeDefaultModules = lib.mkForce false;
 
   boot.kernelParams = [
     "fw_devlink=off"
@@ -70,4 +75,5 @@ in
   ];
 
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
+  console.keyMap = "us";
 }
