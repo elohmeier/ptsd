@@ -246,15 +246,16 @@
       "locked": {
         "lastModified": 1642433349,
         "narHash": "sha256-vTpD408WZOqdFdXGMH2qeTxRcuF/+pXy+5w0CoWkHxs=",
-        "ref": "ptsd",
+        "owner": "elohmeier",
+        "repo": "mobile-nixos",
         "rev": "9012c2305b1265e132abbbc0d60b455629211571",
-        "revCount": 1997,
-        "type": "git",
-        "url": "file:///home/enno/repos/mobile-nixos"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "file:///home/enno/repos/mobile-nixos"
+        "owner": "elohmeier",
+        "ref": "ptsd",
+        "repo": "mobile-nixos",
+        "type": "github"
       }
     },
     "nix-doom-emacs": {
@@ -344,18 +345,6 @@
         "ref": "nixos-21.11",
         "repo": "nixpkgs",
         "type": "github"
-      }
-    },
-    "nixpkgs-local": {
-      "locked": {
-        "lastModified": 1644936504,
-        "narHash": "sha256-dkaORPNfcfIsxmK9gKpTKunSLuiueRxFZVgWwRGBa40=",
-        "type": "git",
-        "url": "file:///home/enno/repos/nixpkgs"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:///home/enno/repos/nixpkgs"
       }
     },
     "nixpkgs-master": {
@@ -511,7 +500,6 @@
         "nix-doom-emacs": "nix-doom-emacs",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-local": "nixpkgs-local",
         "nixpkgs-master": "nixpkgs-master",
         "nur": "nur"
       }
