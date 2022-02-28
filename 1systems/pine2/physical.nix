@@ -8,14 +8,13 @@
   fileSystems."/boot" = {
     fsType = "ext4";
     device = "/dev/mmcblk2p1";
-    neededForBoot = true;
   };
 
-  fileSystems."/var/src" = {
-    fsType = "ext4";
-    device = "/dev/mmcblk2p2";
-    neededForBoot = true;
-  };
+#  fileSystems."/var/src" = {
+#    fsType = "ext4";
+#    device = "/dev/mmcblk2p2";
+#    neededForBoot = true;
+#  };
 
   fileSystems."/" = {
     fsType = "tmpfs";
@@ -23,9 +22,8 @@
   };
 
   fileSystems."/nix" = {
-    fsType = "f2fs";
-    device = "/dev/mmcblk2p3";
-    neededForBoot = true;
+    fsType = "xfs";
+    device = "/dev/sysVG/nix";
   };
 
   boot = {

@@ -466,10 +466,20 @@
           pine2_sdimage = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = [
-              ({ config, lib, modulesPath, ... }: {
+              ({ config, lib, modulesPath, pkgs, ... }: {
                 imports = [
                   ./2configs/sd-image.nix
                   ./2configs/hw/pinephone-pro
+                  (modulesPath + "/profiles/installation-device.nix")
+                ];
+
+                environment.systemPackages = with pkgs; [
+                  foot.terminfo
+                  file
+                  gptfdisk
+                  cryptsetup
+                  f2fs-tools
+                  libxfs
                 ];
 
                 sdImage = {
@@ -479,6 +489,127 @@
                     ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
                   '';
                 };
+
+                networking = {
+                  useNetworkd = true;
+                  useDHCP = false;
+                  wireless.enable = false;
+                  wireless.iwd.enable = true;
+                  networkmanager = {
+                    enable = true;
+                    dns = "systemd-resolved";
+                    wifi.backend = "iwd";
+                  };
+                };
+                services.resolved.enable = true;
+              })
+            ];
+          };
+
+          # run `nix build .#nixosConfigurations.pine2_sdimage_plasma5.config.system.build.sdImage` to build image
+          pine2_sdimage_plasma5 = nixpkgs-master.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = [
+              ({ config, lib, modulesPath, pkgs, ... }: {
+                imports = [
+                  ./2configs/sd-image.nix
+                  ./2configs/hw/pinephone-pro
+                  (modulesPath + "/profiles/installation-device.nix")
+                ];
+
+                sdImage = {
+                  populateFirmwareCommands = "";
+                  populateRootCommands = ''
+                    mkdir -p ./files/boot
+                    ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
+                  '';
+                };
+
+                # Whitelist wheel users to do anything
+                # This is useful for things like pkexec
+                #
+                # WARNING: this is dangerous for systems
+                # outside the installation-cd and shouldn't
+                # be used anywhere else.
+                security.polkit.extraConfig = ''
+                  polkit.addRule(function(action, subject) {
+                    if (subject.isInGroup("wheel")) {
+                      return polkit.Result.YES;
+                    }
+                  });
+                '';
+
+                services.xserver.enable = true;
+
+                # Provide networkmanager for easy wireless configuration.
+                networking.networkmanager.enable = true;
+                networking.wireless.enable = lib.mkForce false;
+
+                # KDE complains if power management is disabled (to be precise, if
+                # there is no power management backend such as upower).
+                powerManagement.enable = true;
+
+                # Enable sound in graphical iso's.
+                hardware.pulseaudio.enable = true;
+
+                environment.systemPackages = [
+                  # Include gparted for partitioning disks.
+                  pkgs.gparted
+
+                  # Include some editors.
+                  pkgs.vim
+                  pkgs.bvi # binary editor
+                  pkgs.joe
+
+                  # Include some version control tools.
+                  pkgs.git
+
+                  # Firefox for reading the manual.
+                  pkgs.firefox
+
+                  pkgs.glxinfo
+
+                  # Graphical text editor
+                  pkgs.kate
+                ];
+
+
+                services.xserver = {
+                  desktopManager.plasma5 = {
+                    enable = true;
+                    mobile.enable = true;
+                    mobile.installRecommendedSoftware = true;
+                  };
+
+                  # Automatically login as nixos.
+                  displayManager = {
+                    sddm.enable = true;
+                    autoLogin = {
+                      enable = true;
+                      user = "nixos";
+                    };
+                  };
+                };
+
+                system.activationScripts.installerDesktop =
+                  let
+
+                    # Comes from documentation.nix when xserver and nixos.enable are true.
+                    manualDesktopFile = "/run/current-system/sw/share/applications/nixos-manual.desktop";
+
+                    homeDir = "/home/nixos/";
+                    desktopDir = homeDir + "Desktop/";
+
+                  in
+                  ''
+                    mkdir -p ${desktopDir}
+                    chown nixos ${homeDir} ${desktopDir}
+
+                    ln -sfT ${manualDesktopFile} ${desktopDir + "nixos-manual.desktop"}
+                    ln -sfT ${pkgs.gparted}/share/applications/gparted.desktop ${desktopDir + "gparted.desktop"}
+                    ln -sfT ${pkgs.konsole}/share/applications/org.kde.konsole.desktop ${desktopDir + "org.kde.konsole.desktop"}
+                  '';
+
               })
             ];
           };
