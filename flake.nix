@@ -480,7 +480,13 @@
                   cryptsetup
                   f2fs-tools
                   libxfs
+                  gitMinimal
                 ];
+
+                nix.package = pkgs.nixFlakes;
+
+                users.users.nixos.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
+                users.users.root.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
 
                 sdImage = {
                   populateFirmwareCommands = "";

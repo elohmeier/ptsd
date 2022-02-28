@@ -10,11 +10,11 @@
     device = "/dev/mmcblk2p1";
   };
 
-#  fileSystems."/var/src" = {
-#    fsType = "ext4";
-#    device = "/dev/mmcblk2p2";
-#    neededForBoot = true;
-#  };
+  #  fileSystems."/var/src" = {
+  #    fsType = "ext4";
+  #    device = "/dev/mmcblk2p2";
+  #    neededForBoot = true;
+  #  };
 
   fileSystems."/" = {
     fsType = "tmpfs";
