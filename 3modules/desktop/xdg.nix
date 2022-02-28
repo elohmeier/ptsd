@@ -35,6 +35,10 @@ in
           "application/vnd.oasis.opendocument.text" = [ "writer.desktop" ];
           "application/vnd.oasis.opendocument.spreadsheet" = [ "calc.desktop" ];
           "application/vnd.oasis.opendocument.presentation" = [ "impress.desktop" ];
+          "application/gzip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/zip" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-tar" = [ "org.gnome.FileRoller.desktop" ];
+          "application/x-rar-compressed" = [ "org.gnome.FileRoller.desktop" ];
         };
       };
 
