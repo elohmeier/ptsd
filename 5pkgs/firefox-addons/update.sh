@@ -1,12 +1,12 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p nix-prefetch
+#!nix-shell -i bash -p curl -p jq -p ripgrep
 
 get_xpi_url() {
-	curl -s "https://addons.mozilla.org/api/v5/addons/addon/${1}/?app=firefox" | jq -r ".current_version.files[].url" | grep ".xpi"
+	curl -s "https://addons.mozilla.org/api/v5/addons/addon/${1}/?app=firefox" | jq -r ".current_version.file.url" | grep ".xpi"
 }
 
 replace_sha() {
-	sed -i "s#sha256 = \"sha256-.\{44\}\"#sha256 = \"$2\"#" "$1"
+	sed -i "s#sha256 = \"[^\"]*\"#sha256 = \"$2\"#" "$1"
 }
 
 replace_url() {
@@ -18,24 +18,14 @@ extract_val() {
 }
 
 fetch_sha() {
-	nix-prefetch "{ fetchFirefoxAddon }:
-fetchFirefoxAddon {
-  name = \"$1\"; url = \"$2\";
-  sha256 = \"sha256-0000000000000000000000000000000000000000000=\";
-}"
+	nix-prefetch-url "$1"
 }
-
 
 # Addons packaged from addons.mozilla.org
 ADDONS_MOZILLA=$(rg "url = \"https://addons.mozilla.org/firefox/downloads/file/" --files-with-matches --type=nix)
 
 for ADDON in $ADDONS_MOZILLA; do
-	# NAME=$(grep "  name = \"" "$ADDON" | cut -d '"' -f2)
 	NAME=$(extract_val "$ADDON" "name")
-	if [[ "$NAME" == "sty-lus" || "$NAME" == "cors_everywhere" ]]; then
-		echo "[$NAME] skipping because addons api broken"
-		continue
-	fi
 	echo "[$NAME] updating $ADDON"
 
 	EXISTING_XPI=$(extract_val "$ADDON" "url")
@@ -46,7 +36,7 @@ for ADDON in $ADDONS_MOZILLA; do
 	fi
 	replace_url "$ADDON" "$XPI"
 
-	SHA="$(fetch_sha "$NAME" "$XPI")"
+	SHA="$(fetch_sha "$XPI")"
 	replace_sha "$ADDON" "$SHA"
 	echo "[$NAME] updated $ADDON"
 done

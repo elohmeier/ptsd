@@ -2,6 +2,6 @@
 
 fetchFirefoxAddon {
   name = "surfingkeys_ff";
-  url = "https://addons.mozilla.org/firefox/downloads/file/3771858/surfingkeys-0.9.74-fx.xpi";
-  sha256 = "sha256-IJN4mpDu30ZnFRdxsMHbuh08O+UvZPwtqUA2C0txMmc=";
+  url = "https://addons.mozilla.org/firefox/downloads/file/3904477/surfingkeys-1.0.4-fx.xpi";
+  sha256 = "0697ymxzdykj7c5a006fcv87ym876pyqf1bnxdlaw2df6v60kkxr";
 }
