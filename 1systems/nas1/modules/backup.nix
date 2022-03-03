@@ -56,6 +56,7 @@ in
     inherit paths exclude environment readWritePaths encryption compression extraCreateArgs prune;
     repo = "/mnt/usb/borg";
     doInit = true;
+    startAt = [ ];
   };
   systemd.services.borgbackup-job-extusb.serviceConfig.StateDirectory = "borg";
 }
