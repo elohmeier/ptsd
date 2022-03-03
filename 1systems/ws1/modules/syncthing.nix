@@ -66,7 +66,7 @@
       "/mnt/luisa/Dokumente" = {
         label = "luisa/Dokumente";
         id = "sqkfd-m9he7";
-        devices = [ "tp2" "mb1" "nas1" ];
+        devices = [ "tp1" "tp2" "mb1" "nas1" ];
       };
       "/mnt/luisa/Musik" = {
         label = "luisa/Musik";
@@ -76,7 +76,7 @@
       "/mnt/luisa/Scans" = {
         label = "luisa/Scans";
         id = "dnryo-kz7io";
-        devices = [ "tp2" "mb1" "nas1" ];
+        devices = [ "tp1" "tp2" "mb1" "nas1" ];
       };
 
     };

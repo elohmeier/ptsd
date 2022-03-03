@@ -5,46 +5,52 @@
     enable = true;
 
     folders = {
-      "/home/enno/FPV" = {
+      "/sync/FPV" = {
         label = "FPV";
         id = "xxdwi-yom6n";
         devices = [ "nas1" "tp1-win10" "ws1" "ws1-win10" "ws1-win10n" ];
       };
-      # "/home/enno/Hörspiele" = {
-      #   id = "rqnvn-lmhcm";
-      #   devices = [ "ext-arvid" "nas1" ];
-      #   type = "sendonly";
-      # };
-      "/home/enno/LuNo" = {
+      "/sync/LuNo" = {
         label = "LuNo";
         id = "3ull9-9deg4";
         devices = [ "mb1" "nas1" "tp2" "ws1" ];
       };
-      "/home/enno/Pocket" = {
+      "/sync/Pocket" = {
         label = "Pocket";
         id = "hmekh-kgprn";
         devices = [ "nas1" "nuc1" "tp1-win10" "ws1" "ws1-win10" "ws2" ];
       };
-      "/home/enno/Scans" = {
+      "/sync/Scans" = {
         label = "Scans";
         id = "ezjwj-xgnhe";
         devices = [ "nas1" "ws1" "ws2" "iph3" ];
       };
-      "/home/enno/Templates" = {
+      "/sync/Templates" = {
         label = "Templates";
         id = "gnwqu-yt7qc";
         devices = [ "nas1" "nuc1" "ws1" "ws2" ];
       };
-      "/home/enno/iOS" = {
+      "/sync/iOS" = {
         label = "iOS";
         id = "qm9ln-btyqu";
         devices = [ "iph3" "nas1" "ws1" "ws2" ];
       };
-      "/home/enno/repos" = {
+      "/sync/repos" = {
         id = "yqa69-2zjmt";
         devices = [ "nas1" "ws1" "ws2" ];
         label = "repos";
         ignorePerms = false;
+      };
+
+      "/sync/luisa/Dokumente" = {
+        label = "luisa/Dokumente";
+        id = "sqkfd-m9he7";
+        devices = [ "tp1" "tp2" "mb1" "nas1" ];
+      };
+      "/sync/luisa/Scans" = {
+        label = "luisa/Scans";
+        id = "dnryo-kz7io";
+        devices = [ "tp1" "tp2" "mb1" "nas1" ];
       };
     };
   };

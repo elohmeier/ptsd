@@ -118,7 +118,7 @@ in
       "/var/lib/nextcloud/data/luisa/files/Dokumente" = {
         label = "luisa/Dokumente";
         id = "sqkfd-m9he7";
-        devices = [ "tp2" "mb1" "ws1" ];
+        devices = [ "tp1" "tp2" "mb1" "ws1" ];
       };
       "/var/lib/nextcloud/data/luisa/files/Musik" = {
         label = "luisa/Musik";
@@ -128,7 +128,7 @@ in
       "/var/lib/nextcloud/data/luisa/files/Scans" = {
         label = "luisa/Scans";
         id = "dnryo-kz7io";
-        devices = [ "tp2" "mb1" "ws1" ];
+        devices = [ "tp1" "tp2" "mb1" "ws1" ];
       };
       "/var/cache/photoprism" = {
         label = "photoprism-cache";

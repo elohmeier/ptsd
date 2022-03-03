@@ -44,6 +44,13 @@ in
       options = [ "nodev" "nosuid" "noexec" ];
     };
 
+  fileSystems."/sync" =
+    {
+      device = "${vgPrefix}/sync";
+      fsType = "ext4";
+      options = [ "nodev" "nosuid" ];
+    };
+
   fileSystems."/var/log" =
     {
       device = "${vgPrefix}/var-log";
