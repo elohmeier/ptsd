@@ -32,7 +32,7 @@ in
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
 
-  environment.pathsToLink = [ "/share/nmap" ];
+  environment.pathsToLink = [ "/share/nmap" "/share/wordlists" ];
 
   # for BloodHound
   # services.neo4j = {
