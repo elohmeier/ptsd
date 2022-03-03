@@ -701,34 +701,7 @@
             program = "${nixosConfigurations.rpi4_vm.config.system.build.vm}/bin/run-rpi4-vm";
           };
         };
-        packages = pkgs // {
-          mk-pretty =
-            let
-              path = pkgs.lib.makeBinPath (with pkgs; [
-                git
-                nixpkgs-fmt
-                ptsd-python3.pkgs.black
-                python3Packages.isort
-                gofumpt
-              ]);
-            in
-            pkgs.writeShellScriptBin "mk-pretty" ''
-              set -e
-              export PATH=${path}
-              ROOT=$(git rev-parse --show-toplevel)
-              nixpkgs-fmt $ROOT/1systems
-              nixpkgs-fmt $ROOT/2configs
-              nixpkgs-fmt $ROOT/3modules
-              nixpkgs-fmt $ROOT/5pkgs
-              nixpkgs-fmt $ROOT/*.nix      
-              black $ROOT/.
-              isort $ROOT/5pkgs
-              black $ROOT/src/*.pyw
-              isort $ROOT/src/*.pyw
-              gofumpt -w $ROOT/5pkgs
-            '';
-        };
-        devShell = import ./shell.nix { inherit pkgs; };
+        packages = pkgs;
       })
     // {
       inherit nixosConfigurations;
