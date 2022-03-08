@@ -4,6 +4,9 @@
     enable = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
     package = pkgs.vscode;
     userSettings = {
+      "[jsonc]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
       "[nix]" = {
         "editor.tabSize" = 2;
       };
@@ -16,11 +19,7 @@
       "editor.fontFamily" = "'SauceCodePro Nerd Font'";
       "git.confirmSync" = false;
       "git.enableSmartCommit" = true;
-      "gitlens.advanced.telemetry.enabled" = false;
-      "telemetry.enableCrashReporter" = false;
-      "telemetry.enableTelemetry" = false;
       "telemetry.telemetryLevel" = "off";
-      "update.channel" = "none";
       "update.mode" = "none";
       "workbench.startupEditor" = "newUntitledFile";
       "typescript.updateImportsOnFileMove.enabled" = "always";
@@ -28,7 +27,6 @@
       "javascript.updateImportsOnFileMove.enabled" = "always";
       "editor.inlineSuggest.enabled" = true;
       "window.zoomLevel" = 2;
-      "workbench.colorTheme" = "Default High Contrast";
     };
     extensions = with pkgs.vscode-extensions; [
       eamodio.gitlens

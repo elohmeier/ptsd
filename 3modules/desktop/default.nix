@@ -14,6 +14,7 @@ in
     ./pipewire.nix
     ./rclone.nix
     ./sway.nix
+    ./theme.nix
   ];
 
   config = mkIf (cfg.enable && !config.ptsd.bootstrap) {

@@ -32,9 +32,9 @@ in
         description = "Pulseaudio speaker device name";
         default = "@DEFAULT_SINK@";
       };
-      themeConfig = mkOption {
+      theme = mkOption {
         type = types.str;
-        default = "dark";
+        default = "black";
       };
       trayOutput = mkOption {
         type = types.str;
