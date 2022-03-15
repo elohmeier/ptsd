@@ -4,6 +4,9 @@
     enable = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
     package = pkgs.vscode;
     userSettings = {
+      "[javascript]" = {
+        "editor.defaultFormatter" = "esbenp.prettier-vscode";
+      };
       "[jsonc]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
