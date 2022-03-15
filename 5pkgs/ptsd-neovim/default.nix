@@ -34,20 +34,27 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
   withPython3 = false;
   extraPython3Packages = ps: with ps; optionals enableLSP [ python-language-server ];
 
-  configure.packages.ptsd.start = with vimPlugins; [
-    vim-css-color
-    nvim-web-devicons
-    treesitter
-    nvim-tree-lua
-    hop-nvim
-    nvim-compe
-    telescope-nvim
-    lualine-nvim
-    neorg
-    copilot-vim
-  ] ++ (optional enableLSP nvim-lspconfig)
-  ++ (optional enableFormatters formatter-nvim);
+  configure = {
 
+    customRC = ''
+      nnoremap <SPACE> <Nop>
+      let mapleader = " "
+    '';
+
+    packages.ptsd.start = with vimPlugins; [
+      vim-css-color
+      nvim-web-devicons
+      treesitter
+      nnn-vim
+      hop-nvim
+      nvim-compe
+      telescope-nvim
+      lualine-nvim
+      neorg
+      copilot-vim
+    ] ++ (optional enableLSP nvim-lspconfig)
+    ++ (optional enableFormatters formatter-nvim);
+  };
   plugins = with vimPlugins; [
     copilot-vim
     vim-css-color
@@ -69,15 +76,7 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
         EOF
       '';
     }
-    {
-      plugin = nvim-tree-lua;
-      config = ''
-        lua <<EOF
-          require'nvim-tree'.setup()
-        EOF
-        map <C-n> :NvimTreeToggle<CR>
-      '';
-    }
+    nnn-vim
     {
       plugin = hop-nvim;
       config = ''
