@@ -5,6 +5,7 @@
   browserpass = callPackage ./browserpass { };
   cookie-autodelete = callPackage ./cookie-autodelete { };
   darkreader = callPackage ./darkreader { };
+  react-devtools = callPackage ./react-devtools { };
   read-aloud = callPackage ./read-aloud { };
   surfingkeys = callPackage ./surfingkeys { };
   tridactyl = callPackage ./tridactyl { };

@@ -22,12 +22,13 @@ in
         forceWayland = true;
 
         nixExtensions = with pkgs.ptsd-firefoxAddons; [
-          ublock-origin
           auto-tab-discard
           browserpass
           cookie-autodelete
+          react-devtools
           read-aloud
           surfingkeys
+          ublock-origin
         ] ++ cfg.extraExtensions;
 
         # see https://github.com/mozilla/policy-templates/blob/master/README.md
