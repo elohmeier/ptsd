@@ -8,13 +8,14 @@ in
   ptsd.icloudpd.jobs = {
     enno = {
       inherit user group;
-      directory = "/tank/enc/rawphotos/photos/icloudpd";
-      envFile = "/var/src/secrets/icloudpd.env";
+      directory = "/tank/enc/rawphotos/photos/icloudpd-enno";
+      envFile = "/var/src/secrets/icloudpd-enno.env";
     };
 
-    # TODO
-    # luisa = {
-    #   inherit user group;
-    # };
+    luisa = {
+      inherit user group;
+      directory = "/tank/enc/rawphotos/photos/icloudpd-luisa";
+      envFile = "/var/src/secrets/icloudpd-luisa.env";
+    };
   };
 }
