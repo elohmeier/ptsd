@@ -135,4 +135,6 @@
   environment.variables = {
     QT_AUTO_SCREEN_SCALE_FACTOR = "1"; # honor screen DPI
   };
+
+  services.throttled.enable = true;
 }
