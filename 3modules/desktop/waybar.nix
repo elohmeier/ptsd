@@ -32,6 +32,7 @@ let
     modules-right = (optional cfg.autolock.enable "idle_inhibitor") ++ [ "custom/nobbofin-inbox" ] ++ (optional cfg.waybar.co2
       "custom/co2") ++ [
       "disk#home"
+      "disk#sync"
       "disk#nix"
       "disk#xdg-runtime-dir"
     ]
@@ -88,8 +89,17 @@ let
         interval = 30;
       };
       "disk#home" = rec {
-        format = "h {percentage_free}%";
+        format = "ho {percentage_free}%";
         path = "/home";
+        on-click-right = cfg.term.execFloating "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
+        states = {
+          warning = 15;
+          critical = 5;
+        };
+      };
+      "disk#sync" = rec {
+        format = "sy {percentage_free}%";
+        path = "/sync";
         on-click-right = cfg.term.execFloating "${pkgs.ncdu}/bin/ncdu -x ${path}" "";
         states = {
           warning = 15;
