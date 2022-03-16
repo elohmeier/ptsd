@@ -18,12 +18,21 @@
   fileSystems."/nix" = {
     fsType = "xfs";
     device = "/dev/sysVG/nix";
+    options = [ "nodev" "noatime" ];
   };
+
+  fileSystems."/persist" =
+    {
+      fsType = "xfs";
+      device = "/dev/sysVG/persist";
+      options = [ "nodev" "nosuid" "noexec" ];
+    };
 
   fileSystems."/var/src" = {
     fsType = "ext4";
     device = "/dev/sysVG/var-src";
     neededForBoot = true;
+    options = [ "nodev" "nosuid" "noexec" ];
   };
 
   boot = {
