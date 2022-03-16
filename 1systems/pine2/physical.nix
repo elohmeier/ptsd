@@ -35,6 +35,11 @@
     options = [ "nodev" "nosuid" "noexec" ];
   };
 
+  swapDevices =
+    [
+      { device = "/dev/sysVG/swap"; }
+    ];
+
   boot = {
     consoleLogLevel = 7;
 
