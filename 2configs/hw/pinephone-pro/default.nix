@@ -34,15 +34,15 @@ in
       # https://gitlab.com/postmarketOS/pmaports/-/tree/master/device/testing/linux-pine64-pinephonepro
       configfile = ./config-pine64-pinephonepro.aarch64;
 
-      version = "5.17.0-rc5";
+      version = "5.17.0-rc8";
 
       # prefetch sources remotely using
-      # nix-shell -p git -p nix-prefetch-github --run "nix-prefetch-github --rev orange-pi-5.17-20220223-0235 megous linux"
+      # nix-shell -p git -p nix-prefetch-github --run "nix-prefetch-github --rev orange-pi-5.17-20220313-2345 megous linux"
       src = pkgs.fetchFromGitHub {
         owner = "megous";
         repo = "linux";
-        rev = "orange-pi-5.17-20220223-0235";
-        sha256 = "1pl6iwxrsm2lzmv97qdj3yr8wwmzfsqindczryd0xdx15ibdjdal";
+        rev = "orange-pi-5.17-20220313-2345";
+        sha256 = "08dwi1xl3gdlyy8g5934k0pdzs4hif5hpvxrmxblj43ri1si873z";
       };
       allowImportFromDerivation = true;
     };
