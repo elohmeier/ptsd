@@ -55,14 +55,19 @@ in
     generic-extlinux-compatible.enable = true;
   };
 
-  boot.initrd.availableKernelModules = [
-    "gpu_sched"
-    "dw_wdt"
-    "fusb302"
-    "panel_himax_hx8394"
-    "goodix_ts"
-    "kb151"
-  ];
+  boot.initrd = {
+    availableKernelModules = [
+      "gpu_sched"
+      "dw_wdt"
+      "fusb302"
+      "panel_himax_hx8394"
+      "goodix_ts"
+      "kb151"
+    ];
+    kernelModules = [
+      "dm_mod" # for lvm
+    ];
+  };
 
   # a lot of default modules are not included in our kconfig
   boot.initrd.includeDefaultModules = lib.mkForce false;
