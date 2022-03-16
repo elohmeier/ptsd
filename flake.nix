@@ -479,7 +479,7 @@
                   gptfdisk
                   cryptsetup
                   f2fs-tools
-                  libxfs
+                  xfsprogs.bin
                   gitMinimal
                 ];
 
