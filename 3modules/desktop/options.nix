@@ -98,6 +98,7 @@ in
             enable = mkEnableOption "baresip";
             sipListen = mkOption { type = types.str; default = ""; example = "10.0.0.2:5060"; };
             netInterface = mkOption { type = types.str; default = ""; example = "nwvpn"; };
+            recordingPath = mkOption { type = types.str; default = "${config.users.users.mainUser.home}/recordings"; };
           };
         };
       };

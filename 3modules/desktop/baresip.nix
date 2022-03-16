@@ -34,7 +34,10 @@ in
       ''}
 
         module mixminus.so # conferencing
+
         module sndfile.so # call recording
+        snd_path ${cfg.baresip.recordingPath}
+
         module stun.so
         module turn.so
         module ice.so
