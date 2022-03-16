@@ -10,12 +10,6 @@
     device = "/dev/mmcblk2p1";
   };
 
-  #  fileSystems."/var/src" = {
-  #    fsType = "ext4";
-  #    device = "/dev/mmcblk2p2";
-  #    neededForBoot = true;
-  #  };
-
   fileSystems."/" = {
     fsType = "tmpfs";
     options = [ "size=200M" "mode=1755" ];
@@ -24,6 +18,12 @@
   fileSystems."/nix" = {
     fsType = "xfs";
     device = "/dev/sysVG/nix";
+  };
+
+  fileSystems."/var/src" = {
+    fsType = "ext4";
+    device = "/dev/sysVG/var-src";
+    neededForBoot = true;
   };
 
   boot = {
