@@ -5,16 +5,16 @@
     ../..
     ../../2configs
     ../../2configs/hw/pinephone-pro
-    # ../../2configs/nwhost.nix
-    # ../../3modules/desktop
-    # ../../2configs/profiles/workstation
-    # ../../2configs/themes/black.nix
+    ../../2configs/nwhost.nix
+    ../../2configs/stateless-root.nix
+    ../../3modules/desktop
+    ../../2configs/profiles/workstation
   ];
 
-  # ptsd.desktop.enable = true;
+  ptsd.desktop.enable = true;
 
-  # ptsd.nwacme.hostCert.enable = false;
-  # ptsd.tor-ssh.enable = false;
+  ptsd.nwacme.hostCert.enable = false;
+  ptsd.tor-ssh.enable = false;
 
   networking = {
     hostName = "pine2";
@@ -32,7 +32,7 @@
     };
   };
 
-  # ptsd.nwbackup.enable = false;
+  ptsd.nwbackup.enable = false;
 
   system.build.format-disk = pkgs.writeShellScriptBin "format-disk" ''
     DISK="''${1?must provide a block device, e.g. /dev/sda}"
