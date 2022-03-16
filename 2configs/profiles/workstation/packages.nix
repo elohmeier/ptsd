@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) (hackertools ++ [
+    photoprism
     AusweisApp2
     nodejs # for copilot.vim
     pkgsCross.avr.buildPackages.gcc # avr-gcc
@@ -203,6 +204,7 @@
     shrinkpdf
     ptsd-python3.pkgs.davphonebook
     element-desktop
+    gomuks
     aspell
     aspellDicts.de
     aspellDicts.en
