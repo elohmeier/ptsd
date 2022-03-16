@@ -139,6 +139,7 @@ self: pkgs_master: nixpkgs_master: super:
       postgrest-py = self.callPackage ../5pkgs/postgrest-py { };
       pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
       selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
+      vidcutter = self.callPackage ./vidcutter { };
 
       # pull in some newer versions
       cmd2 = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/cmd2" { };
