@@ -140,7 +140,6 @@ in
           "/home/*/.android"
           "/home/*/.cache"
           "/home/*/.gradle"
-          "/home/*/.local"
           "/home/*/.minishift"
           "/home/*/.platformio"
           "/home/*/.wine/drive_c/Program Files/Steam"
