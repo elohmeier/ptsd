@@ -53,7 +53,7 @@ in
       "/tank/enc/rawphotos/2021-06 mopedtour" = {
         label = "2021-06 mopedtour";
         id = "ieyohHo7uang";
-        devices = [ "ext-arvid" ];
+        devices = [ "ext-arvid" "ext-arvid-laptop" ];
       };
 
       "/tank/enc/rawphotos/photos" = {
