@@ -3,6 +3,14 @@
 Public [Nix](https://nixos.org/nix/) configurations.
 
 
+## AWS builder
+- `aws ec2 import-key-pair --key-name tp1 --public-key-material fileb://~/.ssh/id_ed25519.pub`
+- `aws ec2 run-instances --image-id ami-0b9c95d926ab9474c --instance-type a1.4xlarge --key-name tp1 --security-groups allow-all --block-device-mappings 'DeviceName=/dev/xvda,Ebs={VolumeSize=40}'`
+- accept ssh host key as user & root
+- `nix build .#nixosConfigurations.pine2_sdimage.config.system.build.kernel --builders 'ssh://root@18.193.85.42 aarch64-linux - 96 - big-parallel' --max-jobs 0 --builders-use-substitutes`
+
+
+
 ## Setup
 
 Add the ptsd channel using
