@@ -44,6 +44,7 @@ in
 
   home-manager.users.mainUser = { ... }:
     {
+      imports = [ ../../2configs/home/email.nix ];
       home.stateVersion = "20.09";
       wayland.windowManager.sway = {
         config.input."1739:0:Synaptics_TM3381-002".events = "disabled";
