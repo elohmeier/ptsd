@@ -147,6 +147,30 @@ in
           };
           Install = { WantedBy = [ "sockets.target" ]; };
         };
+
+        # requires wayland-instance@.target setup
+        # see also https://codeberg.org/dnkl/foot/src/branch/master/foot-server@.service.in
+        #systemd.user.services.foot-server = {
+        #  Service = {
+        #    ExecStart = "${pkgs.foot}/bin/foot --server=0";
+        #    NonBlocking = true;
+        #    StandardInput = "socket";
+        #  };
+        #  Unit = {
+        #    Requires = [ "%N.socket" ];
+        #    Description = "Foot server";
+        #    Documentation = "man:foot(1)";
+        #    PartOf = [ "graphical-session.target" ];
+        #    After = [ "graphical-session.target" ];
+        #    ConditionEnvironment = "WAYLAND_DISPLAY";
+        #  };
+        #  Install.WantedBy = [ "graphical-session.target" ];
+        #};
+
+        #systemd.user.sockets.foot-server = {
+        #  Socket.ListenStream = "%t/foot.sock";
+        #  Install.WantedBy = [ "sockets.target" ];
+        #};
       };
   };
 }

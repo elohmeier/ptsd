@@ -5,14 +5,10 @@ let
 in
 {
   fonts.fonts = with pkgs; lib.mkIf (cfg.enable && !config.ptsd.bootstrap) [
-    # cozette
-    # iosevka # pulls in i686-incompatible dependencies
-    nerdfonts
+    (nerdfonts.override { fonts = [ "SourceCodePro" ]; })
     nwfonts
-    # proggyfonts
     roboto
     roboto-slab
-    # source-code-pro
     spleen
     win10fonts
   ];
