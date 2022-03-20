@@ -74,7 +74,7 @@ in
     packageOverrides = pkgs: {
       steam = pkgs.steam.override {
         extraPkgs = pkgs: [
-          pkgs.openssl_1_0_2 # velocidrone
+          #pkgs.openssl_1_0_2 # velocidrone
         ];
       };
     };
@@ -172,7 +172,7 @@ in
 
   ptsd.desktop.keybindings = mkIf (!config.ptsd.minimal) {
     "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
-    "${desktopCfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
+    "${desktopCfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.ptsd-tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
   };
 
   services.gvfs.enable = mkDefault true; # allow smb:// mounts in pcmanfm

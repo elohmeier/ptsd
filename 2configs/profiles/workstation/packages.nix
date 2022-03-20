@@ -1,16 +1,15 @@
 { config, lib, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) (hackertools ++ [
-    photoprism
     AusweisApp2
     nodejs # for copilot.vim
-    pkgsCross.avr.buildPackages.gcc # avr-gcc
-    arduino
-    avrdude
+    #pkgsCross.avr.buildPackages.gcc # avr-gcc
+    #arduino
+    #avrdude
 
     pdfconcat
 
-    wtype
+    #wtype
 
     whois
     nix-top
@@ -19,32 +18,27 @@
     hcloud
     tmuxinator
     sqlfluff
-    dbeaver
-    clinfo
-    mupdf
-    libsixel
-    exa
+    #dbeaver
+    #clinfo
+    #mupdf
+    #libsixel
     awscli2
-    gcolor3
+    #gcolor3
     syncthing
-    geckodriver
+    #geckodriver
     smbclient
-    mu-repo
-    file-rename
-    peek
-    hidclient
-    screenkey
+    #mu-repo
+    #file-rename
+    #peek
+    #hidclient
+    #screenkey
     hydra-check
-    dfeet
-    fishPlugins.fzf-fish
-    fishPlugins.done
-    fzf
-    zoxide
+    #dfeet
     bc
-    bind
-    bridge-utils
+    #bind
+    #bridge-utils
     file
-    htop
+    #htop
     iftop
     iotop
     jq
@@ -60,50 +54,48 @@
     wget
     shellcheck
     nixpkgs-fmt
-    gnumake
     #(pass.withExtensions (ext: [ ext.pass-import ]))
     pass
     openssl
-    lorri
+    #lorri
     smartmontools
     gptfdisk
     parted
     usbutils
-    wirelesstools
-    wpa_supplicant
-    macchanger
+    #wirelesstools
+    #wpa_supplicant
+    #macchanger
     p7zip
     unrar
-    mosh
+    #mosh
     mkpasswd
     netcat-gnu
     nwbackup-env
     nix-index
-    ptsdbootstrap
+    #ptsdbootstrap
     ptsd-nnn
     bat
 
-    bubblewrap
-    nsjail
+    #bubblewrap
+    #nsjail
 
     nodePackages.prettier
-    f2fs-tools
+    #f2fs-tools
 
 
     # *** 3dprinting ***
-    prusa-slicer
     # todo: add
     # https://github.com/triplus/PieMenu
     # https://github.com/triplus/Glass
     freecad
-    cura
+    #cura
     prusa-slicer
-    f3d
+    #f3d
 
     # *** admin ***
-    tigervnc
-    ethtool
-    gparted
+    #tigervnc
+    #ethtool
+    #gparted
     git
     gnupg
     # TODO: broken lxqt-policykit, replace/fix
@@ -112,7 +104,7 @@
     gen-secrets
     syncthing-device-id
     nwvpn-qr
-    paperkey
+    #paperkey
     nixpkgs-fmt
     #asciinema
     rclone
@@ -139,12 +131,10 @@
     nbconvert
     sqlitebrowser
     #filezilla
-    gnumake
-    #nix-deploy
-    #hcloud
-    dep2nix
+    #gnumake
+    #dep2nix
     #dbeaver
-    drone-cli
+    #drone-cli
     #openshift
     #minishift
     cachix
@@ -153,12 +143,10 @@
     #docker_compose
     #kakoune
     go
-    python3Packages.graphtage
-    clang
+    #python3Packages.graphtage
+    #clang
     nix-prefetch-git
     #jetbrains.datagrip
-
-
 
     # *** kvm ***
     virtviewer
@@ -170,40 +158,37 @@
     #mpv # via home-manager...
     imagemagickBig
     ghostscript
-    ffmpeg-normalize
+    #ffmpeg-normalize
     youtube-dl
     vlc
     #mediathekview
     obs-studio
-    v4l-utils
+    #v4l-utils
     wf-recorder
     #art
     exiftool
     espeak
 
-
     # *** office ***
     quirc # qr scanner
-    aliza
-    google-drive-ocamlfuse
+    #aliza # dicom viewer
+    #google-drive-ocamlfuse
     gnome3.file-roller
     xournalpp
     #calibre
     transmission-gtk
     fava
     beancount
-    anki
+    #anki
     sylpheed
-    claws-mail
-    #nerdworks-motivation
+    #claws-mail
     keepassxc
-    (pdftk.override { jre = openjdk11; })
+    pdftk
     libreoffice-fresh
     inkscape
     gimp
     shrinkpdf
-    ptsd-python3.pkgs.davphonebook
-    element-desktop
+    #element-desktop
     gomuks
     aspell
     aspellDicts.de
@@ -214,12 +199,11 @@
     hunspellDicts.en-gb-large
     hunspellDicts.en-us-large
     mumble
-    tg
-    tdesktop
+    #tg
+    #tdesktop
     pdfduplex
     pdf2svg
 
-    zathura-single
     (makeDesktopItem {
       name = "zathura";
       desktopName = "Zathura";
@@ -265,10 +249,13 @@
 
   ] ++ lib.optionals (pkgs.stdenv.hostPlatform.system != "aarch64-linux") [
 
+    # long tensorflow build...
+    photoprism
+
     # *** fpv ***
     betaflight-configurator
 
-    discord
+    #discord
     spotify
     easyeffects
 
@@ -277,10 +264,8 @@
     wineWowPackages.stable # 32-bit & 64-bit
     winetricks
     #ppsspp # TODO: wait for https://github.com/NixOS/nixpkgs/pull/124162
-    epsxe
-    mupen64plus
-
-
+    #epsxe
+    #mupen64plus
 
     portfolio
     teams

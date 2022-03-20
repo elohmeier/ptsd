@@ -212,6 +212,8 @@ self: pkgs_master: nixpkgs_master: super:
 
   ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
 
+  ptsd-tesseract = self.tesseract.override { enableLanguages = [ "eng" "deu" ]; };
+
   # pull in recent versions from >21.11
   checkSSLCert = super.checkSSLCert.overrideAttrs (oldAttrs: rec {
     # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
