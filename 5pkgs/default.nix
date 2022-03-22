@@ -209,7 +209,10 @@ self: pkgs_master: nixpkgs_master: super:
 
   ptsd-neovim-full = self.callPackage ./ptsd-neovim { };
 
-  ptsd-nnn = self.nnn.override { withNerdIcons = true; };
+  ptsd-nnn = (self.nnn.overrideAttrs (old: {
+    makeFlags = old.makeFlags ++ [ "O_GITSTATUS=1" ];
+  })).override
+    { withNerdIcons = true; };
 
   ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
 
