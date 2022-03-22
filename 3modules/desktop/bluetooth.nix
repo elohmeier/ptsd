@@ -7,7 +7,7 @@ in
   hardware = {
     bluetooth = {
       enable = cfg.bluetooth.enable && !config.ptsd.bootstrap;
-      hsphfpd.enable = cfg.bluetooth.enable && !config.ptsd.bootstrap;
+      # hsphfpd.enable = cfg.bluetooth.enable && !config.ptsd.bootstrap;
       package = pkgs.bluezFull;
     };
   };
