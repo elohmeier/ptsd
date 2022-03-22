@@ -88,7 +88,7 @@ in
       }
       {
         name = "nginx-wellknown-matrix";
-        rule = "PathPrefix(`/.well-known/matrix`)";
+        rule = "PathPrefix(`/.well-known/matrix`) && Host(`nerdworks.de`)";
         priority = 9999; # high-priority for router
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
