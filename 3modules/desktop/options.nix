@@ -11,7 +11,7 @@ in
       i3compat = mkEnableOption "use i3 instead of sway";
       fontSans = mkOption {
         type = types.str;
-        default = "Ioseka Sans"; # TODO: expose package, e.g. for gtk
+        default = "Lucida Sans"; # TODO: expose package, e.g. for gtk
       };
       fontMono = mkOption {
         type = types.str;
