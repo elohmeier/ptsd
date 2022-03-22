@@ -32,9 +32,9 @@ in
       nerdworkswww = 10015;
       nextcloud = 10016;
       nginx-fraam-intweb = 10017;
-      nginx-kanboard = 10019;
-      nginx-monica = 10020;
-      nginx-nwacme = 10021;
+      nginx-kanboard = 10018;
+      nginx-monica = 10019;
+      nginx-nwacme = 10020;
       nginx-wellknown-matrix = 10021;
       nwgit = 10022;
       octoprint = 10023;
