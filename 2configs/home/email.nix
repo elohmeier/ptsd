@@ -7,6 +7,18 @@ let
   '';
 in
 {
+  programs.afew = {
+    enable = true;
+    extraConfig = ''
+      [SpamFilter]
+      [KillThreadsFilter]
+      [ListMailsFilter]
+      [ArchiveSentMailsFilter]
+      [InboxFilter]
+      [FolderNameFilter]
+    '';
+  };
+  programs.lieer.enable = true;
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
   programs.neomutt = {
@@ -67,6 +79,18 @@ in
         host = "mail.nerdworks.de";
       };
       userName = "enno@nerdworks.de";
+    };
+
+    accounts.fraam = {
+      address = "enno.richter@fraam.de";
+      flavor = "gmail.com";
+      lieer.enable = true;
+      neomutt = {
+        enable = true;
+        sendMailCommand = "${pkgs.gmailieer}/bin/gmi send -t -C ${config.accounts.email.accounts.fraam.maildir.absPath}";
+      };
+      notmuch.enable = true;
+      realName = "Enno Richter";
     };
   };
 }
