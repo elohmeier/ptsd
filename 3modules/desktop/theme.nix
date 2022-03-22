@@ -182,21 +182,21 @@ in
     #   set --global hydro_color_prompt ${accent};
     # '';
 
-    environment.variables = {
-      # https://github.com/jarun/nnn/wiki/Usage#configuration
-      NNN_FCOLORS = "c1e2272e006033f7c6d6abc4";
-      BEMENU_OPTS = "--fn \\\"${font} ${toString config.ptsd.desktop.fontSize}\\\" --nb ${colors.primary.background} --nf ${colors.primary.foreground} --hb ${colors.primary.contrast} --hf ${colors.primary.accent} --tb ${colors.primary.contrast} --tf ${colors.primary.accent}";
-    };
-
     home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
       {
+        home.sessionVariables = {
+          # https://github.com/jarun/nnn/wiki/Usage#configuration
+          NNN_FCOLORS = "c1e2272e006033f7c6d6abc4";
+          BEMENU_OPTS = "--fn \\\"${font} ${toString nixosConfig.ptsd.desktop.fontSize}\\\" --nb ${colors.primary.background} --nf ${colors.primary.foreground} --hb ${colors.primary.contrast} --hf ${colors.primary.accent} --tb ${colors.primary.contrast} --tf ${colors.primary.accent}";
+        };
         programs.foot.settings = footCfg;
         ptsd.firefox.extraExtensions = mkIf (cfg.theme == "black") [ pkgs.ptsd-firefoxAddons.darkreader ];
         programs.alacritty.settings.colors = colors;
 
         wayland.windowManager.sway = {
           config.colors = swayColors;
-          config.output."*".bg = "/sync/Pocket/P1080645.jpg fill";
+          #config.output."*".bg = "/sync/Pocket/P1080645.jpg fill";
+          config.output."*".bg = "${colors.primary.background} solid_color";
         };
         gtk = {
           theme = {
