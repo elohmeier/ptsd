@@ -40,6 +40,14 @@ self: pkgs_master: nixpkgs_master: super:
         flakeIgnore = [ "E501" ];
       }
       ../4scripts/autoname_workspaces.py;
+  betaflight-configurator = pkgs_master.betaflight-configurator.overrideAttrs
+    (old: {
+      version = "10.8.0-RC3";
+      src = self.fetchurl {
+        url = "https://github.com/betaflight/betaflight-configurator/releases/download/10.8.0-RC3/betaflight-configurator_10.8.0_linux64-portable.zip";
+        sha256 = "sha256-iOfwS0xD87fcepKG7TW9Crrk2JkZWUnIBY/jgh9m4so=";
+      };
+    });
   carberryd = self.callPackage ./carberryd { };
   choose-browser = self.writers.writeDashBin "choose-browser" ../4scripts/choose-browser.sh;
   docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
