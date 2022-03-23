@@ -97,7 +97,7 @@ in
 
               startup = [
                 { command = "${config.programs.waybar.package}/bin/waybar"; }
-                { command = "${config.programs.foot.package}/bin/foot --server"; }
+                #{ command = "${config.programs.foot.package}/bin/foot --server"; }
                 { command = toString pkgs.autoname-workspaces; }
               ] ++ optional cfg.autolock.enable {
                 command = ''${pkgs.swayidle}/bin/swayidle -w \
@@ -148,29 +148,30 @@ in
           Install = { WantedBy = [ "sockets.target" ]; };
         };
 
-        # requires wayland-instance@.target setup
+        # TODO: add wayland-instance@.target setup
+        # to fix wayland-1.sock assumption issue
         # see also https://codeberg.org/dnkl/foot/src/branch/master/foot-server@.service.in
-        #systemd.user.services.foot-server = {
-        #  Service = {
-        #    ExecStart = "${pkgs.foot}/bin/foot --server=0";
-        #    NonBlocking = true;
-        #    StandardInput = "socket";
-        #  };
-        #  Unit = {
-        #    Requires = [ "%N.socket" ];
-        #    Description = "Foot server";
-        #    Documentation = "man:foot(1)";
-        #    PartOf = [ "graphical-session.target" ];
-        #    After = [ "graphical-session.target" ];
-        #    ConditionEnvironment = "WAYLAND_DISPLAY";
-        #  };
-        #  Install.WantedBy = [ "graphical-session.target" ];
-        #};
+        systemd.user.services.foot-server = {
+          Service = {
+            ExecStart = "${pkgs.foot}/bin/foot --server=0";
+            NonBlocking = true;
+            StandardInput = "socket";
+          };
+          Unit = {
+            Requires = [ "%N.socket" ];
+            Description = "Foot server";
+            Documentation = "man:foot(1)";
+            PartOf = [ "graphical-session.target" ];
+            After = [ "graphical-session.target" ];
+            ConditionEnvironment = "WAYLAND_DISPLAY";
+          };
+          Install.WantedBy = [ "graphical-session.target" ];
+        };
 
-        #systemd.user.sockets.foot-server = {
-        #  Socket.ListenStream = "%t/foot.sock";
-        #  Install.WantedBy = [ "sockets.target" ];
-        #};
+        systemd.user.sockets.foot-server = {
+          Socket.ListenStream = "%t/foot-wayland-1.sock";
+          Install.WantedBy = [ "sockets.target" ];
+        };
       };
   };
 }

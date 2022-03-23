@@ -250,4 +250,15 @@ self: pkgs_master: nixpkgs_master: super:
   wlroots = pkgs_master.wlroots;
 
   kanboard = pkgs_master.kanboard;
+  # required for systemd-socket-activation (to be released in foot v1.12)
+  foot = pkgs_master.foot.overrideAttrs (oldAttrs: {
+    version = "2022-03-19";
+    src = self.fetchFromGitea {
+      domain = "codeberg.org";
+      owner = "dnkl";
+      repo = "foot";
+      rev = "de5226c93007c588f28a12215796c462a05e5bdf";
+      sha256 = "sha256-ykbv9lpWxS89W8W+cWrEuxLP6osPf+BOdueYLUdLkwY=";
+    };
+  });
 }
