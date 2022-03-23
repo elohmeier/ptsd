@@ -85,6 +85,7 @@ in
       address = "enno.richter@fraam.de";
       flavor = "gmail.com";
       lieer.enable = true;
+      folders.inbox = "mail";
       neomutt = {
         enable = true;
         sendMailCommand = "${pkgs.gmailieer}/bin/gmi send -t -C ${config.accounts.email.accounts.fraam.maildir.absPath}";
