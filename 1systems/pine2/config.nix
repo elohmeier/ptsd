@@ -11,8 +11,6 @@
     ../../2configs/profiles/workstation
   ];
 
-  ptsd.desktop.enable = true;
-
   ptsd.nwacme.hostCert.enable = false;
   ptsd.tor-ssh.enable = false;
 
@@ -30,6 +28,7 @@
         powersave = true;
       };
     };
+    firewall.enable = false; # todo: kernel module missing?
   };
 
   ptsd.nwbackup.enable = false;
@@ -78,13 +77,16 @@
       cp -v ${closureInfo}/registration "$DESTDIR/boot/nix-path-registration"
     '';
 
+  ptsd.desktop = {
+    enable = true;
+    modifier = "Mod1";
+  };
+
   home-manager.users.mainUser = { pkgs, ... }: {
-    home.keyboard.layout = "en";
     wayland.windowManager.sway.config = {
-      input.kb151.xkb_layout = "en";
+      input.kb151.xkb_layout = "us";
       output.DSI-1 = {
         transform = "90";
-        #bg = "/home/enno/Downloads/JI2A5337_90.JPG fill";
       };
     };
   };

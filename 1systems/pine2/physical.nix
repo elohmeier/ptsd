@@ -5,6 +5,9 @@
     ./config.nix
   ];
 
+  security.pam.mount.enable = true;
+  users.users.mainUser.cryptHomeLuks = "/dev/sysVG/home-enno";
+
   fileSystems."/boot" = {
     fsType = "ext4";
     device = "/dev/mmcblk2p1";
@@ -37,7 +40,10 @@
 
   swapDevices =
     [
-      { device = "/dev/sysVG/swap"; }
+      {
+        device = "/dev/sysVG/swap";
+        randomEncryption.enable = true;
+      }
     ];
 
   boot = {
