@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) (hackertools ++ [
+    jless
     ripmime
     AusweisApp2
     nodejs # for copilot.vim
