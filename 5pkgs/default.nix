@@ -258,6 +258,8 @@ self: pkgs_master: nixpkgs_master: super:
   wlroots = pkgs_master.wlroots;
 
   kanboard = pkgs_master.kanboard;
+  flameshot = pkgs_master.flameshot;
+
   # required for systemd-socket-activation (to be released in foot v1.12)
   foot = pkgs_master.foot.overrideAttrs (oldAttrs: {
     version = "2022-03-19";
@@ -269,4 +271,5 @@ self: pkgs_master: nixpkgs_master: super:
       sha256 = "sha256-ykbv9lpWxS89W8W+cWrEuxLP6osPf+BOdueYLUdLkwY=";
     };
   });
+  jless = pkgs_master.jless;
 }
