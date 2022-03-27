@@ -29,7 +29,9 @@ let
     ];
     modules-center = [
     ];
-    modules-right = (optional cfg.autolock.enable "idle_inhibitor") ++ [ "custom/nobbofin-inbox" ] ++ (optional cfg.waybar.co2
+    modules-right = (optional cfg.autolock.enable "idle_inhibitor") ++ [
+      #"custom/nobbofin-inbox"
+    ] ++ (optional cfg.waybar.co2
       "custom/co2") ++ [
       "disk#home"
       "disk#sync"
@@ -81,13 +83,13 @@ let
       #   return-type = "json";
       #   on-click-right = cfg.term.execFloating "${pkgs.procps}/bin/watch -n1 ${pkgs.upower}/bin/upower -d" "";
       # };
-      "custom/nobbofin-inbox" = {
-        format = "nbf {}";
-        exec = pkgs.writeShellScript "nobbofin-inbox" ''
-          ${pkgs.findutils}/bin/find /home/enno/repos/nobbofin/000_INBOX -type f | wc -l
-        '';
-        interval = 30;
-      };
+      #"custom/nobbofin-inbox" = {
+      #  format = "nbf {}";
+      #  exec = pkgs.writeShellScript "nobbofin-inbox" ''
+      #    ${pkgs.findutils}/bin/find /home/enno/repos/nobbofin/000_INBOX -type f | wc -l
+      #  '';
+      #  interval = 30;
+      #};
       "disk#home" = rec {
         format = "ho {percentage_free}%";
         path = "/home";
