@@ -61,7 +61,7 @@ self: pkgs_master: nixpkgs_master: super:
   hidclient = self.callPackage ./hidclient { };
   home-assistant-variants = self.callPackage ./home-assistant-variants { };
   kitty-terminfo = self.callPackage ./kitty-terminfo { };
-  firefox-config-desktop = self.callPackage ./firefox-configs/desktop.nix { };
+  firefox-config-desktop = self.callPackage ./firefox-configs/desktop.nix { wrapFirefox = self.callPackage ./firefox-configs/wrapper.nix { }; };
   firefox-config-mobile = self.callPackage ./firefox-configs/mobile.nix { };
   monica = self.callPackage ./monica { };
   motion-web = self.callPackage ./motion-web { };
