@@ -4,6 +4,7 @@
 , extraExtensions ? [ ]
 , writeText
 , runCommand
+, jq
 , ...
 }:
 
@@ -23,10 +24,8 @@ let
     name = "uBlock0@raymondhill.net";
     description = "ignored";
     type = "storage";
-    data = {
-      # use http://raymondhill.net/ublock/adminSetting.html to generate from backup
-      adminSettings = "{\"timeStamp\":1648482369000,\"version\":\"1.41.8\",\"userSettings\":{\"advancedUserEnabled\":true,\"importedLists\":[],\"popupPanelSections\":31},\"selectedFilterLists\":[\"user-filters\",\"ublock-filters\",\"ublock-badware\",\"ublock-privacy\",\"ublock-quick-fixes\",\"ublock-abuse\",\"ublock-unbreak\",\"easylist\",\"easyprivacy\",\"urlhaus-1\",\"fanboy-cookiemonster\",\"plowe-0\",\"DEU-0\"],\"hiddenSettings\":{},\"whitelist\":[\"about-scheme\",\"chrome-extension-scheme\",\"chrome-scheme\",\"edge-scheme\",\"moz-extension-scheme\",\"opera-scheme\",\"vivaldi-scheme\",\"wyciwyg-scheme\"],\"dynamicFilteringString\":\"behind-the-scene * * noop\\nbehind-the-scene * inline-script noop\\nbehind-the-scene * 1p-script noop\\nbehind-the-scene * 3p-script noop\\nbehind-the-scene * 3p-frame noop\\nbehind-the-scene * image noop\\nbehind-the-scene * 3p noop\",\"urlFilteringString\":\"\",\"hostnameSwitchesString\":\"no-large-media: behind-the-scene false\\nno-remote-fonts: * true\\nno-csp-reports: * true\\nno-scripting: * true\",\"userFilters\":\"\"}";
-    };
+    # backup conversion similar to http://raymondhill.net/ublock/adminSetting.html
+    data.adminSettings = builtins.readFile (runCommand "ublock-config-backup" { preferLocalBuild = true; } "cat ${./my-ublock-backup.txt} | ${jq}/bin/jq -c > $out");
   });
   ublockConfig = runCommand "ublock-managed-config" { preferLocalBuild = true; } ''
     mkdir -p $out/lib/mozilla/managed-storage
@@ -79,6 +78,10 @@ wrapFirefox firefox-unwrapped
     Extensions = {
       Install = [
         "https://addons.mozilla.org/firefox/downloads/file/3711209/browserpass-3.7.2-fx.xpi"
+
+        # see https://librewolf.net/docs/faq/#why-is-librewolf-forcing-light-theme
+        # "https://addons.mozilla.org/firefox/downloads/file/3904618/dark_reader-4.9.45-an+fx.xpi"
+
         "https://addons.cdn.mozilla.net/user-media/addons/607454/ublock_origin-1.41.8-an+fx.xpi"
         "https://addons.mozilla.org/firefox/downloads/file/3904477/surfingkeys-1.0.4-fx.xpi"
       ];
