@@ -63,6 +63,7 @@ self: pkgs_master: nixpkgs_master: super:
   kitty-terminfo = self.callPackage ./kitty-terminfo { };
   firefox-config-desktop = self.callPackage ./firefox-configs/desktop.nix { wrapFirefox = self.callPackage ./firefox-configs/wrapper.nix { }; };
   firefox-config-mobile = self.callPackage ./firefox-configs/mobile.nix { };
+  lz4json = self.callPackage ./lz4json { };
   monica = self.callPackage ./monica { };
   motion-web = self.callPackage ./motion-web { };
   nbconvert = self.callPackage ./nbconvert { };
