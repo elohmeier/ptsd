@@ -22,7 +22,7 @@ let
   treesitter = (vimPlugins.nvim-treesitter.withPlugins (plugins: with plugins; [
     tree-sitter-beancount
     tree-sitter-go
-    tree-sitter-nix
+    #tree-sitter-nix
     tree-sitter-norg
     tree-sitter-python
   ]));
@@ -46,7 +46,7 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
       nvim-web-devicons
       treesitter
       nnn-vim
-      hop-nvim
+      #hop-nvim
       nvim-compe
       telescope-nvim
       lualine-nvim
@@ -77,12 +77,12 @@ wrapNeovimUnstable neovim-unwrapped (neovimUtils.makeNeovimConfig {
       '';
     }
     nnn-vim
-    {
-      plugin = hop-nvim;
-      config = ''
-        nnoremap <leader>hl :HopLine<CR>
-      '';
-    }
+    #{
+    #  plugin = hop-nvim;
+    #  config = ''
+    #    nnoremap <leader>hl :HopLine<CR>
+    #  '';
+    #}
     {
       plugin = nvim-compe;
       config = ''
