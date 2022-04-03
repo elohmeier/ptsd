@@ -44,6 +44,7 @@ in
       modifier = mkOption {
         type = types.str;
         default = "Mod4";
+        example = "Mod1";
       };
       lockImage = mkOption {
         type = types.str;
