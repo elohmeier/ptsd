@@ -18,19 +18,15 @@ with lib;
     #  ./modules/netboot-host.nix
   ];
 
-  #   nix = {
-  #     distributedBuilds = true;
-  #     buildMachines = [
-  #       {
-  #         hostName = "18.193.115.167";
-  #         maxJobs = 64;
-  #         sshKey = "/home/enno/repos/ptsd/awsbuilder.id_ed25519";
-  #         sshUser = "root";
-  #         system = "aarch64-linux";
-  #         supportedFeatures = [ "big-parallel" ];
-  #       }
-  #     ];
-  #   };
+  # ptsd.motion = {
+  #   enable = true;
+  #   videoDevice = "/dev/video2";
+  # };
+
+  #ptsd.kanboard = {
+  #  enable = true;
+  #  domain = "localhost";
+  #};
 
   ptsd.photoprism = {
     enable = true;
