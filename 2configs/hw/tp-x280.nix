@@ -14,7 +14,10 @@
   services.tlp.enable = true; # TLP Linux Advanced Power Management
   services.fwupd.enable = true;
 
-  services.xserver.videoDrivers = [ "displaylink" "modesetting" ];
+  services.xserver.videoDrivers = [
+    #"displaylink"  # TODO: reenable for 22.05
+    "modesetting"
+  ];
 
   boot.initrd.availableKernelModules =
     [ "xhci_pci" "nvme" "usb_storage" "sd_mod" "hid_microsoft" ];
@@ -32,6 +35,7 @@
     # "i8042.dumpkbd"
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # workaround random wifi drops
   # see https://bugzilla.kernel.org/show_bug.cgi?id=203709

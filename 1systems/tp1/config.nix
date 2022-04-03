@@ -18,6 +18,26 @@ in
     ./modules/syncthing.nix
   ];
 
+  programs.ssh.knownHosts = {
+    nixbuild = {
+      hostNames = [ "eu.nixbuild.net" ];
+      publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIQCZc54poJ8vqawd8TraNryQeJnvH1eLpIDgbiqymM";
+    };
+  };
+
+  nix = {
+    distributedBuilds = true;
+    buildMachines = [
+      {
+        hostName = "eu.nixbuild.net";
+        system = "x86_64-linux";
+        maxJobs = 100;
+        supportedFeatures = [ "benchmark" "big-parallel" ];
+      }
+    ];
+  };
+
+
   # backup after boot
   systemd.timers.borgbackup-job-nwbackup-nas1.timerConfig.OnBootSec = "3m";
 
@@ -34,7 +54,7 @@ in
   ptsd.desktop = {
     enable = true;
     trayOutput = "eDP-1";
-    fontSize = 12.0;
+    fontSize = 11.0;
 
     baresip = {
       enable = true;
@@ -47,7 +67,10 @@ in
       imports = [ ../../2configs/home/email.nix ];
       home.stateVersion = "20.09";
       wayland.windowManager.sway = {
-        config.input."1739:0:Synaptics_TM3381-002".events = "disabled";
+        config.input = {
+          "1739:0:Synaptics_TM3381-002".events = "disabled";
+          "2:10:TPPS/2_Elan_TrackPoint".pointer_accel = "1";
+        };
       };
     };
 
@@ -185,10 +208,10 @@ in
 
     nwvpn = {
       # SIP
-      #client.allowedIPs = [ "192.168.178.1/32" ];
-      #routes = [
-      #  { routeConfig = { Destination = "192.168.178.1/32"; }; }
-      #];
+      client.allowedIPs = [ "192.168.178.1/32" ];
+      routes = [
+        { routeConfig = { Destination = "192.168.178.1/32"; }; }
+      ];
     };
   };
 
