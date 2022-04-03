@@ -84,7 +84,8 @@
 
   home-manager.users.mainUser = { pkgs, ... }: {
     wayland.windowManager.sway.config = {
-      input.kb151.xkb_layout = "us";
+      input."0:0:kb151".xkb_layout = "us";
+      input."1046:1158:Goodix_Capacitive_TouchScreen".map_to_output ="DSI-1";
       output.DSI-1 = {
         transform = "90";
       };
