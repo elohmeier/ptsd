@@ -11,9 +11,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
-    nix-doom-emacs.url = github:nix-community/nix-doom-emacs;
-    nix-doom-emacs.inputs.flake-utils.follows = "flake-utils";
-    nix-doom-emacs.inputs.nixpkgs.follows = "nixpkgs";
     frix.url = "git+https://git.fraam.de/fraam/frix";
     #frix.url = "/home/enno/repos/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
@@ -44,7 +41,6 @@
     , home-manager
     , nixos-hardware
     , flake-utils
-    , nix-doom-emacs
     , frix
     , nur
     , mobile-nixos
@@ -95,7 +91,6 @@
                 home-manager.users.mainUser = { nixosConfig, ... }:
                   {
                     imports = [
-                      nix-doom-emacs.hmModule
                       ./3modules/home
                     ];
 

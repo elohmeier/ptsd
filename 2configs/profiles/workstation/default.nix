@@ -164,11 +164,6 @@ in
       home.file.".config/nnn/plugins/assign-transaction-prevyear".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction-prevyear;
       home.file.".config/nnn/plugins/pdfconcat".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfconcat;
       home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
-
-      # programs.doom-emacs = {
-      #   enable = !nixosConfig.ptsd.minimal;
-      #   doomPrivateDir = ../../../src/doom.d;
-      # };
     };
 
   ptsd.desktop.keybindings = mkIf (!config.ptsd.minimal) {
