@@ -190,9 +190,6 @@ in
     efitools
     tpm2-tools
 
-    (writeShellScriptBin "activate-da-home-again" ''
-      ${config.home-manager.users.mainUser.home.activationPackage}/activate
-    '')
   ];
 
   ptsd.wireguard.networks = {

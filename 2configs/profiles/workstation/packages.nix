@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) (hackertools ++ [
+    (writeShellScriptBin "activate-da-home-again" ''
+      ${config.home-manager.users.mainUser.home.activationPackage}/activate
+    '')
+    xfsprogs.bin
     jless
     ripmime
     AusweisApp2
@@ -78,7 +82,7 @@
     ptsd-nnn
     bat
 
-    #bubblewrap
+    bubblewrap
     #nsjail
 
     nodePackages.prettier
@@ -190,7 +194,7 @@
     inkscape
     gimp
     shrinkpdf
-    #element-desktop
+    element-desktop
     gomuks
     aspell
     aspellDicts.de
