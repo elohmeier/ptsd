@@ -17,16 +17,27 @@ let
   });
   fluentConfig = pkgs.writeText "fluent-bit.conf" (toLoki {
     SERVICE = {
-      flush = 1;
+      flush = 5;
       daemon = "off";
       log_level = "info";
       parsers_file = toString parserConfig;
     };
 
-    INPUT = {
-      name = "systemd";
-      tag = "*";
-    };
+    # todo: gen config by just piling up includes
+    # see https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_include_file-1
+
+    INPUT = #[
+      {
+        name = "systemd";
+        tag = "*";
+        read_from_tail = "on"; # skip old journal entries
+      };
+    #    {
+    #      name = "tail";
+    #      path = "/var/log/traefik/access.log.json";
+    #      tag = "traefik";
+    #    }
+    #  ];
 
     OUTPUT = {
       name = "loki";
