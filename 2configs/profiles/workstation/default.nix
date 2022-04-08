@@ -28,7 +28,7 @@ in
     white.configuration = {
       ptsd.desktop.theme = "white";
     };
-  } // optionalAttrs (pkgs.stdenv.hostPlatform != "aarch64-linux") {
+  } // optionalAttrs (pkgs.stdenv.hostPlatform.system != "aarch64-linux") {
     i3compat.configuration = {
       ptsd.desktop.i3compat = true;
     };
