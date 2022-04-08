@@ -86,4 +86,6 @@ in
 
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
   console.keyMap = "us";
+
+  environment.systemPackages = [ pkgs.pinephone-keyboard ];
 }

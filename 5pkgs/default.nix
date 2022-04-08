@@ -273,4 +273,6 @@ self: pkgs_master: nixpkgs_master: super:
     };
   });
   jless = pkgs_master.jless;
+
+  pinephone-keyboard = self.callPackage ./pinephone-keyboard { };
 }
