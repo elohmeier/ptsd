@@ -24,14 +24,15 @@ in
 
   nix.gc.automatic = false;
 
-  specialisation = mkIf (!config.ptsd.minimal) {
-    i3compat.configuration = {
-      ptsd.desktop.i3compat = true;
-    };
+  specialisation = mkIf (!config.ptsd.minimal) ({
     white.configuration = {
       ptsd.desktop.theme = "white";
     };
-  };
+  } // optionalAttrs (pkgs.stdenv.hostPlatform != "aarch64-linux") {
+    i3compat.configuration = {
+      ptsd.desktop.i3compat = true;
+    };
+  });
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
 
@@ -60,7 +61,7 @@ in
     supportedLocales = [ "en_IE.UTF-8/UTF-8" "en_DK.UTF-8/UTF-8" ];
   };
 
-  virtualisation.spiceUSBRedirection.enable = mkDefault true;
+  virtualisation.spiceUSBRedirection.enable = mkDefault (pkgs.stdenv.hostPlatform.system != "aarch64-linux");
 
   hardware.opengl = {
     enable = true;

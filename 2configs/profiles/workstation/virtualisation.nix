@@ -3,11 +3,12 @@ with lib;
 let
   virshNatIpPrefix = "192.168.197"; # "XXX.XXX.XXX" without last block
   virshNatIf = "virsh-nat";
+  nonAarch64 = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
 in
 {
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = mkIf nonAarch64 [ "aarch64-linux" ];
 
-  virtualisation = {
+  virtualisation = mkIf nonAarch64 {
     docker = {
       enable = mkDefault true;
       enableOnBoot = false; # will be socket-activated
@@ -25,7 +26,7 @@ in
     #    };
   };
 
-  services.samba = {
+  services.samba = mkIf nonAarch64 {
     enable = mkDefault true;
     securityType = "user";
     extraConfig = ''
@@ -46,11 +47,11 @@ in
     };
   };
 
-  environment.systemPackages = with pkgs; mkIf (!config.ptsd.minimal) [
+  environment.systemPackages = with pkgs; mkIf (!config.ptsd.minimal && nonAarch64) [
     samba
   ];
 
-  networking = {
+  networking = mkIf nonAarch64 {
     useNetworkd = true;
 
     firewall.interfaces = {
@@ -68,7 +69,7 @@ in
     };
   };
 
-  systemd.network = {
+  systemd.network = mkIf nonAarch64 {
     netdevs = {
       "40-${virshNatIf}" = {
         netdevConfig = {
