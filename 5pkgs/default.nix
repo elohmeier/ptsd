@@ -1,26 +1,4 @@
-# self: super:
-# with super.lib;
-# let
-#   eq = x: y: x == y;
-#   subdirsOf = path:
-#     mapAttrs
-#       (name: _: path + "/${name}")
-#       (filterAttrs (_: eq "directory") (builtins.readDir path));
-# in
-# mapAttrs
-#   (_: flip self.callPackage { })
-#   (
-#     filterAttrs
-#       (_: dir: pathExists (dir + "/default.nix"))
-#       (subdirsOf ./.)
-#   )
-# left for illustrative purposes
-#  // {
-# inherit (self.callPackage ./hasura {})
-#   hasura-cli
-#   hasura-graphql-engine
-# };
-self: pkgs_master: nixpkgs_master: super:
+self: pkgs_master: nixpkgs_master:neovim-flake: super:
 {
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
@@ -205,6 +183,7 @@ self: pkgs_master: nixpkgs_master: super:
     ]
   );
 
+
   ptsd-ffmpeg = self.ffmpeg-full.override {
     nonfreeLicensing = true;
     fdkaacExtlib = true;
@@ -249,7 +228,7 @@ self: pkgs_master: nixpkgs_master: super:
   libre = pkgs_master.libre;
   librem = pkgs_master.librem;
   vimPlugins = pkgs_master.vimPlugins;
-  neovim-unwrapped = pkgs_master.neovim-unwrapped;
+  neovim-unwrapped = neovim-flake.packages.${self.system}.neovim;
 
   btop = pkgs_master.btop;
   mepo = pkgs_master.mepo;

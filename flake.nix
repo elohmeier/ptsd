@@ -31,6 +31,10 @@
     };
     mobile-nixos.inputs.nixpkgs.follows = "nixpkgs";
     mobile-nixos.inputs.flake-utils.follows = "flake-utils";
+
+    neovim-flake.url = "github:neovim/neovim?dir=contrib";
+    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs =
@@ -45,6 +49,7 @@
     , nur
     , mobile-nixos
     , fraamdb
+    , neovim-flake
     , ...
     }:
 
@@ -56,7 +61,7 @@
             system = pkgs.system;
           };
         in
-        super: (import ./5pkgs pkgs pkgs_master nixpkgs-master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
+        super: (import ./5pkgs pkgs pkgs_master nixpkgs-master neovim-flake super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
       nixosConfigurations =
         let
           defaultModules = [
@@ -67,9 +72,6 @@
                 ];
                 nixpkgs.config = {
                   allowUnfree = true;
-                  #packageOverrides = import ./5pkgs pkgs pkgs_master;
-                  #packageOverrides = import "${frix}/5pkgs" pkgs pkgs_master;
-                  #packageOverrides = super: { } // (import ./5pkgs pkgs pkgs_master super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
                   packageOverrides = pkgOverrides pkgs;
                 };
                 nixpkgs.overlays = [ nur.overlay ];

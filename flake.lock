@@ -112,6 +112,31 @@
         "type": "github"
       }
     },
+    "neovim-flake": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "contrib",
+        "lastModified": 1649385942,
+        "narHash": "sha256-VvqlKZUFhWKXANK75u4ZVJnnaF+QpFl2hVWepF6DzGI=",
+        "owner": "neovim",
+        "repo": "neovim",
+        "rev": "2c7dc648ca796786b4847771c1df71dea20a1774",
+        "type": "github"
+      },
+      "original": {
+        "dir": "contrib",
+        "owner": "neovim",
+        "repo": "neovim",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1648141026,
@@ -182,6 +207,7 @@
         "frix": "frix",
         "home-manager": "home-manager",
         "mobile-nixos": "mobile-nixos",
+        "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-master": "nixpkgs-master",
