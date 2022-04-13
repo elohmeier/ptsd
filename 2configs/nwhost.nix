@@ -11,6 +11,7 @@ in
   programs.fish.shellAliases = {
     l = "exa -al";
     la = "exa -al";
+    lg = "exa -al --git";
     ll = "exa -l";
     ls = "exa";
     tree = "exa --tree";
