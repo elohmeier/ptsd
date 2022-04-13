@@ -9,6 +9,7 @@
     ../../2configs/stateless-root.nix
     ../../3modules/desktop
     ../../2configs/profiles/workstation
+    ./modules/syncthing.nix
   ];
 
   ptsd.nwacme.hostCert.enable = false;

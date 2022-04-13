@@ -90,7 +90,7 @@ in
       "/tank/enc/repos" = {
         label = "enno/repos";
         id = "yqa69-2zjmt";
-        devices = [ "tp1" "ws1" "ws2" ];
+        devices = [ "pine2" "tp1" "ws1" "ws2" ];
         ignorePerms = false;
       };
       "/var/lib/nextcloud/data/enno/files/iOS" = {
