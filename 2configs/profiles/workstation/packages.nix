@@ -117,6 +117,7 @@
     #teamviewer
     qrencode
     sshfs
+    clang-tools
     dnsmasq
     freerdp
     openvpn

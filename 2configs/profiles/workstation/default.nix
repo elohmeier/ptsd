@@ -43,8 +43,6 @@ in
   #   enable = true;
   # };
 
-  ptsd.neovim.package = pkgs.ptsd-neovim-full;
-
   environment.variables = {
     GOPATH = "/home/enno/go";
     NIXPKGS_ALLOW_UNFREE = "1";
@@ -98,6 +96,7 @@ in
         ../../home/git.nix
         ../../home/gpg.nix
         ../../home/mpv.nix
+        ../../home/neovim.nix
         ../../home/tmux.nix
         ../../home/vscodium.nix
       ];

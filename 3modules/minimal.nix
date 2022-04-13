@@ -29,7 +29,6 @@ in
         dev.enable = false;
       };
 
-      ptsd.neovim.enable = false;
       services.gvfs.enable = false;
 
       virtualisation = {

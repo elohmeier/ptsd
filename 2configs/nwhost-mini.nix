@@ -16,6 +16,7 @@ in
 
   environment = {
     systemPackages = with pkgs; [
+      neovim-unwrapped
       tmux
     ];
   };
@@ -69,7 +70,6 @@ in
 
   ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
 
-  ptsd.neovim.enable = mkDefault true;
   environment.variables = { EDITOR = "nvim"; };
 
   ptsd.nwacme = {

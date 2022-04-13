@@ -15,7 +15,6 @@ _:
     ./mosquitto.nix
     ./motion.nix
     ./navidrome.nix
-    ./neovim.nix
     ./nvidia.nix
     ./nwacme.nix
     ./nwbackup.nix

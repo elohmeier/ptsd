@@ -190,13 +190,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     qtFaststartProgram = false;
   };
 
-  ptsd-neovim-small = self.callPackage ./ptsd-neovim {
-    enableLSP = false;
-    enableFormatters = false;
-  };
-
-  ptsd-neovim-full = self.callPackage ./ptsd-neovim { };
-
   ptsd-nnn = (self.nnn.overrideAttrs (old: {
     makeFlags = old.makeFlags ++ [ "O_GITSTATUS=1" ];
   })).override
