@@ -134,6 +134,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       httpcore = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpcore" { };
       httpx = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpx" { };
       pydantic = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/pydantic" { };
+      socksio = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/socksio" { };
     };
   };
 
