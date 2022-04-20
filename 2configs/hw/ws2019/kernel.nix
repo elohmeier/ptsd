@@ -7,7 +7,14 @@
   boot = {
     blacklistedKernelModules = [ "b43" "bcma" ]; # prevent loading of conflicting wifi module, "wl" should be used instead
     extraModulePackages = [
-      config.boot.kernelPackages.broadcom_sta
+      (config.boot.kernelPackages.broadcom_sta.overrideAttrs (old: {
+        patches = old.patches ++ [
+          (pkgs.fetchpatch {
+            url = "https://raw.githubusercontent.com/NixOS/nixpkgs/077d187a4b37ba81ebe9f6985c1dbd0b19f6d33d/pkgs/os-specific/linux/broadcom-sta/linux-5.17.patch";
+            sha256 = "sha256-Ba6xtCJK3Jfwbj93zYqOuOjUAMKoZ48Z97vnLnfKWJo=";
+          })
+        ]; # TODO: waits for BP https://github.com/NixOS/nixpkgs/pull/166232 to stable or 22.05
+      }))
     ];
     initrd = {
       availableKernelModules = [

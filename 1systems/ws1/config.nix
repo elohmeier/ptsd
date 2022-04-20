@@ -7,7 +7,6 @@ with lib;
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
 
-    ../../2configs/themes/black.nix
     ../../2configs/profiles/bs53.nix
     ../../2configs/profiles/workstation
     ../../2configs/prometheus/node.nix
@@ -92,6 +91,7 @@ with lib;
       tpm2-tools
       (vminputChange "attach-device")
       (vminputChange "detach-device")
+      art
     ];
 
   specialisation = {
