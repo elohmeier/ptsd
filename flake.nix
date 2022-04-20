@@ -65,6 +65,7 @@
       nixosConfigurations =
         let
           defaultModules = [
+            ./3modules
             ({ pkgs, ... }:
               {
                 nix.nixPath = [
@@ -672,6 +673,34 @@
                 users.users.bldusr = { isSystemUser = true; group = "bldgrp"; };
                 console.keyMap = "de-latin1";
                 services.getty.autologinUser = "root";
+              })
+            ];
+          };
+
+          # build using
+          # nix build .#nixosConfigurations.monica-vm.config.system.build.vm
+          monica-vm = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ({ config, modulesPath, ... }: {
+                imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
+                virtualisation = {
+                  memorySize = 4096;
+                  qemu.options = [ "-vga virtio" ];
+                  forwardPorts = [
+                    { from = "host"; host.port = 12345; guest.port = config.ptsd.ports.nginx-monica; }
+                  ];
+                };
+                networking.firewall.allowedTCPPorts = [ config.ptsd.ports.nginx-monica ];
+                console.keyMap = "de-latin1";
+                services.getty.autologinUser = "root";
+
+                ptsd.monica = {
+                  enable = true;
+                  domain = "localhost";
+                  secret.enable = false;
+                  listen.addr = "0.0.0.0";
+                };
               })
             ];
           };

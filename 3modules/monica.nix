@@ -117,6 +117,10 @@ in
         type = types.bool;
         default = true;
       };
+      listen.addr = mkOption {
+        type = types.str;
+        default = "127.0.0.1";
+      };
     };
   };
 
@@ -237,7 +241,7 @@ in
         ${cfg.domain} = {
           listen = [
             {
-              addr = "127.0.0.1";
+              addr = cfg.listen.addr;
               port = config.ptsd.ports.nginx-monica;
             }
           ];
@@ -264,13 +268,11 @@ in
       };
     };
 
-    ptsd.nwtraefik.services = [
-      {
-        name = "nginx-monica";
-        rule = "Host(`${cfg.domain}`)";
-        entryPoints = cfg.entryPoints;
-      }
-    ];
+    ptsd.nwtraefik.services = optional (cfg.entryPoints != [ ]) {
+      name = "nginx-monica";
+      rule = "Host(`${cfg.domain}`)";
+      entryPoints = cfg.entryPoints;
+    };
   };
 
 }
