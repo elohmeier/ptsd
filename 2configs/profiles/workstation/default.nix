@@ -83,6 +83,10 @@ in
     ];
   };
 
+  nix.extraOptions = ''
+    keep-outputs = true
+    keep-derivations = true
+  '';
 
   home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
     {
@@ -100,6 +104,11 @@ in
         ../../home/tmux.nix
         ../../home/vscodium.nix
       ];
+
+      programs.direnv.enable = true;
+      programs.direnv.nix-direnv.enable = true;
+      # optional for nix flakes support in home-manager 21.11, not required in home-manager unstable or 22.05
+      programs.direnv.nix-direnv.enableFlakes = true;
 
       ptsd.firefox = {
         enable = !nixosConfig.ptsd.minimal;
