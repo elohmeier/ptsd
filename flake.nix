@@ -33,7 +33,7 @@
     mobile-nixos.inputs.flake-utils.follows = "flake-utils";
 
     neovim-flake.url = "github:neovim/neovim?dir=contrib";
-    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-flake.inputs.nixpkgs.follows = "nixpkgs-master";
     neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
