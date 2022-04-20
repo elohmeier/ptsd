@@ -22,14 +22,14 @@
 }:
 
 stdenv.mkDerivation rec {
-  version = "1.12";
+  version = "1.13";
   pname = "art";
 
   src = fetchFromBitbucket {
     owner = "agriggio";
     repo = "art";
     rev = version;
-    sha256 = "sha256-6xLpA1UjWm9fHDH70ti1IlaNsT8v5iVJvaI31rg4JBg=";
+    sha256 = "sha256-whgAnf76A2WtmMtEtflVZNgotzs6bq+/H9DdEmfL+gM=";
   };
 
   nativeBuildInputs = [ cmake pkg-config wrapGAppsHook ];
