@@ -175,7 +175,7 @@ let
                 http = values.http;
               })
         )
-        cfg.entryPoints) // optionalAttrs (config.ptsd.wireguard.networks.nwvpn.enable) {
+        cfg.entryPoints) // optionalAttrs (hasAttr "nwvpn" config.ptsd.wireguard.networks && config.ptsd.wireguard.networks.nwvpn.enable) {
         metrics = {
           address = "${config.ptsd.wireguard.networks.nwvpn.ip}:9101";
         };
@@ -186,7 +186,7 @@ let
       storage = "/var/lib/traefik/acme.json";
       httpChallenge.entryPoint = "${cfg.acmeEntryPoint}";
     };
-  } // optionalAttrs (config.ptsd.wireguard.networks.nwvpn.enable) {
+  } // optionalAttrs (hasAttr "nwvpn" config.ptsd.wireguard.networks && config.ptsd.wireguard.networks.nwvpn.enable) {
     metrics.prometheus.entryPoint = "metrics";
   };
 
@@ -360,8 +360,6 @@ in
         cfg.services
     );
 
-    # TODO: evaluate https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/security/systemd-confinement.nix
-
     systemd.services.traefik = {
       description = "Traefik web server";
       wants = [ "network.target" ];
@@ -411,7 +409,7 @@ in
     networking = {
       firewall = {
         allowedTCPPorts = [ 80 443 ];
-      } // optionalAttrs (config.ptsd.wireguard.networks.nwvpn.enable) {
+      } // optionalAttrs (hasAttr "nwvpn" config.ptsd.wireguard.networks && config.ptsd.wireguard.networks.nwvpn.enable) {
         interfaces.nwvpn.allowedTCPPorts = [ 9101 ]; # traefik metrics port
       };
     };
