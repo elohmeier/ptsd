@@ -95,6 +95,4 @@
     enable = true;
     wheelNeedsPassword = false;
   };
-
-  ptsd.neovim.enable = true;
 }
