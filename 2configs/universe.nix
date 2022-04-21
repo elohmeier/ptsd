@@ -221,7 +221,7 @@
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC8oMXFMl21K1NNVQJpjgY8TAJb0qGZ9GmL6H+aZqDbq ";
-      borg.quota = "20G";
+      borg.quota = "25G";
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFiChsC/0G5VMstNm5tGr/m0T6+ELGXDBzuGjEERO/jq";
       syncthing.id = "WYSYYAE-AKYEVZX-Q5TZWDH-JMF2IKQ-E5UT5MC-4LD32VA-ENUC3UJ-YMDS2QD";
     };
