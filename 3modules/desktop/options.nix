@@ -43,8 +43,8 @@ in
       };
       modifier = mkOption {
         type = types.str;
-        default = "Mod4";
-        example = "Mod1";
+        default = "Mod1"; # Alt
+        example = "Mod4"; # Win
       };
       lockImage = mkOption {
         type = types.str;
