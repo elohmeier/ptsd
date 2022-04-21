@@ -248,4 +248,8 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   jless = pkgs_master.jless;
 
   pinephone-keyboard = self.callPackage ./pinephone-keyboard { };
+
+  vscode = pkgs_master.vscode;
+  vscode-with-extensions = pkgs_master.vscode-with-extensions;
+  vscode-extensions = pkgs_master.vscode-extensions;
 }

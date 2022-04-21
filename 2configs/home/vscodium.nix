@@ -42,6 +42,7 @@
       ms-toolsai.jupyter
       ms-vscode-remote.remote-ssh
       ms-vscode.cpptools
+      ms-vsliveshare.vsliveshare
     ];
   };
 }
