@@ -700,6 +700,13 @@
                   domain = "localhost";
                   secret.enable = false;
                   listen.addr = "0.0.0.0";
+                  httpsOnly = false;
+                  extraEnv = {
+                    APP_KEY = "dummydummydummydummydummydummydu";
+                    APP_ENV = "local";
+                    APP_DEBUG = "\"true\"";
+                    HASH_SALT = "dummydummydummydummydummydummydu";
+                  };
                 };
               })
             ];
