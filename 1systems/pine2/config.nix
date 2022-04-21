@@ -9,6 +9,8 @@
     ../../2configs/stateless-root.nix
     ../../3modules/desktop
     ../../2configs/profiles/workstation
+    ../../2configs/nixbuild.nix
+
     ./modules/syncthing.nix
   ];
 
@@ -32,7 +34,9 @@
     firewall.enable = false; # todo: kernel module missing?
   };
 
-  ptsd.nwbackup.enable = false;
+  ptsd.nwbackup.paths = [
+    "/home/enno/"
+  ];
 
   system.build.format-disk = pkgs.writeShellScriptBin "format-disk" ''
     DISK="''${1?must provide a block device, e.g. /dev/sda}"

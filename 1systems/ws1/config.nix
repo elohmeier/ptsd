@@ -11,6 +11,8 @@ with lib;
     ../../2configs/profiles/workstation
     ../../2configs/prometheus/node.nix
 
+    ../../2configs/nixbuild.nix
+
     ./modules/desktop.nix
     ./modules/networking.nix
     ./modules/syncthing.nix
