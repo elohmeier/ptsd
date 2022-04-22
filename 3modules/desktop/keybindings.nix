@@ -1,6 +1,9 @@
 { cfg, lib, pkgs }:
 
 with lib;
+let
+  modOther = if cfg.modifier == "Mod1" then "Mod4" else "Mod1";
+in
 {
   "${cfg.modifier}+Return" = "exec ${cfg.term.exec "" ""}";
   "${cfg.modifier}+Shift+q" = "kill";
@@ -20,10 +23,10 @@ with lib;
   "${cfg.modifier}+g" = "focus next";
   "${cfg.modifier}+Shift+g" = "focus prev";
 
-  "${cfg.modifier}+Mod1+h" = "workspace prev_on_output";
-  "${cfg.modifier}+Mod1+l" = "workspace next_on_output";
-  "${cfg.modifier}+Mod1+Left" = "workspace prev_on_output";
-  "${cfg.modifier}+Mod1+Right" = "workspace next_on_output";
+  "${cfg.modifier}+${modOther}+h" = "workspace prev_on_output";
+  "${cfg.modifier}+${modOther}+l" = "workspace next_on_output";
+  "${cfg.modifier}+${modOther}+Left" = "workspace prev_on_output";
+  "${cfg.modifier}+${modOther}+Right" = "workspace next_on_output";
 
   # move focused window
   "${cfg.modifier}+Shift+h" = "move left";
@@ -82,10 +85,10 @@ with lib;
   "${cfg.modifier}+Shift+9" = "move container to workspace number 9";
   "${cfg.modifier}+Shift+0" = "move container to workspace number 10";
 
-  "${cfg.modifier}+Control+Mod1+h" = "move container to workspace prev_on_output";
-  "${cfg.modifier}+Control+Mod1+l" = "move container to workspace next_on_output";
-  "${cfg.modifier}+Control+Mod1+Left" = "move container to workspace prev_on_output";
-  "${cfg.modifier}+Control+Mod1+Right" = "move container to workspace next_on_output";
+  "${cfg.modifier}+Control+${modOther}+h" = "move container to workspace prev_on_output";
+  "${cfg.modifier}+Control+${modOther}+l" = "move container to workspace next_on_output";
+  "${cfg.modifier}+Control+${modOther}+Left" = "move container to workspace prev_on_output";
+  "${cfg.modifier}+Control+${modOther}+Right" = "move container to workspace next_on_output";
 
   "${cfg.modifier}+Shift+r" = "reload";
 
