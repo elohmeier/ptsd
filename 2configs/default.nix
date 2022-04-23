@@ -165,4 +165,6 @@ in
   '';
 
   boot.loader.systemd-boot.editor = lib.mkDefault false;
+
+  security.sudo.execWheelOnly = true;
 }
