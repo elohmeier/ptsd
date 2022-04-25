@@ -1,6 +1,9 @@
 { config, lib, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) (hackertools ++ [
+    httpie
+    logseq
+    ptsd-vscode
     (writeShellScriptBin "activate-da-home-again" ''
       ${config.home-manager.users.mainUser.home.activationPackage}/activate
     '')
@@ -166,7 +169,7 @@
     imagemagickBig
     ghostscript
     #ffmpeg-normalize
-    youtube-dl
+    yt-dlp
     vlc
     #mediathekview
     obs-studio
