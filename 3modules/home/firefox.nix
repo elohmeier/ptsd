@@ -19,7 +19,28 @@ in
       package = pkgs.firefox-config-desktop.override {
         extraExtensions = cfg.extraExtensions;
       };
-      profiles.default = { };
+
+      profiles.privacy = {
+        id = 0; # 0=default
+      };
+
+      profiles.office = {
+        id = 1;
+
+        settings = {
+          # keep login info
+          "privacy.resistFingerprinting" = false;
+          "privacy.resistFingerprinting.letterboxing" = false;
+          "privacy.sanitize.sanitizeOnShutdown" = false;
+          "network.cookie.lifetimePolicy" = 0;
+
+          # fix video conferencing
+          "webgl.disabled" = false;
+          "media.peerconnection.ice.no_host" = false;
+          "media.autoplay.blocking_policy" = 0;
+          "media.autoplay.default" = 0;
+        };
+      };
     };
   };
 }
