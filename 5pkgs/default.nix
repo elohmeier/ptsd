@@ -34,6 +34,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
+  gomumblesoundboard = self.callPackage ./gomumblesoundboard { };
   gowpcontactform = self.callPackage ./gowpcontactform { };
   hashPassword = self.callPackage ./hashPassword { };
   hidclient = self.callPackage ./hidclient { };
@@ -269,4 +270,8 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       ms-vsliveshare.vsliveshare
     ];
   };
+
+  logseq = pkgs_master.logseq;
+  httpie = pkgs_master.httpie;
+  yt-dlp = pkgs_master.yt-dlp;
 }
