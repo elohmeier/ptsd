@@ -17,6 +17,7 @@ with lib;
     ./modules/networking.nix
     ./modules/syncthing.nix
     #  ./modules/netboot-host.nix
+    ./modules/vmassi.nix
   ];
 
   # ptsd.motion = {
@@ -68,33 +69,14 @@ with lib;
     RuntimeDirectorySize=80%
   '';
 
-  environment.systemPackages = with pkgs;
-    let
-      usbdevxml = vendorId: productId: writeText "usbdev-${vendorId}-${productId}.xml" ''
-        <hostdev mode='subsystem' type='usb' managed='yes'>
-          <source>
-            <vendor id='0x${vendorId}'/>
-            <product id='0x${productId}'/>
-          </source>
-        </hostdev>
-      '';
-      vminputChange = cmd: writeShellScriptBin "win10_3d-${cmd}" ''
-        echo "Microsoft Ergonimic Keyboard: ${cmd}"
-        sudo virsh ${cmd} win10_3d ${usbdevxml "045e" "082c"}
-        echo "Logitech USB Receiver: ${cmd}"
-        sudo virsh ${cmd} win10_3d ${usbdevxml "046d" "c52b"}
-      '';
-    in
-    [
-      #run-kali-vm
-      #run-win-vm
-      efibootmgr
-      efitools
-      tpm2-tools
-      (vminputChange "attach-device")
-      (vminputChange "detach-device")
-      art
-    ];
+  environment.systemPackages = with pkgs; [
+    #run-kali-vm
+    #run-win-vm
+    efibootmgr
+    efitools
+    tpm2-tools
+    art
+  ];
 
   specialisation = {
     nvidia-headless.configuration = {
