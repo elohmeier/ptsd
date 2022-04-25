@@ -252,4 +252,21 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   vscode = pkgs_master.vscode;
   vscode-with-extensions = pkgs_master.vscode-with-extensions;
   vscode-extensions = pkgs_master.vscode-extensions;
+
+  ptsd-vscode = pkgs_master.vscode-with-extensions.override {
+    vscodeExtensions = with pkgs_master.vscode-extensions; [
+      eamodio.gitlens
+      editorconfig.editorconfig
+      esbenp.prettier-vscode
+      github.copilot
+      hashicorp.terraform
+      jkillian.custom-local-formatters
+      jnoortheen.nix-ide
+      ms-python.python
+      ms-toolsai.jupyter
+      ms-vscode-remote.remote-ssh
+      ms-vscode.cpptools
+      ms-vsliveshare.vsliveshare
+    ];
+  };
 }
