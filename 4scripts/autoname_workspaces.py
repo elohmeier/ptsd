@@ -55,7 +55,8 @@ WINDOW_ICONS = {
     "portfolio performance": "",
     "prusaslicer": "",
     "betaflight-configurator": "",
-    "net.sourceforge.mumble": "",
+    "net.sourceforge.mumble.": "",
+    "logseq": "ﴬ",
 }
 
 DEFAULT_ICON = ""
