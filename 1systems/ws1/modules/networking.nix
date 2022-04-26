@@ -12,8 +12,9 @@ in
     useDHCP = false;
     interfaces.eth0.useDHCP = true; # wifi if
 
-    #bridges.br0.interfaces = [ "enp39s0" ];
-    #interfaces.br0.useDHCP = true;
+    # bridges.br0.interfaces = [ "enp39s0" ];
+    # interfaces.br0.useDHCP = true;
+    interfaces.enp39s0.useDHCP = true;
 
     # hosts."10.129.127.250" = [ "s3.bucket.htb" "bucket.htb" ];
 
@@ -28,8 +29,10 @@ in
 
     nat = {
       enable = true;
-      externalInterface = "eth0";
-      internalInterfaces = [ "enp39s0" ];
+      externalInterface = "enp39s0"; # wired
+
+      # externalInterface = "eth0"; # wireless
+      #   internalInterfaces = [ "enp39s0" ]; # useful for wired dhcp, see below
     };
   };
 
@@ -39,6 +42,8 @@ in
 
   systemd.network = {
     networks = {
+
+      # wireless
       "40-eth0" = {
         routes = [
           {
@@ -49,8 +54,11 @@ in
             };
           }
         ];
+
+        dhcpV4Config.RouteMetric = 20;
       };
 
+      # wired
       "40-enp39s0" = {
         matchConfig = {
           Name = "enp39s0";
@@ -61,10 +69,14 @@ in
         };
 
         networkConfig = {
-          Address = "192.168.123.1/24";
           ConfigureWithoutCarrier = true;
-          DHCPServer = true;
+
+          # DHCP
+          # Address = "192.168.123.1/24";
+          # DHCPServer = true;
         };
+
+        dhcpV4Config.RouteMetric = 10;
       };
     };
   };
@@ -81,13 +93,7 @@ in
 
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
-  boot.kernelParams = [
-    #"ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off"
-    "mitigations=off" # make linux fast again
-    "amd_iommu=on"
-    "video=vesafb:off"
-    "video=efifb:off"
-  ];
+  # boot.kernelParams = [ "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:enp39s0:off" ];
 
   # ptsd.wireguard.networks.fraam_buero_vpn = {
   #   enable = true;

@@ -131,5 +131,12 @@ in
     ];
 
   networking.hostId = "8c5598b5"; # required for zfs
-  boot.kernelParams = [ "systemd.machine_id=2e21667a3a1c4725ad5cda5326f1f46f" ];
+
+  boot.kernelParams = [
+    "systemd.machine_id=2e21667a3a1c4725ad5cda5326f1f46f"
+    "mitigations=off" # make linux fast again
+    "amd_iommu=on"
+    "video=vesafb:off"
+    "video=efifb:off"
+  ];
 }
