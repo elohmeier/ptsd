@@ -11,7 +11,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
-    frix.url = "git+https://git.fraam.de/fraam/frix";
+    frix.url = github:elohmeier/frix;
     #frix.url = "/home/enno/repos/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
     frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
@@ -19,7 +19,7 @@
     frix.inputs.nixos-hardware.follows = "nixos-hardware";
     frix.inputs.home-manager.follows = "home-manager";
     nur.url = github:nix-community/NUR;
-    fraamdb.url = "git+ssh://git@git.fraam.de/fraam/fraamdb";
+    fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
     #fraamdb.url = "/home/enno/repos/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
 

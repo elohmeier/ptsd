@@ -13,17 +13,13 @@ in
       ../../2configs/prometheus/node.nix
 
       ./modules/fraamdb.nix
-      ./modules/fraam-gitlab.nix
       ./modules/fraam-www.nix
-      ./modules/gitlab-runner-hcloud.nix
       ./modules/murmur.nix
     ];
 
   ptsd.nwbackup = {
     enable = true;
     paths = [
-      "/var/lib/fraam-gitlab/gitlab"
-      "/var/lib/fraam-gitlab/postgresql" #  TODO: backup using script
       "/var/lib/fraam-www/www"
       "/var/lib/fraam-www/mysql-backup"
       "/var/lib/fraam-www/static"
@@ -64,7 +60,6 @@ in
   systemd.network.networks."40-ens3".routes = [
     { routeConfig = { Gateway = "fe80::1"; }; }
   ];
-
 
   services.openssh.ports = [ 1022 ]; # use non-standard ssh port to be able to forward standard port to gitlab container
 
@@ -129,6 +124,11 @@ in
         # };
       }
       {
+        name = "nginx-fraam-git";
+        rule = "Host(`git.fraam.de`)";
+        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
+      }
+      {
         name = "nginx-wellknown-matrix";
         rule = "PathPrefix(`/.well-known/matrix`) && Host(`fraam.de`)";
         priority = 9999; # high-priority for router
@@ -140,13 +140,6 @@ in
   ptsd.fraam-www = {
     enable = true;
     extIf = "ens3";
-  };
-
-  ptsd.fraam-gitlab = {
-    enable = true;
-    extIf = "ens3";
-    domain = "git.fraam.de";
-    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" "loopback4-https" "loopback6-https" ];
   };
 
   security.acme =
@@ -224,22 +217,6 @@ in
     };
   };
 
-  users.users = {
-    intweb = {
-      group = "nginx";
-      shell = "/bin/sh";
-      isSystemUser = true;
-      openssh.authorizedKeys.keys =
-        let
-          sshPubKeys = import ../../2configs/users/ssh-pubkeys.nix; in
-        [
-          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHLSWKSbb4KpKq9XqzyzvthDiL2I3RPkqpX4UgtpTkpM"
-          sshPubKeys.sshPub.enno_yubi41
-          sshPubKeys.sshPub.enno_yubi49
-        ];
-    };
-  };
-
   environment.systemPackages = with pkgs; [ tmux htop mc ];
 
   ptsd.nwbitwarden = {
@@ -275,6 +252,20 @@ in
         extraConfig = ''
           return 301 https://db.fraam.de;
         '';
+      };
+
+      "fraam-git" = {
+        listen = [{
+          addr = "127.0.0.1";
+          port = config.ptsd.ports.nginx-fraam-git;
+        }];
+
+        locations = {
+          "/enno.richter/ptsd".extraConfig = "return 301 https://github.com/elohmeier/ptsd;";
+          "/enno.richter/vuln".extraConfig = "return 301 https://github.com/elohmeier/vuln;";
+          "/fraam/frix".extraConfig = "return 301 https://github.com/elohmeier/frix;";
+          "/fraam/pentest-report-generator".extraConfig = "return 301 https://github.com/elohmeier/pentest-report-generator;";
+        };
       };
 
       nginx-wellknown-matrix = {
