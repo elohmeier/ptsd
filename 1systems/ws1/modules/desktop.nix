@@ -15,7 +15,7 @@ in
     enable = true;
     waybar.co2 = true;
     # nvidia.enable = true; # todo: replace writeNu in desktop module
-    autolock.enable = false;
+    #autolock.enable = false;
     baresip = {
       enable = true;
     };
