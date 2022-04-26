@@ -8,6 +8,9 @@ in
 {
   boot.binfmt.emulatedSystems = mkIf nonAarch64 [ "aarch64-linux" ];
 
+  # required for libvirt
+  security.polkit.enable = true;
+
   virtualisation = mkIf nonAarch64 {
     docker = {
       enable = mkDefault true;
