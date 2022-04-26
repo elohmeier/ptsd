@@ -22,11 +22,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1645433779,
-        "narHash": "sha256-qXnE1XjpVDjCWPga6QQ/Ts8vM1ltJ/eQZktqj97KWgQ=",
+        "lastModified": 1650983636,
+        "narHash": "sha256-j9VXoZtjpbi/VknthJo74iWe/7KtkcHyTer4/+hyjVg=",
         "ref": "master",
-        "rev": "cd8283eac49b88afbda8fbd2cf75e0acad0a90aa",
-        "revCount": 212,
+        "rev": "786526b18a3caf61a8ecadad192f1d4d6de5c415",
+        "revCount": 220,
         "type": "git",
         "url": "ssh://git@github.com/elohmeier/fraamdb"
       },
@@ -171,11 +171,11 @@
     },
     "nixpkgs-master": {
       "locked": {
-        "lastModified": 1650970888,
-        "narHash": "sha256-K0Qk6YbkyxBbszkBKCxsLA+jrQpaecf0X8iIO8frS48=",
+        "lastModified": 1650983523,
+        "narHash": "sha256-6NHTNmzFLdX3+xQJhClCDLbOkQ+e1baGYpnOFuk5548=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "27a62a9c603d0d832141682cb4f34964d7b48ebb",
+        "rev": "0fe250c8f35d6ac1210ac2696754f37a336d7f82",
         "type": "github"
       },
       "original": {
@@ -187,11 +187,11 @@
     },
     "nur": {
       "locked": {
-        "lastModified": 1650963082,
-        "narHash": "sha256-x/1mASCKTn1ZRleSbRIlY1sX3p8aHCxdprrhzz/Weh0=",
+        "lastModified": 1650978807,
+        "narHash": "sha256-e1yDNPnfquE/iZEZjTs6Nu775H1/wCCMwm0XuUHBuCg=",
         "owner": "nix-community",
         "repo": "NUR",
-        "rev": "58c68839f88a5af374603394ca7e6665ef7d3b89",
+        "rev": "61f3b6fee060ec9883e6154d938caa7a194e0769",
         "type": "github"
       },
       "original": {
