@@ -26,7 +26,6 @@ in
       "/var/lib/postgresql" # TODO: backup using script
       "/var/lib/bitwarden_rs"
       "/var/src"
-      "/var/www/intweb"
     ];
   };
 
@@ -298,8 +297,6 @@ in
   };
 
   system.activationScripts.initialize-var-www = lib.stringAfter [ "users" "groups" ] ''
-    mkdir -p /var/www/intweb
-    chown -R intweb:nginx /var/www/intweb
     chgrp -R nginx /var/www
     chmod -R u+rwX,go+rX,go-w /var/www
   '';
