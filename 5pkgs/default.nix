@@ -269,6 +269,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       editorconfig.editorconfig
       esbenp.prettier-vscode
       github.copilot
+      golang.go
       hashicorp.terraform
       jkillian.custom-local-formatters
       jnoortheen.nix-ide
