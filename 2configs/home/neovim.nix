@@ -22,7 +22,6 @@ let
         nvim-compe
         telescope-nvim
         lualine-nvim
-        neorg
         copilot-vim
         nvim-lspconfig
         formatter-nvim

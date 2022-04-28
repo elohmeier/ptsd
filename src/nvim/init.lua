@@ -13,7 +13,6 @@ require("plugincfg.formatter");
 require("plugincfg.hop");
 require("plugincfg.lspconfig");
 require("plugincfg.lualine");
-require("plugincfg.neorg");
 require("plugincfg.nnn");
 require("plugincfg.telescope");
 require("plugincfg.treesitter");
