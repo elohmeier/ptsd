@@ -15,6 +15,9 @@
     sslKey = "/var/lib/acme/voice.fraam.de/key.pem";
     users = 20;
     environmentFile = config.ptsd.secrets.files."murmur.env".path;
+    extraConfig = ''
+      opusthreshold=0
+    '';
   };
 
   users.groups.certs.members = [ "murmur" ];
