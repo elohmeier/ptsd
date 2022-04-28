@@ -21,13 +21,19 @@ in
   ptsd.nwbackup = {
     enable = true;
     paths = [
+      "/var/backup"
       "/var/lib/fraam-www/www"
       "/var/lib/fraam-www/mysql-backup"
       "/var/lib/fraam-www/static"
-      "/var/lib/postgresql" # TODO: backup using script
+      "/var/lib/kanboard"
       "/var/lib/bitwarden_rs"
       "/var/src"
     ];
+  };
+
+  services.postgresqlBackup = {
+    enable = true;
+    backupAll = true;
   };
 
   networking = {
