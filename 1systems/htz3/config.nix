@@ -14,6 +14,7 @@ in
 
       ./modules/fraamdb.nix
       ./modules/fraam-www.nix
+      ./modules/kanboard.nix
       ./modules/murmur.nix
     ];
 
@@ -81,8 +82,9 @@ in
         (crt "db.fraam.de")
         (crt "dev.fraam.de")
         (crt "fraam.de")
-        (crt "int.fraam.de")
         (crt "git.fraam.de")
+        (crt "int.fraam.de")
+        (crt "pm.fraam.de")
         (crt "vault.fraam.de")
         (crt "voice.fraam.de")
       ];
@@ -175,6 +177,13 @@ in
           postRun = "systemctl restart traefik.service";
         };
 
+        "git.fraam.de" = {
+          webroot = config.ptsd.nwacme.http.webroot;
+          credentialsFile = envFile "git.fraam.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
         "int.fraam.de" = {
           webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "int.fraam.de";
@@ -182,9 +191,9 @@ in
           postRun = "systemctl restart traefik.service";
         };
 
-        "git.fraam.de" = {
+        "pm.fraam.de" = {
           webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "git.fraam.de";
+          credentialsFile = envFile "pm.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };

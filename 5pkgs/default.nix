@@ -232,7 +232,16 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   sway = pkgs_master.sway;
   wlroots = pkgs_master.wlroots;
 
-  kanboard = pkgs_master.kanboard;
+  kanboard = pkgs_master.kanboard.overrideAttrs (old: {
+    src = self.fetchFromGitHub {
+      owner = "kanboard";
+      repo = "kanboard";
+      rev = "v1.2.22";
+      sha256 = "sha256-WG2lTPpRG9KQpRdb+cS7CqF4ZDV7JZ8XtNqAI6eVzm0=";
+    };
+  });
+  kanboard-plugin-google-auth = self.callPackage ./kanboard-plugin-google-auth { };
+
   flameshot = pkgs_master.flameshot;
 
   # required for systemd-socket-activation (to be released in foot v1.12)
