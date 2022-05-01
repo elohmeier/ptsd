@@ -12,10 +12,10 @@ with lib;
       grep = "grep --color";
       ping6 = "ping -6";
       telnet = "screen //telnet";
-      nr = "sudo nixos-rebuild --flake \"/home/enno/repos/ptsd/.#$hostname\"";
+      nr = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\"";
 
       # useful to just apply config changes w/o updating packages, e.g. on the go
-      nrx = "sudo nixos-rebuild --flake \"/home/enno/repos/ptsd/.#$hostname\" --override-input nixpkgs github:NixOS/nixpkgs/${config.system.nixos.revision}";
+      nrx = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\" --override-input nixpkgs github:NixOS/nixpkgs/${config.system.nixos.revision}";
 
       vim = "nvim";
       vi = "nvim";
