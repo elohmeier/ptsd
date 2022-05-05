@@ -284,4 +284,9 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   logseq = pkgs_master.logseq;
   httpie = pkgs_master.httpie;
   yt-dlp = pkgs_master.yt-dlp;
+
+  librespot = pkgs_master.librespot;
+  looking-glass-client = pkgs_master.looking-glass-client;
+  scream = pkgs_master.scream;
+  tailscale = pkgs_master.tailscale;
 }
