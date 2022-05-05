@@ -42,5 +42,9 @@ in
         };
       };
     };
+
+    home.packages = [
+      (pkgs.writeShellScriptBin "firefox-office" "firefox -P office")
+    ];
   };
 }
