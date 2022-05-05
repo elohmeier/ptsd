@@ -37,6 +37,10 @@
         fsType = "tmpfs";
         options = [ "size=100M" "mode=1644" ];
       };
+    "/var/lib/tailscale" = {
+      device = "/persist/var/lib/tailscale";
+      options = [ "bind" ];
+    };
   };
 
   systemd.mounts = lib.optionals config.services.samba.enable [
@@ -67,6 +71,7 @@
     mkdir -p /persist/var/lib/libvirt/qemu
     mkdir -p /persist/var/lib/samba/private
     mkdir -p /persist/var/lib/systemd
+    mkdir -p /persist/var/lib/tailscale
     ${lib.optionalString config.ptsd.traggo.enable "mkdir -p /persist/var/lib/private/traggo"}
   '';
 }

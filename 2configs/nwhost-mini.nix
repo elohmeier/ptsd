@@ -21,10 +21,10 @@ in
     ];
   };
 
-  boot.tmpOnTmpfs = lib.mkDefault true;
+  boot.tmpOnTmpfs = mkDefault true;
 
   nix.gc = {
-    automatic = lib.mkDefault true;
+    automatic = mkDefault true;
     options = "-d";
   };
 
@@ -46,11 +46,13 @@ in
   };
 
   ptsd.wireguard.networks.nwvpn = {
-    enable = lib.mkDefault (hasAttr "nwvpn" universe.hosts."${config.networking.hostName}".nets);
+    enable = mkDefault (hasAttr "nwvpn" universe.hosts."${config.networking.hostName}".nets);
     ip = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
   };
 
-  services.openssh.hostKeys = lib.mkIf config.ptsd.secrets.enable [
+  services.tailscale.enable = mkDefault true;
+
+  services.openssh.hostKeys = mkIf config.ptsd.secrets.enable [
     {
       # configure path explicitely to have correct configuration
       # when built under /mnt (e.g. in installer-situation)
