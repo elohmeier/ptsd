@@ -52,6 +52,8 @@ in
 
   environment.systemPackages = with pkgs; mkIf (!config.ptsd.minimal && nonAarch64) [
     samba
+    looking-glass-client
+    scream
   ];
 
   networking = mkIf nonAarch64 {
@@ -60,7 +62,7 @@ in
     firewall.interfaces = {
       "${virshNatIf}" = {
         allowedTCPPorts = [ 53 631 445 139 ];
-        allowedUDPPorts = [ 53 67 68 546 547 137 138 ];
+        allowedUDPPorts = [ 53 67 68 546 547 137 138 4011 ];
       };
     };
 
