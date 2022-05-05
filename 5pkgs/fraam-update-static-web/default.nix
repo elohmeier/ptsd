@@ -4,6 +4,7 @@ writers.writeDashBin "fraam-update-static-web" ''
 
   # fetch website
   ${wget}/bin/wget --mirror --page-requisites --no-parent --directory-prefix="$ROOT" --no-host-directories https://dev.fraam.de
+  ${wget}/bin/wget --mirror --page-requisites --no-parent --directory-prefix="$ROOT" --no-host-directories https://dev.fraam.de/karriere/
   ${wget}/bin/wget --mirror --page-requisites --no-parent --directory-prefix="$ROOT" --no-host-directories https://dev.fraam.de/impressum/
   ${wget}/bin/wget --mirror --page-requisites --no-parent --directory-prefix="$ROOT" --no-host-directories https://dev.fraam.de/pentests/
 
