@@ -36,6 +36,9 @@ in
     };
   };
 
+  # start wifi manually
+  systemd.services.iwd.wantedBy = lib.mkForce [ ];
+
   ptsd.secrets.files."Bundesdatenschutzzentrale 5GHz.psk" = {
     path = "/var/lib/iwd/Bundesdatenschutzzentrale 5GHz.psk";
   };

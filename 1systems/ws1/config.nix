@@ -20,15 +20,6 @@ with lib;
     ./modules/vmassi.nix
   ];
 
-  # ptsd.motion = {
-  #   enable = true;
-  #   videoDevice = "/dev/video2";
-  # };
-
-  #ptsd.kanboard = {
-  #  enable = true;
-  #  domain = "localhost";
-  #};
 
   ptsd.photoprism = {
     enable = true;
