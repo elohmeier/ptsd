@@ -1,6 +1,7 @@
 { config, lib, pkgs, ... }: {
 
   environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) (hackertools ++ [
+    zellij
     httpie
     logseq
     ptsd-vscode
@@ -96,9 +97,9 @@
     # todo: add
     # https://github.com/triplus/PieMenu
     # https://github.com/triplus/Glass
-    freecad
+    #freecad
     #cura
-    prusa-slicer
+    #prusa-slicer
     #f3d
 
     # *** admin ***
@@ -172,12 +173,12 @@
     yt-dlp
     vlc
     #mediathekview
-    obs-studio
+    #obs-studio
     #v4l-utils
     wf-recorder
     #art
     exiftool
-    espeak
+    #espeak
 
     # *** office ***
     quirc # qr scanner
@@ -222,8 +223,8 @@
       type = "Application";
     })
 
-    dbmate
-    haskellPackages.postgrest
+    #dbmate
+    #haskellPackages.postgrest
     shfmt
 
     # *** infosec ***
@@ -302,7 +303,7 @@
       destination = "/share/mime/packages/drawio.xml";
     })
 
-    wkhtmltopdf-qt4
+    #wkhtmltopdf-qt4
   ]);
 
   programs.noisetorch.enable = !config.ptsd.minimal;

@@ -67,7 +67,7 @@ in
     driSupport32Bit = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
   };
 
-  programs.steam.enable = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
+  #programs.steam.enable = pkgs.stdenv.hostPlatform.system != "aarch64-linux";
 
   nixpkgs.config = {
     packageOverrides = pkgs: {
