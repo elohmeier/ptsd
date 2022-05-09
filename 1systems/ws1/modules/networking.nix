@@ -58,6 +58,10 @@ in
           }
         ];
 
+        linkConfig = {
+          RequiredForOnline = "no";
+        };
+
         dhcpV4Config.RouteMetric = 20;
       };
 
