@@ -277,7 +277,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       ms-toolsai.jupyter
       ms-vscode-remote.remote-ssh
       ms-vscode.cpptools
-      ms-vsliveshare.vsliveshare
+      #ms-vsliveshare.vsliveshare
     ];
   };
 
@@ -289,4 +289,5 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   looking-glass-client = pkgs_master.looking-glass-client;
   scream = pkgs_master.scream;
   tailscale = pkgs_master.tailscale;
+  zellij = pkgs_master.zellij;
 }
