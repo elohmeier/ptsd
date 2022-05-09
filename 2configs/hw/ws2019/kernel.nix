@@ -10,10 +10,10 @@
       (config.boot.kernelPackages.broadcom_sta.overrideAttrs (old: {
         patches = old.patches ++ [
           (pkgs.fetchpatch {
-            url = "https://raw.githubusercontent.com/NixOS/nixpkgs/077d187a4b37ba81ebe9f6985c1dbd0b19f6d33d/pkgs/os-specific/linux/broadcom-sta/linux-5.17.patch";
-            sha256 = "sha256-Ba6xtCJK3Jfwbj93zYqOuOjUAMKoZ48Z97vnLnfKWJo=";
+            url = "https://gist.githubusercontent.com/joanbm/052d8e951ba63d5eb5b6960bfe4e031a/raw/a9c9fc7238cdda5ff0175009644321f3b855979e/broadcom-wl-fix-linux-5.18.patch";
+            sha256 = "sha256-/idB8e4F7Kl+IO+M3g1jHdmv6PhNgQ3ZOqMpUk1l48Y=";
           })
-        ]; # TODO: waits for BP https://github.com/NixOS/nixpkgs/pull/166232 to stable or 22.05
+        ];
       }))
     ];
     initrd = {
