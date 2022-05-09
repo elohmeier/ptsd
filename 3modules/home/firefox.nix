@@ -41,6 +41,17 @@ in
           "media.autoplay.default" = 0;
         };
       };
+
+      profiles.burp = {
+        id = 2;
+
+        settings = {
+          "network.proxy.http" = "127.0.0.1";
+          "network.proxy.http_port" = 8080;
+          "network.proxy.type" = 1;
+          "network.proxy.share_proxy_settings" = true;
+        };
+      };
     };
 
     home.packages = [
