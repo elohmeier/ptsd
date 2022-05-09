@@ -70,8 +70,6 @@ in
   ptsd.nwtraefik.services = [
     {
       name = "home-assistant";
-      # rule = "Host(`${domain}`) || Host(`nas1.lan.nerdworks.de`)";
-      # entryPoints = [ "nwvpn-http" "nwvpn-https" "lan-http" "lan-https" "loopback6-https" ];
       rule = "Host(`${domain}`)";
       entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
     }
@@ -84,29 +82,4 @@ in
       ensurePermissions."DATABASE \"home-assistant\"" = "ALL PRIVILEGES";
     }
   ];
-
-  # services.nginx = {
-  #   enable = true;
-  #   virtualHosts = {
-  #     # insecurely expose http api for sonos (which provides no secure tls ciphers)
-  #     # also see https://community.home-assistant.io/t/solution-sonos-tts-with-nginx-ssl-reverse-proxy/58136
-  #     "nas1.lan.nerdworks.de" = {
-  #       listen = [
-  #         {
-  #           addr = "192.168.178.12";
-  #           port = 8123;
-  #         }
-  #       ];
-  #       locations."/" = {
-  #         extraConfig = ''
-  #           proxy_pass http://127.0.0.1:8123;
-  #           proxy_set_header Host $host;
-  #           proxy_http_version 1.1;
-  #           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-  #         '';
-  #       };
-  #     };
-  #   };
-  # };
-  # networking.firewall.interfaces.br0.allowedTCPPorts = [ 8123 ];
 }
