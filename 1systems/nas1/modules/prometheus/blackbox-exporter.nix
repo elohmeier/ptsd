@@ -35,17 +35,6 @@
             };
           };
 
-          http_nextcloud = {
-            prober = "http";
-            timeout = "2s";
-            http = {
-              fail_if_not_ssl = true;
-              fail_if_body_not_matches_regexp = [
-                "a safe home for all your data"
-              ];
-            };
-          };
-
           http_gitea = {
             prober = "http";
             timeout = "2s";
@@ -112,17 +101,6 @@
               ];
             };
           };
-
-          # http_drone = {
-          #   prober = "http";
-          #   timeout = "2s";
-          #   http = {
-          #     fail_if_not_ssl = true;
-          #     fail_if_body_not_matches_regexp = [
-          #       "Drone"
-          #     ];
-          #   };
-          # };
 
           http_gitlab = {
             prober = "http";

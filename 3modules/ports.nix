@@ -30,7 +30,6 @@ in
       mjpg-streamer = 10013;
       navidrome = 10014;
       nerdworkswww = 10015;
-      nextcloud = 10016;
       nginx-fraam-intweb = 10017;
       nginx-fraam-git = 10018;
       nginx-kanboard = 10019;

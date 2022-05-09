@@ -22,12 +22,11 @@ in
     ./modules/home-assistant.nix
     ./modules/icloudpd.nix
     ./modules/loki.nix
-    ./modules/nextcloud.nix
-    ./modules/nextcloud-vsftpd-scans.nix
     ./modules/octoprint.nix
     ./modules/postgresql.nix
     ./modules/prometheus
     ./modules/syncthing.nix
+    ./modules/vsftpd.nix
   ];
 
   ptsd.fluent-bit = {
@@ -42,8 +41,6 @@ in
     httpPort = 2342;
     siteUrl = "https://fotos.nerdworks.de/";
     photosDirectory = "/tank/enc/rawphotos/photos";
-    user = "nextcloud";
-    group = "nginx";
   };
 
   ptsd.monica = {
@@ -220,7 +217,6 @@ in
         (crt "grafana.services.nerdworks.de")
         (crt "hass.services.nerdworks.de")
         (crt "monica.services.nerdworks.de")
-        (crt "nextcloud.services.nerdworks.de")
         (crt "octoprint.services.nerdworks.de")
         (crt "prometheus.services.nerdworks.de")
       ];
@@ -263,13 +259,6 @@ in
           postRun = "systemctl restart traefik.service";
         };
 
-        "nextcloud.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "nextcloud.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
         "octoprint.services.nerdworks.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "octoprint.services.nerdworks.de";
@@ -292,64 +281,6 @@ in
     listenAddress = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631";
   };
 
-  # virtualisation = {
-  #   libvirtd = {
-  #     enable = true;
-  #     qemuPackage = pkgs.qemu_kvm;
-  #     qemuRunAsRoot = false;
-  #   };
-  # };
-
-  # containers.ff = {
-  #   autoStart = false;
-  #   hostBridge = "ff";
-  #   privateNetwork = true;
-  #   bindMounts = {
-  #     "/tank/enc/roms" = {
-  #       hostPath = "/tank/enc/roms";
-  #       isReadOnly = false;
-  #     };
-  #   };
-
-  #   config =
-  #     { config, pkgs, inputs, ... }:
-  #     {
-  #       imports = [
-  #         ../..
-  #         ../../2configs
-  #       ];
-
-  #       boot.isContainer = true;
-
-  #       networking = {
-  #         useHostResolvConf = false;
-  #         useNetworkd = true;
-  #         interfaces.eth0.useDHCP = true;
-  #       };
-
-  #       time.timeZone = "Europe/Berlin";
-
-  #       i18n = {
-  #         defaultLocale = "de_DE.UTF-8";
-  #         supportedLocales = [ "de_DE.UTF-8/UTF-8" ];
-  #       };
-
-  #       environment.systemPackages = with pkgs; [ tmux rtorrent ];
-  #     };
-  # };
-
-  # systemd.nspawn = {
-  #   mydebian = {
-  #     execConfig = {
-  #       Hostname = "mydebian";
-  #       PrivateUsers = false;
-  #     };
-  #     networkConfig = {
-  #       Bridge = "br0";
-  #     };
-  #   };
-  # };
-
   ptsd.navidrome = {
     enable = true;
     musicFolder = "/tank/enc/media";
@@ -369,8 +300,6 @@ in
       endscript
     }
   '';
-
-  boot.supportedFilesystems = [ "exfat" ]; # canon sd card
 
   # compensate flaky airprint service
   systemd.services.restart-cups = {

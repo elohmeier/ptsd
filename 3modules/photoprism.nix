@@ -114,7 +114,7 @@ in
         EnvironmentFile = config.ptsd.secrets.files."photoprism.env".path;
 
         # hardening
-        #DynamicUser = true;
+        DynamicUser = true;
         User = cfg.user; # needs to be set for shared uid
         Group = cfg.group;
         #  SupplementaryGroups = "rawphotos";

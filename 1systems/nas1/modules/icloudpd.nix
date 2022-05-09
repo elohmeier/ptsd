@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 
 let
-  user = "nextcloud";
-  group = "nginx";
+  user = "syncthing";
+  group = "syncthing";
 in
 {
   ptsd.icloudpd.jobs = {

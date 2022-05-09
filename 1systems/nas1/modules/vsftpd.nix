@@ -8,10 +8,10 @@ let
     background = "yes";
     chroot_local_user = "yes"; # important: prevent cwd to other dirs than local_root
     guest_enable = "yes";
-    guest_username = "nextcloud";
+    guest_username = "syncthing";
     listen = "yes";
     local_enable = "yes";
-    local_root = "/var/lib/nextcloud/data/$USER/files/Scans";
+    local_root = "/tank/enc/$USER/Scans";
     nopriv_user = "vsftpd";
     pam_service_name = "vsftpd";
     pasv_enable = "yes";

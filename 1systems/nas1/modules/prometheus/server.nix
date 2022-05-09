@@ -200,17 +200,6 @@ in
         ];
       })
       (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_nextcloud";
-        params.module = [ "http_nextcloud" ];
-        static_configs = [
-          {
-            targets = [
-              "https://nextcloud.services.nerdworks.de/login"
-            ];
-          }
-        ];
-      })
-      (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_bs53";
         params.module = [ "http_home_assistant_bs53" ];
         static_configs = [
@@ -250,28 +239,6 @@ in
           {
             targets = [
               "https://git.nerdworks.de"
-            ];
-          }
-        ];
-      })
-      # (blackboxGenericScrapeConfig // {
-      #   job_name = "blackbox_http_drone";
-      #   params.module = [ "http_drone" ];
-      #   static_configs = [
-      #     {
-      #       targets = [
-      #         "https://ci.nerdworks.de"
-      #       ];
-      #     }
-      #   ];
-      # })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_gitlab";
-        params.module = [ "http_gitlab" ];
-        static_configs = [
-          {
-            targets = [
-              "https://git.fraam.de"
             ];
           }
         ];

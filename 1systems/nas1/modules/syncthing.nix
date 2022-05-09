@@ -6,33 +6,6 @@ let
   universe = import ../../../2configs/universe.nix;
 in
 {
-  systemd.services.nextcloud-reindex-syncthing-folders = {
-    description = "Update the NextCloud index for folders managed by Syncthing";
-    wants = [ "network.target" "network-online.target" ];
-    after = [ "network.target" "network-online.target" ];
-    startAt = "daily";
-
-    script = ''
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/FPV
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Hörspiele
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/iOS
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Pocket
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Lightroom-Export
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/LuNo
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Scans
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=enno/files/Templates
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/LuNo
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Bilder
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Dokumente
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Musik
-      /run/current-system/sw/bin/nextcloud-occ files:scan --path=luisa/files/Scans
-    '';
-
-    serviceConfig = {
-      User = "nextcloud";
-    };
-  };
-
   ptsd.secrets.files = {
     "syncthing.key" = { };
     "syncthing.crt" = { };
@@ -40,10 +13,6 @@ in
 
   services.syncthing = {
     enable = true;
-
-    # mirror the nextcloud permissions
-    user = "nextcloud";
-    group = "nginx";
 
     key = config.ptsd.secrets.files."syncthing.key".path;
     cert = config.ptsd.secrets.files."syncthing.crt".path;
@@ -62,27 +31,27 @@ in
         devices = [ "ws1" ];
       };
 
-      "/var/lib/nextcloud/data/enno/files/FPV" = {
+      "/tank/enc/enno/FPV" = {
         label = "enno/FPV";
         id = "xxdwi-yom6n";
         devices = [ "tp1" "ws1" "ws1-win10n" ];
       };
-      "/var/lib/nextcloud/data/enno/files/Pocket" = {
+      "/tank/enc/enno/Pocket" = {
         label = "enno/Pocket";
         id = "hmekh-kgprn";
         devices = [ "nuc1" "tp1" "ws1" "ws2" ];
       };
-      "/var/lib/nextcloud/data/enno/files/LuNo" = {
+      "/tank/enc/enno/LuNo" = {
         label = "enno/LuNo";
         id = "3ull9-9deg4";
         devices = [ "mb1" "tp1" "tp2" "ws1" ];
       };
-      "/var/lib/nextcloud/data/enno/files/Scans" = {
+      "/tank/enc/enno/Scans" = {
         label = "enno/Scans";
         id = "ezjwj-xgnhe";
         devices = [ "tp1" "ws1" "ws2" "iph3" ];
       };
-      "/var/lib/nextcloud/data/enno/files/Templates" = {
+      "/tank/enc/enno/Templates" = {
         label = "enno/Templates";
         id = "gnwqu-yt7qc";
         devices = [ "nuc1" "tp1" "ws1" "ws2" ];
@@ -93,39 +62,34 @@ in
         devices = [ "pine2" "tp1" "ws1" "ws2" ];
         ignorePerms = false;
       };
-      "/var/lib/nextcloud/data/enno/files/iOS" = {
+      "/tank/enc/enno/iOS" = {
         label = "enno/iOS";
         id = "qm9ln-btyqu";
         devices = [ "iph3" "tp1" "ws1" "ws2" ];
       };
-      "/var/lib/nextcloud/data/enno/files/Lightroom-Export" = {
+      "/tank/enc/enno/Lightroom-Export" = {
         label = "enno/Lightroom-Export";
         id = "uxsxc-bjqrg";
         devices = [ "iph3" ];
         ignoreDelete = true;
       };
 
-      # "/var/lib/nextcloud/data/luisa/files/LuNo" = {
-      #   id = "3ull9-9deg4";
-      #   devices = [ "tp1" "tp2" "mb1" "ws1" ];
-      # };
-
-      "/var/lib/nextcloud/data/luisa/files/Bilder" = {
+      "/tank/enc/luisa/Bilder" = {
         label = "luisa/Bilder";
         id = "ugmai-ti6vl";
         devices = [ "tp2" "mb1" "ws1" ];
       };
-      "/var/lib/nextcloud/data/luisa/files/Dokumente" = {
+      "/tank/enc/luisa/Dokumente" = {
         label = "luisa/Dokumente";
         id = "sqkfd-m9he7";
         devices = [ "tp1" "tp2" "mb1" "ws1" ];
       };
-      "/var/lib/nextcloud/data/luisa/files/Musik" = {
+      "/tank/enc/luisa/Musik" = {
         label = "luisa/Musik";
         id = "zvffu-ff92z";
         devices = [ "tp2" "mb1" "ws1" ];
       };
-      "/var/lib/nextcloud/data/luisa/files/Scans" = {
+      "/tank/enc/luisa/Scans" = {
         label = "luisa/Scans";
         id = "dnryo-kz7io";
         devices = [ "tp1" "tp2" "mb1" "ws1" ];
