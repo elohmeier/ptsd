@@ -17,6 +17,7 @@ in
     ../../2configs/users/enno.nix # for git repo support
 
     ./modules/backup.nix
+    ./modules/bitwarden.nix
     ./modules/fraam-gdrive-backup.nix
     ./modules/grafana.nix
     ./modules/home-assistant.nix

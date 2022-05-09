@@ -19,7 +19,6 @@ _:
     ./nwacme.nix
     ./nwbackup.nix
     ./nwbackup-server.nix
-    ./nwbitwarden.nix
     ./nwlogrotate.nix
     ./nwsyncthing.nix
     ./nwtraefik.nix

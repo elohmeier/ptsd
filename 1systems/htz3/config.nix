@@ -12,6 +12,7 @@ in
 
       ../../2configs/prometheus/node.nix
 
+      ./modules/bitwarden.nix
       ./modules/fraamdb.nix
       ./modules/fraam-www.nix
       ./modules/kanboard.nix
@@ -89,7 +90,6 @@ in
         (crt "dev.fraam.de")
         (crt "fraam.de")
         (crt "git.fraam.de")
-        (crt "int.fraam.de")
         (crt "pm.fraam.de")
         (crt "vault.fraam.de")
         (crt "voice.fraam.de")
@@ -190,13 +190,6 @@ in
           postRun = "systemctl restart traefik.service";
         };
 
-        "int.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "int.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
         "pm.fraam.de" = {
           webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "pm.fraam.de";
@@ -233,26 +226,7 @@ in
 
   environment.systemPackages = with pkgs; [ tmux htop mc ];
 
-  ptsd.nwbitwarden = {
-    enable = true;
-    domain = "vault.fraam.de";
-    entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" "loopback4-https" ];
-    extraConfig = {
-      smtpHost = "smtp-relay.gmail.com";
-      smtpPort = 587;
-      smtpSSL = true;
-      smtpFrom = "vault@fraam.de";
-      # smtpFromName = "fraam Vault"; # not working
-      signupsAllowed = false;
-      signupsDomainsWhitelist = "fraam.de";
-      signupsVerify = true;
-      enableEmail2Fa = true;
-    };
-  };
-
   services.fail2ban.enable = true;
-
-  programs.mosh.enable = true;
 
   services.nginx = {
     enable = true;
