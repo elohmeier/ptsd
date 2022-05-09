@@ -69,10 +69,10 @@ with lib;
     art
   ];
 
-  specialisation = {
-    nvidia-headless.configuration = {
-      ptsd.nvidia.headless.enable = true;
-      ptsd.nvidia.vfio.enable = false;
-    };
-  };
+  # specialisation = {
+  #   nvidia-headless.configuration = {
+  #     ptsd.nvidia.headless.enable = true;
+  #     ptsd.nvidia.vfio.enable = false;
+  #   };
+  # };
 }
