@@ -107,10 +107,39 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
           sha256 = "sha256-scdb86Bg5tTUDwm5OZ8HXar7VCNlbPMtt4ZzGu/2O4w=";
         };
       };
+      pynacl = pysuper.buildPythonPackage rec {
+        pname = "PyNaCl";
+        version = "1.3.0"; # last version with python2 support
+        propagatedBuildInputs = with pysuper; [ cffi six ];
+        checkInputs = with pysuper;[ pytest hypothesis ];
+
+        # fixed in next release 1.3.0+
+        # https://github.com/pyca/pynacl/pull/480
+        postPatch = ''
+          substituteInPlace tests/test_bindings.py \
+            --replace "average_size=128," ""
+        '';
+
+        checkPhase = ''
+          py.test
+        '';
+
+        # https://github.com/pyca/pynacl/issues/550
+        PYTEST_ADDOPTS = "-k 'not test_wrong_types'";
+        src = pysuper.fetchPypi {
+          inherit pname version;
+          sha256 = "sha256-DGEA7dFv79FVfaB4x6Mee316Us45/cor7CnU97bnYAw=";
+        };
+      };
     };
   };
 
-  ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [ impacket pycrypto requests ]);
+  ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [
+    impacket
+    paramiko
+    pycrypto
+    requests
+  ]);
 
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
@@ -175,6 +204,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       psycopg2
       faker
       netifaces
+      paramiko
 
       # faraday-cli frix port
       arrow
