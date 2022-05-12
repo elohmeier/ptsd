@@ -269,6 +269,9 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       rev = "v1.2.22";
       sha256 = "sha256-WG2lTPpRG9KQpRdb+cS7CqF4ZDV7JZ8XtNqAI6eVzm0=";
     };
+    patches = old.patches ++ [
+	./patches/kanboard/0001-change-logo-to-fraam-steuerrad.patch
+    ];
   });
   kanboard-plugin-google-auth = self.callPackage ./kanboard-plugin-google-auth { };
 
