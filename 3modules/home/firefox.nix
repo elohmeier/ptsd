@@ -56,6 +56,7 @@ in
 
     home.packages = [
       (pkgs.writeShellScriptBin "firefox-office" "firefox -P office")
+      (pkgs.writeShellScriptBin "firefox-burp" "firefox -P burp")
     ];
   };
 }
