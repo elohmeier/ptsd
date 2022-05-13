@@ -29,6 +29,7 @@ _:
     ./rclone.nix
     ./samba-sonos.nix
     ./secrets.nix
+    ./tailscale.nix
     ./tor-ssh.nix
     ./traefik-forward-auth.nix
     ./traggo.nix
