@@ -4,16 +4,13 @@ _:
     ./acme-dns.nix
     ./alertmanager-bot.nix
     ./cups-airprint.nix
-    ./drone-server.nix
     ./fluent-bit.nix
     ./icloudpd.nix
     ./kanboard.nix
-    ./mautrix-whatsapp.nix
     ./minimal.nix
     ./mjpg-streamer.nix
     ./monica.nix
     ./mosquitto.nix
-    ./motion.nix
     ./navidrome.nix
     ./nvidia.nix
     ./nwacme.nix
@@ -32,9 +29,6 @@ _:
     ./tailscale.nix
     ./tor-ssh.nix
     ./traefik-forward-auth.nix
-    ./traggo.nix
-    ./vdi-container.nix
     ./wireguard.nix
-    ./xrdp.nix
   ];
 }

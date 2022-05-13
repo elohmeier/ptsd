@@ -11,7 +11,7 @@
 
   services.home-assistant = {
     enable = true;
-    package = pkgs.home-assistant-variants.dlrg;
+    package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override { extraPackages = ps: [ ps.caldav ]; };
 
     config = {
       automation = "!include automations.yaml";

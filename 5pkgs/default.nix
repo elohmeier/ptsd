@@ -26,28 +26,18 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
         sha256 = "sha256-iOfwS0xD87fcepKG7TW9Crrk2JkZWUnIBY/jgh9m4so=";
       };
     });
-  carberryd = self.callPackage ./carberryd { };
   choose-browser = self.writers.writeDashBin "choose-browser" ../4scripts/choose-browser.sh;
-  docker-machine-driver-hetzner = self.callPackage ./docker-machine-driver-hetzner { };
-  file-renamer = self.writers.writePython3 "file-renamer" { } ../4scripts/file-renamer.py;
   firefox-mobile = self.callPackage ./firefox-mobile { };
-  fraam-update-static-web = self.callPackage ./fraam-update-static-web { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
   gomumblesoundboard = self.callPackage ./gomumblesoundboard { };
   gowpcontactform = self.callPackage ./gowpcontactform { };
   hashPassword = self.callPackage ./hashPassword { };
-  hidclient = self.callPackage ./hidclient { };
-  home-assistant-variants = self.callPackage ./home-assistant-variants { };
-  kitty-terminfo = self.callPackage ./kitty-terminfo { };
   firefox-config-desktop = self.callPackage ./firefox-configs/desktop.nix { wrapFirefox = self.callPackage ./firefox-configs/wrapper.nix { }; };
   firefox-config-mobile = self.callPackage ./firefox-configs/mobile.nix { };
   lz4json = self.callPackage ./lz4json { };
   monica = self.callPackage ./monica { };
-  motion-web = self.callPackage ./motion-web { };
   nbconvert = self.callPackage ./nbconvert { };
-  nerdworks-artwork = self.callPackage ./nerdworks-artwork { };
-  nwbackup-env = self.callPackage ./nwbackup-env { };
   nwfonts = self.callPackage ./nwfonts { };
   nwvpn-plain = self.callPackage ./nwvpn-plain { };
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
@@ -71,19 +61,10 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   '';
   shrinkpdf = self.callPackage ./shrinkpdf { };
   swayassi = self.callPackage ./swayassi { };
-  sxmo-utils = self.callPackage ./sxmo-utils { };
   syncthing-device-id = self.callPackage ./syncthing-device-id { };
-  telegram-sh = self.callPackage ./telegram-sh { };
   traefik-forward-auth = self.callPackage ./traefik-forward-auth { };
-  tg = self.callPackage ./tg { };
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
-  wvkbd = self.callPackage ./wvkbd { };
-  zathura-single = self.callPackage ./zathura-single { };
-
-  ptsd-fishPlugins = {
-    hydro = self.callPackage ./fish-plugins/hydro.nix { };
-  };
 
   ptsd-octoprintPlugins = plugins: {
     bedlevelvisualizer = plugins.callPackage ./octoprint-plugins/bedlevelvisualizer.nix { };
@@ -97,16 +78,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   ptsd-python2 = self.python2.override {
     packageOverrides = pyself: pysuper: rec {
-      certifi = pysuper.buildPythonPackage rec {
-        pname = "certifi";
-        version = "2020.04.05.1"; # last version with python2 support
-        src = self.fetchFromGitHub {
-          owner = pname;
-          repo = "python-certifi";
-          rev = version;
-          sha256 = "sha256-scdb86Bg5tTUDwm5OZ8HXar7VCNlbPMtt4ZzGu/2O4w=";
-        };
-      };
       pynacl = pysuper.buildPythonPackage rec {
         pname = "PyNaCl";
         version = "1.3.0"; # last version with python2 support
@@ -153,7 +124,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
       neo4j-driver = self.callPackage ../5pkgs/neo4j-driver { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
-      orgparse = self.callPackage ../5pkgs/orgparse { };
       postgrest-py = self.callPackage ../5pkgs/postgrest-py { };
       pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
       selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
@@ -187,7 +157,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       requests
       selenium
       tabulate
-      orgparse
       weasyprint
       beautifulsoup4
       pytest
@@ -214,7 +183,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       postgrest-py
     ]
   );
-
 
   ptsd-ffmpeg = self.ffmpeg-full.override {
     nonfreeLicensing = true;
@@ -262,32 +230,12 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   sway = pkgs_master.sway;
   wlroots = pkgs_master.wlroots;
 
-  kanboard = pkgs_master.kanboard.overrideAttrs (old: {
-    src = self.fetchFromGitHub {
-      owner = "kanboard";
-      repo = "kanboard";
-      rev = "v1.2.22";
-      sha256 = "sha256-WG2lTPpRG9KQpRdb+cS7CqF4ZDV7JZ8XtNqAI6eVzm0=";
-    };
-    patches = [
-      ./patches/kanboard/0001-change-logo-to-fraam-steuerrad.patch
-    ];
-  });
+  kanboard = pkgs_master.kanboard;
   kanboard-plugin-google-auth = self.callPackage ./kanboard-plugin-google-auth { };
 
   flameshot = pkgs_master.flameshot;
 
-  # required for systemd-socket-activation (to be released in foot v1.12)
-  foot = pkgs_master.foot.overrideAttrs (oldAttrs: {
-    version = "2022-03-19";
-    src = self.fetchFromGitea {
-      domain = "codeberg.org";
-      owner = "dnkl";
-      repo = "foot";
-      rev = "de5226c93007c588f28a12215796c462a05e5bdf";
-      sha256 = "sha256-ykbv9lpWxS89W8W+cWrEuxLP6osPf+BOdueYLUdLkwY=";
-    };
-  });
+  foot = pkgs_master.foot;
   jless = pkgs_master.jless;
 
   pinephone-keyboard = self.callPackage ./pinephone-keyboard { };

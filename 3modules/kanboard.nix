@@ -14,7 +14,10 @@ in
       type = with types; listOf str;
       default = [ ];
     };
-
+    package = mkOption {
+      type = types.package;
+      default = pkgs.kanboard;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -101,13 +104,13 @@ in
                 mkdir -p $out
                 for f in index.php jsonrpc.php ; do
                   echo "<?php require('$out/config.php');" > $out/$f
-                  tail -n+2 ${pkgs.kanboard}/share/kanboard/$f \
-                    | sed 's^__DIR__^"${pkgs.kanboard}/share/kanboard"^' >> $out/$f
+                  tail -n+2 ${cfg.package}/share/kanboard/$f \
+                    | sed 's^__DIR__^"${cfg.package}/share/kanboard"^' >> $out/$f
                 done
                 ln -s /var/lib/kanboard $out/data
                 ln -s ${kb-config} $out/config.php
               '')
-              { outPath = "${pkgs.kanboard}/share/kanboard"; meta.priority = 10; }
+              { outPath = "${cfg.package}/share/kanboard"; meta.priority = 10; }
             ];
           };
 

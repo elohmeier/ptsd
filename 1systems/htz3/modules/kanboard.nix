@@ -2,6 +2,17 @@
 
 let
   domain = "pm.fraam.de";
+  pkg = pkgs_master.kanboard.overrideAttrs (old: {
+    src = self.fetchFromGitHub {
+      owner = "kanboard";
+      repo = "kanboard";
+      rev = "v1.2.22";
+      sha256 = "sha256-WG2lTPpRG9KQpRdb+cS7CqF4ZDV7JZ8XtNqAI6eVzm0=";
+    };
+    patches = [
+      ./0001-change-logo-to-fraam-steuerrad.patch
+    ];
+  });
 in
 {
   services.phpfpm.pools.kanboard = {
@@ -86,13 +97,13 @@ in
               mkdir -p $out
               for f in index.php jsonrpc.php ; do
                 echo "<?php require('$out/config.php');" > $out/$f
-                tail -n+2 ${pkgs.kanboard}/share/kanboard/$f \
-                  | sed 's^__DIR__^"${pkgs.kanboard}/share/kanboard"^' >> $out/$f
+                tail -n+2 ${pkg}/share/kanboard/$f \
+                  | sed 's^__DIR__^"${pkg}/share/kanboard"^' >> $out/$f
               done
               ln -s /var/lib/kanboard $out/data
               ln -s ${kb-config} $out/config.php
             '')
-            { outPath = "${pkgs.kanboard}/share/kanboard"; meta.priority = 10; }
+            { outPath = "${pkg}/share/kanboard"; meta.priority = 10; }
           ];
         };
 

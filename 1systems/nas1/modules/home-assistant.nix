@@ -5,7 +5,7 @@ in
 {
   services.home-assistant = {
     enable = true;
-    package = pkgs.home-assistant-variants.bs53;
+    package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override { extraPackages = ps: [ ps.psycopg2 ]; };
 
     config = {
 
