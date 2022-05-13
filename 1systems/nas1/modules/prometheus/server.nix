@@ -148,8 +148,7 @@ in
         static_configs = [
           {
             targets = [
-              # TODO: unsilence
-              #"https://octoprint.services.nerdworks.de"
+              "http://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}"
               "https://vault.fraam.de"
             ];
           }

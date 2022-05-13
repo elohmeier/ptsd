@@ -50,7 +50,7 @@ in
     ip = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
   };
 
-  services.tailscale.enable = mkDefault true;
+  ptsd.tailscale.enable = mkDefault true;
 
   services.openssh.hostKeys = mkIf config.ptsd.secrets.enable [
     {

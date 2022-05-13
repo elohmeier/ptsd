@@ -17,7 +17,6 @@ in
     ../../2configs/users/enno.nix # for git repo support
 
     ./modules/backup.nix
-    ./modules/bitwarden.nix
     ./modules/fraam-gdrive-backup.nix
     ./modules/grafana.nix
     ./modules/home-assistant.nix
@@ -33,6 +32,9 @@ in
   ptsd.fluent-bit = {
     enable = true;
   };
+
+  ptsd.tailscale.ip = "100.101.207.64";
+  ptsd.tailscale.cert.enable = true;
 
   ptsd.nwbackup.enable = false;
 
@@ -218,7 +220,6 @@ in
         (crt "grafana.services.nerdworks.de")
         (crt "hass.services.nerdworks.de")
         (crt "monica.services.nerdworks.de")
-        (crt "octoprint.services.nerdworks.de")
         (crt "prometheus.services.nerdworks.de")
       ];
   };
@@ -256,13 +257,6 @@ in
         "monica.services.nerdworks.de" = {
           dnsProvider = "acme-dns";
           credentialsFile = envFile "monica.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "octoprint.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "octoprint.services.nerdworks.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
