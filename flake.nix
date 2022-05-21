@@ -759,9 +759,7 @@
             enable = true;
             profiles.privacy = {
               id = 0;
-              settings = {
-                "privacy.resistFingerprinting" = true;
-              };
+              settings = lib.importJSON ./5pkgs/firefox-configs/librewolf.json;
             };
             profiles.office = {
               id = 1;
@@ -777,6 +775,8 @@
           };
           home.packages = with pkgs; [
             tig
+            watch
+            bat
             tmux
             alacritty
             zellij
@@ -790,9 +790,12 @@
             nixpkgs-fmt
             #btop
             exa
-            ptsd-python3
+            ptsd-py3env
             ptsd-nnn
           ];
+
+          programs.direnv.enable = true;
+          programs.direnv.nix-direnv.enable = true;
 
           programs.zoxide.enable = true;
 

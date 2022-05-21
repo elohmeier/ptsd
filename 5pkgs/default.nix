@@ -272,4 +272,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   scream = pkgs_master.scream;
   tailscale = pkgs_master.tailscale;
   zellij = pkgs_master.zellij;
+
+  nix-direnv =pkgs_master.nix-direnv;
+
 }
