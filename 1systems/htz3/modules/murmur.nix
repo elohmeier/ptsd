@@ -5,6 +5,7 @@
 
   services.murmur = {
     enable = true;
+    bandwidth = 130000; # bits per second
     allowHtml = false;
     password = "$MURMURD_PASSWORD";
     registerHostname = "voice.fraam.de";

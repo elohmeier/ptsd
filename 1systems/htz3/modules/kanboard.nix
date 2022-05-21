@@ -2,8 +2,8 @@
 
 let
   domain = "pm.fraam.de";
-  pkg = pkgs_master.kanboard.overrideAttrs (old: {
-    src = self.fetchFromGitHub {
+  pkg = pkgs.kanboard.overrideAttrs (old: {
+    src = pkgs.fetchFromGitHub {
       owner = "kanboard";
       repo = "kanboard";
       rev = "v1.2.22";
