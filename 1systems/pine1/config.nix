@@ -11,7 +11,6 @@
 
   ptsd.nwbackup.enable = false;
   ptsd.nwacme.enable = false;
-  ptsd.tor-ssh.enable = false;
 
   services.openssh = {
     enable = true;

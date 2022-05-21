@@ -12,8 +12,6 @@ in
 
   console.keyMap = mkDefault "de-latin1";
 
-  ptsd.tor-ssh.enable = mkDefault true;
-
   environment = {
     systemPackages = with pkgs; [
       neovim-unwrapped

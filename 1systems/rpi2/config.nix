@@ -26,7 +26,6 @@ in
   ptsd.nwacme.enable = false;
   ptsd.nwbackup.enable = false;
   ptsd.neovim.enable = false;
-  ptsd.tor-ssh.enable = false;
 
   networking = {
     useNetworkd = true;

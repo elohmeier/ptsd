@@ -15,7 +15,6 @@
   ];
 
   ptsd.nwacme.hostCert.enable = false;
-  ptsd.tor-ssh.enable = false;
 
   networking = {
     hostName = "pine2";

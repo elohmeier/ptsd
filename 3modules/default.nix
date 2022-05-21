@@ -27,7 +27,6 @@ _:
     ./samba-sonos.nix
     ./secrets.nix
     ./tailscale.nix
-    ./tor-ssh.nix
     ./traefik-forward-auth.nix
     ./wireguard.nix
   ];
