@@ -35,6 +35,7 @@ let
         ]))
 
         nnn-nvim
+        editorconfig-nvim
       ];
     };
   };
@@ -43,7 +44,7 @@ in
   # package & EDITOR env are configured in ../nwhost-mini.nix
 
   home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/nvim;
-  home.file.".local/share/nvim/site".source = pluginPack;
+  home.file.".local/share/nvim/site/pack".source = "${pluginPack}/pack";
 
   home.packages = with pkgs;[
     gopls
