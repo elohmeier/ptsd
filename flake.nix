@@ -242,14 +242,6 @@
             ];
           };
 
-          eee1 = nixpkgs.lib.nixosSystem {
-            system = "i686-linux";
-            modules = defaultModules ++ [
-              ./1systems/eee1/physical.nix
-              home-manager.nixosModule
-            ];
-          };
-
           htz1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
