@@ -162,7 +162,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       pytest
       mypy
       isort
-      nobbofin
+      #nobbofin
       sshtunnel
       mysql-connector
       boto3
@@ -271,4 +271,5 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   scream = pkgs_master.scream;
   tailscale = pkgs_master.tailscale;
   zellij = pkgs_master.zellij;
+  mumble = pkgs_master.mumble;
 }
