@@ -52,15 +52,6 @@
       before = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
       requiredBy = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
     }
-  ] ++ lib.optionals config.ptsd.traggo.enable [
-    {
-      what = "/persist/var/lib/private/traggo";
-      where = "/var/lib/private/traggo";
-      type = "none";
-      options = "bind";
-      before = [ "traggo.service" ];
-      requiredBy = [ "traggo.service" ];
-    }
   ];
 
   system.activationScripts.initialize-persist-drive = lib.stringAfter [ "users" "groups" ] ''
@@ -72,6 +63,5 @@
     mkdir -p /persist/var/lib/samba/private
     mkdir -p /persist/var/lib/systemd
     mkdir -p /persist/var/lib/tailscale
-    ${lib.optionalString config.ptsd.traggo.enable "mkdir -p /persist/var/lib/private/traggo"}
   '';
 }
