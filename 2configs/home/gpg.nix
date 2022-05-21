@@ -1,23 +1,22 @@
-{ config, lib, pkgs, nixosConfig, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-
   programs.gpg = {
-    enable = !nixosConfig.ptsd.minimal;
+    enable = true;
     settings.throw-keyids = true;
   };
 
   services.gpg-agent = {
-    enable = !nixosConfig.ptsd.minimal;
+    enable = true;
     enableSshSupport = true;
-    enableExtraSocket = true;
+    enableExtraSocket = pkgs.stdenv.isLinux;
     extraConfig = ''
       # https://github.com/drduh/config/blob/master/gpg-agent.conf
       # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
       default-cache-ttl 60
       max-cache-ttl 120
     '';
-    pinentryFlavor = "gnome3";
+    pinentryFlavor = if pkgs.stdenv.isLinux then "gnome3" else "tty";
   };
 
   programs.ssh = {
