@@ -97,17 +97,18 @@ in
 
               startup = [
                 { command = "${config.programs.waybar.package}/bin/waybar"; }
-                #{ command = "${config.programs.foot.package}/bin/foot --server"; }
                 { command = toString pkgs.autoname-workspaces; }
               ] ++ optional cfg.autolock.enable {
-                command = ''${pkgs.swayidle}/bin/swayidle -w \
-        timeout 300 '${cfg.lockCmd}' \
-        timeout 330 '${pkgs.sway}/bin/swaymsg "output * dpms off"' \
-        resume '${pkgs.sway}/bin/swaymsg "output * dpms on"' \
-        timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms off"; fi' \
-        resume 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg "output * dpms on"; fi' \
-        before-sleep '${cfg.lockCmd}'
-        '';
+
+                command = concatStringsSep " " ([
+                  "${pkgs.swayidle}/bin/swayidle -w"
+                  "timeout 30 'if ${pkgs.procps}/bin/pgrep swaylock; then ${pkgs.sway}/bin/swaymsg \"output * dpms off\"; fi'" # turn off screen quickly when locked
+                  "timeout 330 '${pkgs.sway}/bin/swaymsg \"output * dpms off\"'"
+                  "resume '${pkgs.sway}/bin/swaymsg \"output * dpms on\"'"
+                ] ++ optionals cfg.autolock.requirePassword [
+                  "timeout 300 '${cfg.lockCmd}'"
+                  "before-sleep '${cfg.lockCmd}'"
+                ]);
               };
             };
 

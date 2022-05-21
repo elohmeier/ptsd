@@ -88,6 +88,10 @@ in
         type = types.bool;
         default = true;
       };
+      autolock.requirePassword = mkOption {
+        type = types.bool;
+        default = true;
+      };
       rclone.enable = mkOption {
         type = types.bool;
         default = false;
