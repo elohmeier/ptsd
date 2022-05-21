@@ -7,7 +7,8 @@
     #nixpkgs.url = "/home/enno/repos/nixpkgs";
     nixpkgs-master.url = github:NixOS/nixpkgs/master;
     #nixpkgs-local.url = "/home/enno/repos/nixpkgs";
-    home-manager.url = github:nix-community/home-manager/release-21.11;
+    #home-manager.url = github:nix-community/home-manager/release-21.11;
+    home-manager.url = "/Users/enno/repos/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
@@ -735,8 +736,102 @@
           };
         };
         packages = pkgs;
+
+
       })
     // {
       inherit nixosConfigurations;
+
+      homeConfigurations.mb2 = home-manager.lib.homeManagerConfiguration {
+        system = "aarch64-darwin";
+        username = "enno";
+        homeDirectory = "/Users/enno";
+        stateVersion = "21.11";
+
+        configuration = { config, lib, pkgs, ... }: {
+          imports = [
+            ./2configs/home/git.nix
+            ./2configs/home/gpg.nix
+            ./2configs/home/neovim.nix
+          ];
+
+          programs.firefox = {
+            enable = true;
+            profiles.privacy = {
+              id = 0;
+              settings = {
+                "privacy.resistFingerprinting" = true;
+              };
+            };
+            profiles.office = {
+              id = 1;
+            };
+            extensions = with pkgs.ptsd-firefoxAddons; [
+              ublock-origin
+            ];
+          };
+
+          nixpkgs.config = {
+            allowUnfree = true;
+            packageOverrides = pkgOverrides pkgs;
+          };
+          home.packages = with pkgs; [
+            tig
+            tmux
+            alacritty
+            zellij
+            ripgrep
+            fd
+            mpv
+            neovim
+            pkgs.home-manager # prevent taking the input
+            #fishPlugins.fzf-fish
+            fzf
+            nixpkgs-fmt
+            #btop
+            exa
+            ptsd-python3
+            ptsd-nnn
+          ];
+
+          programs.zoxide.enable = true;
+
+          programs.fish = {
+            enable = true;
+            shellAliases = {
+              gapf = "git commit --amend --no-edit && git push --force";
+              gaapf = "git add . && git commit --amend --no-edit && git push --force";
+              grep = "grep --color";
+              ping6 = "ping -6";
+              telnet = "screen //telnet";
+              vim = "nvim";
+              vi = "nvim";
+              l = "exa -al";
+              la = "exa -al";
+              lg = "exa -al --git";
+              ll = "exa -l";
+              ls = "exa";
+              tree = "exa --tree";
+
+            };
+
+            shellAbbrs = {
+              "cd.." = "cd ..";
+
+              # git
+              ga = "git add";
+              "ga." = "git add .";
+              gc = "git commit";
+              gco = "git checkout";
+              gd = "git diff";
+              gf = "git fetch";
+              gl = "git log";
+              gs = "git status";
+              gp = "git pull";
+              gpp = "git push";
+            };
+          };
+        };
+      };
     };
 }
