@@ -263,6 +263,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   };
 
   logseq = pkgs_master.logseq;
+  home-manager = pkgs_master.home-manager;
   httpie = pkgs_master.httpie;
   yt-dlp = pkgs_master.yt-dlp;
 
