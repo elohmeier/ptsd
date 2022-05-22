@@ -35,6 +35,7 @@ in
   });
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
+  networking.firewall.allowedUDPPorts = [ 24727 ]; # ausweisapp2
 
   environment.pathsToLink = [ "/share/nmap" "/share/wordlists" ];
 
