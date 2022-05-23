@@ -140,29 +140,29 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   ptsd-py3env = self.ptsd-python3.withPackages (
     pythonPackages: with pythonPackages; [
-      authlib
+      #authlib
       beancount
       black
-      bloodhound-import
+      ##bloodhound-import
       holidays
-      i3ipc
-      # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
+      ##i3ipc
+      ### todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
       jupyterlab
       lxml
-      keyring
-      nbconvert
+      #keyring
+      #nbconvert
       pandas
-      pdfminer
+      #pdfminer
       pillow
       requests
-      selenium
+      #selenium
       tabulate
-      weasyprint
-      beautifulsoup4
+      #weasyprint
+      #beautifulsoup4
       pytest
       mypy
       isort
-      nobbofin
+      #nobbofin # TODO: fix
       sshtunnel
       mysql-connector
       boto3
