@@ -171,9 +171,11 @@ Add `security.acme.validMinDays = 999;` to your config and rebuild. Remember to 
 
 ## Generate TLSA DANE record for mailserver
 
-Run `tlsa --port 25 --starttls smtp --create htz2.host.nerdworks.de --selector 1` to generate updated hash from mailserver certificate.
+Run `tlsa --port 25 --starttls smtp --create htz2.nn42.de --selector 1` to generate updated hash from mailserver certificate.
 
-Run `check_ssl_cert -H htz2.host.nerdworks.de -p 25 -P smtp --dane 1` to check it.
+Or run `nix-shell -p gnutls.bin --run "danetool --tlsa-rr --host htz2.nn42.de --port 25 --load-certificate /var/lib/acme/htz2.nn42.de/cert.pem"` on htz2.
+
+Run `check_ssl_cert -H htz2.nn42.de -p 25 -P smtp --dane 1` to check it.
 
 
 
