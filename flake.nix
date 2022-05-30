@@ -799,6 +799,8 @@
 
           programs.zoxide.enable = true;
 
+          home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
+
           programs.fish = {
             enable = true;
             shellAliases = {
