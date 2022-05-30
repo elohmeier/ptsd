@@ -74,8 +74,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1652996682,
-        "narHash": "sha256-CU90HpmZEuQvFDgcLvrt2rxW+FJTzXsfuzoqY9B6I+E=",
+        "lastModified": 1653119537,
+        "narHash": "sha256-Duqn6geDyWnwb8zz96NgMgQO6JVsrkAs+c3NQJnXH+o=",
+        "ref": "darwin-wip",
+        "rev": "e091a46a975aa7103d2587ba8a4dbd75fd462937",
+        "revCount": 2124,
         "type": "git",
         "url": "file:///Users/enno/repos/home-manager"
       },
