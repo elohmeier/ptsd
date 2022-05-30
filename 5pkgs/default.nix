@@ -141,13 +141,13 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   ptsd-py3env = self.ptsd-python3.withPackages (
     pythonPackages: with pythonPackages; [
       #authlib
-      beancount
+      #beancount
       black
       ##bloodhound-import
       holidays
       ##i3ipc
       ### todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
-      jupyterlab
+      #jupyterlab
       lxml
       #keyring
       #nbconvert
@@ -176,11 +176,11 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       paramiko
 
       # faraday-cli frix port
-      arrow
-      cmd2
-      faraday-plugins
-      termcolor
-      postgrest-py
+      #arrow
+      #cmd2
+      #faraday-plugins
+      #termcolor
+      #postgrest-py
     ]
   );
 
@@ -273,6 +273,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   tailscale = pkgs_master.tailscale;
   zellij = pkgs_master.zellij;
 
-  nix-direnv =pkgs_master.nix-direnv;
+  nix-direnv = pkgs_master.nix-direnv;
 
 }
