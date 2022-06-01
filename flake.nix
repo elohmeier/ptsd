@@ -353,14 +353,6 @@
             specialArgs = { inherit nixpkgs-master; };
           };
 
-          tp1 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ desktopModules ++ [
-              ./1systems/tp1/physical.nix
-              nixos-hardware.nixosModules.lenovo-thinkpad-x280
-            ];
-          };
-
           ws1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ desktopModules ++ [
