@@ -18,7 +18,7 @@ in
     folders = {
       "/home/enno/repos" = {
         id = "yqa69-2zjmt";
-        devices = [ "nas1" "tp1" "ws1" "ws2" ];
+        devices = [ "nas1" "ws1" "ws2" ];
         label = "repos";
         ignorePerms = false;
       };
