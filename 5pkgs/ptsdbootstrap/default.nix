@@ -1,7 +1,6 @@
 { lib, writers, symlinkJoin, cryptsetup }:
 with lib;
 let
-  tp1 = import ../../1systems/tp1/physical.nix { };
   ws1 = import ../../1systems/ws1/physical.nix { };
   ws2 = import ../../1systems/ws2/physical.nix { };
 
@@ -40,10 +39,8 @@ in
 symlinkJoin {
   name = "ptsdbootstrap";
   paths = [
-    (up tp1 "tp1")
     (up ws1 "ws1")
     (up ws2 "ws2")
-    (down tp1 "tp1")
     (down ws1 "ws1")
     (down ws2 "ws2")
   ];
