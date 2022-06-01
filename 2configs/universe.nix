@@ -258,6 +258,11 @@
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJqrrWnc5yZeE6cBSETtBLi4Zee5tZe7AA3P0ZuDsW75 luisa@mb1.host.nerdworks.de";
     };
 
+    # Lu
+    mb3 = {
+      syncthing.id = "HG55JUD-HYZEYV5-7TJKT2W-STGV4R4-NXYTCU2-ATJUV2C-GSK7ICF-TVXWOQO";
+    };
+
     mb4 = {
       syncthing.id = "BCJ2QQN-P4JUP5E-NS5AUOL-MDQH3XF-CHQ76SE-V3QCNZ6-QRDMENX-UUNBTA6";
     };
@@ -284,25 +289,6 @@
       borg.quota = "500G";
       borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2g2ga5+52k9vQwbX204VK+ZXEb9dIhbicRe1bZXunDS00MI/kvC1NnLrKpZSJmtieyRBSnYkWkWsejFMKe9TWuTQqd5wceFIASr7bUVInoxQazpYaC07H4wkx1uoeKZqCvQfJD/BCIrPQfXnm8lOwMPWKhAml0wnOPo3EOIFffW5vszxi2RRRLh4af1Azs2pd6/9E+TJnA4foOTgAA1dQEou1X+0eLCEtEwjJFPLNFRVOImXfB4dZ0mke/WTae5DUfUuT4Guz0uf11VYeG1iCorcOLk/0w+LcP4aJMllK3znXQHc/Olm+Og+l4MpRsJTZRke23k+GSgf31BPbvGJJ root@nas1";
       syncthing.id = "HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW";
-    };
-
-    nuc1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.10";
-          aliases = [
-            "nuc1.nw"
-          ];
-          wireguard.pubkey = ''
-            dcBlwkidRDhcQT6OaqZS1wM9jUMdWS7iZy8+1534hDw=
-          '';
-        };
-      };
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ4xuAXx1Vjcseg5mvoSUt2MijZbSSwTsq/sD2OmU36a ";
-      borg.quota = "500G";
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHGCCbyjVl+9cXTyF4VNAdveGxEUM6Lgmw3orKQKm7i/";
-      syncthing.id = "J5JHNBN-YZYVP3A-ROFYSWJ-NIWXSUW-FDSGNUB-6UO47NL-LIGRLDM-RMSZBAQ";
     };
 
     pine1 = {
@@ -432,50 +418,6 @@
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBEoHcMO5Nb/CyRvVoVYNBvWwsld46XeNQwTGmiMZCnb ";
       syncthing.id = "Z2SFNXE-YJML4D5-6EWCHIT-T2IXXSN-Z7WO5BM-UU7IHUF-JAFB3TX-XKLALAS";
-    };
-
-    tp1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.30";
-          aliases = [
-            "tp1.nw"
-          ];
-          wireguard.pubkey = "y6NCfYWUCR6aqoLsjqQRbfhz7rLqrtUOnY3HTWa0HFI=";
-        };
-
-        dlrgvpn = {
-          ip4.addr = "191.18.21.30";
-          wireguard.pubkey = "y6NCfYWUCR6aqoLsjqQRbfhz7rLqrtUOnY3HTWa0HFI=";
-        };
-      };
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGOhX8m3f1fpboga+H/uZeCUawyqur2dNBZwK6+ZaAlj ";
-      borg.quota = "150G";
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPQxSpwUFYS2KFZSolG2zAWZdrLA3EMbr3zJpzG2P+vr nwbackup@tp1";
-      syncthing.id = "MQ7BT6T-BLL6LCW-P4RGFQC-WGJIM2U-2X3267C-B2IZPUR-JDPTV66-OXGR5AA";
-    };
-
-    tp1-win10 = {
-      syncthing.id = "MWJZUVD-RGYIRRT-ROVVL2D-Y3S7C2C-YHIPUOT-CAECKLE-IVQ6DM4-U5EGOAZ";
-    };
-
-    tp2 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.46";
-          aliases = [
-            "tp2.nw"
-          ];
-          wireguard.pubkey = "Z4QT9Fv/kssnRA0BXpuxrGjZSitZuJj7Ayw9TF7tcTo=";
-        };
-      };
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKkZ1myk87h5Faeqx34o8k8K2Rvslz4KpNATnTt6Z4ys ";
-      syncthing.id = "IPFOZJJ-EZNHJZY-QHHD7HF-DW2EPT5-LCHCQBO-NOVVAE2-5LLPJIC-BTNC5QN";
-
-      #borg.quota = "80G";
-      #borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDZtjfzDqnTVFhvv8PcwNka8QNZpBsDgWd7jdJTwANyzCAEMGEeKkK2GtVafgvewrm6FHxc2mYvFiQGSNz8nsPHMBIOP4Y3vc6olswZo3uh3Cvpqda8JDljhihECkBo0G6q+Zy3sayBrz6evKLh3yCiNYPAxSmfcEFZExbFVbUBcfkLxYvTc3WvZ4/YWwNUvMPoqQacP05eu5v2OWMPhleh616Hvr3aTLTjG4gsVbp5htHXX8CsfKjFnVrDZ0UcgmEowrCwiO7YCrjpieFrGLa+aMuUH4ehFGyJnjNB1DMT3bzvaZFNkcysiPyVmbZCX9IaOI6CfJoCibu2lMDGOdOP luisa richter@DESKTOP-7EM0MN5";
     };
 
     wrt1 = {
