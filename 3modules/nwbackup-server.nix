@@ -95,32 +95,5 @@ in
     environment.systemPackages = [ pkgs.borgbackup ];
 
     systemd.services = mapAttrs' mkRepoService backupClients;
-
-    system.activationScripts.migrate-nwbackup =
-      let
-        migrations = {
-          "eee1" = "eee1";
-          "nw1" = "mb1";
-          "nw10" = "nuc1";
-          "nw11" = "apu1";
-          "nw23" = "tp2";
-          "nw30" = "tp1";
-          "nw32" = "htz1";
-          "nw34" = "apu2";
-          "nw35" = "rpi2";
-          "ws1" = "ws1";
-        };
-      in
-      stringAfter [ "users" "groups" ] ''
-
-      if ${pkgs.zfs}/bin/zfs list -H -o name | grep -q '^${cfg.zpool}${cfg.zfsPath}$'; then
-        echo "nwbackup-server: zfs-root ${cfg.zpool}${cfg.zfsPath} exists, skipping creation"
-      else
-        echo "nwbackup-server: creating zfs-root ${cfg.zpool}${cfg.zfsPath}"
-        ${pkgs.zfs}/bin/zfs create -o mountpoint=none ${cfg.zpool}${cfg.zfsPath}
-      fi
-
-      ${concatStringsSep "\n" (mapAttrsToList mkMigration migrations)}
-    '';
   };
 }

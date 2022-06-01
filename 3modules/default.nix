@@ -2,7 +2,6 @@ _:
 {
   imports = [
     ./acme-dns.nix
-    ./alertmanager-bot.nix
     ./cups-airprint.nix
     ./fluent-bit.nix
     ./icloudpd.nix
@@ -24,7 +23,6 @@ _:
     ./ports.nix
     ./radicale.nix
     ./rclone.nix
-    ./samba-sonos.nix
     ./secrets.nix
     ./tailscale.nix
     ./traefik-forward-auth.nix
