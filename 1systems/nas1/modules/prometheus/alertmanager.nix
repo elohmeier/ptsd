@@ -23,7 +23,7 @@
         receivers = [{
           name = "nwadmins";
           webhook_configs = [{
-            url = "http://127.0.0.1:16320";
+            url = "http://matrix.pug-coho.ts.net:4050/services/hooks/YWxlcnRtYW5hZ2VyX3NlcnZpY2U";
             send_resolved = true;
           }];
         }];
@@ -129,16 +129,5 @@
         rule = "Host(`alerts.services.nerdworks.de`)";
       }
     ];
-  };
-
-  ptsd.alertmanager-bot = {
-    enable = true;
-    listenAddress = "127.0.0.1:16320";
-    templatePath = ./telegram.tmpl;
-    envFile = config.ptsd.secrets.files."alertmanager-bot.env".path;
-  };
-
-  ptsd.secrets.files."alertmanager-bot.env" = {
-    dependants = [ "alertmanager-bot.service" ];
   };
 }

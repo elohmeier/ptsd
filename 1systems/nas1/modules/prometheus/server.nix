@@ -129,18 +129,15 @@ in
       }
 
       (nwJob "apu2" "apu2" "node" true)
-      (nwJob "eee1" "eee1" "node" false)
       (nwJob "htz1" "htz1" "node" true)
       (nwJob "htz2" "htz2" "node" true)
       (nwJob "htz2" "htz2" "maddy" true)
       (nwJob "htz3" "htz3" "node" true)
-      (nwJob "htz3" "gitlab" "node" true)
       (nwJob "htz3" "wpjail" "node" true)
       (nwJob "nas1" "nas1" "node" true)
       (nwJob "rpi2" "rpi2" "node" true)
       (nwJob "ws1" "ws1" "node" false)
       (nwJob "ws2" "ws2" "node" false)
-      (nwJob "tp1" "tp1" "node" false)
 
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
