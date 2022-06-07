@@ -27,11 +27,12 @@
   };
 
   environment.systemPackages = with pkgs; [ htop vim tcpdump ];
-  ptsd.neovim.enable = false;
 
   ptsd.secrets.files = {
     "nwbackup.id_ed25519" = {
       path = "/root/.ssh/id_ed25519";
     };
   };
+
+  system.stateVersion = "21.11";
 }
