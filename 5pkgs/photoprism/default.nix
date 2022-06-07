@@ -1,14 +1,14 @@
-{ system, lib, stdenv, pkgs, nodejs, fetchFromGitHub, fetchurl, unzip, buildGoModule }:
+{ system, lib, stdenv, pkgs, nodejs, fetchFromGitHub, fetchurl, unzip, buildGo118Module }:
 
 let
   pname = "photoprism";
-  version = "220121-2b4c8e1f"; # remember to update generate-dependencies.sh and run it
+  version = "220528-efb5d710"; # remember to update generate-dependencies.sh and run it
 
   src = fetchFromGitHub {
     owner = pname;
     repo = pname;
     rev = version;
-    sha256 = "sha256-N8PhBQRFlMFbzmNFk77rMofMFgY7XNG+DRWUyhs2Pjw=";
+    sha256 = "sha256-mYFhw//Z5Vwek4kLItHBwK/HC1I7ZaEwGH4ZZMnRQ9I=";
   };
 
   nodePackages = import ./node-composition.nix {
@@ -20,9 +20,6 @@ let
     src = "${src}/frontend";
     NODE_ENV = "production";
     postInstall = ''
-      # workaround wrong css font path resolution
-      cp -r $out/lib/node_modules/photoprism/node_modules/material-design-icons-iconfont/dist/fonts $out/lib/node_modules/photoprism/src/css/fonts
-
       # Patch shebangs in node_modules, otherwise the webpack build fails with interpreter problems
       patchShebangs --build "$out/lib/node_modules/photoprism/node_modules/"
 
@@ -43,7 +40,7 @@ let
       })
       { inherit system; };
 in
-buildGoModule rec {
+buildGo118Module rec {
   inherit pname version src;
 
   postPatch = ''
@@ -65,7 +62,7 @@ buildGoModule rec {
     sha256 = "sha256-v5rglF0qxTrD2ycIIWLSud2luixWTA5MT1OfMfi2cK8="; # up-to-date as of 2022-02-16
   };
 
-  vendorSha256 = "sha256-OLEoBLohZtHAQd2JUXX0jH2M0QBoB/0POoeOoChyYwY=";
+  vendorSha256 = "sha256-RLYMx14g7zM+j5jbvJPgh92lAv7IXJEsxNlpkXa+BMQ=";
 
   buildInputs = [
     # nas1 supports SSE4.2 (long build)

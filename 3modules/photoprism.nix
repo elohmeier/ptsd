@@ -80,10 +80,6 @@ in
 
     users.groups.rawphotos = { };
 
-    ptsd.secrets.files."photoprism.env" = {
-      dependants = [ "photoprism.service" ];
-    };
-
     systemd.services.photoprism = {
       description = "PhotoPrism Photo Management";
       wantedBy = mkIf cfg.autostart [ "multi-user.target" ];
@@ -111,7 +107,7 @@ in
         # folders
         StateDirectory = "photoprism";
         CacheDirectory = "photoprism";
-        EnvironmentFile = config.ptsd.secrets.files."photoprism.env".path;
+        EnvironmentFile = "/var/src/secrets/photoprism.env";
 
         # hardening
         DynamicUser = true;
@@ -167,7 +163,7 @@ in
         # folders
         StateDirectory = "photoprism";
         CacheDirectory = "photoprism";
-        EnvironmentFile = config.ptsd.secrets.files."photoprism.env".path;
+        EnvironmentFile = "/var/src/secrets/photoprism.env";
 
         # hardening
         #DynamicUser = true;
