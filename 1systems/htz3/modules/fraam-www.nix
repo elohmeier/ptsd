@@ -109,6 +109,8 @@ in
               port = config.ptsd.ports.prometheus-node;
               enabledCollectors = import ../../../2configs/prometheus/node_collectors.nix;
             };
+
+            system.stateVersion = "21.11";
           };
       };
 

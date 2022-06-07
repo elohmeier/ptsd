@@ -288,4 +288,6 @@ in
     chgrp -R nginx /var/www
     chmod -R u+rwX,go+rX,go-w /var/www
   '';
+
+  system.stateVersion = "21.11";
 }
