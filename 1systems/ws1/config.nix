@@ -7,9 +7,9 @@ with lib;
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
 
-    ../../2configs/profiles/bs53.nix
     ../../2configs/profiles/workstation
     ../../2configs/prometheus/node.nix
+    ../../2configs/printers/mfc7440n.nix
 
     ../../2configs/nixbuild.nix
 

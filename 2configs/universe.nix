@@ -1,15 +1,6 @@
 {
   hosts = {
 
-    and1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.21"; # Moto G
-          wireguard.pubkey = "40c+WrVo8IXU+OMA/+6Z4otbtePu0vtucafyfQ4+YAo=";
-        };
-      };
-    };
-
     and2 = {
       # U.S. Handy
       nets = {
@@ -207,7 +198,6 @@
       syncthing.id = "BCJ2QQN-P4JUP5E-NS5AUOL-MDQH3XF-CHQ76SE-V3QCNZ6-QRDMENX-UUNBTA6";
     };
 
-
     nas1 = {
       nets = {
         nwvpn = {
@@ -276,56 +266,6 @@
     #rpi3 = {
     # RPi-HomeMatic      
     #};
-
-    rpi4 = {
-      # RPi 4, KVM
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.42";
-          aliases = [
-            "rpi4.nw"
-          ];
-          wireguard.pubkey = "uDl6XZq9Fdld0VPp6vRPpaexoV4rBmpqK3hlDTSenmc=";
-        };
-      };
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPfSkbsHju/PLP527ghKEn/YlSHY8I8Y1fXVSkmUnLEE ";
-      syncthing.id = "7BIKFUR-AV4WN5J-UGPEVCW-2W3MNDP-AKNHCFJ-6LZABHY-KKICNRF-CMVDHQF";
-    };
-
-    rpi4-raspbian = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.52";
-          aliases = [
-            "rpi4-raspbian.nw"
-          ];
-          wireguard.pubkey = "GRdTVaSXOVLTLRGy3kvA8+CAnolD3wHQIajXlQqBnCg=";
-        };
-      };
-      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHkQvZfYfhJ/NglEuHVIDFaJKuDIMYziO6BQqiOl5b+/ ";
-      #ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK1TBjIy5NiktNEnZv4Zp5btRuZZlKzEh6hZEdvEztfr ";
-
-      #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICaUCru8yO/jnBrJDaFfw83/I5pcBRIorVFgZwT14vnA"; # raspbian
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGXGVhKcu7EU6DsSm8un8DBTqz+ElIDhvB1jHnUmApnt"; # pikvm
-      #syncthing.id = "ZWP5S3V-O6T4AAV-LFD63E3-Z36YHGW-TVL5OMC-WZT4W5B-BX7PXPC-J3YSDAG";
-    };
-
-    rpi5 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.49";
-          aliases = [
-            "rpi5.nw"
-          ];
-          wireguard.pubkey = "7CgaFlxQVgnRILH8JQzc3j+NPAAbxHatiuim8Q0CLFo=";
-        };
-      };
-      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII3ImbGIgcGl4hSSD0mYvvmY50K9rr91Mk25kxilj3el ";
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBEoHcMO5Nb/CyRvVoVYNBvWwsld46XeNQwTGmiMZCnb ";
-      syncthing.id = "Z2SFNXE-YJML4D5-6EWCHIT-T2IXXSN-Z7WO5BM-UU7IHUF-JAFB3TX-XKLALAS";
-    };
 
     # Archer C7 v5  192.168.178.3
     wrt1 = {
