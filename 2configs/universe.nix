@@ -1,8 +1,5 @@
 {
   hosts = {
-    # fb1: 192.168.178.1
-    # fb2: 192.168.178.2
-    # arc1 = {}; # Archer C7 v5  192.168.178.3
 
     and1 = {
       nets = {
@@ -21,24 +18,6 @@
           wireguard.pubkey = "/5uhmBD09M5MK0no5aURYjeUeHFelYSoyEbs9s1l1WI=";
         };
       };
-    };
-
-    apu1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.11";
-          aliases = [
-            "apu1.nw"
-          ];
-          wireguard.pubkey = ''
-            t6zE4F6k5PjaSyUU69iDJbK3eVXy+7jgeSuV2+cfGWA=
-          '';
-        };
-      };
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEoUyEnCGv00sy4Zzul1XdF/6CMPg4Z4BMcJ3RSJ89Eq ";
-      borg.quota = "10G";
-      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC85A+mfN5Y8JpGWG70XHbcwWOMConaiN4avmC9oLwsevT9RzeQjhCOjBs0Qw2ES+wfcuUfIOuYrC80A94dmCakL6EtIJAiWRp0fcP9Bh/kwVZJCv0rBQh9Sk/wCJ9N849CH0R1AKTXf74WlS7TGcqka0KLNhiT/tsM8aOkKcC135eQ7Hn2u9uzI5ZHoyIb6dl7oEyg5MgY9arr59VojBg6J6MTsdCUfv2muJQR4+aGd0/UBWnYgmfsHZnOGUvzk9qBwZN7zJrEcD2sTgROPlmnYm65xsM4l2G9soQ3S8N4bnF3pejgx+rMm0eKjMGI/RZ2IhAIUJAFdTZaj3Ule+81 root@nw11";
     };
 
     apu2 = {
@@ -90,6 +69,9 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIER5LHYQ/MckDcnay4ZU8WLlkPwKubOX7tSWw8mbpyKB ";
       syncthing.id = "QWH3PPM-K2IUQWD-5ETD5UZ-JNBNST5-YAC6623-Z3346LS-EBGIUFP-IHECRQD";
     };
+
+    # fb1: 192.168.178.1
+    # fb2: 192.168.178.2
 
     iph2 = {
       nets = {
@@ -291,22 +273,6 @@
       syncthing.id = "HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW";
     };
 
-    pine1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.55";
-          aliases = [
-            "pine1.nw"
-          ];
-          wireguard.pubkey = "WLcaTqoitN/s2bipMgnCSLEFN9ctsJ5hzejwZAqbU1s=";
-        };
-      };
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPy1yvDDoqvuIPRWdmBvuVUEtZ2WUrS8AdD8Ju/dMW+F ";
-      borg.quota = "10G";
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDtRR7MYLLZ+NWxnd7gqUot8SH1PN+qGb/LqaIWvPsjH ";
-      syncthing.id = "DB64C44-HK2EDBV-5UNZNZ3-77UCGRZ-GJNRNU7-3OAEHEI-GC435NT-NVR76Q3";
-    };
-
     pine2 = {
       nets = {
         nwvpn = {
@@ -420,6 +386,7 @@
       syncthing.id = "Z2SFNXE-YJML4D5-6EWCHIT-T2IXXSN-Z7WO5BM-UU7IHUF-JAFB3TX-XKLALAS";
     };
 
+    # Archer C7 v5  192.168.178.3
     wrt1 = {
       nets = {
         nwvpn = {
@@ -484,23 +451,6 @@
       syncthing.id = "463IXFR-CH3QL6E-REW64TF-JMGOCZX-VQN556L-MGWC5ER-CQFSW3B-7XLZ4AH";
       borg.quota = "210G";
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEf6ThFU/I+qMVM/u5iNPB1Fgkn4Pk/Rr/FgzuHJAKy/ nwbackup@ws1";
-    };
-
-    ws1-drone = {
-      nets.nwvpn = {
-        ip4.addr = "191.18.19.39";
-        wireguard.pubkey = "KT8heQPAfjkG3GB3ssi1l5/utJ8QNTTMH+0lry4qtWQ=";
-      };
-    };
-
-    # kvm
-    ws1-win10 =
-      {
-        syncthing.id = "UAFAYNS-NP6HYNY-JQ3CGPD-AUZHOEC-ZSEXAHP-PUOALXX-CNOMWWN-MVUKWQR";
-      };
-
-    ws1-win10n = {
-      syncthing.id = "OSIS6BW-MSSUBOX-2ASRHPY-ZBI6LHV-LS6KIZ3-6ZBFDMZ-KPUY2HS-U7SP4QU";
     };
 
     ws2 = {
