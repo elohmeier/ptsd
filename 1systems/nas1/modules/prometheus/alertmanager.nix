@@ -63,7 +63,7 @@
               for = "30s";
               labels.severity = "critical";
               annotations = {
-                summary = "Endpoint {{ $labels.instance }} down";
+                summary = "Endpunkt {{ $labels.instance }} ist nicht erreichbar";
               };
             }
             {
@@ -102,7 +102,7 @@
               for = "5m";
               labels.severity = "critical";
               annotations = {
-                summary = "Node {{ $labels.alias }} down für 5 minutes";
+                summary = "Node {{ $labels.alias }} ist nicht erreichbar für 5 Minuten";
               };
             }
             {
