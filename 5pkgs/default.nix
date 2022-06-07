@@ -27,14 +27,11 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       };
     });
   choose-browser = self.writers.writeDashBin "choose-browser" ../4scripts/choose-browser.sh;
-  firefox-mobile = self.callPackage ./firefox-mobile { };
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
   gomumblesoundboard = self.callPackage ./gomumblesoundboard { };
   gowpcontactform = self.callPackage ./gowpcontactform { };
   hashPassword = self.callPackage ./hashPassword { };
-  firefox-config-desktop = self.callPackage ./firefox-configs/desktop.nix { wrapFirefox = self.callPackage ./firefox-configs/wrapper.nix { }; };
-  firefox-config-mobile = self.callPackage ./firefox-configs/mobile.nix { };
   lz4json = self.callPackage ./lz4json { };
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };
