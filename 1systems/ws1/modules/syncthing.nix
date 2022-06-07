@@ -24,7 +24,7 @@
       "/home/enno/Pocket" = {
         label = "Pocket";
         id = "hmekh-kgprn";
-        devices = [ "nas1" "ws1-win10" "mb4" ];
+        devices = [ "nas1" "mb4" ];
       };
       "/home/enno/Scans" = {
         label = "Scans";
