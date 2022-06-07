@@ -26,7 +26,12 @@ in
     useDHCP = false;
     hostName = "apu2";
     bridges.br0.interfaces = bridgeIfs;
-    interfaces.br0.useDHCP = true;
+    interfaces.br0.useDHCP = false;
+
+    # fix wrong ip address allocation after nixos 22.05 upgrade
+    interfaces.br0.ipv4.addresses = [{ address = "192.168.168.41"; prefixLength = 24; }];
+    defaultGateway = "192.168.168.1";
+    nameservers = [ "192.168.168.1" ];
 
     firewall = {
 
@@ -37,7 +42,7 @@ in
         allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
       };
 
-      trustedInterfaces = [ "br0" "dlrgvpn" ];
+      trustedInterfaces = [ "br0" "dlrgvpn" "nwvpn" "tailscale0" ];
 
       allowedTCPPorts = [
         8123 # hass
