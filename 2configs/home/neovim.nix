@@ -48,7 +48,8 @@ in
 
   home.packages = with pkgs;[
     gopls
-    rnix-lsp
+    nodejs # for copilot
     pyright
+    rnix-lsp
   ];
 }

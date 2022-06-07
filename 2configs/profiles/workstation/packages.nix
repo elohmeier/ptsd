@@ -12,7 +12,6 @@
     jless
     ripmime
     AusweisApp2
-    nodejs # for copilot.vim
     #pkgsCross.avr.buildPackages.gcc # avr-gcc
     #arduino
     #avrdude
