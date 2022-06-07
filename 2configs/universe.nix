@@ -49,27 +49,6 @@
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKPzI7RRxol+dp3oj+IVZcwc2F9du6AVZc2HtFoLhDDV";
     };
 
-    apu3 = {
-      # SVB
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.47";
-          aliases = [
-            "apu3.nw"
-          ];
-          wireguard.pubkey = "rZ3/TTTxZCIHqRP8+s9yyGgh8PV+4XL07WhC6pubrTs=";
-        };
-        svbvpn = {
-          ip4.addr = "191.18.22.47";
-          wireguard.pubkey = "rZ3/TTTxZCIHqRP8+s9yyGgh8PV+4XL07WhC6pubrTs=";
-        };
-      };
-      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQksFDH60CvwLh6mBkMqMpjH+CG5yzt1wvwWGSF+clI ";
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIER5LHYQ/MckDcnay4ZU8WLlkPwKubOX7tSWw8mbpyKB ";
-      syncthing.id = "QWH3PPM-K2IUQWD-5ETD5UZ-JNBNST5-YAC6623-Z3346LS-EBGIUFP-IHECRQD";
-    };
-
     # fb1: 192.168.178.1
     # fb2: 192.168.178.2
 
@@ -196,27 +175,6 @@
       # syncthing.id = "IC6TOSI-OYORQ4W-DSOMJU7-QYSECNO-XFD2F5U-DMN3G4E-D2E5CZ5-5XR7TQM";
       borg.quota = "20G";
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDFd67n+vkojWj5gxGjOrflLLVC4yPxbHmdc6tIQTQbZ root@htz3";
-    };
-
-    # SVB Wireguard
-    htz4 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.50";
-          aliases = [
-            "htz4.nw"
-          ];
-          wireguard.pubkey = "j9KtrJslyEtamuJndSoarUtYSfSPa7Gnb1lYMuHeh18=";
-        };
-        svbvpn = {
-          ip4.addr = "191.18.22.50";
-          wireguard.pubkey = "j9KtrJslyEtamuJndSoarUtYSfSPa7Gnb1lYMuHeh18=";
-        };
-      };
-      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIATiX3dPvDYW/jbEBCP5OxT2ZBjMGtDQYFWlyeJpYqJO ";
-      ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICc6Kd9LqfN5xxSrYfR+Gb9/bg59icErD7zxkseX+Ewi ";
-      #syncthing.id = "4SFYF5A-W5GKBI7-3CNSB2B-CUEZP4F-W3WLSFO-X6X6ZYY-TBCG3AD-ZXBXYAL";
     };
 
     mb1 = {
@@ -490,25 +448,6 @@
         };
       };
     };
-
-    svb-win1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.48";
-          aliases = [
-            "svb-win1.nw"
-          ];
-          wireguard.pubkey = "qc0RF8c8jKAuchPk8eaGTVCI6E2GLXpeJ4Y3XKQg/jM=";
-        };
-        svbvpn = {
-          ip4.addr = "191.18.22.48";
-          wireguard.pubkey = "qc0RF8c8jKAuchPk8eaGTVCI6E2GLXpeJ4Y3XKQg/jM=";
-        };
-      };
-      #borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAuJNimfNjw0QE4BsPW9QR0sHMHkL01GydAjrTnSN5KT ";
-      #ssh.privkey.path = <secrets/ssh.id_ed25519>;
-      #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMuP9fEqxESCd0b3GO1mKkXQo9mbUrql/W0DFMGLjtsa ";
-      #syncthing.id = "RCLLB5S-G5WHIGJ-ZJYXKMQ-W4PE7JJ-LJBM7E3-HEGZOX6-MPQXCYB-S6NNHAL";
-    };
+    
   };
 }
