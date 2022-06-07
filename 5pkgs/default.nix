@@ -76,42 +76,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
   };
 
-  ptsd-python2 = self.python2.override {
-    packageOverrides = pyself: pysuper: rec {
-      pynacl = pysuper.buildPythonPackage rec {
-        pname = "PyNaCl";
-        version = "1.3.0"; # last version with python2 support
-        propagatedBuildInputs = with pysuper; [ cffi six ];
-        checkInputs = with pysuper;[ pytest hypothesis ];
-
-        # fixed in next release 1.3.0+
-        # https://github.com/pyca/pynacl/pull/480
-        postPatch = ''
-          substituteInPlace tests/test_bindings.py \
-            --replace "average_size=128," ""
-        '';
-
-        checkPhase = ''
-          py.test
-        '';
-
-        # https://github.com/pyca/pynacl/issues/550
-        PYTEST_ADDOPTS = "-k 'not test_wrong_types'";
-        src = pysuper.fetchPypi {
-          inherit pname version;
-          sha256 = "sha256-DGEA7dFv79FVfaB4x6Mee316Us45/cor7CnU97bnYAw=";
-        };
-      };
-    };
-  };
-
-  # ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [
-  #   impacket
-  #   paramiko
-  #   pycrypto
-  #   requests
-  # ]);
-
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
       black = super.black.overrideAttrs (old: {
@@ -129,44 +93,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       vidcutter = self.callPackage ./vidcutter { };
     };
   };
-
-  ptsd-py3env = self.ptsd-python3.withPackages (
-    pythonPackages: with pythonPackages; [
-      #authlib
-      #beancount
-      #  black
-      #  holidays
-      #  ##i3ipc
-      #  ### todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
-      #  #jupyterlab
-      #  lxml
-      #keyring
-      #nbconvert
-      pandas
-      #pdfminer
-      pillow
-      requests
-      #selenium
-      tabulate
-      #weasyprint
-      #beautifulsoup4
-      # pytest
-      # mypy
-      # isort
-      #nobbofin
-      sshtunnel
-      mysql-connector
-      boto3
-      impacket
-      pycrypto
-      pylint
-      pyxlsb
-      psycopg2
-      faker
-      netifaces
-      paramiko
-    ]
-  );
 
   ptsd-ffmpeg = self.ffmpeg-full.override {
     nonfreeLicensing = true;

@@ -52,8 +52,10 @@ in
 
   environment.systemPackages = with pkgs; mkIf (nonAarch64) [
     samba
-    looking-glass-client
-    scream
+    # looking-glass-client
+    # scream
+    virt-viewer
+    virtmanager
   ];
 
   networking = mkIf nonAarch64 {

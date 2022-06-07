@@ -52,20 +52,21 @@ in
 
   config = mkIf cfg.enable {
 
-    environment.systemPackages = [ pkgs.prometheus-node-exporter ];
+    home.packages = [ pkgs.prometheus-node-exporter ];
 
-    launchd.daemons.node-exporter = {
-      serviceConfig = {
-        ProgramArguments = [ "${pkgs.prometheus-node-exporter}/bin/node_exporter" ]
-          ++ (map (x: "--collector." + x) cfg.enabledCollectors)
-          ++ (map (x: "--no-collector." + x) cfg.disabledCollectors)
-          ++ [
-          "--web.listen-address"
-          "${cfg.listenAddress}:${toString cfg.port}"
-        ] ++ cfg.extraFlags;
-        KeepAlive = true;
-        RunAtLoad = true;
-      };
-    };
+    # TODO
+    # launchd.daemons.node-exporter = {
+    #   serviceConfig = {
+    #     ProgramArguments = [ "${pkgs.prometheus-node-exporter}/bin/node_exporter" ]
+    #       ++ (map (x: "--collector." + x) cfg.enabledCollectors)
+    #       ++ (map (x: "--no-collector." + x) cfg.disabledCollectors)
+    #       ++ [
+    #       "--web.listen-address"
+    #       "${cfg.listenAddress}:${toString cfg.port}"
+    #     ] ++ cfg.extraFlags;
+    #     KeepAlive = true;
+    #     RunAtLoad = true;
+    #   };
+    # };
   };
 }

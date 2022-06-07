@@ -5,22 +5,11 @@ let
 in
 {
   imports = [
-    ../../../3modules/desktop
-
-    ./packages.nix
-    ./virtualisation.nix
-
-    ../../users/enno.nix
+    ../3modules/desktop
+    ./users/enno.nix
   ];
 
-  # services.postgresql = {
-  #   enable = true;
-  #   ensureDatabases = [ "faraday" ];
-  #   ensureUsers = [{
-  #     name = "enno";
-  #     ensurePermissions."DATABASE faraday" = "ALL PRIVILEGES";
-  #   }];
-  # };
+  environment.systemPackages = [ (pkgs.writeShellScriptBin "activate-da-home-again" ''${config.home-manager.users.mainUser.home.activationPackage}/activate'') ];
 
   nix.gc.automatic = false;
 
@@ -36,13 +25,6 @@ in
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
   networking.firewall.allowedUDPPorts = [ 24727 ]; # ausweisapp2
-
-  environment.pathsToLink = [ "/share/nmap" "/share/wordlists" ];
-
-  # for BloodHound
-  # services.neo4j = {
-  #   enable = true;
-  # };
 
   environment.variables = {
     GOPATH = "/home/enno/go";
@@ -96,22 +78,20 @@ in
       };
 
       imports = [
-        ../../home/chromium.nix
-        ../../home/fish.nix
-        ../../home/git.nix
-        ../../home/gpg.nix
-        ../../home/mpv.nix
-        ../../home/neovim.nix
-        ../../home/tmux.nix
-        ../../home/vscodium.nix
+        ./home/chromium.nix
+        ./home/firefox.nix
+        ./home/fish.nix
+        ./home/git.nix
+        ./home/gpg.nix
+        ./home/mpv.nix
+        ./home/neovim.nix
+        ./home/packages.nix
+        ./home/tmux.nix
+        ./home/vscodium.nix
       ];
 
       programs.direnv.enable = true;
       programs.direnv.nix-direnv.enable = true;
-
-      ptsd.firefox = {
-        enable = true;
-      };
 
       home.stateVersion = lib.mkDefault "20.09";
 
@@ -203,7 +183,7 @@ in
     };
 
   ptsd.desktop.keybindings = {
-    "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
+    #"XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
     "${desktopCfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.ptsd-tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
   };
 

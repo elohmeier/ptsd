@@ -7,7 +7,8 @@ with lib;
     ../../2configs/nwhost.nix
     ../../2configs/stateless-root.nix
 
-    ../../2configs/profiles/workstation
+    ../../2configs/virtualisation.nix
+    ../../2configs/workstation.nix
     ../../2configs/prometheus/node.nix
     ../../2configs/printers/mfc7440n.nix
 
@@ -16,7 +17,6 @@ with lib;
     ./modules/desktop.nix
     ./modules/networking.nix
     ./modules/syncthing.nix
-    #  ./modules/netboot-host.nix
     ./modules/vmassi.nix
   ];
 

@@ -233,49 +233,18 @@
 
           configuration = { config, lib, pkgs, ... }: {
             imports = [
+              ./3modules/home
+              ./2configs/home/firefox.nix
               ./2configs/home/git.nix
               ./2configs/home/gpg.nix
               ./2configs/home/neovim.nix
+              ./2configs/home/packages.nix
             ];
-
-            programs.firefox = {
-              enable = true;
-              profiles.privacy = {
-                id = 0;
-                settings = lib.importJSON ./5pkgs/firefox-configs/librewolf.json;
-              };
-              profiles.office = {
-                id = 1;
-              };
-              extensions = with pkgs.ptsd-firefoxAddons; [
-                ublock-origin
-              ];
-            };
 
             nixpkgs.config = {
               allowUnfree = true;
               packageOverrides = pkgOverrides pkgs;
             };
-            home.packages = with pkgs; [
-              tig
-              watch
-              bat
-              tmux
-              alacritty
-              zellij
-              ripgrep
-              fd
-              mpv
-              neovim
-              pkgs.home-manager # prevent taking the input
-              #fishPlugins.fzf-fish
-              fzf
-              nixpkgs-fmt
-              #btop
-              exa
-              ptsd-py3env
-              ptsd-nnn
-            ];
 
             programs.direnv.enable = true;
             programs.direnv.nix-direnv.enable = true;

@@ -190,7 +190,6 @@ in
           BEMENU_OPTS = "--fn \\\"${font} ${toString nixosConfig.ptsd.desktop.fontSize}\\\" --nb ${colors.primary.background} --nf ${colors.primary.foreground} --hb ${colors.primary.contrast} --hf ${colors.primary.accent} --tb ${colors.primary.contrast} --tf ${colors.primary.accent}";
         };
         programs.foot.settings = footCfg;
-        ptsd.firefox.extraExtensions = mkIf (cfg.theme == "black") [ pkgs.ptsd-firefoxAddons.darkreader ];
         programs.alacritty.settings.colors = colors;
 
         wayland.windowManager.sway = {

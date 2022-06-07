@@ -39,7 +39,7 @@ in
         type = types.str;
       };
       repo = mkOption {
-        default = "borg-${config.networking.hostName}@192.168.178.12:.";
+        example = "borg-HOSTNAME@192.168.178.12:.";
         type = types.str;
       };
       paths = mkOption {
@@ -73,24 +73,25 @@ in
 
   config = mkIf cfg.enable {
 
-    environment.systemPackages = [
+    home.packages = [
       script
       script-init
       pkgs.python3Packages.keyring
       pkgs.borgbackup
     ];
 
-    environment.variables = {
+    home.sessionVariables = {
       BORG_PASSCOMMAND = cfg.passCommand;
       BORG_REPO = cfg.repo;
     };
 
-    launchd.user.agents."nwbackup-nas1" = {
-      script = "${script}/bin/nwbackup-nas1";
-      serviceConfig = {
-        ProcessType = "Interactive";
-        StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
-      };
-    };
+    # TODO
+    # launchd.user.agents."nwbackup-nas1" = {
+    #   script = "${script}/bin/nwbackup-nas1";
+    #   serviceConfig = {
+    #     ProcessType = "Interactive";
+    #     StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
+    #   };
+    # };
   };
 }

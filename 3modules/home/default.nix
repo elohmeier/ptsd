@@ -1,7 +1,8 @@
 _:
 {
   imports = [
-    ./firefox.nix
+    ./nwbackup.nix
     ./pcmanfm.nix
+    ./prometheus-node-exporter.nix
   ];
 }
