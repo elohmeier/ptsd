@@ -137,12 +137,12 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     pythonPackages: with pythonPackages; [
       #authlib
       #beancount
-      black
-      holidays
-      ##i3ipc
-      ### todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
-      #jupyterlab
-      lxml
+      #  black
+      #  holidays
+      #  ##i3ipc
+      #  ### todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
+      #  #jupyterlab
+      #  lxml
       #keyring
       #nbconvert
       pandas
@@ -153,9 +153,9 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       tabulate
       #weasyprint
       #beautifulsoup4
-      pytest
-      mypy
-      isort
+      # pytest
+      # mypy
+      # isort
       #nobbofin
       sshtunnel
       mysql-connector
@@ -168,13 +168,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       faker
       netifaces
       paramiko
-
-      # faraday-cli frix port
-      #arrow
-      #cmd2
-      #faraday-plugins
-      #termcolor
-      #postgrest-py
     ]
   );
 
