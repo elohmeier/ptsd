@@ -12,20 +12,16 @@ in
     ./i3compat.nix
     ./options.nix
     ./pipewire.nix
-    ./rclone.nix
     ./sway.nix
     ./theme.nix
   ];
 
-  config = mkIf (cfg.enable && !config.ptsd.bootstrap) {
+  config = mkIf cfg.enable {
 
     ptsd.secrets.files."hass-cli.env" = mkIf cfg.waybar.co2 {
       owner = config.users.users.mainUser.name;
     };
     ptsd.secrets.files.baresip-accounts = mkIf cfg.baresip.enable {
-      owner = config.users.users.mainUser.name;
-    };
-    ptsd.secrets.files."fraam-gdrive-backup-3b42c04ff1ec.json" = mkIf cfg.rclone.enable {
       owner = config.users.users.mainUser.name;
     };
 

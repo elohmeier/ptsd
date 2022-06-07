@@ -5,20 +5,18 @@ let
   cfg = config.ptsd.desktop;
 in
 {
-  sound.enable = cfg.audio.enable && !config.ptsd.bootstrap;
+  sound.enable = cfg.audio.enable;
 
-  services.pipewire = mkIf (cfg.enable && cfg.audio.enable && !config.ptsd.bootstrap) {
+  services.pipewire = mkIf (cfg.enable && cfg.audio.enable) {
     enable = true;
-    alsa.enable = mkIf (!config.ptsd.minimal) true;
-    alsa.support32Bit = mkIf (!config.ptsd.minimal) true;
-    jack.enable = mkIf (!config.ptsd.minimal) true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
     pulse.enable = true;
   };
 
-  environment.systemPackages = with pkgs; optionals (cfg.audio.enable && !config.ptsd.minimal) [
+  environment.systemPackages = with pkgs; optionals (cfg.audio.enable) [
     pamixer
     playerctl
-    #cadence
     qjackctl
     config.hardware.pulseaudio.package
     pavucontrol

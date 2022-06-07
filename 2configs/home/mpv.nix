@@ -2,7 +2,7 @@
 
 {
   programs.mpv = {
-    enable = !nixosConfig.ptsd.minimal;
+    enable = true;
     config = {
       hwdec = "auto-safe";
       vo = "gpu";

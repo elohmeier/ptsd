@@ -17,7 +17,7 @@ in
     tree = "exa --tree";
   };
 
-  environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) [
+  environment.systemPackages = with pkgs; [
     bottom
     btop
     checkSSLCert

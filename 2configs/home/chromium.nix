@@ -1,6 +1,6 @@
 { config, lib, pkgs, nixosConfig, ... }: {
   programs.chromium = {
-    enable = !nixosConfig.ptsd.minimal;
+    enable = true;
     package = pkgs.google-chrome;
     extensions = [
       { id = "cjpalhdlnbpafiamejdnhcphjbkeiagm"; } # ublock origin

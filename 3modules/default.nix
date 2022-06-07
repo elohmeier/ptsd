@@ -6,7 +6,6 @@ _:
     ./fluent-bit.nix
     ./icloudpd.nix
     ./kanboard.nix
-    ./minimal.nix
     ./mjpg-streamer.nix
     ./monica.nix
     ./mosquitto.nix

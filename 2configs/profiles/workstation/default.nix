@@ -24,7 +24,7 @@ in
 
   nix.gc.automatic = false;
 
-  specialisation = mkIf (!config.ptsd.minimal) ({
+  specialisation = {
     white.configuration = {
       ptsd.desktop.theme = "white";
     };
@@ -32,7 +32,7 @@ in
     #  i3compat.configuration = {
     #    ptsd.desktop.i3compat = true;
     #  };
-  });
+  };
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
   networking.firewall.allowedUDPPorts = [ 24727 ]; # ausweisapp2
@@ -110,13 +110,13 @@ in
       programs.direnv.nix-direnv.enable = true;
 
       ptsd.firefox = {
-        enable = !nixosConfig.ptsd.minimal;
+        enable = true;
       };
 
       home.stateVersion = lib.mkDefault "20.09";
 
       programs.zathura = {
-        enable = !nixosConfig.ptsd.minimal;
+        enable = true;
         extraConfig =
           let
             file-renamer = pkgs.writers.writePython3 "file-renamer" { } ''
@@ -156,10 +156,10 @@ in
       };
 
       ptsd.pcmanfm = {
-        enable = !nixosConfig.ptsd.minimal;
+        enable = true;
         term = desktopCfg.term.binary;
 
-        actions = mkIf (!nixosConfig.ptsd.minimal) {
+        actions = {
           pdfconcat = {
             title = "Concat PDF files";
             title_de = "PDF-Dateien aneinanderhängen";
@@ -177,7 +177,7 @@ in
           };
         };
 
-        thumbnailers = mkIf (!nixosConfig.ptsd.minimal) {
+        thumbnailers = {
           imagemagick = {
             mimetypes = [ "application/pdf" "application/x-pdf" "image/pdf" ];
             # imagemagickBig needed because of ghostscript dependency
@@ -202,7 +202,7 @@ in
       home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
     };
 
-  ptsd.desktop.keybindings = mkIf (!config.ptsd.minimal) {
+  ptsd.desktop.keybindings = {
     "XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
     "${desktopCfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.ptsd-tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
   };

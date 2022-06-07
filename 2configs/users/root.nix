@@ -14,16 +14,4 @@
       passwordFile = lib.mkIf config.ptsd.secrets.enable "/var/src/secrets/root.passwd";
     };
   };
-
-  #  home-manager.users.root = { pkgs, lib, ... }:
-  #  {
-  #  home.stateVersion = lib.mkDefault "20.09";
-
-  #      imports = [
-  #        ../home/fish.nix
-  #        ../home/neovim.nix
-  #        ../home/tmux.nix
-  #      ];
-  #    };
-
 }

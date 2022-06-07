@@ -5,7 +5,7 @@ let
   cfg = config.ptsd.desktop;
 in
 {
-  config = mkIf (cfg.enable && !cfg.i3compat && !config.ptsd.bootstrap) {
+  config = mkIf (cfg.enable && !cfg.i3compat) {
     environment.systemPackages = with pkgs;      [
       swaylock
       grim

@@ -50,7 +50,7 @@ in
     };
   };
 
-  environment.systemPackages = with pkgs; mkIf (!config.ptsd.minimal && nonAarch64) [
+  environment.systemPackages = with pkgs; mkIf (nonAarch64) [
     samba
     looking-glass-client
     scream

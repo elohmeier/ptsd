@@ -1,6 +1,6 @@
 { config, lib, pkgs, ... }: {
 
-  environment.systemPackages = with pkgs; lib.mkIf (!config.ptsd.minimal) ([
+  environment.systemPackages = with pkgs; ([
     zellij
     httpie
     logseq
