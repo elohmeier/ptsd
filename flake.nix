@@ -14,7 +14,6 @@
     frix.inputs.flake-utils.follows = "flake-utils";
     frix.inputs.nixos-hardware.follows = "nixos-hardware";
     frix.inputs.home-manager.follows = "home-manager";
-    nur.url = github:nix-community/NUR;
     fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.url = "github:neovim/neovim?dir=contrib";
@@ -31,7 +30,6 @@
     , nixos-hardware
     , flake-utils
     , frix
-    , nur
     , fraamdb
     , neovim-flake
     , ...
@@ -59,7 +57,6 @@
                   allowUnfree = true;
                   packageOverrides = pkgOverrides pkgs;
                 };
-                nixpkgs.overlays = [ nur.overlay ];
               })
           ];
           desktopModules = [

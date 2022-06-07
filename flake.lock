@@ -161,21 +161,6 @@
         "type": "github"
       }
     },
-    "nur": {
-      "locked": {
-        "lastModified": 1654593979,
-        "narHash": "sha256-iDvyU5vs7IoPBpxwhNAI/J3llDsmtzH1xYqvCGvzCww=",
-        "owner": "nix-community",
-        "repo": "NUR",
-        "rev": "47044837d4ebcaa37e699d92d893a32d4e301852",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "NUR",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -185,8 +170,7 @@
         "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-master": "nixpkgs-master",
-        "nur": "nur"
+        "nixpkgs-master": "nixpkgs-master"
       }
     }
   },
