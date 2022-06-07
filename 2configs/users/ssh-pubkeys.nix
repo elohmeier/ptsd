@@ -3,6 +3,8 @@ rec {
 
     enno_fbd = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILU8muZw8lCDUoTv5MT/bItp2eRKvfG2/sgKH6YzVSFy ed25519-key-20211124 enno@fbd";
 
+    enno_mb4 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM7OXq7COvJxoRQ2AQdo0HTJCITC6cPIZN/zs8XwCk4b enno@mb4";
+
     enno_yubi41 =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6SC5B14IbROqLvuZWaHeBlI2syQUEl2oH43YjHLjXS4fAgfq7rowXk9kvZFm8So3vFRPX409IiMemzEo1s7r/5JqqOAjzc3iwXitVrL1uiFmry4P0j0by032N5P/q0CE9B2ARQXzafutaqwErqmtGm432Z5ifq3gFbUyax9AUqNuXRdHV3jM0mZrsvBHuE3da6jDg0pzQ3lbUojimt9yKE8Rue3Rhf94fqX7Fibc3TRCp+pBiPeJQUJoMmJ1DZbViUi7WrB7h1P0jSRVLVec9rG6PJbG3BWGjXro9MLN/9TpeymkBJYFlFlrhjedg1u/2NpeQmwd333/DcpIel8GrnUu+sPusCI1HHsmJQbxbzCWxDbQqIabQ5tq4TFaCX6ZWLlaIq7O3ofYv8YfUN5KdVU0Snwb/8o09FcLvu4FSW/L4WL3penaKqWfN03bQ6i1jsZ5KgYVdAgRK9ARx+Tg9DYSzua/rV2CzicAqScU32rKnORUAZS87rdxU6A0SFe7V5E4gmDxvAmCCtYCCYgwGsGHxmrgEGXkh8koBLVJA1MALq1bHieI2NSVC3LCVK5Ml6FXliPH9oeBMxZt8M4uo/1FDE1+6h5BAHF/6r89cUaxRm27AQaEHuS2Kpqc9KYphVW3W53d2GkaI6T/3yYJe2S6QAkVqjeHFUqUIfTq5+w== cardno:000611343941";
 
@@ -23,11 +25,12 @@ rec {
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQClcJc18HqEWkqv6YGkzRWNb+Vm+syRDN5nVE/Tjhynp99vGGPux/551qDdIkw2Jbi3BxEJnM3xXe3t2klURtt9Owzj0FqG+L0ZJ0fo+jjB9qGItlgMdB4PmOIC4g2/ICaJoXUQTdyhZ1O/YN4Ga7q7iQl0VZw8hnNLeNSBQ2gcgZvRv1s4HZ4hbVrI43HzBgKnoRZRLsvacPKLY5oJ6EZUPsZPhVVyzjXEdzJ4L7BTNIiCvi24B5TuhUqFUgc+EWrrvn5T7IdBLILSHC2W1xtTGjX4yey3Zn+5dZ1eoeXhQIy6yQEDBLGc+41+qCGuuzcz093BS1/OCHfW2eRM/M2Z enno@nw80";
   };
 
-  authorizedKeys_enno = [
-    sshPub.ipd1_terminus
-    sshPub.iph3_terminus
-    sshPub.enno_yubi41
-    sshPub.enno_yubi49
-    sshPub.enno_fbd
+  authorizedKeys_enno = with sshPub; [
+    enno_fbd
+    enno_mb4
+    enno_yubi41
+    enno_yubi49
+    ipd1_terminus
+    iph3_terminus
   ];
 }
