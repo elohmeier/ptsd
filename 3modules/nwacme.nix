@@ -70,7 +70,7 @@ in
         '';
       in
       {
-        email = lib.mkDefault "elo-lenc@nerdworks.de";
+        defaults.email = lib.mkDefault "elo-lenc@nerdworks.de";
         acceptTerms = true;
         certs = mkIf cfg.hostCert.enable {
           "${config.networking.hostName}.${config.networking.domain}" = {

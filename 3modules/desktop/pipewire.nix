@@ -13,9 +13,6 @@ in
     alsa.support32Bit = mkIf (!config.ptsd.minimal) true;
     jack.enable = mkIf (!config.ptsd.minimal) true;
     pulse.enable = true;
-    media-session = {
-      enable = true;
-    };
   };
 
   environment.systemPackages = with pkgs; optionals (cfg.audio.enable && !config.ptsd.minimal) [

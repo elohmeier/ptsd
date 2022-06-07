@@ -28,6 +28,7 @@ in
       MOZ_ENABLE_WAYLAND = "1";
       MOZ_USE_XINPUT2 = "1";
       _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=on";
+      NIXOS_OZONE_WL = "1";
     } // optionalAttrs cfg.qt.enable {
       QT_STYLE_OVERRIDE = "gtk2"; # for qt5 apps (e.g. keepassxc)
       QT_QPA_PLATFORM = "wayland";

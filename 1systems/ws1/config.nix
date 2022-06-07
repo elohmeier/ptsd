@@ -20,24 +20,23 @@ with lib;
     ./modules/vmassi.nix
   ];
 
+  # TODO: fix build for 22.05
+  #  ptsd.photoprism = {
+  #    enable = true;
+  #    #httpHost = "127.0.0.1";
+  #    #httpPort = 2342;
+  #    #siteUrl = "http://127.0.0.1/";
+  #    httpHost = "192.168.178.67";
+  #    httpPort = 8080;
+  #    siteUrl = "http://192.168.178.67:8080/";
+  #    cacheDirectory = "/mnt/photos/photoprism-cache";
+  #    dataDirectory = "/mnt/photos/photoprism-lib";
+  #    photosDirectory = "/mnt/photos/photos";
+  #    user = "enno";
+  #    group = "users";
+  #    autostart = false;
+  #  };
 
-  ptsd.photoprism = {
-    enable = true;
-    #httpHost = "127.0.0.1";
-    #httpPort = 2342;
-    #siteUrl = "http://127.0.0.1/";
-    httpHost = "192.168.178.67";
-    httpPort = 8080;
-    siteUrl = "http://192.168.178.67:8080/";
-    cacheDirectory = "/mnt/photos/photoprism-cache";
-    dataDirectory = "/mnt/photos/photoprism-lib";
-    photosDirectory = "/mnt/photos/photos";
-    user = "enno";
-    group = "users";
-    autostart = false;
-  };
-
-  boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.kernel.sysctl."kernel.sysrq" = 1; # allow all SysRq key combinations
 
   # Use the systemd-boot EFI boot loader.

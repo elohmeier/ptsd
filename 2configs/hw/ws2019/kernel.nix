@@ -7,14 +7,15 @@
   boot = {
     blacklistedKernelModules = [ "b43" "bcma" ]; # prevent loading of conflicting wifi module, "wl" should be used instead
     extraModulePackages = [
-      (config.boot.kernelPackages.broadcom_sta.overrideAttrs (old: {
-        patches = old.patches ++ [
-          (pkgs.fetchpatch {
-            url = "https://gist.githubusercontent.com/joanbm/052d8e951ba63d5eb5b6960bfe4e031a/raw/a9c9fc7238cdda5ff0175009644321f3b855979e/broadcom-wl-fix-linux-5.18.patch";
-            sha256 = "sha256-/idB8e4F7Kl+IO+M3g1jHdmv6PhNgQ3ZOqMpUk1l48Y=";
-          })
-        ];
-      }))
+      config.boot.kernelPackages.broadcom_sta
+      # (config.boot.kernelPackages.broadcom_sta.overrideAttrs (old: {
+      #   patches = old.patches ++ [
+      #     (pkgs.fetchpatch {
+      #       url = "https://gist.githubusercontent.com/joanbm/052d8e951ba63d5eb5b6960bfe4e031a/raw/a9c9fc7238cdda5ff0175009644321f3b855979e/broadcom-wl-fix-linux-5.18.patch";
+      #       sha256 = "sha256-/idB8e4F7Kl+IO+M3g1jHdmv6PhNgQ3ZOqMpUk1l48Y=";
+      #     })
+      #   ];
+      # }))
     ];
     initrd = {
       availableKernelModules = [

@@ -23,7 +23,6 @@
     bemenu
     foot
     foot.terminfo
-    # element-desktop # todo: rm gcc dep
     wev
     mepo
   ];

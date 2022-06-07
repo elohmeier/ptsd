@@ -155,10 +155,9 @@ in
         ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
         ACME_DNS_API_BASE=https://auth.nerdworks.de
       '';
-      email = "enno.richter+letsencrypt@fraam.de";
     in
     {
-      email = email;
+      defaults.email = "enno.richter+letsencrypt@fraam.de";
       acceptTerms = true;
       certs = {
         "fraam.de" = {

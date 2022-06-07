@@ -23,6 +23,6 @@ in
         dconf.enable = true;
       };
 
-    services.dbus.packages = with pkgs; [ gnome3.dconf ];
+    services.dbus.packages = [ pkgs.dconf ];
   };
 }

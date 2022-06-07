@@ -204,7 +204,7 @@ in
               black = "Adwaita-dark";
               white = "Adwaita";
             }.${cfg.theme};
-            package = pkgs.gnome-themes-standard;
+            package = pkgs.gnome-themes-extra;
           };
         };
 

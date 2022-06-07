@@ -50,7 +50,7 @@ in
     enable = true;
     permitRootLogin = mkDefault "prohibit-password";
     passwordAuthentication = mkDefault false;
-    challengeResponseAuthentication = false;
+    kbdInteractiveAuthentication = false;
 
     # sshtunnel compat
     extraConfig = ''
@@ -167,4 +167,9 @@ in
   boot.loader.systemd-boot.editor = lib.mkDefault false;
 
   security.sudo.execWheelOnly = true;
+
+  documentation.man = {
+    man-db.enable = false;
+    mandoc.enable = true;
+  };
 }

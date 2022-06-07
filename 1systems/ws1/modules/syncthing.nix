@@ -19,7 +19,7 @@
       "/home/enno/LuNo" = {
         label = "LuNo";
         id = "3ull9-9deg4";
-        devices = [ "mb1" "nas1" "tp2" "mb4" ];
+        devices = [ "mb1" "nas1" "mb4" ];
       };
       "/home/enno/Pocket" = {
         label = "Pocket";
@@ -61,22 +61,22 @@
       "/mnt/luisa/Bilder" = {
         label = "luisa/Bilder";
         id = "ugmai-ti6vl";
-        devices = [ "tp2" "mb1" "nas1" ];
+        devices = [ "mb1" "nas1" ];
       };
       "/mnt/luisa/Dokumente" = {
         label = "luisa/Dokumente";
         id = "sqkfd-m9he7";
-        devices = [ "tp2" "mb1" "nas1" ];
+        devices = [ "mb1" "nas1" ];
       };
       "/mnt/luisa/Musik" = {
         label = "luisa/Musik";
         id = "zvffu-ff92z";
-        devices = [ "tp2" "mb1" "nas1" ];
+        devices = [ "mb1" "nas1" ];
       };
       "/mnt/luisa/Scans" = {
         label = "luisa/Scans";
         id = "dnryo-kz7io";
-        devices = [ "tp2" "mb1" "nas1" ];
+        devices = [ "mb1" "nas1" ];
       };
 
     };

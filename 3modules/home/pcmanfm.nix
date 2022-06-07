@@ -184,7 +184,7 @@ in
       feh # image viewer
       sxiv # image viewer
       lxmenu-data # pcmanfm: show "installed applications"
-      shared_mime_info # pcmanfm: recognise different file types
+      shared-mime-info # pcmanfm: recognise different file types
       pcmanfm
     ] ++ optionals cfg.enableRdpAssistant [
       (writers.writeDashBin "excel-rdp" ''${rdp-assi "C:\\Program Files\\Microsoft Office\\root\\Office16\\EXCEL.EXE"}'')

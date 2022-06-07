@@ -18,12 +18,12 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
         flakeIgnore = [ "E501" ];
       }
       ../4scripts/autoname_workspaces.py;
-  betaflight-configurator = pkgs_master.betaflight-configurator.overrideAttrs
+  betaflight-configurator = super.betaflight-configurator.overrideAttrs
     (old: {
-      version = "10.8.0-RC3";
+      version = "10.8.0-RC7";
       src = self.fetchurl {
-        url = "https://github.com/betaflight/betaflight-configurator/releases/download/10.8.0-RC3/betaflight-configurator_10.8.0_linux64-portable.zip";
-        sha256 = "sha256-iOfwS0xD87fcepKG7TW9Crrk2JkZWUnIBY/jgh9m4so=";
+        url = "https://github.com/betaflight/betaflight-configurator/releases/download/10.8.0-RC7/betaflight-configurator_10.8.0_linux64-portable.zip";
+        sha256 = "sha256-ebTZtpPhZAp2zB9v1WRk3VtHjGtGL7bAJkLp/DCyIFo=";
       };
     });
   choose-browser = self.writers.writeDashBin "choose-browser" ../4scripts/choose-browser.sh;
@@ -61,7 +61,10 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   '';
   shrinkpdf = self.callPackage ./shrinkpdf { };
   swayassi = self.callPackage ./swayassi { };
-  syncthing-device-id = self.callPackage ./syncthing-device-id { };
+  syncthing-device-id = self.writers.writePython3Bin
+    "syncthing-device-id"
+    { flakeIgnore = [ "E203" "E265" "E501" ]; }
+    ../4scripts/syncthing-device-id.py;
   traefik-forward-auth = self.callPackage ./traefik-forward-auth { };
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
@@ -105,12 +108,12 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     };
   };
 
-  ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [
-    impacket
-    paramiko
-    pycrypto
-    requests
-  ]);
+  # ptsd-py2env = self.ptsd-python2.withPackages (pythonPackages: with pythonPackages; [
+  #   impacket
+  #   paramiko
+  #   pycrypto
+  #   requests
+  # ]);
 
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
@@ -118,7 +121,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
         # support reformatting ipynb files
         propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ];
       });
-      bloodhound-import = self.callPackage ../5pkgs/bloodhound-import { };
       davphonebook = self.callPackage ../5pkgs/davphonebook { };
       finance-dl = self.callPackage ../5pkgs/finance-dl { };
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
@@ -128,13 +130,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
       selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
       vidcutter = self.callPackage ./vidcutter { };
-
-      # pull in some newer versions
-      cmd2 = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/cmd2" { };
-      httpcore = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpcore" { };
-      httpx = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/httpx" { };
-      pydantic = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/pydantic" { };
-      socksio = self.callPackage "${nixpkgs_master}/pkgs/development/python-modules/socksio" { };
     };
   };
 
@@ -143,7 +138,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       authlib
       beancount
       black
-      bloodhound-import
       holidays
       i3ipc
       # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
@@ -199,7 +193,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   ptsd-tesseract = self.tesseract.override { enableLanguages = [ "eng" "deu" ]; };
 
-  # pull in recent versions from >21.11
   checkSSLCert = super.checkSSLCert.overrideAttrs (oldAttrs: rec {
     # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
     version = "2.12.0";
@@ -212,40 +205,14 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     patches = [ ];
   });
 
-  klipper = super.klipper.overrideAttrs (oldAttrs: {
-    version = pkgs_master.klipper.version;
-    src = pkgs_master.klipper.src;
-  });
-
-  baresip = pkgs_master.baresip;
-  libre = pkgs_master.libre;
-  librem = pkgs_master.librem;
-  vimPlugins = pkgs_master.vimPlugins;
   neovim-unwrapped = neovim-flake.packages.${self.system}.neovim;
 
-  btop = pkgs_master.btop;
-  mepo = pkgs_master.mepo;
-  nix-top = pkgs_master.nix-top;
-
-  sway = pkgs_master.sway;
-  wlroots = pkgs_master.wlroots;
-
-  kanboard = pkgs_master.kanboard;
   kanboard-plugin-google-auth = self.callPackage ./kanboard-plugin-google-auth { };
-
-  flameshot = pkgs_master.flameshot;
-
-  foot = pkgs_master.foot;
-  jless = pkgs_master.jless;
 
   pinephone-keyboard = self.callPackage ./pinephone-keyboard { };
 
-  vscode = pkgs_master.vscode;
-  vscode-with-extensions = pkgs_master.vscode-with-extensions;
-  vscode-extensions = pkgs_master.vscode-extensions;
-
-  ptsd-vscode = pkgs_master.vscode-with-extensions.override {
-    vscodeExtensions = with pkgs_master.vscode-extensions; [
+  ptsd-vscode = self.vscode-with-extensions.override {
+    vscodeExtensions = with self.vscode-extensions; [
       eamodio.gitlens
       editorconfig.editorconfig
       esbenp.prettier-vscode
@@ -261,15 +228,4 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       #ms-vsliveshare.vsliveshare
     ];
   };
-
-  logseq = pkgs_master.logseq;
-  httpie = pkgs_master.httpie;
-  yt-dlp = pkgs_master.yt-dlp;
-
-  librespot = pkgs_master.librespot;
-  looking-glass-client = pkgs_master.looking-glass-client;
-  scream = pkgs_master.scream;
-  tailscale = pkgs_master.tailscale;
-  zellij = pkgs_master.zellij;
-  mumble = pkgs_master.mumble;
 }

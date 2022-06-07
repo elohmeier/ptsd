@@ -275,7 +275,7 @@ in
         }
       ];
 
-    environment.systemPackages = [ pkgs.wireguard ];
+    environment.systemPackages = [ pkgs.wireguard-tools ];
     boot.extraModulePackages = lib.optional (lib.versionOlder config.boot.kernelPackages.kernel.version "5.6") config.boot.kernelPackages.wireguard;
 
     ptsd.secrets.files = mapAttrs' generateSecret enabledNetworks;

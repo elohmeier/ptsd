@@ -26,11 +26,12 @@ in
       isSystemUser = true;
     };
 
+    networking.firewall.checkReversePath = "loose";
+
     services.tailscale = {
       enable = true;
-      #permitCertUid = "tailscale-cert"; # TODO: replace below env var in 22.05 with permitCertUid
+      permitCertUid = "tailscale-cert";
     };
-    systemd.services.tailscaled.serviceConfig.Environment = mkIf cfg.cert.enable [ "TS_PERMIT_CERT_UID=tailscale-cert" ];
 
     systemd.services.tailscale-cert = mkIf cfg.cert.enable {
       description = "fetch tailscale host TLS certificate";

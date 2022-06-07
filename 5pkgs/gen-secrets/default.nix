@@ -1,4 +1,4 @@
-{ writers, coreutils, pwgen, hashPassword, openssh, wireguard, openssl, pass, syncthing-device-id }:
+{ writers, coreutils, pwgen, hashPassword, openssh, wireguard-tools, openssl, pass, syncthing-device-id }:
 writers.writeDashBin "gen-secrets" ''
   HOSTNAME="''${1?must provide hostname}"
   TMPDIR=$(${coreutils}/bin/mktemp -d)
@@ -7,8 +7,8 @@ writers.writeDashBin "gen-secrets" ''
 
   ${openssh}/bin/ssh-keygen -t ed25519 -f $TMPDIR/ssh.id_ed25519 -P "" -C "" >/dev/null
   ${openssh}/bin/ssh-keygen -t ed25519 -f $TMPDIR/nwbackup.id_ed25519 -P "" -C "" >/dev/null
-  ${wireguard}/bin/wg genkey > $TMPDIR/nwvpn.key 2>/dev/null
-  ${coreutils}/bin/cat $TMPDIR/nwvpn.key | ${wireguard}/bin/wg pubkey > $TMPDIR/nwvpn.pub
+  ${wireguard-tools}/bin/wg genkey > $TMPDIR/nwvpn.key 2>/dev/null
+  ${coreutils}/bin/cat $TMPDIR/nwvpn.key | ${wireguard-tools}/bin/wg pubkey > $TMPDIR/nwvpn.pub
   ${pwgen}/bin/pwgen 25 1 > $TMPDIR/nwbackup.borgkey
   ${openssl}/bin/openssl ecparam -name secp384r1 -genkey -noout -out $TMPDIR/syncthing.key 2>/dev/null > /dev/null
   ${openssl}/bin/openssl req -new -x509 -key $TMPDIR/syncthing.key -out $TMPDIR/syncthing.crt -days 10000 -subj "/CN=syncthing" 2>/dev/null > /dev/null
