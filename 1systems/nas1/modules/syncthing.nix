@@ -32,12 +32,12 @@ in
       "/tank/enc/enno/FPV" = {
         label = "enno/FPV";
         id = "xxdwi-yom6n";
-        devices = [ "mb4" "ws1" "ws1-win10n" ];
+        devices = [ "mb4" "ws1" ];
       };
       "/tank/enc/enno/Pocket" = {
         label = "enno/Pocket";
         id = "hmekh-kgprn";
-        devices = [ "mb4" "ws1" "ws2" ];
+        devices = [ "mb4" "ws1" ];
       };
       "/tank/enc/enno/LuNo" = {
         label = "enno/LuNo";
@@ -47,23 +47,23 @@ in
       "/tank/enc/enno/Scans" = {
         label = "enno/Scans";
         id = "ezjwj-xgnhe";
-        devices = [ "mb4" "ws1" "ws2" "iph3" ];
+        devices = [ "mb4" "ws1" "iph3" ];
       };
       "/tank/enc/enno/Templates" = {
         label = "enno/Templates";
         id = "gnwqu-yt7qc";
-        devices = [ "mb4" "ws1" "ws2" ];
+        devices = [ "mb4" "ws1" ];
       };
       "/tank/enc/repos" = {
         label = "enno/repos";
         id = "yqa69-2zjmt";
-        devices = [ "pine2" "mb4" "ws1" "ws2" ];
+        devices = [ "pine2" "mb4" "ws1" ];
         ignorePerms = false;
       };
       "/tank/enc/enno/iOS" = {
         label = "enno/iOS";
         id = "qm9ln-btyqu";
-        devices = [ "iph3" "mb4" "ws1" "ws2" ];
+        devices = [ "iph3" "mb4" "ws1" ];
       };
       "/tank/enc/enno/Lightroom-Export" = {
         label = "enno/Lightroom-Export";

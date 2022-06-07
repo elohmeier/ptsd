@@ -14,7 +14,7 @@
       "/home/enno/iOS" = {
         label = "iOS";
         id = "qm9ln-btyqu";
-        devices = [ "nas1" "iph3" "ws2" "mb4" ];
+        devices = [ "nas1" "iph3" "mb4" ];
       };
       "/home/enno/LuNo" = {
         label = "LuNo";
@@ -24,22 +24,22 @@
       "/home/enno/Pocket" = {
         label = "Pocket";
         id = "hmekh-kgprn";
-        devices = [ "nas1" "ws1-win10" "ws2" "mb4" ];
+        devices = [ "nas1" "ws1-win10" "mb4" ];
       };
       "/home/enno/Scans" = {
         label = "Scans";
         id = "ezjwj-xgnhe";
-        devices = [ "nas1" "ws2" "iph3" "mb4" ];
+        devices = [ "nas1" "iph3" "mb4" ];
       };
       "/home/enno/Templates" = {
         label = "Templates";
         id = "gnwqu-yt7qc";
-        devices = [ "nas1" "ws2" "mb4" ];
+        devices = [ "nas1" "mb4" ];
       };
       "/home/enno/repos" = {
         label = "repos";
         id = "yqa69-2zjmt";
-        devices = [ "nas1" "ws2" "mb4" ];
+        devices = [ "nas1" "mb4" ];
         ignorePerms = false;
       };
       "/mnt/photos/photos" = {
