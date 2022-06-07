@@ -2,17 +2,13 @@
   description = "ptsd";
 
   inputs = {
-    # use e.g. `nix build .#nixosConfigurations.XXX.config.system.build.toplevel --override-input nixpkgs github:NixOS/nixpkgs/83667ff` to update to specific commit
     nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
-    #nixpkgs.url = "/home/enno/repos/nixpkgs";
     nixpkgs-master.url = github:NixOS/nixpkgs/master;
-    #nixpkgs-local.url = "/home/enno/repos/nixpkgs";
     home-manager.url = github:nix-community/home-manager/release-22.05;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
     frix.url = github:elohmeier/frix;
-    #frix.url = "/home/enno/repos/frix";
     frix.inputs.nixpkgs.follows = "nixpkgs";
     frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
     frix.inputs.flake-utils.follows = "flake-utils";
@@ -20,18 +16,7 @@
     frix.inputs.home-manager.follows = "home-manager";
     nur.url = github:nix-community/NUR;
     fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
-    #fraamdb.url = "/home/enno/repos/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
-
-    mobile-nixos = {
-      #url = github:NixOS/mobile-nixos;
-      url = github:elohmeier/mobile-nixos/ptsd;
-      #url = "/home/enno/repos/mobile-nixos";
-      # flake = false;
-    };
-    mobile-nixos.inputs.nixpkgs.follows = "nixpkgs";
-    mobile-nixos.inputs.flake-utils.follows = "flake-utils";
-
     neovim-flake.url = "github:neovim/neovim?dir=contrib";
     neovim-flake.inputs.nixpkgs.follows = "nixpkgs-master";
     neovim-flake.inputs.flake-utils.follows = "flake-utils";
@@ -47,7 +32,6 @@
     , flake-utils
     , frix
     , nur
-    , mobile-nixos
     , fraamdb
     , neovim-flake
     , ...
@@ -365,55 +349,6 @@
             system = "x86_64-linux";
             modules = defaultModules ++ desktopModules ++ [
               ./1systems/ws2/physical.nix
-            ];
-          };
-
-          # use `nix build .#nixosConfigurations.pine1.config.mobile.outputs.default` to build a disk image
-          pine1 = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = defaultModules ++ [
-              mobile-nixos.nixosModules.pine64-pinephone
-              home-manager.nixosModule
-              ({ pkgs, ... }:
-                {
-                  home-manager.users.mainUser = { ... }: {
-                    nixpkgs.config = {
-                      allowUnfree = true;
-                      packageOverrides = pkgOverrides pkgs;
-                    };
-                    nixpkgs.overlays = [ nur.overlay ];
-                  };
-                })
-              ./1systems/pine1/physical.nix
-            ];
-          };
-
-          # use `nix run .#pine1-vm` to launch QEMU vm
-          pine1_vm = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              home-manager.nixosModule
-              ({ pkgs, ... }:
-                {
-                  home-manager.users.mainUser = { ... }: {
-                    nixpkgs.config = {
-                      allowUnfree = true;
-                      packageOverrides = pkgOverrides pkgs;
-                    };
-                    nixpkgs.overlays = [ nur.overlay ];
-                  };
-                })
-              ./1systems/pine1/config.nix
-              ({ modulesPath, ... }: {
-                imports = [ (modulesPath + "/virtualisation/qemu-vm.nix") ];
-                virtualisation = {
-                  memorySize = 2048;
-                  qemu.options = [ "-vga virtio" ];
-                };
-                users.users.mainUser.password = "nixos";
-                users.users.root.password = "nixos";
-                ptsd.secrets.enable = false;
-              })
             ];
           };
 
