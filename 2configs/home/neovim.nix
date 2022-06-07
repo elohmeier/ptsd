@@ -43,7 +43,7 @@ in
 {
   # package & EDITOR env are configured in ../nwhost-mini.nix
 
-  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/src/nvim;
+  home.file.".config/nvim".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/nvim";
   home.file.".local/share/nvim/site/pack".source = "${pluginPack}/pack";
 
   home.packages = with pkgs;[

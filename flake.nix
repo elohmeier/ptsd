@@ -719,8 +719,107 @@
           };
         };
         packages = pkgs;
+
+
       })
     // {
       inherit nixosConfigurations;
+
+      homeConfigurations.mb2 = home-manager.lib.homeManagerConfiguration {
+        system = "aarch64-darwin";
+        username = "enno";
+        homeDirectory = "/Users/enno";
+        stateVersion = "21.11";
+
+        configuration = { config, lib, pkgs, ... }: {
+          imports = [
+            ./2configs/home/git.nix
+            ./2configs/home/gpg.nix
+            ./2configs/home/neovim.nix
+          ];
+
+          programs.firefox = {
+            enable = true;
+            profiles.privacy = {
+              id = 0;
+              settings = lib.importJSON ./5pkgs/firefox-configs/librewolf.json;
+            };
+            profiles.office = {
+              id = 1;
+            };
+            extensions = with pkgs.ptsd-firefoxAddons; [
+              ublock-origin
+            ];
+          };
+
+          nixpkgs.config = {
+            allowUnfree = true;
+            packageOverrides = pkgOverrides pkgs;
+          };
+          home.packages = with pkgs; [
+            tig
+            watch
+            bat
+            tmux
+            alacritty
+            zellij
+            ripgrep
+            fd
+            mpv
+            neovim
+            pkgs.home-manager # prevent taking the input
+            #fishPlugins.fzf-fish
+            fzf
+            nixpkgs-fmt
+            #btop
+            exa
+            ptsd-py3env
+            ptsd-nnn
+          ];
+
+          programs.direnv.enable = true;
+          programs.direnv.nix-direnv.enable = true;
+
+          programs.zoxide.enable = true;
+
+          home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
+
+          programs.fish = {
+            enable = true;
+            shellAliases = {
+              gapf = "git commit --amend --no-edit && git push --force";
+              gaapf = "git add . && git commit --amend --no-edit && git push --force";
+              grep = "grep --color";
+              ping6 = "ping -6";
+              telnet = "screen //telnet";
+              vim = "nvim";
+              vi = "nvim";
+              l = "exa -al";
+              la = "exa -al";
+              lg = "exa -al --git";
+              ll = "exa -l";
+              ls = "exa";
+              tree = "exa --tree";
+
+            };
+
+            shellAbbrs = {
+              "cd.." = "cd ..";
+
+              # git
+              ga = "git add";
+              "ga." = "git add .";
+              gc = "git commit";
+              gco = "git checkout";
+              gd = "git diff";
+              gf = "git fetch";
+              gl = "git log";
+              gs = "git status";
+              gp = "git pull";
+              gpp = "git push";
+            };
+          };
+        };
+      };
     };
 }

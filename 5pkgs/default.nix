@@ -135,24 +135,24 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   ptsd-py3env = self.ptsd-python3.withPackages (
     pythonPackages: with pythonPackages; [
-      authlib
-      beancount
+      #authlib
+      #beancount
       black
       holidays
-      i3ipc
-      # todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
-      jupyterlab
+      ##i3ipc
+      ### todo: add https://github.com/corps/nix-kernel/blob/master/nix-kernel/kernel.py
+      #jupyterlab
       lxml
-      keyring
-      nbconvert
+      #keyring
+      #nbconvert
       pandas
-      pdfminer
+      #pdfminer
       pillow
       requests
-      selenium
+      #selenium
       tabulate
-      weasyprint
-      beautifulsoup4
+      #weasyprint
+      #beautifulsoup4
       pytest
       mypy
       isort
@@ -170,11 +170,11 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       paramiko
 
       # faraday-cli frix port
-      arrow
-      cmd2
-      faraday-plugins
-      termcolor
-      postgrest-py
+      #arrow
+      #cmd2
+      #faraday-plugins
+      #termcolor
+      #postgrest-py
     ]
   );
 
