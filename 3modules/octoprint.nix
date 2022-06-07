@@ -83,7 +83,7 @@ in
 
     systemd.services.octoprint = {
       description = "OctoPrint, web interface for 3D printers";
-      after = [ "network.target" cfg.deviceService ];
+      after = [ "network.target" ] ++ optional (cfg.deviceService != "") cfg.deviceService;
       wantedBy = if cfg.deviceService == "" then [ "multi-user.target" ] else [ cfg.deviceService ];
       path = [
         pluginsEnv
