@@ -7,7 +7,7 @@
 
     locals = {
       "classifier-bayes.conf".text = ''
-        servers = "127.0.0.1";
+        servers = "127.0.0.1:${toString config.ptsd.ports.redis-rspamd}";
         backend = "redis";
       '';
       "options.inc".text = ''
@@ -38,11 +38,15 @@
   };
 
   services.redis = {
-    enable = true;
     vmOverCommit = true;
-    settings = {
-      maxmemory = "500mb";
-      maxmemory-policy = "volatile-ttl";
+
+    servers.rspamd = {
+      enable = true;
+      port = config.ptsd.ports.redis-rspamd;
+      settings = {
+        maxmemory = "500mb";
+        maxmemory-policy = "volatile-ttl";
+      };
     };
   };
 

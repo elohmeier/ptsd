@@ -12,46 +12,49 @@ in
     enable = true;
     # uncomment to register new users
     #registration_shared_secret = matrixSecrets.registration_shared_secret;
-    server_name = serverName;
-    database_type = "psycopg2";
-    database_args = {
-      dbname = "synapse";
-    };
-    listeners = [
-      {
-        port = config.ptsd.ports.synapse;
-        bind_address = "127.0.0.1";
-        type = "http";
-        tls = false;
-        x_forwarded = true;
-        resources = [
-          {
-            names = [ "client" "federation" ];
-            compress = false;
-          }
+
+    settings = {
+      server_name = serverName;
+
+      database = {
+        name = "psycopg2";
+        args.database = "synapse";
+      };
+
+      listeners = [
+        {
+          port = config.ptsd.ports.synapse;
+          bind_addresses = [ "127.0.0.1" ];
+          type = "http";
+          tls = false;
+          x_forwarded = true;
+          resources = [
+            {
+              names = [ "client" "federation" ];
+              compress = false;
+            }
+          ];
+        }
+      ];
+
+      app_service_config_files = [
+        "/var/lib/matrix-synapse/telegram-registration.yaml"
+      ];
+
+      retention = {
+        enabled = true;
+        default_policy = {
+          min_lifetime = "1d";
+          max_lifetime = "30d";
+        };
+        purge_jobs = [
+          { longest_max_lifetime = "3d"; interval = "1d"; }
+          { shortest_max_lifetime = "3d"; interval = "1d"; }
         ];
-      }
-    ];
-    app_service_config_files = [
-      "/var/lib/matrix-synapse/telegram-registration.yaml"
-    ];
-    extraConfig = ''
-      retention:
-        enabled: true
-        default_policy:
-          min_lifetime: 1d
-          max_lifetime: 30d
-        purge_jobs:
-          - longest_max_lifetime: 3d
-            interval: 1d
-          - shortest_max_lifetime: 3d
-            interval: 1d
-      
-      federation_domain_whitelist:
-        - ${serverName}
-        - matrix.org
-        - fraam.de
-    '';
+      };
+
+      federation_domain_whitelist = [ serverName "matrix.org" "fraam.de" ];
+    };
   };
 
   ptsd.secrets.files = {

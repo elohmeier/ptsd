@@ -45,7 +45,8 @@ in
       prometheus-quotes-exporter = 10029;
       prometheus-server = 10030;
       radicale = 10031;
-      synapse = 10032;
+      redis-rspamd = 10032;
+      synapse = 10033;
     };
   };
 }
