@@ -168,8 +168,9 @@ in
 
   security.sudo.execWheelOnly = true;
 
-  documentation.man = {
-    man-db.enable = false;
-    mandoc.enable = true;
-  };
+  # not working on htz1? TODO: check
+  # documentation.man = {
+  #   man-db.enable = false;
+  #   mandoc.enable = true;
+  # };
 }
