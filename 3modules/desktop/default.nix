@@ -62,7 +62,6 @@ in
     services.dbus.packages = [ pkgs.gcr ]; # for pinentry-gnome3 for gnupg
 
     environment.variables = {
-      PASSWORD_STORE_DIR = "/home/enno/repos/password-store";
       TERMINAL = cfg.term.binary;
     };
 

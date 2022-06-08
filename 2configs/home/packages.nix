@@ -2,6 +2,10 @@
 
 with lib;
 {
+  home.sessionVariables = {
+    PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
+  };
+
   home.packages = with pkgs; [
 
     alacritty
@@ -14,6 +18,8 @@ with lib;
     jless
     neovim
     nixpkgs-fmt
+    nixos-generators
+    pass
     ptsd-nnn
     ripgrep
     tig
@@ -141,7 +147,6 @@ with lib;
     p7zip
     paperkey
     parted
-    pass
     pdf2svg
     pdfconcat
     pdfduplex
