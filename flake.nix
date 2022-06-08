@@ -211,6 +211,20 @@
             ];
           };
 
+          utmvm_x86 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ desktopModules ++ [
+              ./1systems/utmvm/physical.nix
+            ];
+          };
+
+          utmvm = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ desktopModules ++ [
+              ./1systems/utmvm/physical.nix
+            ];
+          };
+
         };
 
       homeConfigurations = {
