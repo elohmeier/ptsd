@@ -3,29 +3,30 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
-    nixpkgs-master.url = github:NixOS/nixpkgs/master;
+    #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     home-manager.url = github:nix-community/home-manager/release-22.05;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
     frix.url = github:elohmeier/frix;
     frix.inputs.nixpkgs.follows = "nixpkgs";
-    frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
+    frix.inputs.nixpkgs-master.follows = "nixpkgs";
+    #frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
     frix.inputs.flake-utils.follows = "flake-utils";
     frix.inputs.nixos-hardware.follows = "nixos-hardware";
     frix.inputs.home-manager.follows = "home-manager";
     fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.url = "github:neovim/neovim?dir=contrib";
-    neovim-flake.inputs.nixpkgs.follows = "nixpkgs-master";
+    #neovim-flake.inputs.nixpkgs.follows = "nixpkgs-master";
+    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs =
     { self
     , nixpkgs
-    , nixpkgs-master
-      #, nixpkgs-local
+      #, nixpkgs-master
     , home-manager
     , nixos-hardware
     , flake-utils
@@ -37,8 +38,8 @@
 
     let
       pkgOverrides = pkgs:
-        let pkgs_master = import nixpkgs-master { config.allowUnfree = true; system = pkgs.system; }; in
-        super: (import ./5pkgs pkgs pkgs_master nixpkgs-master neovim-flake super) // (import "${frix}/5pkgs" pkgs pkgs_master super);
+        #let pkgs_master = import nixpkgs-master { config.allowUnfree = true; system = pkgs.system; }; in
+        super: (import ./5pkgs pkgs pkgs nixpkgs neovim-flake super);
     in
     flake-utils.lib.eachDefaultSystem
       (system:
@@ -66,7 +67,7 @@
           desktopModules = [
             "${frix}"
             ./2configs/users/enno.nix
-            { nix.nixPath = [ "home-manager=${home-manager}" "nixpkgs-master=${nixpkgs-master}" ]; }
+            { nix.nixPath = [ "home-manager=${home-manager}" ]; }
             home-manager.nixosModule
             ({ pkgs, ... }:
               {
@@ -139,7 +140,7 @@
             modules = defaultModules ++ desktopModules ++ [
               ./1systems/ws1/physical.nix
             ];
-            specialArgs = { inherit nixpkgs-master nixos-hardware home-manager pkgOverrides; };
+            specialArgs = { inherit nixos-hardware home-manager pkgOverrides; };
           };
 
           pine2 = nixpkgs.lib.nixosSystem {

@@ -50,7 +50,7 @@
           "nixpkgs"
         ],
         "nixpkgs-master": [
-          "nixpkgs-master"
+          "nixpkgs"
         ]
       },
       "locked": {
@@ -94,16 +94,16 @@
           "flake-utils"
         ],
         "nixpkgs": [
-          "nixpkgs-master"
+          "nixpkgs"
         ]
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1654606355,
-        "narHash": "sha256-Ed+s/1UTtEgbgVqueI/0W5vEitufyAvKs9G+otSuy30=",
+        "lastModified": 1654617332,
+        "narHash": "sha256-nXE6z01X91TQhSRdyKoWIn7hNWHJxkW+UEHuKOwt1/8=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "057a280867be6b4edefb1d5fb959f0aa71e7c1a5",
+        "rev": "3cd22a34852b7453eecb4715806cc09dcc226e0c",
         "type": "github"
       },
       "original": {
@@ -131,32 +131,16 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1654442937,
-        "narHash": "sha256-dYJ79gt85hwIbPlX52eAwnkYzMexLyNRmRcTRpMn+Gw=",
+        "lastModified": 1654540670,
+        "narHash": "sha256-qNg3cUyDWvkC5AUZZEQ9WWb49Y/BT4HQ10e/8wfvcgY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "ca2629644d4a5098004e20cb9ca179345f2acd8e",
+        "rev": "f05e7d39a48db1cd5bcdc7775e171779d7b4a8a6",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "ref": "nixos-22.05",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
-    "nixpkgs-master": {
-      "locked": {
-        "lastModified": 1654611853,
-        "narHash": "sha256-IOFHL7DTamNLQk056+KCKXlvwU/aVRwOZg/gvJu4uMc=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "e17f5dd411fb1390ece3ce3dc94d3944dc5bfae8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "master",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -169,8 +153,7 @@
         "home-manager": "home-manager",
         "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs",
-        "nixpkgs-master": "nixpkgs-master"
+        "nixpkgs": "nixpkgs"
       }
     }
   },
