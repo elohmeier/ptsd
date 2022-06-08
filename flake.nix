@@ -235,6 +235,7 @@
           configuration = { config, lib, pkgs, ... }: {
             imports = [
               ./3modules/home
+              ./2configs/home/alacritty.nix
               ./2configs/home/firefox.nix
               ./2configs/home/git.nix
               ./2configs/home/gpg.nix
@@ -270,7 +271,6 @@
                 ll = "exa -l";
                 ls = "exa";
                 tree = "exa --tree";
-
               };
 
               shellAbbrs = {
@@ -287,6 +287,8 @@
                 gs = "git status";
                 gp = "git pull";
                 gpp = "git push";
+
+                hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --override-input home-manager ${config.home.homeDirectory}/repos/home-manager";
               };
             };
           };
