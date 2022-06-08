@@ -4,4 +4,8 @@
     ../../2configs
   ];
 
+  environment.systemPackages = with pkgs;[
+    git
+  ];
+
 }
