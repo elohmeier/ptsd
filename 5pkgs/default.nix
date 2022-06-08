@@ -109,6 +109,8 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   ptsd-tesseract = self.tesseract.override { enableLanguages = [ "eng" "deu" ]; };
 
+  firefox-bin = self.callPackage ./firefox-bin { };
+
   checkSSLCert = super.checkSSLCert.overrideAttrs (oldAttrs: rec {
     # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
     version = "2.12.0";
