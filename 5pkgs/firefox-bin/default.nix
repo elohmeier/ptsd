@@ -1,5 +1,8 @@
-{ stdenv, fetchurl, makeWrapper, undmg }:
+{ lib, stdenv, fetchurl, makeWrapper, undmg, writeText, policies ? { } }:
 
+let
+  policiesFile = writeText "policies.json" (builtins.toJSON { policies = policies; });
+in
 stdenv.mkDerivation rec {
   pname = "firefox-bin";
   version = "101.0";
@@ -21,6 +24,8 @@ stdenv.mkDerivation rec {
     
     mkdir $out/bin
     makeWrapper $out/Applications/Firefox.app/Contents/MacOS/firefox $out/bin/firefox
+
+    ${lib.optionalString (policies != {}) "mkdir $out/Applications/Firefox.app/Contents/Resources/distribution; cp ${policiesFile} $out/Applications/Firefox.app/Contents/Resources/distribution/policies.json"}
 
     runHook postInstall
   '';
