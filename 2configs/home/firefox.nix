@@ -8,6 +8,12 @@ in
   programs.firefox = {
     enable = true;
 
+    extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+      browserpass
+      surfingkeys
+      ublock-origin
+    ];
+
     profiles.privacy = {
       id = 0; # 0=default
       settings = lwcfg;
@@ -43,7 +49,7 @@ in
     };
   };
 
-  home.packages = [
+  home.packages = optionals pkgs.stdenv.isLinux [
     (pkgs.writeShellScriptBin "firefox-office" "firefox -P office")
     (pkgs.writeShellScriptBin "firefox-burp" "firefox -P burp")
   ];

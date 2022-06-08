@@ -54,11 +54,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1654101541,
-        "narHash": "sha256-05iEUgg8f+O9qVnCiTiuJMybPSOWMWtPuoHH2F6nHR0=",
+        "lastModified": 1654659844,
+        "narHash": "sha256-iENN1ZMBKZkW9aa3lQuYOVW7AxNNfLNC8AVMo+UR+4A=",
         "owner": "elohmeier",
         "repo": "frix",
-        "rev": "abfd7f353d59964e5d01737c11974a03d9636b86",
+        "rev": "6f2f983677691830e50089b047cea7a64f75f154",
         "type": "github"
       },
       "original": {
@@ -145,6 +145,21 @@
         "type": "github"
       }
     },
+    "nur": {
+      "locked": {
+        "lastModified": 1654663271,
+        "narHash": "sha256-pxQ65qQg1n1IzXV6Tkq7cpkfsyxon21Yf+LINGOA5W8=",
+        "owner": "nix-community",
+        "repo": "NUR",
+        "rev": "59897b55e6391d99c50d86dc297babd007a74a09",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "NUR",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -153,7 +168,8 @@
         "home-manager": "home-manager",
         "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nur": "nur"
       }
     }
   },

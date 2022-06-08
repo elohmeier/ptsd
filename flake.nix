@@ -21,6 +21,7 @@
     #neovim-flake.inputs.nixpkgs.follows = "nixpkgs-master";
     neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.inputs.flake-utils.follows = "flake-utils";
+    nur.url = github:nix-community/NUR;
   };
 
   outputs =
@@ -33,6 +34,7 @@
     , frix
     , fraamdb
     , neovim-flake
+    , nur
     , ...
     }:
 
@@ -247,6 +249,7 @@
               allowUnfree = true;
               packageOverrides = pkgOverrides pkgs;
             };
+            nixpkgs.overlays = [ nur.overlay ];
 
             programs.direnv.enable = true;
             programs.direnv.nix-direnv.enable = true;
