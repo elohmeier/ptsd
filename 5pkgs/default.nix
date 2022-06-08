@@ -121,6 +121,8 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     patches = [ ];
   });
 
+  logseq-bin = self.callPackage ./logseq-bin { };
+
   neovim-unwrapped = neovim-flake.packages.${self.system}.neovim;
 
   kanboard-plugin-google-auth = self.callPackage ./kanboard-plugin-google-auth { };

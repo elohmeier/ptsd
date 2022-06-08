@@ -62,6 +62,9 @@ with lib;
         paramiko
       ]
     ))
+  ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+
+    logseq-bin
 
 
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
