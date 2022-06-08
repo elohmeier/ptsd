@@ -14,7 +14,6 @@
         { key = 45; mods = "Alt"; chars = "~"; }
         { key = 23; mods = "Alt"; chars = "["; }
         { key = 22; mods = "Alt"; chars = "]"; }
-        { key = 19; mods = "Shift"; chars = "§"; }
       ];
   };
 
