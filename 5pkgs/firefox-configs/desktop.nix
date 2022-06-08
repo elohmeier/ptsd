@@ -1,30 +1,14 @@
 { wrapFirefox
 , firefox-unwrapped
-, ptsd-firefoxAddons
-, extraExtensions ? [ ]
 , writeText
 , runCommand
 , jq
 , ...
 }:
 
-let
-  nixExtensions = with ptsd-firefoxAddons; [
-    # auto-tab-discard
-    browserpass
-    # cookie-autodelete
-    # react-devtools
-    # read-aloud
-    surfingkeys
-    ublock-origin
-  ] ++ extraExtensions;
-
-in
 wrapFirefox firefox-unwrapped
 {
   applicationName = "firefox";
-
-  #inherit nixExtensions;
 
   forceWayland = true;
 

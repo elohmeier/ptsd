@@ -105,8 +105,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   })).override
     { withNerdIcons = true; };
 
-  ptsd-firefoxAddons = import ./firefox-addons { callPackage = self.callPackage; };
-
   ptsd-tesseract = self.tesseract.override { enableLanguages = [ "eng" "deu" ]; };
 
   firefox-bin = self.callPackage ./firefox-bin { };

@@ -8,6 +8,8 @@ in
   programs.firefox = {
     enable = true;
 
+    package = pkgs.firefox-bin;
+
     extensions = with pkgs.nur.repos.rycee.firefox-addons; [
       browserpass
       surfingkeys
@@ -49,7 +51,8 @@ in
     };
   };
 
-  home.packages = optionals pkgs.stdenv.isLinux [
+  home.packages = [
+    (pkgs.writeShellScriptBin "firefox-privacy" "firefox -P privacy")
     (pkgs.writeShellScriptBin "firefox-office" "firefox -P office")
     (pkgs.writeShellScriptBin "firefox-burp" "firefox -P burp")
   ];
