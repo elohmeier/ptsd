@@ -32,6 +32,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   gomumblesoundboard = self.callPackage ./gomumblesoundboard { };
   gowpcontactform = self.callPackage ./gowpcontactform { };
   hashPassword = self.callPackage ./hashPassword { };
+  httpserve = (self.writers.writePython3Bin "httpserve" { flakeIgnore = [ "E265" "E501" ]; } ../4scripts/httpserve.py);
   lz4json = self.callPackage ./lz4json { };
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };

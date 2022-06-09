@@ -15,6 +15,7 @@ with lib;
     fd
     fzf
     home-manager
+    httpserve
     jless
     neovim
     nixpkgs-fmt
