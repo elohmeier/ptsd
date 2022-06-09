@@ -270,10 +270,30 @@ in
       };
   };
 
-  ptsd.cups-airprint = {
+  services.printing = {
     enable = true;
-    printerName = "MFC7440N";
-    listenAddress = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:631";
+    browsing = true;
+    defaultShared = true;
+    allowFrom = [ "all" ];
+    listenAddresses = [ "*:631" ];
+    extraConf = ''
+      ServerAlias *
+      DefaultLanguage de
+      DefaultPaperSize A4
+      ReadyPaperSizes A4
+      BrowseLocalProtocols dnssd
+    '';
+  };
+
+  networking.firewall.trustedInterfaces = [ "br0" ];
+
+  services.avahi = {
+    enable = true;
+    publish = {
+      enable = true;
+      userServices = true;
+    };
+    nssmdns = true;
   };
 
   ptsd.navidrome = {

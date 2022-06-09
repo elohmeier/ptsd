@@ -2,7 +2,6 @@ _:
 {
   imports = [
     ./acme-dns.nix
-    ./cups-airprint.nix
     ./fluent-bit.nix
     ./icloudpd.nix
     ./kanboard.nix

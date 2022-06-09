@@ -137,7 +137,6 @@ in
       (nwJob "nas1" "nas1" "node" true)
       (nwJob "rpi2" "rpi2" "node" true)
       (nwJob "ws1" "ws1" "node" false)
-      (nwJob "ws2" "ws2" "node" false)
 
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
