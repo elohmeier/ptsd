@@ -1,6 +1,3 @@
-
-
-
 vim.g.mapleader = ","
 
 -- global statusline
@@ -26,4 +23,3 @@ vim.api.nvim_set_keymap("n", "<leader>h", "<cmd>bprevious<cr>", {noremap = true,
 
 -- close current buffer and switch to previous buffer
 vim.api.nvim_set_keymap("n", "<leader>bq", "<cmd>bp<bar>bd #<cr>", {noremap = true, silent = true})
-
