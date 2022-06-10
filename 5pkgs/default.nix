@@ -1,15 +1,14 @@
 self: pkgs_master: nixpkgs_master:neovim-flake: super:
 {
+  subler-bin = self.callPackage ./subler-bin { };
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
-  add-workspace =
-    self.writers.writePython3
-      "add-workspace"
-      {
-        libraries = [ self.python3Packages.i3ipc ];
-        flakeIgnore = [ "E501" ];
-      }
-      ../4scripts/add_workspace.py;
+  add-workspace = self.writers.writePython3 "add-workspace"
+    {
+      libraries = [ self.python3Packages.i3ipc ];
+      flakeIgnore = [ "E501" ];
+    }
+    ../4scripts/add_workspace.py;
   autoname-workspaces =
     self.writers.writePython3
       "autoname-workspaces"
