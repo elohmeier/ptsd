@@ -252,6 +252,7 @@
               ./2configs/home/alacritty.nix
               ./2configs/home/darwin-defaults.nix
               ./2configs/home/firefox.nix
+              ./2configs/home/fonts.nix
               ./2configs/home/git.nix
               ./2configs/home/gpg.nix
               ./2configs/home/neovim.nix
