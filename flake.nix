@@ -250,6 +250,7 @@
             imports = [
               ./3modules/home
               ./2configs/home/alacritty.nix
+              ./2configs/home/darwin-defaults.nix
               ./2configs/home/firefox.nix
               ./2configs/home/git.nix
               ./2configs/home/gpg.nix
@@ -261,6 +262,8 @@
               allowUnfree = true;
               packageOverrides = pkgOverrides pkgs;
             };
+
+            services.syncthing.enable = true;
 
             programs.direnv.enable = true;
             programs.direnv.nix-direnv.enable = true;
