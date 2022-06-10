@@ -48,6 +48,7 @@ in
 
   home.packages = with pkgs;[
     gopls
+    luaformatter
     nodejs # for copilot
     pyright
     rnix-lsp

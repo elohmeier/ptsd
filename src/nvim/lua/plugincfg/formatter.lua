@@ -57,6 +57,14 @@ require('formatter').setup({
         }
         end
     },
+    lua = {
+      function()
+	return {
+	  exe = "lua-format",
+	  stdin = true,
+	}
+      end
+    },
     nix = {
       function()
         return {
