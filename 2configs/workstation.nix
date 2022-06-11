@@ -81,6 +81,7 @@ in
         ./home/chromium.nix
         ./home/firefox.nix
         ./home/fish.nix
+        ./home/fonts.nix
         ./home/git.nix
         ./home/gpg.nix
         ./home/mpv.nix

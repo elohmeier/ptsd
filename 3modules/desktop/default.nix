@@ -7,7 +7,6 @@ in
 {
   imports = [
     ./bluetooth.nix
-    ./fonts.nix
     ./gtk.nix
     ./i3compat.nix
     ./options.nix
