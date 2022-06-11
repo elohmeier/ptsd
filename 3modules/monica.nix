@@ -45,7 +45,7 @@ let
     APP_EVENTS_CACHE = "${cfg.dataDir}/cache/events.php";
     HASH_SALT = "$HASH_SALT";
     HASH_LENGTH = "18";
-    APP_URL = if cfg.httpsOnly then "https://${cfg.domain}/" else "http://${cfg.domain}/";
+    APP_URL = cfg.appUrl;
     DB_CONNECTION = "mysql";
     DB_UNIX_SOCKET = "/var/run/mysqld/mysqld.sock";
     DB_DATABASE = "monica";
@@ -83,13 +83,12 @@ in
   options = {
     ptsd.monica = {
       enable = mkEnableOption "monica";
+      appUrl = mkOption {
+        type = types.str;
+      };
       domain = mkOption {
         type = types.str;
         default = "localhost";
-      };
-      entryPoints = mkOption {
-        type = with types; listOf str;
-        default = [ ];
       };
       dataDir = mkOption {
         type = types.str;
@@ -151,10 +150,7 @@ in
       };
     };
 
-    ptsd.secrets.files."monica.env" = mkIf cfg.secret.enable {
-      dependants = [ "phpfpm-monica.service" ];
-    };
-    systemd.services.phpfpm-monica.serviceConfig.EnvironmentFile = mkIf cfg.secret.enable config.ptsd.secrets.files."monica.env".path;
+    systemd.services.phpfpm-monica.serviceConfig.EnvironmentFile = mkIf cfg.secret.enable "/var/src/secrets/monica.env";
 
     # Uncomment for debugging purposes.
     # environment = {
@@ -238,7 +234,7 @@ in
       enable = true;
 
       virtualHosts = {
-        ${cfg.domain} = {
+        monica = {
           listen = [
             {
               addr = cfg.listen.addr;
@@ -266,12 +262,6 @@ in
           };
         };
       };
-    };
-
-    ptsd.nwtraefik.services = optional (cfg.entryPoints != [ ]) {
-      name = "nginx-monica";
-      rule = "Host(`${cfg.domain}`)";
-      entryPoints = cfg.entryPoints;
     };
   };
 

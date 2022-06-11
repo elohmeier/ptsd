@@ -37,7 +37,15 @@ in
     enable = true;
     cert.enable = true;
     ip = "100.101.207.64";
-    httpServices = [ "octoprint" "mjpg-streamer" "grafana" ];
+    httpServices = [
+      "alertmanager"
+      "home-assistant"
+      "nginx-monica"
+      "prometheus-server"
+      "grafana"
+      "mjpg-streamer"
+      "octoprint"
+    ];
   };
 
   ptsd.nwbackup.enable = false;
@@ -52,8 +60,11 @@ in
 
   ptsd.monica = {
     enable = true;
-    domain = "monica.services.nerdworks.de";
-    entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
+    domain = config.ptsd.tailscale.fqdn;
+    appUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.nginx-monica}";
+    extraEnv = {
+      APP_KEY = "dummydummydummydummydummydummydu";
+    };
   };
 
   networking = {

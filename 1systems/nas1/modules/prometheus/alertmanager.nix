@@ -68,7 +68,7 @@
             }
             {
               alert = "SystemdUnitFailed";
-              expr = ''node_systemd_unit_state{state="failed"}==1'';
+              expr = ''node_systemd_unit_state{state="failed",name!="wpa_supplicant.service"}==1'';
               for = "30m";
               labels.severity = "warning";
               annotations = {
@@ -118,16 +118,6 @@
           ];
         }];
       })
-    ];
-  };
-
-  ptsd.nwtraefik = {
-    services = [
-      {
-        name = "alertmanager";
-        entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
-        rule = "Host(`alerts.services.nerdworks.de`)";
-      }
     ];
   };
 }

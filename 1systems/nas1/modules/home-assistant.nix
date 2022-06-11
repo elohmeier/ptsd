@@ -10,8 +10,10 @@ in
     config = {
 
       http = {
+        server_host = "127.0.0.1";
+        server_port = config.ptsd.ports.home-assistant;
         use_x_forwarded_for = true;
-        trusted_proxies = [ "::1" ];
+        trusted_proxies = [ "127.0.0.1" "::1" ];
       };
       prometheus = { };
       device_automation = { };
@@ -66,14 +68,6 @@ in
     allowedTCPPorts = [ 1400 ]; # for sonos
     allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
   };
-
-  ptsd.nwtraefik.services = [
-    {
-      name = "home-assistant";
-      rule = "Host(`${domain}`)";
-      entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
-    }
-  ];
 
   services.postgresql.ensureDatabases = [ "home-assistant" ];
   services.postgresql.ensureUsers = [

@@ -42,19 +42,15 @@ in
 {
   users.groups.keys.members = [ "prometheus" ];
 
-  ptsd.secrets.files."hass-token-nas1-prometheus-bs53" = {
-    dependants = [ "prometheus.service" ];
-    owner = "prometheus";
-  };
-
-  ptsd.secrets.files."hass-token-nas1-prometheus-dlrg" = {
-    dependants = [ "prometheus.service" ];
-    owner = "prometheus";
-  };
+  systemd.services.prometheus.serviceConfig.LoadCredential = [
+    "hass-token-nas1-prometheus-bs53:/var/src/secrets/hass-token-nas1-prometheus-bs53"
+    "hass-token-nas1-prometheus-dlrg:/var/src/secrets/hass-token-nas1-prometheus-dlrg"
+  ];
 
   services.prometheus = {
     enable = true;
     checkConfig = false; # disabled because of potentially missing secret files (e.g. bearer_token_file) at build time
+    listenAddress = "127.0.0.1";
     port = config.ptsd.ports.prometheus-server;
     extraFlags = [
       "--storage.tsdb.retention.time 720h" # 30d
@@ -65,7 +61,7 @@ in
         job_name = "hass_bs53";
         scrape_interval = "60s";
         metrics_path = "/api/prometheus";
-        bearer_token_file = config.ptsd.secrets.files."hass-token-nas1-prometheus-bs53".path;
+        bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-bs53";
         scheme = "https";
         static_configs = [{
           targets = [
@@ -77,7 +73,7 @@ in
         job_name = "hass_dlrg";
         scrape_interval = "60s";
         metrics_path = "/api/prometheus";
-        bearer_token_file = config.ptsd.secrets.files."hass-token-nas1-prometheus-dlrg".path;
+        bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-dlrg";
         scheme = "http";
         static_configs = [{
           targets = [
@@ -133,7 +129,6 @@ in
       (nwJob "htz2" "htz2" "node" true)
       (nwJob "htz2" "htz2" "maddy" true)
       (nwJob "htz3" "htz3" "node" true)
-      (nwJob "htz3" "wpjail" "node" true)
       (nwJob "nas1" "nas1" "node" true)
       (nwJob "rpi2" "rpi2" "node" true)
       (nwJob "ws1" "ws1" "node" false)
@@ -144,7 +139,7 @@ in
         static_configs = [
           {
             targets = [
-              "http://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}"
+              "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}"
               "https://vault.fraam.de"
             ];
           }
@@ -189,7 +184,7 @@ in
         static_configs = [
           {
             targets = [
-              "https://grafana.services.nerdworks.de/login"
+              "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login"
             ];
           }
         ];
@@ -200,7 +195,7 @@ in
         static_configs = [
           {
             targets = [
-              "https://hass.services.nerdworks.de"
+              "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}"
             ];
           }
         ];
@@ -222,7 +217,7 @@ in
         static_configs = [
           {
             targets = [
-              "https://monica.services.nerdworks.de"
+              "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.nginx-monica}"
             ];
           }
         ];
@@ -238,16 +233,6 @@ in
           }
         ];
       })
-    ];
-  };
-
-  ptsd.nwtraefik = {
-    services = [
-      {
-        name = "prometheus-server";
-        entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
-        rule = "Host(`prometheus.services.nerdworks.de`)";
-      }
     ];
   };
 }
