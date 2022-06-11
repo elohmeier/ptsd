@@ -39,7 +39,7 @@ in
         type = types.str;
       };
       repo = mkOption {
-        example = "borg-HOSTNAME@192.168.178.12:.";
+        example = "borg-HOSTNAME@nas1.pug-coho.ts.net:.";
         type = types.str;
       };
       paths = mkOption {

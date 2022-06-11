@@ -46,7 +46,6 @@ with lib;
 
   ptsd.nwbackup = {
     enable = true;
-    repos.nas1 = "borg-${config.networking.hostName}@192.168.178.12:.";
     paths = [
       "/home"
     ];

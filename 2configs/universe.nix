@@ -211,7 +211,7 @@
           };
         };
         bs53lan = {
-          ip4.addr = "192.168.178.12"; # ip hardcoded for scan-to-ftp on prt1, remember to update as well
+          ip4.addr = "192.168.178.37"; # ip hardcoded for scan-to-ftp on prt1, remember to update as well
         };
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
@@ -324,7 +324,7 @@
         };
 
         bs53lan = {
-          ip4.addr = "192.168.178.218"; # DHCP (!)
+          ip4.addr = "192.168.178.136"; # DHCP (!)
         };
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
