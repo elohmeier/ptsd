@@ -14,6 +14,7 @@ in
 
       ./modules/bitwarden.nix
       ./modules/fraamdb.nix
+      ./modules/fraam-wordpress.nix
       ./modules/fraam-www.nix
       ./modules/kanboard.nix
       ./modules/murmur.nix
@@ -24,7 +25,6 @@ in
     paths = [
       "/var/backup"
       "/var/lib/fraam-www/www"
-      "/var/lib/fraam-www/mysql-backup"
       "/var/lib/fraam-www/static"
       "/var/lib/kanboard"
       "/var/lib/bitwarden_rs"
@@ -68,8 +68,6 @@ in
     { routeConfig = { Gateway = "fe80::1"; }; }
   ];
 
-  services.openssh.ports = [ 1022 ]; # use non-standard ssh port to be able to forward standard port to gitlab container
-
   ptsd.nwtraefik = {
     enable = true;
     logLevel = "WARN";
@@ -89,7 +87,6 @@ in
         (crt "db.fraam.de")
         (crt "dev.fraam.de")
         (crt "fraam.de")
-        (crt "git.fraam.de")
         (crt "pm.fraam.de")
         (crt "vault.fraam.de")
         (crt "voice.fraam.de")
@@ -121,32 +118,12 @@ in
 
     services = [
       {
-        name = "nginx-fraam-intweb";
-        rule = "Host(`int.fraam.de`)";
-        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-
-        # auth.forwardAuth = {
-        #   address = "http://localhost:4181";
-        #   authResponseHeaders = [ "X-Forwarded-User" ];
-        # };
-      }
-      {
-        name = "nginx-fraam-git";
-        rule = "Host(`git.fraam.de`)";
-        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-      }
-      {
         name = "nginx-wellknown-matrix";
         rule = "PathPrefix(`/.well-known/matrix`) && Host(`fraam.de`)";
         priority = 9999; # high-priority for router
         entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
       }
     ];
-  };
-
-  ptsd.fraam-www = {
-    enable = true;
-    extIf = "ens3";
   };
 
   security.acme =
@@ -178,13 +155,6 @@ in
         "dev.fraam.de" = {
           webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "dev.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "git.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "git.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
@@ -223,38 +193,13 @@ in
     };
   };
 
-  environment.systemPackages = with pkgs; [ tmux htop mc ];
+  environment.systemPackages = with pkgs; [ tmux btop ptsd-nnn ];
 
   services.fail2ban.enable = true;
 
   services.nginx = {
     enable = true;
     virtualHosts = {
-      "fraam-intweb" = {
-        listen = [{
-          addr = "127.0.0.1";
-          port = config.ptsd.ports.nginx-fraam-intweb;
-        }];
-
-        extraConfig = ''
-          return 301 https://db.fraam.de;
-        '';
-      };
-
-      "fraam-git" = {
-        listen = [{
-          addr = "127.0.0.1";
-          port = config.ptsd.ports.nginx-fraam-git;
-        }];
-
-        locations = {
-          "/enno.richter/ptsd".extraConfig = "return 301 https://github.com/elohmeier/ptsd;";
-          "/enno.richter/vuln".extraConfig = "return 301 https://github.com/elohmeier/vuln;";
-          "/fraam/frix".extraConfig = "return 301 https://github.com/elohmeier/frix;";
-          "/fraam/pentest-report-generator".extraConfig = "return 301 https://github.com/elohmeier/pentest-report-generator;";
-        };
-      };
-
       nginx-wellknown-matrix = {
         listen = [{
           addr = "127.0.0.1";
@@ -283,11 +228,6 @@ in
       };
     };
   };
-
-  system.activationScripts.initialize-var-www = lib.stringAfter [ "users" "groups" ] ''
-    chgrp -R nginx /var/www
-    chmod -R u+rwX,go+rX,go-w /var/www
-  '';
 
   system.stateVersion = "21.11";
 }

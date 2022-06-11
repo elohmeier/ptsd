@@ -20,7 +20,6 @@ in
   services.mysql = {
     enable = true;
     package = pkgs.mariadb;
-    # package = pkgs.mysql-old; # uncomment to downgrade version
     settings.mysqld.bind-address = "127.0.0.1";
 
     ensureDatabases = [ "wordpress" ];
@@ -68,12 +67,12 @@ in
       "fraam.de www.fraam.de" = {
         listen = [
           {
-            addr = "0.0.0.0";
+            addr = "127.0.0.1";
             port = config.ptsd.ports.fraam-wwwstatic;
           }
         ];
 
-        root = "/var/www/static";
+        root = "/var/lib/fraam-www/static";
 
         locations."~* \.(js|css|png|jpg|jpeg|gif|ico)$" = {
           extraConfig = ''
@@ -86,12 +85,12 @@ in
       "dev.fraam.de" = {
         listen = [
           {
-            addr = "0.0.0.0";
+            addr = "127.0.0.1";
             port = config.ptsd.ports.fraam-wordpress;
           }
         ];
 
-        root = "/var/www/wp";
+        root = "/var/lib/fraam-www/www";
 
         extraConfig = ''
           index index.php;
@@ -135,6 +134,4 @@ in
       };
     };
   };
-
-  networking.firewall.allowedTCPPorts = [ config.ptsd.ports.fraam-wordpress config.ptsd.ports.fraam-wwwstatic ];
 }
