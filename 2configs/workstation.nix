@@ -87,6 +87,7 @@ in
         ./home/mpv.nix
         ./home/neovim.nix
         ./home/packages.nix
+        ./home/ssh.nix
         ./home/tmux.nix
         ./home/vscodium.nix
       ];

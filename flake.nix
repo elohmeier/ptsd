@@ -257,6 +257,7 @@
               ./2configs/home/gpg.nix
               ./2configs/home/neovim.nix
               ./2configs/home/packages.nix
+              ./2configs/home/ssh.nix
             ];
 
             nixpkgs.config = {
