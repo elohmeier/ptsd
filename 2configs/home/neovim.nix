@@ -3,12 +3,12 @@
 let
   nnn-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "nnn-nvim";
-    version = "2022-03-11";
+    version = "2022-06-06";
     src = pkgs.fetchFromGitHub {
       owner = "luukvbaal";
       repo = "nnn.nvim";
-      rev = "9462b759b546efee2646c8f0f765d472399a28cb";
-      sha256 = "sha256-piqu6unJjYyNBaPj9BMQMQY3mbMCdGEs9sJZIa/NuXw=";
+      rev = "dc6c5253a5822e2199d7bac318c38a63cfa189ac";
+      sha256 = "sha256-AimlWrGoj29aEg9Rf6PVskZX1Ashloq7zvMdfQo+1ZM=";
     };
   };
 
