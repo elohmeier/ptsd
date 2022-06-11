@@ -4,6 +4,7 @@
   programs.gpg = {
     enable = true;
     settings.throw-keyids = true;
+    scdaemonSettings.disable-ccid = lib.mkIf pkgs.stdenv.isDarwin true;
   };
 
   services.gpg-agent = {
