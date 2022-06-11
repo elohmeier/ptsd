@@ -47,6 +47,7 @@ in
       radicale = 10031;
       redis-rspamd = 10032;
       synapse = 10033;
+      nginx-tsindex = 10034;
     };
   };
 }

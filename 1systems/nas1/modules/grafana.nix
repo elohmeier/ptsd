@@ -1,28 +1,17 @@
 { config, lib, pkgs, ... }:
 let
-  domain = "grafana.services.nerdworks.de";
+  port = config.ptsd.ports.grafana;
 in
 {
-  ptsd.secrets.files."grafana.adminPassword" = {
-    dependants = [ "grafana.service" ];
-    owner = "grafana";
-  };
-  ptsd.secrets.files."grafana.secretKey" = {
-    dependants = [ "grafana.service" ];
-    owner = "grafana";
-  };
-
-  users.groups.keys.members = [ "grafana" ];
-
   services.grafana =
     {
+      inherit port;
       enable = true;
-      port = config.ptsd.ports.grafana;
-      rootUrl = "https://${domain}/";
+      rootUrl = "https://${config.ptsd.tailscale.fqdn}:${toString port}/";
       security = {
         adminUser = "enno";
-        adminPasswordFile = config.ptsd.secrets.files."grafana.adminPassword".path;
-        secretKeyFile = config.ptsd.secrets.files."grafana.secretKey".path;
+        adminPasswordFile = "/run/credentials/grafana.service/grafana.adminPassword";
+        secretKeyFile = "/run/credentials/grafana.service/grafana.secretKey";
       };
       provision = {
         enable = true;
@@ -42,11 +31,8 @@ in
       };
     };
 
-  ptsd.nwtraefik.services = [
-    {
-      name = "grafana";
-      rule = "Host(`${domain}`)";
-      entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
-    }
+  systemd.services.grafana.serviceConfig.LoadCredential = [
+    "grafana.adminPassword:/var/src/secrets/grafana.adminPassword"
+    "grafana.secretKey:/var/src/secrets/grafana.secretKey"
   ];
 }

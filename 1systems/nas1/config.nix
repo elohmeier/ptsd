@@ -33,8 +33,12 @@ in
     enable = true;
   };
 
-  ptsd.tailscale.ip = "100.101.207.64";
-  ptsd.tailscale.cert.enable = true;
+  ptsd.tailscale = {
+    enable = true;
+    cert.enable = true;
+    ip = "100.101.207.64";
+    httpServices = [ "octoprint" "mjpg-streamer" "grafana" ];
+  };
 
   ptsd.nwbackup.enable = false;
 
