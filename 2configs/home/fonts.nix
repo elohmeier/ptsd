@@ -9,4 +9,7 @@
     spleen
     win10fonts
   ];
+
+  # see reg. mkForce: https://github.com/nix-community/home-manager/pull/3014
+  fonts.fontconfig.enable = lib.mkForce pkgs.stdenv.isLinux;
 }
