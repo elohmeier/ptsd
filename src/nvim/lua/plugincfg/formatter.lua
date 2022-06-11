@@ -1,5 +1,3 @@
-vim.api.nvim_set_keymap("n", "<leader>i", "<cmd>Format<CR>", {noremap = true, silent = true})
-
 require('formatter').setup({
     filetype = {
         c = {
