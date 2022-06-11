@@ -79,15 +79,5 @@ in
         };
       };
 
-
-    ptsd.nwtraefik = {
-      services = [
-        {
-          name = "navidrome";
-          entryPoints = [ "nwvpn-http" "nwvpn-https" "loopback6-https" ];
-          rule = "Host(`nas1.host.nerdworks.de`) && PathPrefix(`/music`)";
-        }
-      ];
-    };
   };
 }

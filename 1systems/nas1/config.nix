@@ -44,6 +44,7 @@ in
       "prometheus-server"
       "grafana"
       "mjpg-streamer"
+      "navidrome"
       "octoprint"
     ];
   };
@@ -193,96 +194,10 @@ in
       }
     ];
     entryPoints = {
-      "lan-http" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:80";
-        http.redirections.entryPoint = {
-          to = "lan-https";
-          scheme = "https";
-          permanent = true;
-        };
-      };
-      "lan-https" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}:443";
-      };
-      "nwvpn-http" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
-        http.redirections.entryPoint = {
-          to = "nwvpn-https";
-          scheme = "https";
-          permanent = true;
-        };
-      };
-      "nwvpn-https" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
-      };
       "nwvpn-gitweb-https" = {
         address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:448";
       };
-
-      # added for local tls monitoring & alertmanager
-      "loopback6-https".address = "[::1]:443";
     };
-    certificates =
-      let
-        crt = domain: {
-          certFile = "/var/lib/acme/${domain}/cert.pem";
-          keyFile = "/var/lib/acme/${domain}/key.pem";
-        };
-      in
-      [
-        #(crt "nas1.lan.nerdworks.de")
-        (crt "alerts.services.nerdworks.de")
-        (crt "grafana.services.nerdworks.de")
-        (crt "hass.services.nerdworks.de")
-        (crt "monica.services.nerdworks.de")
-        (crt "prometheus.services.nerdworks.de")
-      ];
-  };
-
-  security.acme = {
-    certs =
-      let
-        envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
-          ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
-          ACME_DNS_API_BASE=https://auth.nerdworks.de
-        '';
-      in
-      {
-        "alerts.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "alerts.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "grafana.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "grafana.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "hass.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "hass.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "monica.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "monica.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "prometheus.services.nerdworks.de" = {
-          dnsProvider = "acme-dns";
-          credentialsFile = envFile "prometheus.services.nerdworks.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-      };
   };
 
   services.printing = {
