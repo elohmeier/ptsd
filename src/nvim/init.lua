@@ -6,7 +6,6 @@ vim.opt.laststatus = 3
 -- thin split lines
 vim.cmd [[highlight WinSeparator guibg=None]]
 
-
 -- **************
 -- * plugin cfg *
 -- **************
@@ -26,7 +25,6 @@ require("nvim-treesitter.configs").setup {
     indent = {enable = false}
 }
 
-
 -- ***************
 -- * Keybindings *
 -- ***************
@@ -41,18 +39,20 @@ vim.api.nvim_set_keymap("n", "<leader>h", "<cmd>bprevious<cr>", {noremap = true,
 -- close current buffer and switch to previous buffer
 vim.api.nvim_set_keymap("n", "<leader>bq", "<cmd>bp<bar>bd #<cr>", {noremap = true, silent = true})
 
--- formatter
+-- plugin: formatter
 vim.api.nvim_set_keymap("n", "<leader>i", "<cmd>Format<CR>", {noremap = true, silent = true})
 
--- hop
-vim.api.nvim_set_keymap('n', '<leader>hl', '<cmd>lua require"hop".hint_lines()<cr>',
+-- plugin: hop
+vim.api.nvim_set_keymap("n", "<leader>hl", "<cmd>lua require'hop'.hint_lines()<cr>",
                         {noremap = true, silent = true})
 
--- nnn
+-- plugin: nnn
 vim.api.nvim_set_keymap("n", "<leader>n", "<cmd>NnnPicker %:p:h<CR>",
                         {noremap = true, silent = true})
 
--- telescope
+vim.api.nvim_set_keymap("n", "<C-n>", "<cmd>NnnExplorer<CR>", {noremap = true, silent = true})
+
+-- plugin: telescope
 vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>",
