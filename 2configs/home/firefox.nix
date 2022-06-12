@@ -125,6 +125,8 @@ in
     };
   };
 
+  programs.browserpass.enable = true;
+
   home.packages = [
     (pkgs.writeShellScriptBin "firefox-privacy" "firefox -P privacy")
     (pkgs.writeShellScriptBin "firefox-office" "firefox -P office")
