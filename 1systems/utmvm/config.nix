@@ -8,8 +8,6 @@
     git
   ];
 
-  programs.sway.enable = true;
-
   services.getty.autologinUser = "enno";
 
   services.xserver = {
@@ -21,7 +19,19 @@
 
     displayManager = {
       defaultSession = "none+i3";
+      autoLogin = {
+        enable = true;
+        user = "enno";
+      };
     };
+
+    layout = "de";
+
+    # LG UltraFine Display
+    monitorSection = ''
+      Modeline "4096x2304_60.00" 812.47 4096 4432 4888 5680  2304 2305 2308 2384  -HSync +Vsync
+      Option "PreferredMode" "4096x2304_60.00"
+    '';
 
     windowManager.i3 = {
       enable = true;
@@ -34,10 +44,6 @@
     };
   };
 
-
-  #services.xserver = {
-  #  enable = true;
-  #  displayManager.sddm.enable = true;
-  #};
+  system.stateVersion = "22.05";
 
 }

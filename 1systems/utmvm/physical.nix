@@ -38,6 +38,4 @@
       options = [ "uid=1000" "gid=100" "credentials=/root/smbcredentials" ];
     };
   };
-
-  users.users.root.hashedPassword = "";
 }
