@@ -18,7 +18,7 @@ in
       [FolderNameFilter]
     '';
   };
-  programs.lieer.enable = true;
+  programs.lieer.enable = pkgs.stdenv.isLinux; # pyopenssl is broken on aarch64-darwin
   programs.mbsync.enable = true;
   programs.msmtp.enable = true;
   programs.neomutt = {
@@ -34,6 +34,7 @@ in
     };
   };
   accounts.email = {
+    certificatesFile = lib.mkIf pkgs.stdenv.isDarwin null;
     accounts.nerdworks = {
       address = "enno@nerdworks.de";
       imap.host = "mail.nerdworks.de";
@@ -81,7 +82,7 @@ in
       userName = "enno@nerdworks.de";
     };
 
-    accounts.fraam = {
+    accounts.fraam = lib.mkIf pkgs.stdenv.isLinux {
       address = "enno.richter@fraam.de";
       flavor = "gmail.com";
       lieer.enable = true;

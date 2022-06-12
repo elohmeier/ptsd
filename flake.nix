@@ -251,6 +251,7 @@
               ./3modules/home
               ./2configs/home/alacritty.nix
               ./2configs/home/darwin-defaults.nix
+              ./2configs/home/email.nix
               ./2configs/home/firefox.nix
               ./2configs/home/fonts.nix
               ./2configs/home/git.nix
