@@ -5,7 +5,7 @@
     NSGlobalDomain = {
 
       # faster key repeat
-      InitialKeyRepeat = 1; # default: 68
+      InitialKeyRepeat = 15; # default: 68
       KeyRepeat = 1; # default: 6
 
     };
