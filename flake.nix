@@ -8,13 +8,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
-    frix.url = github:elohmeier/frix;
-    frix.inputs.nixpkgs.follows = "nixpkgs";
-    frix.inputs.nixpkgs-master.follows = "nixpkgs";
-    #frix.inputs.nixpkgs-master.follows = "nixpkgs-master";
-    frix.inputs.flake-utils.follows = "flake-utils";
-    frix.inputs.nixos-hardware.follows = "nixos-hardware";
-    frix.inputs.home-manager.follows = "home-manager";
     fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.url = "github:neovim/neovim?dir=contrib";
@@ -30,7 +23,6 @@
     , home-manager
     , nixos-hardware
     , flake-utils
-    , frix
     , fraamdb
     , neovim-flake
     , ...
@@ -65,7 +57,6 @@
               })
           ];
           desktopModules = [
-            "${frix}"
             ./2configs/users/enno.nix
             { nix.nixPath = [ "home-manager=${home-manager}" ]; }
             home-manager.nixosModule
