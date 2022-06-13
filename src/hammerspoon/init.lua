@@ -1,4 +1,4 @@
-hs.hotkey.bind({"option"}, "return", function()
+hs.hotkey.bind({"cmd", "shift"}, "return", function()
     -- hs.application.launchOrFocus("/Users/enno/.nix-profile/bin/alacritty") -- focuses old instances
     -- hs.execute("/Users/enno/.nix-profile/bin/alacritty") -- blocking
     io.popen("/Users/enno/.nix-profile/bin/alacritty")
