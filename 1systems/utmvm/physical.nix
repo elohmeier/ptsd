@@ -19,6 +19,12 @@
     useDHCP = false;
     useNetworkd = true;
     interfaces.enp0s6.useDHCP = true;
+    firewall.trustedInterfaces = [ "enp0s6" ];
+  };
+
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
   };
 
   fileSystems = {
@@ -32,10 +38,10 @@
       fsType = "vfat";
     };
 
-    "/home/enno/repos" = {
-      device = "\\\\\\\\192.168.64.1\\\\repos";
-      fsType = "cifs";
-      options = [ "uid=1000" "gid=100" "credentials=/root/smbcredentials" ];
-    };
+    #"/home/enno/repos" = {
+    #  device = "\\\\\\\\192.168.64.1\\\\repos";
+    #  fsType = "cifs";
+    #  options = [ "uid=1000" "gid=100" "credentials=/root/smbcredentials" ];
+    #};
   };
 }

@@ -6,6 +6,11 @@
     ../../2configs/fish.nix
   ];
 
+  boot.kernel.sysctl = {
+    # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
+    "fs.inotify.max_user_watches" = 204800;
+  };
+
   users.defaultUserShell = pkgs.fish;
 
   environment.systemPackages = with pkgs;[
