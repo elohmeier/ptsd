@@ -204,14 +204,14 @@
 
           utmvm_x86 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = defaultModules ++ desktopModules ++ [
+            modules = defaultModules ++ [
               ./1systems/utmvm/physical.nix
             ];
           };
 
           utmvm = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = defaultModules ++ desktopModules ++ [
+            modules = defaultModules ++ [
               ./1systems/utmvm/physical.nix
             ];
           };
@@ -221,14 +221,35 @@
       homeConfigurations = {
 
         sway = home-manager.lib.homeManagerConfiguration {
-          system = "x86_64-linux";
+          system = "aarch64-linux";
           username = "enno";
           homeDirectory = "/home/enno";
-          stateVersion = "21.11";
+          stateVersion = "22.05";
 
-          # TODO
-          #configuration = { config, lib, pkgs, ... }: {
-          #};
+          configuration = { config, lib, pkgs, ... }: {
+
+            imports = [
+              ./3modules/home
+              ./2configs/home/alacritty.nix
+              ./2configs/home/email.nix
+              ./2configs/home/firefox.nix
+              ./2configs/home/fonts.nix
+              ./2configs/home/git.nix
+              ./2configs/home/gpg.nix
+              ./2configs/home/neovim.nix
+              ./2configs/home/packages.nix
+              ./2configs/home/ssh.nix
+              ./2configs/home/sway.nix
+            ];
+
+            nixpkgs.config = {
+              allowUnfree = true;
+              packageOverrides = pkgOverrides pkgs;
+            };
+
+            programs.direnv.enable = true;
+            programs.direnv.nix-direnv.enable = true;
+          };
         };
 
         macos-enno = home-manager.lib.homeManagerConfiguration {
