@@ -53,4 +53,6 @@ in
     pyright
     rnix-lsp
   ];
+
+  home.sessionVariables.EDITOR = "nvim";
 }
