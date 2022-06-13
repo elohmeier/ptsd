@@ -10,6 +10,7 @@ with lib;
 
     alacritty
     bat
+    exiftool
     btop
     exa
     fd
@@ -22,10 +23,13 @@ with lib;
     nixos-generators
     pass
     ptsd-nnn
+    ncdu
     ripgrep
     tig
     tmux
     watch
+    tabula-java
+    zathura
     zellij
     zellij
 
@@ -35,38 +39,39 @@ with lib;
         # TODO: add packages working on darwin
 
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
-        authlib
         #beancount
+        #nobbofin
+        authlib
+        beautifulsoup4
         black
+        boto3
+        faker
         holidays
         i3ipc
+        impacket
+        isort
         jupyterlab
-        lxml
         keyring
+        lxml
+        mypy
+        mysql-connector
         nbconvert
+        netifaces
         pandas
+        paramiko
         pdfminer
         pillow
-        requests
-        selenium
-        tabulate
-        weasyprint
-        beautifulsoup4
-        pytest
-        mypy
-        isort
-        #nobbofin
-        sshtunnel
-        mysql-connector
-        boto3
-        impacket
+        psycopg2
         pycrypto
         pylint
+        pytest
         pyxlsb
-        psycopg2
-        faker
-        netifaces
-        paramiko
+        requests
+        selenium
+        sqlalchemy
+        sshtunnel
+        tabulate
+        weasyprint
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
@@ -77,7 +82,6 @@ with lib;
 
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
 
-    logseq
     ptsd-vscode
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     #aliza # dicom viewer
@@ -100,7 +104,6 @@ with lib;
     cifs-utils
     clang-tools
     dnsmasq
-    exiftool
     fava
     file
     freerdp
@@ -133,7 +136,6 @@ with lib;
     mkpasswd
     mumble
     nbconvert
-    ncdu
     netcat-gnu
     nix-index
     nix-prefetch-git
@@ -153,7 +155,6 @@ with lib;
     pdfconcat
     pdfduplex
     pdftk
-    prusa-slicer
     ptsd-ffmpeg
     ptsd-nnn
     pwgen
@@ -200,6 +201,8 @@ with lib;
     portfolio
     signal-desktop
     spotify
+    logseq
+    prusa-slicer
 
   ];
 
