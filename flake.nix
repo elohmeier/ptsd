@@ -235,6 +235,7 @@
               ./2configs/home/fonts.nix
               ./2configs/home/foot.nix
               ./2configs/home/git.nix
+              ./2configs/home/i3status.nix
               ./2configs/home/gpg.nix
               ./2configs/home/logseq-sync-git.nix
               ./2configs/home/neovim.nix

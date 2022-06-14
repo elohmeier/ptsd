@@ -7,6 +7,13 @@
       modifier = "Mod1";
       terminal = "foot";
 
+      fonts = {
+        names = [ "SauceCodePro Nerd Font" ];
+        size = 18.0;
+      };
+
+      startup = [{ command = toString pkgs.autoname-workspaces; }];
+
       input."*" = {
         natural_scroll = "enabled";
         xkb_layout = "de";
@@ -20,8 +27,9 @@
       output."Dell Inc. DELL P2415Q D8VXF64G0LGL".pos = "0 0";
       output."Dell Inc. DELL P2415Q D8VXF96K09HB".pos = "0 2160";
 
-      keybindings = import ./utils/keybindings.nix { inherit lib pkgs; };
-      modes = import ./utils/modes.nix { inherit lib pkgs; };
+      bars = import ./i3sway/bars.nix { inherit pkgs; };
+      keybindings = import ./i3sway/keybindings.nix { inherit lib pkgs; };
+      modes = import ./i3sway/modes.nix { inherit lib pkgs; };
     };
   };
 }

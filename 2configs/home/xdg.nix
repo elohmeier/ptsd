@@ -4,6 +4,8 @@ let
   defaultBrowser = "choose-browser.desktop";
 in
 {
+  home.packages = [ pkgs.bemenu ]; # required for choose-browser.sh
+
   xdg =
     {
       mimeApps = {
