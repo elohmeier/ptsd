@@ -1,27 +1,29 @@
 { config, lib, pkgs, ... }:
 with lib;
-let
-  desktopCfg = config.ptsd.desktop;
-in
+#let
+#  desktopCfg = config.ptsd.desktop;
+#in
 {
   imports = [
-    ../3modules/desktop
+    #../3modules/desktop
     ./users/enno.nix
   ];
 
-  environment.systemPackages = [ (pkgs.writeShellScriptBin "activate-da-home-again" ''${config.home-manager.users.mainUser.home.activationPackage}/activate'') ];
+  #environment.systemPackages = [ (pkgs.writeShellScriptBin "activate-da-home-again" ''${config.home-manager.users.mainUser.home.activationPackage}/activate'') ];
+
+  programs.sway.enable = true;
 
   nix.gc.automatic = false;
 
-  specialisation = {
-    white.configuration = {
-      ptsd.desktop.theme = "white";
-    };
-    #} // optionalAttrs (pkgs.stdenv.hostPlatform.system != "aarch64-linux") {
-    #  i3compat.configuration = {
-    #    ptsd.desktop.i3compat = true;
-    #  };
-  };
+  # specialisation = {
+  #   white.configuration = {
+  #     ptsd.desktop.theme = "white";
+  #   };
+  #   #} // optionalAttrs (pkgs.stdenv.hostPlatform.system != "aarch64-linux") {
+  #   #  i3compat.configuration = {
+  #   #    ptsd.desktop.i3compat = true;
+  #   #  };
+  # };
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
   networking.firewall.allowedUDPPorts = [ 24727 ]; # ausweisapp2
@@ -71,123 +73,123 @@ in
     keep-derivations = true
   '';
 
-  home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
-    {
-      nixpkgs.config.packageOverrides = pkgs: {
-        glibcLocales = nixosConfig.i18n.glibcLocales;
-      };
+  #home-manager.users.mainUser = { config, nixosConfig, pkgs, ... }:
+  #  {
+  #    nixpkgs.config.packageOverrides = pkgs: {
+  #      glibcLocales = nixosConfig.i18n.glibcLocales;
+  #    };
 
-      imports = [
-        ./home/chromium.nix
-        ./home/firefox.nix
-        ./home/fish.nix
-        ./home/fonts.nix
-        ./home/git.nix
-        ./home/gpg.nix
-        ./home/mpv.nix
-        ./home/neovim.nix
-        ./home/packages.nix
-        ./home/ssh.nix
-        ./home/tmux.nix
-        ./home/vscodium.nix
-      ];
+  #    imports = [
+  #      ./home/chromium.nix
+  #      ./home/firefox.nix
+  #      ./home/fish.nix
+  #      ./home/fonts.nix
+  #      ./home/git.nix
+  #      ./home/gpg.nix
+  #      ./home/mpv.nix
+  #      ./home/neovim.nix
+  #      ./home/packages.nix
+  #      ./home/ssh.nix
+  #      ./home/tmux.nix
+  #      ./home/vscodium.nix
+  #    ];
 
-      programs.direnv.enable = true;
-      programs.direnv.nix-direnv.enable = true;
+  #    programs.direnv.enable = true;
+  #    programs.direnv.nix-direnv.enable = true;
 
-      home.stateVersion = lib.mkDefault "20.09";
+  #    home.stateVersion = lib.mkDefault "20.09";
 
-      programs.zathura = {
-        enable = true;
-        extraConfig =
-          let
-            file-renamer = pkgs.writers.writePython3 "file-renamer" { } ''
-              import argparse
-              import readline
-              from pathlib import Path
-
-
-              def rlinput(prompt, prefill=""):
-                  readline.set_startup_hook(lambda: readline.insert_text(prefill))
-                  try:
-                      return input(prompt)
-                  finally:
-                      readline.set_startup_hook()
+  #    programs.zathura = {
+  #      enable = true;
+  #      extraConfig =
+  #        let
+  #          file-renamer = pkgs.writers.writePython3 "file-renamer" { } ''
+  #            import argparse
+  #            import readline
+  #            from pathlib import Path
 
 
-              def main():
-                  parser = argparse.ArgumentParser()
-                  parser.add_argument("filename")
-                  args = parser.parse_args()
-                  f = Path(args.filename)
-                  if not f.exists():
-                      raise FileNotFoundError(f)
-
-                  new_f = f.parent / rlinput("filename: ", f.name)
-                  f.rename(new_f)
+  #            def rlinput(prompt, prefill=""):
+  #                readline.set_startup_hook(lambda: readline.insert_text(prefill))
+  #                try:
+  #                    return input(prompt)
+  #                finally:
+  #                    readline.set_startup_hook()
 
 
-              if __name__ == "__main__":
-                  main()
-            '';
-            cmd = desktopCfg.term.execFloating "${file-renamer} \"%\"" "";
-          in
-          ''
-            map <C-o> exec '${cmd}'
-          '';
-      };
+  #            def main():
+  #                parser = argparse.ArgumentParser()
+  #                parser.add_argument("filename")
+  #                args = parser.parse_args()
+  #                f = Path(args.filename)
+  #                if not f.exists():
+  #                    raise FileNotFoundError(f)
 
-      ptsd.pcmanfm = {
-        enable = true;
-        term = desktopCfg.term.binary;
+  #                new_f = f.parent / rlinput("filename: ", f.name)
+  #                f.rename(new_f)
 
-        actions = {
-          pdfconcat = {
-            title = "Concat PDF files";
-            title_de = "PDF-Dateien aneinanderhängen";
-            mimetypes = [ "application/pdf" ];
-            cmd = "${pkgs.alacritty}/bin/alacritty --hold -e ${pkgs.pdfconcat}/bin/pdfconcat %F";
-            # #"${script} %F";
-          };
 
-          pdfduplex = {
-            title = "Convert A & B PDF to Duplex-PDF";
-            title_de = "Konvertiere A & B PDF zu Duplex-PDF";
-            mimetypes = [ "application/pdf" ];
-            cmd = "${pkgs.pdfduplex}/bin/pdfduplex %F";
-            selectionCount = 2;
-          };
-        };
+  #            if __name__ == "__main__":
+  #                main()
+  #          '';
+  #          cmd = desktopCfg.term.execFloating "${file-renamer} \"%\"" "";
+  #        in
+  #        ''
+  #          map <C-o> exec '${cmd}'
+  #        '';
+  #    };
 
-        thumbnailers = {
-          imagemagick = {
-            mimetypes = [ "application/pdf" "application/x-pdf" "image/pdf" ];
-            # imagemagickBig needed because of ghostscript dependency
-            cmd = ''${pkgs.imagemagickBig}/bin/convert %i[0] -background "#FFFFFF" -flatten -thumbnail %s %o'';
-          };
-        };
-      };
+  #    ptsd.pcmanfm = {
+  #      enable = true;
+  #      term = desktopCfg.term.binary;
 
-      home.sessionVariables = {
-        NNN_PLUG = "i:assign-transaction;j:assign-transaction-prevyear;p:preview-tui;o:preview-sway;f:fzcd;a:autojump;c:pdfconcat;d:pdfduplex;";
-      };
+  #      actions = {
+  #        pdfconcat = {
+  #          title = "Concat PDF files";
+  #          title_de = "PDF-Dateien aneinanderhängen";
+  #          mimetypes = [ "application/pdf" ];
+  #          cmd = "${pkgs.alacritty}/bin/alacritty --hold -e ${pkgs.pdfconcat}/bin/pdfconcat %F";
+  #          # #"${script} %F";
+  #        };
 
-      #home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
-      home.file.".config/nnn/plugins/preview-tui".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/preview-tui;
-      home.file.".config/nnn/plugins/preview-sway".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/preview-sway;
-      home.file.".config/nnn/plugins/.nnn-plugin-helper".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/.nnn-plugin-helper;
-      home.file.".config/nnn/plugins/fzcd".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/fzcd;
-      home.file.".config/nnn/plugins/autojump".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/autojump;
-      home.file.".config/nnn/plugins/assign-transaction".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction;
-      home.file.".config/nnn/plugins/assign-transaction-prevyear".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction-prevyear;
-      home.file.".config/nnn/plugins/pdfconcat".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfconcat;
-      home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
-    };
+  #        pdfduplex = {
+  #          title = "Convert A & B PDF to Duplex-PDF";
+  #          title_de = "Konvertiere A & B PDF zu Duplex-PDF";
+  #          mimetypes = [ "application/pdf" ];
+  #          cmd = "${pkgs.pdfduplex}/bin/pdfduplex %F";
+  #          selectionCount = 2;
+  #        };
+  #      };
 
-  ptsd.desktop.keybindings = {
-    #"XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
-    "${desktopCfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.ptsd-tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
-  };
+  #      thumbnailers = {
+  #        imagemagick = {
+  #          mimetypes = [ "application/pdf" "application/x-pdf" "image/pdf" ];
+  #          # imagemagickBig needed because of ghostscript dependency
+  #          cmd = ''${pkgs.imagemagickBig}/bin/convert %i[0] -background "#FFFFFF" -flatten -thumbnail %s %o'';
+  #        };
+  #      };
+  #    };
+
+  #    home.sessionVariables = {
+  #      NNN_PLUG = "i:assign-transaction;j:assign-transaction-prevyear;p:preview-tui;o:preview-sway;f:fzcd;a:autojump;c:pdfconcat;d:pdfduplex;";
+  #    };
+
+  #    #home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
+  #    home.file.".config/nnn/plugins/preview-tui".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/preview-tui;
+  #    home.file.".config/nnn/plugins/preview-sway".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/preview-sway;
+  #    home.file.".config/nnn/plugins/.nnn-plugin-helper".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/.nnn-plugin-helper;
+  #    home.file.".config/nnn/plugins/fzcd".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/fzcd;
+  #    home.file.".config/nnn/plugins/autojump".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/autojump;
+  #    home.file.".config/nnn/plugins/assign-transaction".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction;
+  #    home.file.".config/nnn/plugins/assign-transaction-prevyear".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction-prevyear;
+  #    home.file.".config/nnn/plugins/pdfconcat".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfconcat;
+  #    home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
+  #  };
+
+  #ptsd.desktop.keybindings = {
+  #  #"XF86Calculator" = "exec ${desktopCfg.term.execFloating "${pkgs.ptsd-py3env}/bin/ipython" ""}";
+  #  "${desktopCfg.modifier}+Shift+c" = ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.ptsd-tesseract}/bin/tesseract stdin stdout | ${pkgs.wl-clipboard}/bin/wl-copy -n'';
+  #};
 
   services.gvfs.enable = mkDefault true; # allow smb:// mounts in pcmanfm
 

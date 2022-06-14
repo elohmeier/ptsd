@@ -56,26 +56,26 @@
                 nixpkgs.config = { allowUnfree = true; packageOverrides = pkgOverrides pkgs; };
               })
           ];
-          desktopModules = [
-            ./2configs/users/enno.nix
-            { nix.nixPath = [ "home-manager=${home-manager}" ]; }
-            home-manager.nixosModule
-            ({ pkgs, ... }:
-              {
-                home-manager.useGlobalPkgs = true;
-                home-manager.users.mainUser = { nixosConfig, ... }:
-                  {
-                    imports = [
-                      ./3modules/home
-                    ];
+          #desktopModules = [
+          #  ./2configs/users/enno.nix
+          #  { nix.nixPath = [ "home-manager=${home-manager}" ]; }
+          #  home-manager.nixosModule
+          #  ({ pkgs, ... }:
+          #    {
+          #      home-manager.useGlobalPkgs = true;
+          #      home-manager.users.mainUser = { nixosConfig, ... }:
+          #        {
+          #          imports = [
+          #            ./3modules/home
+          #          ];
 
-                    # workaround https://github.com/nix-community/home-manager/issues/2333
-                    disabledModules = [ "config/i18n.nix" ];
-                    home.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
-                    systemd.user.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
-                  };
-              })
-          ];
+          #          # workaround https://github.com/nix-community/home-manager/issues/2333
+          #          disabledModules = [ "config/i18n.nix" ];
+          #          home.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
+          #          systemd.user.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
+          #        };
+          #    })
+          #];
         in
         {
 
@@ -128,7 +128,7 @@
 
           ws1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = defaultModules ++ desktopModules ++ [
+            modules = defaultModules ++ [
               ./1systems/ws1/physical.nix
             ];
             specialArgs = { inherit nixos-hardware home-manager pkgOverrides; };
@@ -136,7 +136,7 @@
 
           pine2 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = defaultModules ++ desktopModules ++ [
+            modules = defaultModules ++ [
               ./1systems/pine2/physical.nix
             ];
           };
@@ -220,6 +220,43 @@
 
       homeConfigurations = {
 
+        sway_x86 = home-manager.lib.homeManagerConfiguration {
+          system = "x86_64-linux";
+          username = "enno";
+          homeDirectory = "/home/enno";
+          stateVersion = "22.05";
+
+          configuration = { config, lib, pkgs, ... }: {
+
+            imports = [
+              ./2configs/home/alacritty.nix
+              ./2configs/home/firefox.nix
+              ./2configs/home/fish.nix
+              ./2configs/home/fonts.nix
+              ./2configs/home/foot.nix
+              ./2configs/home/git.nix
+              ./2configs/home/gpg.nix
+              ./2configs/home/logseq-sync-git.nix
+              ./2configs/home/neovim.nix
+              ./2configs/home/packages.nix
+              ./2configs/home/ssh.nix
+              ./2configs/home/sway.nix
+              ./2configs/home/xdg.nix
+              ./3modules/home
+            ];
+
+            nixpkgs.config = {
+              allowUnfree = true;
+              packageOverrides = pkgOverrides pkgs;
+            };
+
+            programs.direnv.enable = true;
+            programs.direnv.nix-direnv.enable = true;
+
+            # services.syncthing.enable = true;
+          };
+        };
+
         sway = home-manager.lib.homeManagerConfiguration {
           system = "aarch64-linux";
           username = "enno";
@@ -229,17 +266,18 @@
           configuration = { config, lib, pkgs, ... }: {
 
             imports = [
-              ./3modules/home
+              #./2configs/home/gpg.nix
               ./2configs/home/alacritty.nix
               ./2configs/home/firefox.nix
               ./2configs/home/fish.nix
               ./2configs/home/fonts.nix
               ./2configs/home/git.nix
-              #./2configs/home/gpg.nix
               ./2configs/home/neovim.nix
               ./2configs/home/packages.nix
               ./2configs/home/ssh.nix
               ./2configs/home/sway.nix
+              ./2configs/home/xdg.nix
+              ./3modules/home
             ];
 
             nixpkgs.config = {

@@ -12,13 +12,12 @@ with lib;
     ../../2configs/prometheus/node.nix
     ../../2configs/printers/mfc7440n.nix
 
-    ../../2configs/nixbuild.nix
-
-    ./modules/desktop.nix
     ./modules/networking.nix
     ./modules/syncthing.nix
-    ./modules/vmassi.nix
+    #./modules/vmassi.nix
   ];
+
+  environment.unixODBCDrivers = [ pkgs.unixODBCDrivers.msodbcsql17 ];
 
   ptsd.photoprism = {
     enable = true;
@@ -56,15 +55,6 @@ with lib;
     HandlePowerKey=suspend
     RuntimeDirectorySize=80%
   '';
-
-  environment.systemPackages = with pkgs; [
-    #run-kali-vm
-    #run-win-vm
-    efibootmgr
-    efitools
-    tpm2-tools
-    art
-  ];
 
   # specialisation = {
   #   nvidia-headless.configuration = {

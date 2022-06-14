@@ -1,7 +1,7 @@
-{ nixosConfig, config, lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 let
-  cfg = nixosConfig.ptsd.desktop;
+  defaultBrowser = "choose-browser.desktop";
 in
 {
   xdg =
@@ -19,11 +19,11 @@ in
           "image/jpeg" = [ "sxiv.desktop" ];
           "image/png" = [ "sxiv.desktop" ];
           "inode/directory" = [ "pcmanfm.desktop" ];
-          "text/html" = [ cfg.defaultBrowser ];
-          "x-scheme-handler/http" = [ cfg.defaultBrowser ];
-          "x-scheme-handler/https" = [ cfg.defaultBrowser ];
-          "x-scheme-handler/about" = [ cfg.defaultBrowser ];
-          "x-scheme-handler/unknown" = [ cfg.defaultBrowser ];
+          "text/html" = [ defaultBrowser ];
+          "x-scheme-handler/http" = [ defaultBrowser ];
+          "x-scheme-handler/https" = [ defaultBrowser ];
+          "x-scheme-handler/about" = [ defaultBrowser ];
+          "x-scheme-handler/unknown" = [ defaultBrowser ];
           "x-scheme-handler/msteams" = [ "teams.desktop" ];
           "application/vnd.jgraph.mxfile" = [ "drawio.desktop" ];
           "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [ "writer.desktop" ];
@@ -75,21 +75,21 @@ in
         #   </mime-type>
         # '';
 
-        "file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI
-          { }
-          {
-            "Desktop Entry" = {
-              Type = "Action";
-              Name = "Assign PDF to Nobbofin Transaction";
-              "Name[de]" = "PDF Nobbofin-Transaktion zuordnen";
-              Profiles = "nobbofin_assign_fzf;";
-            };
+        #"file-manager/actions/nobbofin_assign_fzf.desktop".text = lib.generators.toINI
+        #  { }
+        #  {
+        #    "Desktop Entry" = {
+        #      Type = "Action";
+        #      Name = "Assign PDF to Nobbofin Transaction";
+        #      "Name[de]" = "PDF Nobbofin-Transaktion zuordnen";
+        #      Profiles = "nobbofin_assign_fzf;";
+        #    };
 
-            "X-Action-Profile nobbofin_assign_fzf" = {
-              MimeTypes = "application/pdf";
-              Exec = cfg.term.execFloating "/home/enno/repos/nobbofin/assign-doc-fzf.py %f" "";
-            };
-          };
+        #    "X-Action-Profile nobbofin_assign_fzf" = {
+        #      MimeTypes = "application/pdf";
+        #      Exec = cfg.term.execFloating "/home/enno/repos/nobbofin/assign-doc-fzf.py %f" "";
+        #    };
+        #  };
 
         "file-manager/actions/sylpheed_attach.desktop".text = lib.generators.toINI
           { }
@@ -174,25 +174,25 @@ in
           onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
         };
 
-        "applications/vim.desktop" = {
-          text = lib.generators.toINI
-            { }
-            {
-              "Desktop Entry" = {
-                Name = "Vim";
-                Comment = "Edit text files in a console using Vim";
-                TryExec = "vim";
-                Exec = cfg.term.exec "vim %F" "";
-                Terminal = false;
-                Type = "Application";
-                Icon = "${pkgs.tango-icon-theme}/share/icons/Tango/scalable/apps/text-editor.svg";
-                Categories = "Application;Utility;TextEditor;";
-                StartupNotify = false;
-                MimeType = "text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;";
-              };
-            };
-          onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
-        };
+        #"applications/vim.desktop" = {
+        #  text = lib.generators.toINI
+        #    { }
+        #    {
+        #      "Desktop Entry" = {
+        #        Name = "Vim";
+        #        Comment = "Edit text files in a console using Vim";
+        #        TryExec = "vim";
+        #        Exec = cfg.term.exec "vim %F" "";
+        #        Terminal = false;
+        #        Type = "Application";
+        #        Icon = "${pkgs.tango-icon-theme}/share/icons/Tango/scalable/apps/text-editor.svg";
+        #        Categories = "Application;Utility;TextEditor;";
+        #        StartupNotify = false;
+        #        MimeType = "text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;";
+        #      };
+        #    };
+        #  onChange = "${pkgs.desktop-file-utils}/bin/update-desktop-database ${config.xdg.dataHome}/applications/";
+        #};
       };
     };
 }
