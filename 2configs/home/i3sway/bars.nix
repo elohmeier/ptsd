@@ -1,4 +1,4 @@
-{ pkgs }:
+{ config, pkgs }:
 [{
   mode = "dock";
   hiddenState = "hide";
@@ -11,34 +11,41 @@
     size = 18.0;
   };
   trayOutput = "primary";
-  colors = {
-    background = "#000000";
-    statusline = "#ffffff";
-    separator = "#666666";
+
+  colors = with config.ptsd.style.colors; {
+
+    background = base00;
+    separator = base01;
+    statusline = base04;
+
     focusedWorkspace = {
-      border = "#4c7899";
-      background = "#285577";
-      text = "#ffffff";
+      border = base05;
+      background = base0D;
+      text = base00;
     };
+
     activeWorkspace = {
-      border = "#333333";
-      background = "#5f676a";
-      text = "#ffffff";
+      border = base05;
+      background = base03;
+      text = base00;
     };
+
     inactiveWorkspace = {
-      border = "#333333";
-      background = "#222222";
-      text = "#888888";
+      border = base03;
+      background = base01;
+      text = base05;
     };
+
     urgentWorkspace = {
-      border = "#2f343a";
-      background = "#900000";
-      text = "#ffffff";
+      border = base08;
+      background = base08;
+      text = base00;
     };
+
     bindingMode = {
-      border = "#2f343a";
-      background = "#900000";
-      text = "#ffffff";
+      border = base00;
+      background = base0A;
+      text = base00;
     };
   };
 }]

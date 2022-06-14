@@ -4,5 +4,6 @@ _:
     ./nwbackup.nix
     ./pcmanfm.nix
     ./prometheus-node-exporter.nix
+    ./style.nix
   ];
 }
