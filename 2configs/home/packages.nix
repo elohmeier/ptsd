@@ -72,6 +72,7 @@ with lib;
         sshtunnel
         tabulate
         weasyprint
+        XlsxWriter
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
@@ -82,20 +83,19 @@ with lib;
 
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
 
-    ptsd-vscode
-    (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     #aliza # dicom viewer
     #art
     #calibre
     #cura
     #freecad
+    (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
+    AusweisApp2
     asciinema
     aspell
     aspellDicts.de
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
-    AusweisApp2
     awscli2
     bat
     bc
@@ -113,6 +113,7 @@ with lib;
     gnome3.file-roller
     gnupg
     go
+    go-sqlcmd
     gomuks
     gptfdisk
     hash-slinger # tlsa
@@ -157,6 +158,7 @@ with lib;
     pdftk
     ptsd-ffmpeg
     ptsd-nnn
+    ptsd-vscode
     pwgen
     qrencode
     quirc # qr scanner

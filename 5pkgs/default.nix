@@ -35,6 +35,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   lz4json = self.callPackage ./lz4json { };
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };
+  go-sqlcmd = self.callPackage ./go-sqlcmd { };
   nwfonts = self.callPackage ./nwfonts { };
   nwvpn-plain = self.callPackage ./nwvpn-plain { };
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
