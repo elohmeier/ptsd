@@ -1,29 +1,33 @@
 { config, lib, pkgs, ... }:
 with lib;
-#let
-#  desktopCfg = config.ptsd.desktop;
-#in
 {
   imports = [
-    #../3modules/desktop
     ./users/enno.nix
   ];
 
   #environment.systemPackages = [ (pkgs.writeShellScriptBin "activate-da-home-again" ''${config.home-manager.users.mainUser.home.activationPackage}/activate'') ];
 
+  sound.enable = true;
+
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+  };
+
+  environment.systemPackages = with pkgs; [
+    pamixer
+    playerctl
+    qjackctl
+    config.hardware.pulseaudio.package
+    pavucontrol
+    jack2
+  ];
+
   programs.sway.enable = true;
 
   nix.gc.automatic = false;
-
-  # specialisation = {
-  #   white.configuration = {
-  #     ptsd.desktop.theme = "white";
-  #   };
-  #   #} // optionalAttrs (pkgs.stdenv.hostPlatform.system != "aarch64-linux") {
-  #   #  i3compat.configuration = {
-  #   #    ptsd.desktop.i3compat = true;
-  #   #  };
-  # };
 
   networking.firewall.allowedTCPPorts = [ 80 135 443 445 4443 4444 4445 8000 8001 9000 ]; # ports for pentesting
   networking.firewall.allowedUDPPorts = [ 24727 ]; # ausweisapp2

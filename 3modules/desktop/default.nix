@@ -97,39 +97,5 @@ in
 
     programs.wireshark.enable = true;
     users.groups.wireshark.members = [ config.users.users.mainUser.name ];
-
-    home-manager =
-      {
-        users.mainUser = { config, nixosConfig, pkgs, ... }:
-          {
-            imports = [
-              ../home
-              ./baresip.nix
-              ./waybar.nix
-              ./xdg.nix
-              ../../2configs/home/fish.nix
-            ];
-
-            programs.foot = {
-              enable = true;
-              settings = {
-                main = {
-                  font = lib.mkDefault "${cfg.fontMono}:size=${toString cfg.fontSize}";
-                  dpi-aware = lib.mkDefault "no";
-                };
-                scrollback.lines = 50000;
-              };
-            };
-
-            home.keyboard = {
-              layout = lib.mkDefault "de";
-              variant = "nodeadkeys";
-            };
-
-            # home.file = {
-            #   ".mozilla/native-messaging-hosts/passff.json".source = "${pkgs.passff-host}/share/passff-host/passff.json";
-            # };
-          };
-      };
   };
 }
