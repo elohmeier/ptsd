@@ -51,13 +51,14 @@ in
 
   ptsd.nwbackup.enable = false;
 
-  ptsd.photoprism = {
-    enable = true;
-    httpHost = "191.18.19.37";
-    httpPort = 2342;
-    siteUrl = "https://fotos.nerdworks.de/";
-    photosDirectory = "/tank/enc/rawphotos/photos";
-  };
+  # broken due to missing instruction set required by tensorflow1-bin
+  # ptsd.photoprism = {
+  #   enable = true;
+  #   httpHost = "191.18.19.37";
+  #   httpPort = 2342;
+  #   siteUrl = "https://fotos.nerdworks.de/";
+  #   photosDirectory = "/tank/enc/rawphotos/photos";
+  # };
 
   ptsd.monica = {
     enable = true;
