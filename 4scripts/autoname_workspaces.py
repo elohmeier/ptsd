@@ -27,6 +27,7 @@ WINDOW_ICONS = {
     "foot": "",
     "term.floating": "",
     "alacritty": "",
+    "urxvt": "",
     "pcmanfm": "",
     "org.pwmt.zathura": "",
     "vscodium": "",
