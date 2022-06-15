@@ -1,5 +1,6 @@
 self: pkgs_master: nixpkgs_master:neovim-flake: super:
 {
+  tensorflow1 = self.callPackage ./tensorflow1/bin.nix { };
   subler-bin = self.callPackage ./subler-bin { };
   acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
