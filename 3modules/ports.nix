@@ -23,7 +23,6 @@ in
       fraam-wwwstatic = 10006;
       fraamdb = 10007;
       gitweb = 10008;
-      gowpcontactform = 10009;
       grafana = 10010;
       home-assistant = 10011;
       loki = 10012;
