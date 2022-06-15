@@ -50,6 +50,11 @@
 
     layout = "de";
     windowManager.i3.enable = true;
+
+    libinput = {
+      enable = true;
+      mouse.naturalScrolling = true;
+    };
   };
 
   system.stateVersion = "22.05";
