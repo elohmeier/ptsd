@@ -12,7 +12,7 @@
   };
   trayOutput = "primary";
 
-  colors = with config.ptsd.style.colors; {
+  colors = with config.ptsd.style.colorsHex; {
 
     background = base00;
     separator = base01;
