@@ -229,6 +229,7 @@
           configuration = { config, lib, pkgs, ... }: {
 
             imports = [
+              ./2configs/home
               ./2configs/home/alacritty.nix
               ./2configs/home/firefox.nix
               ./2configs/home/fish.nix
@@ -243,7 +244,6 @@
               ./2configs/home/ssh.nix
               ./2configs/home/sway.nix
               ./2configs/home/xdg.nix
-              ./3modules/home
             ];
 
             nixpkgs.config = {
@@ -267,6 +267,7 @@
           configuration = { config, lib, pkgs, ... }: {
 
             imports = [
+              ./2configs/home
               ./2configs/home/firefox.nix
               ./2configs/home/fish.nix
               ./2configs/home/fonts.nix
@@ -278,7 +279,6 @@
               ./2configs/home/ssh.nix
               ./2configs/home/urxvt.nix
               ./2configs/home/xdg.nix
-              ./3modules/home
             ];
 
             nixpkgs.config = {
@@ -301,7 +301,7 @@
 
           configuration = { config, lib, pkgs, ... }: {
             imports = [
-              ./3modules/home
+              ./2configs/home
               ./2configs/home/alacritty.nix
               ./2configs/home/darwin-defaults.nix
               ./2configs/home/email.nix

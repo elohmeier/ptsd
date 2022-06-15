@@ -79,5 +79,11 @@ in
 
   };
 
-  config.ptsd.style.colors = readYAML config.ptsd.style.themeFile;
+  config = {
+    ptsd.style.colors = readYAML config.ptsd.style.themeFile;
+
+    home.sessionVariables = lib.optionalAttrs (config.xsession.windowManager.i3.enable || config.wayland.windowManager.sway.enable) {
+      BEMENU_OPTS = with config.ptsd.style.colorsHex;"--fn \\\"Lucida Sans 18\\\" --nb ${background} --nf ${foreground} --tb ${base01} --tf ${base00} --hb ${base0D} --hf ${base00}";
+    };
+  };
 }
