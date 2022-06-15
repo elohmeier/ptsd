@@ -158,6 +158,7 @@ in
           "/var/lib/libvirt"
           "/var/lib/docker"
           "/var/lib/octoprint/timelapse"
+          "/var/lib/syncthing"
         ];
         type = with types; listOf str;
       };
