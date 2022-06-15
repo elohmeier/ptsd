@@ -48,16 +48,6 @@ in
 
       # wireless
       "40-eth0" = {
-        routes = [
-          {
-            routeConfig = {
-              Destination = "${universe.hosts.nas1.nets.nwvpn.ip4.addr}/32";
-              Gateway = universe.hosts.nas1.nets.bs53lan.ip4.addr;
-              GatewayOnLink = "yes";
-            };
-          }
-        ];
-
         linkConfig = {
           RequiredForOnline = "no";
         };
