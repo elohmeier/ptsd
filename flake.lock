@@ -22,11 +22,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1650983636,
-        "narHash": "sha256-j9VXoZtjpbi/VknthJo74iWe/7KtkcHyTer4/+hyjVg=",
+        "lastModified": 1655326890,
+        "narHash": "sha256-1H2f7VN/2kWMymXx9s0zDL7gCLPeHVNMTpSL1n2agvU=",
         "ref": "master",
-        "rev": "786526b18a3caf61a8ecadad192f1d4d6de5c415",
-        "revCount": 220,
+        "rev": "3f1323ba654d3386e3d03adbeff964b9e5707300",
+        "revCount": 230,
         "type": "git",
         "url": "ssh://git@github.com/elohmeier/fraamdb"
       },
