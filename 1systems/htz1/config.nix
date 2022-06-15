@@ -13,7 +13,6 @@ in
 
       ./modules/bullerbue.nix
       ./modules/nerdworks-www.nix
-      ./modules/nwgit.nix
     ];
 
   ptsd.nwbackup = {

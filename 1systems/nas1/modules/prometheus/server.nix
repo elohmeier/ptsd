@@ -222,17 +222,6 @@ in
           }
         ];
       })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_gitea";
-        params.module = [ "http_gitea" ];
-        static_configs = [
-          {
-            targets = [
-              "https://git.nerdworks.de"
-            ];
-          }
-        ];
-      })
     ];
   };
 }
