@@ -140,11 +140,12 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       hashicorp.terraform
       jkillian.custom-local-formatters
       jnoortheen.nix-ide
-      ms-python.python
       ms-toolsai.jupyter
       ms-vscode-remote.remote-ssh
-      ms-vscode.cpptools
       #ms-vsliveshare.vsliveshare
+    ] ++ self.lib.optionals (self.lib.elem self.stdenv.hostPlatform.system [ "x86_64-linux" ]) [
+      ms-python.python
+      ms-vscode.cpptools
     ];
   };
 }

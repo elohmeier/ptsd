@@ -10,25 +10,26 @@ with lib;
 
     alacritty
     bat
-    exiftool
     btop
     exa
+    exiftool
     fd
     fzf
     home-manager
     httpserve
     jless
-    neovim
-    nixpkgs-fmt
-    nixos-generators
-    pass
-    ptsd-nnn
     ncdu
+    neovim
+    nixos-generators
+    nixpkgs-fmt
+    pass
+    pgmodeler
+    ptsd-nnn
     ripgrep
+    tabula-java
     tig
     tmux
     watch
-    tabula-java
     zathura
     zellij
     zellij
