@@ -28,7 +28,7 @@
       output."Dell Inc. DELL P2415Q D8VXF96K09HB".pos = "0 2160";
 
       bars = import ./i3sway/bars.nix { inherit config pkgs; };
-      keybindings = import ./i3sway/keybindings.nix { inherit lib pkgs; };
+      keybindings = import ./i3sway/keybindings.nix { inherit config lib pkgs; };
       modes = import ./i3sway/modes.nix { inherit lib pkgs; };
 
       colors = with config.ptsd.style.colors; {

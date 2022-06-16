@@ -1,4 +1,5 @@
-{ lib
+{ config
+, lib
 , pkgs
 , modifier ? "Mod1"
 , extraKeybindings ? { }
@@ -20,7 +21,7 @@ in
 
   "${modifier}+Shift+a" = "exec xrandr --output Virtual-1 --auto";
 
-  "${modifier}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run --list 10 --prompt 'Run:'";
+  "${modifier}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run --list 10 --prompt 'Run:' ${config.ptsd.style.bemenuOpts}";
   #"${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu -p \"Run:\" -l 10 | ${pkgs.findutils}/bin/xargs ${pkgs.sway}/bin/swaymsg exec";
 
   # change focus

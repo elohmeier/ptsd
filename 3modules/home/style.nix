@@ -28,6 +28,8 @@ in
       default = ./base16-schemes/selenized-black.yaml;
     };
 
+    bemenuOpts = mkOption { type = types.str; };
+
     colors = {
       # optional
       background = mkOption { type = types.str; default = ""; };
@@ -81,9 +83,10 @@ in
 
   config = {
     ptsd.style.colors = readYAML config.ptsd.style.themeFile;
+    ptsd.style.bemenuOpts = with config.ptsd.style.colorsHex;"--fn \"Lucida Sans 18\" --nb \"${background}\" --nf \"${foreground}\" --tb \"${base01}\" --tf \"${base00}\" --hb \"${base0D}\" --hf \"${base00}\"";
 
     home.sessionVariables = lib.optionalAttrs (config.xsession.windowManager.i3.enable || config.wayland.windowManager.sway.enable) {
-      BEMENU_OPTS = with config.ptsd.style.colorsHex;"--fn \\\"Lucida Sans 18\\\" --nb ${background} --nf ${foreground} --tb ${base01} --tf ${base00} --hb ${base0D} --hf ${base00}";
+      BEMENU_OPTS = builtins.replaceStrings [ "\"" ] [ "\\\"" ] config.ptsd.style.bemenuOpts;
     };
   };
 }
