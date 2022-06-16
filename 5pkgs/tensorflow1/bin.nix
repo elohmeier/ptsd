@@ -1,7 +1,9 @@
-{ lib, stdenv
+{ lib
+, stdenv
 , fetchurl
 , addOpenGLRunpath
-, cudaSupport ? false, cudaPackages ? {}
+, cudaSupport ? false
+, cudaPackages ? { }
 , symlinkJoin
 }:
 
@@ -17,10 +19,10 @@ let
     if stdenv.isLinux then "linux"
     else "darwin";
 
-  platform =  "x86_64";
+  platform = "x86_64";
 
-  rpath = makeLibraryPath ([stdenv.cc.libc stdenv.cc.cc.lib]
-                           ++ optionals cudaSupport [ cudatoolkit.out cudatoolkit.lib cudnn ]);
+  rpath = makeLibraryPath ([ stdenv.cc.libc stdenv.cc.cc.lib ]
+    ++ optionals cudaSupport [ cudatoolkit.out cudatoolkit.lib cudnn ]);
 
   packages = import ./binary-hashes.nix;
 
@@ -38,7 +40,8 @@ let
       ''}
     '';
 
-in stdenv.mkDerivation rec {
+in
+stdenv.mkDerivation rec {
   pname = "libtensorflow";
   inherit (packages) version;
 
