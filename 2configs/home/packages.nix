@@ -11,6 +11,7 @@ with lib;
     alacritty
     bat
     btop
+    entr
     exa
     exiftool
     fd
