@@ -13,6 +13,7 @@
     finder = {
       AppleShowAllExtensions = true;
       FXEnableExtensionChangeWarning = false;
+      FXPreferredViewStyle = "Nlsv"; # list view
     };
 
     "com.apple.menuextra.battery".ShowTime = "YES";
