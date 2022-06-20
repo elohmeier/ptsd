@@ -158,13 +158,14 @@ in
           "/var/lib/libvirt"
           "/var/lib/docker"
           "/var/lib/octoprint/timelapse"
+          "/var/lib/prometheus2"
           "/var/lib/syncthing"
         ];
         type = with types; listOf str;
       };
       repos = mkOption {
         default = {
-          nas1 = "borg-${config.networking.hostName}@nas1.host.nerdworks.de:.";
+          nas1 = "borg-${config.networking.hostName}@nas1.pug-coho.ts.net:.";
         };
         type = with types; attrsOf str;
       };
@@ -181,7 +182,7 @@ in
     #systemd.services = mapAttrs' mkInitRepoService cfg.repos;
 
     environment.variables = {
-      BORG_REPO = "borg-${config.networking.hostName}@nas1.host.nerdworks.de:.";
+      BORG_REPO = "borg-${config.networking.hostName}@nas1.pug-coho.ts.net:.";
       BORG_PASSCOMMAND = cfg.passCommand;
       BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
     } // optionalAttrs (cfg.cacheDir != null) {
