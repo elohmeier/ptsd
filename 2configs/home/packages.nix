@@ -29,6 +29,7 @@ with lib;
     ripgrep
     tabula-java
     tig
+    macos-fix-filefoldernames
     tmux
     watch
     zathura
@@ -43,6 +44,7 @@ with lib;
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         #beancount
         #nobbofin
+        XlsxWriter
         authlib
         beautifulsoup4
         black
@@ -66,6 +68,7 @@ with lib;
         psycopg2
         pycrypto
         pylint
+        pyodbc
         pytest
         pyxlsb
         requests
@@ -74,7 +77,6 @@ with lib;
         sshtunnel
         tabulate
         weasyprint
-        XlsxWriter
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [

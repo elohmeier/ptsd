@@ -1,5 +1,7 @@
 self: pkgs_master: nixpkgs_master:neovim-flake: super:
 {
+
+  macos-fix-filefoldernames = (self.writers.writePython3Bin "macos-fix-filefoldernames" { flakeIgnore = [ "E265" ]; } ../4scripts/macos-fix-filefoldernames.py);
   tensorflow1 = self.callPackage ./tensorflow1/bin.nix { };
   subler-bin = self.callPackage ./subler-bin { };
   acme-dns = self.callPackage ./acme-dns { };

@@ -26,13 +26,12 @@ in
     exa
     fd
     git
+    macos-fix-filefoldernames
     mc
     ncdu
     ptsd-nnn
     ripgrep
-    # telegram-sh
     tmux
-    (writers.writePython3Bin "macos-fix-filefoldernames" { } ../4scripts/macos-fix-filefoldernames.py)
   ];
 
   # programs.mosh.enable = lib.mkDefault true;
