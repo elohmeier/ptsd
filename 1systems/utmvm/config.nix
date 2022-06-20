@@ -6,6 +6,8 @@
     ../../2configs/fish.nix
   ];
 
+  networking.hostName = "mb4-nixos";
+
   boot.kernel.sysctl = {
     # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
     "fs.inotify.max_user_watches" = 204800;
@@ -21,6 +23,8 @@
   services.udisks2.enable = false;
 
   ptsd.secrets.enable = false;
+
+  ptsd.tailscale.enable = true;
 
   # spice-vdagent does not support resizing the screen, only X11
   # services.getty.autologinUser = "enno";
