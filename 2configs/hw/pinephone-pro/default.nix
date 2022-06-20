@@ -27,12 +27,12 @@ in
 
   boot.initrd = {
     availableKernelModules = [
-      "gpu_sched"
       "dw_wdt"
       "fusb302"
-      "panel_himax_hx8394"
       "goodix_ts"
-      "kb151"
+      "gpu_sched"
+      "panel_himax_hx8394"
+      "pinephone-keyboard"
     ];
     kernelModules = [
       "dm_mod" # for lvm
