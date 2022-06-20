@@ -258,6 +258,40 @@
           };
         };
 
+        sway_pine2 = home-manager.lib.homeManagerConfiguration {
+          system = "aarch64-linux";
+          username = "enno";
+          homeDirectory = "/home/enno";
+          stateVersion = "21.11";
+
+          configuration = { config, lib, pkgs, ... }: {
+
+            imports = [
+              ./2configs/home
+              ./2configs/home/firefox.nix
+              ./2configs/home/fish.nix
+              ./2configs/home/fonts.nix
+              ./2configs/home/foot.nix
+              ./2configs/home/git.nix
+              ./2configs/home/i3status.nix
+              ./2configs/home/gpg.nix
+              ./2configs/home/neovim.nix
+              ./2configs/home/packages.nix
+              ./2configs/home/ssh.nix
+              ./2configs/home/sway.nix
+              ./2configs/home/xdg.nix
+            ];
+
+            nixpkgs.config = {
+              allowUnfree = true;
+              packageOverrides = pkgOverrides pkgs;
+            };
+
+            programs.direnv.enable = true;
+            programs.direnv.nix-direnv.enable = true;
+          };
+        };
+
         i3 = home-manager.lib.homeManagerConfiguration {
           system = "aarch64-linux";
           username = "enno";

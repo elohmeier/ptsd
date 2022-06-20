@@ -21,7 +21,18 @@
         repeat_rate = "45";
       };
 
+      # ws1
       input."1118:2092:Microsoft_Microsoft_Ergonomic_Keyboard".xkb_numlock = "enabled";
+
+      input."0:0:PinePhone_Keyboard" = {
+        xkb_layout = "us";
+        repeat_delay = "500";
+        repeat_rate = "15";
+      };
+
+      # pine2
+      input."1046:1158:Goodix_Capacitive_TouchScreen".map_to_output = "DSI-1";
+      output.DSI-1.transform = "90";
 
       # LG UltraFine
       # output."Virtual-1".mode = "--custom 4096x2304@60Hz";

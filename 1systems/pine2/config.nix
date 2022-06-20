@@ -2,19 +2,33 @@
 
 {
   imports = [
-    ../..
+    #../../2configs/nixbuild.nix
+    #../../2configs/profiles/workstation
     ../../2configs
+    ../../2configs/fish.nix
     ../../2configs/hw/pinephone-pro
-    ../../2configs/nwhost.nix
+    ../../2configs/nwhost-mini.nix
     ../../2configs/stateless-root.nix
-    ../../3modules/desktop
-    ../../2configs/profiles/workstation
-    ../../2configs/nixbuild.nix
+    ../../2configs/users/enno.nix
 
     ./modules/syncthing.nix
   ];
 
+  # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
+  boot.kernel.sysctl."fs.inotify.max_user_watches" = 204800;
+
+  users.defaultUserShell = pkgs.fish;
+
+  environment.systemPackages = with pkgs;[
+    git
+    home-manager
+  ];
+
+  programs.sway.enable = true;
+
   ptsd.nwacme.hostCert.enable = false;
+
+  ptsd.tailscale.enable = true;
 
   networking = {
     hostName = "pine2";
@@ -24,13 +38,13 @@
     networkmanager = {
       enable = true;
       dns = "systemd-resolved";
+      plugins = lib.mkForce [ ];
       wifi = {
         backend = "iwd";
         macAddress = "random";
         powersave = true;
       };
     };
-    firewall.enable = false; # todo: kernel module missing?
   };
 
   ptsd.nwbackup.paths = [
@@ -81,23 +95,5 @@
       cp -v ${closureInfo}/registration "$DESTDIR/boot/nix-path-registration"
     '';
 
-  ptsd.desktop = {
-    enable = true;
-    modifier = "Mod1";
-    fontSize = 12.0;
-  };
-
-  home-manager.users.mainUser = { pkgs, ... }: {
-    wayland.windowManager.sway.config = {
-      input."0:0:kb151" = {
-        xkb_layout = "us";
-        repeat_delay = "500";
-        repeat_rate = "15";
-      };
-      input."1046:1158:Goodix_Capacitive_TouchScreen".map_to_output = "DSI-1";
-      output.DSI-1 = {
-        transform = "90";
-      };
-    };
-  };
+  system.stateVersion = "21.11";
 }
