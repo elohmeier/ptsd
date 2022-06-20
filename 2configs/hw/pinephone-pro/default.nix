@@ -49,15 +49,10 @@ in
     "fbcon=rotate:1"
   ];
 
-  # https://xnux.eu/pinephone-keyboard/faq.html
-  system.activationScripts.configure-pine-keyboard-charging = ''
-    echo 1500000 > /sys/class/power_supply/rk818-usb/input_current_limit
-  '';
-
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
   console.keyMap = "us";
 
-  environment.systemPackages = [ pkgs.pinephone-keyboard ];
+  environment.systemPackages = with pkgs; [ brightnessctl pinephone-keyboard ];
 
   # todo: kernel module missing?
   networking.firewall.enable = false;
