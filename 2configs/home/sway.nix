@@ -21,6 +21,8 @@
         repeat_rate = "45";
       };
 
+      input."1118:2092:Microsoft_Microsoft_Ergonomic_Keyboard".xkb_numlock = "enabled";
+
       # LG UltraFine
       # output."Virtual-1".mode = "--custom 4096x2304@60Hz";
 
