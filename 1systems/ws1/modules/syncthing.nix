@@ -19,7 +19,7 @@
       "/home/enno/LuNo" = {
         label = "LuNo";
         id = "3ull9-9deg4";
-        devices = [ "mb1" "nas1" "mb4" ];
+        devices = [ "mb3" "nas1" "mb4" ];
       };
       "/home/enno/Pocket" = {
         label = "Pocket";
@@ -45,40 +45,39 @@
       "/mnt/photos/photos" = {
         label = "photos";
         id = "rqvar-xdhbm";
-        devices = [ "nas1" ];
+        devices = [ "nas1" "mb4" ];
       };
       "/mnt/photos/photoprism-cache" = {
         label = "photoprism-cache";
         id = "tsfyr-53d26";
-        devices = [ "nas1" ];
+        devices = [ "nas1" "mb4" ];
       };
       "/mnt/photos/photoprism-lib" = {
         label = "photoprism-lib";
         id = "3tf3k-nohyy";
-        devices = [ "nas1" ];
+        devices = [ "nas1" "mb4" ];
       };
 
       "/mnt/luisa/Bilder" = {
         label = "luisa/Bilder";
         id = "ugmai-ti6vl";
-        devices = [ "mb1" "nas1" ];
+        devices = [ "mb3" "nas1" "mb4" ];
       };
       "/mnt/luisa/Dokumente" = {
         label = "luisa/Dokumente";
         id = "sqkfd-m9he7";
-        devices = [ "mb1" "nas1" ];
+        devices = [ "mb3" "nas1" "mb4" ];
       };
       "/mnt/luisa/Musik" = {
         label = "luisa/Musik";
         id = "zvffu-ff92z";
-        devices = [ "mb1" "nas1" ];
+        devices = [ "mb3" "nas1" "mb4" ];
       };
       "/mnt/luisa/Scans" = {
         label = "luisa/Scans";
         id = "dnryo-kz7io";
-        devices = [ "mb1" "nas1" ];
+        devices = [ "mb3" "nas1" "mb4" ];
       };
-
     };
   };
 }

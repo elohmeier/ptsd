@@ -27,7 +27,7 @@ in
       "/tank/enc/rawphotos/photos" = {
         label = "photos";
         id = "rqvar-xdhbm";
-        devices = [ "ws1" ];
+        devices = [ "ws1" "mb4" ];
       };
       "/tank/enc/enno/FPV" = {
         label = "enno/FPV";
@@ -75,7 +75,7 @@ in
       "/tank/enc/luisa/Bilder" = {
         label = "luisa/Bilder";
         id = "ugmai-ti6vl";
-        devices = [ "mb1" "mb3" "ws1" ];
+        devices = [ "mb1" "mb3" "ws1" "mb4" ];
       };
       "/tank/enc/luisa/Dokumente" = {
         label = "luisa/Dokumente";
@@ -85,7 +85,7 @@ in
       "/tank/enc/luisa/Musik" = {
         label = "luisa/Musik";
         id = "zvffu-ff92z";
-        devices = [ "mb1" "mb3" "ws1" ];
+        devices = [ "mb1" "mb3" "ws1" "mb4" ];
       };
       "/tank/enc/luisa/Scans" = {
         label = "luisa/Scans";
@@ -96,12 +96,12 @@ in
       "/var/cache/photoprism" = {
         label = "photoprism-cache";
         id = "tsfyr-53d26";
-        devices = [ "ws1" ];
+        devices = [ "ws1" "mb4" ];
       };
       "/var/lib/photoprism" = {
         label = "photoprism-lib";
         id = "3tf3k-nohyy";
-        devices = [ "ws1" ];
+        devices = [ "ws1" "mb4" ];
       };
     };
   };
