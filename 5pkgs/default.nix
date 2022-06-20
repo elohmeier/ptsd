@@ -150,4 +150,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       ms-vscode.cpptools
     ];
   };
+
+  linux-megi = self.callPackage ./linux-megi { };
 }
