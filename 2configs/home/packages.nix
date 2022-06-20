@@ -24,7 +24,6 @@ with lib;
     nixos-generators
     nixpkgs-fmt
     pass
-    pgmodeler
     ptsd-nnn
     ripgrep
     tabula-java
@@ -96,6 +95,7 @@ with lib;
     AusweisApp2
     asciinema
     aspell
+    pgmodeler
     aspellDicts.de
     aspellDicts.en
     aspellDicts.en-computers
@@ -159,7 +159,7 @@ with lib;
     pdf2svg
     pdfconcat
     pdfduplex
-    pdftk
+    (pdftk.override { jre = openjdk11; })
     ptsd-ffmpeg
     ptsd-nnn
     ptsd-vscode
