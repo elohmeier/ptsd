@@ -11,7 +11,7 @@ in
       ../../2configs/nwhost.nix
       ../../2configs/prometheus/node.nix
 
-      ./modules/bullerbue.nix
+      ./modules/git.nix
       ./modules/nerdworks-www.nix
     ];
 
@@ -110,7 +110,6 @@ in
         (crt "fotos.nerdworks.de")
         (crt "git.nerdworks.de")
         #(crt "luisarichter.de")
-        (crt "xn--bullerb-in-hamburg-s6b.de")
       ];
   };
 
@@ -152,14 +151,6 @@ in
       #   group = "certs";
       #   postRun = "systemctl restart traefik.service";
       # };
-
-      "xn--bullerb-in-hamburg-s6b.de" = {
-        webroot = config.ptsd.nwacme.http.webroot;
-        extraDomainNames = [ "www.xn--bullerb-in-hamburg-s6b.de" ];
-        credentialsFile = envFile "xn--bullerb-in-hamburg-s6b.de";
-        group = "certs";
-        postRun = "systemctl restart traefik.service";
-      };
 
       "mqtt.nerdworks.de" = {
         webroot = config.ptsd.nwacme.http.webroot;
