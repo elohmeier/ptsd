@@ -55,6 +55,16 @@
       enable = true;
       mouse.naturalScrolling = true;
     };
+
+    xrandrHeads = [
+      {
+        output = "Virtual-1";
+        primary = true;
+        monitorConfig = ''
+          Option "DPMS" "false"
+        '';
+      }
+    ];
   };
 
   system.stateVersion = "22.05";
