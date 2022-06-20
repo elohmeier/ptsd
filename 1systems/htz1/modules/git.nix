@@ -7,7 +7,7 @@
     group = "git";
     home = "/var/lib/gitea/repositories";
     isSystemUser = true;
-    openssh.authorizedKeys.keys = (import ../../../2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
+    openssh.authorizedKeys.keys = (import ../../../2configs/users/ssh-pubkeys.nix).git_enno;
     shell = "${pkgs.git}/bin/git-shell"; # prevent interactive login
   };
 

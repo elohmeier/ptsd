@@ -11,12 +11,6 @@ rec {
     enno_yubi49 =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC110wwsmO+Tp4Su9YOqq3mgUvYXrRfLEUncEFWQKXFNlGuEvs/IjKmMfX0wSH1Qw0GXSQP3OJ9cVyfsqpRurnz1WZTtmpjDy9Yx6cMer4E8SfdO7hea9Jub8jjGMfyVX3HK81dA1ffSY9KLsh+7GWuiLnZHYjHlbS3laH8Aeza3Ln66LUSEEOr0NYx4MZNl20iAaaUShUmJGIhf5/P5IGDLuIjbL/3ct0xrmJ1tBAGWtmE4Lopn5nkyZTh/2AW3T+liDo3jnXD018npd4XrT/+USOKRao2b343mcCrN1E4/vXsw7lUkwydQ4ZkdXY0pfFufdU6LHzODvbdeXlgjn2fxLS0vN+wOzmZMBhMQQVsra87hzilXArW4xq87HDAQScv+jH4gg+d8ijpyL5MeUf57yXgpu4eh7mD9d1nr5D+nEGzWPCakswvixM3sQFSuhH1T8uMgSUBQBWTkLnzAOO6aU5DZu2l24ftczRbPHPnNxUBYFNC5upwPvrnsU+YiCoI3M3D6yzGp+AVsvtqj877E0y+MmVvS22p9sYiTT6iV7fz86v7mphxPmVQs38LGLdImMAxFLVe9p1g6HpuOZXq+Lkeh7Bz4dWbAO3u1LzY9s+yMx8U240QMShA1qUIYwLpEeM8IBqeXnEaTp3+WhbEKj9XgaNhfYhipMY+/Tv2zQ== cardno:000611343949";
 
-    ipd1_terminus =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGoCOr++VKCXsEyUfQbEcicLb1qYkMyJ9BLD1DoG25oE enno@ipd1";
-
-    ipd1_workingcopy =
-      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGoCOr++VKCXsEyUfQbEcicLb1qYkMyJ9BLD1DoG25oE enno@ipd1";
-
     iph3_terminus = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBMXreVsY+ojFbqd8agx3ZcdloJ74gD/ErEq7FKmGAGOZqFW+8ohk7l3/7xQHQzMC0QGXoJloiAFi5UXiCd/1MeE=";
 
     iph3_workingcopy = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDKtcA3SAWg512saj5EeLge5Y3J3yX2qCxLRjzaD8UEL83XQdsN85sVcW5mUMwhRB1H7YIqWPiBPDC/j3n+TXrKzUFINmIpfljC4HWXebosNy9h7qIQQVBakjTN9gQFVT0v2DKIKFKEwmVzY719nSTjFaGI/rGhMOWBJfpXVGq6Xo3l0JkVe+X9xdcsH+RSnebWXbzquABWDAn0+eBl8oanMUoLvC8YFeLxJOYwEgeiX91V+AINzgJ69iB3JKJVmC/QdMEpQ+/RZOeY5r0sp5l8a5B29Wfc/eMenAPOMRaKa4l7fVn659dhAwnNSPX5OJ84l+r9D6aZ/hHDnmdXuzwtRbRfHepFIqEaa+m7pv8C/bWqXYDJCW9Czm8Fb08h2TtsvGIq+sqvFcnE3dqhGB3Tq3ilRToT07T4DezgCOh+Jmp+iPKeK7NyWX1A6e653j3dG9hLxy3rJ8LGWfGFxGc00nHVDNq838JsFdYfJG44FEGhmljKTAqrTAEEQguychB0tPWcudl0WJyvZ6SECz347K/pPKduDt9rCE9jSe4TLm3O6TnBT59ZvrGMHYzLWAtowYB++u0xlTnXeUlj4myn4022kdq4pJemL+EdwPc84LoLi0htHHHS+ImLKbULU2w+ktaN7ErzEwWuJ8cz7+8Axa2aAjctSU7iDL7E3th0/w== WorkingCopy@iph3-02122020";
@@ -30,7 +24,13 @@ rec {
     enno_mb4
     enno_yubi41
     enno_yubi49
-    ipd1_terminus
     iph3_terminus
+  ];
+
+  git_enno = with sshPub; [
+    enno_mb4
+    enno_yubi41
+    enno_yubi49
+    iph3_workingcopy
   ];
 }
