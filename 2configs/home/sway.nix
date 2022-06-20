@@ -25,7 +25,7 @@
       input."1118:2092:Microsoft_Microsoft_Ergonomic_Keyboard".xkb_numlock = "enabled";
 
       input."0:0:PinePhone_Keyboard" = {
-        xkb_layout = "us";
+        xkb_file = toString ./pinephone-keyboard.xkb;
         repeat_delay = "500";
         repeat_rate = "15";
       };
