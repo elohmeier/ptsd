@@ -1,16 +1,24 @@
-{ config, lib, pkgs, ... }: {
+{ config, lib, pkgs, ... }:
 
-  programs.i3status = {
+with lib;
+{
+  options.programs.i3status = {
+    enableWireless = mkEnableOption "wireless";
+    enableNwvpn = mkEnableOption "nwvpn";
+    enableBattery = mkEnableOption "battery";
+  };
+
+  config.programs.i3status = {
     enable = true;
     enableDefault = false;
     general = {
       colors = true;
       interval = 5;
     };
-    modules = {
+    modules = with config.programs.i3status; {
       ipv6.position = 1;
 
-      "wireless _first_" = {
+      "wireless _first_" = mkIf enableWireless {
         position = 2;
         settings = {
           format_up = "  (%quality at %essid) %ip";
@@ -26,7 +34,7 @@
         };
       };
 
-      "ethernet nwvpn" = {
+      "ethernet nwvpn" = mkIf enableNwvpn {
         position = 3;
         settings = {
           format_up = "旅 nw: %ip";
@@ -34,15 +42,23 @@
         };
       };
 
-      "ethernet tun0" = {
+      "ethernet tailscale0" = {
         position = 3;
         settings = {
-          format_up = "旅 t0: %ip";
-          format_down = " t0: down";
+          format_up = "旅 ts: %ip";
+          format_down = " ts: down";
         };
       };
 
-      "battery all" = {
+      "ethernet tun0" = {
+        position = 3;
+        settings = {
+          format_up = "旅 tu: %ip";
+          format_down = " tu: down";
+        };
+      };
+
+      "battery all" = mkIf enableBattery {
         position = 4;
         settings = { format = "%status %percentage %remaining"; };
       };
