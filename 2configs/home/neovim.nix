@@ -12,6 +12,17 @@ let
     };
   };
 
+  copilot-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "copilot.vim";
+    version = "2022-06-07";
+    src = pkgs.fetchFromGitHub {
+      owner = "github";
+      repo = "copilot.vim";
+      rev = "aa9e451dda857c6615f531f8d4e4f201e43d7a03";
+      sha256 = "1i272gzvm4psqynw7pqyb00zlmx9q0r8z9l5iswy6kjwgvzz9298";
+    };
+    meta.homepage = "https://github.com/github/copilot.vim/";
+  };
 
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
