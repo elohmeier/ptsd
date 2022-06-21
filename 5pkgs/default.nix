@@ -165,5 +165,9 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     mount /dev/vda2 /mnt
     mkdir /mnt/boot
     mount /dev/vda1 /mnt/boot
+
+    echo "nixos-install --flake github:elohmeier/ptsd#utmvm --no-channel-copy --no-root-password" > nixos-install.sh
+    chmod +x nixos-install.sh
+    echo "run ./nixos-install.sh to install"
   '';
 }
