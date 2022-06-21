@@ -153,4 +153,17 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   };
 
   linux-megi = self.callPackage ./linux-megi { };
+  initvm = self.writeShellScriptBin "initvm" ''
+    ${self.parted}/sbin/parted --script /dev/vda \
+      mklabel gpt \
+      mkpart "boot" fat32 1MiB 1000MiB \
+      mkpart "nix" xfs 1000MiB 100%
+
+    ${self.dosfstools}/bin/mkfs.vfat -n boot /dev/vda1 || exit 1
+    ${self.xfsprogs}/bin/mkfs.xfs /dev/vda2 || exit 1
+
+    mount /dev/vda2 /mnt
+    mkdir /mnt/boot
+    mount /dev/vda1 /mnt/boot
+  '';
 }
