@@ -68,15 +68,11 @@
       mouse.naturalScrolling = true;
     };
 
-    xrandrHeads = [
-      {
-        output = "Virtual-1";
-        primary = true;
-        monitorConfig = ''
-          Option "DPMS" "false"
-        '';
-      }
-    ];
+    extraConfig = ''
+      Section "Extensions"
+          Option      "DPMS" "Disable"
+      EndSection
+    '';
   };
 
   system.stateVersion = "22.05";
