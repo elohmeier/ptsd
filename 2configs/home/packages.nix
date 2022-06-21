@@ -8,7 +8,6 @@ with lib;
 
   home.packages = with pkgs; [
 
-    alacritty
     bat
     btop
     entr
@@ -19,16 +18,18 @@ with lib;
     home-manager
     httpserve
     jless
+    logseq-query
+    macos-fix-filefoldernames
     ncdu
     neovim
     nixos-generators
     nixpkgs-fmt
+    node2nix
     pass
     ptsd-nnn
     ripgrep
     tabula-java
     tig
-    macos-fix-filefoldernames
     tmux
     watch
     zathura
