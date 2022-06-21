@@ -6,7 +6,8 @@
 
     settings = {
 
-      font.normal.family = "SauceCodePro Nerd Font";
+      font.normal.family = if pkgs.stdenv.isDarwin then "SauceCodePro Nerd Font" else "Spleen";
+      font.size = lib.mkIf pkgs.stdenv.isLinux 18.0;
 
       key_bindings =
         lib.optionals pkgs.stdenv.isDarwin [

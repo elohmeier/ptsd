@@ -5,7 +5,7 @@
     enable = true;
     config = {
       modifier = "Mod1";
-      terminal = "urxvt";
+      terminal = "alacritty";
 
       fonts = {
         names = [ "SauceCodePro Nerd Font" ];
@@ -18,7 +18,9 @@
       ];
 
       bars = import ./i3sway/bars.nix { inherit config pkgs; };
-      keybindings = import ./i3sway/keybindings.nix { inherit config lib pkgs; termExec = prog: dir: "${config.programs.urxvt.package}/bin/urxvt${if dir != "" then " -cd \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}"; };
+      keybindings = import ./i3sway/keybindings.nix {
+        inherit config lib pkgs; termExec = prog: dir: "${config.programs.alacritty.package}/bin/alacritty${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+      };
       modes = import ./i3sway/modes.nix { inherit lib pkgs; i3compat = true; };
 
       colors = with config.ptsd.style.colorsHex; {

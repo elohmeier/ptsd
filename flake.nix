@@ -297,6 +297,7 @@
 
             imports = [
               ./2configs/home
+              ./2configs/home/alacritty.nix
               ./2configs/home/firefox.nix
               ./2configs/home/fish.nix
               ./2configs/home/fonts.nix
@@ -306,7 +307,6 @@
               ./2configs/home/neovim.nix
               ./2configs/home/packages.nix
               ./2configs/home/ssh.nix
-              ./2configs/home/urxvt.nix
               ./2configs/home/xdg.nix
             ];
 
