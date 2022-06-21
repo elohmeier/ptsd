@@ -32,5 +32,5 @@ let
 in
 runCommand "${pkg.packageName}-${pkg.version}" { } ''
   mkdir -p $out/bin
-  ln -s ${script} $out/bin/logseq-query
+  ln -s ${script} $out/bin/lq
 ''
