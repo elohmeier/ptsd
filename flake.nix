@@ -4,7 +4,8 @@
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
-    home-manager.url = github:nix-community/home-manager/release-22.05;
+    #home-manager.url = github:nix-community/home-manager/release-22.05;
+    home-manager.url = github:elohmeier/home-manager/darwin-wip;
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = github:NixOS/nixos-hardware/master;
     flake-utils.url = github:numtide/flake-utils;
@@ -251,9 +252,6 @@
               packageOverrides = pkgOverrides pkgs;
             };
 
-            programs.direnv.enable = true;
-            programs.direnv.nix-direnv.enable = true;
-
             # services.syncthing.enable = true;
           };
         };
@@ -286,9 +284,6 @@
               allowUnfree = true;
               packageOverrides = pkgOverrides pkgs;
             };
-
-            programs.direnv.enable = true;
-            programs.direnv.nix-direnv.enable = true;
           };
         };
 
@@ -319,9 +314,6 @@
               allowUnfree = true;
               packageOverrides = pkgOverrides pkgs;
             };
-
-            programs.direnv.enable = true;
-            programs.direnv.nix-direnv.enable = true;
 
             services.syncthing.enable = true;
           };
@@ -356,49 +348,8 @@
 
             services.syncthing.enable = true;
 
-            programs.direnv.enable = true;
-            programs.direnv.nix-direnv.enable = true;
-
-            programs.zoxide.enable = true;
-
             home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
-
-            programs.fish = {
-              enable = true;
-              shellAliases = {
-                gapf = "git commit --amend --no-edit && git push --force";
-                gaapf = "git add . && git commit --amend --no-edit && git push --force";
-                grep = "grep --color";
-                ping6 = "ping -6";
-                telnet = "screen //telnet";
-                vim = "nvim";
-                vi = "nvim";
-                l = "exa -al";
-                la = "exa -al";
-                lg = "exa -al --git";
-                ll = "exa -l";
-                ls = "exa";
-                tree = "exa --tree";
-              };
-
-              shellAbbrs = {
-                "cd.." = "cd ..";
-
-                # git
-                ga = "git add";
-                "ga." = "git add .";
-                gc = "git commit";
-                gco = "git checkout";
-                gd = "git diff";
-                gf = "git fetch";
-                gl = "git log";
-                gs = "git status";
-                gp = "git pull";
-                gpp = "git push";
-
-                hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --override-input home-manager ${config.home.homeDirectory}/repos/home-manager";
-              };
-            };
+            programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --override-input home-manager ${config.home.homeDirectory}/repos/home-manager";
           };
         };
       };

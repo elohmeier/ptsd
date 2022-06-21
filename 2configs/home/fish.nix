@@ -1,23 +1,45 @@
 { config, lib, pkgs, ... }:
 
-let
-  babelfishTranslate = path: name:
-    pkgs.runCommand "${name}.fish"
-      {
-        nativeBuildInputs = [ pkgs.babelfish ];
-      } "${pkgs.babelfish}/bin/babelfish < ${path} > $out;";
-in
 {
-  # faster than hm default fenv sourcing
-  xdg.configFile."fish/config.fish".text =
-    let
-      hm-session-vars = pkgs.writeText "hm-session-vars.sh" ((config.lib.shell.exportAll config.home.sessionVariables) + "\n" + config.home.sessionVariablesExtra);
-    in
-    ''
-      if not set -q __fish_general_config_sourced
-        source ${babelfishTranslate hm-session-vars "hm-session-vars"} > /dev/null
-        set -g __fish_general_config_sourced 1
-      end
+  programs.fish = {
+    enable = true;
+    useBabelfish = true;
+
+    shellAliases = {
+      gapf = "git commit --amend --no-edit && git push --force";
+      gaapf = "git add . && git commit --amend --no-edit && git push --force";
+      grep = "grep --color";
+      ping6 = "ping -6";
+      telnet = "screen //telnet";
+      vim = "nvim";
+      vi = "nvim";
+      l = "exa -al";
+      la = "exa -al";
+      lg = "exa -al --git";
+      ll = "exa -l";
+      ls = "exa";
+      tree = "exa --tree";
+    };
+
+    shellAbbrs = {
+      br = "broot";
+      "cd.." = "cd ..";
+
+      # git
+      ga = "git add";
+      "ga." = "git add .";
+      gc = "git commit";
+      gco = "git checkout";
+      gd = "git diff";
+      gf = "git fetch";
+      gl = "git log";
+      gs = "git status";
+      gp = "git pull";
+      gpp = "git push";
+    };
+
+    interactiveShellInit = ''
+      set -U fish_greeting
     '' + lib.optionalString config.wayland.windowManager.sway.enable ''
       if status is-login
         if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
@@ -26,4 +48,10 @@ in
         end
       end
     '';
+  };
+
+  programs.zoxide.enable = true;
+
+  programs.direnv.enable = true;
+  programs.direnv.nix-direnv.enable = true;
 }

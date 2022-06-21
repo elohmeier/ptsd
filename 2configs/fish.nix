@@ -22,7 +22,6 @@ with lib;
     };
 
     shellAbbrs = {
-      "br" = "broot";
       "cd.." = "cd ..";
       vi = "vim";
 
