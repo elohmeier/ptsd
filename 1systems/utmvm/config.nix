@@ -49,7 +49,15 @@
         enable = true;
         user = "enno";
       };
-      xserverArgs = [ "-ardelay 200" "-arinterval 45" ];
+      xserverArgs = [
+        # keyboard repeat rate settings
+        "-ardelay 200"
+        "-arinterval 45"
+
+        # prevent alacritty crashing on too large windows
+        # see https://github.com/alacritty/alacritty/issues/3500
+        "-maxbigreqsize 127"
+      ];
     };
 
     layout = "de";
