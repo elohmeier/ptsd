@@ -157,6 +157,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     ${self.parted}/sbin/parted --script /dev/vda \
       mklabel gpt \
       mkpart "boot" fat32 1MiB 1000MiB \
+      set 1 esp on \
       mkpart "nix" xfs 1000MiB 100%
 
     ${self.dosfstools}/bin/mkfs.vfat -n boot /dev/vda1 || exit 1

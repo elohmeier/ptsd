@@ -20,8 +20,15 @@
   networking = {
     useDHCP = false;
     useNetworkd = true;
-    interfaces.enp0s6.useDHCP = true;
-    firewall.trustedInterfaces = [ "enp0s6" ];
+    firewall.enable = false;
+  };
+
+  systemd.network.networks."40-enp" = {
+    matchConfig.Name = "enp*";
+    networkConfig = {
+      DHCP = "yes";
+      IPv6PrivacyExtensions = "kernel";
+    };
   };
 
   services.resolved = {
