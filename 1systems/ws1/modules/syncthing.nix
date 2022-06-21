@@ -39,7 +39,7 @@
       "/home/enno/repos" = {
         label = "repos";
         id = "yqa69-2zjmt";
-        devices = [ "nas1" "mb4" ];
+        devices = [ "nas1" "mb4" "pine2" ];
         ignorePerms = false;
       };
       "/mnt/photos/photos" = {
@@ -57,7 +57,6 @@
         id = "3tf3k-nohyy";
         devices = [ "nas1" "mb4" ];
       };
-
       "/mnt/luisa/Bilder" = {
         label = "luisa/Bilder";
         id = "ugmai-ti6vl";
@@ -77,6 +76,11 @@
         label = "luisa/Scans";
         id = "dnryo-kz7io";
         devices = [ "mb3" "nas1" "mb4" ];
+      };
+      "/home/enno/ws1-stuff" = {
+        label = "ws1-stuff";
+        id = "tnh3w-qtavv";
+        devices = [ "nas1" "mb4" ];
       };
     };
   };

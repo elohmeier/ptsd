@@ -103,6 +103,18 @@ in
         id = "3tf3k-nohyy";
         devices = [ "ws1" "mb4" ];
       };
+
+      "/tank/enc/media" = {
+        label = "media";
+        id = "zfruo-ytfi2";
+        devices = [ "mb4" ];
+      };
+
+      "/tank/enc/roms" = {
+        label = "roms";
+        id = "avcjn-tyzyp";
+        devices = [ "mb4" ];
+      };
     };
   };
 
