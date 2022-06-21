@@ -2,9 +2,8 @@
 
 with lib;
 {
-  home.sessionVariables = {
-    PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
-  };
+  home.sessionVariables.PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
+  home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
 
   home.packages = with pkgs; [
 
@@ -18,6 +17,7 @@ with lib;
     home-manager
     httpserve
     jless
+    jq
     logseq-query
     macos-fix-filefoldernames
     ncdu
@@ -133,7 +133,6 @@ with lib;
     imagemagickBig
     inkscape
     iotop
-    jq
     keepassxc
     killall
     lftp
