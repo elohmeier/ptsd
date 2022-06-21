@@ -72,4 +72,6 @@ with lib;
     fzf
     zoxide
   ];
+
+  users.defaultUserShell = pkgs.fish;
 }

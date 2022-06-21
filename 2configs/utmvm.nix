@@ -3,7 +3,9 @@
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
-    ./config.nix
+    ./.
+    ./users/enno.nix
+    ./fish.nix
   ];
 
   boot = {
@@ -37,11 +39,18 @@
       device = "/dev/vda1";
       fsType = "vfat";
     };
-
-    #"/home/enno/repos" = {
-    #  device = "\\\\\\\\192.168.64.1\\\\repos";
-    #  fsType = "cifs";
-    #  options = [ "uid=1000" "gid=100" "credentials=/root/smbcredentials" ];
-    #};
   };
+
+  # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
+  boot.kernel.sysctl."fs.inotify.max_user_watches" = 204800;
+
+  environment.systemPackages = with pkgs;[
+    git
+    home-manager
+  ];
+
+  ptsd.secrets.enable = false;
+  ptsd.tailscale.enable = true;
+  services.spice-vdagentd.enable = true;
+  services.udisks2.enable = false;
 }

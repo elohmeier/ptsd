@@ -203,17 +203,42 @@
             ];
           };
 
+          mb4-nixos = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./2configs/utmvm.nix
+              ./2configs/utm-i3.nix
+              {
+                networking.hostName = "mb4-nixos";
+                system.stateVersion = "22.05";
+                virtualisation.docker = { enable = true; enableOnBoot = false; };
+              }
+            ];
+          };
+
           utmvm_x86 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
-              ./1systems/utmvm/physical.nix
+              ./2configs/utmvm.nix
+            ];
+          };
+
+          utmvm_i3_x86 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./2configs/utmvm.nix
+              ./2configs/utm-i3.nix
+              {
+                system.stateVersion = "22.05";
+                virtualisation.docker = { enable = true; enableOnBoot = false; };
+              }
             ];
           };
 
           utmvm = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [
-              ./1systems/utmvm/physical.nix
+              ./2configs/utmvm.nix
             ];
           };
 
