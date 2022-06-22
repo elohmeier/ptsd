@@ -272,7 +272,6 @@
               imports = desktopImports ++ [
                 ./2configs/home/foot.nix
                 ./2configs/home/gpg.nix
-                ./2configs/home/logseq-sync-git.nix
                 ./2configs/home/sway.nix
               ];
 
