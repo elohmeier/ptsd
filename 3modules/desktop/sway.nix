@@ -112,43 +112,8 @@ in
                 ]);
               };
             };
-
-          extraConfig = ''
-            set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
-          '';
         };
 
-        # notfication daemon
-        programs.mako = {
-          enable = true;
-          font = "${cfg.fontSans} ${toString cfg.fontSize}";
-          defaultTimeout = 3;
-        };
-
-        # OSD
-        systemd.user.services.wob = {
-          Unit = {
-            Description = "Overlay bar for Wayland";
-            Documentation = "man:wob(1)";
-            PartOf = [ "graphical-session.target" ];
-            After = [ "graphical-session.target" ];
-            ConditionEnvironment = "WAYLAND_DISPLAY";
-          };
-
-          Service = {
-            StandardInput = "socket";
-            ExecStart = "${pkgs.wob}/bin/wob --anchor bottom --anchor right --margin 50";
-          };
-          Install = { WantedBy = [ "graphical-session.target" ]; };
-        };
-
-        systemd.user.sockets.wob = {
-          Socket = {
-            ListenFIFO = "%t/wob.sock";
-            SocketMode = "0600";
-          };
-          Install = { WantedBy = [ "sockets.target" ]; };
-        };
 
         # TODO: add wayland-instance@.target setup
         # to fix wayland-1.sock assumption issue

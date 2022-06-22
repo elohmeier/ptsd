@@ -44,6 +44,22 @@
       keybindings = import ./i3sway/keybindings.nix { inherit config lib pkgs; };
       modes = import ./i3sway/modes.nix { inherit lib pkgs; };
 
+      window = {
+        commands = [
+          {
+            criteria.title = "Firefox — Sharing Indicator";
+            command = "kill";
+          }
+          {
+            criteria.app_id = "term.floating";
+            command = "floating enable";
+          }
+        ];
+        hideEdgeBorders = "smart";
+      };
+
+      seat."*".xcursor_theme = "Adwaita 16";
+
       colors = with config.ptsd.style.colors; {
         focused = {
           border = base05;
@@ -83,5 +99,57 @@
         background = base07;
       };
     };
+
+    extraConfig = ''
+      set $WOBSOCK $XDG_RUNTIME_DIR/wob.sock
+    '';
+  };
+
+  # notfication daemon
+  programs.mako = with config.ptsd.style.colorsHex; {
+    enable = true;
+    font = "SauceCodePro Nerd Font 18";
+    defaultTimeout = 3000;
+    backgroundColor = base00;
+    textColor = base05;
+    borderColor = base0D;
+
+    extraConfig = lib.generators.toINI { } {
+      "urgency=low" = {
+        background-color = base00;
+        text-color = base0A;
+        border-color = base0D;
+      };
+      "urgency=high" = {
+        background-color = base00;
+        text-color = base08;
+        border-color = base0D;
+      };
+    };
+  };
+
+  # OSD
+  systemd.user.services.wob = {
+    Unit = {
+      Description = "Overlay bar for Wayland";
+      Documentation = "man:wob(1)";
+      PartOf = [ "graphical-session.target" ];
+      After = [ "graphical-session.target" ];
+      ConditionEnvironment = "WAYLAND_DISPLAY";
+    };
+
+    Service = {
+      StandardInput = "socket";
+      ExecStart = "${pkgs.wob}/bin/wob --anchor bottom --anchor right --margin 50";
+    };
+    Install = { WantedBy = [ "graphical-session.target" ]; };
+  };
+
+  systemd.user.sockets.wob = {
+    Socket = {
+      ListenFIFO = "%t/wob.sock";
+      SocketMode = "0600";
+    };
+    Install = { WantedBy = [ "sockets.target" ]; };
   };
 }
