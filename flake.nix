@@ -244,139 +244,115 @@
 
         };
 
-      homeConfigurations = {
+      homeConfigurations =
+        let
+          desktopImports = [
+            ./2configs/home
+            ./2configs/home/firefox.nix
+            ./2configs/home/fish.nix
+            ./2configs/home/fonts.nix
+            ./2configs/home/git.nix
+            ./2configs/home/i3status.nix
+            ./2configs/home/neovim.nix
+            ./2configs/home/packages.nix
+            ./2configs/home/ssh.nix
+            ./2configs/home/xdg.nix
+          ];
+        in
+        {
 
-        sway_x86 = home-manager.lib.homeManagerConfiguration {
-          system = "x86_64-linux";
-          username = "enno";
-          homeDirectory = "/home/enno";
-          stateVersion = "22.05";
+          sway_x86 = home-manager.lib.homeManagerConfiguration {
+            system = "x86_64-linux";
+            username = "enno";
+            homeDirectory = "/home/enno";
+            stateVersion = "22.05";
 
-          configuration = { config, lib, pkgs, ... }: {
+            configuration = { config, lib, pkgs, ... }: {
 
-            imports = [
-              ./2configs/home
-              ./2configs/home/alacritty.nix
-              ./2configs/home/firefox.nix
-              ./2configs/home/fish.nix
-              ./2configs/home/fonts.nix
-              ./2configs/home/foot.nix
-              ./2configs/home/git.nix
-              ./2configs/home/i3status.nix
-              ./2configs/home/gpg.nix
-              ./2configs/home/logseq-sync-git.nix
-              ./2configs/home/neovim.nix
-              ./2configs/home/packages.nix
-              ./2configs/home/ssh.nix
-              ./2configs/home/sway.nix
-              ./2configs/home/xdg.nix
-            ];
+              imports = desktopImports ++ [
+                ./2configs/home/foot.nix
+                ./2configs/home/gpg.nix
+                ./2configs/home/logseq-sync-git.nix
+                ./2configs/home/sway.nix
+              ];
 
-            nixpkgs.config = {
-              allowUnfree = true;
-              packageOverrides = pkgOverrides pkgs;
-            };
+              nixpkgs.config = {
+                allowUnfree = true;
+                packageOverrides = pkgOverrides pkgs;
+              };
 
-            # services.syncthing.enable = true;
-          };
-        };
-
-        sway_pine2 = home-manager.lib.homeManagerConfiguration {
-          system = "aarch64-linux";
-          username = "enno";
-          homeDirectory = "/home/enno";
-          stateVersion = "21.11";
-
-          configuration = { config, lib, pkgs, ... }: {
-
-            imports = [
-              ./2configs/home
-              ./2configs/home/firefox.nix
-              ./2configs/home/fish.nix
-              ./2configs/home/fonts.nix
-              ./2configs/home/foot.nix
-              ./2configs/home/git.nix
-              ./2configs/home/i3status.nix
-              ./2configs/home/gpg.nix
-              ./2configs/home/neovim.nix
-              ./2configs/home/packages.nix
-              ./2configs/home/ssh.nix
-              ./2configs/home/sway.nix
-              ./2configs/home/xdg.nix
-            ];
-
-            nixpkgs.config = {
-              allowUnfree = true;
-              packageOverrides = pkgOverrides pkgs;
+              # services.syncthing.enable = true;
             };
           };
-        };
 
-        i3 = home-manager.lib.homeManagerConfiguration {
-          system = "aarch64-linux";
-          username = "enno";
-          homeDirectory = "/home/enno";
-          stateVersion = "22.05";
+          sway_pine2 = home-manager.lib.homeManagerConfiguration {
+            system = "aarch64-linux";
+            username = "enno";
+            homeDirectory = "/home/enno";
+            stateVersion = "21.11";
 
-          configuration = { config, lib, pkgs, ... }: {
+            configuration = { config, lib, pkgs, ... }: {
 
-            imports = [
-              ./2configs/home
-              ./2configs/home/alacritty.nix
-              ./2configs/home/firefox.nix
-              ./2configs/home/fish.nix
-              ./2configs/home/fonts.nix
-              ./2configs/home/git.nix
-              ./2configs/home/i3.nix
-              ./2configs/home/i3status.nix
-              ./2configs/home/neovim.nix
-              ./2configs/home/packages.nix
-              ./2configs/home/ssh.nix
-              ./2configs/home/xdg.nix
-            ];
+              imports = desktopImports ++ [
+                ./2configs/home/foot.nix
+                ./2configs/home/gpg.nix
+                ./2configs/home/sway.nix
+              ];
 
-            nixpkgs.config = {
-              allowUnfree = true;
-              packageOverrides = pkgOverrides pkgs;
+              nixpkgs.config = {
+                allowUnfree = true;
+                packageOverrides = pkgOverrides pkgs;
+              };
             };
+          };
 
-            services.syncthing.enable = true;
+          i3 = home-manager.lib.homeManagerConfiguration {
+            system = "aarch64-linux";
+            username = "enno";
+            homeDirectory = "/home/enno";
+            stateVersion = "22.05";
+
+            configuration = { config, lib, pkgs, ... }: {
+
+              imports = desktopImports ++ [
+                ./2configs/home/alacritty.nix
+                ./2configs/home/i3.nix
+              ];
+
+              nixpkgs.config = {
+                allowUnfree = true;
+                packageOverrides = pkgOverrides pkgs;
+              };
+
+              services.syncthing.enable = true;
+            };
+          };
+
+          macos-enno = home-manager.lib.homeManagerConfiguration {
+            system = "aarch64-darwin";
+            username = "enno";
+            homeDirectory = "/Users/enno";
+            stateVersion = "21.11";
+
+            configuration = { config, lib, pkgs, ... }: {
+              imports = desktopImports ++ [
+                ./2configs/home/alacritty.nix
+                ./2configs/home/darwin-defaults.nix
+                ./2configs/home/email.nix
+                ./2configs/home/gpg.nix
+              ];
+
+              nixpkgs.config = {
+                allowUnfree = true;
+                packageOverrides = pkgOverrides pkgs;
+              };
+
+              services.syncthing.enable = true;
+
+              home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
+              programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --override-input home-manager ${config.home.homeDirectory}/repos/home-manager";
+            };
           };
         };
-
-        macos-enno = home-manager.lib.homeManagerConfiguration {
-          system = "aarch64-darwin";
-          username = "enno";
-          homeDirectory = "/Users/enno";
-          stateVersion = "21.11";
-
-          configuration = { config, lib, pkgs, ... }: {
-            imports = [
-              ./2configs/home
-              ./2configs/home/alacritty.nix
-              ./2configs/home/darwin-defaults.nix
-              ./2configs/home/email.nix
-              ./2configs/home/firefox.nix
-              ./2configs/home/fish.nix
-              ./2configs/home/fonts.nix
-              ./2configs/home/git.nix
-              ./2configs/home/gpg.nix
-              ./2configs/home/neovim.nix
-              ./2configs/home/packages.nix
-              ./2configs/home/ssh.nix
-            ];
-
-            nixpkgs.config = {
-              allowUnfree = true;
-              packageOverrides = pkgOverrides pkgs;
-            };
-
-            services.syncthing.enable = true;
-
-            home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
-            programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --override-input home-manager ${config.home.homeDirectory}/repos/home-manager";
-          };
-        };
-      };
     };
 }
