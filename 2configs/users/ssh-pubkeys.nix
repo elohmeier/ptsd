@@ -26,11 +26,4 @@ rec {
     enno_yubi49
     iph3_terminus
   ];
-
-  # git_enno = with sshPub; [
-  #   enno_mb4
-  #   enno_yubi41
-  #   enno_yubi49
-  #   iph3_workingcopy
-  # ];
 }
