@@ -137,7 +137,7 @@ in
       git config --global user.email "logseq-sync-git@nas1"
       git config --global user.name "logseq-sync-git@nas1"
       git add .
-      git commit -m "autoupdate"
+      git commit -m "autoupdate" || true
       git pull --rebase=merges
       git push origin main
     '';
