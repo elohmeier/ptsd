@@ -19,7 +19,7 @@ in
     enable = true;
     paths = [
       "/var/lib/drone-server"
-      "/var/lib/gitea"
+      "/var/lib/gitolite"
       "/var/lib/postgresql"
       "/var/lib/wdplaner"
       "/var/lib/wdplaner-bak-20190620"
