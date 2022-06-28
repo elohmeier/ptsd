@@ -60,4 +60,6 @@
   ptsd.tailscale.enable = true;
   services.spice-vdagentd.enable = true;
   services.udisks2.enable = false;
+
+  security.sudo.wheelNeedsPassword = false;
 }
