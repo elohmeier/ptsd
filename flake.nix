@@ -252,6 +252,7 @@
             ./2configs/home/fish.nix
             ./2configs/home/fonts.nix
             ./2configs/home/git.nix
+            ./2configs/home/gpg.nix
             ./2configs/home/i3status.nix
             ./2configs/home/neovim.nix
             ./2configs/home/packages.nix
@@ -271,7 +272,6 @@
 
               imports = desktopImports ++ [
                 ./2configs/home/foot.nix
-                ./2configs/home/gpg.nix
                 ./2configs/home/sway.nix
               ];
 
@@ -294,7 +294,6 @@
 
               imports = desktopImports ++ [
                 ./2configs/home/foot.nix
-                ./2configs/home/gpg.nix
                 ./2configs/home/sway.nix
               ];
 
@@ -338,7 +337,6 @@
                 ./2configs/home/alacritty.nix
                 ./2configs/home/darwin-defaults.nix
                 ./2configs/home/email.nix
-                ./2configs/home/gpg.nix
               ];
 
               nixpkgs.config = {
