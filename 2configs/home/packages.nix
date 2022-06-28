@@ -26,8 +26,10 @@ with lib;
     nixpkgs-fmt
     node2nix
     pass
+    poppler_utils
     ptsd-nnn
     ripgrep
+    sxiv
     tabula-java
     tig
     tmux
@@ -37,7 +39,8 @@ with lib;
     zellij
 
     (ptsd-python3.withPackages (
-      pythonPackages: with pythonPackages; [
+      pythonPackages: with pythonPackages;
+      [
 
         # TODO: add packages working on darwin
 
@@ -159,7 +162,9 @@ with lib;
     pdf2svg
     pdfconcat
     pdfduplex
-    (pdftk.override { jre = openjdk11; })
+    (pdftk.override {
+      jre = openjdk11;
+    })
     ptsd-ffmpeg
     ptsd-nnn
     ptsd-vscode
