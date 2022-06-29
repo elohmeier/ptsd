@@ -15,7 +15,7 @@ with lib;
       nr = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\"";
 
       # useful to just apply config changes w/o updating packages, e.g. on the go
-      nrx = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\" --override-input nixpkgs github:NixOS/nixpkgs/${config.system.nixos.revision}";
+      #nrx = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\" --override-input nixpkgs github:NixOS/nixpkgs/${config.system.nixos.revision}";
 
       vim = "nvim";
       vi = "nvim";
