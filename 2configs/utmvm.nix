@@ -62,4 +62,5 @@
   services.udisks2.enable = false;
 
   security.sudo.wheelNeedsPassword = false;
+  nix.trustedUsers = [ "root" "@wheel" ];
 }
