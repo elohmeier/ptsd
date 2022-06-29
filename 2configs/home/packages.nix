@@ -2,7 +2,10 @@
 
 with lib;
 {
-  home.sessionVariables.PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
+  home.sessionVariables = {
+    NIXPKGS_ALLOW_UNFREE = 1;
+    PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
+  };
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
 
   home.packages = with pkgs; [
@@ -22,9 +25,13 @@ with lib;
     macos-fix-filefoldernames
     ncdu
     neovim
+    nix-tree
     nixos-generators
     nixpkgs-fmt
+    nixpkgs-fmt
+    nmap
     node2nix
+    nodePackages.prettier
     pass
     poppler_utils
     ptsd-nnn
@@ -32,6 +39,8 @@ with lib;
     tabula-java
     tig
     tmux
+    unrar
+    unzip
     watch
     zathura
     zellij
@@ -40,43 +49,43 @@ with lib;
       pythonPackages: with pythonPackages;
       [
 
-        # TODO: add packages working on darwin
+        XlsxWriter
+        faker
+        hocr-tools
+        holidays
+        isort
+        lxml
+        mypy
+        pandas
+        psycopg2
+        pycrypto
+        pylint
+        pytest
+        pyxlsb
+        requests
+        sqlalchemy
+        tabulate
 
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         #beancount
         #nobbofin
-        XlsxWriter
         authlib
         beautifulsoup4
         black
         boto3
-        faker
-        holidays
         i3ipc
         impacket
-        isort
         jupyterlab
         keyring
-        lxml
-        mypy
         mysql-connector
         nbconvert
         netifaces
-        pandas
         paramiko
         pdfminer
         pillow
-        psycopg2
-        pycrypto
-        pylint
         pyodbc
-        pytest
-        pyxlsb
-        requests
         selenium
-        sqlalchemy
         sshtunnel
-        tabulate
         weasyprint
       ]
     ))
@@ -92,19 +101,17 @@ with lib;
     #art
     #calibre
     #cura
-    sxiv
     #freecad
+    (pdftk.override { jre = openjdk11; })
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
     asciinema
     aspell
-    pgmodeler
     aspellDicts.de
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
     awscli2
-    bat
     bc
     bubblewrap
     cachix
@@ -147,11 +154,6 @@ with lib;
     nix-index
     nix-prefetch-git
     nix-top
-    nix-tree
-    nixpkgs-fmt
-    nixpkgs-fmt
-    nmap
-    nodePackages.prettier
     nwvpn-qr
     openssl
     openvpn
@@ -161,11 +163,8 @@ with lib;
     pdf2svg
     pdfconcat
     pdfduplex
-    (pdftk.override {
-      jre = openjdk11;
-    })
+    pgmodeler
     ptsd-ffmpeg
-    ptsd-nnn
     ptsd-vscode
     pwgen
     qrencode
@@ -182,14 +181,12 @@ with lib;
     sqlfluff
     sqlitebrowser
     sshfs
+    sxiv
     sylpheed
     syncthing
     syncthing-device-id
-    tig
     tmuxinator
     transmission-gtk
-    unrar
-    unzip
     usbutils
     vlc
     wf-recorder
