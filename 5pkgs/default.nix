@@ -82,12 +82,10 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
-      black = super.black.overrideAttrs (old: {
-        # support reformatting ipynb files
-        propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ];
-      });
+      black = super.black.overrideAttrs (old: { propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ]; }); # support reformatting ipynb files
       davphonebook = self.callPackage ../5pkgs/davphonebook { };
       finance-dl = self.callPackage ../5pkgs/finance-dl { };
+      hocr-tools = self.callPackage ./hocr-tools { };
       icloudpd = self.callPackage ../5pkgs/icloudpd { };
       neo4j-driver = self.callPackage ../5pkgs/neo4j-driver { };
       nobbofin = self.callPackage ../5pkgs/nobbofin { };
