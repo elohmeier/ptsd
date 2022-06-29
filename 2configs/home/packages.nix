@@ -29,13 +29,11 @@ with lib;
     poppler_utils
     ptsd-nnn
     ripgrep
-    sxiv
     tabula-java
     tig
     tmux
     watch
     zathura
-    zellij
     zellij
 
     (ptsd-python3.withPackages (
@@ -94,6 +92,7 @@ with lib;
     #art
     #calibre
     #cura
+    sxiv
     #freecad
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
