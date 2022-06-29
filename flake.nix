@@ -253,11 +253,9 @@
             ./2configs/home/fonts.nix
             ./2configs/home/git.nix
             ./2configs/home/gpg.nix
-            ./2configs/home/i3status.nix
             ./2configs/home/neovim.nix
             ./2configs/home/packages.nix
             ./2configs/home/ssh.nix
-            ./2configs/home/xdg.nix
           ];
         in
         {
@@ -272,7 +270,9 @@
 
               imports = desktopImports ++ [
                 ./2configs/home/foot.nix
+                ./2configs/home/i3status.nix
                 ./2configs/home/sway.nix
+                ./2configs/home/xdg.nix
               ];
 
               nixpkgs.config = {
@@ -294,7 +294,9 @@
 
               imports = desktopImports ++ [
                 ./2configs/home/foot.nix
+                ./2configs/home/i3status.nix
                 ./2configs/home/sway.nix
+                ./2configs/home/xdg.nix
               ];
 
               nixpkgs.config = {
@@ -315,6 +317,8 @@
               imports = desktopImports ++ [
                 ./2configs/home/alacritty.nix
                 ./2configs/home/i3.nix
+                ./2configs/home/i3status.nix
+                ./2configs/home/xdg.nix
               ];
 
               nixpkgs.config = {
