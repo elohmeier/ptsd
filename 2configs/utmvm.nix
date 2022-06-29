@@ -10,11 +10,6 @@
 
   boot = {
     initrd.availableKernelModules = [ "xhci_pci" "virtio_pci" "usbhid" "usb_storage" "sr_mod" ];
-    loader = {
-      systemd-boot.enable = true;
-      efi.canTouchEfiVariables = true;
-    };
-    supportedFilesystems = [ "cifs" ];
   };
 
   networking = {
@@ -36,18 +31,6 @@
     dnssec = "false";
   };
 
-  fileSystems = {
-    "/" = {
-      device = "/dev/vda2";
-      fsType = "xfs";
-    };
-
-    "/boot" = {
-      device = "/dev/vda1";
-      fsType = "vfat";
-    };
-  };
-
   # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 204800;
 
@@ -60,7 +43,6 @@
   ptsd.tailscale.enable = true;
   services.spice-vdagentd.enable = true;
   services.udisks2.enable = false;
-
   security.sudo.wheelNeedsPassword = false;
   nix.trustedUsers = [ "root" "@wheel" ];
 }
