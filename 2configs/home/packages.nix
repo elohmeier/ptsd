@@ -23,6 +23,7 @@ with lib;
     imagemagickBig
     jless
     jq
+    libfaketime
     logseq-query
     macos-fix-filefoldernames
     ncdu
@@ -149,7 +150,6 @@ with lib;
     keepassxc
     killall
     lftp
-    libfaketime
     libreoffice-fresh
     mkpasswd
     mumble
