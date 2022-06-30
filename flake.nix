@@ -260,10 +260,11 @@
                 home-manager.useGlobalPkgs = true;
                 home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }:
                   {
+                    home.stateVersion = "22.05";
                     imports = [
                       ./2configs/home
                       ./2configs/home/alacritty.nix
-                      #./2configs/home/firefox.nix
+                      ./2configs/home/firefox.nix
                       ./2configs/home/fish.nix
                       ./2configs/home/fonts.nix
                       ./2configs/home/git.nix
@@ -279,6 +280,7 @@
                       allowUnfree = true;
                       packageOverrides = pkgOverrides pkgs;
                     };
+                    services.syncthing.enable = true;
                   };
               })
             ];
