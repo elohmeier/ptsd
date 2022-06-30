@@ -1,7 +1,7 @@
 { lib
 , pkgs
 , modifier ? "Mod1"
-, exit_mode ? "exit: [l]ogout, [r]eboot, reboot-[w]indows, reboot-to-[e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end"
+, exit_mode ? "exit: [l]ogout, [r]eboot, [e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end"
 , i3compat ? false
 }:
 
@@ -19,7 +19,7 @@
       ''exec ${script}; mode "default"'';
     "l" = if i3compat then ''exec i3-msg exit; mode "default"'' else ''exec swaymsg exit; mode "default"'';
     "r" = ''exec systemctl reboot; mode "default"'';
-    "w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';
+    #"w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';
     "s" = ''exec systemctl poweroff; mode "default"'';
     "u" = ''exec systemctl suspend-then-hibernate; mode "default"'';
     "p" = ''exec systemctl suspend; mode "default"'';

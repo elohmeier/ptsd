@@ -7,7 +7,7 @@
 , termExec ? prog: dir: "${pkgs.foot}/bin/foot${if dir != "" then " --working-directory=\"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}"
 , lockCmd ? "${pkgs.swaylock}/bin/swaylock --color 000000 -f"
 , cwdCmd ? "${pkgs.swaycwd}/bin/swaycwd"
-, exit_mode ? "exit: [l]ogout, [r]eboot, reboot-[w]indows, reboot-to-[e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end"
+, exit_mode ? "exit: [l]ogout, [r]eboot, [e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end"
 , enableAudio ? false
 }:
 
@@ -29,10 +29,6 @@ in
   "${modifier}+j" = "focus down";
   "${modifier}+k" = "focus up";
   "${modifier}+l" = "focus right";
-  "${modifier}+Left" = "focus left";
-  "${modifier}+Down" = "focus down";
-  "${modifier}+Up" = "focus up";
-  "${modifier}+Right" = "focus right";
   "${modifier}+g" = "focus next";
   "${modifier}+Shift+g" = "focus prev";
 
@@ -46,10 +42,6 @@ in
   "${modifier}+Shift+j" = "move down";
   "${modifier}+Shift+k" = "move up";
   "${modifier}+Shift+l" = "move right";
-  "${modifier}+Shift+Left" = "move left";
-  "${modifier}+Shift+Down" = "move down";
-  "${modifier}+Shift+Up" = "move up";
-  "${modifier}+Shift+Right" = "move right";
 
   "${modifier}+f" = "fullscreen toggle";
 
@@ -100,8 +92,6 @@ in
 
   "${modifier}+Control+${modOther}+h" = "move container to workspace prev_on_output";
   "${modifier}+Control+${modOther}+l" = "move container to workspace next_on_output";
-  "${modifier}+Control+${modOther}+Left" = "move container to workspace prev_on_output";
-  "${modifier}+Control+${modOther}+Right" = "move container to workspace next_on_output";
 
   "${modifier}+Shift+r" = "reload";
 
