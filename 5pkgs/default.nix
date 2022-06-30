@@ -104,6 +104,11 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   ptsd-nnn = (self.nnn.overrideAttrs (old: {
     makeFlags = old.makeFlags ++ [ "O_GITSTATUS=1" ];
+
+    # fix for darwin, nnn assumes homebrew gsed
+    patchPhase = ''
+      substituteInPlace src/nnn.c --replace '#define SED "gsed"' '#define SED "${self.gnused}/bin/sed"'
+    '';
   })).override
     { withNerdIcons = true; };
 
