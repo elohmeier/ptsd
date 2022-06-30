@@ -358,6 +358,24 @@
               programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
             };
           };
+
+          macos-luisa = home-manager.lib.homeManagerConfiguration {
+            system = "aarch64-darwin";
+            username = "luisa";
+            homeDirectory = "/Users/luisa";
+            stateVersion = "22.05";
+
+            configuration = { config, lib, pkgs, ... }: {
+              nixpkgs.config = {
+                allowUnfree = true;
+                packageOverrides = pkgOverrides pkgs;
+              };
+
+              home.packages = with pkgs;[ home-manager git ];
+
+              services.syncthing.enable = true;
+            };
+          };
         };
     };
 }
