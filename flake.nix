@@ -246,6 +246,43 @@
             ];
           };
 
+          utmvm_qemu = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./2configs/utmvm.nix
+              ./2configs/utm-i3.nix
+              ./2configs/qcow-efi.nix
+              home-manager.nixosModule
+              ({ config, lib, modulesPath, pkgs, ... }: {
+                system.stateVersion = "22.05";
+                virtualisation.docker = { enable = true; enableOnBoot = false; };
+
+                home-manager.useGlobalPkgs = true;
+                home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }:
+                  {
+                    imports = [
+                      ./2configs/home
+                      ./2configs/home/alacritty.nix
+                      #./2configs/home/firefox.nix
+                      ./2configs/home/fish.nix
+                      ./2configs/home/fonts.nix
+                      ./2configs/home/git.nix
+                      ./2configs/home/gpg.nix
+                      ./2configs/home/i3.nix
+                      ./2configs/home/i3status.nix
+                      ./2configs/home/neovim.nix
+                      ./2configs/home/packages.nix
+                      ./2configs/home/ssh.nix
+                      ./2configs/home/xdg.nix
+                    ];
+                    nixpkgs.config = {
+                      allowUnfree = true;
+                      packageOverrides = pkgOverrides pkgs;
+                    };
+                  };
+              })
+            ];
+          };
         };
 
       homeConfigurations =
