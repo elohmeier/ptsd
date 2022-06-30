@@ -17,8 +17,10 @@ with lib;
     exiftool
     fd
     fzf
+    google-cloud-sdk
     home-manager
     httpserve
+    imagemagickBig
     jless
     jq
     logseq-query
@@ -53,8 +55,10 @@ with lib;
         faker
         hocr-tools
         holidays
+        ipython
         isort
         lxml
+        matplotlib
         mypy
         pandas
         psycopg2
@@ -63,6 +67,7 @@ with lib;
         pytest
         pyxlsb
         requests
+        scikit-learn
         sqlalchemy
         tabulate
 
@@ -139,7 +144,6 @@ with lib;
     hunspellDicts.en-us-large
     hydra-check
     iftop
-    imagemagickBig
     inkscape
     iotop
     keepassxc
