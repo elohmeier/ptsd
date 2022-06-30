@@ -45,4 +45,22 @@
   services.udisks2.enable = false;
   security.sudo.wheelNeedsPassword = false;
   nix.trustedUsers = [ "root" "@wheel" ];
+
+  services.samba = {
+    enable = true;
+    securityType = "user";
+    extraConfig = ''
+      workgroup = WORKGROUP
+      server string = ${config.networking.hostName}
+      netbios name = ${config.networking.hostName}
+    '';
+    shares = {
+      home = {
+        path = "/home/enno";
+        browseable = "yes";
+        "read only" = "no";
+        "guest ok" = "no";
+      };
+    };
+  };
 }
