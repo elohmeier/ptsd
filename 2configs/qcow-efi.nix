@@ -28,6 +28,7 @@
     inherit lib config pkgs;
     partitionTableType = "efi";
     diskSize = "auto";
+    additionalSpace = "30G";
     format = "qcow2";
   };
 }
