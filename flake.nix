@@ -355,7 +355,7 @@
               services.syncthing.enable = true;
 
               home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
-              programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --override-input home-manager ${config.home.homeDirectory}/repos/home-manager";
+              programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
             };
           };
         };
