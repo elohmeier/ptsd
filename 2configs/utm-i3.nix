@@ -29,6 +29,7 @@
       ];
     };
     layout = "de";
+    xkbVariant = "mac";
     windowManager.i3.enable = true;
     libinput = {
       enable = true;
