@@ -83,15 +83,15 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   ptsd-python3 = self.python3.override {
     packageOverrides = self: super: rec {
       black = super.black.overrideAttrs (old: { propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ]; }); # support reformatting ipynb files
-      davphonebook = self.callPackage ../5pkgs/davphonebook { };
-      finance-dl = self.callPackage ../5pkgs/finance-dl { };
+      davphonebook = self.callPackage ./davphonebook { };
+      finance-dl = self.callPackage ./finance-dl { };
       hocr-tools = self.callPackage ./hocr-tools { };
-      icloudpd = self.callPackage ../5pkgs/icloudpd { };
-      neo4j-driver = self.callPackage ../5pkgs/neo4j-driver { };
-      nobbofin = self.callPackage ../5pkgs/nobbofin { };
-      postgrest-py = self.callPackage ../5pkgs/postgrest-py { };
-      pyxlsb = self.callPackage ../5pkgs/pyxlsb { };
-      selenium-requests = self.callPackage ../5pkgs/selenium-requests { };
+      icloudpd = self.callPackage ./icloudpd { };
+      neo4j-driver = self.callPackage ./neo4j-driver { };
+      nobbofin = self.callPackage ./nobbofin { };
+      postgrest-py = self.callPackage ./postgrest-py { };
+      pyxlsb = self.callPackage ./pyxlsb { };
+      selenium-requests = self.callPackage ./selenium-requests { };
       vidcutter = self.callPackage ./vidcutter { };
     };
   };
