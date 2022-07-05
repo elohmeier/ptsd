@@ -18,6 +18,7 @@ with lib;
     fd
     fzf
     google-cloud-sdk
+    hcloud
     home-manager
     httpserve
     imagemagickBig
@@ -137,7 +138,6 @@ with lib;
     gomuks
     gptfdisk
     hash-slinger # tlsa
-    hcloud
     home-assistant-cli
     httpie
     hunspellDicts.de-de
