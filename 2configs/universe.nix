@@ -213,6 +213,7 @@
         bs53lan = {
           ip4.addr = "192.168.178.37"; # ip hardcoded for scan-to-ftp on prt1, remember to update as well
         };
+        tailscale.ip4.addr = "100.101.207.64";
       };
       ssh.privkey.path = <secrets/ssh.id_ed25519>;
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPzSELiOpE3nCNPSeylax/W3UfXbzSBVQ3mqjHBz/yPy ";

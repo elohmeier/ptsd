@@ -160,12 +160,13 @@ in
           "/var/lib/octoprint/timelapse"
           "/var/lib/prometheus2"
           "/var/lib/syncthing"
+          "/var/lib/gitolite/.gitolite"
         ];
         type = with types; listOf str;
       };
       repos = mkOption {
         default = {
-          nas1 = "borg-${config.networking.hostName}@nas1.pug-coho.ts.net:.";
+          nas1 = "borg-${config.networking.hostName}@100.101.207.64:."; # nas1
         };
         type = with types; attrsOf str;
       };
@@ -182,7 +183,7 @@ in
     #systemd.services = mapAttrs' mkInitRepoService cfg.repos;
 
     environment.variables = {
-      BORG_REPO = "borg-${config.networking.hostName}@nas1.pug-coho.ts.net:.";
+      BORG_REPO = "borg-${config.networking.hostName}@100.101.207.64:."; # nas1
       BORG_PASSCOMMAND = cfg.passCommand;
       BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
     } // optionalAttrs (cfg.cacheDir != null) {
@@ -195,13 +196,5 @@ in
         mode = "0444";
       };
     };
-
-    # TODO: prometheus-migrate
-    # ptsd.nwtelegraf.inputs.file = [
-    #   {
-    #     files = [ "/var/log/borg_backup_*.iql" ];
-    #     data_format = "influx";
-    #   }
-    # ];
   };
 }
