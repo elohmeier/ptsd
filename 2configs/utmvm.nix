@@ -9,6 +9,7 @@
   ];
 
   boot = {
+    binfmt.emulatedSystems = [ "x86_64-linux" ];
     initrd.availableKernelModules = [ "xhci_pci" "virtio_pci" "usbhid" "usb_storage" "sr_mod" ];
     tmpOnTmpfs = true;
   };
@@ -36,6 +37,7 @@
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 204800;
 
   environment.systemPackages = with pkgs;[
+    cryptsetup
     git
     home-manager
   ];
