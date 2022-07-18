@@ -4,7 +4,6 @@ creates a new workspace on the focused output using the next free workspace numb
 
 import i3ipc
 
-
 if __name__ == "__main__":
     ipc = i3ipc.Connection()
 

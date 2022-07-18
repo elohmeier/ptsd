@@ -29,20 +29,19 @@
 #   USA.
 #
 
+import argparse
 import getpass
 import hashlib
 import imaplib
 import os
-import argparse
 import re
 import socket
 import sys
-from typing import List, Dict, Tuple, Optional, Type, Any
-
-from email.parser import BytesParser
-from email.message import Message
 from email.errors import HeaderParseError
 from email.header import decode_header
+from email.message import Message
+from email.parser import BytesParser
+from typing import Any, Dict, List, Optional, Tuple, Type
 
 # Increase the max line length that imaplib expects to get back from the server,
 # since we're often dealing with big folders and large numbers of messages.

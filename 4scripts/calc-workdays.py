@@ -2,10 +2,11 @@
 #! nix-shell -i python3 -p python3Packages.dateutil -p python3Packages.holidays
 
 import argparse
+
 import holidays
-from dateutil.relativedelta import relativedelta
-from dateutil.rrule import rrule, DAILY
 from dateutil.parser import isoparse
+from dateutil.relativedelta import relativedelta
+from dateutil.rrule import DAILY, rrule
 
 parser = argparse.ArgumentParser()
 parser.add_argument("dtstart")

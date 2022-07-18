@@ -2,11 +2,12 @@
 #!nix-shell -i python2 -p python2
 
 from __future__ import print_function
+
+import argparse
+import math
+import re
 import subprocess
 import sys
-import re
-import math
-import argparse
 
 args = None
 
