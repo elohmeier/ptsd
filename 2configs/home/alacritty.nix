@@ -6,6 +6,10 @@
 
     settings = {
 
+      env = lib.optionalAttrs pkgs.stdenv.isLinux {
+        WINIT_X11_SCALE_FACTOR = "1.0";
+      };
+
       font.normal.family = if pkgs.stdenv.isDarwin then "SauceCodePro Nerd Font" else "Spleen";
       font.size = lib.mkIf pkgs.stdenv.isLinux 18.0;
 
