@@ -395,6 +395,17 @@
 
               home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
               programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
+
+              launchd.agents.cleanup-downloads = {
+                enable = true;
+                config = {
+                  Program = toString (pkgs.writeShellScript "cleanup-downloads" ''
+                    ${pkgs.findutils}/bin/find "${config.home.homeDirectory}/Downloads" -ctime +5 -delete
+                  '');
+                  RunAtLoad = true;
+                  StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
+                };
+              };
             };
           };
 
