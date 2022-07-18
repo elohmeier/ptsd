@@ -65,22 +65,38 @@ with lib;
 
       "disk /" = {
         position = 5;
-        settings.format = " / %avail";
+        settings = {
+          format = " / %avail";
+          low_threshold = 15;
+          threshold_type = "percentage_free";
+        };
       };
 
       "disk /home" = {
         position = 5;
-        settings.format = " h %avail";
+        settings = {
+          format = " h %avail";
+          low_threshold = 15;
+          threshold_type = "percentage_free";
+        };
       };
 
       "disk /nix" = {
         position = 5;
-        settings.format = " n %avail";
+        settings = {
+          format = " n %avail";
+          low_threshold = 15;
+          threshold_type = "percentage_free";
+        };
       };
 
       "disk /run/user/1000" = {
         position = 5;
-        settings.format = " xrd %avail";
+        settings = {
+          format = " xrd %avail";
+          low_threshold = 15;
+          threshold_type = "percentage_free";
+        };
       };
 
       load = {
