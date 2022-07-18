@@ -80,9 +80,29 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
   };
 
-  ptsd-python3 = self.python3.override {
+  ptsd-python3 = self.python310.override {
     packageOverrides = self: super: rec {
-      black = super.black.overrideAttrs (old: { propagatedBuildInputs = old.propagatedBuildInputs ++ [ super.ipython super.tokenize-rt ]; }); # support reformatting ipynb files
+
+      black = super.black.overridePythonAttrs (old: {
+        propagatedBuildInputs = with super; (
+
+          # required uvloop dependency requires broken pyopenssl
+          # waits for https://github.com/pyca/pyopenssl/issues/873
+          if self.stdenv.isDarwin then [
+            click
+            mypy-extensions
+            pathspec
+            platformdirs
+            tomli
+          ] else old.propagatedBuildInputs
+        ) ++ [
+          # support reformatting ipynb files
+          ipython
+          tokenize-rt
+        ];
+        doCheck = self.stdenv.isLinux;
+      });
+
       davphonebook = self.callPackage ./davphonebook { };
       finance-dl = self.callPackage ./finance-dl { };
       hocr-tools = self.callPackage ./hocr-tools { };
@@ -93,6 +113,13 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       pyxlsb = self.callPackage ./pyxlsb { };
       selenium-requests = self.callPackage ./selenium-requests { };
       vidcutter = self.callPackage ./vidcutter { };
+
+      jupyterlab_server = super.jupyterlab_server.overridePythonAttrs (old: {
+        # TODO: rm when https://github.com/NixOS/nixpkgs/pull/179564 is merged
+        preCheck = ''
+          export HOME=$(mktemp -d)
+        '';
+      });
     };
   };
 
