@@ -214,6 +214,7 @@ in
       ReadyPaperSizes A4
       BrowseLocalProtocols dnssd
     '';
+    startWhenNeeded = false;
   };
 
   networking.firewall.trustedInterfaces = [ "br0" ];
