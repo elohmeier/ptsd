@@ -16,8 +16,10 @@
       # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
       default-cache-ttl 60
       max-cache-ttl 120
+    '' + lib.optionalString pkgs.stdenv.isDarwin ''
+      pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
     '';
-    pinentryFlavor = if pkgs.stdenv.isLinux then "gnome3" else "tty";
+    pinentryFlavor = if pkgs.stdenv.isLinux then "gnome3" else null;
   };
 
   home.activation.addGpgPublicKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
