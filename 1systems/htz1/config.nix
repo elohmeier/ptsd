@@ -18,7 +18,6 @@ in
   ptsd.nwbackup = {
     enable = true;
     paths = [
-      "/var/lib/drone-server"
       "/var/lib/gitolite"
       "/var/lib/postgresql"
       "/var/lib/wdplaner"
