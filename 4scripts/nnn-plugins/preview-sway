@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 
-from dataclasses import dataclass
-from typing import Optional
 import logging
 import os
-import tempfile
 import subprocess
 import sys
-from i3ipc import Connection, Con
+import tempfile
+from dataclasses import dataclass
+from typing import Optional
+
+from i3ipc import Con, Connection
 from i3ipc.events import IpcBaseEvent, WindowEvent
 
 logger = logging.getLogger("preview-sway")
