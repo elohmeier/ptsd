@@ -17,10 +17,12 @@ with lib;
     exiftool
     fd
     fzf
+    gh
     google-cloud-sdk
     hcloud
     home-manager
     httpserve
+    hydra-check
     imagemagickBig
     jless
     jq
@@ -54,6 +56,7 @@ with lib;
       [
 
         XlsxWriter
+        black
         faker
         hocr-tools
         holidays
@@ -74,11 +77,8 @@ with lib;
         tabulate
 
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
-        #beancount
-        #nobbofin
         authlib
         beautifulsoup4
-        black
         boto3
         i3ipc
         impacket
@@ -125,7 +125,6 @@ with lib;
     cifs-utils
     clang-tools
     dnsmasq
-    fava
     file
     freerdp
     gen-secrets
@@ -143,7 +142,6 @@ with lib;
     hunspellDicts.de-de
     hunspellDicts.en-gb-large
     hunspellDicts.en-us-large
-    hydra-check
     iftop
     inkscape
     iotop
