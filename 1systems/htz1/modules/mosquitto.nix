@@ -16,7 +16,8 @@
             "readwrite tele/#"
             "readwrite tasmota/#"
           ];
-          passwordFile = "/var/src/secrets/mosquitto-hass.passwd";
+          #passwordFile = "/run/credentials/mosquitto.service/hass-passwd";
+          passwordFile = config.ptsd.secrets.files."mosquitto-hass.passwd".path;
         };
 
         tasmota = {
@@ -26,7 +27,8 @@
             "readwrite tele/#"
             "readwrite tasmota/#"
           ];
-          passwordFile = "/var/src/secrets/mosquitto-tasmota.passwd";
+          #passwordFile = "/run/credentials/mosquitto.service/tasmota-passwd";
+          passwordFile = config.ptsd.secrets.files."mosquitto-tasmota.passwd".path;
         };
       };
 
@@ -37,7 +39,23 @@
     }];
   };
 
-  systemd.services.mosquitto.serviceConfig.SupplementaryGroups = "certs"; # acme cert access
+  systemd.services.mosquitto.serviceConfig = {
+
+    # not yet possible, see https://github.com/systemd/systemd/issues/19604
+    #LoadCredential = [
+    #  "hass-passwd:/var/src/secrets/mosquitto-hass.passwd"
+    #  "tasmota-passwd:/var/src/secrets/mosquitto-tasmota.passwd"
+    #];
+    SupplementaryGroups = [
+      "certs" # acme cert access
+      "keys" # ptsd secret access
+    ];
+  };
+
+  ptsd.secrets.files = {
+    "mosquitto-hass.passwd" = { owner = "mosquitto"; };
+    "mosquitto-tasmota.passwd" = { owner = "mosquitto"; };
+  };
 
   networking.firewall.interfaces.ens3.allowedTCPPorts = [ 8883 ];
 }
