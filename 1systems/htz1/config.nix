@@ -12,6 +12,7 @@ in
       ../../2configs/prometheus/node.nix
 
       ./modules/git.nix
+      ./modules/mosquitto.nix
       ./modules/nerdworks-www.nix
     ];
 
@@ -165,16 +166,6 @@ in
     http.enable = true;
     hostCert.useHTTP = true;
   };
-
-  ptsd.mosquitto = {
-    enable = true;
-    certDomain = "mqtt.nerdworks.de";
-    listeners = [
-      { interface = "ens3"; ssl = true; }
-    ];
-  };
-
-  networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.ptsd.mosquitto.portSSL ];
 
   services.nginx = {
     enable = true;

@@ -7,7 +7,6 @@ _:
     ./kanboard.nix
     ./mjpg-streamer.nix
     ./monica.nix
-    ./mosquitto.nix
     ./navidrome.nix
     ./nvidia.nix
     ./nwacme.nix
