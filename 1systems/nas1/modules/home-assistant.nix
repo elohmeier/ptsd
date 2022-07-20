@@ -1,7 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  domain = "hass.services.nerdworks.de";
-in
 {
   services.home-assistant = {
     enable = true;
