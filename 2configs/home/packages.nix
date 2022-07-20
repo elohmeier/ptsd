@@ -12,6 +12,7 @@ with lib;
 
     bat
     btop
+    copy-secrets
     entr
     exa
     exiftool
@@ -41,6 +42,7 @@ with lib;
     pass
     poppler_utils
     ptsd-nnn
+    pwgen
     ripgrep
     tabula-java
     tig
@@ -168,7 +170,6 @@ with lib;
     pgmodeler
     ptsd-ffmpeg
     ptsd-vscode
-    pwgen
     qrencode
     quirc # qr scanner
     rclone

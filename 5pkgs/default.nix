@@ -1,5 +1,10 @@
 self: pkgs_master: nixpkgs_master:neovim-flake: super:
 {
+  copy-secrets = (self.writers.writePython3Bin "copy-secrets"
+    {
+      flakeIgnore = [ "E265" "E501" ];
+      libraries = [ self.python3Packages.python-gnupg ];
+    } ../4scripts/copy-secrets.py);
 
   macos-fix-filefoldernames = (self.writers.writePython3Bin "macos-fix-filefoldernames" { flakeIgnore = [ "E265" ]; } ../4scripts/macos-fix-filefoldernames.py);
   logseq-query = self.callPackage ./logseq-query { };
