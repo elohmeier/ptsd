@@ -27,26 +27,25 @@ let
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
-        vim-css-color
-        nvim-web-devicons
-        hop-nvim
-        nvim-compe
-        telescope-nvim
-        lualine-nvim
         copilot-vim
-        nvim-lspconfig
+        editorconfig-nvim
         formatter-nvim
+        hop-nvim
+        lualine-nvim
+        nnn-nvim
+        nvim-compe
+        nvim-lspconfig
+        nvim-web-devicons
+        telescope-nvim
 
         (nvim-treesitter.withPlugins (plugins: with plugins; [
           tree-sitter-beancount
           tree-sitter-go
+          tree-sitter-java
           tree-sitter-nix
           tree-sitter-norg
           tree-sitter-python
         ]))
-
-        nnn-nvim
-        editorconfig-nvim
       ];
     };
   };
