@@ -101,7 +101,7 @@ in
       systemd.services.haproxy.serviceConfig.SupplementaryGroups = "tailscale-cert";
 
       systemd.services.haproxy.after = [ "tailscaled.service" ];
-      systemd.services.haproxy.wants = [ "tailscaled.service" ];
+      systemd.services.haproxy.bindsTo = [ "tailscaled.service" ];
 
       services.nginx = {
         enable = true;
