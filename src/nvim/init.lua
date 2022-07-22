@@ -38,6 +38,14 @@ require("nvim-treesitter.configs").setup {
 -- open empty buffer
 vim.api.nvim_set_keymap("n", "<leader>m", "<cmd>enew<cr>", {noremap = true, silent = true})
 
+-- LSP
+vim.api.nvim_create_autocmd("LspAttach", {
+    callback = function(args)
+        vim.keymap.set("n", "K", vim.lsp.buf.hover, {buffer = args.buf})
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, {buffer = args.buf})
+    end
+})
+
 -- buffer navigation
 vim.api.nvim_set_keymap("n", "<leader>l", "<cmd>bnext<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>h", "<cmd>bprevious<cr>", {noremap = true, silent = true})
