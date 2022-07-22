@@ -42,6 +42,15 @@
     home-manager
   ];
 
+  # not supported on aarch64-linux
+  # environment.unixODBCDrivers = [ pkgs.unixODBCDrivers.msodbcsql17 ];
+
+  environment.etc."odbcinst.ini".text = ''
+    [FreeTDS]
+    Description = FreeTDS Driver
+    Driver = ${pkgs.freetds}/lib/libtdsodbc.so
+  '';
+
   ptsd.secrets.enable = false;
   ptsd.tailscale.enable = true;
   services.spice-vdagentd.enable = true;
