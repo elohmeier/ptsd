@@ -6,26 +6,38 @@
 
     config = {
 
+      apple_tv = { };
+      automation = "!include automations.yaml";
+      brother = { };
+      config = { };
+      device_automation = { };
+      fritzbox = { };
+      frontend = { };
+      history = { };
+      ipp = { };
+      logbook = { };
+      map = { };
+      mobile_app = { };
+      octoprint = { };
+      person = { };
+      prometheus = { };
+      recorder.db_url = "postgresql://@/home-assistant";
+      sensor = { platform = "dwd_weather_warnings"; region_name = "Hansestadt Hamburg"; };
+      sonos.media_player.hosts = [ "192.168.178.57" "192.168.178.56" ];
+      spotify = { };
+      sun = { };
+      system_health = { };
+      tasmota = { };
+      upnp = { };
+      zeroconf = { };
+
       http = {
-        server_host = "127.0.0.1";
+        server_host = [ "127.0.0.1" "::1" ];
         server_port = config.ptsd.ports.home-assistant;
         use_x_forwarded_for = true;
         trusted_proxies = [ "127.0.0.1" "::1" ];
       };
-      prometheus = { };
-      device_automation = { };
-      config = { };
-      frontend = { };
-      history = { };
-      logbook = { };
-      map = { };
-      mobile_app = { };
-      person = { };
-      recorder.db_url = "postgresql://@/home-assistant";
-      sun = { };
-      system_health = { };
-      zeroconf = { };
-      sonos.media_player.hosts = [ "192.168.178.57" "192.168.178.56" ];
+
       homematic =
         let
           host = "192.168.178.20";
@@ -40,10 +52,7 @@
           };
           hosts.ccu3 = { inherit host username password; };
         };
-      sensor = {
-        platform = "dwd_weather_warnings";
-        region_name = "Hansestadt Hamburg";
-      };
+
       mqtt = {
         broker = "mqtt.nerdworks.de";
         port = 8883;
@@ -52,12 +61,6 @@
         certificate = "/etc/ssl/certs/ca-certificates.crt";
         discovery = true;
       };
-      fritzbox = { };
-      brother = { };
-      ipp = { };
-      spotify = { };
-      octoprint = { };
-      automation = "!include automations.yaml";
     };
   };
 
