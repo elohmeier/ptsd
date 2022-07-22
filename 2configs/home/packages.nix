@@ -9,7 +9,6 @@ with lib;
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
 
   home.packages = with pkgs; [
-
     bat
     btop
     copy-secrets
@@ -56,7 +55,6 @@ with lib;
     (ptsd-python3.withPackages (
       pythonPackages: with pythonPackages;
       [
-
         XlsxWriter
         black
         faker
@@ -70,6 +68,7 @@ with lib;
         pandas
         psycopg2
         pycrypto
+        pyjwt
         pylint
         pytest
         pyxlsb
@@ -77,7 +76,6 @@ with lib;
         scikit-learn
         sqlalchemy
         tabulate
-
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         authlib
         beautifulsoup4
@@ -99,13 +97,10 @@ with lib;
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
-
     ffmpeg
     logseq-bin
     subler-bin
-
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
-
     #aliza # dicom viewer
     #art
     #calibre
@@ -114,6 +109,7 @@ with lib;
     (pdftk.override { jre = openjdk11; })
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
+    apacheHttpd
     asciinema
     aspell
     aspellDicts.de
@@ -199,21 +195,17 @@ with lib;
     xfsprogs.bin
     xournalpp
     yt-dlp
-
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" ]) [
-
-    #winetricks
     #wineWowPackages.stable # 32-bit & 64-bit
+    #winetricks
     #wkhtmltopdf-qt4
     betaflight-configurator
     easyeffects
+    logseq
     photoprism # long tensorflow build on aarch64...
     portfolio
+    prusa-slicer
     signal-desktop
     spotify
-    logseq
-    prusa-slicer
-
   ];
-
 }
