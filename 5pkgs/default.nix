@@ -206,4 +206,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     chmod +x nixos-install.sh
     echo "run ./nixos-install.sh to install"
   '';
+
+  cups-driver-mfc7440n = self.callPackage ./cups-driver-mfc7440n { };
 }
