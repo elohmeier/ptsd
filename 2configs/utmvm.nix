@@ -17,7 +17,7 @@
   networking = {
     useDHCP = false;
     useNetworkd = true;
-    firewall.enable = false;
+    firewall.trustedInterfaces = [ "enp0s6" ];
   };
 
   systemd.network.networks."40-enp" = {
