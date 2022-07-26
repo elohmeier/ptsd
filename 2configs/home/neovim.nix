@@ -27,15 +27,21 @@ let
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
+        cmp-buffer
+        cmp-nvim-lsp
+        cmp-path
+        cmp_luasnip
         copilot-vim
         editorconfig-nvim
         formatter-nvim
         hop-nvim
         lualine-nvim
+        luasnip
         nnn-nvim
-        nvim-compe
+        nvim-cmp
         nvim-lspconfig
         nvim-web-devicons
+        telescope-fzf-native-nvim
         telescope-nvim
 
         (nvim-treesitter.withPlugins (plugins: with plugins; [
@@ -61,6 +67,7 @@ in
     luaformatter
     nodejs # for copilot
     pyright
+    ripgrep # for telescope
     rnix-lsp
   ];
 

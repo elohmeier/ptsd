@@ -17,12 +17,17 @@ vim.cmd [[highlight WinSeparator guibg=None]]
 -- **************
 
 require("plugincfg.formatter")
+require("plugincfg.cmp")
+local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol
+                                                                     .make_client_capabilities())
+
 require("hop").setup()
-
-require("lspconfig").gopls.setup {cmd = {"gopls"}}
-require("lspconfig").rnix.setup {cmd = {"rnix-lsp"}}
-require("lspconfig").pyright.setup {cmd = {"pyright-langserver", "--stdio"}}
-
+require("lspconfig").gopls.setup {cmd = {"gopls"}, capabilities = {capabilities}}
+require("lspconfig").pyright.setup {
+    cmd = {"pyright-langserver", "--stdio"},
+    capabilities = {capabilities}
+}
+require("lspconfig").rnix.setup {cmd = {"rnix-lsp"}, capabilities = {capabilities}}
 require("lualine").setup()
 require("nnn").setup()
 
@@ -30,6 +35,20 @@ require("nvim-treesitter.configs").setup {
     highlight = {enable = true, additional_vim_regex_highlighting = false},
     indent = {enable = false}
 }
+
+require("telescope").setup {
+    extenssions = {
+        fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case"
+        }
+    }
+}
+require("telescope").load_extension("fzf")
+
+require("luasnip.loaders.from_lua").load({paths = "~/repos/ptsd/src/snippets"})
 
 -- ***************
 -- * Keybindings *
