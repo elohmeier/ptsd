@@ -42,6 +42,7 @@ with lib;
     poppler_utils
     ptsd-nnn
     pwgen
+    qrencode
     ripgrep
     tabula-java
     tig
@@ -49,6 +50,7 @@ with lib;
     unrar
     unzip
     watch
+    wrk
     zathura
     zellij
 
@@ -166,7 +168,6 @@ with lib;
     pgmodeler
     ptsd-ffmpeg
     ptsd-vscode
-    qrencode
     quirc # qr scanner
     rclone
     ripmime
