@@ -37,7 +37,7 @@ return {
         });
 
       nixosConfigurations.prod-vm = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
+        system = "${2|aarch64-linux,x86_64-linux|}";
         modules = [
           self.nixosModules.$1
           ({ config, lib, modulesPath, pkgs, ... }: {
@@ -51,6 +51,7 @@ return {
               enable = true;
             };
             networking.firewall.allowedTCPPorts = [ 8000 ];
+            system.stateVersion = "22.05";
           })
         ];
       };
