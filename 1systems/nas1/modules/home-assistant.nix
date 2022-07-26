@@ -64,7 +64,7 @@
     };
   };
 
-  networking.firewall.interfaces.br0 = {
+  networking.firewall.interfaces.eno1 = {
     allowedTCPPorts = [ 1400 ]; # for sonos
     allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
   };

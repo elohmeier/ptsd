@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 let
-  port = 7411;
+  universe = import ../../../2configs/universe.nix;
 in
 {
   services.loki = {
@@ -9,7 +9,7 @@ in
     # https://grafana.com/docs/loki/latest/configuration/examples/
     configuration = {
       server = {
-        http_listen_address = "127.0.0.1";
+        http_listen_address = universe.hosts."${config.networking.hostName}".nets.tailscale.ip4.addr;
         http_listen_port = config.ptsd.ports.loki;
       };
       auth_enabled = false; # single-tenant mode
@@ -65,29 +65,6 @@ in
     };
   };
 
-  systemd.services.traefik.serviceConfig.LoadCredential = "loki.htpasswd:/var/src/secrets/loki.htpasswd";
-
-  ptsd.nwtraefik = {
-    entryPoints = {
-      nwvpn-loki-http = {
-        address = "${config.ptsd.wireguard.networks.nwvpn.ip}:${toString port}";
-      };
-    };
-    middlewares = {
-      loki-auth.basicAuth = {
-        usersFile = "/run/credentials/traefik.service/loki.htpasswd";
-        realm = "loki";
-      };
-    };
-
-    services = [{
-      name = "loki";
-      entryPoints = [ "nwvpn-loki-http" ];
-      rule = "Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
-      tls = false;
-      extraMiddlewares = [ "loki-auth" ];
-    }];
-  };
-
-  networking.firewall.interfaces.nwvpn.allowedTCPPorts = [ port ];
+  # TODO: configure authentication
+  # systemd.services.traefik.serviceConfig.LoadCredential = "loki.htpasswd:/var/src/secrets/loki.htpasswd";
 }
