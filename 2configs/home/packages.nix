@@ -7,6 +7,7 @@ with lib;
     PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
   };
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
+  home.file.".password-store".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/password-store";
 
   home.packages = with pkgs; [
     bat
