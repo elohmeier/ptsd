@@ -29,6 +29,14 @@ in
     ./modules/vsftpd.nix
   ];
 
+  documentation = {
+    enable = false;
+    man.enable = false;
+    info.enable = false;
+    doc.enable = false;
+    dev.enable = false;
+  };
+
   ptsd.fluent-bit = {
     enable = true;
   };
