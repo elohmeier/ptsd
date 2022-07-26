@@ -14,8 +14,9 @@ in
 
   environment = {
     systemPackages = with pkgs; [
-      neovim-unwrapped
+      #neovim-unwrapped  # long build
       tmux
+      vim
     ];
   };
 
