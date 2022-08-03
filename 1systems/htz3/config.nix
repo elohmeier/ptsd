@@ -13,11 +13,12 @@ in
       ../../2configs/prometheus/node.nix
 
       ./modules/bitwarden.nix
-      ./modules/fraamdb.nix
       ./modules/fraam-wordpress.nix
       ./modules/fraam-www.nix
+      ./modules/fraamdb.nix
       ./modules/kanboard.nix
       ./modules/murmur.nix
+      ./modules/wordpress.nix
     ];
 
   ptsd.nwbackup = {
@@ -83,33 +84,22 @@ in
         };
       in
       [
-        (crt "htz3.host.fraam.de") # via ptsd.nwacme hostCert
         (crt "db.fraam.de")
         (crt "dev.fraam.de")
         (crt "fraam.de")
+        (crt "htz3.host.fraam.de") # via ptsd.nwacme hostCert
+        (crt "int.fraam.de")
         (crt "pm.fraam.de")
         (crt "vault.fraam.de")
         (crt "voice.fraam.de")
       ];
     entryPoints = {
-      "www4-http" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
-      };
-      "www4-https" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
-      };
-      "www6-http" = {
-        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
-      };
-      "www6-https" = {
-        address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
-      };
-      "nwvpn-http" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
-      };
-      "nwvpn-https" = {
-        address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
-      };
+      "nwvpn-http".address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
+      "nwvpn-https".address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
+      "www4-http".address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
+      "www4-https".address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
+      "www6-http".address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
+      "www6-https".address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
 
       # added for local tls monitoring & fraam-update-static-web script
       "loopback4-https".address = "127.0.0.1:443";
@@ -155,6 +145,13 @@ in
         "dev.fraam.de" = {
           webroot = config.ptsd.nwacme.http.webroot;
           credentialsFile = envFile "dev.fraam.de";
+          group = "certs";
+          postRun = "systemctl restart traefik.service";
+        };
+
+        "int.fraam.de" = {
+          webroot = config.ptsd.nwacme.http.webroot;
+          credentialsFile = envFile "int.fraam.de";
           group = "certs";
           postRun = "systemctl restart traefik.service";
         };
