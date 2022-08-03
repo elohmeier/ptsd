@@ -57,5 +57,10 @@ return {
       };
     };
 }
-]])
+]]), parse("nix-module-empty", [[
+{ config, lib, pkgs, ... }:
+
+{
+  $1
+}]])
 }
