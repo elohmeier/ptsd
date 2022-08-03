@@ -204,6 +204,5 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     chmod +x nixos-install.sh
     echo "run ./nixos-install.sh to install"
   '';
-
-  wordpress = pkgs_master.wordpress;
+  wordpress = self.callPackage ./wordpress { };
 }

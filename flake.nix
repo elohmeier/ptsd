@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
-    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
+    #nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     #home-manager.url = github:nix-community/home-manager/release-22.05;
     home-manager.url = github:elohmeier/home-manager/darwin-wip;
@@ -21,7 +21,7 @@
   outputs =
     { self
     , nixpkgs
-    , nixpkgs-unstable
+      #, nixpkgs-unstable
     , home-manager
     , nixos-hardware
     , flake-utils
@@ -32,8 +32,8 @@
 
     let
       pkgOverrides = pkgs:
-        let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; system = pkgs.system; }; in
-        super: (import ./5pkgs pkgs pkgs_master nixpkgs neovim-flake super);
+        #let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; system = pkgs.system; }; in
+        super: (import ./5pkgs pkgs pkgs nixpkgs neovim-flake super);
     in
     flake-utils.lib.eachDefaultSystem
       (system:
