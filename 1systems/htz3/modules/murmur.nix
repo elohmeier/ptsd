@@ -21,7 +21,7 @@
     '';
   };
 
-  users.groups.certs.members = [ "murmur" ];
+  systemd.services.murmur.serviceConfig.SupplementaryGroups = "nginx"; # acme cert access
 
   networking.firewall.interfaces.ens3.allowedTCPPorts = [ config.services.murmur.port ];
   networking.firewall.interfaces.ens3.allowedUDPPorts = [ config.services.murmur.port ];

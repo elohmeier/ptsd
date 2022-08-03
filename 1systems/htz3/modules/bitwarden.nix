@@ -72,15 +72,9 @@ in
     ];
   };
 
-  ptsd.nwtraefik = {
-    services = [
-      {
-        name = "bitwarden";
-        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" "loopback4-https" ];
-        rule = "Host(`${domain}`)";
-      }
-    ];
-  };
+  services.nginx.virtualHosts."${domain}".locations."/".extraConfig = ''
+    proxy_pass http://127.0.0.1:${toString config.ptsd.ports.bitwarden};
+  '';
 
   # TODO: configure as in
   # https://github.com/dani-garcia/bitwarden_rs/wiki/Fail2Ban-Setup

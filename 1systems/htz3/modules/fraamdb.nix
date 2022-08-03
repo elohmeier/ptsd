@@ -13,15 +13,7 @@ in
     debug = false;
   };
 
-  ptsd.nwtraefik.services = [
-    {
-      name = "fraamdb";
-      rule = "Host(`${domain}`)";
-      auth.forwardAuth = {
-        address = "http://localhost:4181";
-        authResponseHeaders = [ "X-Forwarded-User" ];
-      };
-      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-    }
-  ];
+  services.nginx.virtualHosts."${domain}".locations."/".extraConfig = ''
+    proxy_pass http://127.0.0.1:${toString config.ptsd.ports.fraamdb};
+  '';
 }

@@ -50,60 +50,31 @@ in
     } // poolConfig;
   };
 
-  # TODO: add https://github.com/yaoweibin/ngx_http_substitutions_filter_module
-  services.nginx = {
-    enable = true;
-    serverNamesHashBucketSize = 128;
-
-    # logError = "stderr debug";
-
-    commonHttpConfig = ''
-      charset UTF-8;
-      port_in_redirect off;
-    '';
-
-    # nginx config from https://www.nginx.com/resources/wiki/start/topics/recipes/wordpress/
-    virtualHosts = {
-      "fraam.de www.fraam.de" = {
-        listen = [
-          {
-            addr = "127.0.0.1";
-            port = config.ptsd.ports.fraam-wwwstatic;
-          }
-        ];
-
-        root = "/var/lib/fraam-www/static";
-
-        locations."~* \.(js|css|png|jpg|jpeg|gif|ico)$" = {
-          extraConfig = ''
-            expires max;
-            log_not_found off;
-          '';
-        };
-      };
-
-      "dev.fraam.de" = {
-        listen = [
-          {
-            addr = "127.0.0.1";
-            port = config.ptsd.ports.fraam-wordpress;
-          }
-        ];
-
-        root = "/var/lib/fraam-www/www";
-
+  services.nginx.virtualHosts = {
+    "www.fraam.de" = {
+      root = "/var/lib/fraam-www/static";
+      locations."~* \.(js|css|png|jpg|jpeg|gif|ico)$" = {
         extraConfig = ''
-          index index.php;
+          expires max;
+          log_not_found off;
         '';
+      };
+    };
 
-        locations."/favicon.ico" = {
+    "dev.fraam.de" = {
+      root = "/var/lib/fraam-www/www";
+      extraConfig = ''
+        index index.php;
+      '';
+      locations = {
+        "/favicon.ico" = {
           extraConfig = ''
             log_not_found off;
             access_log off;
           '';
         };
 
-        locations."/robots.txt" = {
+        "/robots.txt" = {
           extraConfig = ''
             allow all;
             log_not_found off;
@@ -111,11 +82,11 @@ in
           '';
         };
 
-        locations."/" = {
+        "/" = {
           extraConfig = "try_files $uri $uri/ /index.php?$args;";
         };
 
-        locations."~ \.php$" = {
+        "~ \.php$" = {
           extraConfig = ''
             include ${pkgs.nginx}/conf/fastcgi_params;
             fastcgi_intercept_errors on;
@@ -125,7 +96,7 @@ in
           '';
         };
 
-        locations."~* \.(js|css|png|jpg|jpeg|gif|ico)$" = {
+        "~* \.(js|css|png|jpg|jpeg|gif|ico)$" = {
           extraConfig = ''
             expires max;
             log_not_found off;

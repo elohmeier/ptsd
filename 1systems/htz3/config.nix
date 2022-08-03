@@ -56,6 +56,8 @@ in
 
     # reduce noise coming from www if
     firewall.logRefusedConnections = false;
+
+    firewall.allowedTCPPorts = [ 80 443 ];
   };
 
   services.journald.extraConfig = ''
@@ -69,125 +71,10 @@ in
     { routeConfig = { Gateway = "fe80::1"; }; }
   ];
 
-  ptsd.nwtraefik = {
-    enable = true;
-    logLevel = "WARN";
-    contentSecurityPolicy = "frame-ancestors 'self' https://*.fraam.de";
-    extraSecurityHeaders = {
-      accessControlAllowOriginList = [ "https://chat.fraam.de" ];
-    };
-    certificates =
-      let
-        crt = domain: {
-          certFile = "/var/lib/acme/${domain}/cert.pem";
-          keyFile = "/var/lib/acme/${domain}/key.pem";
-        };
-      in
-      [
-        (crt "db.fraam.de")
-        (crt "dev.fraam.de")
-        (crt "fraam.de")
-        (crt "htz3.host.fraam.de") # via ptsd.nwacme hostCert
-        (crt "int.fraam.de")
-        (crt "pm.fraam.de")
-        (crt "vault.fraam.de")
-        (crt "voice.fraam.de")
-      ];
-    entryPoints = {
-      "nwvpn-http".address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:80";
-      "nwvpn-https".address = "${universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr}:443";
-      "www4-http".address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:80";
-      "www4-https".address = "${universe.hosts."${config.networking.hostName}".nets.www.ip4.addr}:443";
-      "www6-http".address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:80";
-      "www6-https".address = "[${universe.hosts."${config.networking.hostName}".nets.www.ip6.addr}]:443";
-
-      # added for local tls monitoring & fraam-update-static-web script
-      "loopback4-https".address = "127.0.0.1:443";
-      "loopback6-https".address = "[::1]:443";
-    };
-
-    services = [
-      {
-        name = "nginx-wellknown-matrix";
-        rule = "PathPrefix(`/.well-known/matrix`) && Host(`fraam.de`)";
-        priority = 9999; # high-priority for router
-        entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-      }
-    ];
-  };
-
-  security.acme =
-    let
-      envFile = domain: pkgs.writeText "lego-acme-dns-${domain}.env" ''
-        ACME_DNS_STORAGE_PATH=/var/lib/acme/${domain}/acme-dns-store.json
-        ACME_DNS_API_BASE=https://auth.nerdworks.de
-      '';
-    in
-    {
-      defaults.email = "enno.richter+letsencrypt@fraam.de";
-      acceptTerms = true;
-      certs = {
-        "fraam.de" = {
-          extraDomainNames = [ "www.fraam.de" ];
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "db.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "db.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "dev.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "dev.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "int.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "int.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "pm.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "pm.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "vault.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "vault.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart traefik.service";
-        };
-
-        "voice.fraam.de" = {
-          webroot = config.ptsd.nwacme.http.webroot;
-          credentialsFile = envFile "voice.fraam.de";
-          group = "certs";
-          postRun = "systemctl restart murmur.service";
-        };
-
-        # remember to add new certs to the traefik cert list :-)
-      };
-    };
-
-  ptsd.nwacme = {
-    enable = true;
-    http.enable = true;
-    hostCert = {
-      enable = true;
-      useHTTP = true;
-    };
+  security.acme = {
+    defaults.email = "enno.richter+letsencrypt@fraam.de";
+    acceptTerms = true;
+    certs."voice.fraam.de".postRun = "systemctl restart murmur.service";
   };
 
   environment.systemPackages = with pkgs; [ tmux btop ptsd-nnn ];
@@ -196,34 +83,43 @@ in
 
   services.nginx = {
     enable = true;
-    virtualHosts = {
-      nginx-wellknown-matrix = {
-        listen = [{
-          addr = "127.0.0.1";
-          port = config.ptsd.ports.nginx-wellknown-matrix;
-        }];
-        locations."/.well-known/matrix/server".extraConfig =
-          let
-            server = { "m.server" = "matrix.fraam.de:443"; };
-          in
-          ''
-            add_header Content-Type application/json;
-            return 200 '${builtins.toJSON server}';
-          '';
+    recommendedGzipSettings = true;
+    recommendedOptimisation = true;
+    recommendedProxySettings = true;
+    recommendedTlsSettings = true;
 
-        locations."/.well-known/matrix/client".extraConfig =
-          let
-            client = {
-              "m.homeserver".base_url = "https://matrix.fraam.de";
-              "m.identity_server".base_url = "https://vector.im";
-            };
-          in
-          ''
-            add_header Content-Type application/json;
-            return 200 '${builtins.toJSON client}';
-          '';
+    virtualHosts = {
+
+      "fraam.de" = {
+        addSSL = true;
+        enableACME = true;
+
+        locations = let jsonRes = data: ''
+          add_header Access-Control-Allow-Origin https://chat.fraam.de;
+          add_header Content-Type application/json;
+          return 200 '${builtins.toJSON data}';
+        ''; in
+          {
+            "/".extraConfig = "return 301 https://www.fraam.de;";
+            "/.well-known/matrix/server".extraConfig = jsonRes { "m.server" = "matrix.fraam.de:443"; };
+            "/.well-known/matrix/client".extraConfig = jsonRes { "m.homeserver".base_url = "https://matrix.fraam.de"; "m.identity_server".base_url = "https://vector.im"; };
+          };
       };
+
+      "auth.fraam.de" = { addSSL = true; enableACME = true; };
+      "db.fraam.de" = { addSSL = true; enableACME = true; };
+      "dev.fraam.de" = { addSSL = true; enableACME = true; };
+      "int.fraam.de" = { addSSL = true; enableACME = true; };
+      "pm.fraam.de" = { addSSL = true; enableACME = true; };
+      "vault.fraam.de" = { addSSL = true; enableACME = true; };
+      "voice.fraam.de" = { addSSL = true; enableACME = true; }; # dummy host for mumble cert fetching
+      "www.fraam.de" = { addSSL = true; enableACME = true; };
     };
+  };
+
+  ptsd.oauth2-proxy = {
+    enable = true;
+    protectedHosts = [ "dev.fraam.de" "int.fraam.de" ];
   };
 
   system.stateVersion = "21.11";

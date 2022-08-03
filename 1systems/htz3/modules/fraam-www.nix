@@ -7,37 +7,6 @@ with lib;
     databases = [ "wordpress" ];
   };
 
-  ptsd.nwtraefik.services = [
-    {
-      name = "fraam-wordpress-auth";
-      rule = "Host(`dev.fraam.de`)";
-      url = "http://localhost:${toString config.ptsd.ports.fraam-wordpress}";
-      auth.forwardAuth = {
-        address = "http://localhost:4181";
-        authResponseHeaders = [ "X-Forwarded-User" ];
-      };
-      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-    }
-    {
-      # required for ../5pkgs/fraam-update-static-web access
-      # host entry to 127.0.0.1 needs to be set
-      name = "fraam-wordpress-local";
-      rule = "Host(`dev.fraam.de`)";
-      url = "http://localhost:${toString config.ptsd.ports.fraam-wordpress}";
-      entryPoints = [ "loopback4-https" ];
-    }
-    {
-      name = "fraam-wwwstatic";
-      rule = "Host(`www.fraam.de`) || Host(`fraam.de`)";
-      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-    }
-  ];
-
-  ptsd.traefik-forward-auth = {
-    enable = true;
-    envFile = "/var/src/secrets/traefik-forward-auth.env";
-  };
-
   environment.systemPackages = with pkgs; [
     (
       writers.writeDashBin "fraam-update-static-web" ''

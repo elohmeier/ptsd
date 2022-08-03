@@ -38,12 +38,6 @@ in
     enable = true;
 
     virtualHosts.${domain} = {
-      listen = [
-        {
-          addr = "127.0.0.1";
-          port = config.ptsd.ports.nginx-kanboard;
-        }
-      ];
       root =
         let
           plugins = pkgs.symlinkJoin {
@@ -141,12 +135,4 @@ in
       }
     ];
   };
-
-  ptsd.nwtraefik.services = [
-    {
-      name = "nginx-kanboard";
-      rule = "Host(`${domain}`)";
-      entryPoints = [ "www4-http" "www4-https" "www6-http" "www6-https" ];
-    }
-  ];
 }
