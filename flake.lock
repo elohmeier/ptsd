@@ -24,7 +24,7 @@
       "locked": {
         "lastModified": 1655326890,
         "narHash": "sha256-1H2f7VN/2kWMymXx9s0zDL7gCLPeHVNMTpSL1n2agvU=",
-        "ref": "refs/heads/master",
+        "ref": "master",
         "rev": "3f1323ba654d3386e3d03adbeff964b9e5707300",
         "revCount": 230,
         "type": "git",
@@ -67,11 +67,11 @@
       },
       "locked": {
         "dir": "contrib",
-        "lastModified": 1658755950,
-        "narHash": "sha256-gsx8mTSYu76lT6hgbkM47lBQ3tmkubMJGY6QVNALvOg=",
+        "lastModified": 1659491236,
+        "narHash": "sha256-IlmxMp0nMYIZqW4CX5ZL/V6N6chOxHlcvd76NRTxEFU=",
         "owner": "neovim",
         "repo": "neovim",
-        "rev": "7961f79904f6583ed3279fb1c73f2107ce9603ef",
+        "rev": "b8dcbcc732baf84fc48d6b272c3ade0bcb129b3b",
         "type": "github"
       },
       "original": {
@@ -83,11 +83,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1658401027,
-        "narHash": "sha256-z/sDfzsFOoWNO9nZGfxDCNjHqXvSVZLDBDSgzr9qDXE=",
+        "lastModified": 1659356074,
+        "narHash": "sha256-UwV6hZZEtchvtiTCCD/ODEv1226eam8kEgEyQb7xB0E=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "83009edccc2e24afe3d0165ed98b60ff7471a5f8",
+        "rev": "ea3efc80f8ab83cb73aec39f4e76fe87afb15a08",
         "type": "github"
       },
       "original": {
@@ -99,16 +99,32 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1658682607,
-        "narHash": "sha256-XZ1fKlEkAQvgocuBYq9lXEP3eNW6gF9JHsPVsvkWMhU=",
+        "lastModified": 1659342832,
+        "narHash": "sha256-ePnxG4hacRd6oZMk+YeCSYMNUnHCe+qPLI0/+VaTu48=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "d1ca40ea766da1b639937084d18d3e54e4e5da1b",
+        "rev": "e43cf1748462c81202a32b26294e9f8eefcc3462",
         "type": "github"
       },
       "original": {
         "owner": "NixOS",
         "ref": "nixos-22.05",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1659305579,
+        "narHash": "sha256-SFeQTmh7hc9Y2fSkooHaoS8mDfPa04sfmUCtQ8MA6Pg=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "5857574d45925585baffde730369414319228a84",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -120,7 +136,8 @@
         "home-manager": "home-manager",
         "neovim-flake": "neovim-flake",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     }
   },
