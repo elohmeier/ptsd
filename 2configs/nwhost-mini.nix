@@ -62,23 +62,7 @@ in
   ];
 
   users.defaultUserShell = pkgs.fish;
-  users.groups.certs = { };
-  ptsd.nwtraefik.groups = "certs";
-
-  #ptsd.nwbackup = {
-  #  enable = true;
-  #};
-
   ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
-
   environment.variables = { EDITOR = "nvim"; };
-
-  ptsd.nwacme = {
-    enable = mkDefault true;
-    hostCert.enable = mkDefault true;
-  };
-
-  ptsd.nwbackup = {
-    enable = mkDefault true;
-  };
+  ptsd.nwbackup.enable = mkDefault true;
 }

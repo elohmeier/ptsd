@@ -10,7 +10,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   logseq-query = self.callPackage ./logseq-query { };
   tensorflow1 = self.callPackage ./tensorflow1/bin.nix { };
   subler-bin = self.callPackage ./subler-bin { };
-  acme-dns = self.callPackage ./acme-dns { };
   art = self.callPackage ./art { };
   add-workspace = self.writers.writePython3 "add-workspace"
     {
@@ -71,7 +70,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     "syncthing-device-id"
     { flakeIgnore = [ "E203" "E265" "E501" ]; }
     ../4scripts/syncthing-device-id.py;
-  traefik-forward-auth = self.callPackage ./traefik-forward-auth { };
   win10fonts = self.callPackage ./win10fonts { };
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
 
@@ -206,4 +204,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     chmod +x nixos-install.sh
     echo "run ./nixos-install.sh to install"
   '';
+
+  wordpress = pkgs_master.wordpress;
 }

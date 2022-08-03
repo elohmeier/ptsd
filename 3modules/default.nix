@@ -1,7 +1,6 @@
 _:
 {
   imports = [
-    ./acme-dns.nix
     ./fluent-bit.nix
     ./icloudpd.nix
     ./kanboard.nix
@@ -9,12 +8,11 @@ _:
     ./monica.nix
     ./navidrome.nix
     ./nvidia.nix
-    ./nwacme.nix
-    ./nwbackup.nix
     ./nwbackup-server.nix
+    ./nwbackup.nix
     ./nwlogrotate.nix
     ./nwsyncthing.nix
-    ./nwtraefik.nix
+    ./oauth2-proxy.nix
     ./octoprint.nix
     ./photoprism.nix
     ./ports.nix
@@ -22,7 +20,6 @@ _:
     ./rclone.nix
     ./secrets.nix
     ./tailscale.nix
-    ./traefik-forward-auth.nix
     ./wireguard.nix
   ];
 }

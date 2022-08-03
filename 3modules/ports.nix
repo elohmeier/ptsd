@@ -15,12 +15,8 @@ in
 
   config = {
     ptsd.ports = {
-      acme-dns-dns = 10001;
-      acme-dns-http = 10002;
       alertmanager = 10003;
       bitwarden = 10004;
-      fraam-wordpress = 10005;
-      fraam-wwwstatic = 10006;
       fraamdb = 10007;
       gitweb = 10008;
       grafana = 10010;
@@ -29,11 +25,6 @@ in
       mjpg-streamer = 10013;
       navidrome = 10014;
       nerdworkswww = 10015;
-      nginx-kanboard = 10016;
-      nginx-monica = 10017;
-      nginx-nwacme = 10018;
-      nginx-tsindex = 10019;
-      nginx-wellknown-matrix = 10020;
       nwgit = 10021;
       octoprint = 10022;
       photoprism = 10023;
