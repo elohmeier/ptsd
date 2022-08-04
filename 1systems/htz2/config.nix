@@ -32,11 +32,7 @@ in
     enable = true;
     paths = [
       "/var/backup"
-      # disabled to save space
-      #"/var/lib/matrix-synapse"
       "/var/lib/acme"
-      "/var/lib/private/acme-dns"
-      "/var/lib/private/radicale"
       "/var/lib/private/traefik"
     ];
   };

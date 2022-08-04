@@ -16,7 +16,6 @@ _:
     ./octoprint.nix
     ./photoprism.nix
     ./ports.nix
-    ./radicale.nix
     ./rclone.nix
     ./secrets.nix
     ./tailscale.nix
