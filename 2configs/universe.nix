@@ -296,47 +296,7 @@
       #syncthing.id = "JGZOJNY-YNPRJSK-OMQ5BPK-S3RHB55-SI4OSZ3-XEYCKBL-CCJKYX2-NVKAUAQ";
     };
 
-    ws1 = {
-      nets = {
-        fraam_buero_vpn = {
-          ip4.addr = "191.18.23.80";
-          wireguard.pubkey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
-        };
-
-        nwvpn = {
-          ip4.addr = "191.18.19.80";
-          aliases = [
-            "ws1.nw"
-          ];
-          wireguard.pubkey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
-        };
-
-        dlrgvpn = {
-          ip4.addr = "191.18.21.80";
-          wireguard.pubkey = "yvrstaKyRf0fyJi9BpGWkL/BWt6XYArIzygJ410SxR0=";
-        };
-
-        bs53lan = {
-          ip4.addr = "192.168.178.136"; # DHCP (!)
-        };
-      };
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBxl5cu7JzupBVvcuT7hpAD2aPqGCDDV8ergHqeFinem ";
-      syncthing.id = "463IXFR-CH3QL6E-REW64TF-JMGOCZX-VQN556L-MGWC5ER-CQFSW3B-7XLZ4AH";
-      borg.quota = "250G";
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEf6ThFU/I+qMVM/u5iNPB1Fgkn4Pk/Rr/FgzuHJAKy/ nwbackup@ws1";
-    };
-
-    ext-arvid = {
-      syncthing.id = "Z7HYCDN-UQA4KQC-ZW6M4QG-2FQ3VVL-HPVIQYB-26OOJZM-2TO7FVN-OXKFBQX";
-    };
-
-    ext-arvid-laptop = {
-      syncthing.id = "KLWJQ4L-WCFCZTD-UE4BPVY-46BDBAW-QPYX3MC-OORAN6R-FXDVQ5P-NK5K4AC";
-    };
-
-    ext-stefan = {
-      syncthing.id = "LRSIJOJ-VDYM3PR-RULNIWS-LFP4NO5-ENQNAEK-BMFLTVH-VG6BVCI-EJ27KQV";
-    };
+    ext-arvid-laptop.syncthing.id = "KLWJQ4L-WCFCZTD-UE4BPVY-46BDBAW-QPYX3MC-OORAN6R-FXDVQ5P-NK5K4AC";
 
     ext-susann = {
       nets = {
