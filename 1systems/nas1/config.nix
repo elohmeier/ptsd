@@ -43,13 +43,13 @@ in
     ip = "100.101.207.64";
     httpServices = [
       "alertmanager"
-      "home-assistant"
-      "nginx-monica"
-      "prometheus-server"
       "grafana"
+      "home-assistant"
       "mjpg-streamer"
+      "monica"
       "navidrome"
       "octoprint"
+      "prometheus-server"
     ];
   };
 
@@ -67,7 +67,7 @@ in
   ptsd.monica = {
     enable = true;
     domain = config.ptsd.tailscale.fqdn;
-    appUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.nginx-monica}";
+    appUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.monica}";
     extraEnv = {
       APP_KEY = "dummydummydummydummydummydummydu";
     };

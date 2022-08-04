@@ -238,7 +238,7 @@ in
           listen = [
             {
               addr = cfg.listen.addr;
-              port = config.ptsd.ports.nginx-monica;
+              port = config.ptsd.ports.monica;
             }
           ];
 
