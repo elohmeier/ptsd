@@ -44,11 +44,11 @@ with lib;
     ptsd-nnn
     pwgen
     qrencode
+    rar
     ripgrep
     tabula-java
     tig
     tmux
-    unrar
     unzip
     watch
     wrk
