@@ -7,15 +7,18 @@ let
     "/tank/enc"
     "/var/backup"
     "/var/cache/photoprism"
-    "/var/lib"
+    "/var/lib/grafana"
+    "/var/lib/hass"
+    "/var/lib/monica"
+    "/var/lib/private/navidrome"
+    "/var/lib/private/octoprint"
+    "/var/lib/private/photoprism"
+    "/var/lib/syncthing"
   ];
   exclude = [
-    "/var/lib/borg"
-    "/var/lib/monica/storage/logs"
-    "/var/lib/mysql" # covered via mysqlBackup in monica.nix
-    "/var/lib/postgresql" # covered via postgresqlBackup above
-    "/var/lib/private/navidrome/cache"
     "/tank/enc/roms"
+    "/var/lib/monica/storage/logs"
+    "/var/lib/private/navidrome/cache"
   ];
   environment.BORG_BASE_DIR = "/var/lib/borg";
   readWritePaths = [ "/var/lib/borg" ];
