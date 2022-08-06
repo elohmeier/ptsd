@@ -2,11 +2,11 @@
 
 stdenv.mkDerivation rec {
   pname = "logseq-bin";
-  version = "0.7.5";
+  version = "0.7.9";
 
   src = fetchurl {
     url = "https://github.com/logseq/logseq/releases/download/${version}/Logseq-darwin-arm64-${version}.dmg";
-    sha256 = "sha256-6zrRg4BSDqLoZHzS//wVtN6+BgUAB8vcSwhYjVK+osE=";
+    sha256 = "sha256-cdn544WQgnhNth4MWC8VUZWV3DABafQu92jzDVDShAk=";
   };
 
   nativeBuildInputs = [ makeWrapper undmg ];
