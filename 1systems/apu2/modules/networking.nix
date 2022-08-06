@@ -1,10 +1,5 @@
 { config, lib, pkgs, ... }:
 let
-  bridgeIfs = [
-    "enp1s0"
-    "enp2s0"
-    "enp3s0"
-  ];
   universe = import ../../../2configs/universe.nix;
 in
 {
@@ -22,46 +17,38 @@ in
   };
 
   networking = {
-    useNetworkd = true;
-    useDHCP = false;
     hostName = "apu2";
-    bridges.br0.interfaces = bridgeIfs;
-    interfaces.br0.useDHCP = false;
-
-    # fix wrong ip address allocation after nixos 22.05 upgrade
-    interfaces.br0.ipv4.addresses = [{ address = "192.168.168.41"; prefixLength = 24; }];
-    defaultGateway = "192.168.168.1";
+    useDHCP = false;
+    useNetworkd = true;
     nameservers = [ "192.168.168.1" ];
 
     firewall = {
-
       interfaces.br0 = {
-        allowedTCPPorts = [
-          config.ptsd.mosquitto.portPlain
-        ];
+        allowedTCPPorts = [ 1883 ]; # mosquitto
         allowedTCPPortRanges = [{ from = 30000; to = 50000; }]; # for pyhomematic
       };
-
       trustedInterfaces = [ "br0" "dlrgvpn" "nwvpn" "tailscale0" ];
-
       allowedTCPPorts = [
         8123 # hass
       ];
     };
   };
 
-  systemd.network.networks = builtins.listToAttrs (
-    map
-      (
-        brName: {
-          name = "40-${brName}";
-          value = {
-            networkConfig = {
-              ConfigureWithoutCarrier = true;
-            };
-          };
-        }
-      )
-      bridgeIfs
-  );
+  systemd.network = {
+    enable = true;
+    netdevs = {
+      "40-br0".netdevConfig = { Kind = "bridge"; Name = "br0"; };
+    };
+    networks = {
+      "40-br0" = {
+        matchConfig.Name = "br0";
+        networkConfig = { DHCP = "ipv6"; Address = "192.168.168.41/24"; }; # fix wrong ip address allocation after nixos 22.05 upgrade
+        routes = [{ routeConfig.Gateway = "192.168.168.1"; }];
+      };
+      "40-enp" = {
+        matchConfig.Name = "enp*";
+        networkConfig = { Bridge = "br0"; ConfigureWithoutCarrier = true; };
+      };
+    };
+  };
 }

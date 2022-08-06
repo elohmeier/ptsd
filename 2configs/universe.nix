@@ -33,6 +33,8 @@
             networks = [ "192.168.168.0/24" ];
           };
         };
+
+        tailscale.ip4.addr = "100.121.61.124";
       };
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM8kcXGoM6iZJy6Q/EHl+i2oXvMvzepeilNqM9a/otYu ";
       borg.quota = "10G";

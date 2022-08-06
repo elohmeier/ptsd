@@ -1,12 +1,42 @@
 { config, lib, pkgs, ... }:
 
 {
-  ptsd.mosquitto = {
+  services.mosquitto = {
     enable = true;
+
     listeners = [{
-      interface = "br0";
+      port = 1883;
       address = "192.168.168.41";
+      settings.bind_interface = "br0";
+      users = {
+        hass = {
+          acl = [
+            "readwrite cmnd/#"
+            "readwrite stat/#"
+            "readwrite tele/#"
+            "readwrite homeassistant/#"
+          ];
+          passwordFile = config.ptsd.secrets.files."mosquitto-hass.passwd".path;
+        };
+
+        tasmota = {
+          acl = [
+            "readwrite cmnd/#"
+            "readwrite stat/#"
+            "readwrite tele/#"
+            "readwrite homeassistant/#"
+          ];
+          passwordFile = config.ptsd.secrets.files."mosquitto-tasmota.passwd".path;
+        };
+      };
     }];
+  };
+
+  systemd.services.mosquitto.serviceConfig.SupplementaryGroups = "keys"; # ptsd secret access
+
+  ptsd.secrets.files = {
+    "mosquitto-hass.passwd" = { owner = "mosquitto"; };
+    "mosquitto-tasmota.passwd" = { owner = "mosquitto"; };
   };
 
   services.home-assistant = {

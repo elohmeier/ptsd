@@ -5,7 +5,7 @@
     ../..
     ../../2configs
     ../../2configs/nwhost-mini.nix
-    ../../2configs/profiles/minimal.nix
+    ../../2configs/minimal.nix
     ../../2configs/prometheus/node.nix
 
     ./modules/home-assistant.nix
