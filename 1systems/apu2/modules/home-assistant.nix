@@ -7,7 +7,7 @@
     listeners = [{
       port = 1883;
       address = "192.168.168.41";
-      settings.bind_interface = "br0";
+      settings.bind_interface = "bond0";
       users = {
         hass = {
           acl = [
