@@ -6,16 +6,11 @@ let
   universe = import ../../../2configs/universe.nix;
 in
 {
-  systemd.services."syncthing.service".serviceConfig.LoadCredential = [
-    "syncthing.key:/var/src/secrets/syncthing.key"
-    "syncthing.crt:/var/src/secrets/syncthing.crt"
-  ];
-
   services.syncthing = {
     enable = true;
 
-    key = "/run/credentials/syncthing.service/syncthing.key";
-    cert = "/run/credentials/syncthing.service/syncthing.crt";
+    key = "/var/src/secrets/syncthing.key";
+    cert = "/var/src/secrets/syncthing.crt";
     devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
 
     folders = {
@@ -32,18 +27,18 @@ in
       "/tank/enc/luisa/Musik" = { label = "luisa/Musik"; id = "zvffu-ff92z"; devices = [ "mb1" "mb3" "mb4" ]; };
       "/tank/enc/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb1" "mb3" ]; };
       "/tank/enc/media" = { label = "media"; id = "zfruo-ytfi2"; devices = [ "mb4" ]; };
-      "/tank/enc/rawphotos/2021-06 mopedtour" = { label = "2021-06 mopedtour"; id = "ieyohHo7uang"; devices = [ "ext-arvid" "ext-arvid-laptop" ]; };
+      "/tank/enc/rawphotos/2021-06 mopedtour" = { label = "2021-06 mopedtour"; id = "ieyohHo7uang"; devices = [ "ext-arvid-laptop" ]; };
       "/tank/enc/rawphotos/photos" = { label = "photos"; id = "rqvar-xdhbm"; devices = [ "mb4" ]; };
       "/tank/enc/repos" = { label = "enno/repos"; id = "yqa69-2zjmt"; devices = [ "pine2" "mb4" ]; ignorePerms = false; };
       "/tank/enc/roms" = { label = "roms"; id = "avcjn-tyzyp"; devices = [ "mb4" ]; };
-      "/var/cache/photoprism" = { label = "photoprism-cache"; id = "tsfyr-53d26"; devices = [ "mb4" ]; };
-      "/var/lib/photoprism" = { label = "photoprism-lib"; id = "3tf3k-nohyy"; devices = [ "mb4" ]; };
+      "/var/cache/private/photoprism" = { label = "photoprism-cache"; id = "tsfyr-53d26"; devices = [ "mb4" ]; };
+      "/var/lib/private/photoprism" = { label = "photoprism-lib"; id = "3tf3k-nohyy"; devices = [ "mb4" ]; };
     };
   };
 
   # syncthing might run a lengthy db migration
-  systemd.services."syncthing-init.service".serviceConfig.TimeoutStartSec = "5min";
-  systemd.services."syncthing.service".serviceConfig.TimeoutStartSec = "5min";
+  systemd.services.syncthing-init.serviceConfig.TimeoutStartSec = "5min";
+  systemd.services.syncthing.serviceConfig.TimeoutStartSec = "5min";
 
   boot.kernel.sysctl = {
     # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
