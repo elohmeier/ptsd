@@ -6,36 +6,36 @@
     useBabelfish = true;
 
     shellAliases = {
-      gapf = "git commit --amend --no-edit && git push --force";
       gaapf = "git add . && git commit --amend --no-edit && git push --force";
+      gapf = "git commit --amend --no-edit && git push --force";
       grep = "grep --color";
-      ping6 = "ping -6";
-      telnet = "screen //telnet";
-      vim = "nvim";
-      vi = "nvim";
       l = "exa -al";
       la = "exa -al";
       lg = "exa -al --git";
       ll = "exa -l";
       ls = "exa";
+      ping6 = "ping -6";
+      telnet = "screen //telnet";
       tree = "exa --tree";
+      vi = "nvim";
+      vim = "nvim";
     };
 
     shellAbbrs = {
-      br = "broot";
       "cd.." = "cd ..";
+      br = "broot";
 
       # git
-      ga = "git add";
       "ga." = "git add .";
+      ga = "git add";
       gc = "git commit";
       gco = "git checkout";
       gd = "git diff";
       gf = "git fetch";
       gl = "git log";
-      gs = "git status";
       gp = "git pull";
       gpp = "git push";
+      gs = "git status";
     };
 
     interactiveShellInit = ''

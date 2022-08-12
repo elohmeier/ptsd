@@ -7,18 +7,15 @@ with lib;
     useBabelfish = true;
 
     shellAliases = {
-      gapf = "git commit --amend --no-edit && git push --force";
       gaapf = "git add . && git commit --amend --no-edit && git push --force";
+      gapf = "git commit --amend --no-edit && git push --force";
       grep = "grep --color";
+      nr = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\"";
       ping6 = "ping -6";
       telnet = "screen //telnet";
-      nr = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\"";
 
       # useful to just apply config changes w/o updating packages, e.g. on the go
       #nrx = "nixos-rebuild --use-remote-sudo --flake \"/home/enno/repos/ptsd/.#$hostname\" --override-input nixpkgs github:NixOS/nixpkgs/${config.system.nixos.revision}";
-
-      vim = "nvim";
-      vi = "nvim";
     };
 
     shellAbbrs = {
@@ -26,25 +23,25 @@ with lib;
       vi = "vim";
 
       # git
-      ga = "git add";
       "ga." = "git add .";
+      ga = "git add";
       gc = "git commit";
       gco = "git checkout";
       gd = "git diff";
       gf = "git fetch";
       gl = "git log";
-      gs = "git status";
       gp = "git pull";
       gpp = "git push";
+      gs = "git status";
 
       # systemd
       ctl = "systemctl";
-      utl = "systemctl --user";
+      dn = "systemctl stop";
       jtl = "journalctl";
-      ut = "systemctl --user start";
       un = "systemctl --user stop";
       up = "systemctl start";
-      dn = "systemctl stop";
+      ut = "systemctl --user start";
+      utl = "systemctl --user";
     };
 
     interactiveShellInit = ''
