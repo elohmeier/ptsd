@@ -45,25 +45,35 @@ def replace(filename: str, replace_dict: dict) -> str:
     return new
 
 
-def rename_folders(path: Path, replace_dict: dict, dry_run: bool) -> None:
+def rename_folders(
+    path: Path, replace_dict: dict, dry_run: bool, print_src: bool
+) -> None:
     """Rename folders"""
     for subdir, _, _ in os.walk(path, topdown=False):
         old_bn = os.path.basename(subdir)
         new_bn = replace(old_bn, replace_dict)
         if old_bn != new_bn:
             new = os.path.join(os.path.dirname(subdir), new_bn)
-            print(subdir, ">>>", new)
+            if print_src:
+                print(subdir)
+            else:
+                print(subdir, ">>>", new)
             if not dry_run:
                 os.rename(subdir, new)
 
 
-def rename_files(path: Path, replace_dict: dict, dry_run: bool) -> None:
+def rename_files(
+    path: Path, replace_dict: dict, dry_run: bool, print_src: bool
+) -> None:
     for p in path.glob("**/*"):
         if p.is_file():
             old = p.name
             new = replace(old, replace_dict)
             if old != new:
-                print(old, ">>>", new)
+                if print_src:
+                    print(p)
+                else:
+                    print(old, ">>>", new)
                 if not dry_run:
                     p.rename(p.parent / new)
 
@@ -74,6 +84,12 @@ if __name__ == "__main__":
     parser.add_argument("--files-only", "-f", action="store_true")
     parser.add_argument("--folders-only", "-d", action="store_true")
     parser.add_argument("--dry-run", "-n", action="store_true")
+    parser.add_argument(
+        "--print-src",
+        "-p",
+        action="store_true",
+        help="print source paths instead of '[src] >> [dst]'",
+    )
     parser.add_argument("dir")
     args = parser.parse_args()
 
@@ -81,7 +97,7 @@ if __name__ == "__main__":
     dir = Path(args.dir)
 
     if not args.files_only:
-        rename_folders(dir, repl_dict, args.dry_run)
+        rename_folders(dir, repl_dict, args.dry_run, args.print_src)
 
     if not args.folders_only:
-        rename_files(dir, repl_dict, args.dry_run)
+        rename_files(dir, repl_dict, args.dry_run, args.print_src)
