@@ -247,7 +247,7 @@
             ];
           };
 
-          utmvm_qemu = nixpkgs.lib.nixosSystem {
+          utmvm_qcow = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [
               ./2configs/utmvm.nix
@@ -360,6 +360,7 @@
 
               imports = desktopImports ++ [
                 ./2configs/home/alacritty.nix
+                ./2configs/home/chromium.nix
                 ./2configs/home/i3.nix
                 ./2configs/home/i3status.nix
                 ./2configs/home/xdg.nix
