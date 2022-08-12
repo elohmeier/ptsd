@@ -223,6 +223,10 @@
             modules = defaultModules ++ [
               ./2configs/hypervvm.nix
               ./2configs/vm-efi-xfs.nix
+              {
+                fileSystems."/".device = "/dev/sda2";
+                fileSystems."/boot".device = "/dev/sda1";
+              }
             ];
           };
 
