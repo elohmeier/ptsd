@@ -44,11 +44,11 @@ with lib;
     ptsd-nnn
     pwgen
     qrencode
-    rar
     ripgrep
     tabula-java
     tig
     tmux
+    unrar
     unzip
     watch
     wrk
@@ -103,6 +103,7 @@ with lib;
     ffmpeg
     logseq-bin
     subler-bin
+    rar
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
     #aliza # dicom viewer
     #art
