@@ -38,31 +38,6 @@ sudo nixos-rebuild -I ptsd=$HOME/ptsd build
 ```
 
 
-## Cachix
-
-To use the binary cache select a supported channel as the "nixpkgs" channel.
-
-Supported channels:
-* https://nixos.org/channels/nixos-20.03
-* https://nixos.org/channels/nixos-unstable
-
-Use [Cachix](https://cachix.org/) to enable the binary cache by invoking 
-`cachix use nerdworks` (or `nix-shell -p cachix --run "cachix use nerdworks"`).
-
-
-## Remote Installation via SSH
-
-1. `make iso` and `dd` to USB stick.
-2. Boot from stick and connect via SSH (e.g. via torsocks).
-3. Prepare installation FS and mount to `/mnt`.
-3. Populate target using `$(nix-build --no-out-link krops.nix --argstr name HOSTNAME --argstr starget "root@IP/mnt/var/src" --arg desktop true -A populate)`.
-4. Build system remotely using `nix-build -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --no-out-link --store /mnt`.
-5. Install the system using `nixos-install --system /nix/store/... --no-root-passwd --no-channel-copy`.
-6. Unmount everything and reboot.
-
-Extra Tipp:
-Build'n'install: `nixos-install --system $(nix-build --no-out-link -I /mnt/var/src/ '<nixpkgs/nixos>' -A system --store /mnt) --no-root-passwd --no-channel-copy`
-
 ## Provision Hetzner VM
 
 
