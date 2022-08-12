@@ -25,6 +25,8 @@ in
     ./modules/syncthing.nix
   ];
 
+  environment.systemPackages = with pkgs;[ rmlint vim ];
+
   documentation = {
     enable = false;
     man.enable = false;
