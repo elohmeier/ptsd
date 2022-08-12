@@ -209,7 +209,7 @@
             modules = defaultModules ++ [
               ./2configs/utmvm.nix
               ./2configs/utm-i3.nix
-              ./2configs/utmvm-xfs.nix
+              ./2configs/vm-efi-xfs.nix
               {
                 networking.hostName = "mb4-nixos";
                 system.stateVersion = "22.05";
@@ -218,11 +218,19 @@
             ];
           };
 
+          hyperv_x86 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./2configs/hypervvm.nix
+              ./2configs/vm-efi-xfs.nix
+            ];
+          };
+
           utmvm_x86 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
               ./2configs/utmvm.nix
-              ./2configs/utmvm-xfs.nix
+              ./2configs/vm-efi-xfs.nix
             ];
           };
 
@@ -231,7 +239,7 @@
             modules = defaultModules ++ [
               ./2configs/utmvm.nix
               ./2configs/utm-i3.nix
-              ./2configs/utmvm-xfs.nix
+              ./2configs/vm-efi-xfs.nix
               {
                 system.stateVersion = "22.05";
                 virtualisation.docker = { enable = true; enableOnBoot = false; };
@@ -243,7 +251,7 @@
             system = "aarch64-linux";
             modules = defaultModules ++ [
               ./2configs/utmvm.nix
-              ./2configs/utmvm-xfs.nix
+              ./2configs/vm-efi-xfs.nix
             ];
           };
 
