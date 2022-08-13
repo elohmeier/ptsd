@@ -54,7 +54,11 @@ require('formatter').setup({
             end
         },
         nix = {function() return {exe = "nixpkgs-fmt", stdin = true} end},
-        python = {function() return {exe = "black", args = {"-"}, stdin = true} end},
+        python = {
+            function()
+                return {exe = "isort", args = {"--profile", "black", "-"}, stdin = true}
+            end, function() return {exe = "black", args = {"-"}, stdin = true} end
+        },
         sh = {function() return {exe = "shfmt", args = {"-"}, stdin = true} end},
         sql = {
             function()
