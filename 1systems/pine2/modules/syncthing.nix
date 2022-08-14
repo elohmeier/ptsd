@@ -18,7 +18,7 @@ in
     folders = {
       "/home/enno/repos" = {
         id = "yqa69-2zjmt";
-        devices = [ "nas1" "ws1" ];
+        devices = [ "nas1" "mb4" ];
         label = "repos";
         ignorePerms = false;
       };
@@ -34,4 +34,3 @@ in
   networking.firewall.allowedTCPPorts = [ 22000 ];
   networking.firewall.allowedUDPPorts = [ 21027 ];
 }
-

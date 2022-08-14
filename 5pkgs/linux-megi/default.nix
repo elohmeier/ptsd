@@ -22,15 +22,15 @@ linuxKernel.manualConfig rec {
   # https://gitlab.com/postmarketOS/pmaports/-/tree/ppp-community/device/community/linux-pine64-pinephonepro
   configfile = ./config-pine64-pinephonepro.aarch64;
 
-  version = "5.18.4";
+  version = "5.19.0";
 
   # prefetch sources remotely using
   # nix-shell -p git -p nix-prefetch-github --run "nix-prefetch-github --rev orange-pi-5.17-20220313-2345 megous linux"
   src = fetchFromGitHub {
     owner = "megous";
     repo = "linux";
-    rev = "orange-pi-5.18-20220615-1100";
-    sha256 = "sha256-FBoiIp6YqzO7q8DNk8XLWlNzCioILWXNJ37MnQy2yYc=";
+    rev = "orange-pi-5.19-20220802-0940";
+    sha256 = "sha256-oz1vmq2ooDhb+Yalk9XrkO3eq2pGcjFiHTSXR7L29yU=";
   };
   allowImportFromDerivation = true;
 }

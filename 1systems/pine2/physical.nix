@@ -54,6 +54,8 @@
       generic-extlinux-compatible.enable = true;
     };
 
+    #initrd.systemd.enable = true;
+
     postBootCommands = ''
       if [ -f /boot/nix-path-registration ]; then
         # Register the contents of the initial Nix store

@@ -25,9 +25,6 @@
   ];
 
   programs.sway.enable = true;
-
-  ptsd.nwacme.hostCert.enable = false;
-
   ptsd.tailscale.enable = true;
 
   networking = {
