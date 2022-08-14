@@ -12,6 +12,10 @@
     binfmt.emulatedSystems = [ "x86_64-linux" ];
     initrd.availableKernelModules = [ "xhci_pci" "virtio_pci" "usbhid" "usb_storage" "sr_mod" ];
     tmpOnTmpfs = true;
+    initrd.systemd = {
+      enable = true;
+      emergencyAccess = true;
+    };
   };
 
   networking = {
@@ -21,7 +25,7 @@
   };
 
   systemd.network.networks."40-enp" = {
-    matchConfig.Name = "enp*";
+    matchConfig.Driver = "virtio_net";
     networkConfig = {
       DHCP = "yes";
       IPv6PrivacyExtensions = "kernel";
@@ -75,4 +79,11 @@
       };
     };
   };
+
+  hardware.firmware = [
+    (pkgs.runCommand "firmware-belkin-usb-c" { } ''
+      mkdir -p $out/lib/firmware/rtl_nic
+      cp ${pkgs.firmwareLinuxNonfree}/lib/firmware/rtl_nic/rtl8153a-4.fw $out/lib/firmware/rtl_nic/
+    '')
+  ];
 }

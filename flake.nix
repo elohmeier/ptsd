@@ -207,8 +207,8 @@
           mb4-nixos = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [
-              ./2configs/utmvm.nix
               ./2configs/utm-i3.nix
+              ./2configs/utmvm.nix
               ./2configs/vm-efi-xfs.nix
               {
                 networking.hostName = "mb4-nixos";
