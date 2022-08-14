@@ -38,6 +38,8 @@
     options = [ "nodev" "nosuid" "noexec" ];
   };
 
+  services.journald.extraConfig = "Storage=volatile";
+
   swapDevices =
     [
       {

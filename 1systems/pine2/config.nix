@@ -2,8 +2,6 @@
 
 {
   imports = [
-    #../../2configs/nixbuild.nix
-    #../../2configs/profiles/workstation
     ../../2configs
     ../../2configs/fish.nix
     ../../2configs/hw/pinephone-pro
@@ -11,6 +9,7 @@
     ../../2configs/stateless-root.nix
     ../../2configs/users/enno.nix
 
+    ./modules/klipper.nix
     ./modules/syncthing.nix
   ];
 
