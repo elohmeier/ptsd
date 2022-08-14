@@ -63,7 +63,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
         local bufopts = {noremap = true, silent = true, buffer = args.buf}
         vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
-        vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
+        vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
     end
 })
 
@@ -96,3 +97,7 @@ vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>",
                         {noremap = true, silent = true})
+
+vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")',
+                        {noremap = true, expr = true, silent = true})
+vim.g.copilot_no_tab_map = true
