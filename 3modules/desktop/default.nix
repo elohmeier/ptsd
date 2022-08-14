@@ -95,7 +95,5 @@ in
 
     services.upower.enable = true;
 
-    programs.wireshark.enable = true;
-    users.groups.wireshark.members = [ config.users.users.mainUser.name ];
   };
 }

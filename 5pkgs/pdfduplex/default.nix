@@ -1,6 +1,6 @@
-{ writers, pdftk, openjdk11 }:
+{ writers, pdftk, openjdk17 }:
 let
-  mypdftk = (pdftk.override { jre = openjdk11; });
+  mypdftk = (pdftk.override { jre = openjdk17; });
 in
 writers.writeDashBin "pdfduplex" ''
   A="''${1?must provide file A}"

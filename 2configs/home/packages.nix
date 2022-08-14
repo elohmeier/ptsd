@@ -110,7 +110,7 @@ with lib;
     #calibre
     #cura
     #freecad
-    (pdftk.override { jre = openjdk11; })
+    (pdftk.override { jre = openjdk17; })
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
     apacheHttpd
@@ -132,7 +132,7 @@ with lib;
     gen-secrets
     ghostscript
     gimp
-    gnome3.file-roller
+    #gnome3.file-roller
     gnupg
     go
     go-sqlcmd
@@ -165,11 +165,11 @@ with lib;
     paperkey
     parted
     pdf2svg
-    pdfconcat
+    # pdfconcat # fixme
     pdfduplex
     pgmodeler
     ptsd-ffmpeg
-    ptsd-vscode
+    #ptsd-vscode
     quirc # qr scanner
     rclone
     ripmime
@@ -193,7 +193,6 @@ with lib;
     vlc
     wf-recorder
     wget
-    wireshark-qt
     xdg_utils
     xfsprogs.bin
     xournalpp
