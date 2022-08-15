@@ -2,7 +2,6 @@
 
 {
   # spice-vdagent does not support resizing the screen, only X11
-  # services.getty.autologinUser = "enno";
   # programs.sway.enable = true;
   # environment.variables = {
   #   WLR_RENDERER = "pixman";
@@ -10,7 +9,7 @@
   # };
 
   services.xserver = {
-    enable = true;
+    enable = lib.mkDefault true;
     desktopManager.xterm.enable = false;
     displayManager = {
       defaultSession = "none+i3";
@@ -36,6 +35,14 @@
       mouse.naturalScrolling = true;
     };
   };
+
+  specialisation.nogui.configuration = {
+    services.xserver.enable = false;
+  };
+
+  environment.variables.LIBGL_ALWAYS_SOFTWARE = "1"; # alacritty fix
+
+  services.getty.autologinUser = "enno";
 
   programs.wireshark.enable = true;
   users.groups.wireshark.members = [ config.users.users.mainUser.name ];
