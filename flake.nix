@@ -230,6 +230,14 @@
             ];
           };
 
+          vbox_x86 = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./2configs/vbox.nix
+              ./2configs/utm-i3.nix
+            ];
+          };
+
           utmvm_x86 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
@@ -362,8 +370,33 @@
             };
           };
 
-          i3 = home-manager.lib.homeManagerConfiguration {
+          i3_aarch64 = home-manager.lib.homeManagerConfiguration {
             system = "aarch64-linux";
+            username = "enno";
+            homeDirectory = "/home/enno";
+            stateVersion = "22.05";
+
+            configuration = { config, lib, pkgs, ... }: {
+
+              imports = desktopImports ++ [
+                ./2configs/home/alacritty.nix
+                ./2configs/home/chromium.nix
+                ./2configs/home/i3.nix
+                ./2configs/home/i3status.nix
+                ./2configs/home/xdg.nix
+              ];
+
+              nixpkgs.config = {
+                allowUnfree = true;
+                packageOverrides = pkgOverrides pkgs;
+              };
+
+              services.syncthing.enable = true;
+            };
+          };
+
+          i3_x86 = home-manager.lib.homeManagerConfiguration {
+            system = "x86_64-linux";
             username = "enno";
             homeDirectory = "/home/enno";
             stateVersion = "22.05";

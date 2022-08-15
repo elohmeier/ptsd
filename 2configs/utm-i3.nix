@@ -42,8 +42,6 @@
 
   environment.variables.LIBGL_ALWAYS_SOFTWARE = "1"; # alacritty fix
 
-  services.getty.autologinUser = "enno";
-
   programs.wireshark.enable = true;
   users.groups.wireshark.members = [ config.users.users.mainUser.name ];
 }
