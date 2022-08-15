@@ -465,6 +465,16 @@
                   StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
                 };
               };
+
+              ptsd.borgbackup.jobs.hetzner = with config.home; {
+                paths = [ "${homeDirectory}/Documents" ];
+                repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
+                encryption = {
+                  mode = "repokey-blake2";
+                  passCommand = "cat ${homeDirectory}/.borgkey";
+                };
+                environment.BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
+              };
             };
           };
 

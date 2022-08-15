@@ -1,7 +1,7 @@
 _:
 {
   imports = [
-    ./nwbackup.nix
+    ./borgbackup.nix
     ./pcmanfm.nix
     ./prometheus-node-exporter.nix
     ./style.nix
