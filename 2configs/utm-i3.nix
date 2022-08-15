@@ -44,4 +44,11 @@
 
   programs.wireshark.enable = true;
   users.groups.wireshark.members = [ config.users.users.mainUser.name ];
+
+  ptsd.xrdp = {
+    enable = true;
+    defaultWindowManager = "i3";
+  };
+
+  networking.firewall.allowedTCPPorts = [ 3389 ];
 }

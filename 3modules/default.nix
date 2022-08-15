@@ -20,5 +20,6 @@ _:
     ./secrets.nix
     ./tailscale.nix
     ./wireguard.nix
+    ./xrdp.nix
   ];
 }

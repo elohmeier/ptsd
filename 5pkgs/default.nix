@@ -205,4 +205,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
     echo "run ./nixos-install.sh to install"
   '';
   wordpress = self.callPackage ./wordpress { };
+
+  xrdp = self.callPackage ./xrdp { };
+  xorgxrdp = self.callPackage ./xrdp/xorgxrdp.nix { };
 }
