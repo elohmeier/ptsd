@@ -16,8 +16,6 @@
     };
   };
 
-  system.stateVersion = "22.05";
-
   fileSystems."/" =
     {
       device = "/dev/nvme0n1p2";

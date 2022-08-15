@@ -238,6 +238,18 @@
             ];
           };
 
+          ws2-nixos = nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              ./2configs/vbox.nix
+              ./2configs/utm-i3.nix
+              {
+                networking.hostName = "ws2-nixos";
+                system.stateVersion = "22.05";
+              }
+            ];
+          };
+
           utmvm_x86 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
