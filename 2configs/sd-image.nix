@@ -9,9 +9,10 @@ let
   firmwareSize = 200; # in MB
 
   rootfsImage = pkgs.callPackage ./make-ext4-fs.nix ({
-    storePaths = [ config.system.build.toplevel ];
     compressImage = true;
     populateImageCommands = config.sdImage.populateRootCommands;
+    storePaths = [ config.system.build.toplevel ];
+    storeRoot = "/store";
     volumeLabel = "NIXOS_SD";
   });
 in
@@ -46,17 +47,22 @@ in
         # Alternatively, this could be removed from the configuration.
         # The filesystem is not needed at runtime, it could be treated
         # as an opaque blob instead of a discrete FAT32 filesystem.
-        options = [ "nofail" "noauto" ];
+        options = [ "noatime" "nofail" "noauto" ];
       };
-      "/" = {
+      "/nix" = {
         device = "/dev/disk/by-label/NIXOS_SD";
         fsType = "ext4";
+        options = [ "nodev" "noatime" "commit=1800" ];
+      };
+      "/" = {
+        fsType = "tmpfs";
+        options = [ "mode=1755" ];
       };
     };
 
     boot.postBootCommands = ''
       # On the first boot do some maintenance tasks
-      if [ -f /nix-path-registration ]; then
+      if [ -f /nix/nix-path-registration ]; then
         set -euo pipefail
         set -x
         # Figure out device names for the boot device and root filesystem.
@@ -70,16 +76,18 @@ in
         ${pkgs.e2fsprogs}/bin/resize2fs $rootPart
 
         # Register the contents of the initial Nix store
-        ${config.nix.package.out}/bin/nix-store --load-db < /nix-path-registration
+        ${config.nix.package.out}/bin/nix-store --load-db < /nix/nix-path-registration
 
         # nixos-rebuild also requires a "system" profile and an /etc/NIXOS tag.
         touch /etc/NIXOS
         ${config.nix.package.out}/bin/nix-env -p /nix/var/nix/profiles/system --set /run/current-system
 
         # Prevents this from running on later boots.
-        rm -f /nix-path-registration
+        rm -f /nix/nix-path-registration
       fi
     '';
+
+    services.journald.extraConfig = "Storage=volatile";
 
     system.build.sdImage = pkgs.callPackage
       ({ stdenv

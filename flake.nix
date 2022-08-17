@@ -128,6 +128,25 @@
             ];
           };
 
+          rpi3-klipper = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./2configs
+              ./2configs/fish.nix
+              ./2configs/klipper.nix
+              ./2configs/rpi3b.nix
+              ./2configs/users/enno.nix
+              ({ lib, ... }: {
+                services.getty.autologinUser = "enno";
+                security.sudo.wheelNeedsPassword = false;
+                nix.trustedUsers = [ "root" "@wheel" ];
+                services.resolved = { enable = true; dnssec = "false"; };
+                system.stateVersion = "22.05";
+                networking.hostName = "rpi3-klipper";
+              })
+            ];
+          };
+
           ws1 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
@@ -207,6 +226,7 @@
           mb4-nixos = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [
+              #./2configs/rpi-netboot.nix
               ./2configs/utm-i3.nix
               ./2configs/utmvm.nix
               ./2configs/vm-efi-xfs.nix
@@ -216,6 +236,7 @@
                 virtualisation.docker = { enable = true; enableOnBoot = false; };
               }
             ];
+            specialArgs = { inherit nixpkgs; };
           };
 
           hyperv_x86 = nixpkgs.lib.nixosSystem {

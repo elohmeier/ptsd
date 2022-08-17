@@ -1,4 +1,4 @@
-# Builds an ext4 image containing a populated /nix/store with the closure
+# Builds an ext4 image containing a populated Nix store with the closure
 # of store paths passed in the storePaths parameter, in addition to the
 # contents of a directory that can be populated with commands. The
 # generated image is sized to only fit its contents, with the expectation
@@ -7,6 +7,7 @@
 , lib
   # List of derivations to be included
 , storePaths
+, storeRoot ? "/nix/store"
   # Whether or not to compress the resulting image with zstd
 , compressImage ? false
 , zstd
@@ -40,10 +41,10 @@ pkgs.stdenv.mkDerivation {
 
       echo "Preparing store paths for image..."
 
-      # Create nix/store before copying path
-      mkdir -p ./rootImage/nix/store
+      # Create Nix store before copying path
+      mkdir -p ./rootImage${storeRoot}
 
-      xargs -I % cp -a --reflink=auto % -t ./rootImage/nix/store/ < ${sdClosureInfo}/store-paths
+      xargs -I % cp -a --reflink=auto % -t ./rootImage${storeRoot}/ < ${sdClosureInfo}/store-paths
       (
         GLOBIGNORE=".:.."
         shopt -u dotglob
