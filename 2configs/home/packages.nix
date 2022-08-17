@@ -48,7 +48,6 @@ with lib;
     tabula-java
     tig
     tmux
-    unrar
     unzip
     watch
     wrk
@@ -105,6 +104,7 @@ with lib;
     subler-bin
     rar
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
+    unrar
     #aliza # dicom viewer
     #art
     #calibre
