@@ -241,9 +241,17 @@
           ws2-nixos = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
+              ./2configs/klipper.nix
               ./2configs/vbox.nix
               ./2configs/utm-i3.nix
               {
+                documentation = {
+                  enable = false;
+                  man.enable = false;
+                  info.enable = false;
+                  doc.enable = false;
+                  dev.enable = false;
+                };
                 networking.hostName = "ws2-nixos";
                 system.stateVersion = "22.05";
               }

@@ -2,6 +2,7 @@
 
 let
   indentGcode = s: "\n${lib.concatMapStringsSep "\n" (x: "  ${x}") (lib.splitString "\n" s)}";
+  universe = import ./universe.nix;
 in
 {
   users = {
@@ -31,85 +32,86 @@ in
         run_current = "0.800";
       };
       "tmc2208 stepper_y" = {
-        uart_pin = "PB7";
         run_current = "0.800";
+        uart_pin = "PB7";
       };
       "tmc2208 stepper_z" = {
-        uart_pin = "PB6";
         run_current = "0.650";
+        uart_pin = "PB6";
       };
       "tmc2208 extruder" = {
-        uart_pin = "PB5";
         run_current = "0.800";
+        uart_pin = "PB5";
       };
 
       stepper_x = {
-        step_pin = "PD7";
         dir_pin = "!PC5";
         enable_pin = "!PD6";
-        microsteps = "16";
-        rotation_distance = "40";
         endstop_pin = "^PC2";
-        position_endstop = "-23";
-        position_min = "-23";
-        position_max = "235";
         homing_speed = "50";
+        microsteps = "16";
+        position_endstop = "-23";
+        position_max = "235";
+        position_min = "-23";
+        rotation_distance = "40";
+        step_pin = "PD7";
       };
 
       stepper_y = {
-        step_pin = "PC6";
         dir_pin = "!PC7";
         enable_pin = "!PD6";
-        microsteps = "16";
-        rotation_distance = "40";
         endstop_pin = "^PC3";
-        position_endstop = "-17";
-        position_min = "-17";
-        position_max = "235";
         homing_speed = "50";
+        microsteps = "16";
+        position_endstop = "-17";
+        position_max = "235";
+        position_min = "-17";
+        rotation_distance = "40";
+        step_pin = "PC6";
       };
 
       stepper_z = {
-        step_pin = "PB3";
         dir_pin = "PB2";
         enable_pin = "!PA5";
-        microsteps = "16";
-        rotation_distance = "8";
         endstop_pin = "probe:z_virtual_endstop";
+        microsteps = "16";
         position_max = "250";
         position_min = "-2"; # fix out of range error...
+        rotation_distance = "8";
+        step_pin = "PB3";
       };
 
       extruder = {
-        max_extrude_only_distance = "100.0";
-        step_pin = "PB1";
+        control = "pid";
         dir_pin = "PB0";
         enable_pin = "!PD6";
-        microsteps = "16";
-        rotation_distance = "9.524 # 336 steps/mm as specified in matrix extruder doc";
-        nozzle_diameter = "0.400";
         filament_diameter = "1.750";
         heater_pin = "PD5";
-        sensor_type = "EPCOS 100K B57560G104F";
-        sensor_pin = "PA7";
-        control = "pid";
-        pid_Kp = "21.527";
-        pid_Ki = "1.063";
-        pid_Kd = "108.982";
-        min_temp = "0";
+        max_extrude_only_distance = "100.0";
         max_temp = "250";
+        microsteps = "16";
+        min_extrude_temp = "0";
+        min_temp = "0";
+        nozzle_diameter = "0.400";
+        pid_Kd = "108.982";
+        pid_Ki = "1.063";
+        pid_Kp = "21.527";
+        rotation_distance = "9.524 # 336 steps/mm as specified in matrix extruder doc";
+        sensor_pin = "PA7";
+        sensor_type = "EPCOS 100K B57560G104F";
+        step_pin = "PB1";
       };
 
       heater_bed = {
-        heater_pin = "PD4";
-        sensor_type = "EPCOS 100K B57560G104F";
-        sensor_pin = "PA6";
         control = "pid";
-        pid_Kp = "54.027";
-        pid_Ki = "0.770";
-        pid_Kd = "948.182";
-        min_temp = "0";
+        heater_pin = "PD4";
         max_temp = "130";
+        min_temp = "0";
+        pid_Kd = "948.182";
+        pid_Ki = "0.770";
+        pid_Kp = "54.027";
+        sensor_pin = "PA6";
+        sensor_type = "EPCOS 100K B57560G104F";
       };
 
       fan = {
@@ -163,13 +165,16 @@ in
 
       skew_correction = { };
 
-      # # prevent M205 warnings
-      # "gcode_macro M205".gcode = "\n  G4";
-
       # use this start code in prusa slicer:
-      # START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
+      # -------------------------------------------------------------------------------------------
+      # M190 S0
+      # M104 S0
+      # _START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
+      # -------------------------------------------------------------------------------------------
+      # (M190/M104 prevent pruser slicer inserting heatup commands before the start code)
+      #
       # skew measured using 50mm model from https://www.thingiverse.com/thing:2972743
-      "gcode_macro START_PRINT".gcode = indentGcode ''
+      "gcode_macro _START_PRINT".gcode = indentGcode ''
         {% set BED_TEMP = params.BED_TEMP|default(60)|float %}
         {% set EXTRUDER_TEMP = params.EXTRUDER_TEMP|default(190)|float %}
         # Start bed heating
@@ -183,13 +188,15 @@ in
         BED_MESH_CALIBRATE
         BED_MESH_OUTPUT
         SET_SKEW XY=704,698,496 XZ=705,702,495 YZ=698,699,497
-        G1 Z50 F240
-        G1 X2 Y10 F3000
+        G1 Z10 F240
+        # prevent filement dripping on the bed during heating up
+        G1 X-8 Y10 F5000
         # Wait for bed to reach temperature
         M190 S{BED_TEMP}
         # Set and wait for nozzle to reach temperature
         M109 S{EXTRUDER_TEMP}
         G1 Z0.28 F240
+        G1 X2 Y10 F5000
         G92 E0
         G1 Y140 E10 F1500 ; intro line
         G1 X2.3 F5000
@@ -198,7 +205,7 @@ in
         G92 E0
       '';
 
-      "gcode_macro END_PRINT".gcode = indentGcode ''
+      "gcode_macro _END_PRINT".gcode = indentGcode ''
         # Turn off bed, extruder, and fan
         M140 S0
         M104 S0
@@ -312,17 +319,17 @@ in
         enable_debug_logging = false;
       };
       authorization = {
-        trusted_clients = [ "100.0.0.0/8" ];
-        cors_domains = [ "http://pine2.pug-coho.ts.net" ];
+        trusted_clients = [ "100.0.0.0/8" "192.168.0.0/16" ];
+        cors_domains = [ "http://${config.networking.hostName}.pug-coho.ts.net" "http://${config.networking.hostName}.fritz.box" ];
       };
 
       octoprint_compat = { }; # allow file upload from slicer
     };
 
-    address = "100.80.84.47";
+    address = "0.0.0.0";
   };
 
-  networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ config.services.moonraker.port ];
+  networking.firewall.allowedTCPPorts = [ config.services.moonraker.port 80 ];
 
   systemd.services.moonraker = {
     serviceConfig.SupplementaryGroups = "klipper";
@@ -331,7 +338,8 @@ in
 
   services.fluidd = {
     enable = true;
-    hostName = "pine2.pug-coho.ts.net";
+    #hostName = "${config.networking.hostName}.pug-coho.ts.net";
+    hostName = "${config.networking.hostName}.fritz.box";
     nginx = {
       # allow large uploads from slicer
       extraConfig = ''
