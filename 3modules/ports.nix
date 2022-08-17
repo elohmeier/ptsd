@@ -23,7 +23,7 @@ in
       mjpg-streamer = 5001;
       monica = 8485;
       navidrome = 4533;
-      octoprint = 5001;
+      octoprint = 5000;
       prometheus-maddy = 9749;
       prometheus-node = 9100;
       prometheus-server = 9090;
