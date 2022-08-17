@@ -83,12 +83,15 @@ let
   mkBackupLaunchdAgent = name: cfg: nameValuePair "borgbackup-job-${name}" {
     enable = true;
     config = {
-      Program = toString (pkgs.writeShellScript "borgbackup-script-${name}" (mkBackupScript cfg));
       EnvironmentVariables = {
         BORG_REPO = cfg.repo;
         PATH = lib.makeBinPath (with pkgs;[ coreutils borgbackup openssh ]);
         inherit (cfg) extraArgs extraInitArgs extraCreateArgs extraPruneArgs;
       } // (mkPassEnv cfg) // cfg.environment;
+      LowPriorityBackgroundIO = true;
+      ProcessType = "Background";
+      Program = toString (pkgs.writeShellScript "borgbackup-script-${name}" (mkBackupScript cfg));
+      StartCalendarInterval = [{ Hour = 10; Minute = 0; }];
     };
   };
 in

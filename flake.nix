@@ -469,13 +469,25 @@
                   Program = toString (pkgs.writeShellScript "cleanup-downloads" ''
                     ${pkgs.findutils}/bin/find "${config.home.homeDirectory}/Downloads" -ctime +5 -delete
                   '');
-                  RunAtLoad = true;
                   StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
                 };
               };
 
               ptsd.borgbackup.jobs.hetzner = with config.home; {
-                paths = [ "${homeDirectory}/Documents" ];
+                paths = [ "${homeDirectory}" ];
+                exclude = [
+                  "${homeDirectory}/.cache"
+                  "${homeDirectory}/Applications"
+                  "${homeDirectory}/Downloads"
+                  "${homeDirectory}/Library/Caches"
+                  "${homeDirectory}/Library/Trial"
+                  "${homeDirectory}/roms"
+                  "*.pyc"
+                  "*.qcow2"
+                  "sh:${homeDirectory}/**/.cache"
+                  "sh:${homeDirectory}/**/node_modules"
+                  "sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
+                ];
                 repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
                 encryption = {
                   mode = "repokey-blake2";
