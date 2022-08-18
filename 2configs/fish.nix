@@ -47,10 +47,12 @@ with lib;
     interactiveShellInit = ''
       set -U fish_greeting
     '' + optionalString (!config.services.qemuGuest.enable) ''
-      set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
-      set built (readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})
-      if test "$booted" != "$built"
-        echo "please reboot"
+      if test -L /nix/var/nix/profiles/system
+        set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
+        set built (readlink /nix/var/nix/profiles/system/{initrd,kernel,kernel-modules})
+        if test "$booted" != "$built"
+          echo "please reboot"
+        end
       end
     '' + ''
       function posix-source
