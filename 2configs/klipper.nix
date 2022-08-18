@@ -96,7 +96,8 @@ in
         pid_Kd = "108.982";
         pid_Ki = "1.063";
         pid_Kp = "21.527";
-        rotation_distance = "9.524 # 336 steps/mm as specified in matrix extruder doc";
+        pressure_advance = "0.039"; # calibrated 2022-08-17 0.4mm nozzle, PETG 240°C
+        rotation_distance = "9.524"; # 336 steps/mm as specified in matrix extruder doc"
         sensor_pin = "PA7";
         sensor_type = "EPCOS 100K B57560G104F";
         step_pin = "PB1";
@@ -124,43 +125,43 @@ in
 
       printer = {
         kinematics = "cartesian";
-        max_velocity = "300";
         max_accel = "3000";
-        max_z_velocity = "5";
+        max_velocity = "300";
         max_z_accel = "100";
+        max_z_velocity = "5";
       };
 
       display = {
-        lcd_type = "st7920";
+        click_pin = "^!PC0";
         cs_pin = "PA3";
+        encoder_pins = "^PD2, ^PD3";
+        lcd_type = "st7920";
         sclk_pin = "PA1";
         sid_pin = "PC1";
-        encoder_pins = "^PD2, ^PD3";
-        click_pin = "^!PC0";
       };
 
       bltouch = {
-        sensor_pin = "^PC4";
         control_pin = "PA4";
+        sensor_pin = "^PC4";
+        speed = "5.0";
         x_offset = "67"; # make sure to update bed_mesh
         y_offset = "0";
         z_offset = "1.6";
-        speed = "5.0";
       };
 
       safe_z_home = {
         home_xy_position = "120,120";
-        z_hop = "10.0";
+        z_hop = "5.0";
       };
 
       bed_mesh = {
-        speed = "200";
-        horizontal_move_z = "5";
-        #mesh_min = "10,30";
-        mesh_min = "77,30"; # added bltouch offsets
         #mesh_max = "180, 230";
+        #mesh_min = "10,30";
+        horizontal_move_z = "5";
         mesh_max = "217,230"; # added bltouch offsets
+        mesh_min = "77,30"; # added bltouch offsets
         probe_count = "3,3";
+        speed = "200";
       };
 
       skew_correction = { };
