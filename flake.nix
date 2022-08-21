@@ -140,7 +140,6 @@
                 services.getty.autologinUser = "enno";
                 security.sudo.wheelNeedsPassword = false;
                 nix.trustedUsers = [ "root" "@wheel" ];
-                services.resolved = { enable = true; dnssec = "false"; };
                 system.stateVersion = "22.05";
                 networking.hostName = "rpi3-klipper";
               })

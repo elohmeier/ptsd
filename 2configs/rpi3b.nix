@@ -17,7 +17,6 @@ in
   };
 
   # reduce size
-  environment.noXlibs = true;
   documentation = {
     enable = false;
     man.enable = false;
@@ -27,15 +26,19 @@ in
   };
 
   hardware.enableRedistributableFirmware = false;
-  hardware.firmware = [ firmware-brcm ];
+  hardware.firmware = [ firmware-brcm pkgs.raspberrypiWirelessFirmware ];
   hardware.wirelessRegulatoryDatabase = true;
   services.udisks2.enable = false;
-  security.polkit.enable = false;
+
+  console.keyMap = "de-latin1";
 
   boot = {
     initrd = {
       includeDefaultModules = false;
-      systemd.enable = true;
+      systemd = {
+        enable = true;
+        emergencyAccess = true;
+      };
     };
     #kernelPackages = pkgs.linuxPackages_rpi3;
     loader = {
@@ -48,20 +51,58 @@ in
   networking = {
     useDHCP = false;
     useNetworkd = true;
+    wireless.enable = false;
+    wireless.iwd.enable = true;
   };
+
+  services.resolved = { enable = true; dnssec = "false"; };
+
+  ptsd.secrets.enable = false;
 
   systemd.network.wait-online.timeout = 0;
 
-  systemd.network.networks.eth = {
-    matchConfig.Driver = "smsc95xx";
-    linkConfig.RequiredForOnline = "no";
-    networkConfig = {
-      ConfigureWithoutCarrier = true;
-      DHCP = "yes";
+  systemd.network.networks = {
+    eth = {
+      matchConfig.Driver = "smsc95xx";
+      linkConfig.RequiredForOnline = "no";
+      networkConfig = {
+        ConfigureWithoutCarrier = true;
+        DHCP = "yes";
+      };
+      dhcpV4Config.RouteMetric = 10;
+      ipv6AcceptRAConfig.RouteMetric = 10;
+    };
+    wlan = {
+      matchConfig.Driver = "brcmfmac";
+      networkConfig.DHCP = "yes";
+      dhcpV4Config.RouteMetric = 20;
+      ipv6AcceptRAConfig.RouteMetric = 20;
     };
   };
 
   services.journald.extraConfig = "Storage=volatile";
+
+  services.openssh.hostKeys = [
+    { type = "rsa"; bits = 4096; path = "/nix/persistent/etc/ssh/ssh_host_rsa_key"; }
+    { type = "ed25519"; path = "/nix/persistent/etc/ssh/ssh_host_ed25519_key"; }
+  ];
+
+  system.activationScripts.initialize-persistent = lib.stringAfter [ "users" "groups" ] ''
+    mkdir -p /nix/persistent/etc/ssh
+    mkdir -p /nix/persistent/var/lib/iwd
+    ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
+  '';
+
+  fileSystems = {
+    "/var/lib/iwd" = {
+      device = "/nix/persistent/var/lib/iwd";
+      options = [ "bind" ];
+    };
+    "/etc/machine-id" = {
+      device = "/nix/persistent/etc/machine-id";
+      options = [ "bind" ];
+    };
+  };
 
   imports = [
     ./sd-image.nix

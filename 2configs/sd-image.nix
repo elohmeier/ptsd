@@ -58,6 +58,10 @@ in
         fsType = "tmpfs";
         options = [ "mode=1755" ];
       };
+      "/boot" = {
+        device = "/nix/boot";
+        options = [ "bind" ];
+      };
     };
 
     boot.postBootCommands = ''
@@ -66,7 +70,7 @@ in
         set -euo pipefail
         set -x
         # Figure out device names for the boot device and root filesystem.
-        rootPart=$(${pkgs.util-linux}/bin/findmnt -n -o SOURCE /)
+        rootPart=$(${pkgs.util-linux}/bin/findmnt -n -o SOURCE /nix)
         bootDevice=$(lsblk -npo PKNAME $rootPart)
         partNum=$(lsblk -npo MAJ:MIN $rootPart | ${pkgs.gawk}/bin/awk -F: '{print $2}')
 
