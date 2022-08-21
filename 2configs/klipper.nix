@@ -1,3 +1,20 @@
+# PrusaSlicer printer configuration:
+# 1. use included Creality Ender-3 Pro model (without BLTouch)
+# 2. change [Custom G-Code] / [Start G-code] to:
+# -------------------------------------------------------------------------------------------
+# M190 S0
+# M104 S0
+# _START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
+# -------------------------------------------------------------------------------------------
+# (M190/M104 prevent pruser slicer inserting heatup commands before the start code)
+# 3. change [Custom G-Code] / [End G-code] to:
+# -------------------------------------------------------------------------------------------
+# _END_PRINT
+# -------------------------------------------------------------------------------------------
+# 4. Set [General] / [Firmware] / [G-code thumbnails] to "48x48, 300x300"
+# 5. Add "Physical Printer" with "http://<ip>:7125" / OctoPrint,
+#    see also https://docs.fluidd.xyz/features/slicer-uploads
+
 { config, lib, pkgs, ... }:
 
 let
@@ -91,7 +108,7 @@ in
         max_temp = "250";
         microsteps = "16";
         min_extrude_temp = "0";
-        min_temp = "0";
+        # min_temp = "0"; # enable for troubleshooting only
         nozzle_diameter = "0.400";
         pid_Kd = "108.982";
         pid_Ki = "1.063";
@@ -166,14 +183,6 @@ in
 
       skew_correction = { };
 
-      # use this start code in prusa slicer:
-      # -------------------------------------------------------------------------------------------
-      # M190 S0
-      # M104 S0
-      # _START_PRINT BED_TEMP=[first_layer_bed_temperature] EXTRUDER_TEMP=[first_layer_temperature]
-      # -------------------------------------------------------------------------------------------
-      # (M190/M104 prevent pruser slicer inserting heatup commands before the start code)
-      #
       # skew measured using 50mm model from https://www.thingiverse.com/thing:2972743
       "gcode_macro _START_PRINT".gcode = indentGcode ''
         {% set BED_TEMP = params.BED_TEMP|default(60)|float %}
