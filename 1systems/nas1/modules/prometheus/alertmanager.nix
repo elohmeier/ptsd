@@ -103,7 +103,7 @@
               labels.severity = "critical";
               annotations = {
                 summary = "Node {{ $labels.alias }} down";
-                description = "{{ $labels.alias }} ist seit mehr als fünf Minuten (seit {{ .StartsAt }}) nicht erreichbar.";
+                description = "{{ $labels.alias }} ist seit mehr als fünf Minuten nicht erreichbar.";
               };
             }
             {

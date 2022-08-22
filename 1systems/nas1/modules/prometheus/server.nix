@@ -76,20 +76,6 @@ in
       }
 
       {
-        job_name = "node_nw_htz1";
-        scrape_interval = "60s";
-        metrics_path = "/htz1/node/metrics";
-        static_configs = [{ targets = [ "${universe.hosts.htz1.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "htz1"; alwayson = "1"; }; }];
-      }
-
-      {
-        job_name = "node_nw_htz2";
-        scrape_interval = "60s";
-        metrics_path = "/htz2/node/metrics";
-        static_configs = [{ targets = [ "${universe.hosts.htz2.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "htz2"; alwayson = "1"; }; }];
-      }
-
-      {
         job_name = "node_nw_rpi2";
         scrape_interval = "60s";
         metrics_path = "/rpi2/node/metrics";
@@ -106,25 +92,19 @@ in
               alias = host;
               alwayson = "1";
             };
-          }) [ "htz3" "nas1" ];
+          }) [ "htz1" "htz2" "htz3" "nas1" ];
       }
 
       {
         job_name = "maddy";
         scrape_interval = "60s";
-        metrics_path = "/htz2/maddy/metrics";
-        static_configs = [{ targets = [ "${universe.hosts.htz2.nets.nwvpn.ip4.addr}:9100" ]; labels.alias = "htz2"; }];
+        static_configs = [{ targets = [ "htz2.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-maddy}" ]; labels.alias = "htz2"; }];
       }
 
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
         params.module = [ "http_2xx" ];
         static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}" "https://vault.fraam.de" ]; }];
-      })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_acme_dns";
-        params.module = [ "http_acme_dns" ];
-        static_configs = [{ targets = [ "https://auth.nerdworks.de/update" ]; }];
       })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_fraam_www";

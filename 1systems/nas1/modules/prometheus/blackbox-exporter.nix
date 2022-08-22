@@ -15,15 +15,6 @@
             };
           };
 
-          http_acme_dns = {
-            prober = "http";
-            timeout = "2s";
-            http = {
-              valid_status_codes = [ 405 ];
-              fail_if_not_ssl = true;
-            };
-          };
-
           http_fraam_www = {
             prober = "http";
             timeout = "2s";
@@ -31,17 +22,6 @@
               fail_if_not_ssl = true;
               fail_if_body_not_matches_regexp = [
                 "Ihr Projekterfolg."
-              ];
-            };
-          };
-
-          http_gitea = {
-            prober = "http";
-            timeout = "2s";
-            http = {
-              fail_if_not_ssl = true;
-              fail_if_body_not_matches_regexp = [
-                "Gitea - Git with a cup of tea"
               ];
             };
           };
