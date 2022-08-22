@@ -164,4 +164,9 @@ in
   #   man-db.enable = false;
   #   mandoc.enable = true;
   # };
+
+  security.acme = {
+    acceptTerms = true;
+    defaults.email = lib.mkDefault "elo-lenc@nerdworks.de";
+  };
 }

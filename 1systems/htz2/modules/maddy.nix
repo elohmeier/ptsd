@@ -4,6 +4,7 @@ with lib;
 
 let
   cfg = config.ptsd.maddy;
+  universe = import ../../../2configs/universe.nix;
 
   aliases = pkgs.writeText "aliases" ''
     info@nerdworks.de: enno@nerdworks.de
@@ -205,7 +206,7 @@ let
       storage &local_mailboxes
     }
 
-    openmetrics tcp://127.0.0.1:${toString config.ptsd.ports.prometheus-maddy} { }
+    openmetrics tcp://${universe.hosts."${config.networking.hostName}".nets.tailscale.ip4.addr}:${toString config.ptsd.ports.prometheus-maddy} { }
   '';
 in
 {
@@ -234,7 +235,7 @@ in
         LogsDirectory = "maddy";
         ExecStart = "${pkgs.maddy}/bin/maddy -config ${configFile}";
         DynamicUser = true;
-        SupplementaryGroups = "certs";
+        SupplementaryGroups = "nginx"; # cert access
 
         # Strict sandboxing. You have no reason to trust code written by strangers from GitHub.
         PrivateTmp = true;
@@ -293,25 +294,13 @@ in
 
     networking.firewall.allowedTCPPorts = [
       25
+      143
       465
       587
       993
-      143
     ];
 
     ptsd.nwbackup.extraPaths = [ "/var/lib/private/maddy" ];
-
-    ptsd.nwtraefik = {
-      services = [
-        {
-          name = "prometheus-maddy";
-          entryPoints = [ "nwvpn-prometheus-http" ];
-          rule = "PathPrefix(`/${config.networking.hostName}/maddy`) && Host(`${config.ptsd.wireguard.networks.nwvpn.ip}`)";
-          tls = false;
-          extraMiddlewares = [ "prom-stripprefix" ];
-        }
-      ];
-    };
 
     # configured as in https://github.com/foxcpp/maddy/tree/master/dist/fail2ban/filter.d
     services.fail2ban.jails = {

@@ -47,7 +47,7 @@
     #  "tasmota-passwd:/var/src/secrets/mosquitto-tasmota.passwd"
     #];
     SupplementaryGroups = [
-      "certs" # acme cert access
+      "nginx" # acme cert access
       "keys" # ptsd secret access
     ];
   };

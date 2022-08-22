@@ -73,7 +73,6 @@ in
 
   security.acme = {
     defaults.email = "enno.richter+letsencrypt@fraam.de";
-    acceptTerms = true;
     certs."voice.fraam.de".postRun = "systemctl restart murmur.service";
   };
 
