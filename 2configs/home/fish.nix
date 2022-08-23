@@ -19,6 +19,7 @@
       tree = "exa --tree";
       vi = "nvim";
       vim = "nvim";
+      slvpn-set-dns = "sudo busctl call org.freedesktop.resolve1 /org/freedesktop/resolve1 org.freedesktop.resolve1.Manager SetLinkDNS 'ia(iay)' (ip -j link show dev tun0 | jq '.[0].ifindex') 1 2 4 172 16 0 1 && resolvectl status tun0";
     };
 
     shellAbbrs = {
