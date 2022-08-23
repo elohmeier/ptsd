@@ -20,6 +20,12 @@
     ];
   };
 
+  ptsd.secrets.files."nwvpn-fb1.psk" = {
+    owner = "systemd-network";
+    mode = "0440";
+    dependants = [ "systemd-networkd.service" ];
+  };
+
   networking = {
     useNetworkd = true;
     useDHCP = false;

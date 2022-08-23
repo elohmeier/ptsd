@@ -21,16 +21,20 @@ let
   generateWireguardPeers = netname: netcfg:
     if netcfg.server.enable then
       (
-        map
+        mapAttrsToList
           (
-            h: {
+            hostname: h: {
               wireguardPeerConfig = {
                 PublicKey = h.nets."${netname}".wireguard.pubkey;
                 AllowedIPs = [ "${h.nets."${netname}".ip4.addr}/32" ] ++ (if builtins.hasAttr "networks" h.nets."${netname}".wireguard then h.nets."${netname}".wireguard.networks else [ ]);
+              } // optionalAttrs (builtins.hasAttr "psk" h.nets."${netname}".wireguard && h.nets."${netname}".wireguard.psk) {
+                PresharedKeyFile = config.ptsd.secrets.files."${netname}-${hostname}.psk".path;
+              } // optionalAttrs (builtins.hasAttr "endpoint" h.nets."${netname}".wireguard) {
+                Endpoint = h.nets."${netname}".wireguard.endpoint;
               };
             }
           )
-          (builtins.attrValues (vpnPeers netname))
+          (vpnPeers netname)
       )
     else
       [
@@ -40,7 +44,6 @@ let
             AllowedIPs = netcfg.client.allowedIPs;
             Endpoint = netcfg.client.endpoint;
             PersistentKeepalive = netcfg.persistentKeepalive;
-            PresharedKeyFile = mkIf (netcfg.enablePsk && config.ptsd.secrets.enable) config.ptsd.secrets.files."${netcfg.pskname}".path;
           };
         }
       ];
@@ -201,14 +204,6 @@ in
                 keyname = mkOption {
                   type = types.str;
                   default = "${config.ifname}.key";
-                };
-                enablePsk = mkOption {
-                  type = types.bool;
-                  default = false;
-                };
-                pskname = mkOption {
-                  type = types.str;
-                  default = "${config.ifname}.psk";
                 };
                 client = mkOption {
                   type = types.submodule {

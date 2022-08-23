@@ -42,6 +42,22 @@
     };
 
     # fb1: 192.168.178.1
+    fb1 = {
+      nets = {
+        nwvpn = {
+          ip4.addr = "191.18.19.57";
+          aliases = [
+            "fb1.nw"
+          ];
+          wireguard.pubkey = "Lb8YbkDPg7ceSpba5jmgEKIbTswWWlngKttylhPgfW4=";
+          wireguard.psk = true;
+          wireguard.endpoint = "xx625i9umx768rfs.myfritz.net:55542";
+        };
+      };
+      # borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAedN5tK3x6WeDX1uWjdpzvTeFxUfj/gkjzmXsO4a5GF ";
+      # ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAmFFLdagMiRdvDEXh4cMPoDNoomJb4uq1Rq6SKBNhAW ";
+      # syncthing.id = "2AADVPK-KFYRXRI-VFVXNQP-HT24VE7-AI7DPIW-EWT5Z2H-CNEDSD2-NE43OA2";
+    };
     # fb2: 192.168.178.2
 
     iph2 = {
