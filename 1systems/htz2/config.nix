@@ -14,6 +14,7 @@ in
 
       ./modules/maddy.nix
       ./modules/rspamd.nix
+      ./modules/samba.nix
     ];
 
   # reduce size
