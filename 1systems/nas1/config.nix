@@ -14,11 +14,11 @@ in
 
     ./modules/backup.nix
     ./modules/fraam-gdrive-backup.nix
-    ./modules/grafana.nix
+    #./modules/grafana.nix
     ./modules/home-assistant.nix
     ./modules/icloudpd.nix
-    ./modules/loki.nix
-    ./modules/octoprint.nix
+    #./modules/loki.nix
+    #./modules/octoprint.nix
     ./modules/postgresql.nix
     ./modules/prometheus
     ./modules/samba.nix
@@ -35,9 +35,9 @@ in
     dev.enable = false;
   };
 
-  ptsd.fluent-bit = {
-    enable = true;
-  };
+  # ptsd.fluent-bit = {
+  #   enable = true;
+  # };
 
   ptsd.tailscale = {
     enable = true;
@@ -45,12 +45,12 @@ in
     ip = "100.101.207.64";
     httpServices = [
       "alertmanager"
-      "grafana"
+      #"grafana"
       "home-assistant"
-      "mjpg-streamer"
+      #"mjpg-streamer"
       "monica"
-      "navidrome"
-      "octoprint"
+      #"navidrome"
+      #"octoprint"
       "prometheus-server"
     ];
   };
@@ -102,10 +102,10 @@ in
     zpool = "tank";
   };
 
-  ptsd.navidrome = {
-    enable = true;
-    musicFolder = "/tank/enc/media";
-  };
+  # ptsd.navidrome = {
+  #   enable = true;
+  #   musicFolder = "/tank/enc/media";
+  # };
 
   systemd.services.prometheus-check_ssl_cert = {
     description = "monitor ssl/tlsa/dane for nerdworks.de mail";
