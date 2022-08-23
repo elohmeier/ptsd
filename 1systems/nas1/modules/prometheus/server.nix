@@ -69,13 +69,6 @@ in
       }
 
       {
-        job_name = "node_nw_apu2";
-        scrape_interval = "60s";
-        metrics_path = "/apu2/node/metrics";
-        static_configs = [{ targets = [ "${universe.hosts.apu2.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "apu2"; alwayson = "1"; }; }];
-      }
-
-      {
         job_name = "node_nw_rpi2";
         scrape_interval = "60s";
         metrics_path = "/rpi2/node/metrics";
@@ -92,7 +85,7 @@ in
               alias = host;
               alwayson = "1";
             };
-          }) [ "htz1" "htz2" "htz3" "nas1" ];
+          }) [ "apu2" "htz1" "htz2" "htz3" "nas1" ];
       }
 
       {
@@ -104,7 +97,12 @@ in
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
         params.module = [ "http_2xx" ];
-        static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}" "https://vault.fraam.de" ]; }];
+        static_configs = [{
+          targets = [
+            # "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}"
+            "https://vault.fraam.de"
+          ];
+        }];
       })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_fraam_www";
@@ -116,11 +114,11 @@ in
         params.module = [ "http_nerdworks_www" ];
         static_configs = [{ targets = [ "https://www.nerdworks.de" ]; }];
       })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_grafana";
-        params.module = [ "http_grafana" ];
-        static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login" ]; }];
-      })
+      # (blackboxGenericScrapeConfig // {
+      #   job_name = "blackbox_http_grafana";
+      #   params.module = [ "http_grafana" ];
+      #   static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login" ]; }];
+      # })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_bs53";
         params.module = [ "http_home_assistant_bs53" ];
