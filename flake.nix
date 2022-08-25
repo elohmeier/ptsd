@@ -128,12 +128,12 @@
             ];
           };
 
-          rpi3-klipper = nixpkgs.lib.nixosSystem {
+          rpi4 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [
+              nixos-hardware.nixosModules.raspberry-pi-4
               ./2configs
               ./2configs/fish.nix
-              ./2configs/klipper.nix
               ./2configs/rpi3b.nix
               ./2configs/users/enno.nix
               ({ lib, ... }: {
@@ -141,7 +141,16 @@
                 security.sudo.wheelNeedsPassword = false;
                 nix.trustedUsers = [ "root" "@wheel" ];
                 system.stateVersion = "22.05";
-                networking.hostName = "rpi3-klipper";
+                networking.hostName = "rpi4";
+
+                services.borgbackup.repos = {
+                  mb4 = {
+                    authorizedKeysAppendOnly = [ (import ./2configs/universe.nix).hosts.mb4.borg.pubkey ];
+                    path = "/mnt/borgbackup/mb4";
+                    quota = "1T";
+                    user = "borg-mb4";
+                  };
+                };
               })
             ];
           };
@@ -493,8 +502,12 @@
                 };
               };
 
-              ptsd.borgbackup.jobs.hetzner = with config.home; {
-                paths = [ "${homeDirectory}" ];
+              ptsd.borgbackup.jobs = with config.home; let
+                encryption = {
+                  mode = "repokey-blake2";
+                  passCommand = "cat ${homeDirectory}/.borgkey";
+                };
+                environment.BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
                 exclude = [
                   "${homeDirectory}/.cache"
                   "${homeDirectory}/Applications"
@@ -508,12 +521,19 @@
                   "sh:${homeDirectory}/**/node_modules"
                   "sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
                 ];
-                repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
-                encryption = {
-                  mode = "repokey-blake2";
-                  passCommand = "cat ${homeDirectory}/.borgkey";
+              in
+              {
+                hetzner = {
+                  inherit encryption environment exclude;
+                  paths = [ "${homeDirectory}" ];
+                  repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
                 };
-                environment.BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
+
+                rpi4 = {
+                  inherit encryption environment exclude;
+                  paths = [ "${homeDirectory}/Documents" ];
+                  repo = "ssh://borg-mb4@192.168.178.84/./";
+                };
               };
             };
           };
