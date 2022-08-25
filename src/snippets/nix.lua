@@ -62,5 +62,22 @@ return {
 
 {
   $1
+}]]), parse("nix-python-package", [[
+{ buildPythonPackage, fetchFromGitHub, lib }:
+
+buildPythonPackage rec {
+  pname = "$1";
+  version = "$2";
+
+  src = fetchFromGitHub {
+    owner = "$1";
+    repo = "$1";
+    rev = "v\${version}";
+    sha256 = lib.fakeSha256;
+  };
+
+  doCheck = false;
+
+  propagatedBuildInputs = [ ];
 }]])
 }
