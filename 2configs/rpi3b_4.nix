@@ -1,3 +1,5 @@
+# for rpi4: include nixos-hardware.nixosModules.raspberry-pi-4 in nixosSystem.modules in flake.nix (not required for rpi3b)
+
 { config, lib, pkgs, ... }:
 
 let
@@ -25,7 +27,7 @@ in
     dev.enable = false;
   };
 
-  hardware.enableRedistributableFirmware = false;
+  hardware.enableRedistributableFirmware = lib.mkDefault false;
   hardware.firmware = [ firmware-brcm pkgs.raspberrypiWirelessFirmware ];
   hardware.wirelessRegulatoryDatabase = true;
   services.udisks2.enable = false;
@@ -63,7 +65,7 @@ in
 
   systemd.network.networks = {
     eth = {
-      matchConfig.Driver = "smsc95xx";
+      matchConfig.Driver = "smsc95xx bcmgenet"; # rpi3 / rpi4
       linkConfig.RequiredForOnline = "no";
       networkConfig = {
         ConfigureWithoutCarrier = true;
@@ -113,7 +115,19 @@ in
       let
         configTxt = pkgs.writeText "config.txt" ''
           [pi3]
-          kernel=u-boot.bin
+          kernel=u-boot-rpi3.bin
+
+          [pi4]
+          kernel=u-boot-rpi4.bin
+          enable_gic=1
+          armstub=armstub8-gic.bin
+
+          # Otherwise the resolution will be weird in most cases, compared to
+          # what the pi3 firmware does by default.
+          disable_overscan=1
+
+          # Supported in newer board revisions
+          arm_boost=1
 
           [all]
           # Boot in 64-bit mode.
@@ -137,7 +151,13 @@ in
           $fw/start*.elf \
           "$NIX_BUILD_TOP/firmware/"
 
-        ${pkgs.rsync}/bin/rsync -av ${pkgs.ubootRaspberryPi3_64bit}/u-boot.bin "$NIX_BUILD_TOP/firmware/"
+        # Add pi3 specific files
+        ${pkgs.rsync}/bin/rsync -av ${pkgs.ubootRaspberryPi3_64bit}/u-boot.bin "$NIX_BUILD_TOP/firmware/u-boot-rpi3.bin"
+
+        # Add pi4 specific files
+        ${pkgs.rsync}/bin/rsync -av ${pkgs.ubootRaspberryPi4_64bit}/u-boot.bin "$NIX_BUILD_TOP/firmware/u-boot-rpi4.bin"
+        ${pkgs.rsync}/bin/rsync -av ${pkgs.raspberrypi-armstubs}/armstub8-gic.bin "$NIX_BUILD_TOP/firmware/armstub8-gic.bin"
+        ${pkgs.rsync}/bin/rsync -av ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb "$NIX_BUILD_TOP/firmware/bcm2711-rpi-4-b.dtb"
 
         cp -v ${configTxt} "$NIX_BUILD_TOP/firmware/config.txt"
       '';
