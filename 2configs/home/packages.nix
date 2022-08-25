@@ -50,6 +50,7 @@ with lib;
     tmux
     unzip
     watch
+    websocat
     wrk
     zathura
     zellij
@@ -76,6 +77,7 @@ with lib;
         pyxlsb
         requests
         scikit-learn
+        sqlacodegen
         sqlalchemy
         tabulate
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [

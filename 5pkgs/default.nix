@@ -115,6 +115,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       postgrest-py = self.callPackage ./postgrest-py { };
       pyxlsb = self.callPackage ./pyxlsb { };
       selenium-requests = self.callPackage ./selenium-requests { };
+      sqlacodegen = self.callPackage ./sqlacodegen { };
       vidcutter = self.callPackage ./vidcutter { };
 
       jupyterlab_server = super.jupyterlab_server.overridePythonAttrs (old: {
