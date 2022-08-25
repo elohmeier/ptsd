@@ -3,23 +3,23 @@ p@{ config, lib, pkgs, ... }:
 let
   nnn-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "nnn-nvim";
-    version = "2022-06-06";
+    version = "2022-08-23";
     src = pkgs.fetchFromGitHub {
       owner = "luukvbaal";
       repo = "nnn.nvim";
-      rev = "dc6c5253a5822e2199d7bac318c38a63cfa189ac";
-      sha256 = "sha256-AimlWrGoj29aEg9Rf6PVskZX1Ashloq7zvMdfQo+1ZM=";
+      rev = "f9a4584085d37844c23874d916bc3934c6beabf0";
+      sha256 = "sha256-qjGieRXdf50Jo447WkIa2uHJqORW0jHtqXo8IFxkEhA=";
     };
   };
 
   copilot-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "copilot.vim";
-    version = "1.5.0";
+    version = "1.5.2";
     src = pkgs.fetchFromGitHub {
       owner = "github";
       repo = "copilot.vim";
-      rev = "da286d8c52159026f9cba16cd0f98b609c056841";
-      sha256 = "sha256-0cZS1wK884YBIAF4mbLTTS+D26OzpMh1mZtWfFYz7ng=";
+      rev = "e219dd98b530db1d68adf8e98c3f0e3e67c77bec";
+      sha256 = "sha256-zX7it18StK1fVnaRPawQT05YgCFbAt6kqcxgcNCd7Kk=";
     };
     meta.homepage = "https://github.com/github/copilot.vim/";
   };
