@@ -134,14 +134,15 @@
               nixos-hardware.nixosModules.raspberry-pi-4
               ./2configs
               ./2configs/fish.nix
-              ./2configs/rpi3b.nix
+              ./2configs/rpi3b_4.nix
               ./2configs/users/enno.nix
-              ({ lib, ... }: {
+              ({ lib, pkgs, ... }: {
                 services.getty.autologinUser = "enno";
                 security.sudo.wheelNeedsPassword = false;
                 nix.trustedUsers = [ "root" "@wheel" ];
                 system.stateVersion = "22.05";
                 networking.hostName = "rpi4";
+                environment.systemPackages = with pkgs;[ btop ];
 
                 services.borgbackup.repos = {
                   mb4 = {
@@ -151,6 +152,17 @@
                     user = "borg-mb4";
                   };
                 };
+
+                systemd.mounts = [{
+                  what = "/dev/disk/by-label/usb2tb";
+                  where = "/mnt";
+                  type = "ext4";
+                  options = "noatime,nofail,nodev,nosuid,noexec";
+                  before = [ "borgbackup-repo-mb4.service" ];
+                  requiredBy = [ "borgbackup-repo-mb4.service" ];
+                }];
+
+                ptsd.tailscale.enable = true;
               })
             ];
           };
@@ -512,9 +524,11 @@
                   "${homeDirectory}/.cache"
                   "${homeDirectory}/Applications"
                   "${homeDirectory}/Downloads"
+                  "${homeDirectory}/Downloads-Keep"
                   "${homeDirectory}/Library/Caches"
                   "${homeDirectory}/Library/Trial"
-                  "${homeDirectory}/roms"
+                  "${homeDirectory}/luisa" # backed up individually
+                  "${homeDirectory}/roms" # no backup
                   "*.pyc"
                   "*.qcow2"
                   "sh:${homeDirectory}/**/.cache"
@@ -531,8 +545,9 @@
 
                 rpi4 = {
                   inherit encryption environment exclude;
-                  paths = [ "${homeDirectory}/Documents" ];
-                  repo = "ssh://borg-mb4@192.168.178.84/./";
+                  paths = [ "${homeDirectory}" ];
+                  repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
+                  compression = "zstd,3";
                 };
               };
             };

@@ -92,18 +92,14 @@ in
   system.activationScripts.initialize-persistent = lib.stringAfter [ "users" "groups" ] ''
     mkdir -p /nix/persistent/etc/ssh
     mkdir -p /nix/persistent/var/lib/iwd
+    mkdir -p /nix/persistent/var/lib/tailscale
     ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
   '';
 
   fileSystems = {
-    "/var/lib/iwd" = {
-      device = "/nix/persistent/var/lib/iwd";
-      options = [ "bind" ];
-    };
-    "/etc/machine-id" = {
-      device = "/nix/persistent/etc/machine-id";
-      options = [ "bind" ];
-    };
+    "/etc/machine-id" = { device = "/nix/persistent/etc/machine-id"; options = [ "bind" ]; };
+    "/var/lib/iwd" = { device = "/nix/persistent/var/lib/iwd"; options = [ "bind" ]; };
+    "/var/lib/tailscale" = { device = "/nix/persistent/var/lib/tailscale"; options = [ "bind" ]; };
   };
 
   imports = [
