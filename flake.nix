@@ -144,14 +144,18 @@
                 networking.hostName = "rpi4";
                 environment.systemPackages = with pkgs;[ btop fscryptctl ];
 
-                services.borgbackup.repos = {
-                  mb4 = {
-                    authorizedKeysAppendOnly = [ (import ./2configs/universe.nix).hosts.mb4.borg.pubkey ];
-                    path = "/mnt/borgbackup/mb4";
-                    quota = "1T";
-                    user = "borg-mb4";
+                services.borgbackup.repos =
+                  let
+                    cfg = hostname: {
+                      authorizedKeysAppendOnly = [ (import ./2configs/universe.nix).hosts."${hostname}".borg.pubkey ];
+                      path = "/mnt/borgbackup/${hostname}";
+                      user = "borg-${hostname}";
+                    };
+                  in
+                  {
+                    mb3 = cfg "mb3" // { quota = "300G"; };
+                    mb4 = cfg "mb4" // { quota = "1T"; };
                   };
-                };
 
                 systemd.mounts = [{
                   what = "/dev/disk/by-label/usb2tb";
@@ -175,7 +179,7 @@
                       "/mnt/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "nas1" "mb3" "mb4" ]; };
                       "/mnt/syncthing/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "nas1" ]; };
                       "/mnt/syncthing/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "mb4" "nas1" ]; };
-                      "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb1" "mb3" "nas1" ]; };
+                      "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "nas1" ]; };
                     };
                   };
               })
@@ -583,6 +587,37 @@
               home.packages = with pkgs;[ home-manager git ];
 
               services.syncthing.enable = true;
+
+              ptsd.borgbackup.jobs = with config.home; let
+                encryption = {
+                  mode = "repokey-blake2";
+                  passCommand = "cat ${homeDirectory}/.borgkey";
+                };
+                environment.BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
+                exclude = [
+                  "${homeDirectory}/.cache"
+                  "${homeDirectory}/Applications"
+                  "${homeDirectory}/Downloads"
+                  "${homeDirectory}/Library/Caches"
+                  "${homeDirectory}/Library/Trial"
+                  "sh:${homeDirectory}/**/.cache"
+                  "sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
+                ];
+              in
+              {
+                #hetzner = {
+                #  inherit encryption environment exclude;
+                #  paths = [ "${homeDirectory}" ];
+                #  repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
+                #};
+
+                rpi4 = {
+                  inherit encryption environment exclude;
+                  paths = [ "${homeDirectory}" ];
+                  repo = "ssh://borg-mb3@rpi4.pug-coho.ts.net/./";
+                  compression = "zstd,3";
+                };
+              };
             };
           };
         };

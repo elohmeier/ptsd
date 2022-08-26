@@ -184,34 +184,15 @@
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDFd67n+vkojWj5gxGjOrflLLVC4yPxbHmdc6tIQTQbZ root@htz3";
     };
 
-    mb1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.1";
-          wireguard.pubkey = "tX3ZcAKc1WB/U7m6N5LQADcloBGCpeo55O3Ad/nEMjE=";
-        };
-      };
-      borg.quota = "250G";
-      #borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDlR+65fc6NMQxLSs9ubMYDbMlLuunlFrfoXAzw71ZmXprn2lk3KgSr1Qy8KRMoKLhT/UcnDVQaUhBn76XsxbeBcW4d/E0uoSrTSU5c5+iUY4bbjV+53vHwLawxplyQMpeEDybXYqMoFwS+lcskWc6MPWgeTcZRi0WLyXZ/juSMrjkt0GUOzeLZHMTnfqikJsasuOCN10FP1bufMfDAOyMnp+9EZVxORCoE9hKhnSHa6pBupuL2ZmI94/SZBM9h05WNClD0ALaWQtAHyHBxC+W4eJ2SyvqXfXzXu9iD6y9JQOv5TeztmB95NmHDkrf0LiLao+QIkEJwbJbDhsBrIcw1 enno@nw1.jtor69.lohmeier-gruppe.de";
-      #syncthing.id = "UTCDUPE-ZYG4TR4-U7R2PNO-XCFIQEI-YQTLNLX-PJPA7SO-IFEGARK-LZVUAAD";
-
-      # generated 2020-04-11:
-      #ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDbpnk4YS5w51xA5TlwkZXDLa/NpfnrBrr2GJ8lr7dO2 ";
-      #syncthing.id = "SLWUTIH-5EBKWLM-YHV2AIW-VVTP2WJ-TQEV3SK-AV7LIWO-DEISQOR-HHKRWAE";
-
-      # Lu 2020-04-13
-      syncthing.id = "ZA4UDHV-NW5LOFF-55X6MKU-IWRBHZP-RLS3AHK-OK7IKIP-ULUSVSE-4EONVQ6";
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJqrrWnc5yZeE6cBSETtBLi4Zee5tZe7AA3P0ZuDsW75 luisa@mb1.host.nerdworks.de";
-    };
-
     # Lu
     mb3 = {
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN1I2tWffmioOtFbsc/t5iuxOVJ8IZkrHTfkvkSw+dTJ";
       syncthing.id = "HG55JUD-HYZEYV5-7TJKT2W-STGV4R4-NXYTCU2-ATJUV2C-GSK7ICF-TVXWOQO";
     };
 
     mb4 = {
-      syncthing.id = "BCJ2QQN-P4JUP5E-NS5AUOL-MDQH3XF-CHQ76SE-V3QCNZ6-QRDMENX-UUNBTA6";
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMZ6hB+Qs1yKat2Bz6gweo6yOotHVz+z4bi1hrfhgRVC";
+      syncthing.id = "BCJ2QQN-P4JUP5E-NS5AUOL-MDQH3XF-CHQ76SE-V3QCNZ6-QRDMENX-UUNBTA6";
     };
 
     nas1 = {

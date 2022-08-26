@@ -22,10 +22,10 @@ in
       "/tank/enc/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "rpi4" "mb4" "iph3" ]; };
       "/tank/enc/enno/Templates" = { label = "enno/Templates"; id = "gnwqu-yt7qc"; devices = [ "mb4" ]; };
       "/tank/enc/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "mb4" "rpi4" ]; };
-      "/tank/enc/luisa/Bilder" = { label = "luisa/Bilder"; id = "ugmai-ti6vl"; devices = [ "mb1" "mb3" "mb4" ]; };
-      "/tank/enc/luisa/Dokumente" = { label = "luisa/Dokumente"; id = "sqkfd-m9he7"; devices = [ "mb4" "mb1" "mb3" ]; };
-      "/tank/enc/luisa/Musik" = { label = "luisa/Musik"; id = "zvffu-ff92z"; devices = [ "mb1" "mb3" "mb4" ]; };
-      "/tank/enc/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb1" "mb3" "rpi4" ]; };
+      "/tank/enc/luisa/Bilder" = { label = "luisa/Bilder"; id = "ugmai-ti6vl"; devices = [ "mb3" "mb4" ]; };
+      "/tank/enc/luisa/Dokumente" = { label = "luisa/Dokumente"; id = "sqkfd-m9he7"; devices = [ "mb4" "mb3" ]; };
+      "/tank/enc/luisa/Musik" = { label = "luisa/Musik"; id = "zvffu-ff92z"; devices = [ "mb3" "mb4" ]; };
+      "/tank/enc/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "rpi4" ]; };
       "/tank/enc/media" = { label = "media"; id = "zfruo-ytfi2"; devices = [ "mb4" ]; };
       "/tank/enc/rawphotos/2021-06 mopedtour" = { label = "2021-06 mopedtour"; id = "ieyohHo7uang"; devices = [ "ext-arvid-laptop" ]; };
       "/tank/enc/rawphotos/photos" = { label = "photos"; id = "rqvar-xdhbm"; devices = [ "mb4" ]; };
