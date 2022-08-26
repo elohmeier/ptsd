@@ -10,7 +10,7 @@ in
       ../../2configs
       ../../2configs/hardened.nix
       ../../2configs/nwhost-mini.nix
-      ../../2configs/prometheus/node.nix
+      ../../2configs/prometheus-node.nix
 
       ./modules/maddy.nix
       ./modules/rspamd.nix

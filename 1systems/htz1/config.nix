@@ -6,7 +6,7 @@
       ../../2configs
       ../../2configs/hardened.nix
       ../../2configs/nwhost.nix
-      ../../2configs/prometheus/node.nix
+      ../../2configs/prometheus-node.nix
 
       ./modules/git.nix
       ./modules/mosquitto.nix

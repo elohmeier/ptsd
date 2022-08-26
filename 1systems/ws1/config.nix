@@ -9,7 +9,7 @@ with lib;
 
     ../../2configs/virtualisation.nix
     ../../2configs/workstation.nix
-    ../../2configs/prometheus/node.nix
+    ../../2configs/prometheus-node.nix
     ../../2configs/printers/mfc7440n.nix
 
     ./modules/networking.nix

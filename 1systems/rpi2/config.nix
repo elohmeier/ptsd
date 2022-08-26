@@ -7,7 +7,7 @@ in
     ../..
     ../../2configs
     ../../2configs/nwhost-mini.nix
-    ../../2configs/prometheus/node.nix
+    ../../2configs/prometheus-node.nix
   ];
 
   ptsd.wireguard = {
