@@ -97,6 +97,8 @@ vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>",
                         {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>fd", "<cmd>Telescope resume<CR>",
+                        {noremap = true, silent = true})
 
 vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")',
                         {noremap = true, expr = true, silent = true})
