@@ -283,6 +283,8 @@
     # RPi-HomeMatic      
     #};
 
+    rpi4.syncthing.id = "EXAME75-EMFDX7G-VXRB2GS-T2JLHXO-LEXTXGX-6DXSPGQ-E3FS742-MVRPZAX";
+
     # Archer C7 v5  192.168.178.3
     wrt1 = {
       nets = {

@@ -142,7 +142,7 @@
                 nix.trustedUsers = [ "root" "@wheel" ];
                 system.stateVersion = "22.05";
                 networking.hostName = "rpi4";
-                environment.systemPackages = with pkgs;[ btop ];
+                environment.systemPackages = with pkgs;[ btop fscryptctl ];
 
                 services.borgbackup.repos = {
                   mb4 = {
@@ -163,6 +163,21 @@
                 }];
 
                 ptsd.tailscale.enable = true;
+
+                services.syncthing = let universe = import ./2configs/universe.nix; in
+                  {
+                    enable = true;
+                    dataDir = "/mnt/syncthing";
+                    openDefaultPorts = true;
+                    devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: hostcfg: lib.hasAttr "syncthing" hostcfg) universe.hosts);
+
+                    folders = {
+                      "/mnt/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "nas1" "mb3" "mb4" ]; };
+                      "/mnt/syncthing/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "nas1" ]; };
+                      "/mnt/syncthing/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "mb4" "nas1" ]; };
+                      "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb1" "mb3" "nas1" ]; };
+                    };
+                  };
               })
             ];
           };
