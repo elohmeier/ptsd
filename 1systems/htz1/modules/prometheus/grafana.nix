@@ -32,7 +32,7 @@ in
     };
 
   systemd.services.grafana.serviceConfig.LoadCredential = [
-    "grafana.adminPassword:/var/src/secrets/grafana.adminPassword"
-    "grafana.secretKey:/var/src/secrets/grafana.secretKey"
+    "grafana.adminPassword:/var/src/secrets/prometheus/grafana.adminPassword"
+    "grafana.secretKey:/var/src/secrets/prometheus/grafana.secretKey"
   ];
 }

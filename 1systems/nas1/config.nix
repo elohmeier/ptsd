@@ -14,13 +14,10 @@ in
 
     ./modules/backup.nix
     ./modules/fraam-gdrive-backup.nix
-    #./modules/grafana.nix
-    ./modules/home-assistant.nix
     ./modules/icloudpd.nix
     #./modules/loki.nix
     #./modules/octoprint.nix
     ./modules/postgresql.nix
-    ./modules/prometheus
     ./modules/samba.nix
     ./modules/syncthing.nix
   ];
@@ -44,14 +41,10 @@ in
     cert.enable = true;
     ip = "100.101.207.64";
     httpServices = [
-      "alertmanager"
-      #"grafana"
-      "home-assistant"
       #"mjpg-streamer"
       "monica"
       #"navidrome"
       #"octoprint"
-      "prometheus-server"
     ];
   };
 

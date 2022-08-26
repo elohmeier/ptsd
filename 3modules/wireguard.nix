@@ -5,7 +5,7 @@ let
   cfg = config.ptsd.wireguard;
   enabledNetworks = filterAttrs (_: v: v.enable) cfg.networks;
   natForwardNetworks = filterAttrs (_: v: v.natForwardIf != "") enabledNetworks;
-  reresolveDnsNetworks = filterAttrs (_: v: v.client.reresolveDns) enabledNetworks;
+  reresolveDnsNetworks = filterAttrs (_: v: v.reresolveDns) enabledNetworks;
   universe = import ../2configs/universe.nix;
 
   generateSecret = _: netcfg: nameValuePair
@@ -155,7 +155,7 @@ let
           peersWithEndpoint}
       '';
 
-      startAt = "minutely";
+      startAt = netcfg.reresolveDnsInterval;
     };
 
   generateSysctlForward = _: netcfg: nameValuePair
@@ -205,15 +205,19 @@ in
                   type = types.str;
                   default = "${config.ifname}.key";
                 };
+                reresolveDns = mkOption {
+                  type = types.bool;
+                  default = false;
+                };
+                reresolveDnsInterval = mkOption {
+                  type = types.str;
+                  default = "minutely";
+                };
                 client = mkOption {
                   type = types.submodule {
                     options = {
                       endpoint = mkOption {
                         type = types.str;
-                      };
-                      reresolveDns = mkOption {
-                        type = types.bool;
-                        default = false;
                       };
                       allowedIPs = mkOption {
                         type = with types; listOf str;

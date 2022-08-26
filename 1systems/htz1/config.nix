@@ -9,7 +9,9 @@
       ../../2configs/prometheus-node.nix
 
       ./modules/git.nix
+      #./modules/home-assistant.nix
       ./modules/mosquitto.nix
+      ./modules/prometheus
     ];
 
   ptsd.nwbackup = {
@@ -58,6 +60,21 @@
   ptsd.wireguard.networks.nwvpn = {
     server.enable = true;
     routes = [{ routeConfig = { Destination = "192.168.178.0/24"; }; }];
+    reresolveDns = true; # fb1 connection / dyndns
+    reresolveDnsInterval = "06:00";
+  };
+
+  ptsd.tailscale = {
+    enable = true;
+    cert.enable = true;
+    ip = "100.106.245.41";
+    httpServices = [
+      "alertmanager"
+      "grafana"
+      #"home-assistant"
+      #"monica"
+      "prometheus-server"
+    ];
   };
 
   security.acme.certs."mqtt.nerdworks.de" = {

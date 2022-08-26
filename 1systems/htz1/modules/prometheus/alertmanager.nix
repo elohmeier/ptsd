@@ -14,7 +14,7 @@
       enable = true;
       listenAddress = "127.0.0.1";
       port = config.ptsd.ports.alertmanager;
-      webExternalUrl = "https://nas1.host.nerdworks.de/";
+      webExternalUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.alertmanager}/";
       configuration = {
         route = {
           group_by = [ "alertname" "alias" ];

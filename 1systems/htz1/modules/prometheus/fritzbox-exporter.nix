@@ -4,6 +4,7 @@
 
   ptsd.secrets.files."prometheus-fritzbox-exporter.env" = {
     dependants = [ "prometheus-fritzbox-exporter.service" ];
+    source-path = "/var/src/secrets/prometheus/prometheus-fritzbox-exporter.env";
   };
 
   systemd.services.prometheus-fritzbox-exporter = {

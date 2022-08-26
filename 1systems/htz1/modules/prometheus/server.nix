@@ -3,7 +3,6 @@
 with lib;
 let
   universe = import ../../../../2configs/universe.nix;
-  vpnNodes = netname: filterAttrs (hostname: hostcfg: hostname != config.networking.hostName && hasAttrByPath [ "nets" netname ] hostcfg) universe.hosts;
   blackboxGenericScrapeConfig = {
     scrape_interval = "60s";
     metrics_path = "/probe";
@@ -16,8 +15,8 @@ let
 in
 {
   systemd.services.prometheus.serviceConfig.LoadCredential = [
-    "hass-token-nas1-prometheus-bs53:/var/src/secrets/hass-token-nas1-prometheus-bs53"
-    "hass-token-nas1-prometheus-dlrg:/var/src/secrets/hass-token-nas1-prometheus-dlrg"
+    "hass-token-nas1-prometheus-bs53:/var/src/secrets/prometheus/hass-token-nas1-prometheus-bs53"
+    "hass-token-nas1-prometheus-dlrg:/var/src/secrets/prometheus/hass-token-nas1-prometheus-dlrg"
   ];
 
   services.prometheus = {
