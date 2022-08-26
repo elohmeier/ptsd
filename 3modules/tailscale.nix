@@ -22,7 +22,7 @@ in
     httpServices = mkOption {
       type = with types; listOf str;
       default = [ ];
-      description = "HTTP services exposed via haproxy on Tailscale network";
+      description = "HTTP services exposed via reverse proxy on Tailscale network";
     };
   };
 
@@ -66,72 +66,55 @@ in
 
     (mkIf (cfg.enable && cfg.cert.enable && cfg.httpServices != [ ]) {
 
-      services.haproxy = mkIf cfg.cert.enable {
-        enable = true;
-        config = ''
-          defaults
-            timeout connect 10s
-
-
-          ${concatMapStrings (svc: ''
-
-          backend ${svc}
-            mode http
-            server s1 127.0.0.1:${toString config.ptsd.ports."${svc}"}
-
-          '') (cfg.httpServices ++ ["nginx-tsindex"])}
-
-
-          ${concatMapStrings (svc: ''
-
-          frontend ${svc}
-            bind ${cfg.ip}:${toString config.ptsd.ports."${svc}"} interface ${config.services.tailscale.interfaceName} ssl crt /var/lib/tailscale-cert/${cfg.fqdn}.pem
-            mode http
-            use_backend ${svc}
-
-          '') cfg.httpServices}
-
-          frontend https
-            bind ${cfg.ip}:443 interface ${config.services.tailscale.interfaceName} ssl crt /var/lib/tailscale-cert/${cfg.fqdn}.pem
-            mode http
-            use_backend nginx-tsindex
-        '';
-      };
-
-      systemd.services.haproxy.serviceConfig.SupplementaryGroups = "tailscale-cert";
-
-      systemd.services.haproxy.after = [ "tailscaled.service" ];
-      systemd.services.haproxy.bindsTo = [ "tailscaled.service" ];
+      systemd.services.nginx.serviceConfig.SupplementaryGroups = "tailscale-cert";
 
       services.nginx = {
         enable = true;
 
-        virtualHosts."${cfg.fqdn}" = {
-          listen = [{ addr = "127.0.0.1"; port = config.ptsd.ports.nginx-tsindex; }];
-          root = pkgs.writeTextFile {
-            name = "tsindex";
-            destination = "/index.html";
-            text = ''
-              <!DOCTYPE html>
-              <html lang="en">
-                <head>
-                  <meta charset="UTF-8">
-                  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                  <title>${cfg.fqdn}</title>
-                </head>
-                <body>
-                  <h2>${cfg.fqdn}</h2>
-                  <ul>
-              ${concatMapStrings (svc: ''
-                    <li><a href="https://${cfg.fqdn}:${toString config.ptsd.ports."${svc}"}">${svc}</a></li>
-              '') cfg.httpServices}
-                  </ul>
-                </body>
-              </html>
+        virtualHosts = {
+          "${cfg.fqdn}" = {
+            listenAddresses = [ cfg.ip ];
+            addSSL = true;
+            sslCertificate = "/var/lib/tailscale-cert/${cfg.fqdn}.crt";
+            sslCertificateKey = "/var/lib/tailscale-cert/${cfg.fqdn}.key";
+            root = pkgs.writeTextFile {
+              name = "tsindex";
+              destination = "/index.html";
+              text = ''
+                <!DOCTYPE html>
+                <html lang="en">
+                  <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                    <title>${cfg.fqdn}</title>
+                  </head>
+                  <body>
+                    <h2>${cfg.fqdn}</h2>
+                    <ul>
+                ${concatMapStrings (svc: ''
+                      <li><a href="https://${cfg.fqdn}:${toString config.ptsd.ports."${svc}"}">${svc}</a></li>
+                '') cfg.httpServices}
+                    </ul>
+                  </body>
+                </html>
+              '';
+            };
+          };
+        } // (builtins.listToAttrs (map
+          (name: {
+            inherit name; value = {
+            forceSSL = true;
+            listen = [{ addr = cfg.ip; port = config.ptsd.ports."${name}"; ssl = true; }];
+            sslCertificate = "/var/lib/tailscale-cert/${cfg.fqdn}.crt";
+            sslCertificateKey = "/var/lib/tailscale-cert/${cfg.fqdn}.key";
+
+            locations."/".extraConfig = ''
+              proxy_pass http://127.0.0.1:${toString config.ptsd.ports."${name}"};
             '';
           };
-        };
+          })
+          cfg.httpServices));
       };
     })
   ];

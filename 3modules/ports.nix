@@ -31,11 +31,10 @@ in
       # internal
       bitwarden = 10000;
       fraamdb = 10001;
-      nginx-tsindex = 10002;
-      photoprism = 10003;
-      prometheus-quotes-exporter = 10004;
-      redis-rspamd = 10005;
-      synapse = 10006;
+      photoprism = 10002;
+      prometheus-quotes-exporter = 10003;
+      redis-rspamd = 10004;
+      synapse = 10005;
     };
   };
 }
