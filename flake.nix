@@ -565,6 +565,7 @@
                   inherit encryption environment exclude;
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
+                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
                 };
 
                 rpi4 = {
@@ -572,6 +573,7 @@
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
                   compression = "zstd,3";
+                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
                 };
               };
             };
@@ -618,6 +620,7 @@
                 #  inherit encryption environment exclude;
                 #  paths = [ "${homeDirectory}" ];
                 #  repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
+                #  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
                 #};
 
                 rpi4 = {
@@ -625,6 +628,7 @@
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://borg-mb3@rpi4.pug-coho.ts.net/./";
                   compression = "zstd,3";
+                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
                 };
               };
             };
