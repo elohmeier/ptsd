@@ -8,6 +8,7 @@ in
     [
       ../..
       ../../2configs
+      ../../2configs/borgbackup.nix
       ../../2configs/hardened.nix
       ../../2configs/nwhost-mini.nix
       ../../2configs/prometheus-node.nix
@@ -16,6 +17,8 @@ in
       ./modules/rspamd.nix
       ./modules/samba.nix
     ];
+
+  services.borgbackup.jobs.rpi4.paths = [ "/var/lib/private/maddy" ];
 
   # reduce size
   documentation = {
@@ -30,19 +33,6 @@ in
 
   ptsd.maddy = {
     enable = true;
-  };
-
-  ptsd.secrets.files = {
-    "nwbackup.id_ed25519" = {
-      path = "/root/.ssh/id_ed25519";
-    };
-  };
-
-  ptsd.nwbackup = {
-    enable = true;
-    paths = [
-      "/var/lib/acme"
-    ];
   };
 
   networking = {

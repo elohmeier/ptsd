@@ -212,6 +212,6 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
 
   borg2prom = self.writeShellScriptBin "borg2prom" ''
     PATH=$PATH:${self.lib.makeBinPath [ self.borgbackup self.jq ]}
-    . ${../4scripts/borg2prom.sh} | ${self.curl}/bin/curl -X PUT --data-binary @- http://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/mb4
+    . ${../4scripts/borg2prom.sh} | ${self.curl}/bin/curl -X PUT --data-binary @- "http://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/$(${self.nettools}/bin/hostname -s)"
   '';
 }

@@ -300,8 +300,6 @@ in
       993
     ];
 
-    ptsd.nwbackup.extraPaths = [ "/var/lib/private/maddy" ];
-
     # configured as in https://github.com/foxcpp/maddy/tree/master/dist/fail2ban/filter.d
     services.fail2ban.jails = {
       maddy-auth = ''

@@ -181,7 +181,7 @@
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFRtD/G7EoOsriINw1hbRcx3Pa/gAllVbyaXFoEE3O0r ";
       # syncthing.id = "IC6TOSI-OYORQ4W-DSOMJU7-QYSECNO-XFD2F5U-DMN3G4E-D2E5CZ5-5XR7TQM";
       borg.quota = "20G";
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDFd67n+vkojWj5gxGjOrflLLVC4yPxbHmdc6tIQTQbZ root@htz3";
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEC8cOA1MLntU6B55MLu1rgLMI/jmC2iffRQT2ySmM1m";
     };
 
     # Lu
@@ -266,7 +266,11 @@
     # RPi-HomeMatic      
     #};
 
-    rpi4.syncthing.id = "EXAME75-EMFDX7G-VXRB2GS-T2JLHXO-LEXTXGX-6DXSPGQ-E3FS742-MVRPZAX";
+    rpi4 = {
+      nets.tailscale.ip4.addr = "100.122.164.57";
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGa5ePUspb0rbZv7BJlOvnXUET4104GJxQk7EjV29pRf";
+      syncthing.id = "EXAME75-EMFDX7G-VXRB2GS-T2JLHXO-LEXTXGX-6DXSPGQ-E3FS742-MVRPZAX";
+    };
 
     # Archer C7 v5  192.168.178.3
     wrt1 = {

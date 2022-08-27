@@ -56,14 +56,14 @@ in
     fsType = "ext4";
   };
 
-  zramSwap = {
-    enable = true;
-    numDevices = 1;
-    swapDevices = 1;
-    memoryPercent = 75;
-    priority = 2; # should be higher than for disk-based swap devices to fallback to disk swap when zram is full
-    algorithm = "zstd";
-  };
+  #zramSwap = {
+  #  enable = true;
+  #  numDevices = 1;
+  #  swapDevices = 1;
+  #  memoryPercent = 75;
+  #  priority = 2; # should be higher than for disk-based swap devices to fallback to disk swap when zram is full
+  #  algorithm = "zstd";
+  #};
 
   swapDevices = [
     {

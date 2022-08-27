@@ -2,11 +2,6 @@
 
 with lib;
 {
-  services.mysqlBackup = {
-    enable = true;
-    databases = [ "wordpress" ];
-  };
-
   environment.systemPackages = with pkgs; [
     (
       writers.writeDashBin "fraam-update-static-web" ''

@@ -7,6 +7,7 @@ in
     [
       ../..
       ../../2configs
+      ../../2configs/borgbackup.nix
       ../../2configs/hardened.nix
       ../../2configs/nwhost-mini.nix
 
@@ -21,16 +22,19 @@ in
       ./modules/wordpress.nix
     ];
 
-  ptsd.nwbackup = {
-    enable = true;
+  services.borgbackup.jobs.rpi4 = {
     paths = [
       "/var/backup"
       "/var/lib/fraam-www/www"
       "/var/lib/fraam-www/static"
       "/var/lib/kanboard"
       "/var/lib/bitwarden_rs"
-      "/var/src"
     ];
+  };
+
+  services.mysqlBackup = {
+    enable = true;
+    databases = [ "wordpress" ];
   };
 
   services.postgresqlBackup = {
