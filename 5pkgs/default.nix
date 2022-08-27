@@ -210,8 +210,12 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   xrdp = self.callPackage ./xrdp { };
   xorgxrdp = self.callPackage ./xrdp/xorgxrdp.nix { };
 
-  borg2prom = self.writeShellScriptBin "borg2prom" ''
-    PATH=$PATH:${self.lib.makeBinPath [ self.borgbackup self.jq ]}
-    . ${../4scripts/borg2prom.sh} | ${self.curl}/bin/curl -X PUT --data-binary @- "http://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/$(${self.nettools}/bin/hostname -s)"
-  '';
+  borg2prom =
+    let
+      hostname = if self.stdenv.isDarwin then "/bin/hostname" else "${self.nettools}/bin/hostname";
+    in
+    self.writeShellScriptBin "borg2prom" ''
+      PATH=$PATH:${self.lib.makeBinPath [ self.borgbackup self.jq ]}
+      . ${../4scripts/borg2prom.sh} | ${self.curl}/bin/curl -X PUT --data-binary @- "http://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/$(${hostname} -s)"
+    '';
 }
