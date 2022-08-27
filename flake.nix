@@ -579,6 +579,9 @@
             stateVersion = "22.05";
 
             configuration = { config, lib, pkgs, ... }: {
+              imports = [
+                ./2configs/home
+              ];
               nixpkgs.config = {
                 allowUnfree = true;
                 packageOverrides = pkgOverrides pkgs;
