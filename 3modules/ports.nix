@@ -26,6 +26,7 @@ in
       octoprint = 5000;
       prometheus-maddy = 9749;
       prometheus-node = 9100;
+      prometheus-pushgateway = 9091;
       prometheus-server = 9090;
 
       # internal

@@ -30,13 +30,18 @@ in
 
     scrapeConfigs = [
       {
-        job_name = "hass_bs53";
+        job_name = "pushgateway";
         scrape_interval = "60s";
-        metrics_path = "/api/prometheus";
-        bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-bs53";
-        scheme = "https";
-        static_configs = [{ targets = [ "nas1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+        static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-pushgateway}" ]; }];
       }
+      #{
+      #  job_name = "hass_bs53";
+      #  scrape_interval = "60s";
+      #  metrics_path = "/api/prometheus";
+      #  bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-bs53";
+      #  scheme = "https";
+      #  static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+      #}
       {
         job_name = "hass_dlrg";
         scrape_interval = "60s";
