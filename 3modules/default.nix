@@ -8,8 +8,6 @@ _:
     ./monica.nix
     ./navidrome.nix
     ./nvidia.nix
-    ./nwbackup-server.nix
-    ./nwbackup.nix
     ./nwlogrotate.nix
     ./nwsyncthing.nix
     ./oauth2-proxy.nix

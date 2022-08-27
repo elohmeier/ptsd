@@ -4,6 +4,7 @@
     [
       ../..
       ../../2configs
+      ../../2configs/borgbackup.nix
       ../../2configs/hardened.nix
       ../../2configs/nwhost.nix
       ../../2configs/prometheus-node.nix
@@ -14,12 +15,9 @@
       ./modules/prometheus
     ];
 
-  ptsd.nwbackup = {
-    enable = true;
-    paths = [
-      "/var/lib/gitolite"
-      "/var/www"
-    ];
+  services.borgbackup.jobs.rpi4 = {
+    exclude = [ "/var/lib/gitolite/.gitolite" ];
+    paths = [ "/var/lib/gitolite" "/var/www" ];
   };
 
   ptsd.secrets.files."nwvpn-fb1.psk" = {

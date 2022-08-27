@@ -64,5 +64,4 @@ in
   users.defaultUserShell = pkgs.fish;
   ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
   environment.variables = { EDITOR = "nvim"; };
-  ptsd.nwbackup.enable = mkDefault true;
 }

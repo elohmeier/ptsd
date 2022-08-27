@@ -565,6 +565,7 @@
                   inherit encryption environment exclude;
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
+                  compression = "zstd,3";
                   postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
                 };
 
@@ -620,6 +621,7 @@
                 #  inherit encryption environment exclude;
                 #  paths = [ "${homeDirectory}" ];
                 #  repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
+                #  compression = "zstd,3";
                 #  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
                 #};
 
