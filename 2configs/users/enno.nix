@@ -1,7 +1,6 @@
 # Keep in mind this config is also used for NixOS containers.
 
 { config, lib, pkgs, ... }:
-with lib;
 
 {
   users.users = {
@@ -10,7 +9,6 @@ with lib;
       isNormalUser = true;
       home = "/home/enno";
       createHome = true;
-      useDefaultShell = true;
       uid = 1000;
       description = "Enno Richter";
       extraGroups =
@@ -31,6 +29,8 @@ with lib;
         in
         sshPubKeys.authorizedKeys_enno;
       passwordFile = lib.mkIf config.ptsd.secrets.enable "/var/src/secrets/mainUser.passwd";
+    } // lib.optionalAttrs config.programs.fish.enable {
+      shell = pkgs.fish;
     };
   };
 }
