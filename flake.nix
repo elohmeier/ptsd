@@ -149,12 +149,17 @@
                     cfg = hostname: {
                       authorizedKeysAppendOnly = [ (import ./2configs/universe.nix).hosts."${hostname}".borg.pubkey ];
                       path = "/mnt/borgbackup/${hostname}";
+                      quota = (import ./2configs/universe.nix).hosts."${hostname}".borg.quota;
                       user = "borg-${hostname}";
                     };
                   in
                   {
-                    mb3 = cfg "mb3" // { quota = "300G"; };
-                    mb4 = cfg "mb4" // { quota = "1T"; };
+                    apu2 = cfg "apu2";
+                    htz1 = cfg "htz1";
+                    htz2 = cfg "htz2";
+                    htz3 = cfg "htz3";
+                    mb3 = cfg "mb3";
+                    mb4 = cfg "mb4";
                   };
 
                 systemd.mounts = [{
@@ -582,6 +587,7 @@
               imports = [
                 ./2configs/home
               ];
+
               nixpkgs.config = {
                 allowUnfree = true;
                 packageOverrides = pkgOverrides pkgs;
