@@ -75,10 +75,10 @@ in
       ipv6AcceptRAConfig.RouteMetric = 10;
     };
     wlan = {
-      matchConfig.Driver = "brcmfmac";
-      networkConfig.DHCP = "yes";
       dhcpV4Config.RouteMetric = 20;
       ipv6AcceptRAConfig.RouteMetric = 20;
+      matchConfig.Driver = "brcmfmac";
+      networkConfig.DHCP = "yes";
     };
   };
 
@@ -92,6 +92,8 @@ in
   system.activationScripts.initialize-persistent = lib.stringAfter [ "users" "groups" ] ''
     mkdir -p /nix/persistent/etc/ssh
     mkdir -p /nix/persistent/var/lib/iwd
+    mkdir -p /nix/persistent/var/lib/samba
+    mkdir -p /nix/persistent/var/lib/systemd
     mkdir -p /nix/persistent/var/lib/tailscale
     ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
   '';
@@ -100,7 +102,19 @@ in
     "/etc/machine-id" = { device = "/nix/persistent/etc/machine-id"; options = [ "bind" ]; };
     "/var/lib/iwd" = { device = "/nix/persistent/var/lib/iwd"; options = [ "bind" ]; };
     "/var/lib/tailscale" = { device = "/nix/persistent/var/lib/tailscale"; options = [ "bind" ]; };
+    "/var/lib/systemd" = { device = "/nix/persistent/var/lib/systemd"; options = [ "bind" ]; };
   };
+
+  systemd.mounts = lib.optionals config.services.samba.enable [
+    {
+      what = "/nix/persistent/var/lib/samba";
+      where = "/var/lib/samba";
+      type = "none";
+      options = "bind";
+      before = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
+      requiredBy = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
+    }
+  ];
 
   imports = [
     ./sd-image.nix

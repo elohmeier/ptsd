@@ -143,7 +143,7 @@
                 nix.trustedUsers = [ "root" "@wheel" ];
                 system.stateVersion = "22.05";
                 networking.hostName = "rpi4";
-                environment.systemPackages = with pkgs;[ btop fscryptctl ];
+                environment.systemPackages = with pkgs;[ btop fscryptctl powertop ptsd-nnn ncdu ];
 
                 services.borgbackup.repos =
                   let
@@ -163,21 +163,33 @@
                     mb4 = cfg "mb4";
                   };
 
-                systemd.mounts = [{
-                  what = "/dev/disk/by-label/usb2tb";
-                  where = "/mnt";
-                  type = "ext4";
-                  options = "noatime,nofail,nodev,nosuid,noexec";
-                  before = [ "borgbackup-repo-mb4.service" ];
-                  requiredBy = [ "borgbackup-repo-mb4.service" ];
-                }];
+                systemd.mounts =
+                  let deps = [
+                    "borgbackup-repo-apu2.service"
+                    "borgbackup-repo-htz1.service"
+                    "borgbackup-repo-htz2.service"
+                    "borgbackup-repo-htz3.service"
+                    "borgbackup-repo-mb3.service"
+                    "borgbackup-repo-mb4.service"
+                    "samba-smbd.service"
+                    "syncthing.service"
+                  ];
+                  in
+                  [{
+                    what = "/dev/disk/by-label/usb2tb";
+                    where = "/mnt";
+                    type = "ext4";
+                    options = "noatime,nofail,nodev,nosuid,noexec";
+                    before = deps;
+                    requiredBy = deps;
+                  }];
 
                 ptsd.tailscale.enable = true;
 
                 services.syncthing = let universe = import ./2configs/universe.nix; in
                   {
                     enable = true;
-                    dataDir = "/mnt/syncthing";
+                    dataDir = "/nix/persistent/var/lib/syncthing";
                     openDefaultPorts = true;
                     devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: hostcfg: lib.hasAttr "syncthing" hostcfg) universe.hosts);
 
@@ -188,6 +200,42 @@
                       "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "nas1" ]; };
                     };
                   };
+
+                services.samba = {
+                  enable = true;
+                  enableNmbd = false;
+                  enableWinbindd = false;
+                  extraConfig = ''
+                    hosts allow = 192.168.178.0/24
+                    hosts deny = 0.0.0.0/0
+                    load printers = no
+                    local master = no
+                    max smbd processes = 5
+                    valid users = syncthing
+                  '';
+
+                  shares =
+                    let
+                      defaults = {
+                        "force group" = "syncthing";
+                        "force user" = "syncthing";
+                        "guest ok" = "no";
+                        "read only" = "no";
+                        browseable = "no";
+                      };
+                    in
+                    {
+                      scans-enno = defaults // { path = "/mnt/syncthing/enno/Scans"; };
+                      scans-luisa = defaults // { path = "/mnt/syncthing/luisa/Scans"; };
+                    };
+                };
+
+                networking.firewall.allowedTCPPorts = [ 445 ];
+
+                boot.kernel.sysctl = {
+                  "vm.dirty_writeback_centisecs" = 1500;
+                  "net.core.rmem_max" = 2500000; # for syncthing
+                };
               })
             ];
           };

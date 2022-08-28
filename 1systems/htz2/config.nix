@@ -15,7 +15,6 @@ in
 
       ./modules/maddy.nix
       ./modules/rspamd.nix
-      ./modules/samba.nix
     ];
 
   services.borgbackup.jobs.rpi4.paths = [ "/var/lib/private/maddy" ];
