@@ -44,7 +44,7 @@ in
 
   programs.command-not-found.enable = false;
 
-  time.timeZone = "Europe/Berlin";
+  time.timeZone = lib.mkDefault "UTC";
 
   services.openssh = {
     enable = true;

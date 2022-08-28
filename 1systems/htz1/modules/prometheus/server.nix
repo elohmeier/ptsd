@@ -89,7 +89,7 @@ in
               alias = host;
               alwayson = "1";
             };
-          }) [ "apu2" "htz1" "htz2" "htz3" "nas1" ];
+          }) [ "apu2" "htz1" "htz2" "htz3" "nas1" "rpi4" ];
       }
 
       {

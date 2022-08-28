@@ -17,7 +17,11 @@
 
   services.borgbackup.jobs.rpi4 = {
     exclude = [ "/var/lib/gitolite/.gitolite" ];
-    paths = [ "/var/lib/gitolite" "/var/www" ];
+    paths = [
+      "/var/lib/gitolite"
+      "/var/lib/grafana/data"
+      "/var/www"
+    ];
   };
 
   ptsd.secrets.files."nwvpn-fb1.psk" = {

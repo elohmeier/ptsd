@@ -134,6 +134,7 @@
               nixos-hardware.nixosModules.raspberry-pi-4
               ./2configs
               ./2configs/fish.nix
+              ./2configs/prometheus-node.nix
               ./2configs/rpi3b_4.nix
               ./2configs/users/enno.nix
               ({ lib, pkgs, ... }: {
@@ -275,6 +276,7 @@
               ./2configs/utmvm.nix
               ./2configs/vm-efi-xfs.nix
               {
+                time.timeZone = "Europe/Berlin";
                 networking.hostName = "mb4-nixos";
                 system.stateVersion = "22.05";
                 virtualisation.docker = { enable = true; enableOnBoot = false; };
