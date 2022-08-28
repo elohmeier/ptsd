@@ -19,7 +19,8 @@ archive_tag=$(jq -r '"{repository_location=\""+.repository.location+"\",archive_
 
 echo "# HELP borgbackup_last_start The timestamp of the last archive (unixtimestamp)"
 echo "# TYPE borgbackup_last_start gauge"
-echo "borgbackup_last_start$archive_tag $(jq -r '.archives[0].start|strptime("%Y-%m-%dT%H:%M:%S.000000")|mktime' <<< $json)"
+# gmtime converts local time to UTC
+echo "borgbackup_last_start$archive_tag $(jq -r '.archives[0].start|strptime("%Y-%m-%dT%H:%M:%S.000000")|mktime|gmtime|mktime' <<< $json)"
 
 echo "# HELP borgbackup_last_compressed_size The compressed size of the last archive"
 echo "# TYPE borgbackup_last_compressed_size gauge"
