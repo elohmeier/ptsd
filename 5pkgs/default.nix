@@ -218,4 +218,9 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       PATH=$PATH:${self.lib.makeBinPath [ self.borgbackup self.jq ]}
       . ${../4scripts/borg2prom.sh} | ${self.curl}/bin/curl -X PUT --data-binary @- "http://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/$(${hostname} -s)"
     '';
+
+  prom-checktlsa = self.writeShellScriptBin "prom-checktlsa" ''
+    PATH=$PATH:${self.lib.makeBinPath (with self; [ dig gawk glibc nettools bash checkSSLCert ])}
+    . ${../4scripts/prom-checktlsa.sh}
+  '';
 }

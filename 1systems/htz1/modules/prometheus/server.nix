@@ -118,16 +118,16 @@ in
         params.module = [ "http_nerdworks_www" ];
         static_configs = [{ targets = [ "https://www.nerdworks.de" ]; }];
       })
-      # (blackboxGenericScrapeConfig // {
-      #   job_name = "blackbox_http_grafana";
-      #   params.module = [ "http_grafana" ];
-      #   static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login" ]; }];
-      # })
       (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_home_assistant_bs53";
-        params.module = [ "http_home_assistant_bs53" ];
-        static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+        job_name = "blackbox_http_grafana";
+        params.module = [ "http_grafana" ];
+        static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login" ]; }];
       })
+      #(blackboxGenericScrapeConfig // {
+      #  job_name = "blackbox_http_home_assistant_bs53";
+      #  params.module = [ "http_home_assistant_bs53" ];
+      #  static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+      #})
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_dlrg";
         params.module = [ "http_home_assistant_dlrg" ];
@@ -136,7 +136,7 @@ in
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_monica";
         params.module = [ "http_monica" ];
-        static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.monica}" ]; }];
+        static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.monica}" ]; }];
       })
     ];
   };

@@ -163,6 +163,14 @@
                     mb4 = cfg "mb4";
                   };
 
+                # pin uids (not persisted)
+                users.users.borg-apu2.uid = 901;
+                users.users.borg-htz1.uid = 902;
+                users.users.borg-htz2.uid = 903;
+                users.users.borg-htz3.uid = 904;
+                users.users.borg-mb3.uid = 905;
+                users.users.borg-mb4.uid = 906;
+
                 systemd.mounts =
                   let deps = [
                     "borgbackup-repo-apu2.service"

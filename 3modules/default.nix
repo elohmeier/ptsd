@@ -5,7 +5,6 @@ _:
     ./icloudpd.nix
     ./kanboard.nix
     ./mjpg-streamer.nix
-    ./monica.nix
     ./navidrome.nix
     ./nvidia.nix
     ./nwlogrotate.nix

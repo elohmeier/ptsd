@@ -12,13 +12,10 @@ in
     ../../2configs/prometheus-node.nix
     ../../2configs/users/enno.nix # for git repo support
 
-    ./modules/backup.nix
-    ./modules/fraam-gdrive-backup.nix
-    ./modules/icloudpd.nix
     #./modules/loki.nix
     #./modules/octoprint.nix
-    ./modules/postgresql.nix
-    ./modules/samba.nix
+    ./modules/fraam-gdrive-backup.nix
+    ./modules/icloudpd.nix
     ./modules/syncthing.nix
   ];
 
@@ -32,23 +29,16 @@ in
     dev.enable = false;
   };
 
-  # ptsd.fluent-bit = {
-  #   enable = true;
-  # };
-
   ptsd.tailscale = {
     enable = true;
     cert.enable = true;
     ip = "100.101.207.64";
     httpServices = [
       #"mjpg-streamer"
-      "monica"
       #"navidrome"
       #"octoprint"
     ];
   };
-
-  ptsd.nwbackup.enable = false;
 
   # broken due to missing instruction set required by tensorflow1-bin
   # ptsd.photoprism = {
@@ -58,15 +48,6 @@ in
   #   siteUrl = "https://fotos.nerdworks.de/";
   #   photosDirectory = "/tank/enc/rawphotos/photos";
   # };
-
-  ptsd.monica = {
-    enable = true;
-    domain = config.ptsd.tailscale.fqdn;
-    appUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.monica}";
-    extraEnv = {
-      APP_KEY = "dummydummydummydummydummydummydu";
-    };
-  };
 
   networking = {
     hostName = "nas1";
@@ -88,42 +69,5 @@ in
   services.zfs = {
     autoScrub.enable = true;
     autoSnapshot.enable = true;
-  };
-
-  ptsd.nwbackup-server = {
-    enable = true;
-    zpool = "tank";
-  };
-
-  # ptsd.navidrome = {
-  #   enable = true;
-  #   musicFolder = "/tank/enc/media";
-  # };
-
-  systemd.services.prometheus-check_ssl_cert = {
-    description = "monitor ssl/tlsa/dane for nerdworks.de mail";
-    environment = {
-      # use google dns for TLSA lookup
-      HOME = pkgs.writeTextFile {
-        name = "digrc";
-        text = "@8.8.8.8";
-        destination = "/.digrc";
-      };
-    };
-    path = with pkgs; [
-      # checkSSLCert deps
-      dig
-      gawk
-      glibc
-      nettools
-
-      bash
-      checkSSLCert
-      moreutils # sponge
-    ];
-    script = ''
-      ${../../4scripts/prometheus-check_ssl_cert.sh} | sponge /var/log/prometheus-check_ssl_cert.prom
-    '';
-    startAt = "*:0/15"; # every 15 mins
   };
 }

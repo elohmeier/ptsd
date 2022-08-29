@@ -44,42 +44,4 @@ in
     # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
     "fs.inotify.max_user_watches" = 204800;
   };
-
-  # auto-update logseq repo
-  systemd.services.logseq-sync-git = {
-    description = "Sync logseq repo";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "network.target" "network-online.target" ];
-
-    script = ''
-      git config --global user.email "logseq-sync-git@nas1"
-      git config --global user.name "logseq-sync-git@nas1"
-      git add .
-      git commit -m "autoupdate" || true
-      git pull --rebase=merges
-      git push origin main
-    '';
-
-    path = with pkgs; [ git openssh ];
-    environment = {
-      GIT_SSH_COMMAND = "ssh -i /run/credentials/logseq-sync-git.service/id_ed25519";
-    };
-
-    serviceConfig = {
-      User = "syncthing";
-      Group = "syncthing";
-      LoadCredential = "id_ed25519:/var/src/secrets/nwbackup.id_ed25519";
-      WorkingDirectory = "/tank/enc/repos/logseq";
-    };
-  };
-
-  systemd.timers.logseq-sync-git = {
-    description = "Sync logseq repo";
-    wantedBy = [ "timers.target" ];
-
-    timerConfig = {
-      OnBootSec = "1min";
-      OnUnitInactiveSec = "1min";
-    };
-  };
 }

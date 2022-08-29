@@ -9,17 +9,24 @@
       ../../2configs/nwhost.nix
       ../../2configs/prometheus-node.nix
 
-      ./modules/git.nix
       #./modules/home-assistant.nix
+      ./modules/git.nix
+      ./modules/monica.nix
       ./modules/mosquitto.nix
       ./modules/prometheus
     ];
 
   services.borgbackup.jobs.rpi4 = {
-    exclude = [ "/var/lib/gitolite/.gitolite" ];
+    exclude = [
+      "/var/lib/gitolite/.gitolite"
+      "/var/lib/monica/storage/framework"
+      "/var/lib/monica/storage/logs"
+    ];
     paths = [
+      "/var/backup"
       "/var/lib/gitolite"
       "/var/lib/grafana/data"
+      "/var/lib/monica/storage"
       "/var/www"
     ];
   };
@@ -74,8 +81,11 @@
       "alertmanager"
       "grafana"
       #"home-assistant"
-      #"monica"
       "prometheus-server"
+    ];
+    links = [
+      "monica"
+      "prometheus-pushgateway"
     ];
   };
 

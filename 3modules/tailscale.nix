@@ -3,6 +3,7 @@
 with lib;
 let
   cfg = config.ptsd.tailscale;
+  allLinks = cfg.httpServices ++ cfg.links;
 in
 {
   options.ptsd.tailscale = {
@@ -23,6 +24,11 @@ in
       type = with types; listOf str;
       default = [ ];
       description = "HTTP services exposed via reverse proxy on Tailscale network";
+    };
+    links = mkOption {
+      type = with types; listOf str;
+      default = [ ];
+      description = "HTTP services directly exposed, linked on the index page";
     };
   };
 
@@ -64,7 +70,7 @@ in
       };
     })
 
-    (mkIf (cfg.enable && cfg.cert.enable && cfg.httpServices != [ ]) {
+    (mkIf (cfg.enable && cfg.cert.enable && allLinks != [ ]) {
 
       systemd.services.nginx.serviceConfig.SupplementaryGroups = "tailscale-cert";
 
@@ -94,7 +100,7 @@ in
                     <ul>
                 ${concatMapStrings (svc: ''
                       <li><a href="https://${cfg.fqdn}:${toString config.ptsd.ports."${svc}"}">${svc}</a></li>
-                '') cfg.httpServices}
+                '') allLinks}
                     </ul>
                   </body>
                 </html>
