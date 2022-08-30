@@ -108,9 +108,9 @@ in
         #endpoint = "hvrhukr39ruezms4.myfritz.net:55557"; # old 7490
         endpoint = "letvjkxepuccuto1.myfritz.net:55557"; # new 7590
         # endpoint = "letvjkxepuccuto1.myfritz.net:51551"; # avm labor vpn
-        reresolveDns = true;
         allowedIPs = [ "191.18.21.0/24" ];
       };
+      reresolveDns = true;
       server.listenPort = 55557; # on rpi2
     };
 

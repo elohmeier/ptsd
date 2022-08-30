@@ -4,6 +4,7 @@
   imports = [
     ../..
     ../../2configs
+    ../../2configs/borgbackup.nix
     ../../2configs/nwhost-mini.nix
     ../../2configs/minimal.nix
     ../../2configs/prometheus-node.nix
@@ -13,26 +14,15 @@
     ./modules/nginx.nix
   ];
 
-  ptsd.nwbackup = {
-    enable = true;
-    paths = [
-      "/var/lib/acme"
-      "/var/lib/hass"
-      "/var/lib/private/mosquitto"
-      "/var/src"
-    ];
+  services.borgbackup.jobs.rpi4 = {
+    paths = [ "/var/lib/hass" ];
     exclude = [
-      "/var/lib/hass/home-assistant_v2.db*" # save data volume
+      "home-assistant_v2.db*"
+      "home-assistant.log*"
     ];
   };
 
-  environment.systemPackages = with pkgs; [ htop vim tcpdump ];
-
-  ptsd.secrets.files = {
-    "nwbackup.id_ed25519" = {
-      path = "/root/.ssh/id_ed25519";
-    };
-  };
+  environment.systemPackages = with pkgs; [ btop vim tcpdump ];
 
   system.stateVersion = "21.11";
 }
