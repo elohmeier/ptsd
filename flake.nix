@@ -516,7 +516,10 @@
                 };
 
                 rpi4 = {
-                  inherit encryption environment exclude;
+                  inherit encryption environment;
+                  exclude = exclude ++ [
+                    "${homeDirectory}/Sync" # backed up via syncthing
+                  ];
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
                   compression = "zstd,3";
