@@ -34,14 +34,14 @@ in
         scrape_interval = "60s";
         static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-pushgateway}" ]; }];
       }
-      #{
-      #  job_name = "hass_bs53";
-      #  scrape_interval = "60s";
-      #  metrics_path = "/api/prometheus";
-      #  bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-bs53";
-      #  scheme = "https";
-      #  static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
-      #}
+      {
+        job_name = "hass_bs53";
+        scrape_interval = "60s";
+        metrics_path = "/api/prometheus";
+        bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-bs53";
+        scheme = "https";
+        static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+      }
       {
         job_name = "hass_dlrg";
         scrape_interval = "60s";
@@ -123,11 +123,11 @@ in
         params.module = [ "http_grafana" ];
         static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login" ]; }];
       })
-      #(blackboxGenericScrapeConfig // {
-      #  job_name = "blackbox_http_home_assistant_bs53";
-      #  params.module = [ "http_home_assistant_bs53" ];
-      #  static_configs = [{ targets = [ "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
-      #})
+      (blackboxGenericScrapeConfig // {
+        job_name = "blackbox_http_home_assistant_bs53";
+        params.module = [ "http_home_assistant_bs53" ];
+        static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+      })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_dlrg";
         params.module = [ "http_home_assistant_dlrg" ];
