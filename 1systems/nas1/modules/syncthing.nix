@@ -22,6 +22,7 @@ in
       "/tank/enc/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "rpi4" "mb4" "iph3" ]; };
       "/tank/enc/enno/Templates" = { label = "enno/Templates"; id = "gnwqu-yt7qc"; devices = [ "mb4" ]; };
       "/tank/enc/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "mb4" "rpi4" ]; };
+      "/tank/enc/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "rpi4" "mb4" ]; };
       "/tank/enc/luisa/Bilder" = { label = "luisa/Bilder"; id = "ugmai-ti6vl"; devices = [ "mb3" "mb4" ]; };
       "/tank/enc/luisa/Dokumente" = { label = "luisa/Dokumente"; id = "sqkfd-m9he7"; devices = [ "mb4" "mb3" ]; };
       "/tank/enc/luisa/Musik" = { label = "luisa/Musik"; id = "zvffu-ff92z"; devices = [ "mb3" "mb4" ]; };

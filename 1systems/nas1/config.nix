@@ -14,7 +14,7 @@ in
 
     #./modules/loki.nix
     #./modules/octoprint.nix
-    ./modules/fraam-gdrive-backup.nix
+    #./modules/fraam-gdrive-backup.nix
     ./modules/icloudpd.nix
     ./modules/syncthing.nix
   ];
