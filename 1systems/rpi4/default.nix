@@ -15,14 +15,14 @@
   nix.trustedUsers = [ "root" "@wheel" ];
   system.stateVersion = "22.05";
   networking.hostName = "rpi4";
-  environment.systemPackages = with pkgs;[ btop fscryptctl powertop ptsd-nnn ncdu ];
+  environment.systemPackages = with pkgs;[ btop fscryptctl powertop ptsd-nnn ncdu tmux ];
 
   services.borgbackup.repos =
     let
       cfg = hostname: {
-        authorizedKeysAppendOnly = [ (import ./2configs/universe.nix).hosts."${hostname}".borg.pubkey ];
+        authorizedKeysAppendOnly = [ (import ../../2configs/universe.nix).hosts."${hostname}".borg.pubkey ];
         path = "/mnt/borgbackup/${hostname}";
-        quota = (import ./2configs/universe.nix).hosts."${hostname}".borg.quota;
+        quota = (import ../../2configs/universe.nix).hosts."${hostname}".borg.quota;
         user = "borg-${hostname}";
       };
     in
@@ -66,7 +66,7 @@
 
   ptsd.tailscale.enable = true;
 
-  services.syncthing = let universe = import ./2configs/universe.nix; in
+  services.syncthing = let universe = import ../../2configs/universe.nix; in
     {
       enable = true;
       dataDir = "/nix/persistent/var/lib/syncthing";
@@ -74,11 +74,12 @@
       devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: hostcfg: lib.hasAttr "syncthing" hostcfg) universe.hosts);
 
       folders = {
-        "/mnt/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "nas1" "mb3" "mb4" ]; };
-        "/mnt/syncthing/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "nas1" ]; };
-        "/mnt/syncthing/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "mb4" "nas1" ]; };
-        "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "nas1" ]; };
-        "/mnt/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "nas1" "mb4" ]; };
+        "/mnt/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "mb3" "mb4" ]; };
+        "/mnt/syncthing/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" ]; };
+        "/mnt/syncthing/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "mb4" ]; };
+        "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" ]; };
+        "/mnt/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "mb4" ]; };
+        "/mnt/syncthing/icloudpd" = { label = "icloudpd"; id = "myfag-uvj2s"; devices = [ "mb4" "nas1" ]; };
       };
     };
 
