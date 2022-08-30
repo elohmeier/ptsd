@@ -13,7 +13,6 @@ _:
     ./octoprint.nix
     ./photoprism.nix
     ./ports.nix
-    ./rclone.nix
     ./secrets.nix
     ./tailscale.nix
     ./wireguard.nix
