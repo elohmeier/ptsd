@@ -512,7 +512,7 @@
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
                   compression = "zstd,3";
-                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
+                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
                 };
 
                 rpi4 = {
@@ -523,7 +523,7 @@
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
                   compression = "zstd,3";
-                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
+                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
                 };
               };
             };
@@ -571,7 +571,7 @@
                 #  paths = [ "${homeDirectory}" ];
                 #  repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
                 #  compression = "zstd,3";
-                #  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
+                #  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
                 #};
 
                 rpi4 = {
@@ -579,7 +579,7 @@
                   paths = [ "${homeDirectory}" ];
                   repo = "ssh://borg-mb3@rpi4.pug-coho.ts.net/./";
                   compression = "zstd,3";
-                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName";
+                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
                 };
               };
             };

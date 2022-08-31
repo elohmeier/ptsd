@@ -81,12 +81,12 @@
     httpServices = [
       "alertmanager"
       "grafana"
+      "prometheus-pushgateway"
       "prometheus-server"
     ];
     links = [
       "home-assistant"
       "monica"
-      "prometheus-pushgateway"
     ];
   };
 

@@ -193,7 +193,7 @@
 
     mb4 = {
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMZ6hB+Qs1yKat2Bz6gweo6yOotHVz+z4bi1hrfhgRVC";
-      borg.quota = "1T";
+      borg.quota = "1.3T";
       syncthing.id = "BCJ2QQN-P4JUP5E-NS5AUOL-MDQH3XF-CHQ76SE-V3QCNZ6-QRDMENX-UUNBTA6";
     };
 
