@@ -489,21 +489,25 @@
                   mode = "repokey-blake2";
                   passCommand = "cat ${homeDirectory}/.borgkey";
                 };
-                environment.BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
+                environment = {
+                  BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+                  BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
+                };
                 exclude = [
                   "${homeDirectory}/.cache"
                   "${homeDirectory}/Applications"
                   "${homeDirectory}/Downloads"
                   "${homeDirectory}/Downloads-Keep"
-                  "${homeDirectory}/Library/Caches"
-                  "${homeDirectory}/Library/Trial"
-                  "${homeDirectory}/luisa" # backed up individually
+                  "${homeDirectory}/Library"
+                  "${homeDirectory}/Pictures/Photos Library.photoslibrary"
                   "${homeDirectory}/roms" # no backup
                   "*.pyc"
                   "*.qcow2"
                   "sh:${homeDirectory}/**/.cache"
                   "sh:${homeDirectory}/**/node_modules"
-                  "sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
+                  #"${homeDirectory}/Library/Caches"
+                  #"${homeDirectory}/Library/Trial"
+                  #"sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
                 ];
               in
               {
@@ -521,7 +525,8 @@
                     "${homeDirectory}/Sync" # backed up via syncthing
                   ];
                   paths = [ "${homeDirectory}" ];
-                  repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
+                  #repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
+                  repo = "ssh://borg-mb4@192.168.178.84/./";
                   compression = "zstd,3";
                   postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
                 };
