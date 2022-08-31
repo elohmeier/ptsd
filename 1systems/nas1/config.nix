@@ -11,13 +11,9 @@ in
     ../../2configs/nwhost.nix
     ../../2configs/prometheus-node.nix
     ../../2configs/users/enno.nix # for git repo support
-
-    #./modules/loki.nix
-    #./modules/octoprint.nix
-    ./modules/syncthing.nix
   ];
 
-  environment.systemPackages = with pkgs;[ rmlint vim ];
+  environment.systemPackages = with pkgs;[ rmlint vim borgbackup ];
 
   documentation = {
     enable = false;
