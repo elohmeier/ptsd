@@ -108,11 +108,11 @@
             }
             {
               alert = "OldBackup";
-              expr = "time() - backup_completion_time > 86400 * 14";
+              expr = "time() - borgbackup_last_start > 86400 * 14";
               for = "10m";
               labels.severity = "warning";
               annotations = {
-                summary = "No recent backup for {{ $labels.alias }}";
+                summary = "No recent backup for {{ $labels.exported_instance }}";
                 description = "The last backup is older than 14 days.";
               };
             }

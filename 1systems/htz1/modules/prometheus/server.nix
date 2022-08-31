@@ -32,6 +32,7 @@ in
       {
         job_name = "pushgateway";
         scrape_interval = "60s";
+        scheme = "https";
         static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-pushgateway}" ]; }];
       }
       {
