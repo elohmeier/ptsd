@@ -102,9 +102,10 @@ with lib;
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
     ffmpeg
+    iterm2
     logseq-bin
-    subler-bin
     rar
+    subler-bin
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
     unrar
     #aliza # dicom viewer

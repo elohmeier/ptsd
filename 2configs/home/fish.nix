@@ -49,6 +49,11 @@
         end
       end
     '';
+
+    plugins = with pkgs.fishPlugins; [
+      { name = "done"; src = done.src; }
+      { name = "fzf"; src = fzf-fish.src; }
+    ];
   };
 
   programs.zoxide.enable = true;
