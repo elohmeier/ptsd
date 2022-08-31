@@ -63,4 +63,9 @@
       };
     };
   };
+
+  home.packages = [
+    (pkgs.writeShellScriptBin "xrandr-utm-lg4k" ". ${../../4scripts/xrandr-utm.sh} 4096 2304")
+    (pkgs.writeShellScriptBin "xrandr-utm-mb16" ". ${../../4scripts/xrandr-utm.sh} 3456 2234")
+  ];
 }
