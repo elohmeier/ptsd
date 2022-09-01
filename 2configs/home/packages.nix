@@ -5,6 +5,7 @@ with lib;
   home.sessionVariables = {
     NIXPKGS_ALLOW_UNFREE = 1;
     PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
+    NNN_PLUG = "p:preview-tui;f:fzcd;z:autojump";
   };
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
   home.file.".password-store".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/password-store";
