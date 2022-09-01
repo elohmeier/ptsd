@@ -49,6 +49,7 @@ with lib;
     tig
     tmux
     unzip
+    viu # terminal image viewer
     watch
     websocat
     wrk

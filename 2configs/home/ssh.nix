@@ -16,6 +16,11 @@
         port = 12345;
       };
 
+      "mb4-nixos" = {
+        hostname = "192.168.64.9";
+        extraOptions.SendEnv = "TERM_PROGRAM LC_TERMINAL";
+      };
+
       #"awsbuilder" = {
       #  hostname = "35.157.132.66";
       #  user = "admin";

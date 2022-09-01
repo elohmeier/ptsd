@@ -59,4 +59,8 @@
       cp ${pkgs.firmwareLinuxNonfree}/lib/firmware/rtl_nic/rtl8153a-4.fw $out/lib/firmware/rtl_nic/
     '')
   ];
+
+  services.openssh.extraConfig = ''
+    AcceptEnv TERM_PROGRAM LC_TERMINAL
+  '';
 }
