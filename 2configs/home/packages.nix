@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+p@{ config, lib, pkgs, ... }:
 
 with lib;
 {
@@ -8,6 +8,8 @@ with lib;
   };
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
   home.file.".password-store".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/password-store";
+
+  home.file.".config/nnn/plugins".source = if (builtins.hasAttr "nixosConfig" p) then ../../4scripts/nnn-plugins else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/4scripts/nnn-plugins";
 
   home.packages = with pkgs; [
     bat

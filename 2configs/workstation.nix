@@ -177,17 +177,6 @@ with lib;
   #    home.sessionVariables = {
   #      NNN_PLUG = "i:assign-transaction;j:assign-transaction-prevyear;p:preview-tui;o:preview-sway;f:fzcd;a:autojump;c:pdfconcat;d:pdfduplex;";
   #    };
-
-  #    #home.file.".config/nnn/plugins/nobbofin-insert".source = "${pkgs.ptsd-python3.pkgs.nobbofin}/bin/nobbofin-insert";
-  #    home.file.".config/nnn/plugins/preview-tui".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/preview-tui;
-  #    home.file.".config/nnn/plugins/preview-sway".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/preview-sway;
-  #    home.file.".config/nnn/plugins/.nnn-plugin-helper".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/.nnn-plugin-helper;
-  #    home.file.".config/nnn/plugins/fzcd".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/fzcd;
-  #    home.file.".config/nnn/plugins/autojump".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/autojump;
-  #    home.file.".config/nnn/plugins/assign-transaction".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction;
-  #    home.file.".config/nnn/plugins/assign-transaction-prevyear".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/assign-transaction-prevyear;
-  #    home.file.".config/nnn/plugins/pdfconcat".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfconcat;
-  #    home.file.".config/nnn/plugins/pdfduplex".source = config.lib.file.mkOutOfStoreSymlink /home/enno/repos/ptsd/4scripts/nnn-plugins/pdfduplex;
   #  };
 
   #ptsd.desktop.keybindings = {
