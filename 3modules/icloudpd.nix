@@ -14,7 +14,7 @@ let
         --directory "${jobcfg.directory}" \
         --username "$ICLOUD_USER" \
         --password "$ICLOUD_PASS" \
-        --cookie-directory "$STATE_DIRECTORY"
+        --cookie-directory "${jobcfg.cookieDirectory}"
     '';
     wants = [ "network.target" "network-online.target" ];
     after = [ "network.target" "network-online.target" ];
@@ -39,7 +39,7 @@ let
       --directory "${jobcfg.directory}" \
       --username "$ICLOUD_USER" \
       --password "$ICLOUD_PASS" \
-      --cookie-directory "/var/lib/icloudpd" \
+      --cookie-directory "${jobcfg.cookieDirectory}" \
       --list-albums
   '';
 in
@@ -65,6 +65,7 @@ in
               };
               user = mkOption { type = types.str; };
               group = mkOption { type = types.str; };
+              cookieDirectory = mkOption { type = types.path; default = "/var/lib/icloudpd"; };
             };
           }
         )
