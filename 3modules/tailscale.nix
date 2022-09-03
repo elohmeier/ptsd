@@ -4,12 +4,14 @@ with lib;
 let
   cfg = config.ptsd.tailscale;
   allLinks = cfg.httpServices ++ cfg.links;
+  universe = import ../2configs/universe.nix;
 in
 {
   options.ptsd.tailscale = {
     enable = mkEnableOption "tailscale";
     ip = mkOption {
       type = types.str;
+      default = universe.hosts."${config.networking.hostName}".nets.tailscale.ip4.addr;
     };
     domain = mkOption {
       type = types.str;
@@ -72,7 +74,11 @@ in
 
     (mkIf (cfg.enable && cfg.cert.enable && allLinks != [ ]) {
 
-      systemd.services.nginx.serviceConfig.SupplementaryGroups = "tailscale-cert";
+      systemd.services.nginx = {
+        requires = [ "tailscale-cert.service" ];
+        after = [ "tailscale-cert.service" ];
+        serviceConfig.SupplementaryGroups = "tailscale-cert";
+      };
 
       services.nginx = {
         enable = true;
@@ -116,7 +122,11 @@ in
             sslCertificateKey = "/var/lib/tailscale-cert/${cfg.fqdn}.key";
 
             locations."/".extraConfig = ''
+              proxy_http_version 1.1;
               proxy_pass http://127.0.0.1:${toString config.ptsd.ports."${name}"};
+              proxy_set_header Connection $http_connection;
+              proxy_set_header Host $host;
+              proxy_set_header Upgrade $http_upgrade;
             '';
           };
           })
