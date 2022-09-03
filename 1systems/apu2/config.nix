@@ -10,6 +10,7 @@
     ../../2configs/prometheus-node.nix
 
     ./modules/home-assistant.nix
+    ./modules/mosquitto.nix
     ./modules/networking.nix
     ./modules/nginx.nix
   ];
@@ -22,7 +23,13 @@
     ];
   };
 
-  environment.systemPackages = with pkgs; [ btop vim tcpdump ];
+  environment.systemPackages = with pkgs; [
+    btop
+    vim
+    tcpdump
+    nmap
+    ptsd-python3.pkgs.tasmota-decode-config
+  ];
 
   system.stateVersion = "21.11";
 }

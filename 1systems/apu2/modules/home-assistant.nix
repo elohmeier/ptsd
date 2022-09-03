@@ -1,44 +1,6 @@
 { config, lib, pkgs, ... }:
 
 {
-  services.mosquitto = {
-    enable = true;
-
-    listeners = [{
-      port = 1883;
-      address = "192.168.168.41";
-      settings.bind_interface = "bond0";
-      users = {
-        hass = {
-          acl = [
-            "readwrite cmnd/#"
-            "readwrite stat/#"
-            "readwrite tele/#"
-            "readwrite homeassistant/#"
-          ];
-          passwordFile = config.ptsd.secrets.files."mosquitto-hass.passwd".path;
-        };
-
-        tasmota = {
-          acl = [
-            "readwrite cmnd/#"
-            "readwrite stat/#"
-            "readwrite tele/#"
-            "readwrite homeassistant/#"
-          ];
-          passwordFile = config.ptsd.secrets.files."mosquitto-tasmota.passwd".path;
-        };
-      };
-    }];
-  };
-
-  systemd.services.mosquitto.serviceConfig.SupplementaryGroups = "keys"; # ptsd secret access
-
-  ptsd.secrets.files = {
-    "mosquitto-hass.passwd" = { owner = "mosquitto"; };
-    "mosquitto-tasmota.passwd" = { owner = "mosquitto"; };
-  };
-
   services.home-assistant = {
     enable = true;
     package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override { extraPackages = ps: [ ps.caldav ]; };
@@ -118,30 +80,31 @@
       }];
 
       config = { };
+      device_automation = { };
+      fritzbox = { };
+      frontend.themes.dlrg.primary-color = "#0072bc";
+      history = { };
+      logbook = { };
+      met = { };
+      mobile_app = { };
+      mqtt = {
+        # enabling this forces encrypted mqtt connections from hass
+        # certificate = "/etc/ssl/certs/ca-certificates.crt";
+      };
+      prometheus = { };
+      recorder.purge_keep_days = 14;
+      sensor = [{ display_options = [ "date_time" ]; platform = "time_date"; }];
+      system_health = { };
+      upnp = { };
 
       calendar = [
-        {
-          platform = "caldav";
-          url = "https://www.dlrg.cloud/remote.php/dav/public-calendars/Ff6RBg4nAHYpGZP3/?export";
-        }
-        {
-          platform = "caldav";
-          url = "https://www.dlrg.cloud/remote.php/dav/public-calendars/DnqLirynktYk8BC9/?export";
-        }
-        {
-          platform = "caldav";
-          url = "https://www.dlrg.cloud/remote.php/dav/public-calendars/HoXkggqRM6s9YfK6/?export";
-        }
+        { platform = "caldav"; url = "https://www.dlrg.cloud/remote.php/dav/public-calendars/Ff6RBg4nAHYpGZP3/?export"; }
+        { platform = "caldav"; url = "https://www.dlrg.cloud/remote.php/dav/public-calendars/DnqLirynktYk8BC9/?export"; }
+        { platform = "caldav"; url = "https://www.dlrg.cloud/remote.php/dav/public-calendars/HoXkggqRM6s9YfK6/?export"; }
       ];
 
-      frontend.themes.dlrg.primary-color = "#0072bc";
-
-      history = { };
-
       homeassistant = {
-        auth_providers = [{
-          type = "homeassistant";
-        }];
+        auth_providers = [{ type = "homeassistant"; }];
         latitude = "52.3019";
         longitude = "8.05097";
         name = "DLRG";
@@ -158,45 +121,18 @@
         in
         {
           interfaces = {
-            ip = {
-              inherit host resolvenames username password; port = "2010";
-            };
-            rf = {
-              inherit host resolvenames username password; port = "2001";
-            };
+            ip = { inherit host resolvenames username password; port = "2010"; };
+            rf = { inherit host resolvenames username password; port = "2001"; };
           };
           hosts.ccu3 = { inherit host username password; };
         };
 
       http = {
-        server_host = "127.0.0.1";
+        server_host = [ "127.0.0.1" "::1" ];
         server_port = 8123;
         use_x_forwarded_for = true;
         trusted_proxies = [ "127.0.0.1" "::1" ];
       };
-      logbook = { };
-      recorder.purge_keep_days = 14;
-      sensor = [{
-        display_options = [ "date_time" ];
-        platform = "time_date";
-      }];
-
-      mqtt = {
-        broker = "127.0.0.1";
-        port = "1883";
-        username = "hass";
-        password = "!secret mqtt_password";
-        discovery = "true";
-        discovery_prefix = "homeassistant";
-      };
-
-      prometheus = { };
-      device_automation = { };
-      mobile_app = { };
-      system_health = { };
-      fritzbox = { };
-      met = { };
-      ssdp = { };
     };
   };
 
@@ -215,4 +151,9 @@
     owner = "hass";
     group-name = "hass";
   };
+
+  systemd.services.home-assistant.preStart = ''
+    touch /var/lib/hass/automations.yaml
+    touch /var/lib/hass/scenes.yaml
+  '';
 }
