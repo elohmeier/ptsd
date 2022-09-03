@@ -8,14 +8,16 @@ in
   ptsd.icloudpd.jobs = {
     enno = {
       inherit user group;
-      directory = "/tank/enc/rawphotos/photos/icloudpd-enno";
-      envFile = "/var/src/secrets/icloudpd-enno.env";
+      directory = "/mnt/syncthing/icloudpd/enno";
+      envFile = "/mnt/syncthing/icloudpd-enno.env";
+      cookieDirectory = "/mnt/syncthing/icloudpd-cookies";
     };
 
-    luisa = {
-      inherit user group;
-      directory = "/tank/enc/rawphotos/photos/icloudpd-luisa";
-      envFile = "/var/src/secrets/icloudpd-luisa.env";
-    };
+    # luisa = {
+    #   inherit user group;
+    #   directory = "/mnt/syncthing/icloudpd/luisa";
+    #   envFile = "/mnt/syncthing/icloudpd-luisa.env";
+    #   cookieDirectory = "/mnt/syncthing/icloudpd-cookies";
+    # };
   };
 }

@@ -7,6 +7,7 @@
     ../../2configs/rpi3b_4.nix
     ../../2configs/users/enno.nix
 
+    ./icloudpd.nix
     ./fraam-gdrive-backup.nix
   ];
 
@@ -51,6 +52,9 @@
       "borgbackup-repo-htz3.service"
       "borgbackup-repo-mb3.service"
       "borgbackup-repo-mb4.service"
+      "fraam-gdrive-backup.service"
+      "icloudpd-enno.service"
+      "icloudpd-luisa.service"
       "samba-smbd.service"
       "syncthing.service"
     ];
@@ -115,7 +119,6 @@
   networking.firewall.allowedTCPPorts = [ 445 ];
 
   boot.kernel.sysctl = {
-    "vm.dirty_writeback_centisecs" = 1500;
     "net.core.rmem_max" = 2500000; # for syncthing
   };
 }
