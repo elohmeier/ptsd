@@ -84,6 +84,7 @@ with lib;
         sqlacodegen
         sqlalchemy
         tabulate
+        tasmota-decode-config
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         authlib
         beautifulsoup4

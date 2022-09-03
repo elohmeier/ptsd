@@ -113,6 +113,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       selenium-requests = self.callPackage ./selenium-requests { };
       sqlacodegen = self.callPackage ./sqlacodegen { };
       vidcutter = self.callPackage ./vidcutter { };
+      tasmota-decode-config = self.callPackage ./tasmota-decode-config { };
 
       jupyterlab_server = super.jupyterlab_server.overridePythonAttrs (old: {
         # TODO: rm when https://github.com/NixOS/nixpkgs/pull/179564 is merged
