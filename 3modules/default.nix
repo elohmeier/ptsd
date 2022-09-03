@@ -10,7 +10,6 @@ _:
     ./nwlogrotate.nix
     ./nwsyncthing.nix
     ./oauth2-proxy.nix
-    ./octoprint.nix
     ./photoprism.nix
     ./ports.nix
     ./secrets.nix

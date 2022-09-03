@@ -36,6 +36,7 @@ in
       prometheus-quotes-exporter = 10003;
       redis-rspamd = 10004;
       synapse = 10005;
+      ustreamer = 10006;
     };
   };
 }

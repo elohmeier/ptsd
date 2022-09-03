@@ -74,11 +74,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   wkhtmltopdf-qt4 = self.callPackage ./wkhtmltopdf-qt4 { };
 
   ptsd-octoprintPlugins = plugins: {
-    bedlevelvisualizer = plugins.callPackage ./octoprint-plugins/bedlevelvisualizer.nix { };
-    bltouch = plugins.callPackage ./octoprint-plugins/bltouch.nix { };
     firmwareupdater = plugins.callPackage ./octoprint-plugins/firmwareupdater.nix { };
-    m73progress = plugins.callPackage ./octoprint-plugins/m73progress.nix { };
-    octolapse = plugins.callPackage ./octoprint-plugins/octolapse.nix { };
     prusalevelingguide = plugins.callPackage ./octoprint-plugins/prusalevelingguide.nix { };
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
   };

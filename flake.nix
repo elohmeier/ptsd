@@ -128,6 +128,13 @@
             ];
           };
 
+          rpi3 = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./1systems/rpi3
+            ];
+          };
+
           rpi4 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [

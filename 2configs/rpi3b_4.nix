@@ -42,6 +42,7 @@ in
         emergencyAccess = true;
       };
     };
+    kernel.sysctl."vm.dirty_writeback_centisecs" = 1500; # interval between wakeups to write old data out to disk (saves power)
     #kernelPackages = pkgs.linuxPackages_rpi3;
     loader = {
       grub.enable = false;
@@ -82,6 +83,13 @@ in
     };
   };
 
+  environment.systemPackages = [ pkgs.libraspberrypi ];
+
+  # device access required for vcgencmd
+  services.udev.extraRules = ''
+    KERNEL=="vchiq",GROUP="video",MODE="0660"
+  '';
+
   services.journald.extraConfig = "Storage=volatile";
 
   services.openssh.hostKeys = [
@@ -90,9 +98,10 @@ in
   ];
 
   system.activationScripts.initialize-persistent = lib.stringAfter [ "users" "groups" ] ''
+    ${lib.optionalString config.services.octoprint.enable "mkdir -p /nix/persistent/var/lib/octoprint"}
+    ${lib.optionalString config.services.samba.enable "mkdir -p /nix/persistent/var/lib/samba"}
     mkdir -p /nix/persistent/etc/ssh
     mkdir -p /nix/persistent/var/lib/iwd
-    mkdir -p /nix/persistent/var/lib/samba
     mkdir -p /nix/persistent/var/lib/systemd
     mkdir -p /nix/persistent/var/lib/tailscale
     ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
@@ -105,16 +114,21 @@ in
     "/var/lib/systemd" = { device = "/nix/persistent/var/lib/systemd"; options = [ "bind" ]; };
   };
 
-  systemd.mounts = lib.optionals config.services.samba.enable [
-    {
-      what = "/nix/persistent/var/lib/samba";
-      where = "/var/lib/samba";
-      type = "none";
-      options = "bind";
-      before = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
-      requiredBy = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
-    }
-  ];
+  systemd.mounts = (lib.optional config.services.samba.enable {
+    what = "/nix/persistent/var/lib/samba";
+    where = "/var/lib/samba";
+    type = "none";
+    options = "bind";
+    before = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
+    requiredBy = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
+  }) ++ (lib.optional config.services.octoprint.enable {
+    what = "/nix/persistent/var/lib/octoprint";
+    where = "/var/lib/octoprint";
+    type = "none";
+    options = "bind";
+    before = [ "octoprint.service" ];
+    requiredBy = [ "octoprint.service" ];
+  });
 
   imports = [
     ./sd-image.nix
