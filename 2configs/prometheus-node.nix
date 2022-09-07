@@ -32,4 +32,10 @@ in
       "--collector.textfile.directory=/var/log"
     ];
   };
+
+  systemd.services.prometheus-node-exporter = {
+    after = [ "tailscaled.service" ];
+    requires = [ "tailscaled.service" ];
+    serviceConfig.StartLimitIntervalSec = 7;
+  };
 }
