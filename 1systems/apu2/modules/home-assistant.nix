@@ -136,14 +136,15 @@
     };
   };
 
-  # compensate flaky home-assistant <-> homematic connection
-  systemd.services.restart-home-assistant = {
-    description = "Restart home-assistant every morning";
-    startAt = "*-*-* 03:30:00";
-    serviceConfig = {
-      ExecStart = "${pkgs.systemd}/bin/systemctl restart home-assistant.service";
-    };
-  };
+  # disabled for daily reboot
+  ## compensate flaky home-assistant <-> homematic connection
+  #systemd.services.restart-home-assistant = {
+  #  description = "Restart home-assistant every morning";
+  #  startAt = "*-*-* 03:30:00";
+  #  serviceConfig = {
+  #    ExecStart = "${pkgs.systemd}/bin/systemctl restart home-assistant.service";
+  #  };
+  #};
 
   ptsd.secrets.files."hass-secrets.yaml" = {
     path = "/var/lib/hass/secrets.yaml";

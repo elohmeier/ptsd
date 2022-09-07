@@ -31,5 +31,13 @@
     ptsd-python3.pkgs.tasmota-decode-config
   ];
 
+  systemd.services.restart-system = {
+    description = "Restart system every morning";
+    startAt = "*-*-* 03:30:00";
+    serviceConfig = {
+      ExecStart = "${pkgs.systemd}/bin/systemctl reboot";
+    };
+  };
+
   system.stateVersion = "21.11";
 }
