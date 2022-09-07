@@ -119,7 +119,7 @@ with lib;
     #cura
     #freecad
     (pdftk.override { jre = openjdk17; })
-    (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; vim /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
+    (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; nano /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
     apacheHttpd
     asciinema
