@@ -37,28 +37,14 @@ in
       {
         device = "${vgPrefix}/var";
         fsType = "ext4";
-        options = [ "nofail" ];
+        neededForBoot = true; # mount early for passwd provisioning
       };
 
-    "/var/lib/private/maddy" = {
-      device = "${vgPrefix}/var-lib-private-maddy";
+    "/var/lib/maddy" = {
+      device = "${vgPrefix}/maddy";
       fsType = "ext4";
       options = [ "nofail" ];
     };
-
-    "/var/log" =
-      {
-        device = "${vgPrefix}/var-log";
-        fsType = "ext4";
-        options = [ "nofail" ];
-      };
-
-    "/var/src" =
-      {
-        device = "${vgPrefix}/var-src";
-        fsType = "ext4";
-        neededForBoot = true; # mount early for passwd provisioning
-      };
   };
 
   swapDevices = [
