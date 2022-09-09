@@ -43,14 +43,14 @@ in
         scheme = "https";
         static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
       }
-      {
-        job_name = "hass_dlrg";
-        scrape_interval = "60s";
-        metrics_path = "/api/prometheus";
-        bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-dlrg";
-        scheme = "http";
-        static_configs = [{ targets = [ "apu2.nw:8123" ]; }];
-      }
+      # {
+      #   job_name = "hass_dlrg";
+      #   scrape_interval = "60s";
+      #   metrics_path = "/api/prometheus";
+      #   bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-dlrg";
+      #   scheme = "http";
+      #   static_configs = [{ targets = [ "apu2.nw:8123" ]; }];
+      # }
       {
         job_name = "fritzbox";
         scrape_interval = "60s";
@@ -129,11 +129,11 @@ in
         params.module = [ "http_home_assistant_bs53" ];
         static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
       })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_home_assistant_dlrg";
-        params.module = [ "http_home_assistant_dlrg" ];
-        static_configs = [{ targets = [ "http://apu2.nw:8123" ]; }];
-      })
+      #(blackboxGenericScrapeConfig // {
+      #  job_name = "blackbox_http_home_assistant_dlrg";
+      #  params.module = [ "http_home_assistant_dlrg" ];
+      #  static_configs = [{ targets = [ "http://apu2.nw:8123" ]; }];
+      #})
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_monica";
         params.module = [ "http_monica" ];
