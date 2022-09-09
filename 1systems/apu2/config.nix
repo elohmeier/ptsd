@@ -9,8 +9,8 @@
     ../../2configs/minimal.nix
     ../../2configs/prometheus-node.nix
 
-    ./modules/home-assistant.nix
-    ./modules/mosquitto.nix
+    #./modules/home-assistant.nix
+    #./modules/mosquitto.nix
     ./modules/networking.nix
     ./modules/nginx.nix
   ];
