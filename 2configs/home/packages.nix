@@ -13,6 +13,7 @@ with lib;
   home.file.".config/nnn/plugins".source = if (builtins.hasAttr "nixosConfig" p) then ../../4scripts/nnn-plugins else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/4scripts/nnn-plugins";
 
   home.packages = with pkgs; [
+    (pdftk.override { jre = openjdk17; })
     bat
     btop
     copy-secrets
@@ -55,7 +56,9 @@ with lib;
     viu # terminal image viewer
     watch
     websocat
+    wireguard-tools
     wrk
+    xz
     zathura
     zellij
 
@@ -118,7 +121,6 @@ with lib;
     #calibre
     #cura
     #freecad
-    (pdftk.override { jre = openjdk17; })
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; nano /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
     apacheHttpd
