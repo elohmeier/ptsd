@@ -25,17 +25,12 @@ in
   #"${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu -p \"Run:\" -l 10 | ${pkgs.findutils}/bin/xargs ${pkgs.sway}/bin/swaymsg exec";
 
   # change focus
-  "${modifier}+h" = "focus left";
-  "${modifier}+j" = "focus down";
-  "${modifier}+k" = "focus up";
-  "${modifier}+l" = "focus right";
+  "${modifier}+${modOther}+h" = "focus left";
+  "${modifier}+${modOther}+j" = "focus down";
+  "${modifier}+${modOther}+k" = "focus up";
+  "${modifier}+${modOther}+l" = "focus right";
   "${modifier}+g" = "focus next";
   "${modifier}+Shift+g" = "focus prev";
-
-  "${modifier}+${modOther}+h" = "workspace prev_on_output";
-  "${modifier}+${modOther}+l" = "workspace next_on_output";
-  "${modifier}+${modOther}+Left" = "workspace prev_on_output";
-  "${modifier}+${modOther}+Right" = "workspace next_on_output";
 
   # move focused window
   "${modifier}+Shift+h" = "move left";
