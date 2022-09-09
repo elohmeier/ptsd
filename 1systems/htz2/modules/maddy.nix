@@ -217,6 +217,12 @@ in
   };
 
   config = mkIf cfg.enable {
+    users.users.maddy = {
+      isSystemUser = true;
+      group = "maddy";
+    };
+    users.groups.maddy = { };
+
     systemd.services.maddy = {
       description = "Maddy Mail Server";
       wants = [ "network.target" ];
@@ -227,14 +233,15 @@ in
       serviceConfig = {
         LogNamespace = "mail";
 
+        User = "maddy";
+        Group = "maddy";
+
         Type = "notify";
         NotifyAccess = "main";
         WorkingDirectory = "/var/lib/maddy";
-        RuntimeDirectory = "maddy";
         StateDirectory = "maddy";
-        LogsDirectory = "maddy";
+        RuntimeDirectory = "maddy";
         ExecStart = "${pkgs.maddy}/bin/maddy -config ${configFile}";
-        DynamicUser = true;
         SupplementaryGroups = "nginx"; # cert access
 
         # Strict sandboxing. You have no reason to trust code written by strangers from GitHub.
