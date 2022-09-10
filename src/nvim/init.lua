@@ -103,3 +103,7 @@ vim.api.nvim_set_keymap("n", "<leader>fd", "<cmd>Telescope resume<CR>",
 vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")',
                         {noremap = true, expr = true, silent = true})
 vim.g.copilot_no_tab_map = true
+
+-- plugin: spread
+vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>lua require'spread'.out()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<cr>", {noremap = true, silent = true})
