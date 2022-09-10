@@ -17,7 +17,7 @@ in
       ./modules/rspamd.nix
     ];
 
-  services.borgbackup.jobs.rpi4.paths = [ "/var/lib/private/maddy" ];
+  services.borgbackup.jobs.rpi4.paths = [ "/var/lib/maddy" ];
 
   # reduce size
   documentation = {
