@@ -49,8 +49,8 @@
         pluginBlacklist.enabled = false;
       };
       webcam = {
-        snapshot = "https://rpi3.pug-coho.ts.net:5000/cam/snapshot";
-        stream = "https://rpi3.pug-coho.ts.net:5000/cam/stream";
+        snapshot = "https://${config.ptsd.tailscale.fqdn}:5000/cam/snapshot";
+        stream = "https://${config.ptsd.tailscale.fqdn}:5000/cam/stream";
       };
     };
   };

@@ -6,6 +6,7 @@
     ../../2configs/prometheus-node.nix
     ../../2configs/rpi3b_4.nix
     ../../2configs/users/enno.nix
+    ../../2configs/octoprint-rpi-mk3s.nix
 
     ./icloudpd.nix
     ./fraam-gdrive-backup.nix
@@ -68,7 +69,11 @@
       requiredBy = deps;
     }];
 
-  ptsd.tailscale.enable = true;
+  ptsd.tailscale = {
+    enable = true;
+    cert.enable = true;
+    httpServices = [ "octoprint" ];
+  };
 
   services.syncthing = let universe = import ../../2configs/universe.nix; in
     {
