@@ -46,6 +46,7 @@ with lib;
 
     interactiveShellInit = ''
       set -U fish_greeting
+      source ${../4scripts/iterm2-integration.fish}
     '' + optionalString (!config.services.qemuGuest.enable) ''
       if test -L /nix/var/nix/profiles/system
         set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
