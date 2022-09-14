@@ -83,7 +83,7 @@ in
     };
   };
 
-  environment.systemPackages = [ pkgs.libraspberrypi ];
+  environment.systemPackages = with pkgs;[ libraspberrypi usbutils ];
 
   # device access required for vcgencmd
   services.udev.extraRules = ''

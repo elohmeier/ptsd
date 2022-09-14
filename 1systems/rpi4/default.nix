@@ -126,4 +126,10 @@
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 2500000; # for syncthing
   };
+
+  # workaround https://github.com/raspberrypi/linux/issues/3404
+  boot.kernelParams = [
+    "usb-storage.quirks=1d6b:0003:u"
+    "usbcore.quirks=1d6b:0003:u"
+  ];
 }
