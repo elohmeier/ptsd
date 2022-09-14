@@ -16,21 +16,26 @@
       ./modules/prometheus
     ];
 
-  services.borgbackup.jobs.rpi4 = {
-    paths = [
-      "/var/backup"
-      "/var/lib/gitolite"
-      "/var/lib/grafana/data"
-      "/var/lib/hass"
-      "/var/lib/monica/storage"
-      "/var/www"
-    ];
-    exclude = [
-      "/var/lib/gitolite/.gitolite"
-      "/var/lib/monica/storage/framework"
-      "/var/lib/monica/storage/logs"
-    ];
-  };
+  services.borgbackup.jobs =
+    let
+      paths = [
+        "/var/backup"
+        "/var/lib/gitolite"
+        "/var/lib/grafana/data"
+        "/var/lib/hass"
+        "/var/lib/monica/storage"
+        "/var/www"
+      ];
+      exclude = [
+        "/var/lib/gitolite/.gitolite"
+        "/var/lib/monica/storage/framework"
+        "/var/lib/monica/storage/logs"
+      ];
+    in
+    {
+      hetzner = { inherit paths exclude; };
+      rpi4 = { inherit paths exclude; };
+    };
 
   ptsd.secrets.files."nwvpn-fb1.psk" = {
     owner = "systemd-network";

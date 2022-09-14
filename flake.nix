@@ -578,13 +578,13 @@
                 ];
               in
               {
-                #hetzner = {
-                #  inherit encryption environment exclude;
-                #  paths = [ "${homeDirectory}" ];
-                #  repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
-                #  compression = "zstd,3";
-                #  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
-                #};
+                hetzner = {
+                  inherit encryption environment exclude;
+                  paths = [ "${homeDirectory}" ];
+                  repo = "ssh://u267169-sub3@u267169.your-storagebox.de:23/./borg";
+                  compression = "zstd,3";
+                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
+                };
 
                 rpi4 = {
                   inherit encryption environment exclude;

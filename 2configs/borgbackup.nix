@@ -1,6 +1,21 @@
 { config, lib, pkgs, ... }:
 
+let
+  host2sub = host: {
+    htz1 = "sub4";
+    htz2 = "sub5";
+    htz3 = "sub6";
+  }.${host};
+in
 {
+  services.borgbackup.jobs.hetzner = {
+    compression = "zstd,3";
+    encryption = { mode = "repokey-blake2"; passCommand = "cat /var/src/secrets/nwbackup.borgkey"; };
+    environment.BORG_RSH = "ssh -i /var/src/secrets/nwbackup.id_ed25519";
+    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner"; # curl is called in 5pkgs/default.nix
+    repo = "ssh://u267169-${host2sub config.networking.hostName}@u267169.your-storagebox.de:23/./borg";
+  };
+
   services.borgbackup.jobs.rpi4 = {
     compression = "zstd,3";
     encryption = { mode = "repokey-blake2"; passCommand = "cat /var/src/secrets/nwbackup.borgkey"; };

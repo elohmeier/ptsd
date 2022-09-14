@@ -216,7 +216,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
       ARCHIVENAME="''${1?must provide ARCHIVENAME}"
       JOB_NAME="''${2?must provide JOB_NAME}"
       PATH=$PATH:${self.lib.makeBinPath [ self.borgbackup self.jq ]}
-      . ${../4scripts/borg2prom.sh} "$ARCHIVENAME" | ${self.curl}/bin/curl -X PUT --data-binary @- "https://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/$(${hostname} -s)→$JOB_NAME"
+      . ${../4scripts/borg2prom.sh} "$ARCHIVENAME" "$JOB_NAME" | ${self.curl}/bin/curl -X PUT --data-binary @- "https://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/$(${hostname} -s)→$JOB_NAME"
     '';
 
   prom-checktlsa = self.writeShellScriptBin "prom-checktlsa" ''

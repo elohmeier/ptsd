@@ -2,20 +2,21 @@
 
 set -e
 
-#borg=borg-job-rpi4
 borg=borg
-archiveName=$1
+#borg=borg-job-rpi4
+ARCHIVENAME="${1?must provide ARCHIVENAME}"
+JOB_NAME="${2?must provide JOB_NAME}"
 
 json=$($borg list --json)
-tag=$(jq -r '"{repository_location=\""+.repository.location+"\"}"' <<< $json)
+tag=$(jq --arg JOB_NAME "$JOB_NAME" -r '"{repository_location=\""+.repository.location+"\",backup_job_name=\""+$JOB_NAME+"\"}"' <<< $json)
 echo "# HELP borgbackup_archive_count Number of archives in the repository"
 echo "# TYPE borgbackup_archive_count gauge"
 echo "borgbackup_archive_count$tag $(jq -r '.archives | length' <<< $json)"
 
 
-json=$($borg info --json "::$archiveName")
+json=$($borg info --json "::$ARCHIVENAME")
 
-archive_tag=$(jq -r '"{repository_location=\""+.repository.location+"\",archive_hostname=\""+.archives[0].hostname+"\",archive_username=\""+.archives[0].username+"\",archive_name=\""+.archives[0].name+"\"}"' <<< $json)
+archive_tag=$(jq --arg JOB_NAME "$JOB_NAME" -r '"{repository_location=\""+.repository.location+"\",archive_hostname=\""+.archives[0].hostname+"\",archive_username=\""+.archives[0].username+"\",archive_name=\""+.archives[0].name+"\",backup_job_name=\""+$JOB_NAME+"\"}"' <<< $json)
 
 echo "# HELP borgbackup_last_start The timestamp of the last archive (unixtimestamp)"
 echo "# TYPE borgbackup_last_start gauge"
@@ -42,7 +43,7 @@ echo "# HELP borgbackup_last_duration The backup duration of the last archive"
 echo "# TYPE borgbackup_last_duration gauge"
 echo "borgbackup_last_duration$archive_tag $(jq -r '.archives[0].duration' <<< $json)"
 
-cache_tag=$(jq -r '"{repository_location=\""+.repository.location+"\",cache_path=\""+.cache.path+"\"}"' <<< $json)
+cache_tag=$(jq --arg JOB_NAME "$JOB_NAME" -r '"{repository_location=\""+.repository.location+"\",cache_path=\""+.cache.path+"\",backup_job_name=\""+$JOB_NAME+"\"}"' <<< $json)
 
 echo "# HELP borgbackup_cache_total_chunks The total number of chunks in the cache"
 echo "# TYPE borgbackup_cache_total_chunks gauge"

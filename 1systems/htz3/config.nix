@@ -22,15 +22,20 @@ in
       ./modules/wordpress.nix
     ];
 
-  services.borgbackup.jobs.rpi4 = {
-    paths = [
-      "/var/backup"
-      "/var/lib/fraam-www/www"
-      "/var/lib/fraam-www/static"
-      "/var/lib/kanboard"
-      "/var/lib/bitwarden_rs"
-    ];
-  };
+  services.borgbackup.jobs =
+    let
+      paths = [
+        "/var/backup"
+        "/var/lib/fraam-www/www"
+        "/var/lib/fraam-www/static"
+        "/var/lib/kanboard"
+        "/var/lib/bitwarden_rs"
+      ];
+    in
+    {
+      hetzner = { inherit paths; };
+      rpi4 = { inherit paths; };
+    };
 
   services.mysqlBackup = {
     enable = true;

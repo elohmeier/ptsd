@@ -17,6 +17,7 @@ in
       ./modules/rspamd.nix
     ];
 
+  services.borgbackup.jobs.hetzner.paths = [ "/var/lib/maddy" ];
   services.borgbackup.jobs.rpi4.paths = [ "/var/lib/maddy" ];
 
   # reduce size
