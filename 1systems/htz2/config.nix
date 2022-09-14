@@ -15,6 +15,7 @@ in
 
       ./modules/maddy.nix
       ./modules/rspamd.nix
+      ./modules/syncthing.nix
     ];
 
   services.borgbackup.jobs.hetzner.paths = [ "/var/lib/maddy" ];
