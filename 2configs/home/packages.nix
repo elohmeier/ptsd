@@ -114,6 +114,7 @@ with lib;
     logseq-bin
     rar
     subler-bin
+    qemu
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
     unrar
     #aliza # dicom viewer
