@@ -12,6 +12,19 @@ vim.opt.laststatus = 3
 -- thin split lines
 vim.cmd [[highlight WinSeparator guibg=None]]
 
+-- ******************************
+-- * filetype specific settings *
+-- ******************************
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "tex,plaintex,context",
+    callback = function()
+        vim.api.nvim_buf_set_option(0, "formatoptions", "tcqja")
+        vim.api.nvim_buf_set_option(0, "textwidth", 120)
+        vim.api.nvim_win_set_option(0, "colorcolumn", "121")
+    end
+})
+
 -- **************
 -- * plugin cfg *
 -- **************
@@ -51,11 +64,12 @@ require("telescope").load_extension("fzf")
 require("luasnip.loaders.from_lua").load({paths = "~/repos/ptsd/src/snippets"})
 
 -- ***************
--- * Keybindings *
+-- * keybindings *
 -- ***************
 
 -- open empty buffer
 vim.api.nvim_set_keymap("n", "<leader>m", "<cmd>enew<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>make<cr><cr>", {noremap = true, silent = true})
 
 -- LSP, see https://github.com/neovim/nvim-lspconfig
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -105,5 +119,7 @@ vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")',
 vim.g.copilot_no_tab_map = true
 
 -- plugin: spread
-vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>lua require'spread'.out()<cr>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>lua require'spread'.out()<cr>",
+                        {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<cr>",
+                        {noremap = true, silent = true})

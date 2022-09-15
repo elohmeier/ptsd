@@ -35,7 +35,6 @@ with lib;
     logseq-query
     macos-fix-filefoldernames
     ncdu
-    neovim
     nix-tree
     nixos-generators
     nixpkgs-fmt

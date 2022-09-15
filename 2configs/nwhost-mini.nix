@@ -14,7 +14,6 @@ in
 
   environment = {
     systemPackages = with pkgs; [
-      #neovim-unwrapped  # long build
       tmux
       vim
     ];
@@ -63,5 +62,5 @@ in
 
   users.defaultUserShell = pkgs.fish;
   ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
-  environment.variables = { EDITOR = "nvim"; };
+  environment.variables = { EDITOR = "vim"; };
 }
