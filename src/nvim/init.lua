@@ -19,7 +19,7 @@ vim.cmd [[highlight WinSeparator guibg=None]]
 vim.api.nvim_create_autocmd("FileType", {
     pattern = "tex,plaintex,context",
     callback = function()
-        vim.api.nvim_buf_set_option(0, "formatoptions", "tcqja")
+        vim.api.nvim_buf_set_option(0, "formatoptions", "tcqj") -- use "gq" to format paragraphs
         vim.api.nvim_buf_set_option(0, "textwidth", 120)
         vim.api.nvim_win_set_option(0, "colorcolumn", "121")
     end
