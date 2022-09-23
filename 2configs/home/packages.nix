@@ -23,6 +23,7 @@ with lib;
     fd
     fzf
     gh
+    gomuks
     google-cloud-sdk
     hcloud
     home-manager
@@ -34,6 +35,7 @@ with lib;
     libfaketime
     logseq-query
     macos-fix-filefoldernames
+    mpv
     ncdu
     nix-tree
     nixos-generators
@@ -146,7 +148,6 @@ with lib;
     gnupg
     go
     go-sqlcmd
-    gomuks
     gptfdisk
     hash-slinger # tlsa
     home-assistant-cli
