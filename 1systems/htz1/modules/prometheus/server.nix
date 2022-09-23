@@ -15,8 +15,8 @@ let
 in
 {
   systemd.services.prometheus.serviceConfig.LoadCredential = [
-    "hass-token-nas1-prometheus-bs53:/var/src/secrets/prometheus/hass-token-nas1-prometheus-bs53"
-    "hass-token-nas1-prometheus-dlrg:/var/src/secrets/prometheus/hass-token-nas1-prometheus-dlrg"
+    "hass-token-home:/var/src/secrets/prometheus/hass-token-home"
+    "hass-token-dlrg:/var/src/secrets/prometheus/hass-token-dlrg"
   ];
 
   services.prometheus = {
@@ -36,21 +36,21 @@ in
         static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-pushgateway}" ]; }];
       }
       {
-        job_name = "hass_bs53";
+        job_name = "hass_home";
         scrape_interval = "60s";
         metrics_path = "/api/prometheus";
-        bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-bs53";
+        bearer_token_file = "/run/credentials/prometheus.service/hass-token-home";
         scheme = "https";
         static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
       }
-      # {
-      #   job_name = "hass_dlrg";
-      #   scrape_interval = "60s";
-      #   metrics_path = "/api/prometheus";
-      #   bearer_token_file = "/run/credentials/prometheus.service/hass-token-nas1-prometheus-dlrg";
-      #   scheme = "http";
-      #   static_configs = [{ targets = [ "apu2.nw:8123" ]; }];
-      # }
+      {
+        job_name = "hass_dlrg";
+        scrape_interval = "60s";
+        metrics_path = "/api/prometheus";
+        bearer_token_file = "/run/credentials/prometheus.service/hass-token-dlrg";
+        scheme = "https";
+        static_configs = [{ targets = [ "rotebox.nn42.de" ]; }];
+      }
       {
         job_name = "fritzbox";
         scrape_interval = "60s";
@@ -125,8 +125,8 @@ in
         static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login" ]; }];
       })
       (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_home_assistant_bs53";
-        params.module = [ "http_home_assistant_bs53" ];
+        job_name = "blackbox_http_home_assistant_home";
+        params.module = [ "http_home_assistant_home" ];
         static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
       })
       (blackboxGenericScrapeConfig // {
