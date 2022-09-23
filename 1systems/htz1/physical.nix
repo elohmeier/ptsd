@@ -26,12 +26,6 @@ in
       fsType = "ext4";
     };
 
-    "/home" =
-      {
-        device = "${vgPrefix}-home";
-        fsType = "ext4";
-      };
-
     "/nix" =
       {
         device = "${vgPrefix}-nix";
@@ -41,18 +35,6 @@ in
     "/var" =
       {
         device = "${vgPrefix}-var";
-        fsType = "ext4";
-      };
-
-    "/var/log" =
-      {
-        device = "${vgPrefix}-var--log";
-        fsType = "ext4";
-      };
-
-    "/var/src" =
-      {
-        device = "${vgPrefix}-var--src";
         fsType = "ext4";
         neededForBoot = true; # mount early for passwd provisioning
       };
