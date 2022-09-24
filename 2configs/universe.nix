@@ -322,5 +322,7 @@
       };
     };
 
+    rotebox.nets.tailscale.ip4.addr = "100.110.205.110";
+
   };
 }

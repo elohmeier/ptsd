@@ -90,7 +90,7 @@ in
               alias = host;
               alwayson = "1";
             };
-          }) [ "htz1" "htz2" "htz3" "rpi4" ];
+          }) [ "htz1" "htz2" "htz3" "rpi4" "rotebox" ];
       }
 
       {
@@ -139,6 +139,32 @@ in
         params.module = [ "http_monica" ];
         static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.monica}" ]; }];
       })
+
+      {
+        job_name = "blackbox_rotebox_fritzbox";
+        metrics_path = "/probe";
+        params.module = [ "http_2xx_fritzbox" ];
+        relabel_configs = [
+          { source_labels = [ "__address__" ]; target_label = "__param_target"; }
+          { source_labels = [ "__param_target" ]; target_label = "instance"; }
+          { target_label = "__address__"; replacement = "rotebox.pug-coho.ts.net:9115"; }
+        ];
+        scrape_interval = "60s";
+        static_configs = [{ targets = [ "http://191.18.22.2" "http://191.18.22.4" ]; }];
+      }
+
+      {
+        job_name = "blackbox_rotebox_homematic";
+        metrics_path = "/probe";
+        params.module = [ "http_2xx_homematic" ];
+        relabel_configs = [
+          { source_labels = [ "__address__" ]; target_label = "__param_target"; }
+          { source_labels = [ "__param_target" ]; target_label = "instance"; }
+          { target_label = "__address__"; replacement = "rotebox.pug-coho.ts.net:9115"; }
+        ];
+        scrape_interval = "60s";
+        static_configs = [{ targets = [ "http://191.18.22.3" ]; }];
+      }
     ];
   };
 }
