@@ -557,7 +557,7 @@
                 packageOverrides = pkgOverrides pkgs;
               };
 
-              home.packages = with pkgs;[ home-manager git ];
+              home.packages = with pkgs;[ home-manager git nnn ];
 
               services.syncthing.enable = true;
 
