@@ -90,7 +90,7 @@ in
               alias = host;
               alwayson = "1";
             };
-          }) [ "htz1" "htz2" "htz3" "rpi4" "rotebox" ];
+          }) [ "htz1" "htz2" "htz3" "rpi4" "rotebox" "matrix" ];
       }
 
       {
