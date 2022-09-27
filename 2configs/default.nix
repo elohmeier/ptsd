@@ -67,12 +67,12 @@ in
               # below additions not always useful, e.g. gitlab-container on htz3 with different ssh-key used only on same public ip - so we only use the above nwvpn ip for now and below manual definitions
               # ++ (mapAttrsToList (_: netcfg: netcfg.ip4.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip4" "addr" ] netcfg) hostcfg.nets))
               # ++ (mapAttrsToList (_: netcfg: netcfg.ip6.addr) (filterAttrs (_: netcfg: hasAttrByPath [ "ip6" "addr" ] netcfg) hostcfg.nets))
-              ++ (flatten (mapAttrsToList (_: netcfg: netcfg.aliases) (filterAttrs (_: netcfg: hasAttr "aliases" netcfg) hostcfg.nets)))
+              ++ (flatten (mapAttrsToList (_: netcfg: netcfg.aliases) (filterAttrs (_: hasAttr "aliases") hostcfg.nets)))
             ;
             publicKey = hostcfg.ssh.pubkey;
           }
         )
-        (filterAttrs (_: hostcfg: hasAttrByPath [ "ssh" "pubkey" ] hostcfg) universe.hosts)
+        (filterAttrs (_: hasAttrByPath [ "ssh" "pubkey" ]) universe.hosts)
       // {
         "github" =
           {

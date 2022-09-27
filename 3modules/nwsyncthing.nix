@@ -35,8 +35,8 @@ in
 
       key = "/run/keys/syncthing.key";
       cert = "/run/keys/syncthing.crt";
-      devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hostcfg: hasAttr "syncthing" hostcfg) universe.hosts);
-      folders = cfg.folders;
+      devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hasAttr "syncthing") universe.hosts);
+      inherit (cfg) folders;
     };
 
     # open the syncthing ports

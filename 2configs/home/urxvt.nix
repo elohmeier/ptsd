@@ -17,8 +17,8 @@
       #termName = "rxvt-unicode"; # fix bash backspace not working
       #termName = "xterm";
 
-      background = background;
-      foreground = foreground;
+      inherit background;
+      inherit foreground;
       cursorColor = base05;
       color0 = base00;
       color1 = base08;

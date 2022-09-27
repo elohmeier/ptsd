@@ -1,7 +1,7 @@
 { lib, stdenv, fetchurl, makeWrapper, undmg, writeText, policies ? { } }:
 
 let
-  policiesFile = writeText "policies.json" (builtins.toJSON { policies = policies; });
+  policiesFile = writeText "policies.json" (builtins.toJSON { inherit policies; });
 in
 stdenv.mkDerivation rec {
   pname = "firefox-bin";

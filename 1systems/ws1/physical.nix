@@ -1,4 +1,4 @@
-{ ... }:
+_:
 let
   disk = "/dev/disk/by-id/nvme-Force_MP600_192482300001285612C9";
   vgPrefix = "/dev/sysVG";

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
-  user = config.services.nginx.user;
-  group = config.services.nginx.group;
+  inherit (config.services.nginx) user;
+  inherit (config.services.nginx) group;
 
   poolConfig = {
     "pm" = "dynamic";
@@ -37,11 +37,11 @@ in
     inherit user;
     inherit group;
 
-    phpPackage = phpPackage;
+    inherit phpPackage;
     phpOptions = ''
       memory_limit = 512M
     '';
-    phpEnv = phpEnv;
+    inherit phpEnv;
 
     settings = {
       "listen.mode" = "0660";

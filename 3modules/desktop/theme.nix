@@ -129,7 +129,7 @@ let
         orange = "#e67f43";
       in
       {
-        background = colors.primary.background;
+        inherit (colors.primary) background;
         focused = {
           border = colors.primary.accent;
           background = colors.primary.accent;
@@ -161,7 +161,7 @@ let
       };
 
     white = {
-      background = colors.primary.background;
+      inherit (colors.primary) background;
       focused = { background = "#285577"; border = colors.primary.accent; childBorder = "#285577"; indicator = "#2e9ef4"; text = "#ffffff"; };
     };
   }.${cfg.theme};

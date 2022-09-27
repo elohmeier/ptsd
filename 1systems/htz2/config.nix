@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 let
   universe = import ../../2configs/universe.nix;
-  nets = universe.hosts."${config.networking.hostName}".nets;
+  inherit (universe.hosts."${config.networking.hostName}") nets;
 in
 {
   imports =

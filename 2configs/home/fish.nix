@@ -53,7 +53,7 @@
 
     plugins = with pkgs.fishPlugins; [
       #{ name = "done"; src = done.src; } # via iterm2 integration
-      { name = "fzf"; src = fzf-fish.src; }
+      { name = "fzf"; inherit (fzf-fish) src; }
     ];
   };
 

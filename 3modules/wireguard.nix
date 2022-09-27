@@ -75,7 +75,7 @@ let
         address = [
           "${netcfg.ip}/${toString netcfg.subnetMask}"
         ];
-        routes = netcfg.routes;
+        inherit (netcfg) routes;
       } // optionalAttrs netcfg.server.enable {
       networkConfig = {
         IPForward = "ipv4";
@@ -91,7 +91,7 @@ let
             nameValuePair h.nets."${netname}".ip4.addr h.nets."${netname}".aliases
           )
           (builtins.attrValues (
-            filterAttrs (hostname: hostcfg: hasAttrByPath [ "nets" netname "aliases" ] hostcfg)
+            filterAttrs (hostname: hasAttrByPath [ "nets" netname "aliases" ])
               (vpnPeers netname)
           ))
       );
@@ -118,7 +118,7 @@ let
   generateReresolveDnsUnit = netname: netcfg:
     let
       wireguardPeers = generateWireguardPeers netname netcfg;
-      peersWithEndpoint = filter (peer: hasAttrByPath [ "wireguardPeerConfig" "Endpoint" ] peer) wireguardPeers;
+      peersWithEndpoint = filter (hasAttrByPath [ "wireguardPeerConfig" "Endpoint" ]) wireguardPeers;
     in
     nameValuePair "wireguard-${netname}-reresolve" {
       description = "Reresolve WireGuard Tunnel - ${netname}";
@@ -293,7 +293,7 @@ in
       extraStopCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardDown netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
     };
 
-    networking.hosts = mapAttrs (name: value: flatten value) (zipAttrs (map (netname: generateHosts netname) (attrNames enabledNetworks)));
+    networking.hosts = mapAttrs (name: flatten) (zipAttrs (map generateHosts (attrNames enabledNetworks)));
 
     boot.kernel.sysctl =
       optionalAttrs cfg.enableGlobalForwarding

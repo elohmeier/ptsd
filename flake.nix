@@ -2,14 +2,14 @@
   description = "ptsd";
 
   inputs = {
-    nixpkgs.url = github:NixOS/nixpkgs/nixos-22.05;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
     #nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     #home-manager.url = github:nix-community/home-manager/release-22.05;
-    home-manager.url = github:elohmeier/home-manager/darwin-wip;
+    home-manager.url = "github:elohmeier/home-manager/darwin-wip";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nixos-hardware.url = github:NixOS/nixos-hardware/master;
-    flake-utils.url = github:numtide/flake-utils;
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    flake-utils.url = "github:numtide/flake-utils";
     fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.url = "github:neovim/neovim?dir=contrib";

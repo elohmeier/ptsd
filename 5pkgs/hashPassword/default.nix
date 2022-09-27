@@ -5,13 +5,11 @@
 , openssl
 }:
 let
-  path = lib.makeBinPath (
-    [
-      coreutils
-      mkpasswd
-      openssl
-    ]
-  );
+  path = lib.makeBinPath [
+    coreutils
+    mkpasswd
+    openssl
+  ];
 in
 writers.writeDashBin "hashPassword" ''
   # usage: hashPassword [...]

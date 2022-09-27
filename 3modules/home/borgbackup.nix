@@ -261,7 +261,7 @@ in
           };
 
           prune.prefix = mkOption {
-            type = types.nullOr (types.str);
+            type = types.nullOr types.str;
             description = lib.mdDoc ''
               Only consider archive names starting with this prefix for pruning.
               By default, only archives created by this job are considered.

@@ -6,8 +6,8 @@ let
 
   cryptOpen = cfg: mapAttrsToList (name: opts: "${cryptsetup}/bin/cryptsetup luksOpen \"${opts.device}\" \"${name}\"") cfg.boot.initrd.luks.devices;
   cryptClose = cfg: mapAttrsToList (name: opts: "${cryptsetup}/bin/cryptsetup luksClose \"${name}\"") cfg.boot.initrd.luks.devices;
-  mount = cfg: mapAttrsToList (mountpoint: opts: "mount ${opts.device} /mnt${mountpoint}") (filterAttrs (_: opts: hasAttr "device" opts) cfg.fileSystems);
-  umount = cfg: mapAttrsToList (mountpoint: opts: "umount /mnt${mountpoint}") (filterAttrs (_: opts: hasAttr "device" opts) cfg.fileSystems);
+  mount = cfg: mapAttrsToList (mountpoint: opts: "mount ${opts.device} /mnt${mountpoint}") (filterAttrs (_: hasAttr "device") cfg.fileSystems);
+  umount = cfg: mapAttrsToList (mountpoint: opts: "umount /mnt${mountpoint}") (filterAttrs (_: hasAttr "device") cfg.fileSystems);
   mkdir = cfg: mapAttrsToList (mountpoint: opts: "mkdir -p /mnt${mountpoint}") cfg.fileSystems;
 
   up = cfg: name:

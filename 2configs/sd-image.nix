@@ -8,13 +8,13 @@ let
   firmwarePartitionName = "FIRMWARE";
   firmwareSize = 200; # in MB
 
-  rootfsImage = pkgs.callPackage ./make-ext4-fs.nix ({
+  rootfsImage = pkgs.callPackage ./make-ext4-fs.nix {
     compressImage = true;
     populateImageCommands = config.sdImage.populateRootCommands;
     storePaths = [ config.system.build.toplevel ];
     storeRoot = "/store";
     volumeLabel = "NIXOS_SD";
-  });
+  };
 in
 {
   options.sdImage = {

@@ -9,7 +9,7 @@ in
 
     key = "/var/src/secrets/syncthing.key";
     cert = "/var/src/secrets/syncthing.crt";
-    devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: hostcfg: lib.hasAttr "syncthing" hostcfg) universe.hosts);
+    devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: lib.hasAttr "syncthing") universe.hosts);
     folders = {
       "/var/sync/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "rpi4" ]; };
       "/var/sync/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "rpi4" ]; };

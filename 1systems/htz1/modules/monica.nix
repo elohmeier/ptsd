@@ -6,8 +6,8 @@ let
 
   package = pkgs.monica.override { storagePath = "${dataDir}/storage"; };
 
-  user = config.services.nginx.user;
-  group = config.services.nginx.group;
+  inherit (config.services.nginx) user;
+  inherit (config.services.nginx) group;
 
   # see https://github.com/monicahq/monica/blob/master/docs/installation/providers/generic.md#prerequisites
   phpPackage = pkgs.php.withExtensions ({ all, ... }: with all;[
@@ -89,8 +89,8 @@ in
       date.timezone = "Europe/Berlin"
     '';
 
-    phpPackage = phpPackage;
-    phpEnv = phpEnv;
+    inherit phpPackage;
+    inherit phpEnv;
 
     settings = {
       "listen.mode" = "0660";

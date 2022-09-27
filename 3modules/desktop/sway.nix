@@ -46,7 +46,7 @@ in
           enable = true;
           config =
             {
-              modifier = cfg.modifier;
+              inherit (cfg) modifier;
               keybindings = import ./keybindings.nix { inherit cfg lib pkgs; };
               modes = import ./modes.nix { inherit cfg lib pkgs; };
               window = {

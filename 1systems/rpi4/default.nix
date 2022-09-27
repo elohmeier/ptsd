@@ -24,7 +24,7 @@
       cfg = hostname: {
         authorizedKeysAppendOnly = [ (import ../../2configs/universe.nix).hosts."${hostname}".borg.pubkey ];
         path = "/mnt/borgbackup/${hostname}";
-        quota = (import ../../2configs/universe.nix).hosts."${hostname}".borg.quota;
+        inherit ((import ../../2configs/universe.nix).hosts."${hostname}".borg) quota;
         user = "borg-${hostname}";
       };
     in
@@ -80,7 +80,7 @@
       enable = true;
       dataDir = "/nix/persistent/var/lib/syncthing";
       openDefaultPorts = true;
-      devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: hostcfg: lib.hasAttr "syncthing" hostcfg) universe.hosts);
+      devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: lib.hasAttr "syncthing") universe.hosts);
 
       folders = {
         "/mnt/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "mb3" "mb4" ]; };

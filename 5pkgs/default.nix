@@ -1,12 +1,12 @@
-self: pkgs_master: nixpkgs_master:neovim-flake: super:
+self: pkgs_master: "nixpkgs_master:neovim-flake:" super:
 {
-  copy-secrets = (self.writers.writePython3Bin "copy-secrets"
+  copy-secrets = self.writers.writePython3Bin "copy-secrets"
     {
       flakeIgnore = [ "E265" "E501" ];
       libraries = [ self.python3Packages.python-gnupg ];
-    } ../4scripts/copy-secrets.py);
+    } ../4scripts/copy-secrets.py;
 
-  macos-fix-filefoldernames = (self.writers.writePython3Bin "macos-fix-filefoldernames" { flakeIgnore = [ "E265" ]; } ../4scripts/macos-fix-filefoldernames.py);
+  macos-fix-filefoldernames = self.writers.writePython3Bin "macos-fix-filefoldernames" { flakeIgnore = [ "E265" ]; } ../4scripts/macos-fix-filefoldernames.py;
   logseq-query = self.callPackage ./logseq-query { };
   tensorflow1 = self.callPackage ./tensorflow1/bin.nix { };
   subler-bin = self.callPackage ./subler-bin { };
@@ -38,7 +38,7 @@ self: pkgs_master: nixpkgs_master:neovim-flake: super:
   gen-secrets = self.callPackage ./gen-secrets { };
   gomumblesoundboard = self.callPackage ./gomumblesoundboard { };
   hashPassword = self.callPackage ./hashPassword { };
-  httpserve = (self.writers.writePython3Bin "httpserve" { flakeIgnore = [ "E265" "E501" ]; } ../4scripts/httpserve.py);
+  httpserve = self.writers.writePython3Bin "httpserve" { flakeIgnore = [ "E265" "E501" ]; } ../4scripts/httpserve.py;
   lz4json = self.callPackage ./lz4json { };
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };

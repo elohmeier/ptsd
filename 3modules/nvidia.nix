@@ -3,7 +3,7 @@
 with lib;
 let
   cfg = config.ptsd.nvidia;
-  nvidia_x11 = config.boot.kernelPackages.nvidia_x11;
+  inherit (config.boot.kernelPackages) nvidia_x11;
 in
 {
   options = {
