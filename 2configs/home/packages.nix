@@ -50,6 +50,7 @@ with lib;
     pwgen
     qrencode
     ripgrep
+    statix
     tabula-java
     tig
     tmux
