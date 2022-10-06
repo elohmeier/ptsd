@@ -11,7 +11,7 @@
       perl-ext-common = "default,clipboard,font-size,url-select,keyboard-select";
 
       "url-select.underline" = true;
-      "url-select.launcher" = "${pkgs.xdg_utils}/bin/xdg-open";
+      "url-select.launcher" = "${pkgs.xdg-utils}/bin/xdg-open";
       "matcher.button" = 1; # allow left click on url
 
       #termName = "rxvt-unicode"; # fix bash backspace not working

@@ -205,7 +205,7 @@ with lib;
     vlc
     wf-recorder
     wget
-    xdg_utils
+    xdg-utils
     xfsprogs.bin
     xournalpp
     yt-dlp
