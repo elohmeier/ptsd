@@ -31,7 +31,7 @@ with lib;
     hydra-check
     imagemagickBig
     jless
-    jq
+    jaq
     libfaketime
     logseq-query
     macos-fix-filefoldernames

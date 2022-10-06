@@ -9,25 +9,24 @@
       gaapf = "git add . && git commit --amend --no-edit && git push --force";
       gapf = "git commit --amend --no-edit && git push --force";
       grep = "grep --color";
+      jq = "jaq";
       l = "exa -al";
       la = "exa -al";
       lg = "exa -al --git";
       ll = "exa -l";
       ls = "exa";
       ping6 = "ping -6";
+      slvpn-set-dns = "sudo busctl call org.freedesktop.resolve1 /org/freedesktop/resolve1 org.freedesktop.resolve1.Manager SetLinkDNS 'ia(iay)' (ip -j link show dev tun0 | jq '.[0].ifindex') 1 2 4 172 16 0 1 && resolvectl status tun0";
       telnet = "screen //telnet";
       tree = "exa --tree";
       vi = "nvim";
       vim = "nvim";
-      slvpn-set-dns = "sudo busctl call org.freedesktop.resolve1 /org/freedesktop/resolve1 org.freedesktop.resolve1.Manager SetLinkDNS 'ia(iay)' (ip -j link show dev tun0 | jq '.[0].ifindex') 1 2 4 172 16 0 1 && resolvectl status tun0";
     };
 
     shellAbbrs = {
       "cd.." = "cd ..";
-      br = "broot";
-
-      # git
       "ga." = "git add .";
+      br = "broot";
       ga = "git add";
       gc = "git commit";
       gco = "git checkout";
@@ -52,7 +51,7 @@
     '';
 
     plugins = with pkgs.fishPlugins; [
-      #{ name = "done"; src = done.src; } # via iterm2 integration
+      #{ name = "done"; src = done.src; } # disabled, now solved via iterm2 integration
       { name = "fzf"; inherit (fzf-fish) src; }
     ];
   };

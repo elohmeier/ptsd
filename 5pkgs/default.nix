@@ -227,4 +227,6 @@ self: pkgs_master: nixpkgs_master: super:
     PATH=$PATH:${self.lib.makeBinPath (with self; [ dig gawk glibc nettools bash checkSSLCert ])}
     . ${../4scripts/prom-checktlsa.sh}
   '';
+
+  jaq = pkgs_master.jaq;
 }
