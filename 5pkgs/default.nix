@@ -1,4 +1,4 @@
-self: pkgs_master: "nixpkgs_master:neovim-flake:" super:
+self: pkgs_master: nixpkgs_master: super:
 {
   copy-secrets = self.writers.writePython3Bin "copy-secrets"
     {
@@ -158,7 +158,11 @@ self: pkgs_master: "nixpkgs_master:neovim-flake:" super:
 
   logseq-bin = self.callPackage ./logseq-bin { };
 
-  neovim-unwrapped = neovim-flake.packages.${self.system}.neovim;
+  neovim-unwrapped = pkgs_master.neovim-unwrapped;
+  neovimUtils = pkgs_master.neovimUtils;
+  vimPlugins = pkgs_master.vimPlugins;
+  vimUtils = pkgs_master.vimUtils;
+  wrapNeovim = pkgs_master.wrapNeovim;
 
   kanboard-plugin-google-auth = self.callPackage ./kanboard-plugin-google-auth { };
 

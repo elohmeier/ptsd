@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
-    #nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     #home-manager.url = github:nix-community/home-manager/release-22.05;
     home-manager.url = "github:elohmeier/home-manager/darwin-wip";
@@ -12,28 +12,23 @@
     flake-utils.url = "github:numtide/flake-utils";
     fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
     fraamdb.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-flake.url = "github:neovim/neovim?dir=contrib";
-    #neovim-flake.inputs.nixpkgs.follows = "nixpkgs-master";
-    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-flake.inputs.flake-utils.follows = "flake-utils";
   };
 
   outputs =
     { self
     , nixpkgs
-      #, nixpkgs-unstable
+    , nixpkgs-unstable
     , home-manager
     , nixos-hardware
     , flake-utils
     , fraamdb
-    , neovim-flake
     , ...
     }:
 
     let
       pkgOverrides = pkgs:
-        #let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; system = pkgs.system; }; in
-        super: (import ./5pkgs pkgs pkgs nixpkgs neovim-flake super);
+        let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; system = pkgs.system; }; in
+        super: (import ./5pkgs pkgs pkgs_master nixpkgs-unstable super);
     in
     flake-utils.lib.eachDefaultSystem
       (system:
