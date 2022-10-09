@@ -34,7 +34,7 @@ require("plugincfg.cmp")
 local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol
                                                                      .make_client_capabilities())
 
-require("hop").setup()
+require("leap").set_default_keymaps()
 require("lspconfig").gopls.setup {cmd = {"gopls"}, capabilities = {capabilities}}
 require("lspconfig").pyright.setup {
     cmd = {"pyright-langserver", "--stdio"},
@@ -91,10 +91,6 @@ vim.api.nvim_set_keymap("n", "<leader>bq", "<cmd>bp<bar>bd #<cr>", {noremap = tr
 
 -- plugin: formatter
 vim.api.nvim_set_keymap("n", "<leader>i", "<cmd>Format<CR>", {noremap = true, silent = true})
-
--- plugin: hop
-vim.api.nvim_set_keymap("n", "<leader>hl", "<cmd>lua require'hop'.hint_lines()<cr>",
-                        {noremap = true, silent = true})
 
 -- plugin: nnn
 vim.api.nvim_set_keymap("n", "<leader>n", "<cmd>NnnPicker %:p:h<CR>",

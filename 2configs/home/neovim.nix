@@ -35,6 +35,17 @@ let
     };
   };
 
+  leap-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "leap.nvim";
+    version = "2022-10-01";
+    src = pkgs.fetchFromGitHub {
+      owner = "ggandor";
+      repo = "leap.nvim";
+      rev = "5a09c30bf676d1392ff00eb9a41e0a1fc9b60a1b";
+      sha256 = "sha256-xmqb3s31J1UxifXauBzBo5EkhafBEnq2YUYKRXJLGB0=";
+    };
+  };
+
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
@@ -45,7 +56,7 @@ let
         copilot-vim
         editorconfig-nvim
         formatter-nvim
-        hop-nvim
+        leap-nvim
         lualine-nvim
         luasnip
         nnn-nvim
@@ -55,6 +66,7 @@ let
         spread-nvim
         telescope-fzf-native-nvim
         telescope-nvim
+        vim-repeat # required by leap.nvim
 
         (nvim-treesitter.withPlugins (plugins: with plugins; [
           tree-sitter-bash
