@@ -59,7 +59,10 @@ in
     { routeConfig = { Gateway = "fe80::1"; }; }
   ];
 
-  security.acme.certs."htz2.nn42.de".postRun = "systemctl restart maddy.service";
+  security.acme = {
+    certs."htz2.nn42.de".postRun = "systemctl restart maddy.service";
+    extraLegoRenewFlags = [ "--reuse-key" ]; # prevent requiring frequent tlsa record updates
+  };
 
   services.nginx = {
     enable = true;
