@@ -39,6 +39,8 @@ in
     (mkIf cfg.enable {
       services.tailscale.enable = true;
 
+      services.fail2ban.ignoreIP = [ "100.64.0.0/10" ];
+
       networking.firewall = {
         checkReversePath = "loose";
         trustedInterfaces = [ config.services.tailscale.interfaceName ];
