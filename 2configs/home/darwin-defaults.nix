@@ -9,6 +9,7 @@
 
     finder = {
       AppleShowAllExtensions = true;
+      FXDefaultSearchScope = "SCcf"; # current folder
       FXEnableExtensionChangeWarning = false;
       FXPreferredViewStyle = "Nlsv"; # list view
     };
