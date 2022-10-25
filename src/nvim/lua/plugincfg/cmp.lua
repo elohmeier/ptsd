@@ -9,7 +9,8 @@ end
 
 local cmp = require("cmp")
 local luasnip = require("luasnip")
-cmp.setup {
+cmp.setup({
+    completion = {autocomplete = false},
     snippet = {expand = function(args) require("luasnip").lsp_expand(args.body) end},
     window = {},
     mapping = cmp.mapping.preset.insert({
@@ -37,9 +38,9 @@ cmp.setup {
             else
                 fallback()
             end
-        end, {"i", "s"}),
+        end, {"i", "s"})
     }),
     sources = cmp.config.sources({
         {name = "nvim_lsp"}, {name = "luasnip"}, {name = "buffer"}, {name = "path"}
     })
-}
+})
