@@ -75,6 +75,38 @@
           #];
         in
         {
+          macvm = nixpkgs-unstable.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ({ config, lib, pkgs, modulesPath, ... }: {
+                imports = [
+                  "${modulesPath}/virtualisation/qemu-vm.nix"
+                  ./2configs/users/enno.nix
+                ];
+                users = {
+                  users.mainUser = { group = "staff"; home = "/Users/enno"; uid = 502; };
+                  groups = { lp.gid = lib.mkForce 420; staff.gid = 20; };
+                };
+                boot.initrd.systemd = { enable = true; emergencyAccess = true; };
+                environment.systemPackages = with pkgs; [ tmux ];
+                networking.nameservers = [ "8.8.8.8" ];
+                services.getty.autologinUser = "root"; # "enno";
+                system.stateVersion = "22.11";
+                programs.bash.loginShellInit = ''
+                  if [ -z "$TMUX" ]; then
+                    ${pkgs.tmux}/bin/tmux -CC
+                  fi
+                '';
+                virtualisation = {
+                  graphics = false;
+                  host.pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin; # qemu 7.1 required for 9p mount, not in 22.05
+                  sharedDirectories = {
+                    repos = { source = "/Users/enno/repos"; target = "/Users/enno/repos"; };
+                  };
+                };
+              })
+            ];
+          };
 
           apu2 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";

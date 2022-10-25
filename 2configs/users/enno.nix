@@ -7,9 +7,9 @@
     mainUser = {
       name = "enno";
       isNormalUser = true;
-      home = "/home/enno";
+      home = lib.mkDefault "/home/enno";
       createHome = true;
-      uid = 1000;
+      uid = lib.mkDefault 1000;
       description = "Enno Richter";
       extraGroups =
         [
