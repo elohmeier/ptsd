@@ -5,11 +5,11 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "firefox-bin";
-  version = "104.0";
+  version = "105.0.3";
 
   src = fetchurl {
     url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-US/Firefox%20${version}.dmg";
-    sha256 = "sha256-52cRJ+7ckhNbVYRNy5iIEg6Ps3VQ9Zs3Iq8t3KI/ThU=";
+    sha256 = "sha256-oOmKcybkpRgXOlxnA/bgZxAno0cbnGRwsH1BYN+xBZo=";
   };
 
   nativeBuildInputs = [ makeWrapper undmg ];
