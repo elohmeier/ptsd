@@ -68,16 +68,9 @@ in
         job_name = "node_wrt";
         scrape_interval = "60s";
         static_configs = [
-          { targets = [ "${universe.hosts.wrt1.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "wrt1"; alwayson = "1"; }; }
+          # { targets = [ "${universe.hosts.wrt1.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "wrt1"; alwayson = "1"; }; }
           { targets = [ "${universe.hosts.wrt2.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "wrt2"; alwayson = "1"; }; }
         ];
-      }
-
-      {
-        job_name = "node_nw_rpi2";
-        scrape_interval = "60s";
-        metrics_path = "/rpi2/node/metrics";
-        static_configs = [{ targets = [ "${universe.hosts.rpi2.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "rpi2"; alwayson = "1"; }; }];
       }
 
       {
@@ -90,7 +83,14 @@ in
               alias = host;
               alwayson = "1";
             };
-          }) [ "htz1" "htz2" "htz3" "rpi4" "rotebox" "matrix" ];
+          }) [
+          "htz1"
+          "htz2"
+          "htz3"
+          # "rpi4"
+          "rotebox"
+          "matrix"
+        ];
       }
 
       {
