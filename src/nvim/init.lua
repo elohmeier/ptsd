@@ -31,8 +31,8 @@ vim.api.nvim_create_autocmd("FileType", {
 
 require("plugincfg.formatter")
 require("plugincfg.cmp")
-local capabilities = require("cmp_nvim_lsp").update_capabilities(vim.lsp.protocol
-                                                                     .make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol
+                                                                      .make_client_capabilities())
 
 require("leap").set_default_keymaps()
 require("lspconfig").gopls.setup {cmd = {"gopls"}, capabilities = {capabilities}}
