@@ -87,7 +87,7 @@ in
           "htz1"
           "htz2"
           "htz3"
-          # "rpi4"
+          "rpi4"
           "rotebox"
           "matrix"
         ];
