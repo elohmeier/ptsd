@@ -12,6 +12,7 @@
 
     alertmanager = {
       enable = true;
+      environmentFile = "/var/src/secrets/prometheus/alertmanager.env";
       listenAddress = "127.0.0.1";
       port = config.ptsd.ports.alertmanager;
       webExternalUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.alertmanager}/";
@@ -22,6 +23,9 @@
         };
         receivers = [{
           name = "nwadmins";
+          pagerduty_configs = [{
+            service_key = "$''{PAGERDUTY_SERVICE_KEY}";
+          }];
           webhook_configs = [{
             url = "http://matrix.pug-coho.ts.net:4050/services/hooks/YWxlcnRtYW5hZ2VyX3NlcnZpY2U";
             send_resolved = true;
