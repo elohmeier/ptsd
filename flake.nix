@@ -10,15 +10,18 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-utils.url = "github:numtide/flake-utils";
+    nixinate.url = "github:elohmeier/nixinate";
+    nixinate.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
     { self
+    , flake-utils
+    , home-manager
+    , nixinate
+    , nixos-hardware
     , nixpkgs
     , nixpkgs-unstable
-    , home-manager
-    , nixos-hardware
-    , flake-utils
     , ...
     }:
 
@@ -40,6 +43,8 @@
         packages = pkgs;
       })
     // {
+      apps = nixinate.nixinate.aarch64-darwin self;
+
       nixosConfigurations =
         let
           defaultModules = [
@@ -79,21 +84,19 @@
                 imports = [
                   "${modulesPath}/virtualisation/qemu-vm.nix"
                   ./2configs/users/enno.nix
+                  ./2configs/devenv.nix
                 ];
                 users = {
                   users.mainUser = { group = "staff"; home = "/Users/enno"; uid = 502; };
                   groups = { lp.gid = lib.mkForce 420; staff.gid = 20; };
                 };
-                boot.initrd.systemd = { enable = true; emergencyAccess = true; };
-                environment.systemPackages = with pkgs; [ tmux ];
                 networking.nameservers = [ "8.8.8.8" ];
-                services.getty.autologinUser = "root"; # "enno";
                 system.stateVersion = "22.11";
-                programs.bash.loginShellInit = ''
-                  if [ -z "$TMUX" ]; then
-                    ${pkgs.tmux}/bin/tmux -CC
-                  fi
-                '';
+                #programs.bash.loginShellInit = ''
+                #  if [ -z "$TMUX" ]; then
+                #    ${pkgs.tmux}/bin/tmux -CC
+                #  fi
+                #'';
                 virtualisation = {
                   graphics = false;
                   host.pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin; # qemu 7.1 required for 9p mount, not in 22.05
@@ -118,6 +121,7 @@
             modules = defaultModules ++ [
               ./1systems/htz1/physical.nix
               home-manager.nixosModule
+              { _module.args.nixinate = { host = "htz1.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
             ];
           };
 
@@ -126,29 +130,30 @@
             modules = defaultModules ++ [
               ./1systems/htz2/physical.nix
               home-manager.nixosModule
+              { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
             ];
           };
 
-          nas1 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              ./1systems/nas1/physical.nix
-            ];
-          };
+          # nas1 = nixpkgs.lib.nixosSystem {
+          #   system = "x86_64-linux";
+          #   modules = defaultModules ++ [
+          #     ./1systems/nas1/physical.nix
+          #   ];
+          # };
 
-          rpi2 = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = defaultModules ++ [
-              ./1systems/rpi2/physical.nix
-            ];
-          };
+          # rpi2 = nixpkgs.lib.nixosSystem {
+          #   system = "aarch64-linux";
+          #   modules = defaultModules ++ [
+          #     ./1systems/rpi2/physical.nix
+          #   ];
+          # };
 
-          rpi3 = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = defaultModules ++ [
-              ./1systems/rpi3
-            ];
-          };
+          # rpi3 = nixpkgs.lib.nixosSystem {
+          #   system = "aarch64-linux";
+          #   modules = defaultModules ++ [
+          #     ./1systems/rpi3
+          #   ];
+          # };
 
           rpi4 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
@@ -158,81 +163,81 @@
             ];
           };
 
-          ws1 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              ./1systems/ws1/physical.nix
-            ];
-            specialArgs = { inherit nixos-hardware home-manager pkgOverrides; };
-          };
+          # ws1 = nixpkgs.lib.nixosSystem {
+          #   system = "x86_64-linux";
+          #   modules = defaultModules ++ [
+          #     ./1systems/ws1/physical.nix
+          #   ];
+          #   specialArgs = { inherit nixos-hardware home-manager pkgOverrides; };
+          # };
 
-          pine2 = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = defaultModules ++ [
-              ./1systems/pine2/physical.nix
-            ];
-          };
+          # pine2 = nixpkgs.lib.nixosSystem {
+          #   system = "aarch64-linux";
+          #   modules = defaultModules ++ [
+          #     ./1systems/pine2/physical.nix
+          #   ];
+          # };
 
-          pine2_cross = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = [
-              ./1systems/pine2/physical.nix
-              ({ lib, ... }: {
-                nixpkgs.crossSystem = lib.systems.examples.aarch64-multiplatform;
-              })
-            ];
-          };
+          # pine2_cross = nixpkgs.lib.nixosSystem {
+          #   system = "x86_64-linux";
+          #   modules = [
+          #     ./1systems/pine2/physical.nix
+          #     ({ lib, ... }: {
+          #       nixpkgs.crossSystem = lib.systems.examples.aarch64-multiplatform;
+          #     })
+          #   ];
+          # };
 
-          # run `nix build .#nixosConfigurations.pine2_sdimage.config.system.build.sdImage` to build image
-          pine2_sdimage = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = [
-              ({ config, lib, modulesPath, pkgs, ... }: {
-                imports = [
-                  ./2configs/sd-image.nix
-                  ./2configs/hw/pinephone-pro
-                  (modulesPath + "/profiles/installation-device.nix")
-                ];
+          # # run `nix build .#nixosConfigurations.pine2_sdimage.config.system.build.sdImage` to build image
+          # pine2_sdimage = nixpkgs.lib.nixosSystem {
+          #   system = "aarch64-linux";
+          #   modules = [
+          #     ({ config, lib, modulesPath, pkgs, ... }: {
+          #       imports = [
+          #         ./2configs/sd-image.nix
+          #         ./2configs/hw/pinephone-pro
+          #         (modulesPath + "/profiles/installation-device.nix")
+          #       ];
 
-                environment.systemPackages = with pkgs; [
-                  foot.terminfo
-                  file
-                  gptfdisk
-                  cryptsetup
-                  f2fs-tools
-                  xfsprogs.bin
-                  gitMinimal
-                ];
+          #       environment.systemPackages = with pkgs; [
+          #         foot.terminfo
+          #         file
+          #         gptfdisk
+          #         cryptsetup
+          #         f2fs-tools
+          #         xfsprogs.bin
+          #         gitMinimal
+          #       ];
 
-                nix.package = pkgs.nixFlakes;
+          #       nix.package = pkgs.nixFlakes;
 
-                users.users.nixos.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
-                users.users.root.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
+          #       users.users.nixos.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
+          #       users.users.root.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
 
-                sdImage = {
-                  populateFirmwareCommands = "";
-                  populateRootCommands = ''
-                    mkdir -p ./files/boot
-                    ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
-                  '';
-                };
+          #       sdImage = {
+          #         populateFirmwareCommands = "";
+          #         populateRootCommands = ''
+          #           mkdir -p ./files/boot
+          #           ${config.boot.loader.generic-extlinux-compatible.populateCmd} -c ${config.system.build.toplevel} -d ./files/boot
+          #         '';
+          #       };
 
-                networking = {
-                  useNetworkd = true;
-                  useDHCP = false;
-                  wireless.enable = false;
-                  wireless.iwd.enable = true;
-                  networkmanager = {
-                    enable = true;
-                    dns = "systemd-resolved";
-                    wifi.backend = "iwd";
-                  };
-                };
-                services.resolved.enable = true;
-                services.resolved.dnssec = "false";
-              })
-            ];
-          };
+          #       networking = {
+          #         useNetworkd = true;
+          #         useDHCP = false;
+          #         wireless.enable = false;
+          #         wireless.iwd.enable = true;
+          #         networkmanager = {
+          #           enable = true;
+          #           dns = "systemd-resolved";
+          #           wifi.backend = "iwd";
+          #         };
+          #       };
+          #       services.resolved.enable = true;
+          #       services.resolved.dnssec = "false";
+          #     })
+          #   ];
+          # };
 
           mb4-nixos = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
@@ -247,6 +252,12 @@
                 networking.hostName = "mb4-nixos";
                 system.stateVersion = "22.05";
                 virtualisation.docker = { enable = true; enableOnBoot = false; };
+
+                _module.args.nixinate = {
+                  host = "192.168.64.10";
+                  sshUser = "enno";
+                  buildOn = "remote";
+                };
               }
             ];
             specialArgs = { inherit nixpkgs; };
