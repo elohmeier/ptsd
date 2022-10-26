@@ -15,26 +15,6 @@
         "type": "github"
       }
     },
-    "fraamdb": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1660630000,
-        "narHash": "sha256-Q//4GDboEP4gO402k64qKseW6C1xqLrT5jX0EvH5e6M=",
-        "ref": "master",
-        "rev": "3cf90cf7cfbdf835e02fec04ba585e0387f2e08f",
-        "revCount": 235,
-        "type": "git",
-        "url": "ssh://git@github.com/elohmeier/fraamdb"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/elohmeier/fraamdb"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -56,6 +36,26 @@
         "type": "github"
       }
     },
+    "nixinate": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1665496492,
+        "narHash": "sha256-CFR9423s2TalOHYEw+6r7v8FmtABKB4NVNQMjwXXt8g=",
+        "owner": "elohmeier",
+        "repo": "nixinate",
+        "rev": "bc620b8f801f4d0dcb2a1fb6d061fff0d585d4a5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "elohmeier",
+        "repo": "nixinate",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1665987993,
@@ -74,11 +74,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1666528161,
-        "narHash": "sha256-PFOQSC0x4xPD1p/GZIbpKuoEBu6M8HnEOeNRiBUCELA=",
+        "lastModified": 1666610816,
+        "narHash": "sha256-q4F2VNe5bpxXOvp16DyLwE1SgNZMbNO29ZQJPIomedg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "471d92178b978fcbad8db27c2e8a4e737d4e0e27",
+        "rev": "6107f97012a0c134c5848125b5aa1b149b76d2c9",
         "type": "github"
       },
       "original": {
@@ -90,11 +90,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1666539104,
-        "narHash": "sha256-jeuC+d375wHHxMOFLgu7etseCQVJuPNKoEc9X9CsErg=",
+        "lastModified": 1666703756,
+        "narHash": "sha256-GwpMJ1hT+z1fMAUkaGtvbvofJQwdVFDEGVhfE82+AUk=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "0e6df35f39651504249a05191f9a78d251707e22",
+        "rev": "f994293d1eb8812f032e8919e10a594567cf6ef7",
         "type": "github"
       },
       "original": {
@@ -107,8 +107,8 @@
     "root": {
       "inputs": {
         "flake-utils": "flake-utils",
-        "fraamdb": "fraamdb",
         "home-manager": "home-manager",
+        "nixinate": "nixinate",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable"
