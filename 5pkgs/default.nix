@@ -164,8 +164,6 @@ self: pkgs_master: nixpkgs_master: super:
   vimUtils = pkgs_master.vimUtils;
   wrapNeovim = pkgs_master.wrapNeovim;
 
-  kanboard-plugin-google-auth = self.callPackage ./kanboard-plugin-google-auth { };
-
   pinephone-keyboard = self.callPackage ./pinephone-keyboard { };
 
   ptsd-vscode = self.vscode-with-extensions.override {

@@ -10,8 +10,6 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-utils.url = "github:numtide/flake-utils";
-    fraamdb.url = "git+ssh://git@github.com/elohmeier/fraamdb";
-    fraamdb.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =
@@ -21,7 +19,6 @@
     , home-manager
     , nixos-hardware
     , flake-utils
-    , fraamdb
     , ...
     }:
 
@@ -128,15 +125,6 @@
             system = "x86_64-linux";
             modules = defaultModules ++ [
               ./1systems/htz2/physical.nix
-              home-manager.nixosModule
-            ];
-          };
-
-          htz3 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              ./1systems/htz3/physical.nix
-              fraamdb.nixosModules.fraamdb
               home-manager.nixosModule
             ];
           };

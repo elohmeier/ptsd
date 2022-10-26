@@ -3,13 +3,11 @@ _:
   imports = [
     ./fluent-bit.nix
     ./icloudpd.nix
-    ./kanboard.nix
     ./mjpg-streamer.nix
     ./navidrome.nix
     ./nvidia.nix
     ./nwlogrotate.nix
     ./nwsyncthing.nix
-    ./oauth2-proxy.nix
     ./photoprism.nix
     ./ports.nix
     ./secrets.nix

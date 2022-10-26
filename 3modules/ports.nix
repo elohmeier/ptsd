@@ -30,8 +30,6 @@ in
       prometheus-server = 9090;
 
       # internal
-      bitwarden = 10000;
-      fraamdb = 10001;
       photoprism = 10002;
       prometheus-quotes-exporter = 10003;
       redis-rspamd = 10004;
