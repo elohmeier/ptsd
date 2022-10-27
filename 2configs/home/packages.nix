@@ -118,12 +118,14 @@ with lib;
     subler-bin
     qemu
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
-    unrar
+    # pdfconcat # fixme
     #aliza # dicom viewer
     #art
     #calibre
     #cura
     #freecad
+    #gnome3.file-roller
+    #ptsd-vscode
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; nano /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
     apacheHttpd
@@ -145,7 +147,6 @@ with lib;
     gen-secrets
     ghostscript
     gimp
-    #gnome3.file-roller
     gnupg
     go
     go-sqlcmd
@@ -157,6 +158,7 @@ with lib;
     hunspellDicts.en-gb-large
     hunspellDicts.en-us-large
     iftop
+    imapsync
     inkscape
     iotop
     keepassxc
@@ -177,11 +179,9 @@ with lib;
     paperkey
     parted
     pdf2svg
-    # pdfconcat # fixme
     pdfduplex
     pgmodeler
     ptsd-ffmpeg
-    #ptsd-vscode
     quirc # qr scanner
     rclone
     ripmime
@@ -201,6 +201,7 @@ with lib;
     syncthing-device-id
     tmuxinator
     transmission-gtk
+    unrar
     usbutils
     vlc
     wf-recorder
