@@ -1,20 +1,19 @@
 { config, lib, pkgs, ... }:
 {
-  imports =
-    [
-      ../..
-      ../../2configs
-      ../../2configs/borgbackup.nix
-      ../../2configs/hardened.nix
-      ../../2configs/nwhost.nix
-      ../../2configs/prometheus-node.nix
+  imports = [
+    ../..
+    ../../2configs
+    ../../2configs/borgbackup.nix
+    ../../2configs/hardened.nix
+    ../../2configs/nwhost.nix
+    ../../2configs/prometheus-node.nix
 
-      ./modules/home-assistant.nix
-      ./modules/git.nix
-      ./modules/monica.nix
-      ./modules/mosquitto.nix
-      ./modules/prometheus
-    ];
+    ./modules/home-assistant.nix
+    ./modules/git.nix
+    ./modules/monica.nix
+    ./modules/mosquitto.nix
+    ./modules/prometheus
+  ];
 
   services.borgbackup.jobs =
     let
