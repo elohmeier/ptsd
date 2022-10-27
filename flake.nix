@@ -160,6 +160,7 @@
             modules = defaultModules ++ [
               nixos-hardware.nixosModules.raspberry-pi-4
               ./1systems/rpi4
+              { _module.args.nixinate = { host = "rpi4.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
             ];
           };
 

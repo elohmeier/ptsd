@@ -2,15 +2,18 @@
 
   imports = [
     ../../2configs
+    ../../2configs/borgbackup.nix
     ../../2configs/fish.nix
     ../../2configs/prometheus-node.nix
     ../../2configs/rpi3b_4.nix
     ../../2configs/users/enno.nix
-    ../../2configs/octoprint-rpi-mk3s.nix
+    # ../../2configs/octoprint-rpi-mk3s.nix
 
     ./icloudpd.nix
     ./fraam-gdrive-backup.nix
   ];
+
+  services.borgbackup.jobs.hetzner.paths = [ "/mnt/syncthing" ];
 
   services.getty.autologinUser = "enno";
   security.sudo.wheelNeedsPassword = false;
@@ -72,7 +75,7 @@
   ptsd.tailscale = {
     enable = true;
     cert.enable = true;
-    httpServices = [ "octoprint" ];
+    # httpServices = [ "octoprint" ];
   };
 
   services.syncthing = let universe = import ../../2configs/universe.nix; in
