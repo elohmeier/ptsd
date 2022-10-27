@@ -561,7 +561,7 @@
                   ];
                   paths = [ "${homeDirectory}" ];
                   #repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
-                  repo = "ssh://borg-mb4@192.168.178.84/./";
+                  repo = "ssh://borg-mb4@rpi4.fritz.box/./";
                   compression = "zstd,3";
                   postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
                 };
