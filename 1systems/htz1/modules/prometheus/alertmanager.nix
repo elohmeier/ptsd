@@ -18,13 +18,13 @@
       webExternalUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.alertmanager}/";
       configuration = {
         route = {
-          group_by = [ "alertname" "alias" ];
+          group_by = [ "cluster" ];
           receiver = "nwadmins";
         };
         receivers = [{
           name = "nwadmins";
           pagerduty_configs = [{
-            service_key = "$''{PAGERDUTY_SERVICE_KEY}";
+            service_key = "$PAGERDUTY_SERVICE_KEY";
           }];
           webhook_configs = [{
             url = "http://matrix.pug-coho.ts.net:4050/services/hooks/YWxlcnRtYW5hZ2VyX3NlcnZpY2U";
