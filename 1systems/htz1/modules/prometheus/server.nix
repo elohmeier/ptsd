@@ -26,6 +26,8 @@ in
     port = config.ptsd.ports.prometheus-server;
     extraFlags = [
       "--storage.tsdb.retention.time 720h" # 30d
+      "--web.external-url https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.prometheus-server}"
+      "--web.page-title 'Prometheus ${config.networking.hostName}'"
     ];
 
     scrapeConfigs = [
@@ -51,11 +53,11 @@ in
         scheme = "https";
         static_configs = [{ targets = [ "rotebox.nn42.de" ]; }];
       }
-      {
-        job_name = "fritzbox";
-        scrape_interval = "60s";
-        static_configs = [{ targets = [ "127.0.0.1:9787" ]; }];
-      }
+      # {
+      #   job_name = "fritzbox";
+      #   scrape_interval = "60s";
+      #   static_configs = [{ targets = [ "127.0.0.1:9787" ]; }];
+      # }
       {
         job_name = "quotes";
         scrape_interval = "60s";
@@ -150,7 +152,12 @@ in
           { target_label = "__address__"; replacement = "rotebox.pug-coho.ts.net:9115"; }
         ];
         scrape_interval = "60s";
-        static_configs = [{ targets = [ "http://191.18.22.2" "http://191.18.22.4" ]; }];
+        static_configs = [{
+          targets = [
+            "http://191.18.22.2" # fb-dlrg
+            # "http://191.18.22.4" # fb-uwe, won't reinit connection after 24h-disconnect reliably
+          ];
+        }];
       }
 
       {
