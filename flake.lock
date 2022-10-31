@@ -25,15 +25,14 @@
       "locked": {
         "lastModified": 1667196163,
         "narHash": "sha256-PoOfpiHdap8zBRUT/vOTjIZO0sJ3F4163Q8AdFyhSCM=",
-        "ref": "refs/heads/master",
+        "owner": "elohmeier",
+        "repo": "home-manager",
         "rev": "686f61b12535c6ce5b0a670e1926783f88773d6d",
-        "revCount": 2348,
-        "type": "git",
-        "url": "file:///Users/enno/repos/home-manager"
+        "type": "github"
       },
       "original": {
         "owner": "elohmeier",
-        "ref": "darwin-wip",
+        "ref": "darwin-wip-master",
         "repo": "home-manager",
         "type": "github"
       }

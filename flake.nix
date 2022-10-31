@@ -6,7 +6,7 @@
     nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     #home-manager.url = github:nix-community/home-manager/release-22.05;
-    home-manager.url = "github:elohmeier/home-manager/darwin-wip";
+    home-manager.url = "github:elohmeier/home-manager/darwin-wip-master";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-utils.url = "github:numtide/flake-utils";
