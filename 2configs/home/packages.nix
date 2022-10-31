@@ -50,6 +50,8 @@ with lib;
     pwgen
     qrencode
     ripgrep
+    rmlint
+    shfmt
     statix
     tabula-java
     tig
@@ -86,18 +88,22 @@ with lib;
         pyxlsb
         requests
         scikit-learn
-        sqlacodegen
+        # sqlacodegen
         sqlalchemy
         tabulate
         tasmota-decode-config
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         authlib
+        beancount
         beautifulsoup4
         boto3
+        flask
         i3ipc
         impacket
+        ipykernel
         jupyterlab
         keyring
+        lark
         mysql-connector
         nbconvert
         netifaces
@@ -127,6 +133,7 @@ with lib;
     #gnome3.file-roller
     #ptsd-vscode
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; nano /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
+    # hash-slinger # tlsa
     AusweisApp2
     apacheHttpd
     asciinema
@@ -135,6 +142,7 @@ with lib;
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
+    # platformio
     awscli2
     bc
     bubblewrap
@@ -142,6 +150,8 @@ with lib;
     cifs-utils
     clang-tools
     dnsmasq
+    esptool
+    fava
     file
     freerdp
     gen-secrets
@@ -151,7 +161,6 @@ with lib;
     go
     go-sqlcmd
     gptfdisk
-    hash-slinger # tlsa
     home-assistant-cli
     httpie
     hunspellDicts.de-de
@@ -165,6 +174,7 @@ with lib;
     killall
     lftp
     libreoffice-fresh
+    minicom
     mkpasswd
     mumble
     nbconvert
@@ -185,11 +195,9 @@ with lib;
     quirc # qr scanner
     rclone
     ripmime
-    rmlint
     samba
     screen
     shellcheck
-    shfmt
     shrinkpdf
     smartmontools
     sqlfluff
@@ -201,6 +209,7 @@ with lib;
     syncthing-device-id
     tmuxinator
     transmission-gtk
+    uncrustify
     unrar
     usbutils
     vlc
