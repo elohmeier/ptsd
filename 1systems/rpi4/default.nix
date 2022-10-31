@@ -49,19 +49,20 @@
   users.users.borg-mb4.uid = 906;
 
   systemd.mounts =
-    let deps = [
-      "borgbackup-repo-apu2.service"
-      "borgbackup-repo-htz1.service"
-      "borgbackup-repo-htz2.service"
-      "borgbackup-repo-htz3.service"
-      "borgbackup-repo-mb3.service"
-      "borgbackup-repo-mb4.service"
-      "fraam-gdrive-backup.service"
-      "icloudpd-enno.service"
-      "icloudpd-luisa.service"
-      "samba-smbd.service"
-      "syncthing.service"
-    ];
+    let
+      deps = [
+        "borgbackup-repo-apu2.service"
+        "borgbackup-repo-htz1.service"
+        "borgbackup-repo-htz2.service"
+        "borgbackup-repo-htz3.service"
+        "borgbackup-repo-mb3.service"
+        "borgbackup-repo-mb4.service"
+        "fraam-gdrive-backup.service"
+        "icloudpd-enno.service"
+        "icloudpd-luisa.service"
+        "samba-smbd.service"
+        "syncthing.service"
+      ];
     in
     [{
       what = "/dev/disk/by-label/usb2tb";
@@ -130,9 +131,14 @@
     "net.core.rmem_max" = 2500000; # for syncthing
   };
 
-  # workaround https://github.com/raspberrypi/linux/issues/3404
-  boot.kernelParams = [
-    "usb-storage.quirks=1d6b:0003:u"
-    "usbcore.quirks=1d6b:0003:u"
-  ];
+  systemd.services.rpi-powersave = {
+    description = "Set some tunables to save power";
+    wantedBy = [ "multi-user.target" ];
+    script = ''
+      # recommended by `powertop`
+      echo 'auto' > '/sys/block/sda/device/power/control';
+      echo 'auto' > '/sys/bus/pci/devices/0000:00:00.0/power/control';
+      echo 'auto' > '/sys/bus/pci/devices/0000:01:00.0/power/control';
+    '';
+  };
 }
