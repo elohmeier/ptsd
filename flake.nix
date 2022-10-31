@@ -7,7 +7,7 @@
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     #home-manager.url = github:nix-community/home-manager/release-22.05;
     home-manager.url = "github:elohmeier/home-manager/darwin-wip";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     flake-utils.url = "github:numtide/flake-utils";
     nixinate.url = "github:elohmeier/nixinate";
@@ -487,86 +487,91 @@
           };
 
           macos-enno = home-manager.lib.homeManagerConfiguration {
-            system = "aarch64-darwin";
-            username = "enno";
-            homeDirectory = "/Users/enno";
-            stateVersion = "21.11";
+            pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin;
 
-            configuration = { config, lib, pkgs, ... }: {
-              imports = desktopImports ++ [
-                ./2configs/home/alacritty.nix
-                ./2configs/home/darwin-defaults.nix
-                ./2configs/home/email.nix
-              ];
-
-              nixpkgs.config = {
-                allowUnfree = true;
-                packageOverrides = pkgOverrides pkgs;
-              };
-
-              services.syncthing.enable = true;
-
-              home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
-              programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
-
-              launchd.agents.cleanup-downloads = {
-                enable = true;
-                config = {
-                  Program = toString (pkgs.writeShellScript "cleanup-downloads" ''
-                    ${pkgs.findutils}/bin/find "${config.home.homeDirectory}/Downloads" -ctime +5 -delete
-                  '');
-                  StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
+            modules = [
+              ({ config, lib, pkgs, ... }: {
+                home = {
+                  username = "enno";
+                  homeDirectory = "/Users/enno";
+                  stateVersion = "21.11";
                 };
-              };
 
-              ptsd.borgbackup.jobs = with config.home; let
-                encryption = {
-                  mode = "repokey-blake2";
-                  passCommand = "cat ${homeDirectory}/.borgkey";
-                };
-                environment = {
-                  BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
-                  BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
-                };
-                exclude = [
-                  "${homeDirectory}/.cache"
-                  "${homeDirectory}/Applications"
-                  "${homeDirectory}/Downloads"
-                  "${homeDirectory}/Downloads-Keep"
-                  "${homeDirectory}/Library"
-                  "${homeDirectory}/Pictures/Photos Library.photoslibrary"
-                  "${homeDirectory}/roms" # no backup
-                  "*.pyc"
-                  "*.qcow2"
-                  "sh:${homeDirectory}/**/.cache"
-                  "sh:${homeDirectory}/**/node_modules"
-                  #"${homeDirectory}/Library/Caches"
-                  #"${homeDirectory}/Library/Trial"
-                  #"sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
+                imports = desktopImports ++ [
+                  ./2configs/home/alacritty.nix
+                  ./2configs/home/darwin-defaults.nix
+                  ./2configs/home/email.nix
                 ];
-              in
-              {
-                hetzner = {
-                  inherit encryption environment exclude;
-                  paths = [ "${homeDirectory}" ];
-                  repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
-                  compression = "zstd,3";
-                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
+
+                nixpkgs.config = {
+                  allowUnfree = true;
+                  packageOverrides = pkgOverrides pkgs;
                 };
 
-                rpi4 = {
-                  inherit encryption environment;
-                  exclude = exclude ++ [
-                    "${homeDirectory}/Sync" # backed up via syncthing
-                  ];
-                  paths = [ "${homeDirectory}" ];
-                  #repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
-                  repo = "ssh://borg-mb4@rpi4.fritz.box/./";
-                  compression = "zstd,3";
-                  postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
+                services.syncthing.enable = true;
+
+                home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
+                programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
+
+                launchd.agents.cleanup-downloads = {
+                  enable = true;
+                  config = {
+                    Program = toString (pkgs.writeShellScript "cleanup-downloads" ''
+                      ${pkgs.findutils}/bin/find "${config.home.homeDirectory}/Downloads" -ctime +5 -delete
+                    '');
+                    StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
+                  };
                 };
-              };
-            };
+
+                ptsd.borgbackup.jobs = with config.home; let
+                  encryption = {
+                    mode = "repokey-blake2";
+                    passCommand = "cat ${homeDirectory}/.borgkey";
+                  };
+                  environment = {
+                    BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
+                    BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
+                  };
+                  exclude = [
+                    "${homeDirectory}/.cache"
+                    "${homeDirectory}/Applications"
+                    "${homeDirectory}/Downloads"
+                    "${homeDirectory}/Downloads-Keep"
+                    "${homeDirectory}/Library"
+                    "${homeDirectory}/Pictures/Photos Library.photoslibrary"
+                    "${homeDirectory}/roms" # no backup
+                    "*.pyc"
+                    "*.qcow2"
+                    "sh:${homeDirectory}/**/.cache"
+                    "sh:${homeDirectory}/**/node_modules"
+                    #"${homeDirectory}/Library/Caches"
+                    #"${homeDirectory}/Library/Trial"
+                    #"sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
+                  ];
+                in
+                {
+                  hetzner = {
+                    inherit encryption environment exclude;
+                    paths = [ "${homeDirectory}" ];
+                    repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
+                    compression = "zstd,3";
+                    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
+                  };
+
+                  rpi4 = {
+                    inherit encryption environment;
+                    exclude = exclude ++ [
+                      "${homeDirectory}/Sync" # backed up via syncthing
+                    ];
+                    paths = [ "${homeDirectory}" ];
+                    #repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
+                    repo = "ssh://borg-mb4@rpi4.fritz.box/./";
+                    compression = "zstd,3";
+                    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
+                  };
+                };
+              })
+            ];
           };
 
           macos-luisa = home-manager.lib.homeManagerConfiguration {
