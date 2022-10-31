@@ -49,22 +49,11 @@
             };
           };
 
-          http_home_assistant_bs53 = {
+          http_home_assistant = {
             prober = "http";
             timeout = "2s";
             http = {
               fail_if_not_ssl = true;
-              fail_if_body_not_matches_regexp = [
-                "Home Assistant"
-              ];
-            };
-          };
-
-          http_home_assistant_dlrg = {
-            prober = "http";
-            timeout = "2s";
-            http = {
-              fail_if_not_ssl = false;
               fail_if_body_not_matches_regexp = [
                 "Home Assistant"
               ];

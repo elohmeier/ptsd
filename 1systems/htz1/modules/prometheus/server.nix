@@ -126,12 +126,12 @@ in
       })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_home";
-        params.module = [ "http_home_assistant_home" ];
+        params.module = [ "http_home_assistant" ];
         static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
       })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_dlrg";
-        params.module = [ "http_home_assistant_dlrg" ];
+        params.module = [ "http_home_assistant" ];
         static_configs = [{ targets = [ "https://rotebox.nn42.de" ]; }];
       })
       (blackboxGenericScrapeConfig // {
