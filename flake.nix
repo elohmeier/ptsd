@@ -80,6 +80,7 @@
           macvm = nixpkgs-unstable.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [
+              home-manager.nixosModule
               ({ config, lib, pkgs, modulesPath, ... }: {
                 imports = [
                   "${modulesPath}/virtualisation/qemu-vm.nix"
@@ -97,11 +98,87 @@
                 #    ${pkgs.tmux}/bin/tmux -CC
                 #  fi
                 #'';
+
+                environment.systemPackages = with pkgs;[ qemu ];
+
+                networking = {
+                  firewall.trustedInterfaces = [ "eth0" ];
+                };
+
+                systemd.network.networks."40-eth" = {
+                  matchConfig.Driver = "virtio_net";
+                  networkConfig = {
+                    DHCP = "yes";
+                    IPv6PrivacyExtensions = "kernel";
+                  };
+                };
+
+                home-manager.useGlobalPkgs = true;
+                home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }:
+                  {
+                    home.stateVersion = "22.11";
+                    imports = [
+                      #./2configs/home/gpg.nix
+                      ./2configs/home
+                      ./2configs/home/fish.nix
+                      ./2configs/home/git.nix
+                      ./2configs/home/neovim.nix
+                      ./2configs/home/packages.nix
+                      ./2configs/home/ssh.nix
+                      ./3modules/home
+                    ];
+
+                    # workaround https://github.com/nix-community/home-manager/issues/2333
+                    disabledModules = [ "config/i18n.nix" ];
+                    home.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
+                    systemd.user.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
+
+                    home.file.".local/share/fish/fish_history".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.local/share/fish/history/fish_history";
+
+                    programs.fish.interactiveShellInit = ''
+                      if test -z "$TMUX"
+                        exec ${pkgs.tmux}/bin/tmux -CC
+                      end
+                    '';
+
+                  };
+
+                # fix root folder ownership from fish-history mount
+                systemd.services.home-manager-enno = {
+                  preStart = ''
+                    chown -R enno:users /Users/enno/.local
+                  '';
+                  serviceConfig.PermissionsStartOnly = true;
+                };
+
                 virtualisation = {
+                  additionalPaths = [ config.home-manager.users.mainUser.home.activationPackage ];
+
+                  # vmnet-shared requires signed binaries, see https://github.com/utmapp/UTM/blob/main/Documentation/MacDevelopment.md#signed-packages
+                  # qemu.networkingOptions = lib.mkForce [
+                  #   "-net nic,netdev=net0,model=virtio"
+                  #   "-netdev vmnet-shared,id=net0,\${QEMU_NET_OPTS:+,$QEMU_NET_OPTS}"
+                  # ];
+                  memorySize = 4096;
+                  diskSize = 10000;
+                  cores = 4;
+                  forwardPorts = [
+                    { from = "host"; host.port = 5001; guest.port = 5001; }
+                  ];
                   graphics = false;
                   host.pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin; # qemu 7.1 required for 9p mount, not in 22.05
+                  # host.pkgs = {
+                  #   inherit (nixpkgs-unstable.legacyPackages.aarch64-darwin) runCommand writeScript runtimeShell coreutils;
+                  #   qemu_kvm = nixpkgs-unstable.legacyPackages.aarch64-darwin.writeShellScriptBin "qemu-system-aarch64" ''
+                  #     echo huhu
+                  #   '';
+                  # };
                   sharedDirectories = {
                     repos = { source = "/Users/enno/repos"; target = "/Users/enno/repos"; };
+                    downloads = { source = "/Users/enno/Downloads"; target = "/Users/enno/Downloads"; };
+                    downloads-keep = { source = "/Users/enno/Downloads-Keep"; target = "/Users/enno/Downloads-Keep"; };
+                    fish-history = { source = "/Users/enno/.local/share/fish/history"; target = "/Users/enno/.local/share/fish/history"; };
+                    zoxide-data = { source = "/Users/enno/Library/Application\\ Support/zoxide"; target = "/Users/enno/.local/share/zoxide"; };
                   };
                 };
               })
