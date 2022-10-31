@@ -83,12 +83,12 @@
             }
             {
               alert = "TLSCertExpiringSoon";
-              expr = "probe_ssl_earliest_cert_expiry - time() < 86400 * 28";
+              expr = "probe_ssl_earliest_cert_expiry - time() < 86400 * 7";
               for = "10m";
               labels.severity = "warning";
               annotations = {
                 summary = "Certificate for {{ $labels.instance }} expiring soon";
-                description = "Certificate is about to expire in less than 28 days.";
+                description = "Certificate is about to expire in less than 7 days.";
               };
             }
             {
