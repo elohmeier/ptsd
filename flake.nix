@@ -197,7 +197,6 @@
             system = "x86_64-linux";
             modules = defaultModules ++ [
               ./1systems/htz1/physical.nix
-              home-manager.nixosModule
               { _module.args.nixinate = { host = "htz1.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
             ];
           };
@@ -206,7 +205,6 @@
             system = "x86_64-linux";
             modules = defaultModules ++ [
               ./1systems/htz2/physical.nix
-              home-manager.nixosModule
               { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
             ];
           };
