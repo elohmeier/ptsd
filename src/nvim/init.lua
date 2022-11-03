@@ -29,6 +29,8 @@ vim.api.nvim_create_autocmd("FileType", {
 -- * plugin cfg *
 -- **************
 
+require("github-theme").setup({theme_style = "light"})
+
 require("plugincfg.formatter")
 require("plugincfg.cmp")
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol

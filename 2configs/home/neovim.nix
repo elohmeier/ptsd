@@ -12,18 +12,6 @@ let
     };
   };
 
-  copilot-vim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    pname = "copilot.vim";
-    version = "1.5.3";
-    src = pkgs.fetchFromGitHub {
-      owner = "github";
-      repo = "copilot.vim";
-      rev = "1bfbaf5b027ee4d3d3dbc828c8bfaef2c45d132d";
-      sha256 = "sha256-hm/8q08aIVWc5thh31OVpVoksVrqKD+rSHbUTxzzHaU=";
-    };
-    meta.homepage = "https://github.com/github/copilot.vim/";
-  };
-
   spread-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "spread.nvim";
     version = "2022-08-24";
@@ -35,14 +23,14 @@ let
     };
   };
 
-  leap-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    pname = "leap.nvim";
-    version = "2022-10-01";
+  github-nvim-theme = pkgs.vimUtils.buildVimPluginFrom2Nix rec {
+    pname = "github-nvim-theme";
+    version = "0.0.6";
     src = pkgs.fetchFromGitHub {
-      owner = "ggandor";
-      repo = "leap.nvim";
-      rev = "5a09c30bf676d1392ff00eb9a41e0a1fc9b60a1b";
-      sha256 = "sha256-xmqb3s31J1UxifXauBzBo5EkhafBEnq2YUYKRXJLGB0=";
+      owner = "projekt0n";
+      repo = "github-nvim-theme";
+      rev = "v${version}";
+      sha256 = "sha256-wLX81wgl4E50mRig9erbLyrxyGbZllFbHFAQ9+v60W4=";
     };
   };
 
@@ -56,6 +44,7 @@ let
         copilot-vim
         editorconfig-nvim
         formatter-nvim
+        github-nvim-theme
         leap-nvim
         lualine-nvim
         luasnip
@@ -102,7 +91,7 @@ in
     gopls
     luaformatter
     neovim
-    nodejs # for copilot
+    nodejs-slim-16_x # for copilot, NodeJS 18 not yet supported
     pyright
     ripgrep # for telescope
     rnix-lsp
