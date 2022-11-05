@@ -2,6 +2,7 @@
 {
   services.home-assistant = {
     enable = true;
+    configDir = "/mnt/hass";
     package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override { extraPackages = ps: [ ps.psycopg2 ]; };
 
     config = {
@@ -23,6 +24,7 @@
       config = { };
       device_automation = { };
       history = { };
+      homekit = { };
       logbook = { };
       met = { };
       mobile_app = { };
@@ -52,9 +54,8 @@
     };
   };
 
-  systemd.services.home-assistant.preStart = ''
-    touch /var/lib/hass/automations.yaml
-    touch /var/lib/hass/scenes.yaml
+  systemd.services.home-assistant.preStart = with config.services.home-assistant; ''
+    touch ${configDir}/{automations,scenes}.yaml
   '';
 
   services.nginx = {

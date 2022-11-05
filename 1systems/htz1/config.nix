@@ -8,7 +8,6 @@
     ../../2configs/nwhost.nix
     ../../2configs/prometheus-node.nix
 
-    ./modules/home-assistant.nix
     ./modules/git.nix
     ./modules/monica.nix
     ./modules/mosquitto.nix
@@ -91,7 +90,6 @@
       "prometheus-server"
     ];
     links = [
-      "home-assistant"
       "monica"
     ];
   };

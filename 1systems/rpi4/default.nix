@@ -11,6 +11,7 @@
 
     ./icloudpd.nix
     ./fraam-gdrive-backup.nix
+    ./home-assistant.nix
   ];
 
   services.borgbackup.jobs.hetzner.paths = [ "/mnt/syncthing" ];
@@ -77,6 +78,7 @@
     enable = true;
     cert.enable = true;
     # httpServices = [ "octoprint" ];
+    links = [ "home-assistant" ];
   };
 
   services.syncthing = let universe = import ../../2configs/universe.nix; in

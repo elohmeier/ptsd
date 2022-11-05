@@ -43,7 +43,7 @@ in
         metrics_path = "/api/prometheus";
         bearer_token_file = "/run/credentials/prometheus.service/hass-token-home";
         scheme = "https";
-        static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+        static_configs = [{ targets = [ "rpi4.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
       }
       {
         job_name = "hass_dlrg";
@@ -129,7 +129,7 @@ in
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_home";
         params.module = [ "http_home_assistant" ];
-        static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+        static_configs = [{ targets = [ "https://rpi4.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
       })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_dlrg";
