@@ -15,6 +15,8 @@
     ./modules/prometheus
   ];
 
+  services.journald.extraConfig = "Storage=volatile";
+
   services.borgbackup.jobs =
     let
       paths = [
