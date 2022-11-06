@@ -127,7 +127,8 @@
       };
   };
 
-  networking.firewall.allowedTCPPorts = [ 445 ];
+  # networking.firewall.allowedTCPPorts = [ 445 ]; # samba
+  networking.firewall.trustedInterfaces = [ "eth0" "wlan0" ];
 
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 2500000; # for syncthing
