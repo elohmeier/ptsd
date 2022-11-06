@@ -9,22 +9,24 @@
       automation = "!include automations.yaml";
       scene = "!include scenes.yaml";
 
-      # old format, see https://www.home-assistant.io/integrations/climate.mqtt/
-      climate = [{
+      # old format, see https://www.home-assistant.io/integrations/fan.mqtt/
+      fan = [{
         name = "Inventer";
         platform = "mqtt";
-        fan_mode_command_topic = "cmnd/tasmota_A8C8C4/fan_mode";
-        fan_mode_state_topic = "stat/tasmota_A8C8C4/FAN_MODE";
-        fan_modes = [ "0%" "25%" "50%" "75%" "100%" ];
-        mode_command_topic = "cmnd/tasmota_A8C8C4/hvac_mode";
-        mode_state_topic = "stat/tasmota_A8C8C4/HVAC_MODE";
-        modes = [ "off" "cool" "auto" ];
+        state_topic = "stat/tasmota_A8C8C4/fan_state";
+        command_topic = "cmnd/tasmota_A8C8C4/fan_state";
+        preset_modes = [ "Wärmerückgewinnung" "Durchlüftung" ];
+        preset_mode_state_topic = "stat/tasmota_A8C8C4/fan_preset_mode";
+        preset_mode_command_topic = "cmnd/tasmota_A8C8C4/fan_preset_mode";
+        percentage_command_topic = "cmnd/tasmota_A8C8C4/fan_percentage";
+        percentage_state_topic = "stat/tasmota_A8C8C4/fan_percentage";
+        speed_range_max = 4;
       }];
 
       config = { };
       device_automation = { };
       history = { };
-      homekit = { };
+      homekit.filter.include_entity_globs = [ "sensor.wemos_co2_mhz19b_carbondioxide" "light.*" "fan.*" ];
       logbook = { };
       met = { };
       mobile_app = { };
