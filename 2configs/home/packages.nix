@@ -31,13 +31,14 @@ with lib;
     httpserve
     hydra-check
     imagemagickBig
+    shrinkpdf
     jless
     jaq
     libfaketime
     logseq-query
     macos-fix-filefoldernames
     mpv
-    ncdu
+    ncdu_1
     nix-tree
     nixos-generators
     nixpkgs-fmt
@@ -199,7 +200,6 @@ with lib;
     samba
     screen
     shellcheck
-    shrinkpdf
     smartmontools
     sqlfluff
     sqlitebrowser
