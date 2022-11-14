@@ -15,7 +15,7 @@
       lg = "exa -al --git";
       ll = "exa -l";
       ls = "exa";
-      ping6 = "ping -6";
+      ping6 = lib.mkIf pkgs.stdenv.isLinux "ping -6";
       slvpn-set-dns = "sudo busctl call org.freedesktop.resolve1 /org/freedesktop/resolve1 org.freedesktop.resolve1.Manager SetLinkDNS 'ia(iay)' (ip -j link show dev tun0 | jq '.[0].ifindex') 1 2 4 172 16 0 1 && resolvectl status tun0";
       telnet = "screen //telnet";
       tree = "exa --tree";
