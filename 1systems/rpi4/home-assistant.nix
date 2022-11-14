@@ -34,6 +34,7 @@
       prometheus = { };
       recorder.purge_keep_days = 14;
       sensor = { platform = "dwd_weather_warnings"; region_name = "Hansestadt Hamburg"; };
+      sonos = { };
       sun = { };
       system_health = { };
       tasmota = { };
