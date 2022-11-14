@@ -29,6 +29,8 @@ vim.api.nvim_create_autocmd("FileType", {
 -- * plugin cfg *
 -- **************
 
+require("impatient")
+
 require("github-theme").setup({theme_style = "light"})
 
 require("plugincfg.formatter")

@@ -45,6 +45,7 @@ let
         editorconfig-nvim
         formatter-nvim
         github-nvim-theme
+        impatient-nvim
         leap-nvim
         lualine-nvim
         luasnip
