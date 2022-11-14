@@ -27,13 +27,13 @@ with lib;
     gomuks
     google-cloud-sdk
     hcloud
+    helix
     home-manager
     httpserve
     hydra-check
     imagemagickBig
-    shrinkpdf
-    jless
     jaq
+    jless
     libfaketime
     logseq-query
     macos-fix-filefoldernames
@@ -46,6 +46,7 @@ with lib;
     nmap
     node2nix
     nodePackages.prettier
+    p7zip
     pass
     poppler_utils
     ptsd-nnn
@@ -54,6 +55,7 @@ with lib;
     ripgrep
     rmlint
     shfmt
+    shrinkpdf
     statix
     tabula-java
     tig
@@ -187,7 +189,6 @@ with lib;
     nwvpn-qr
     openssl
     openvpn
-    p7zip
     paperkey
     parted
     pdf2svg

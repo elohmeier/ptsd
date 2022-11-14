@@ -17,7 +17,7 @@
       };
 
       "mb4-nixos" = {
-        hostname = "192.168.64.10";
+        hostname = "192.168.65.3";
         extraOptions.SendEnv = "TERM_PROGRAM LC_TERMINAL";
       };
 
