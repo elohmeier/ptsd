@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }: {
+{ config, lib, pkgs, hosts, ... }: {
 
   imports = [
     ../../2configs
@@ -144,4 +144,31 @@
       echo 'auto' > '/sys/bus/pci/devices/0000:01:00.0/power/control';
     '';
   };
+
+  services.unbound =
+    let
+      blocklist = pkgs.runCommand "unbound-blocklist" { } ''
+        cat ${hosts}/hosts | ${pkgs.gnugrep}/bin/grep '^0\.0\.0\.0' | \
+          ${pkgs.gawk}/bin/awk '{print "local-zone: \""$2"\" always_null"}' \
+          > $out
+      '';
+    in
+    {
+      enable = true;
+      resolveLocalQueries = false;
+      settings = {
+        server = {
+          include = toString blocklist;
+          interface = [ "eth0" ];
+          access-control = [
+            "0.0.0.0/0 allow"
+            "::/0 allow"
+          ];
+        };
+        forward-zone = [{
+          name = "fritz.box.";
+          forward-addr = [ "192.168.178.1" ];
+        }];
+      };
+    };
 }

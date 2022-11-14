@@ -2,22 +2,26 @@
   description = "ptsd";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
-    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
-    #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     #home-manager.url = github:nix-community/home-manager/release-22.05;
-    home-manager.url = "github:elohmeier/home-manager/darwin-wip-master";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     flake-utils.url = "github:numtide/flake-utils";
-    nixinate.url = "github:elohmeier/nixinate";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    home-manager.url = "github:elohmeier/home-manager/darwin-wip-master";
+    hosts.inputs.flake-utils.follows = "flake-utils";
+    hosts.inputs.nixpkgs.follows = "nixpkgs";
+    hosts.url = github:StevenBlack/hosts;
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
+    nixinate.url = "github:elohmeier/nixinate";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
   };
 
   outputs =
     { self
     , flake-utils
     , home-manager
+    , hosts
     , nixinate
     , nixos-hardware
     , nixpkgs
@@ -237,6 +241,7 @@
               ./1systems/rpi4
               { _module.args.nixinate = { host = "rpi4.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
             ];
+            specialArgs = { inherit hosts; };
           };
 
           # ws1 = nixpkgs.lib.nixosSystem {
@@ -264,7 +269,7 @@
           #   ];
           # };
 
-          # # run `nix build .#nixosConfigurations.pine2_sdimage.config.system.build.sdImage` to build image
+          # # run `nix build .#nixosConfigurations.pine2_sdimage.config.syspem.build.sdImage` to build image
           # pine2_sdimage = nixpkgs.lib.nixosSystem {
           #   system = "aarch64-linux";
           #   modules = [
