@@ -10,6 +10,7 @@
         servers = "127.0.0.1:${toString config.ptsd.ports.redis-rspamd}";
         backend = "redis";
       '';
+      "dkim_signing.conf".text = "enabled = false;"; # messaged signed by maddy, prevent error messages on internal delivery
       "options.inc".text = ''
         dns {
           nameserver = "master-slave:127.0.0.1:53:10,8.8.8.8:53:1";
