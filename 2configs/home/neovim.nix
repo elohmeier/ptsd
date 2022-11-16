@@ -65,6 +65,7 @@ let
           tree-sitter-c-sharp
           tree-sitter-cpp
           tree-sitter-css
+          tree-sitter-fish
           tree-sitter-go
           tree-sitter-html
           tree-sitter-java

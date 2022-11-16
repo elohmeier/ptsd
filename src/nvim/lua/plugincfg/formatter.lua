@@ -20,6 +20,14 @@ require('formatter').setup({
                 }
             end
         },
+        fish = {
+            function()
+                return {
+                    exe = "fish_indent",
+                    stdin = true,
+                }
+            end
+        },
         go = {function() return {exe = "gofmt", stdin = true} end},
         html = {
             function()
