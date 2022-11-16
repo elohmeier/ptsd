@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+p@{ config, lib, pkgs, ... }:
 
 {
   programs.fish = {
@@ -62,4 +62,6 @@
   programs.direnv.nix-direnv.enable = true;
 
   home.packages = with pkgs; [ exa ];
+
+  home.file.".config/fish/functions".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/fish else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/fish";
 }
