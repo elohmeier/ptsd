@@ -1,5 +1,13 @@
 function upload-to-paperless -d "upload documents to paperless"
 
+    argparse --name=upload-to-paperless h/help c/correspondent= d/documenttype= -- $argv
+    or return 1
+
+    if test -n "$_flag_h"
+        echo "Usage: upload-to-paperless [-h] [-c correspondent-id] [-d documenttype-id] file1 file2 ..."
+        return
+    end
+
     if count $argv >/dev/null
         for document in $argv
 
@@ -17,7 +25,9 @@ function upload-to-paperless -d "upload documents to paperless"
                 Authorization:@$HOME/.paperless-token \
                 document@"$document" \
                 title="$filename" \
-                created="$created"
+                created="$created" \
+                correspondent="$_flag_c" \
+                document_type="$_flag_d"
 
         end
     else
