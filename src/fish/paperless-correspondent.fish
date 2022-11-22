@@ -1,3 +1,3 @@
 function paperless-correspondent
-    paperless-id correspondents
+    paperless-id -t correspondents
 end

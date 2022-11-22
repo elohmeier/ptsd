@@ -4,6 +4,7 @@
   inputs = {
     #home-manager.url = github:nix-community/home-manager/release-22.05;
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
+    #nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
     home-manager.url = "github:elohmeier/home-manager/darwin-wip-master";
@@ -13,7 +14,7 @@
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
+    nixpkgs-unstable.url = github:elohmeier/nixpkgs/nixos-unstable-cffi;
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
   };
 
@@ -578,19 +579,29 @@
                 };
 
                 imports = desktopImports ++ [
+                  #./2configs/home/email.nix
                   ./2configs/home/alacritty.nix
                   ./2configs/home/darwin-defaults.nix
-                  ./2configs/home/email.nix
+                  ./2configs/home/paperless.nix
                 ];
 
                 nixpkgs.config = {
                   allowUnfree = true;
+                  allowUnfreePredicate = (pkg: true); # https://github.com/nix-community/home-manager/issues/2942
                   packageOverrides = pkgOverrides pkgs;
                 };
 
                 services.syncthing.enable = true;
 
                 home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
+
+                home.packages = [
+                  (pkgs.writeScriptBin "paperless-ids" ''
+                    ${pkgs.httpie}/bin/http --check-status --ignore-stdin -b "localhost:9876/api/$1/" Authorization:@$HOME/.paperless-token \
+                      | ${pkgs.jaq}/bin/jaq -r '.results[] | (.id | tostring) + " " + .name'
+                  '')
+                ];
+
                 programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
 
                 launchd.agents.cleanup-downloads = {

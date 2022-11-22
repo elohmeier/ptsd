@@ -13,9 +13,16 @@ function paperless-id -d "select id of a paperless relation"
         return 1
     end
 
-    set -l id (http --check-status --ignore-stdin "localhost:9876/api/$_flag_t/" Authorization:@$HOME/.paperless-token \
-        | jq -r '.results[] | (.id | tostring) + " " + .name' \
-        | fzf --with-nth 2.. $_flag_m \
+    if test -n "$_flag_m"
+        set -f header "$_flag_t: Please select one or many"
+    else
+        set -f header "$_flag_t: Please select one"
+    end
+
+    set -l id (FZF_DEFAULT_COMMAND="paperless-ids $_flag_t" \
+        fzf --bind 'ctrl-r:reload(eval "$FZF_DEFAULT_COMMAND")' \
+        --header="$header (press CTRL-R to reload)" --layout=reverse \
+        --with-nth 2.. $_flag_m \
         | awk '{print $1}')
 
     if test -z "$id"

@@ -29,6 +29,7 @@ with lib;
     hcloud
     helix
     home-manager
+    httpie
     httpserve
     hydra-check
     imagemagickBig
@@ -73,13 +74,16 @@ with lib;
     (ptsd-python3.withPackages (
       pythonPackages: with pythonPackages;
       [
+        # sqlacodegen
         XlsxWriter
         black
         faker
         hocr-tools
         holidays
+        ipykernel
         ipython
         isort
+        jupyterlab
         lxml
         matplotlib
         mypy
@@ -92,7 +96,6 @@ with lib;
         pyxlsb
         requests
         scikit-learn
-        # sqlacodegen
         sqlalchemy
         tabulate
         tasmota-decode-config
@@ -104,8 +107,6 @@ with lib;
         flask
         i3ipc
         impacket
-        ipykernel
-        jupyterlab
         keyring
         lark
         mysql-connector
@@ -166,7 +167,6 @@ with lib;
     go-sqlcmd
     gptfdisk
     home-assistant-cli
-    httpie
     hunspellDicts.de-de
     hunspellDicts.en-gb-large
     hunspellDicts.en-us-large

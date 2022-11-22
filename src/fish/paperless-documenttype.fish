@@ -1,3 +1,3 @@
 function paperless-documenttype
-    paperless-id document_types
+    paperless-id -t document_types
 end
