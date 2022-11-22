@@ -36,7 +36,7 @@
   ptsd.secrets.enable = false;
   ptsd.tailscale.enable = true;
 
-  services.udisks2.enable = false;
+  services.udisks2.enable = lib.mkDefault false;
   security.sudo.wheelNeedsPassword = false;
   nix.trustedUsers = [ "root" "@wheel" ];
 

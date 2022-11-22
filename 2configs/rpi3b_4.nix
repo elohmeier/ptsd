@@ -10,6 +10,10 @@ let
   '';
 in
 {
+  imports = [
+    ./nix-persistent.nix
+  ];
+
   zramSwap = {
     enable = true;
     numDevices = 1;
@@ -91,44 +95,6 @@ in
   '';
 
   services.journald.extraConfig = "Storage=volatile";
-
-  services.openssh.hostKeys = [
-    { type = "rsa"; bits = 4096; path = "/nix/persistent/etc/ssh/ssh_host_rsa_key"; }
-    { type = "ed25519"; path = "/nix/persistent/etc/ssh/ssh_host_ed25519_key"; }
-  ];
-
-  system.activationScripts.initialize-persistent = lib.stringAfter [ "users" "groups" ] ''
-    ${lib.optionalString config.services.octoprint.enable "mkdir -p /nix/persistent/var/lib/octoprint"}
-    ${lib.optionalString config.services.samba.enable "mkdir -p /nix/persistent/var/lib/samba"}
-    mkdir -p /nix/persistent/etc/ssh
-    mkdir -p /nix/persistent/var/lib/iwd
-    mkdir -p /nix/persistent/var/lib/systemd
-    mkdir -p /nix/persistent/var/lib/tailscale
-    ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
-  '';
-
-  fileSystems = {
-    "/etc/machine-id" = { device = "/nix/persistent/etc/machine-id"; options = [ "bind" ]; };
-    "/var/lib/iwd" = { device = "/nix/persistent/var/lib/iwd"; options = [ "bind" ]; };
-    "/var/lib/tailscale" = { device = "/nix/persistent/var/lib/tailscale"; options = [ "bind" ]; };
-    "/var/lib/systemd" = { device = "/nix/persistent/var/lib/systemd"; options = [ "bind" ]; };
-  };
-
-  systemd.mounts = (lib.optional config.services.samba.enable {
-    what = "/nix/persistent/var/lib/samba";
-    where = "/var/lib/samba";
-    type = "none";
-    options = "bind";
-    before = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
-    requiredBy = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
-  }) ++ (lib.optional config.services.octoprint.enable {
-    what = "/nix/persistent/var/lib/octoprint";
-    where = "/var/lib/octoprint";
-    type = "none";
-    options = "bind";
-    before = [ "octoprint.service" ];
-    requiredBy = [ "octoprint.service" ];
-  });
 
   imports = [
     ./sd-image.nix
