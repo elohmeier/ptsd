@@ -14,7 +14,7 @@
 
       startup = [
         { command = toString pkgs.autoname-workspaces; }
-        { command = "${pkgs.spice-vdagent}/bin/spice-vdagent"; }
+        # { command = "${pkgs.spice-vdagent}/bin/spice-vdagent"; }
       ];
 
       bars = import ./i3sway/bars.nix { inherit config pkgs; };
