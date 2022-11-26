@@ -11,6 +11,7 @@ let
 in
 {
   imports = [
+    ./sd-image.nix
     ./nix-persistent.nix
   ];
 
@@ -95,10 +96,6 @@ in
   '';
 
   services.journald.extraConfig = "Storage=volatile";
-
-  imports = [
-    ./sd-image.nix
-  ];
 
   sdImage = {
     populateFirmwareCommands =
