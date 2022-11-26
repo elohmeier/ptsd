@@ -23,6 +23,7 @@ with lib;
     exiftool
     fd
     fzf
+    gen-secrets
     gh
     gomuks
     google-cloud-sdk
@@ -159,7 +160,6 @@ with lib;
     fava
     file
     freerdp
-    gen-secrets
     ghostscript
     gimp
     gnupg
