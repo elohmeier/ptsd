@@ -24,6 +24,7 @@ in
       monica = 8485;
       navidrome = 4533;
       octoprint = 5000;
+      paperless = 28981;
       prometheus-maddy = 9749;
       prometheus-node = 9100;
       prometheus-pushgateway = 9091;

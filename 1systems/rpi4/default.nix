@@ -21,7 +21,7 @@
   nix.trustedUsers = [ "root" "@wheel" ];
   system.stateVersion = "22.05";
   networking.hostName = "rpi4";
-  environment.systemPackages = with pkgs;[ btop fscryptctl powertop ptsd-nnn ncdu tmux ];
+  environment.systemPackages = with pkgs;[ btop fscryptctl powertop ptsd-nnn ncdu tmux iperf2 ];
 
   services.borgbackup.repos =
     let
@@ -77,7 +77,7 @@
   ptsd.tailscale = {
     enable = true;
     cert.enable = true;
-    # httpServices = [ "octoprint" ];
+    # httpServices = [ "paperless" ];
     links = [ "home-assistant" ];
   };
 
@@ -95,6 +95,7 @@
         "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "htz2" ]; };
         "/mnt/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "mb4" ]; };
         "/mnt/syncthing/icloudpd" = { label = "icloudpd"; id = "myfag-uvj2s"; devices = [ "mb4" "nas1" ]; };
+        # "/mnt/syncthing/paperless" = { label = "paperless"; id = "pu5le-lk2og"; devices = [ "mb4" ]; type = "receiveonly"; };
       };
     };
 
@@ -144,6 +145,21 @@
       echo 'auto' > '/sys/bus/pci/devices/0000:01:00.0/power/control';
     '';
   };
+
+  # services.paperless = {
+  #   enable = true;
+  #   dataDir = "/mnt/syncthing/paperless";
+  #   user = "syncthing";
+  # };
+
+  # # disable autostart
+  # systemd.services.paperless-scheduler.wantedBy = lib.mkForce [ ];
+  # systemd.services.paperless-consumer.wantedBy = lib.mkForce [ ];
+  # systemd.services.paperless-web.wantedBy = lib.mkForce [ ];
+
+  # systemd.services.paperless-scheduler.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
+  # systemd.services.paperless-consumer.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
+  # systemd.services.paperless-web.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
 
   # services.unbound =
   #   let
