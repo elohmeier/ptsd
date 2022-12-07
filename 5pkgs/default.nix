@@ -227,4 +227,6 @@ self: pkgs_master: nixpkgs_master: super:
   '';
 
   jaq = pkgs_master.jaq;
+
+  whisper-cpp = self.callPackage ./whisper-cpp { inherit (self.darwin.apple_sdk.frameworks) Accelerate; };
 }

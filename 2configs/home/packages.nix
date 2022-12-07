@@ -34,6 +34,7 @@ with lib;
     httpserve
     hydra-check
     imagemagickBig
+    iperf2
     jaq
     jless
     libfaketime
@@ -54,6 +55,7 @@ with lib;
     ptsd-nnn
     pwgen
     qrencode
+    rclone
     ripgrep
     rmlint
     shfmt
@@ -126,9 +128,10 @@ with lib;
     ffmpeg
     iterm2
     logseq-bin
+    qemu
     rar
     subler-bin
-    qemu
+    whisper-cpp
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
     # pdfconcat # fixme
     #aliza # dicom viewer
@@ -196,7 +199,6 @@ with lib;
     pgmodeler
     ptsd-ffmpeg
     quirc # qr scanner
-    rclone
     ripmime
     samba
     screen
