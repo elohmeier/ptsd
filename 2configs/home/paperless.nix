@@ -35,7 +35,7 @@ let
     port = 0; # do not listen on TCP socket
     daemonize = false;
     loglevel = "notice";
-    logfile = "stdout";
+    logfile = ''""''; # log to stdout
     databases = 16;
     maxclients = 10000;
     save = [ "900 1" "300 10" "60 10000" ];
@@ -48,6 +48,37 @@ let
     unixsocket = "${config.xdg.dataHome}/redis-paperless/redis.sock";
   };
 
+  redis-paperless = pkgs.writeShellScriptBin "redis-paperless" ''
+    set -e
+    mkdir -p "${redis-settings.dir}"
+    install -m 600 ${redisConfig redis-settings} "${redis-settings.dir}/redis.conf"
+    ${pkgs.redis}/bin/redis-server "${redis-settings.dir}/redis.conf"
+  '';
+
+  paperless-web = pkgs.writeShellScriptBin "paperless-web" ''
+    export PAPERLESS_DATA_DIR="${env.PAPERLESS_DATA_DIR}"
+    export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
+    export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
+    export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
+    export GUNICORN_CMD_ARGS="${env.GUNICORN_CMD_ARGS}"
+    export PATH="${pkg.path}"z
+    export PYTHONPATH="${pkg.python.pkgs.makePythonPath pkg.propagatedBuildInputs}:${pkg}/lib/paperless-ngx/src"
+    ${pkg.python.pkgs.gunicorn}/bin/gunicorn \
+      -c "${pkg}/lib/paperless-ngx/gunicorn.conf.py" \
+      "paperless.asgi:application"
+  '';
+
+  paperless-scheduler = pkgs.writeShellScriptBin "paperless-scheduler" ''
+    set -e
+    export PAPERLESS_DATA_DIR="${env.PAPERLESS_DATA_DIR}"
+    export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
+    export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
+    export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
+    mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
+    mkdir -p "$PAPERLESS_MEDIA_ROOT"
+    ${pkg}/bin/paperless-ngx migrate
+    ${pkg}/bin/paperless-ngx qcluster
+  '';
 in
 {
   launchd.agents = {
@@ -65,32 +96,15 @@ in
     paperless-web = {
       enable = true;
       config = {
-        ProgramArguments = [
-          "${pkg.python.pkgs.gunicorn}/bin/gunicorn"
-          "-c"
-          "${pkg}/lib/paperless-ngx/gunicorn.conf.py"
-          "paperless.asgi:application"
-        ];
+        ProgramArguments = [ "${paperless-web}/bin/paperless-web" ];
         RunAtLoad = true;
-        EnvironmentVariables = env // {
-          PATH = pkg.path;
-          PYTHONPATH = "${pkg.python.pkgs.makePythonPath pkg.propagatedBuildInputs}:${pkg}/lib/paperless-ngx/src";
-        };
       };
     };
 
     paperless-scheduler = {
       enable = true;
       config = {
-        ProgramArguments = [
-          (toString (pkgs.writeShellScript "paperless-scheduler" ''
-            set -e
-            mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
-            mkdir -p "$PAPERLESS_MEDIA_ROOT"
-            ${pkg}/bin/paperless-ngx migrate
-            ${pkg}/bin/paperless-ngx qcluster
-          ''))
-        ];
+        ProgramArguments = [ "${paperless-scheduler}/bin/paperless-scheduler" ];
         RunAtLoad = true;
         EnvironmentVariables = env;
       };
@@ -99,14 +113,7 @@ in
     redis-paperless = {
       enable = true;
       config = {
-        ProgramArguments = [
-          (toString (pkgs.writeShellScript "redis-paperless" ''
-            set -e
-            mkdir -p "${redis-settings.dir}"
-            install -m 600 ${redisConfig redis-settings} "${redis-settings.dir}/redis.conf"
-            ${pkgs.redis}/bin/redis-server "${redis-settings.dir}/redis.conf"
-          ''))
-        ];
+        ProgramArguments = [ "${redis-paperless}/bin/redis-paperless" ];
         RunAtLoad = true;
       };
     };
@@ -119,5 +126,8 @@ in
       set = env;
     })
     pkgs.redis
+    redis-paperless
+    paperless-web
+    paperless-scheduler
   ];
 }
