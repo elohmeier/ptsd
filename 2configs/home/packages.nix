@@ -5,7 +5,7 @@ with lib;
   home.sessionVariables = {
     BAT_THEME = "GitHub";
     NIXPKGS_ALLOW_UNFREE = 1;
-    NNN_PLUG = "p:preview-tui;f:fzcd;z:autojump";
+    NNN_PLUG = "p:preview-tui;f:fzcd;z:autojump;u:ulp";
     PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
   };
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
@@ -17,6 +17,7 @@ with lib;
     (pdftk.override { jre = openjdk17; })
     bat
     btop
+    (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     copy-secrets
     entr
     exa

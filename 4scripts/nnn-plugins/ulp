@@ -1,0 +1,53 @@
+#!/usr/bin/env sh
+
+# Selections are uploaded to paperless using httpie
+
+# check if httpie is installed
+if ! type http >/dev/null 2>&1; then
+	printf "http command not found. Install httpie."
+	read -r _
+	exit 1
+fi
+
+CORRESPONDENT=$(paperless-id -t correspondents)
+DOCUMENT_TYPE=$(paperless-id -t document_types)
+
+TAGFILE=$(mktemp /tmp/tags.XXXXXX)
+trap "rm -f $TAGFILE" EXIT
+paperless-id -t tags -m >$TAGFILE
+
+selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
+if [ -s "$selection" ]; then
+	xargs -0 -L1 sh -c 'http -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
+		Authorization:@$HOME/.paperless-token \
+		document@"$1" \
+		title="$(basename "$1" | sed -E '"'"'s/.*[0-9]{4}-[0-9]{2}-[0-9]{2}(.*)\.[a-zA-Z]{3}/\1/'"'"' | sed -E '"'"'s/^[ -]*//'"'"' | sed -E '"'"'s/\.[a-zA-Z]{3}$//'"'"')" \
+    created="$(basename "$1" | sed -nE '"'"'s/.*([0-9]{4}-[0-9]{2}-[0-9]{2}).*/\1/p'"'"')" \
+		correspondent="'"$CORRESPONDENT"'" \
+		document_type="'"$DOCUMENT_TYPE"'" \
+    $(cat "'"$TAGFILE"'" | awk '"'"'{print "tags="$0}'"'"') \
+		' sh <"$selection"
+
+	# Clear selection
+	printf - >"$NNN_PIPE"
+else
+	if [ -n "$1" ] && [ -s "$1" ]; then
+		# extract date from filename, format: "YYYY-MM-DD - title.pdf" or "YYYY-MM-DD title.PDF"
+		DATE=$(echo "$1" | sed -nE 's/.*([0-9]{4}-[0-9]{2}-[0-9]{2}).*/\1/p')
+
+		# extract title without date, trim leading spaces and hyphens, strip extension
+		TITLE=$(echo "$1" | sed -E 's/.*[0-9]{4}-[0-9]{2}-[0-9]{2}(.*)\.[a-zA-Z]{3}/\1/' | sed -E 's/^[ -]*//' | sed -E 's/\.[a-zA-Z]{3}$//')
+
+		http -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
+			Authorization:@$HOME/.paperless-token \
+			document@"$1" \
+			title="$TITLE" \
+			created="$DATE" \
+			correspondent="$CORRESPONDENT" \
+			document_type="$DOCUMENT_TYPE" \
+			$(cat "$TAGFILE" | awk '{print "tags="$0}')
+	else
+		printf "empty file!"
+	fi
+fi
+read -r _

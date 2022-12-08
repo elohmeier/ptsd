@@ -834,13 +834,6 @@
 
                 home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
 
-                home.packages = [
-                  (pkgs.writeScriptBin "paperless-ids" ''
-                    ${pkgs.httpie}/bin/http --check-status --ignore-stdin -b "localhost:9876/api/$1/" Authorization:@$HOME/.paperless-token \
-                      | ${pkgs.jaq}/bin/jaq -r '.results[] | (.id | tostring) + " " + .name'
-                  '')
-                ];
-
                 programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
 
                 launchd.agents.cleanup-downloads = {

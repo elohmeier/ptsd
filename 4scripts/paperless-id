@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+show_help() {
+	echo "Usage: $0 [OPTION]..."
+	echo "Select paperless entities with fzf and return their ids."
+	echo ""
+	echo "  -h, --help"
+	echo "      Show this help message."
+	echo "  -t, --type"
+	echo "      Select the type of entity to select. (required)"
+	echo "      Valid types are: tags, correspondents, document_types."
+	echo "  -m, --multiple"
+	echo "      Select multiple entities."
+	echo "  -l, --list"
+	echo "      List all entities of the given type."
+	echo ""
+	exit 0
+}
+
+while :; do
+	case $1 in
+	-h | -\? | --help)
+		show_help
+		exit
+		;;
+	-t | --type) # Takes an option argument; ensure it has been specified.
+		if [ "$2" ]; then
+			TYPE=$2
+			shift
+		else
+			die 'ERROR: "--type" requires a non-empty option argument.'
+		fi
+		;;
+	-l | --list)
+		LIST=1
+		;;
+	-m | --multiple)
+		MULTIPLE=-m
+		;;
+	--) # End of all options.
+		shift
+		break
+		;;
+	-?*)
+		printf 'WARN: Unknown option (ignored): %s\n' "$1" >&2
+		;;
+	*) # Default case: If no more options then break out of the loop.
+		break ;;
+	esac
+
+	shift
+done
+
+if [ -z "$TYPE" ]; then
+	show_help
+	exit 1
+fi
+
+if [ "$LIST" = 1 ]; then
+
+	NEXT="localhost:9876/api/$TYPE/"
+
+	while [ "$NEXT" != "null" ]; do
+		res=$(http --check-status --ignore-stdin --body "$NEXT" Authorization:@$HOME/.paperless-token)
+		jaq -r '.results[] | (.id | tostring) + " " + .name' <<<"$res"
+		NEXT=$(jaq -r '.next' <<<"$res")
+	done
+
+	exit 0
+fi
+
+FZF_DEFAULT_COMMAND="$0 -l -t $TYPE" fzf --bind 'ctrl-r:reload(eval "$FZF_DEFAULT_COMMAND")' \
+	--header="Select $TYPE. Press Ctrl-R to reload" \
+	--layout=reverse-list \
+	--with-nth=2.. $MULTIPLE |
+	awk '{print $1}'
