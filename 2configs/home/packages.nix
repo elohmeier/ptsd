@@ -15,10 +15,10 @@ with lib;
 
   home.packages = with pkgs; [
     (pdftk.override { jre = openjdk17; })
-    bat
-    btop
     (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
+    bat
+    btop
     copy-secrets
     entr
     exa
@@ -58,6 +58,7 @@ with lib;
     pwgen
     qrencode
     rclone
+    remarshal
     ripgrep
     rmlint
     shfmt

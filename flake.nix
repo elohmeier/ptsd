@@ -757,28 +757,33 @@
           };
 
           i3_aarch64 = home-manager.lib.homeManagerConfiguration {
-            system = "aarch64-linux";
-            username = "enno";
-            homeDirectory = "/home/enno";
-            stateVersion = "22.05";
+            pkgs = nixpkgs-unstable.legacyPackages.aarch64-linux;
 
-            configuration = { config, lib, pkgs, ... }: {
+            modules = [
+              ({ config, lib, pkgs, ... }: {
+                home = {
+                  username = "enno";
+                  homeDirectory = "/home/enno";
+                  stateVersion = "22.05";
+                };
 
-              imports = desktopImports ++ [
-                ./2configs/home/alacritty.nix
-                ./2configs/home/chromium.nix
-                ./2configs/home/i3.nix
-                ./2configs/home/i3status.nix
-                ./2configs/home/xdg.nix
-              ];
+                imports = desktopImports ++ [
+                  ./2configs/home/alacritty.nix
+                  ./2configs/home/chromium.nix
+                  ./2configs/home/i3.nix
+                  ./2configs/home/i3status.nix
+                  ./2configs/home/xdg.nix
+                ];
 
-              nixpkgs.config = {
-                allowUnfree = true;
-                packageOverrides = pkgOverrides pkgs;
-              };
+                nixpkgs.config = {
+                  allowUnfree = true;
+                  allowUnfreePredicate = (pkg: true); # https://github.com/nix-community/home-manager/issues/2942
+                  packageOverrides = pkgOverrides pkgs;
+                };
 
-              services.syncthing.enable = true;
-            };
+                services.syncthing.enable = true;
+              })
+            ];
           };
 
           i3_x86 = home-manager.lib.homeManagerConfiguration {
