@@ -18,6 +18,7 @@ with lib;
     bat
     btop
     (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
+    (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     copy-secrets
     entr
     exa
