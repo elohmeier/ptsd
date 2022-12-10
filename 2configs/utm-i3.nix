@@ -46,7 +46,7 @@
   users.groups.wireshark.members = [ config.users.users.mainUser.name ];
 
   ptsd.xrdp = {
-    enable = true;
+    enable = false;
     defaultWindowManager = "i3";
   };
 

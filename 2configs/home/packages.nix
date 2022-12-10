@@ -24,6 +24,7 @@ with lib;
     exa
     exiftool
     fd
+    ffmpeg
     fzf
     gen-secrets
     gh
@@ -128,7 +129,6 @@ with lib;
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
-    ffmpeg
     iterm2
     logseq-bin
     qemu
@@ -200,7 +200,6 @@ with lib;
     pdf2svg
     pdfduplex
     pgmodeler
-    ptsd-ffmpeg
     quirc # qr scanner
     ripmime
     samba

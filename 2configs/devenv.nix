@@ -38,7 +38,7 @@
 
   services.udisks2.enable = lib.mkDefault false;
   security.sudo.wheelNeedsPassword = false;
-  nix.trustedUsers = [ "root" "@wheel" ];
+  nix.settings.trusted-users = [ "root" "@wheel" ];
 
   services.getty.autologinUser = "enno";
 }

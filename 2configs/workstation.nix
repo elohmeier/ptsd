@@ -37,7 +37,7 @@ with lib;
     NIXPKGS_ALLOW_UNFREE = "1";
   };
 
-  nix.trustedUsers = [ "root" "enno" ];
+  nix.settings.trusted-users = [ "root" "enno" ];
 
   # security.pam.services.lightdm.enableGnomeKeyring = true; # needed?
   services.gnome.gnome-keyring.enable = mkDefault true;
