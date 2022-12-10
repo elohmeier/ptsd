@@ -4,20 +4,18 @@
   inputs = {
     #home-manager.url = github:nix-community/home-manager/release-22.05;
     #nixpkgs-master.url = github:NixOS/nixpkgs/master;
-    #nixpkgs-unstable.url = github:NixOS/nixpkgs/nixos-unstable;
     disko.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     flake-utils.url = "github:numtide/flake-utils";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    home-manager.url = "github:elohmeier/home-manager/darwin-wip-master";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.url = "github:elohmeier/home-manager/release-22.11-darwin";
     hosts.inputs.flake-utils.follows = "flake-utils";
     hosts.inputs.nixpkgs.follows = "nixpkgs";
     hosts.url = github:StevenBlack/hosts;
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-unstable.url = github:elohmeier/nixpkgs/nixos-unstable-cffi;
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-22.05";
+    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11-cffi";
   };
 
   outputs =
@@ -29,14 +27,13 @@
     , nixinate
     , nixos-hardware
     , nixpkgs
-    , nixpkgs-unstable
     , ...
     }:
 
     let
       pkgOverrides = pkgs:
-        let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; system = pkgs.system; }; in
-        super: (import ./5pkgs pkgs pkgs_master nixpkgs-unstable super);
+        let pkgs_master = import nixpkgs { config.allowUnfree = true; system = pkgs.system; }; in
+        super: (import ./5pkgs pkgs pkgs_master nixpkgs super);
     in
     flake-utils.lib.eachDefaultSystem
       (system:
@@ -96,7 +93,7 @@
           #];
         in
         {
-          macvm = nixpkgs-unstable.lib.nixosSystem {
+          macvm = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";
             modules = defaultModules ++ [
               home-manager.nixosModule
@@ -185,10 +182,10 @@
                     { from = "host"; host.port = 5001; guest.port = 5001; }
                   ];
                   graphics = false;
-                  host.pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin; # qemu 7.1 required for 9p mount, not in 22.05
+                  host.pkgs = nixpkgs.legacyPackages.aarch64-darwin; # qemu 7.1 required for 9p mount, not in 22.05
                   # host.pkgs = {
-                  #   inherit (nixpkgs-unstable.legacyPackages.aarch64-darwin) runCommand writeScript runtimeShell coreutils;
-                  #   qemu_kvm = nixpkgs-unstable.legacyPackages.aarch64-darwin.writeShellScriptBin "qemu-system-aarch64" ''
+                  #   inherit (nixpkgs.legacyPackages.aarch64-darwin) runCommand writeScript runtimeShell coreutils;
+                  #   qemu_kvm = nixpkgs.legacyPackages.aarch64-darwin.writeShellScriptBin "qemu-system-aarch64" ''
                   #     echo huhu
                   #   '';
                   # };
@@ -204,7 +201,7 @@
             ];
           };
 
-          iso = nixpkgs-unstable.lib.nixosSystem {
+          iso = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
               ({ config, lib, modulesPath, pkgs, ... }: {
@@ -288,7 +285,7 @@
             ];
           };
 
-          tp3 = nixpkgs-unstable.lib.nixosSystem {
+          tp3 = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = defaultModules ++ [
               home-manager.nixosModule
@@ -757,7 +754,7 @@
           };
 
           i3_aarch64 = home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs-unstable.legacyPackages.aarch64-linux;
+            pkgs = nixpkgs.legacyPackages.aarch64-linux;
 
             modules = [
               ({ config, lib, pkgs, ... }: {
@@ -812,7 +809,7 @@
           };
 
           macos-enno = home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin;
+            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
 
             modules = [
               ({ config, lib, pkgs, ... }: {

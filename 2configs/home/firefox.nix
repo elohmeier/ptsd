@@ -68,7 +68,7 @@ in
       then
         pkgs.firefox-bin.override { inherit policies; }
       else
-        pkgs.firefox.override { applicationName = "firefox"; forceWayland = true; extraPolicies = policies; };
+        pkgs.firefox.override { applicationName = "firefox"; extraPolicies = policies; };
 
     profiles.privacy = {
       id = 0; # 0=default
