@@ -94,6 +94,13 @@ let
       StartCalendarInterval = [{ Hour = 10; Minute = 0; }];
     };
   };
+
+  mkManualBackupScript = name: cfg: pkgs.writeShellScriptBin "borgbackup-create-${name}" ''
+    export BORG_REPO=${escapeShellArg cfg.repo}
+    export PATH=${lib.makeBinPath (with pkgs;[ coreutils borgbackup openssh ])}
+    ${concatStringsSep "\n" (mapAttrsToList (name: value: "export ${name}=${escapeShellArg value}") ((mkPassEnv cfg) // cfg.environment))}
+    ${mkBackupScript cfg}
+  '';
 in
 {
   options = {
@@ -376,17 +383,9 @@ in
 
   config = mkIf (config.ptsd.borgbackup.jobs != { }) (with config.ptsd.borgbackup; {
 
-    home.packages = [ pkgs.borgbackup ] ++ (mapAttrsToList mkBorgWrapper jobs);
+    home.packages = [ pkgs.borgbackup ] ++ (mapAttrsToList mkBorgWrapper jobs) ++ (mapAttrsToList mkManualBackupScript jobs);
 
     launchd.agents = mapAttrs' mkBackupLaunchdAgent jobs;
 
-    # TODO
-    # launchd.user.agents."nwbackup-nas1" = {
-    #   script = "${script}/bin/nwbackup-nas1";
-    #   serviceConfig = {
-    #     ProcessType = "Interactive";
-    #     StartCalendarInterval = [{ Hour = 11; Minute = 0; }];
-    #   };
-    # };
   });
 }

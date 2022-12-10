@@ -859,6 +859,7 @@
                   };
                   exclude = [
                     "${homeDirectory}/.cache"
+                    "${homeDirectory}/.Trash"
                     "${homeDirectory}/Applications"
                     "${homeDirectory}/Downloads"
                     "${homeDirectory}/Downloads-Keep"
@@ -928,6 +929,7 @@
                   environment.BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
                   exclude = [
                     "${homeDirectory}/.cache"
+                    "${homeDirectory}/.Trash"
                     "${homeDirectory}/Applications"
                     "${homeDirectory}/Downloads"
                     "${homeDirectory}/Library/Caches"
