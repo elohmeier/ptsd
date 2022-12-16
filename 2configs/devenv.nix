@@ -28,6 +28,7 @@
   boot.kernel.sysctl."fs.inotify.max_user_watches" = 204800;
 
   environment.systemPackages = with pkgs;[
+    cifs-utils
     cryptsetup
     git
     home-manager
