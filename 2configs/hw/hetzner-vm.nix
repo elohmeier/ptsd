@@ -17,5 +17,5 @@
       [ "ata_piix" "uhci_hcd" "virtio_net" "virtio_pci" "sd_mod" "sr_mod" ];
   };
 
-  nix.maxJobs = lib.mkDefault 1;
+  nix.settings.max-jobs = lib.mkDefault 1;
 }

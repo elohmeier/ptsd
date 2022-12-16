@@ -19,7 +19,6 @@ in
 
   environment.systemPackages = with pkgs; [
     bottom
-    btop
     checkSSLCert
     cryptsetup
     dnsutils
@@ -28,10 +27,8 @@ in
     git
     macos-fix-filefoldernames
     mc
-    ncdu
     ptsd-nnn
     ripgrep
-    tmux
   ];
 
   # programs.mosh.enable = lib.mkDefault true;

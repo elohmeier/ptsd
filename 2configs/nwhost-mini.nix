@@ -14,6 +14,8 @@ in
 
   environment = {
     systemPackages = with pkgs; [
+      btop
+      ncdu_1
       tmux
       vim
     ];
