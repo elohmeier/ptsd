@@ -18,17 +18,14 @@
       webExternalUrl = "https://${config.ptsd.tailscale.fqdn}:${toString config.ptsd.ports.alertmanager}/";
       configuration = {
         route = {
-          group_by = [ "cluster" ];
+          group_by = [ "alertname" "alias" ];
           receiver = "nwadmins";
         };
         receivers = [{
           name = "nwadmins";
-          pagerduty_configs = [{
-            service_key = "$PAGERDUTY_SERVICE_KEY";
-          }];
-          webhook_configs = [{
-            url = "http://matrix.pug-coho.ts.net:4050/services/hooks/YWxlcnRtYW5hZ2VyX3NlcnZpY2U";
-            send_resolved = true;
+          pushover_configs = [{
+            user_key = "$PUSHOVER_USER_KEY";
+            token = "$PUSHOVER_TOKEN";
           }];
         }];
       };
@@ -46,7 +43,7 @@
               labels.severity = "warning";
               annotations = {
                 summary = "{{ $labels.alias }} disk {{ $labels.mountpoint }} full";
-                url = "https://grafana.services.nerdworks.de/d/hb7fSE0Zz/1-node-exporter-for-prometheus-dashboard-en-v20191102?orgId=1&var-hostname={{ $labels.alias }}";
+                url = "https://htz1.pug-coho.ts.net:3000/d/rYdddlPWk/node-exporter?var-job={{ $labels.job }}&var-node={{ $labels.instance }}";
                 description = ''The disk {{ $labels.mountpoint }} of host {{ $labels.alias }} has {{ $value | printf "%.1f" }}% free disk space remaining.'';
               };
             }
@@ -57,7 +54,7 @@
               labels.severity = "warning";
               annotations = {
                 summary = "{{ $labels.alias }} disk {{ $labels.mountpoint }} inodes exhausted";
-                url = "https://grafana.services.nerdworks.de/d/hb7fSE0Zz/1-node-exporter-for-prometheus-dashboard-en-v20191102?orgId=1&var-hostname={{ $labels.alias }}";
+                url = "https://htz1.pug-coho.ts.net:3000/d/rYdddlPWk/node-exporter?var-job={{ $labels.job }}&var-node={{ $labels.instance }}";
                 description = ''The disk {{ $labels.mountpoint }} of host {{ $labels.alias }} has {{ $value | printf "%.1f" }}% free inodes remaining.'';
               };
             }
@@ -77,7 +74,7 @@
               labels.severity = "warning";
               annotations = {
                 summary = "Unit {{ $labels.name }}@{{ $labels.alias }} failed";
-                url = "https://grafana.services.nerdworks.de/d/YMUqHaqWz/prometheus-service-monitoring";
+                #url = "https://grafana.services.nerdworks.de/d/YMUqHaqWz/prometheus-service-monitoring";
                 description = "Unit entered failed state";
               };
             }
@@ -117,7 +114,18 @@
               labels.severity = "warning";
               annotations = {
                 summary = "No recent backup for {{ $labels.exported_instance }}";
+                url = "https://htz1.pug-coho.ts.net:3000/d/5e9FBxWVz/backups";
                 description = "The last backup is older than 14 days.";
+              };
+            }
+            {
+              alert = "FilesystemLocked";
+              expr = ''node_systemd_unit_state{name="unlock-mnt.service", state="active", alias="rpi4"} == 0'';
+              for = "5m";
+              labels.severity = "critical";
+              annotations = {
+                summary = "Filesystem /mnt on rpi4 is locked";
+                description = "The filesystem /mnt on rpi4 is locked and cannot be accessed.";
               };
             }
           ];

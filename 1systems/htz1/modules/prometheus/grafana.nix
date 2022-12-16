@@ -5,22 +5,27 @@ in
 {
   services.grafana =
     {
-      inherit port;
       enable = true;
-      rootUrl = "https://${config.ptsd.tailscale.fqdn}:${toString port}/";
-      security = {
-        adminUser = "enno";
-        adminPasswordFile = "/run/credentials/grafana.service/grafana.adminPassword";
-        secretKeyFile = "/run/credentials/grafana.service/grafana.secretKey";
+      settings = {
+        security = {
+          admin_password = "$__file{/run/credentials/grafana.service/grafana.adminPassword}";
+          admin_user = "enno";
+          secret_key = "$__file{/run/credentials/grafana.service/grafana.secretKey}";
+        };
+        server = {
+          http_addr = "127.0.0.1";
+          http_port = port;
+          root_url = "https://${config.ptsd.tailscale.fqdn}:${toString port}/";
+        };
       };
       provision = {
         enable = true;
-        datasources = [
+        datasources.settings.datasources = [
           {
+            isDefault = true;
             name = "Prometheus";
             type = "prometheus";
             url = "http://localhost:${toString config.ptsd.ports.prometheus-server}";
-            isDefault = true;
           }
           {
             name = "Loki";
