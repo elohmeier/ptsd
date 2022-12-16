@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 let
   universe = import ../../2configs/universe.nix;
   inherit (universe.hosts."${config.networking.hostName}") nets;
@@ -6,10 +6,11 @@ in
 {
   imports =
     [
+      (modulesPath + "/profiles/hardened.nix")
+
       ../..
       ../../2configs
       ../../2configs/borgbackup.nix
-      ../../2configs/hardened.nix
       ../../2configs/nwhost-mini.nix
       ../../2configs/prometheus-node.nix
 

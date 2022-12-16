@@ -1,10 +1,11 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, modulesPath, ... }:
 {
   imports = [
+    (modulesPath + "/profiles/hardened.nix")
+
     ../..
     ../../2configs
     ../../2configs/borgbackup.nix
-    ../../2configs/hardened.nix
     ../../2configs/nwhost.nix
     ../../2configs/prometheus-node.nix
 
@@ -13,6 +14,8 @@
     ./modules/mosquitto.nix
     ./modules/prometheus
   ];
+
+  environment.memoryAllocator.provider = "libc"; # php-fpm incompatible with scudo
 
   services.journald.extraConfig = "Storage=volatile";
 
