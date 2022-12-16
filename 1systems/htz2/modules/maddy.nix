@@ -206,7 +206,7 @@ let
       storage &local_mailboxes
     }
 
-    openmetrics tcp://${universe.hosts."${config.networking.hostName}".nets.tailscale.ip4.addr}:${toString config.ptsd.ports.prometheus-maddy} { }
+    openmetrics tcp://0.0.0.0:${toString config.ptsd.ports.prometheus-maddy} { }
   '';
 in
 {
