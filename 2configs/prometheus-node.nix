@@ -1,11 +1,9 @@
 { config, lib, pkgs, ... }:
-let
-  universe = import ./universe.nix;
-in
+
 {
   services.prometheus.exporters.node = {
     enable = true;
-    listenAddress = universe.hosts."${config.networking.hostName}".nets.tailscale.ip4.addr;
+    listenAddress = "0.0.0.0";
     port = config.ptsd.ports.prometheus-node;
     enabledCollectors = [
       "cpu"
@@ -31,11 +29,5 @@ in
     extraFlags = [
       "--collector.textfile.directory=/var/log"
     ];
-  };
-
-  systemd.services.prometheus-node-exporter = {
-    after = [ "tailscaled.service" ];
-    requires = [ "tailscaled.service" ];
-    serviceConfig.StartLimitIntervalSec = 7;
   };
 }
