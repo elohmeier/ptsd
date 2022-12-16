@@ -9,28 +9,26 @@
       automation = "!include automations.yaml";
       scene = "!include scenes.yaml";
 
-      # old format, see https://www.home-assistant.io/integrations/fan.mqtt/
-      fan = [{
-        name = "Inventer";
-        platform = "mqtt";
-        state_topic = "stat/tasmota_A8C8C4/fan_state";
-        command_topic = "cmnd/tasmota_A8C8C4/fan_state";
-        preset_modes = [ "Wärmerückgewinnung" "Durchlüftung" ];
-        preset_mode_state_topic = "stat/tasmota_A8C8C4/fan_preset_mode";
-        preset_mode_command_topic = "cmnd/tasmota_A8C8C4/fan_preset_mode";
-        percentage_command_topic = "cmnd/tasmota_A8C8C4/fan_percentage";
-        percentage_state_topic = "stat/tasmota_A8C8C4/fan_percentage";
-        speed_range_max = 4;
-      }];
-
       config = { };
       device_automation = { };
       history = { };
-      homekit.filter.include_entity_globs = [ "sensor.wemos_co2_mhz19b_carbondioxide" "light.*" "fan.*" ];
+      homekit.filter.include_entity_globs = [ "sensor.wemos_co2_mhz19b_carbondioxide" "light.*" "fan.*" "switch.tasmota" ];
       logbook = { };
       met = { };
       mobile_app = { };
-      mqtt.certificate = "/etc/ssl/certs/ca-certificates.crt";
+      mqtt = {
+        fan = [{
+          name = "Inventer";
+          state_topic = "stat/tasmota_A8C8C4/fan_state";
+          command_topic = "cmnd/tasmota_A8C8C4/fan_state";
+          preset_modes = [ "Wärmerückgewinnung" "Durchlüftung" ];
+          preset_mode_state_topic = "stat/tasmota_A8C8C4/fan_preset_mode";
+          preset_mode_command_topic = "cmnd/tasmota_A8C8C4/fan_preset_mode";
+          percentage_command_topic = "cmnd/tasmota_A8C8C4/fan_percentage";
+          percentage_state_topic = "stat/tasmota_A8C8C4/fan_percentage";
+          speed_range_max = 4;
+        }];
+      };
       prometheus = { };
       recorder.purge_keep_days = 14;
       sensor = { platform = "dwd_weather_warnings"; region_name = "Hansestadt Hamburg"; };
