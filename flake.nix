@@ -564,12 +564,86 @@
                     system.stateVersion = "22.05";
                     virtualisation.docker = { enable = true; enableOnBoot = false; };
 
+                    fileSystems."/home/enno/Downloads-Keep" = {
+                      device = "//192.168.67.1/Downloads-Keep";
+                      fsType = "cifs";
+                      options = [
+                        "x-systemd.automount"
+                        "noauto"
+                        "x-systemd.idle-timeout=60"
+                        "x-systemd.device-timeout=5s"
+                        "x-systemd.mount-timeout=5s"
+                        "credentials=/home/enno/.smb-secrets"
+                        "uid=1000"
+                        "gid=100"
+                      ];
+                    };
+
+                    containers.ff = {
+                      autoStart = true;
+                      ephemeral = true;
+                      macvlans = [ "bat0" ];
+                      bindMounts = {
+                        "/home/enno/Downloads-Keep" = { hostPath = "/home/enno/Downloads-Keep"; isReadOnly = false; };
+                      };
+                      config = { config, pkgs, ... }: {
+                        system.stateVersion = "22.11";
+
+                        environment.systemPackages = with pkgs; [ rtorrent ];
+
+                        networking = {
+                          useDHCP = false;
+                          interfaces.mv-bat0.useDHCP = true;
+                        };
+
+                        # Manually configure nameserver. Using resolved inside the container seems to fail
+                        # currently
+                        environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
+
+                        services.getty.autologinUser = "root";
+                      };
+                    };
+
                     _module.args.nixinate = {
-                      host = "192.168.64.10";
+                      host = "192.168.67.3";
                       sshUser = "enno";
                       buildOn = "remote";
                     };
                   }
+                  home-manager.nixosModule
+                  ({ config, lib, modulesPath, pkgs, ... }: {
+                    system.stateVersion = "22.05";
+                    virtualisation.docker = { enable = true; enableOnBoot = false; };
+
+                    home-manager.useGlobalPkgs = true;
+                    home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }:
+                      {
+                        home.stateVersion = "22.05";
+                        imports = [
+                          ./2configs/home
+                          ./2configs/home/firefox.nix
+                          ./2configs/home/fish.nix
+                          ./2configs/home/fonts.nix
+                          ./2configs/home/git.nix
+                          #./2configs/home/gpg.nix
+                          ./2configs/home/neovim.nix
+                          ./2configs/home/packages.nix
+                          ./2configs/home/ssh.nix
+                          ./2configs/home/alacritty.nix
+                          ./2configs/home/chromium.nix
+                          ./2configs/home/i3.nix
+                          ./2configs/home/i3status.nix
+                          ./2configs/home/xdg.nix
+                        ];
+                        nixpkgs.config = {
+                          allowUnfree = true;
+                          allowUnfreePredicate = (pkg: true); # https://github.com/nix-community/home-manager/issues/2942
+                          packageOverrides = pkgOverrides pkgs;
+                        };
+
+                        services.syncthing.enable = true;
+                      };
+                  })
                 ];
                 specialArgs = { inherit nixpkgs; };
               };
