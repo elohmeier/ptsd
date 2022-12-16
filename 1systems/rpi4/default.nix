@@ -18,7 +18,7 @@
 
   services.getty.autologinUser = "enno";
   security.sudo.wheelNeedsPassword = false;
-  nix.trustedUsers = [ "root" "@wheel" ];
+  nix.settings.trusted-users = [ "root" "@wheel" ];
   system.stateVersion = "22.05";
   networking.hostName = "rpi4";
   environment.systemPackages = with pkgs;[ btop fscryptctl powertop ptsd-nnn ncdu tmux iperf2 ];
@@ -58,11 +58,6 @@
         "borgbackup-repo-htz3.service"
         "borgbackup-repo-mb3.service"
         "borgbackup-repo-mb4.service"
-        "fraam-gdrive-backup.service"
-        "icloudpd-enno.service"
-        "icloudpd-luisa.service"
-        "samba-smbd.service"
-        "syncthing.service"
       ];
     in
     [{
@@ -73,6 +68,64 @@
       before = deps;
       requiredBy = deps;
     }];
+
+  systemd.targets.home-assistant.wantedBy = lib.mkForce [ ];
+  systemd.services.home-assistant.wantedBy = lib.mkForce [ ];
+  systemd.services.samba-smbd.wantedBy = lib.mkForce [ ];
+  systemd.services.syncthing.wantedBy = lib.mkForce [ ];
+  systemd.services.nginx.wantedBy = lib.mkForce [ ];
+
+  systemd.targets.unlock-mnt = {
+    description = "Unlock /mnt";
+    requires = [ "unlock-mnt.service" ];
+    wants = [
+      "home-assistant.service"
+      "samba-smbd.service"
+      "syncthing.service"
+      "nginx.service"
+    ];
+    after = [
+      "unlock-mnt.service"
+      "home-assistant.service"
+      "samba-smbd.service"
+      "syncthing.service"
+      "nginx.service"
+    ];
+  };
+
+  systemd.services.unlock-mnt = {
+    description = "Unlock /mnt";
+    wantedBy = [ ];
+    requires = [ "mnt.mount" ];
+    requiredBy = [
+      "rclone-fraam-gdrive-backup.service"
+      "icloudpd-enno.service"
+      "icloudpd-luisa.service"
+      "home-assistant.service"
+      "samba-smbd.service"
+      "syncthing.service"
+    ];
+    before = [
+      "rclone-fraam-gdrive-backup.service"
+      "icloudpd-enno.service"
+      "icloudpd-luisa.service"
+      "home-assistant.service"
+      "samba-smbd.service"
+      "syncthing.service"
+    ];
+    after = [ "mnt.mount" ];
+    unitConfig.ConditionPathExists = "/root/key";
+    script = ''
+      echo "Unlocking /mnt with keyfile"
+      ${pkgs.fscryptctl}/bin/fscryptctl add_key /mnt < /root/key
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+  };
+
+  systemd.oomd.enable = false; # fails to start
 
   ptsd.tailscale = {
     enable = true;
@@ -96,6 +149,7 @@
         "/mnt/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "mb4" ]; };
         "/mnt/syncthing/icloudpd" = { label = "icloudpd"; id = "myfag-uvj2s"; devices = [ "mb4" "nas1" ]; };
         # "/mnt/syncthing/paperless" = { label = "paperless"; id = "pu5le-lk2og"; devices = [ "mb4" ]; type = "receiveonly"; };
+        "/mnt/syncthing/rpi4-dl" = { label = "rpi4-dl"; id = "q5frb-pk9qx"; devices = [ "mb4" ]; };
       };
     };
 
@@ -140,9 +194,9 @@
     wantedBy = [ "multi-user.target" ];
     script = ''
       # recommended by `powertop`
-      echo 'auto' > '/sys/block/sda/device/power/control';
       echo 'auto' > '/sys/bus/pci/devices/0000:00:00.0/power/control';
       echo 'auto' > '/sys/bus/pci/devices/0000:01:00.0/power/control';
+      echo 'auto' > '/sys/block/sda/device/power/control' || true;
     '';
   };
 
