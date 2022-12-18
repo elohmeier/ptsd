@@ -55,7 +55,6 @@ self: pkgs_master: nixpkgs_master: super:
       inherit (self) pdftk;
     });
   pdfduplex = self.callPackage ./pdfduplex { };
-  photoprism = self.callPackage ./photoprism { };
   ptsdbootstrap = self.callPackage ./ptsdbootstrap { };
   quotes-exporter = self.callPackage ./quotes-exporter { };
   read-co2-status = self.writeShellScriptBin "read-co2-status" ../4scripts/read-co2-status.sh;
