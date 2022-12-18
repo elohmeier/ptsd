@@ -162,6 +162,7 @@ with lib;
     cifs-utils
     clang-tools
     dnsmasq
+    esphome
     esptool
     fava
     file
