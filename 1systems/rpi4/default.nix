@@ -10,6 +10,7 @@
     # ../../2configs/octoprint-rpi-mk3s.nix
 
     ./icloudpd.nix
+    ./fluent-bit.nix
     ./fraam-gdrive-backup.nix
     ./home-assistant.nix
   ];
