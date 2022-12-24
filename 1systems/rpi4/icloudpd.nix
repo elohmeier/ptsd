@@ -13,11 +13,11 @@ in
       cookieDirectory = "/mnt/syncthing/icloudpd-cookies";
     };
 
-    # luisa = {
-    #   inherit user group;
-    #   directory = "/mnt/syncthing/icloudpd/luisa";
-    #   envFile = "/mnt/syncthing/icloudpd-luisa.env";
-    #   cookieDirectory = "/mnt/syncthing/icloudpd-cookies";
-    # };
+    luisa = {
+      inherit user group;
+      directory = "/mnt/syncthing/icloudpd/luisa";
+      envFile = "/mnt/syncthing/icloudpd-luisa.env";
+      cookieDirectory = "/mnt/syncthing/icloudpd-cookies";
+    };
   };
 }
