@@ -64,7 +64,4 @@ in
       };
     };
   };
-
-  # TODO: configure authentication
-  # systemd.services.traefik.serviceConfig.LoadCredential = "loki.htpasswd:/var/src/secrets/loki.htpasswd";
 }

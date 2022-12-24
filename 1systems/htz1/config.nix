@@ -10,6 +10,7 @@
     ../../2configs/prometheus-node.nix
 
     ./modules/git.nix
+    ./modules/loki.nix
     ./modules/monica.nix
     ./modules/mosquitto.nix
     ./modules/prometheus

@@ -30,7 +30,7 @@ in
           {
             name = "Loki";
             type = "loki";
-            url = "http://localhost:${toString config.ptsd.ports.loki}";
+            url = "http://100.106.245.41:${toString config.ptsd.ports.loki}";
           }
         ];
       };
