@@ -2,8 +2,7 @@
 
 {
   services.openssh.hostKeys = [
-    { type = "rsa"; bits = 4096; path = "/nix/persistent/etc/ssh/ssh_host_rsa_key"; }
-    { type = "ed25519"; path = "/nix/persistent/etc/ssh/ssh_host_ed25519_key"; }
+    { type = "ed25519"; path = "/nix/secrets/ssh.id_ed25519"; }
   ];
 
   system.activationScripts.initialize-persistent = lib.stringAfter [ "users" "groups" ] ''
@@ -11,7 +10,7 @@
     ${lib.optionalString config.services.octoprint.enable "mkdir -p /nix/persistent/var/lib/octoprint"}
     ${lib.optionalString config.services.samba.enable "mkdir -p /nix/persistent/var/lib/samba"}
     ${lib.optionalString config.services.tailscale.enable "mkdir -p /nix/persistent/var/lib/tailscale"}
-    mkdir -p /nix/persistent/etc/ssh
+    mkdir -p /nix/secrets
     mkdir -p /nix/persistent/var/lib/systemd
     ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
   '';
