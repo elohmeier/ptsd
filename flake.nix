@@ -2,20 +2,16 @@
   description = "ptsd";
 
   inputs = {
-    #home-manager.url = github:nix-community/home-manager/release-22.05;
-    #nixpkgs-master.url = github:NixOS/nixpkgs/master;
     disko.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:elohmeier/home-manager/release-22.11-darwin";
-    hosts.inputs.flake-utils.follows = "flake-utils";
-    hosts.inputs.nixpkgs.follows = "nixpkgs";
-    hosts.url = github:StevenBlack/hosts;
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11-cffi";
+    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11-tpmfix";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs =
@@ -23,16 +19,16 @@
     , disko
     , flake-utils
     , home-manager
-    , hosts
     , nixinate
     , nixos-hardware
     , nixpkgs
+    , nixpkgs-unstable
     , ...
     }:
 
     let
       pkgOverrides = pkgs:
-        let pkgs_master = import nixpkgs { config.allowUnfree = true; system = pkgs.system; }; in
+        let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; system = pkgs.system; }; in
         super: (import ./5pkgs pkgs pkgs_master nixpkgs super);
     in
     flake-utils.lib.eachDefaultSystem

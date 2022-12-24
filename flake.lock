@@ -57,29 +57,6 @@
         "type": "github"
       }
     },
-    "hosts": {
-      "inputs": {
-        "flake-utils": [
-          "flake-utils"
-        ],
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1670808524,
-        "narHash": "sha256-3z1TKWDTLI0fXkfnXSp3OB/W6a1cifjFdCr/jbcdhAQ=",
-        "owner": "StevenBlack",
-        "repo": "hosts",
-        "rev": "66ee4a2a719397aa27ce6aaa76f4d9fc99608a7c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "StevenBlack",
-        "repo": "hosts",
-        "type": "github"
-      }
-    },
     "nixinate": {
       "inputs": {
         "nixpkgs": [
@@ -102,11 +79,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1670174919,
-        "narHash": "sha256-XdQr3BUnrvVLRFunLWrZORhwYHDG0+9jUUe0Jv1pths=",
+        "lastModified": 1671631481,
+        "narHash": "sha256-LP6NvQQNKdqDpXngECo6oCiWfYRb0KPGM5+D5lu7mPw=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "9d87bc030a0bf3f00e953dbf095a7d8e852dab6b",
+        "rev": "9577ab1eaf01a738b015a7a7ab2a4616e158b6cd",
         "type": "github"
       },
       "original": {
@@ -118,16 +95,32 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1670821831,
-        "narHash": "sha256-5ZDV84C/0LImOosT8YE7z6RCDXn3PUgw8D6PnYfVCGY=",
+        "lastModified": 1671637775,
+        "narHash": "sha256-ylU0DUAzm2O9zrA3al7PKZZIK3JkpNg4p3i6pSu/GhY=",
         "owner": "elohmeier",
         "repo": "nixpkgs",
-        "rev": "d862c39aa2fa884ffd7569a88bf83131b0dcc88a",
+        "rev": "a74c9fe4097664d070db9c6a06e6ccb75f54356e",
         "type": "github"
       },
       "original": {
         "owner": "elohmeier",
-        "ref": "nixos-22.11-cffi",
+        "ref": "nixos-22.11-tpmfix",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs-unstable": {
+      "locked": {
+        "lastModified": 1671359686,
+        "narHash": "sha256-3MpC6yZo+Xn9cPordGz2/ii6IJpP2n8LE8e/ebUXLrs=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "04f574a1c0fde90b51bf68198e2297ca4e7cccf4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -137,10 +130,10 @@
         "disko": "disko",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "hosts": "hosts",
         "nixinate": "nixinate",
         "nixos-hardware": "nixos-hardware",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "nixpkgs-unstable": "nixpkgs-unstable"
       }
     },
     "utils": {
