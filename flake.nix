@@ -197,48 +197,118 @@
             ];
           };
 
-          iso = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              ({ config, lib, modulesPath, pkgs, ... }: {
-                imports = [
-                  (modulesPath + "/profiles/installation-device.nix")
-                  (modulesPath + "/installer/cd-dvd/iso-image.nix")
-                ];
-                boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_0.override {
-                  argsOverride = rec {
-                    src = pkgs.fetchFromGitHub {
-                      owner = "torvalds";
-                      repo = "linux";
-                      rev = "v${version}";
-                      sha256 = "sha256-FbXvv2fV/2JA81DRtglQXf0pL1SON5o3bx2hrHv/Dug=";
+          iso = nixpkgs.lib.nixosSystem
+            {
+              system = "x86_64-linux";
+              modules = defaultModules ++ [
+                ({ config, lib, modulesPath, pkgs, ... }: {
+                  imports = [
+                    (modulesPath + "/profiles/installation-device.nix")
+                    (modulesPath + "/installer/cd-dvd/iso-image.nix")
+                  ];
+                  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_0.override {
+                    argsOverride = rec {
+                      src = pkgs.fetchFromGitHub {
+                        owner = "torvalds";
+                        repo = "linux";
+                        rev = "v${version}";
+                        sha256 = "sha256-FbXvv2fV/2JA81DRtglQXf0pL1SON5o3bx2hrHv/Dug=";
+                      };
+                      version = "6.1-rc6";
+                      modDirVersion = "6.1.0-rc6";
                     };
-                    version = "6.1-rc6";
-                    modDirVersion = "6.1.0-rc6";
+                  });
+                  isoImage.makeEfiBootable = true;
+                  isoImage.makeUsbBootable = true;
+                  isoImage.isoName = "${config.isoImage.isoBaseName}-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}-linux${config.boot.kernelPackages.kernel.modDirVersion}.iso";
+                  users.users.nixos.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
+                  users.users.root.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
+
+                  environment.systemPackages =
+                    with pkgs;
+                    let
+                      dcfg = import ./2configs/disko/lvm-immutable.nix { disk = "/dev/nvme0n1"; };
+                    in
+                    [
+
+                      (pkgs.writeShellScriptBin "disko-create-lvm-immutable-nvme0n1" ''
+                        export PATH=${lib.makeBinPath (disko.lib.packages dcfg pkgs)}
+                        ${disko.lib.create dcfg}
+                      '')
+                      (pkgs.writeShellScriptBin "disko-mount-lvm-immutable-nvme0n1" ''
+                        export PATH=${lib.makeBinPath (disko.lib.packages dcfg pkgs)}
+                        ${disko.lib.mount dcfg}
+                      '')
+
+                      btop
+                      gitMinimal
+                      neovim
+                      nnn
+                      tmux
+                    ];
+
+                  boot.supportedFilesystems = [ "ntfs" ];
+
+                  console.keyMap = "de-latin1";
+                  services.xserver.layout = "de";
+                  i18n.defaultLocale = "de_DE.UTF-8";
+                  time.timeZone = "Europe/Berlin";
+                  #hardware.enableAllFirmware = true;
+                  networking = {
+                    useNetworkd = true;
+                    useDHCP = false;
+                    wireless.enable = false;
+                    wireless.iwd.enable = true;
+                    interfaces.eth0.useDHCP = true;
+                    interfaces.wlan0.useDHCP = true;
+                    networkmanager.wifi.backend = "iwd";
+                    usePredictableInterfaceNames = false;
                   };
-                });
-                isoImage.makeEfiBootable = true;
-                isoImage.makeUsbBootable = true;
-                isoImage.isoName = "${config.isoImage.isoBaseName}-${config.system.nixos.label}-${pkgs.stdenv.hostPlatform.system}-linux${config.boot.kernelPackages.kernel.modDirVersion}.iso";
-                users.users.nixos.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
-                users.users.root.openssh.authorizedKeys.keys = (import ./2configs/users/ssh-pubkeys.nix).authorizedKeys_enno;
 
-                environment.systemPackages =
-                  with pkgs;
-                  let
-                    dcfg = import ./2configs/disko/lvm-immutable.nix { disk = "/dev/nvme0n1"; };
-                  in
-                  [
+                  system.activationScripts.configure-iwd = nixpkgs.lib.stringAfter [ "users" "groups" ] ''
+                    mkdir -p /var/lib/iwd
+                    cat >/var/lib/iwd/Bundesdatenschutzzentrale.psk <<EOF
+                    [Security]
+                    Passphrase=
+                    EOF
+                  '';
 
-                    (pkgs.writeShellScriptBin "disko-create-lvm-immutable-nvme0n1" ''
-                      export PATH=${lib.makeBinPath (disko.lib.packages dcfg pkgs)}
-                      ${disko.lib.create dcfg}
-                    '')
-                    (pkgs.writeShellScriptBin "disko-mount-lvm-immutable-nvme0n1" ''
-                      export PATH=${lib.makeBinPath (disko.lib.packages dcfg pkgs)}
-                      ${disko.lib.mount dcfg}
-                    '')
+                  nix = {
+                    package = pkgs.nixFlakes;
+                    extraOptions = "experimental-features = nix-command flakes";
+                  };
 
+                })
+              ];
+            };
+
+          tp3 = nixpkgs.lib.nixosSystem
+            {
+              system = "x86_64-linux";
+              modules = defaultModules ++ [
+                home-manager.nixosModule
+                ({ config, lib, pkgs, modulesPath, ... }: {
+                  imports = [
+                    ./2configs
+                    ./2configs/devenv.nix
+                    ./2configs/nix-persistent.nix
+                  ];
+                  #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_0.override {
+                  #  argsOverride = rec {
+                  #    src = pkgs.fetchFromGitHub {
+                  #      owner = "torvalds";
+                  #      repo = "linux";
+                  #      rev = "v${version}";
+                  #      sha256 = "sha256-FbXvv2fV/2JA81DRtglQXf0pL1SON5o3bx2hrHv/Dug=";
+                  #    };
+                  #    version = "6.1-rc6";
+                  #    modDirVersion = "6.1.0-rc6";
+                  #  };
+                  #});
+                  boot.kernelPackages = pkgs.linuxPackages_latest;
+                  system.stateVersion = "22.11";
+
+                  environment.systemPackages = with pkgs; [
                     btop
                     gitMinimal
                     neovim
@@ -246,196 +316,131 @@
                     tmux
                   ];
 
-                boot.supportedFilesystems = [ "ntfs" ];
+                  #users.users.mainUser.home = "/win/Users/gordon";
 
-                console.keyMap = "de-latin1";
-                services.xserver.layout = "de";
-                i18n.defaultLocale = "de_DE.UTF-8";
-                time.timeZone = "Europe/Berlin";
-                #hardware.enableAllFirmware = true;
-                networking = {
-                  useNetworkd = true;
-                  useDHCP = false;
-                  wireless.enable = false;
-                  wireless.iwd.enable = true;
-                  interfaces.eth0.useDHCP = true;
-                  interfaces.wlan0.useDHCP = true;
-                  networkmanager.wifi.backend = "iwd";
-                  usePredictableInterfaceNames = false;
-                };
-
-                system.activationScripts.configure-iwd = nixpkgs.lib.stringAfter [ "users" "groups" ] ''
-                  mkdir -p /var/lib/iwd
-                  cat >/var/lib/iwd/Bundesdatenschutzzentrale.psk <<EOF
-                  [Security]
-                  Passphrase=
-                  EOF
-                '';
-
-                nix = {
-                  package = pkgs.nixFlakes;
-                  extraOptions = "experimental-features = nix-command flakes";
-                };
-
-              })
-            ];
-          };
-
-          tp3 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              home-manager.nixosModule
-              ({ config, lib, pkgs, modulesPath, ... }: {
-                imports = [
-                  ./2configs
-                  ./2configs/devenv.nix
-                  ./2configs/nix-persistent.nix
-                ];
-                #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_0.override {
-                #  argsOverride = rec {
-                #    src = pkgs.fetchFromGitHub {
-                #      owner = "torvalds";
-                #      repo = "linux";
-                #      rev = "v${version}";
-                #      sha256 = "sha256-FbXvv2fV/2JA81DRtglQXf0pL1SON5o3bx2hrHv/Dug=";
-                #    };
-                #    version = "6.1-rc6";
-                #    modDirVersion = "6.1.0-rc6";
-                #  };
-                #});
-                boot.kernelPackages = pkgs.linuxPackages_latest;
-                system.stateVersion = "22.11";
-
-                environment.systemPackages = with pkgs; [
-                  btop
-                  gitMinimal
-                  neovim
-                  nnn
-                  tmux
-                ];
-
-                #users.users.mainUser.home = "/win/Users/gordon";
-
-                console.keyMap = "de-latin1";
-                services.xserver.layout = "de";
-                i18n.defaultLocale = "de_DE.UTF-8";
-                time.timeZone = "Europe/Berlin";
-                hardware.enableAllFirmware = true;
-                networking = {
-                  hostName = "tp3";
-                  useDHCP = false;
-                  useNetworkd = true;
-                  wireless.iwd.enable = true;
-                };
-                systemd.network.networks = {
-                  eth = {
-                    dhcpV4Config.RouteMetric = 10;
-                    ipv6AcceptRAConfig.RouteMetric = 10;
-                    linkConfig.RequiredForOnline = "no";
-                    matchConfig.Type = "ether";
-                    networkConfig = { ConfigureWithoutCarrier = true; DHCP = "yes"; };
+                  console.keyMap = "de-latin1";
+                  services.xserver.layout = "de";
+                  i18n.defaultLocale = "de_DE.UTF-8";
+                  time.timeZone = "Europe/Berlin";
+                  hardware.enableAllFirmware = true;
+                  networking = {
+                    hostName = "tp3";
+                    useDHCP = false;
+                    useNetworkd = true;
+                    wireless.iwd.enable = true;
                   };
-                  wlan = {
-                    dhcpV4Config.RouteMetric = 20;
-                    ipv6AcceptRAConfig.RouteMetric = 20;
-                    matchConfig.Type = "wlan";
-                    networkConfig.DHCP = "yes";
-                  };
-                };
-                boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "ntfs3" "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sr_mod" ];
-                boot.initrd.kernelModules = [ "amdgpu" ];
-                boot.kernelModules = [ "kvm-amd" ];
-
-                boot.loader.systemd-boot.enable = true;
-                boot.loader.systemd-boot.configurationLimit = 1;
-                boot.loader.efi.canTouchEfiVariables = true;
-
-                fileSystems."/" =
-                  {
-                    fsType = "tmpfs";
-                    options = [ "size=2G" "mode=1755" ];
-                  };
-                #fileSystems."/win" =
-                #  {
-                #    device = "/dev/disk/by-uuid/320EF3900EF34AFD";
-                #    fsType = "ntfs3";
-                #    options = [ "discard" "acl" "nofail" "uid=1000" "gid=100" ];
-                #    noCheck = true;
-                #  };
-
-                fileSystems."/nix" =
-                  {
-                    device = "/dev/disk/by-uuid/4c5e4adb-cffa-4143-95b9-6b15fa08eb23";
-                    fsType = "ext4";
-                  };
-
-                fileSystems."/boot" =
-                  {
-                    #device = "/dev/disk/by-uuid/BEF2-2750";
-                    device = "/dev/disk/by-uuid/055E-8702";
-                    fsType = "vfat";
-                  };
-
-                hardware = {
-                  cpu.amd.updateMicrocode = true;
-                  firmware = with pkgs; [
-                    firmwareLinuxNonfree
-                  ];
-                };
-
-                boot.tmpOnTmpfs = true;
-                boot.initrd.systemd = {
-                  enable = true;
-                  emergencyAccess = true;
-                };
-                ptsd.secrets.enable = false;
-
-                services.xserver = {
-                  enable = true;
-                  desktopManager = {
-                    xterm.enable = false;
-                    xfce.enable = true;
-                  };
-                  displayManager = {
-                    defaultSession = "xfce";
-                    autoLogin = {
-                      enable = true;
-                      user = "enno";
+                  systemd.network.networks = {
+                    eth = {
+                      dhcpV4Config.RouteMetric = 10;
+                      ipv6AcceptRAConfig.RouteMetric = 10;
+                      linkConfig.RequiredForOnline = "no";
+                      matchConfig.Type = "ether";
+                      networkConfig = { ConfigureWithoutCarrier = true; DHCP = "yes"; };
+                    };
+                    wlan = {
+                      dhcpV4Config.RouteMetric = 20;
+                      ipv6AcceptRAConfig.RouteMetric = 20;
+                      matchConfig.Type = "wlan";
+                      networkConfig.DHCP = "yes";
                     };
                   };
-                };
+                  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "ntfs3" "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sr_mod" ];
+                  boot.initrd.kernelModules = [ "amdgpu" ];
+                  boot.kernelModules = [ "kvm-amd" ];
 
-                #boot.consoleLogLevel = 7;
-                #services.journald.console = "/dev/console";
+                  boot.loader.systemd-boot.enable = true;
+                  boot.loader.systemd-boot.configurationLimit = 1;
+                  boot.loader.efi.canTouchEfiVariables = true;
 
-                virtualisation.virtualbox.guest.enable = true;
-              })
-            ];
-          };
+                  fileSystems."/" =
+                    {
+                      fsType = "tmpfs";
+                      options = [ "size=2G" "mode=1755" ];
+                    };
+                  #fileSystems."/win" =
+                  #  {
+                  #    device = "/dev/disk/by-uuid/320EF3900EF34AFD";
+                  #    fsType = "ntfs3";
+                  #    options = [ "discard" "acl" "nofail" "uid=1000" "gid=100" ];
+                  #    noCheck = true;
+                  #  };
 
-          apu2 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              ./1systems/apu2/physical.nix
-              home-manager.nixosModule
-            ];
-          };
+                  fileSystems."/nix" =
+                    {
+                      device = "/dev/disk/by-uuid/4c5e4adb-cffa-4143-95b9-6b15fa08eb23";
+                      fsType = "ext4";
+                    };
 
-          htz1 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              ./1systems/htz1/physical.nix
-              { _module.args.nixinate = { host = "htz1.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
-            ];
-          };
+                  fileSystems."/boot" =
+                    {
+                      #device = "/dev/disk/by-uuid/BEF2-2750";
+                      device = "/dev/disk/by-uuid/055E-8702";
+                      fsType = "vfat";
+                    };
 
-          htz2 = nixpkgs.lib.nixosSystem {
-            system = "x86_64-linux";
-            modules = defaultModules ++ [
-              ./1systems/htz2/physical.nix
-              { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
-            ];
-          };
+                  hardware = {
+                    cpu.amd.updateMicrocode = true;
+                    firmware = with pkgs; [
+                      firmwareLinuxNonfree
+                    ];
+                  };
+
+                  boot.tmpOnTmpfs = true;
+                  boot.initrd.systemd = {
+                    enable = true;
+                    emergencyAccess = true;
+                  };
+                  ptsd.secrets.enable = false;
+
+                  services.xserver = {
+                    enable = true;
+                    desktopManager = {
+                      xterm.enable = false;
+                      xfce.enable = true;
+                    };
+                    displayManager = {
+                      defaultSession = "xfce";
+                      autoLogin = {
+                        enable = true;
+                        user = "enno";
+                      };
+                    };
+                  };
+
+                  #boot.consoleLogLevel = 7;
+                  #services.journald.console = "/dev/console";
+
+                  virtualisation.virtualbox.guest.enable = true;
+                })
+              ];
+            };
+
+          apu2 = nixpkgs.lib.nixosSystem
+            {
+              system = "x86_64-linux";
+              modules = defaultModules ++ [
+                ./1systems/apu2/physical.nix
+                home-manager.nixosModule
+              ];
+            };
+
+          htz1 = nixpkgs.lib.nixosSystem
+            {
+              system = "x86_64-linux";
+              modules = defaultModules ++ [
+                ./1systems/htz1/physical.nix
+                { _module.args.nixinate = { host = "htz1.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
+              ];
+            };
+
+          htz2 = nixpkgs.lib.nixosSystem
+            {
+              system = "x86_64-linux";
+              modules = defaultModules ++ [
+                ./1systems/htz2/physical.nix
+                { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
+              ];
+            };
 
           # nas1 = nixpkgs.lib.nixosSystem {
           #   system = "x86_64-linux";
@@ -458,15 +463,40 @@
           #   ];
           # };
 
-          rpi4 = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = defaultModules ++ [
-              nixos-hardware.nixosModules.raspberry-pi-4
-              ./1systems/rpi4
-              { _module.args.nixinate = { host = "rpi4.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
-            ];
-            specialArgs = { inherit hosts; };
-          };
+          rpi4 = nixpkgs.lib.nixosSystem
+            {
+              system = "aarch64-linux";
+              modules = defaultModules ++ [
+                nixos-hardware.nixosModules.raspberry-pi-4
+                ./1systems/rpi4
+                { _module.args.nixinate = { host = "rpi4.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
+              ];
+            };
+
+          rpi4-hdd = nixpkgs.lib.nixosSystem
+            {
+              system = "aarch64-linux";
+              modules = defaultModules ++ [
+                nixos-hardware.nixosModules.raspberry-pi-4
+                ./2configs/hw/rpi3b_4.nix
+                {
+                  fileSystems."/" = {
+                    fsType = "tmpfs";
+                    options = [ "size=1G" "mode=1755" ];
+                  };
+
+                  fileSystems."/nix" = {
+                    device = "/dev/vg/nix";
+                    fsType = "ext4";
+                  };
+
+                  fileSystems."/boot" = {
+                    device = "/dev/disk/by-uuid/C48C-13AB";
+                    fsType = "vfat";
+                  };
+                }
+              ];
+            };
 
           # ws1 = nixpkgs.lib.nixosSystem {
           #   system = "x86_64-linux";
