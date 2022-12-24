@@ -1,10 +1,10 @@
 #!/usr/bin/env sh
 
-# Selections are uploaded to paperless using httpie
+# Selections are uploaded to paperless using xh (httpie clone)
 
-# check if httpie is installed
-if ! type http >/dev/null 2>&1; then
-	printf "http command not found. Install httpie."
+# check if xh is installed
+if ! type xh >/dev/null 2>&1; then
+  printf "xh command not found. Install xh (httpie clone)."
 	read -r _
 	exit 1
 fi
@@ -18,7 +18,7 @@ paperless-id -t tags -m >$TAGFILE
 
 selection=${NNN_SEL:-${XDG_CONFIG_HOME:-$HOME/.config}/nnn/.selection}
 if [ -s "$selection" ]; then
-	xargs -0 -L1 sh -c 'http -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
+	xargs -0 -L1 sh -c 'xh -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
 		Authorization:@$HOME/.paperless-token \
 		document@"$1" \
 		title="$(basename "$1" | sed -E '"'"'s/.*[0-9]{4}-[0-9]{2}-[0-9]{2}(.*)\.[a-zA-Z]{3}/\1/'"'"' | sed -E '"'"'s/^[ -]*//'"'"' | sed -E '"'"'s/\.[a-zA-Z]{3}$//'"'"')" \
@@ -38,7 +38,7 @@ else
 		# extract title without date, trim leading spaces and hyphens, strip extension
 		TITLE=$(echo "$1" | sed -E 's/.*[0-9]{4}-[0-9]{2}-[0-9]{2}(.*)\.[a-zA-Z]{3}/\1/' | sed -E 's/^[ -]*//' | sed -E 's/\.[a-zA-Z]{3}$//')
 
-		http -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
+		xh -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
 			Authorization:@$HOME/.paperless-token \
 			document@"$1" \
 			title="$TITLE" \

@@ -33,7 +33,6 @@ with lib;
     hcloud
     helix
     home-manager
-    httpie
     httpserve
     hydra-check
     imagemagickBig
@@ -74,6 +73,7 @@ with lib;
     websocat
     wireguard-tools
     wrk
+    xh
     xz
     zathura
     zellij
