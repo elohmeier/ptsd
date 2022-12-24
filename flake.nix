@@ -909,7 +909,7 @@
           };
 
           macos-enno = home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+            pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin;
 
             modules = [
               ({ config, lib, pkgs, ... }: {
