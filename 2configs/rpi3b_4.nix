@@ -1,27 +1,11 @@
-# for rpi4: include nixos-hardware.nixosModules.raspberry-pi-4 in nixosSystem.modules in flake.nix (not required for rpi3b)
-
 { config, lib, pkgs, ... }:
 
-let
-  # just take the needed firmware files to reduce size
-  firmware-brcm = pkgs.runCommand "firmware-brcm" { } ''          
-    mkdir -p $out/lib/firmware
-    ${pkgs.rsync}/bin/rsync -av ${pkgs.firmwareLinuxNonfree}/lib/firmware/{brcm,cypress} $out/lib/firmware/
-  '';
-in
 {
   imports = [
     ./sd-image.nix
     ./nix-persistent.nix
+    ./hw/rpi3b_4.nix
   ];
-
-  zramSwap = {
-    enable = true;
-    numDevices = 1;
-    swapDevices = 1;
-    memoryPercent = 75;
-    algorithm = "zstd";
-  };
 
   # reduce size
   documentation = {
@@ -32,12 +16,6 @@ in
     dev.enable = false;
   };
 
-  hardware.enableRedistributableFirmware = lib.mkDefault false;
-  hardware.firmware = [ firmware-brcm pkgs.raspberrypiWirelessFirmware ];
-  hardware.wirelessRegulatoryDatabase = true;
-  services.udisks2.enable = false;
-
-  console.keyMap = "de-latin1";
 
   boot = {
     initrd = {
@@ -56,44 +34,7 @@ in
     tmpOnTmpfs = true;
   };
 
-  networking = {
-    useDHCP = false;
-    useNetworkd = true;
-    wireless.enable = false;
-    wireless.iwd.enable = true;
-  };
-
-  services.resolved = { enable = true; dnssec = "false"; };
-
   ptsd.secrets.enable = false;
-
-  systemd.network.wait-online.timeout = 0;
-
-  systemd.network.networks = {
-    eth = {
-      matchConfig.Driver = "smsc95xx bcmgenet"; # rpi3 / rpi4
-      linkConfig.RequiredForOnline = "no";
-      networkConfig = {
-        ConfigureWithoutCarrier = true;
-        DHCP = "yes";
-      };
-      dhcpV4Config.RouteMetric = 10;
-      ipv6AcceptRAConfig.RouteMetric = 10;
-    };
-    wlan = {
-      dhcpV4Config.RouteMetric = 20;
-      ipv6AcceptRAConfig.RouteMetric = 20;
-      matchConfig.Driver = "brcmfmac";
-      networkConfig.DHCP = "yes";
-    };
-  };
-
-  environment.systemPackages = with pkgs;[ libraspberrypi usbutils ];
-
-  # device access required for vcgencmd
-  services.udev.extraRules = ''
-    KERNEL=="vchiq",GROUP="video",MODE="0660"
-  '';
 
   services.journald.extraConfig = "Storage=volatile";
 
