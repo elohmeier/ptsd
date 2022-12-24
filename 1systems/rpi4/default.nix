@@ -59,6 +59,7 @@
         "borgbackup-repo-htz3.service"
         "borgbackup-repo-mb3.service"
         "borgbackup-repo-mb4.service"
+        "home-assistant.service"
       ];
     in
     [{
@@ -70,8 +71,6 @@
       requiredBy = deps;
     }];
 
-  systemd.targets.home-assistant.wantedBy = lib.mkForce [ ];
-  systemd.services.home-assistant.wantedBy = lib.mkForce [ ];
   systemd.services.samba-smbd.wantedBy = lib.mkForce [ ];
   systemd.services.syncthing.wantedBy = lib.mkForce [ ];
   systemd.services.nginx.wantedBy = lib.mkForce [ ];
@@ -80,14 +79,12 @@
     description = "Unlock /mnt";
     requires = [ "unlock-mnt.service" ];
     wants = [
-      "home-assistant.service"
       "samba-smbd.service"
       "syncthing.service"
       "nginx.service"
     ];
     after = [
       "unlock-mnt.service"
-      "home-assistant.service"
       "samba-smbd.service"
       "syncthing.service"
       "nginx.service"
@@ -102,7 +99,6 @@
       "rclone-fraam-gdrive-backup.service"
       "icloudpd-enno.service"
       "icloudpd-luisa.service"
-      "home-assistant.service"
       "samba-smbd.service"
       "syncthing.service"
     ];
@@ -110,7 +106,6 @@
       "rclone-fraam-gdrive-backup.service"
       "icloudpd-enno.service"
       "icloudpd-luisa.service"
-      "home-assistant.service"
       "samba-smbd.service"
       "syncthing.service"
     ];

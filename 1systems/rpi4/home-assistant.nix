@@ -3,7 +3,23 @@
   services.home-assistant = {
     enable = true;
     configDir = "/mnt/hass";
-    package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override { extraPackages = ps: [ ps.psycopg2 ]; };
+    package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override {
+      extraComponents = [ "esphome" "google_translate" ];
+      extraPackages = ps: [
+        ps.psycopg2
+        # (ps.buildPythonPackage rec {
+        #   pname = "philips-airpurifier-coap";
+        #   version = "0.10.8";
+        #   src = pkgs.fetchFromGitHub {
+        #     owner = "kongo09";
+        #     repo = "philips-airpurifier-coap";
+        #     rev = "v${version}";
+        #     sha256 = "sha256-zC8hGn333j2LT5VBCbHTZWjxS3rDhqXy3GcmuruiMLQ=";
+        #   };
+        #   format = "pyproject";
+        # })
+      ];
+    };
 
     config = {
       automation = "!include automations.yaml";
@@ -12,7 +28,7 @@
       config = { };
       device_automation = { };
       history = { };
-      homekit.filter.include_entity_globs = [ "sensor.wemos_co2_mhz19b_carbondioxide" "light.*" "fan.*" "switch.tasmota" ];
+      homekit.filter.include_entity_globs = [ "sensor.wemos_co2_mhz19b_carbondioxide" "light.*" "fan.*" "switch.weihnachtsbaum" ];
       logbook = { };
       met = { };
       mobile_app = { };
@@ -36,6 +52,7 @@
       sun = { };
       system_health = { };
       tasmota = { };
+      tts = { platform = "google_translate"; language = "de"; };
 
       homeassistant = {
         auth_providers = [{ type = "homeassistant"; }];
