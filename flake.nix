@@ -10,8 +10,8 @@
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11-tpmfix";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11-tpmfix";
   };
 
   outputs =
@@ -479,6 +479,7 @@
               modules = defaultModules ++ [
                 nixos-hardware.nixosModules.raspberry-pi-4
                 ./2configs/hw/rpi3b_4.nix
+                ./2configs/nix-persistent.nix
                 ({ config, lib, modulesPath, pkgs, ... }: {
                   imports = [
                   ];
@@ -508,8 +509,16 @@
                     device = "/dev/disk/by-uuid/A3C8-1710";
                     fsType = "vfat";
                   };
+
+                  system.stateVersion = "22.11";
                 })
-                { _module.args.nixinate = { host = "nixos.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
+                {
+                  _module.args.nixinate = {
+                    host = "nixos.fritz.box";
+                    sshUser = "root";
+                    buildOn = "remote";
+                  };
+                }
               ];
             };
 
