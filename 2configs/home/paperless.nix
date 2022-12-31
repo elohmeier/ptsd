@@ -77,10 +77,36 @@ let
     mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
     mkdir -p "$PAPERLESS_MEDIA_ROOT"
     ${pkg}/bin/paperless-ngx migrate
-    ${pkg}/bin/paperless-ngx qcluster
+    ${pkg}/bin/celery --app paperless beat --loglevel INFO
   '';
+
+  paperless-task-queue = pkgs.writeShellScriptBin "paperless-task-queue" ''
+    set -e
+    export PAPERLESS_DATA_DIR="${env.PAPERLESS_DATA_DIR}"
+    export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
+    export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
+    export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
+    mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
+    mkdir -p "$PAPERLESS_MEDIA_ROOT"
+    ${pkg}/bin/celery --app paperless worker --loglevel INFO
+  '';
+
+  nltk-stopwords = pkgs.fetchzip {
+    name = "nltk-stopwords";
+    url = "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip";
+    sha256 = "sha256-tX1CMxSvFjr0nnLxbbycaX/IBnzHFxljMZceX5zElPY=";
+  };
+
+  nltk-punkt = pkgs.fetchzip {
+    name = "nltk-punkt";
+    url = "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip";
+    sha256 = "sha256-SKZu26K17qMUg7iCFZey0GTECUZ+sTTrF/pqeEgJCos=";
+  };
 in
 {
+  home.file.".local/share/paperless/nltk/corpora/stopwords".source = nltk-stopwords;
+  home.file.".local/share/paperless/nltk/tokenizers/punkt".source = nltk-punkt;
+
   launchd.agents = {
     paperless-consumer = {
       enable = true;
@@ -110,6 +136,15 @@ in
       };
     };
 
+    paperless-task-queue = {
+      enable = true;
+      config = {
+        ProgramArguments = [ "${paperless-task-queue}/bin/paperless-task-queue" ];
+        RunAtLoad = true;
+        EnvironmentVariables = env;
+      };
+    };
+
     redis-paperless = {
       enable = true;
       config = {
@@ -125,9 +160,15 @@ in
       name = "paperless-ngx";
       set = env;
     })
+    (mkWrapperDrv {
+      original = "${pkg}/bin/celery";
+      name = "paperless-ngx-celery";
+      set = env;
+    })
     pkgs.redis
     redis-paperless
     paperless-web
     paperless-scheduler
+    paperless-task-queue
   ];
 }
