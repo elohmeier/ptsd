@@ -38,6 +38,7 @@ with lib;
       ctl = "systemctl";
       dn = "systemctl stop";
       jtl = "journalctl";
+      st = "systemctl status";
       un = "systemctl --user stop";
       up = "systemctl start";
       ut = "systemctl --user start";
