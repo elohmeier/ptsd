@@ -227,5 +227,27 @@ self: pkgs_master: nixpkgs_master: super:
 
   jaq = pkgs_master.jaq;
 
-  whisper-cpp = self.callPackage ./whisper-cpp { inherit (self.darwin.apple_sdk.frameworks) Accelerate; };
+  openai-whisper-cpp = super.openai-whisper-cpp.overrideAttrs (old: {
+    postPatch =
+      let
+        model-large = self.fetchurl {
+          url = "https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/main/ggml-large.bin";
+          sha256 = "sha256-mkI/5NQMgndLavNBFbi5NfNBUiRusZ6A43YHHT+ZlIc=";
+        };
+        model-base = self.fetchurl {
+          url = "https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/main/ggml-base.bin";
+          sha256 = "sha256-YO1bw90U7qhWST0zQ0m0BXgt3K8AKNS130CINF+6Lv4=";
+        };
+      in
+      ''
+        substituteInPlace examples/main/main.cpp \
+          --replace 'std::string language = "en";' 'std::string language = "de";' \
+          --replace 'std::string model    = "models/ggml-base.en.bin";' 'std::string model = "${model-large}";'
+
+        substituteInPlace examples/stream/stream.cpp \
+          --replace 'std::string language  = "en";' 'std::string language = "de";' \
+          --replace 'std::string model     = "models/ggml-base.en.bin";' 'std::string model = "${model-base}";'
+      '';
+
+  });
 }

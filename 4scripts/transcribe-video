@@ -7,5 +7,5 @@ trap "rm -f $WAVFILE" EXIT
 
 for video in "$@"; do
 	ffmpeg -i "$video" -vn -acodec pcm_s16le -ac 1 -ar 16000 -f wav -y "$WAVFILE"
-	whisper -t 10 -f "$WAVFILE" >"$video.txt"
+	whisper-cpp -t 10 -f "$WAVFILE" >"$video.txt"
 done

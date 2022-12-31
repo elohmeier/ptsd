@@ -131,10 +131,10 @@ with lib;
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
     iterm2
     logseq-bin
+    openai-whisper-cpp
     qemu
     rar
     subler-bin
-    whisper-cpp
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
     # pdfconcat # fixme
     #aliza # dicom viewer
