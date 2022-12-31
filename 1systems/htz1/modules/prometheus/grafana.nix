@@ -26,6 +26,7 @@ in
             name = "Prometheus";
             type = "prometheus";
             url = "http://localhost:${toString config.ptsd.ports.prometheus-server}";
+            jsonData.timeInterval = "60s";
           }
           {
             name = "Loki";
