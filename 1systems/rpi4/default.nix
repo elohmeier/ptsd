@@ -5,30 +5,80 @@
     ../../2configs/borgbackup.nix
     ../../2configs/fish.nix
     ../../2configs/prometheus-node.nix
-    ../../2configs/rpi3b_4.nix
-    ../../2configs/users/enno.nix
-    # ../../2configs/octoprint-rpi-mk3s.nix
+    ../../2configs/hw/rpi3b_4.nix
+    ../../2configs/nix-persistent.nix
 
     ./icloudpd.nix
     ./fluent-bit.nix
     ./fraam-gdrive-backup.nix
     ./home-assistant.nix
+    ./photoprism.nix
   ];
 
-  services.borgbackup.jobs.hetzner.paths = [ "/mnt/syncthing" ];
+  boot.loader.raspberryPi = {
+    enable = true;
+    uboot.enable = true;
+    version = 4;
+  };
+  users.users.root.openssh.authorizedKeys.keys =
+    let sshPubKeys = import ../../2configs/users/ssh-pubkeys.nix; in sshPubKeys.authorizedKeys_enno;
 
-  services.getty.autologinUser = "enno";
-  security.sudo.wheelNeedsPassword = false;
-  nix.settings.trusted-users = [ "root" "@wheel" ];
-  system.stateVersion = "22.05";
+  services.openssh.enable = true;
+
+  boot.loader.generic-extlinux-compatible.enable = false;
+
+  fileSystems."/" = {
+    fsType = "tmpfs";
+    options = [ "size=1G" "mode=1755" ];
+  };
+
+  fileSystems."/nix" = {
+    device = "/dev/vg/nix";
+    fsType = "ext4";
+    neededForBoot = true;
+    options = [ "nodev" "noatime" ];
+  };
+
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/A3C8-1710";
+    fsType = "vfat";
+    options = [ "nofail" "nodev" "nosuid" "noexec" ];
+  };
+
+  system.stateVersion = "22.11";
+
+  services.borgbackup.jobs.hetzner = {
+    paths = [
+      "/nix/persistent"
+      "/nix/secrets"
+      "/var/backup"
+      "/var/lib/hass"
+      "/var/lib/photoprism"
+      "/var/lib/syncthing"
+    ];
+
+    exclude = [
+      "/var/lib/hass/home-assistant.log*"
+      "/var/lib/hass/home-assistant_v2.db*"
+    ];
+  };
+
+  services.mysqlBackup = {
+    enable = true;
+    databases = [ "photoprism" ];
+  };
+
+  #services.getty.autologinUser = "enno";
+  #security.sudo.wheelNeedsPassword = false;
+  #nix.settings.trusted-users = [ "root" "@wheel" ];
   networking.hostName = "rpi4";
-  environment.systemPackages = with pkgs;[ btop fscryptctl powertop ptsd-nnn ncdu tmux iperf2 ];
+  environment.systemPackages = with pkgs;[ btop powertop ptsd-nnn ncdu tmux iperf2 cryptsetup ];
 
   services.borgbackup.repos =
     let
       cfg = hostname: {
         authorizedKeysAppendOnly = [ (import ../../2configs/universe.nix).hosts."${hostname}".borg.pubkey ];
-        path = "/mnt/borgbackup/${hostname}";
+        path = "/srv/borgbackup/${hostname}";
         inherit ((import ../../2configs/universe.nix).hosts."${hostname}".borg) quota;
         user = "borg-${hostname}";
       };
@@ -52,102 +102,147 @@
 
   systemd.mounts =
     let
-      deps = [
+      borgDeps = [
         "borgbackup-repo-apu2.service"
         "borgbackup-repo-htz1.service"
         "borgbackup-repo-htz2.service"
         "borgbackup-repo-htz3.service"
         "borgbackup-repo-mb3.service"
         "borgbackup-repo-mb4.service"
+      ];
+      hassDeps = [
         "home-assistant.service"
       ];
+      syncthingDeps = [
+        "icloudpd-enno.service"
+        "icloudpd-luisa.service"
+        "rclone-fraam-gdrive-backup.service"
+        "samba-smbd.service"
+        "syncthing.service"
+        "syncthing-init.service"
+        "photoprism.service"
+      ];
+      photoprismDeps = [
+        "photoprism.service"
+      ];
     in
-    [{
-      what = "/dev/disk/by-label/usb2tb";
-      where = "/mnt";
-      type = "ext4";
-      options = "noatime,nofail,nodev,nosuid,noexec";
-      before = deps;
-      requiredBy = deps;
-    }];
+    [
+      {
+        what = "/dev/vg/borgbackup";
+        where = "/srv/borgbackup";
+        type = "ext4";
+        options = "noatime,nofail,nodev,nosuid,noexec";
+        before = borgDeps;
+        requiredBy = borgDeps;
+      }
+      {
+        what = "/dev/vg/hass";
+        where = "/var/lib/hass";
+        type = "ext4";
+        options = "noatime,nofail,nodev,nosuid,noexec";
+        before = hassDeps;
+        requiredBy = hassDeps;
+      }
+      {
+        what = "/dev/mapper/syncthing";
+        where = "/var/lib/syncthing";
+        type = "ext4";
+        options = "noatime,nofail,nodev,nosuid,noexec";
+        before = syncthingDeps;
+        requiredBy = syncthingDeps;
+      }
+      {
+        what = "/dev/mapper/photoprism";
+        where = "/var/lib/photoprism";
+        type = "ext4";
+        options = "noatime,nofail,nodev,nosuid,noexec";
+        before = photoprismDeps;
+        requiredBy = photoprismDeps;
+      }
+    ];
 
   systemd.services.samba-smbd.wantedBy = lib.mkForce [ ];
   systemd.services.syncthing.wantedBy = lib.mkForce [ ];
-  systemd.services.nginx.wantedBy = lib.mkForce [ ];
+  systemd.services.syncthing-init.wantedBy = lib.mkForce [ ];
+  systemd.services.photoprism.wantedBy = lib.mkForce [ ];
+  systemd.services.mysql.wantedBy = lib.mkForce [ ];
 
-  systemd.targets.unlock-mnt = {
-    description = "Unlock /mnt";
-    requires = [ "unlock-mnt.service" ];
-    wants = [
-      "samba-smbd.service"
-      "syncthing.service"
-      "nginx.service"
-    ];
-    after = [
-      "unlock-mnt.service"
-      "samba-smbd.service"
-      "syncthing.service"
-      "nginx.service"
-    ];
-  };
+  #systemd.targets.unlock-mnt = {
+  #  description = "Unlock /mnt";
+  #  requires = [ "unlock-mnt.service" ];
+  #  wants = [
+  #    "samba-smbd.service"
+  #    "syncthing.service"
+  #  ];
+  #  after = [
+  #    "unlock-mnt.service"
+  #    "samba-smbd.service"
+  #    "syncthing.service"
+  #  ];
+  #};
 
-  systemd.services.unlock-mnt = {
-    description = "Unlock /mnt";
-    wantedBy = [ ];
-    requires = [ "mnt.mount" ];
-    requiredBy = [
-      "rclone-fraam-gdrive-backup.service"
-      "icloudpd-enno.service"
-      "icloudpd-luisa.service"
-      "samba-smbd.service"
-      "syncthing.service"
-    ];
-    before = [
-      "rclone-fraam-gdrive-backup.service"
-      "icloudpd-enno.service"
-      "icloudpd-luisa.service"
-      "samba-smbd.service"
-      "syncthing.service"
-    ];
-    after = [ "mnt.mount" ];
-    unitConfig.ConditionPathExists = "/root/key";
-    script = ''
-      echo "Unlocking /mnt with keyfile"
-      ${pkgs.fscryptctl}/bin/fscryptctl add_key /mnt < /root/key
-    '';
-    serviceConfig = {
-      Type = "oneshot";
-      RemainAfterExit = true;
-    };
-  };
+  #systemd.services.unlock-mnt = {
+  #  description = "Unlock /mnt";
+  #  wantedBy = [ ];
+  #  requires = [ "mnt.mount" ];
+  #  requiredBy = [
+  #    "rclone-fraam-gdrive-backup.service"
+  #    "icloudpd-enno.service"
+  #    "icloudpd-luisa.service"
+  #    "samba-smbd.service"
+  #    "syncthing.service"
+  #  ];
+  #  before = [
+  #    "rclone-fraam-gdrive-backup.service"
+  #    "icloudpd-enno.service"
+  #    "icloudpd-luisa.service"
+  #    "samba-smbd.service"
+  #    "syncthing.service"
+  #  ];
+  #  after = [ "mnt.mount" ];
+  #  unitConfig.ConditionPathExists = "/root/key";
+  #  script = ''
+  #    echo "Unlocking /mnt with keyfile"
+  #    ${pkgs.fscryptctl}/bin/fscryptctl add_key /mnt < /root/key
+  #  '';
+  #  serviceConfig = {
+  #    Type = "oneshot";
+  #    RemainAfterExit = true;
+  #  };
+  #};
 
   systemd.oomd.enable = false; # fails to start
 
   ptsd.tailscale = {
     enable = true;
     cert.enable = true;
-    # httpServices = [ "paperless" ];
+    httpServices = [ "photoprism" ];
     links = [ "home-assistant" ];
   };
 
   services.syncthing = let universe = import ../../2configs/universe.nix; in
     {
       enable = true;
-      dataDir = "/nix/persistent/var/lib/syncthing";
+      dataDir = "/var/lib/syncthing";
       openDefaultPorts = true;
       devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: lib.hasAttr "syncthing") universe.hosts);
 
       folders = {
-        "/mnt/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "mb3" "mb4" ]; };
-        "/mnt/syncthing/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "htz2" ]; };
-        "/mnt/syncthing/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "mb4" ]; };
-        "/mnt/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "htz2" ]; };
-        "/mnt/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "mb4" ]; };
-        "/mnt/syncthing/icloudpd" = { label = "icloudpd"; id = "myfag-uvj2s"; devices = [ "mb4" "nas1" ]; };
-        # "/mnt/syncthing/paperless" = { label = "paperless"; id = "pu5le-lk2og"; devices = [ "mb4" ]; type = "receiveonly"; };
-        "/mnt/syncthing/rpi4-dl" = { label = "rpi4-dl"; id = "q5frb-pk9qx"; devices = [ "mb4" ]; };
+        "/var/lib/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "mb3" "mb4" ]; };
+        "/var/lib/syncthing/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "ipd1" "htz2" ]; };
+        "/var/lib/syncthing/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "ipd1" "mb4" ]; };
+        "/var/lib/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "htz2" ]; };
+        "/var/lib/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "mb4" ]; };
+        # "/var/lib/syncthing/paperless" = { label = "paperless"; id = "pu5le-lk2og"; devices = [ "mb4" ]; type = "receiveonly"; };
+        "/var/lib/syncthing/rpi4-dl" = { label = "rpi4-dl"; id = "q5frb-pk9qx"; devices = [ "mb4" ]; };
+        "/var/lib/syncthing/photos" = { label = "photos"; id = "9usxu-er25n"; devices = [ "mb4" ]; };
       };
     };
+
+  systemd.services.syncthing.serviceConfig = {
+    CPUSchedulingPolicy = "idle";
+    IOSchedulingClass = "idle";
+  };
 
   services.samba = {
     enable = true;
@@ -173,8 +268,8 @@
         };
       in
       {
-        scans-enno = defaults // { path = "/mnt/syncthing/enno/Scans"; };
-        scans-luisa = defaults // { path = "/mnt/syncthing/luisa/Scans"; };
+        scans-enno = defaults // { path = "/var/lib/syncthing/enno/Scans"; };
+        scans-luisa = defaults // { path = "/var/lib/syncthing/luisa/Scans"; };
       };
   };
 
@@ -193,48 +288,61 @@
       echo 'auto' > '/sys/bus/pci/devices/0000:00:00.0/power/control';
       echo 'auto' > '/sys/bus/pci/devices/0000:01:00.0/power/control';
       echo 'auto' > '/sys/block/sda/device/power/control' || true;
+
+      # disable wifi (causing reboots?)
+      ${pkgs.util-linux}/bin/rfkill block wlan;
     '';
   };
 
-  # services.paperless = {
-  #   enable = true;
-  #   dataDir = "/mnt/syncthing/paperless";
-  #   user = "syncthing";
-  # };
+  networking.wireless.iwd.enable = false;
 
-  # # disable autostart
-  # systemd.services.paperless-scheduler.wantedBy = lib.mkForce [ ];
-  # systemd.services.paperless-consumer.wantedBy = lib.mkForce [ ];
-  # systemd.services.paperless-web.wantedBy = lib.mkForce [ ];
+  ## services.paperless = {
+  ##   enable = true;
+  ##   dataDir = "/var/lib/syncthing/paperless";
+  ##   user = "syncthing";
+  ## };
 
-  # systemd.services.paperless-scheduler.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
-  # systemd.services.paperless-consumer.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
-  # systemd.services.paperless-web.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
+  ## # disable autostart
+  ## systemd.services.paperless-scheduler.wantedBy = lib.mkForce [ ];
+  ## systemd.services.paperless-consumer.wantedBy = lib.mkForce [ ];
+  ## systemd.services.paperless-web.wantedBy = lib.mkForce [ ];
 
-  # services.unbound =
-  #   let
-  #     blocklist = pkgs.runCommand "unbound-blocklist" { } ''
-  #       cat ${hosts}/hosts | ${pkgs.gnugrep}/bin/grep '^0\.0\.0\.0' | \
-  #         ${pkgs.gawk}/bin/awk '{print "local-zone: \""$2"\" always_null"}' \
-  #         > $out
-  #     '';
-  #   in
-  #   {
-  #     enable = true;
-  #     resolveLocalQueries = false;
-  #     settings = {
-  #       server = {
-  #         include = toString blocklist;
-  #         interface = [ "eth0" ];
-  #         access-control = [
-  #           "0.0.0.0/0 allow"
-  #           "::/0 allow"
-  #         ];
-  #       };
-  #       forward-zone = [{
-  #         name = "fritz.box.";
-  #         forward-addr = [ "192.168.178.1" ];
-  #       }];
-  #     };
-  #   };
+  ## systemd.services.paperless-scheduler.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
+  ## systemd.services.paperless-consumer.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
+  ## systemd.services.paperless-web.serviceConfig.BindPaths = [ "/nix/persistent/var/lib/syncthing" ];
+
+  ## services.unbound =
+  ##   let
+  ##     blocklist = pkgs.runCommand "unbound-blocklist" { } ''
+  ##       cat ${hosts}/hosts | ${pkgs.gnugrep}/bin/grep '^0\.0\.0\.0' | \
+  ##         ${pkgs.gawk}/bin/awk '{print "local-zone: \""$2"\" always_null"}' \
+  ##         > $out
+  ##     '';
+  ##   in
+  ##   {
+  ##     enable = true;
+  ##     resolveLocalQueries = false;
+  ##     settings = {
+  ##       server = {
+  ##         include = toString blocklist;
+  ##         interface = [ "eth0" ];
+  ##         access-control = [
+  ##           "0.0.0.0/0 allow"
+  ##           "::/0 allow"
+  ##         ];
+  ##       };
+  ##       forward-zone = [{
+  ##         name = "fritz.box.";
+  ##         forward-addr = [ "192.168.178.1" ];
+  ##       }];
+  ##     };
+  ##   };
+
+  documentation = {
+    enable = false;
+    man.enable = false;
+    info.enable = false;
+    doc.enable = false;
+    dev.enable = false;
+  };
 }

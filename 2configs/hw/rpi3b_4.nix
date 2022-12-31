@@ -28,7 +28,7 @@ in
     useDHCP = false;
     useNetworkd = true;
     wireless.enable = false;
-    wireless.iwd.enable = true;
+    wireless.iwd.enable = lib.mkDefault true;
   };
 
   services.resolved = { enable = true; dnssec = "false"; };
@@ -38,7 +38,7 @@ in
   systemd.network.networks = {
     eth = {
       matchConfig.Driver = "smsc95xx bcmgenet"; # rpi3 / rpi4
-      linkConfig.RequiredForOnline = "no";
+      linkConfig.RequiredForOnline = if config.networking.wireless.iwd.enable then "no" else "yes";
       networkConfig = {
         ConfigureWithoutCarrier = true;
         DHCP = "yes";
@@ -46,6 +46,7 @@ in
       dhcpV4Config.RouteMetric = 10;
       ipv6AcceptRAConfig.RouteMetric = 10;
     };
+  } // lib.optionalAttrs (config.networking.wireless.iwd.enable) {
     wlan = {
       dhcpV4Config.RouteMetric = 20;
       ipv6AcceptRAConfig.RouteMetric = 20;

@@ -22,6 +22,8 @@
     "/var/lib/iwd" = { device = "/nix/persistent/var/lib/iwd"; options = [ "bind" ]; };
   } // lib.optionalAttrs config.services.tailscale.enable {
     "/var/lib/tailscale" = { device = "/nix/persistent/var/lib/tailscale"; options = [ "bind" ]; };
+  } // lib.optionalAttrs (config.services.borgbackup.jobs != { }) {
+    "/var/cache/borg" = { device = "/nix/persistent/var/cache/borg"; options = [ "bind" ]; };
   };
 
   systemd.mounts = (lib.optional config.services.samba.enable {

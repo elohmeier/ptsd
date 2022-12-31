@@ -2,7 +2,7 @@
 {
   services.home-assistant = {
     enable = true;
-    configDir = "/mnt/hass";
+    configDir = "/var/lib/hass";
     package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override {
       extraComponents = [ "esphome" "google_translate" ];
       extraPackages = ps: [

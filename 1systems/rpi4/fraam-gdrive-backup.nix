@@ -33,9 +33,9 @@
       		safeid=''${id:-$(echo $user | sed 's/[^a-zA-Z0-9]/_/g')} # default to username if not set
 
       		echo "Downloading $user's $safename ($safeid)..."
-      		touch "/mnt/syncthing/fraam-gdrive-backup/''${safeid}_''${safename}"
+      		touch "/var/lib/syncthing/fraam-gdrive-backup/''${safeid}_''${safename}"
       		# rclone dedupe ...flags... --dedupe-mode rename "''${safename}"
-      		rclone sync --drive-client-id "110476733789902981992" --drive-service-account-file "''${CREDENTIALS_DIRECTORY}/gdrive-key" --drive-scope "drive.readonly" --drive-impersonate "$user" --drive-team-drive "$id" --drive-skip-shortcuts ":drive:" "/mnt/syncthing/fraam-gdrive-backup/''${safeid}"
+      		rclone sync --drive-client-id "110476733789902981992" --drive-service-account-file "''${CREDENTIALS_DIRECTORY}/gdrive-key" --drive-scope "drive.readonly" --drive-impersonate "$user" --drive-team-drive "$id" --drive-skip-shortcuts ":drive:" "/var/lib/syncthing/fraam-gdrive-backup/''${safeid}"
       		echo ""
       	done
 
@@ -46,10 +46,10 @@
       # execution
       Type = "oneshot";
       LoadCredential = [
-        "gdrive-key:/mnt/syncthing/fraam-gdrive-backup-2dcf90646dee.json"
-        "gdrive-cfg:/mnt/syncthing/fraam-gdrives.json"
+        "gdrive-key:/var/lib/syncthing/fraam-gdrive-backup-2dcf90646dee.json"
+        "gdrive-cfg:/var/lib/syncthing/fraam-gdrives.json"
       ];
-      ReadWritePaths = [ "/mnt/syncthing/fraam-gdrive-backup" ];
+      ReadWritePaths = [ "/var/lib/syncthing/fraam-gdrive-backup" ];
 
       # hardening
       User = "syncthing";

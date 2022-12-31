@@ -25,13 +25,13 @@ in
       navidrome = 4533;
       octoprint = 5000;
       paperless = 28981;
+      photoprism = 2342;
       prometheus-maddy = 9749;
       prometheus-node = 9100;
       prometheus-pushgateway = 9091;
       prometheus-server = 9090;
 
       # internal
-      photoprism = 10002;
       prometheus-quotes-exporter = 10003;
       redis-rspamd = 10004;
       synapse = 10005;

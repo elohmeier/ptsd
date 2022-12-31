@@ -8,7 +8,7 @@ let
     rpi4 = "sub7";
   }.${host};
   hostName = config.networking.hostName;
-  secrets = if hostName == "rpi4" then "/mnt/syncthing" else "/var/src/secrets";
+  secrets = if hostName == "rpi4" then "/var/lib/syncthing" else "/var/src/secrets";
 in
 {
   services.borgbackup.jobs.hetzner = {
