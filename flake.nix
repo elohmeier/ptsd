@@ -10,8 +10,8 @@
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11-tpmfix";
+    nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
+    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11";
   };
 
   outputs =

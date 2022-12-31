@@ -7,11 +7,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1671823976,
-        "narHash": "sha256-xmyrnoN0/q3/BCfI1k4zV/2ftz4iItEeIgAJDUNZo/o=",
+        "lastModified": 1672131922,
+        "narHash": "sha256-ThSYTEQZ1xqk1Wcf0HZ2TJkaK2o9FDu2zTqQnyPM0s0=",
         "owner": "nix-community",
         "repo": "disko",
-        "rev": "11d5c74c30cec9783d8281a3af51d269ac7f3eab",
+        "rev": "1006ff074cbfe9f49ee51e1d8b5db3f6cd0eeee7",
         "type": "github"
       },
       "original": {
@@ -95,31 +95,31 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1671862417,
-        "narHash": "sha256-ZMvjYO835I6m71UR++4EMHC8nJ+yD+7ghuAFIBSog/o=",
+        "lastModified": 1672148352,
+        "narHash": "sha256-fvSguE2ViSyEj7e9i77fAXvGI6tgdhj58jnGdefmqlo=",
         "owner": "elohmeier",
         "repo": "nixpkgs",
-        "rev": "cf494c2692c9e4ed515dea1865656df9cbf6e12a",
+        "rev": "614181bb1a7eafbefe380ad17413c82dbfbdcfa8",
         "type": "github"
       },
       "original": {
         "owner": "elohmeier",
-        "ref": "nixos-22.11-tpmfix",
+        "ref": "nixos-22.11",
         "repo": "nixpkgs",
         "type": "github"
       }
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1671722432,
-        "narHash": "sha256-ojcZUekIQeOZkHHzR81st7qxX99dB1Eaaq6PU5MNeKc=",
-        "owner": "NixOS",
+        "lastModified": 1672151979,
+        "narHash": "sha256-DEvPDNtw7AtGa31daqaLtKg3P2Gr7n9R1WUiEGMxwSQ=",
+        "owner": "elohmeier",
         "repo": "nixpkgs",
-        "rev": "652e92b8064949a11bc193b90b74cb727f2a1405",
+        "rev": "546f5313588cf27ec61b6d0ff5d9b76cd8e47606",
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
+        "owner": "elohmeier",
         "ref": "nixos-unstable",
         "repo": "nixpkgs",
         "type": "github"
