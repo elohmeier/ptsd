@@ -97,6 +97,7 @@
           '';
         };
       };
+      syncthing.id = "VVL2XGW-QHONW4N-LLLU7GA-LZ3SFE2-VEOQE2V-AWDX3QM-CYBIOON-PDPJEAV";
     };
 
     ipd2 = {
