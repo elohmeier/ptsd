@@ -56,11 +56,6 @@
       "/var/lib/photoprism"
       "/var/lib/syncthing"
     ];
-
-    exclude = [
-      "/var/lib/hass/home-assistant.log*"
-      "/var/lib/hass/home-assistant_v2.db*"
-    ];
   };
 
   services.mysqlBackup = {

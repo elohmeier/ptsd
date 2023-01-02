@@ -9,9 +9,16 @@ let
   }.${host};
   hostName = config.networking.hostName;
   secrets = if hostName == "rpi4" then "/var/lib/syncthing" else "/var/src/secrets";
+  exclude = [
+    "sh:**/tailscaled.log2.txt"
+    "sh:**/home-assistant.log*"
+    "sh:**/home-assistant_v2.db*"
+    config.services.syncthing.configDir
+  ];
 in
 {
   services.borgbackup.jobs.hetzner = {
+    inherit exclude;
     compression = "zstd,3";
     encryption = { mode = "repokey-blake2"; passCommand = "cat ${secrets}/nwbackup.borgkey"; };
     environment.BORG_RSH = "ssh -i ${secrets}/nwbackup.id_ed25519";
@@ -21,6 +28,7 @@ in
   };
 
   services.borgbackup.jobs.rpi4 = lib.mkIf (config.networking.hostName != "rpi4") {
+    inherit exclude;
     compression = "zstd,3";
     encryption = { mode = "repokey-blake2"; passCommand = "cat ${secrets}/nwbackup.borgkey"; };
     environment.BORG_RSH = "ssh -i ${secrets}/nwbackup.id_ed25519";
