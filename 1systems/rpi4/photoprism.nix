@@ -22,6 +22,7 @@
     environment = {
       PHOTOPRISM_HTTP_HOST = "127.0.0.1";
       PHOTOPRISM_HTTP_PORT = toString config.ptsd.ports.photoprism;
+      PHOTOPRISM_SITE_CAPTION = "PhotoPrism";
       PHOTOPRISM_SITE_URL = "https://rpi4.pug-coho.ts.net:2342/";
       PHOTOPRISM_TRUSTED_PROXY = "127.0.0.0/8";
 
@@ -39,6 +40,11 @@
     serviceConfig = {
       User = "syncthing";
       Group = "syncthing";
+
+      # indexing should be done in the background
+      # might be better to split indexing and serving into two services for different priorities
+      CPUSchedulingPolicy = "idle";
+      IOSchedulingClass = "idle";
     };
 
   };
