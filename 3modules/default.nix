@@ -8,7 +8,6 @@ _:
     ./nvidia.nix
     ./nwlogrotate.nix
     ./nwsyncthing.nix
-    ./photoprism.nix
     ./ports.nix
     ./secrets.nix
     ./tailscale.nix
