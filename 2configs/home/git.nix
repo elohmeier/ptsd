@@ -33,4 +33,6 @@
       };
     };
   };
+
+  home.packages = [ pkgs.gitAndTools.git-absorb ];
 }
