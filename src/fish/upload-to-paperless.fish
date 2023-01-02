@@ -24,7 +24,7 @@ function upload-to-paperless -d "upload documents to paperless"
 
             echo "Uploading $document to paperless"
             # $HOME/.paperless-token contains 'Token <token>'
-            http -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
+            xh -b -f --check-status --ignore-stdin POST localhost:9876/api/documents/post_document/ \
                 Authorization:@$HOME/.paperless-token \
                 document@"$document" \
                 title="$filename" \

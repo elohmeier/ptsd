@@ -61,7 +61,7 @@ if [ "$LIST" = 1 ]; then
 	NEXT="localhost:9876/api/$TYPE/"
 
 	while [ "$NEXT" != "null" ]; do
-		res=$(http --check-status --ignore-stdin --body "$NEXT" Authorization:@$HOME/.paperless-token)
+		res=$(xh --check-status --ignore-stdin --body "$NEXT" Authorization:@$HOME/.paperless-token)
 		jaq -r '.results[] | (.id | tostring) + " " + .name' <<<"$res"
 		NEXT=$(jaq -r '.next' <<<"$res")
 	done
