@@ -75,6 +75,7 @@ with lib;
     wrk
     xh
     xz
+    yt-dlp
     zathura
     zellij
 
@@ -136,7 +137,9 @@ with lib;
     rar
     subler-bin
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
+    # hash-slinger # tlsa
     # pdfconcat # fixme
+    # platformio
     #aliza # dicom viewer
     #art
     #calibre
@@ -145,7 +148,6 @@ with lib;
     #gnome3.file-roller
     #ptsd-vscode
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; nano /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
-    # hash-slinger # tlsa
     AusweisApp2
     apacheHttpd
     asciinema
@@ -154,7 +156,6 @@ with lib;
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
-    # platformio
     awscli2
     bc
     bubblewrap
@@ -225,7 +226,6 @@ with lib;
     xdg-utils
     xfsprogs.bin
     xournalpp
-    yt-dlp
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" ]) [
     #wineWowPackages.stable # 32-bit & 64-bit
     #winetricks
