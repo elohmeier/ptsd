@@ -100,6 +100,14 @@ in
         static_configs = [{ targets = [ "htz2.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-maddy}" ]; labels.alias = "htz2"; }];
       }
 
+      {
+        job_name = "rspamd";
+        metrics_path = "/probe";
+        params.target = [ "http://localhost:11334/stat" ];
+        scrape_interval = "60s";
+        static_configs = [{ targets = [ "htz2.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-rspamd}" ]; labels.alias = "htz2"; }];
+      }
+
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
         params.module = [ "http_2xx" ];

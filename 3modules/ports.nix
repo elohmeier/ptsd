@@ -29,6 +29,7 @@ in
       prometheus-maddy = 9749;
       prometheus-node = 9100;
       prometheus-pushgateway = 9091;
+      prometheus-rspamd = 7980;
       prometheus-server = 9090;
 
       # internal

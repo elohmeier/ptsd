@@ -71,4 +71,10 @@
   };
 
   users.groups.keys.members = [ config.services.rspamd.user ];
+
+  services.prometheus.exporters.rspamd = {
+    enable = true;
+    listenAddress = "0.0.0.0";
+    port = config.ptsd.ports.prometheus-rspamd;
+  };
 }
