@@ -267,6 +267,8 @@
       borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC0ZTIne3ZVSxS+Xm4yef7gzF/rzHeR2I163x43ZsTU0cHrtQdIckZNZhohTVx+moeSj1hKewWZvIedUllxu3EdiuIFai8xQXtLys62fjHfIP69VBeOcTpWfWm8r8cLUoTJJ19Ll8IRBofruywPjkUkBeSIfEHCX8rZoQaSQkKSixOg5cKr5Fbl0lBmRtJGk/NxFZxoJ61IIoLzihErmA7wK6ZCUA3EbY5SCm7g66LAHjNIJa90VGhAHQnlDLhR1YSkHPmd13FJawhgId8Smipvs9SZNniZsKiknfi2IMxbpu6qXMYwiS9AMqUtpEDYrsq5+T+hZEWo4ArBu/FPtX25 root@nw35";
     };
 
+    ws2.syncthing.id = "Q67C2IN-TCK6ANR-AP7QFFR-T4L6OAP-HPG5IHF-42S6GEZ-Q7UVNVZ-GXVADAN";
+
     rpi3 = {
       nets.tailscale.ip4.addr = "100.88.111.60";
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMnXf+pWWQfw1YWbypUX6Dm/JQXaEbWrUlOWdz5JYngN";
