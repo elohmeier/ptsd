@@ -349,5 +349,27 @@ in
         journalmatch = _SYSTEMD_UNIT=maddy.service + _COMM=maddy
       '';
     };
+
+    services.dovecot2 = {
+      enable = true;
+      enableLmtp = true;
+      sslServerCert = "/var/lib/acme/htz2.nn42.de/fullchain.pem";
+      sslServerKey = "/var/lib/acme/htz2.nn42.de/key.pem";
+      enablePAM = false;
+      mailboxes.Junk = { specialUse = "Junk"; auto = "create"; };
+      enableQuota = true;
+      mailLocation = "mdbox:/var/lib/dovecot/mail";
+      extraConfig = ''
+        service imap-login {
+          inet_listener imap {
+            port = 1143
+          }
+          inet_listener imaps {
+            port = 1993
+            ssl = yes
+          }
+        }
+      '';
+    };
   };
 }
