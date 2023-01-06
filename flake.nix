@@ -682,34 +682,34 @@
                     system.stateVersion = "22.05";
                     virtualisation.docker = { enable = true; enableOnBoot = false; };
 
-                    home-manager.useGlobalPkgs = true;
-                    home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }:
-                      {
-                        home.stateVersion = "22.05";
-                        imports = [
-                          ./2configs/home
-                          ./2configs/home/firefox.nix
-                          ./2configs/home/fish.nix
-                          ./2configs/home/fonts.nix
-                          ./2configs/home/git.nix
-                          #./2configs/home/gpg.nix
-                          ./2configs/home/neovim.nix
-                          ./2configs/home/packages.nix
-                          ./2configs/home/ssh.nix
-                          ./2configs/home/alacritty.nix
-                          ./2configs/home/chromium.nix
-                          ./2configs/home/i3.nix
-                          ./2configs/home/i3status.nix
-                          ./2configs/home/xdg.nix
-                        ];
-                        nixpkgs.config = {
-                          allowUnfree = true;
-                          allowUnfreePredicate = (pkg: true); # https://github.com/nix-community/home-manager/issues/2942
-                          packageOverrides = pkgOverrides pkgs;
-                        };
+                    #home-manager.useGlobalPkgs = true;
+                    #home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }:
+                    #  {
+                    #    home.stateVersion = "22.05";
+                    #    imports = [
+                    #      ./2configs/home
+                    #      ./2configs/home/firefox.nix
+                    #      ./2configs/home/fish.nix
+                    #      ./2configs/home/fonts.nix
+                    #      ./2configs/home/git.nix
+                    #      #./2configs/home/gpg.nix
+                    #      ./2configs/home/neovim.nix
+                    #      ./2configs/home/packages.nix
+                    #      ./2configs/home/ssh.nix
+                    #      ./2configs/home/alacritty.nix
+                    #      ./2configs/home/chromium.nix
+                    #      ./2configs/home/i3.nix
+                    #      ./2configs/home/i3status.nix
+                    #      ./2configs/home/xdg.nix
+                    #    ];
+                    #    nixpkgs.config = {
+                    #      allowUnfree = true;
+                    #      allowUnfreePredicate = (pkg: true); # https://github.com/nix-community/home-manager/issues/2942
+                    #      packageOverrides = pkgOverrides pkgs;
+                    #    };
 
-                        services.syncthing.enable = true;
-                      };
+                    #    services.syncthing.enable = true;
+                    #  };
                   })
                 ];
                 specialArgs = { inherit nixpkgs; };
