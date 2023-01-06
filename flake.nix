@@ -621,7 +621,6 @@
               {
                 system = "aarch64-linux";
                 modules = defaultModules ++ [
-                  ./2configs/ff.nix
                   #./2configs/rpi-netboot.nix
                   ./2configs/utm-i3.nix
                   ./2configs/utmvm.nix

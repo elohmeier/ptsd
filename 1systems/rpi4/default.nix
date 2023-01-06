@@ -4,9 +4,9 @@
     ../../2configs
     ../../2configs/borgbackup.nix
     ../../2configs/fish.nix
-    ../../2configs/prometheus-node.nix
     ../../2configs/hw/rpi3b_4.nix
     ../../2configs/nix-persistent.nix
+    ../../2configs/prometheus-node.nix
 
     ./icloudpd.nix
     ./fluent-bit.nix
@@ -229,7 +229,7 @@
         "/var/lib/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "htz2" ]; };
         "/var/lib/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "mb4" ]; };
         # "/var/lib/syncthing/paperless" = { label = "paperless"; id = "pu5le-lk2og"; devices = [ "mb4" ]; type = "receiveonly"; };
-        "/var/lib/syncthing/rpi4-dl" = { label = "rpi4-dl"; id = "q5frb-pk9qx"; devices = [ "mb4" ]; };
+        "/var/lib/syncthing/rpi4-dl" = { label = "rpi4-dl"; id = "q5frb-pk9qx"; devices = [ "mb4" "ws2" ]; };
         "/var/lib/syncthing/photos" = { label = "photos"; id = "9usxu-er25n"; devices = [ "mb4" ]; };
       };
     };
@@ -339,5 +339,61 @@
     info.enable = false;
     doc.enable = false;
     dev.enable = false;
+  };
+
+  ptsd.fastd = {
+    enable = true;
+    networks.ffhb = {
+      mtu = 1280;
+      peers = [
+        {
+          hostname = "vpn07.bremen.freifunk.net";
+          port = 50000;
+          publickey = "68220e494e7a415d5dd97b5aa7a0d82088ed971f468ff16bcfd08fe0d4d6449f";
+        }
+        {
+          hostname = "vpn08.bremen.freifunk.net";
+          port = 50000;
+          publickey = "8a2cee2fa56fb32e356ad08d6a2578978d45b2f6263a3e252b3dbde1fde27604";
+        }
+      ];
+    };
+  };
+
+  containers.ff = {
+    autoStart = true;
+    ephemeral = true;
+    macvlans = [ "bat-ffhb" ];
+    bindMounts = {
+      "/home/gordon/rpi4-dl" = { hostPath = "/var/lib/syncthing/rpi4-dl"; isReadOnly = false; };
+    };
+    config = { config, pkgs, ... }: {
+      system.stateVersion = "22.11";
+
+      environment.systemPackages = with pkgs; [ rtorrent ];
+
+      networking = {
+        useDHCP = false;
+        interfaces.mv-bat-ffhb.useDHCP = true;
+      };
+
+      # Manually configure nameserver. Using resolved inside the container seems to fail
+      # currently
+      environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
+
+      services.getty.autologinUser = "gordon";
+
+      # copy syncthing uid/gid
+      users.groups.gordon.gid = 237;
+      users.users.gordon = {
+        createHome = true;
+        group = "gordon";
+        home = "/home/gordon";
+        homeMode = "700";
+        isSystemUser = true;
+        uid = 237;
+        useDefaultShell = true;
+      };
+    };
   };
 }

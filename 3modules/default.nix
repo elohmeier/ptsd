@@ -1,6 +1,7 @@
 _:
 {
   imports = [
+    ./fastd.nix
     ./fluent-bit.nix
     ./icloudpd.nix
     ./mjpg-streamer.nix
