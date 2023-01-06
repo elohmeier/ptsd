@@ -41,4 +41,6 @@
     before = [ "octoprint.service" ];
     requiredBy = [ "octoprint.service" ];
   });
+
+  users.users.root.passwordFile = "/nix/secrets/root.passwd";
 }

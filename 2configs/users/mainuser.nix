@@ -5,12 +5,12 @@
 {
   users.users = {
     mainUser = {
-      name = "enno";
+      name = "gordon";
       isNormalUser = true;
-      home = lib.mkDefault "/home/enno";
+      home = lib.mkDefault "/home/gordon";
       createHome = true;
       uid = lib.mkDefault 1000;
-      description = "Enno Richter";
+      description = lib.mkDefault "Gordon Shumway";
       extraGroups =
         [
           "wheel"
@@ -28,7 +28,7 @@
           sshPubKeys = import ./ssh-pubkeys.nix;
         in
         sshPubKeys.authorizedKeys_enno;
-      passwordFile = lib.mkIf config.ptsd.secrets.enable "/var/src/secrets/mainUser.passwd";
+      passwordFile = "/nix/secrets/mainUser.passwd";
     } // lib.optionalAttrs config.programs.fish.enable {
       shell = pkgs.fish;
     };

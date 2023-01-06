@@ -3,7 +3,7 @@
 {
   imports = [
     (modulesPath + "/profiles/qemu-guest.nix")
-    ./devenv.nix
+    # ./devenv.nix # TODO
   ];
 
   boot.initrd.availableKernelModules = [

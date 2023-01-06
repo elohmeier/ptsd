@@ -67,26 +67,6 @@
                 nixpkgs.config = { allowUnfree = true; packageOverrides = pkgOverrides pkgs; };
               })
           ];
-          #desktopModules = [
-          #  ./2configs/users/enno.nix
-          #  { nix.nixPath = [ "home-manager=${home-manager}" ]; }
-          #  home-manager.nixosModule
-          #  ({ pkgs, ... }:
-          #    {
-          #      home-manager.useGlobalPkgs = true;
-          #      home-manager.users.mainUser = { nixosConfig, ... }:
-          #        {
-          #          imports = [
-          #            ./3modules/home
-          #          ];
-
-          #          # workaround https://github.com/nix-community/home-manager/issues/2333
-          #          disabledModules = [ "config/i18n.nix" ];
-          #          home.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
-          #          systemd.user.sessionVariables.LOCALE_ARCHIVE_2_27 = "${nixosConfig.i18n.glibcLocales}/lib/locale/locale-archive";
-          #        };
-          #    })
-          #];
         in
         {
           rescue-rpi4 = nixpkgs.lib.nixosSystem {
@@ -163,8 +143,8 @@
               ({ config, lib, pkgs, modulesPath, ... }: {
                 imports = [
                   "${modulesPath}/virtualisation/qemu-vm.nix"
-                  ./2configs/users/enno.nix
-                  ./2configs/devenv.nix
+                  ./2configs/users/mainuser.nix
+                  # ./2configs/devenv.nix # TODO
                 ];
                 users = {
                   users.mainUser = { group = "staff"; home = "/Users/enno"; uid = 502; };
@@ -355,11 +335,9 @@
               modules = defaultModules ++ [
                 home-manager.nixosModule
                 ./2configs
-                ./2configs/devenv.nix
                 ./2configs/generic-desktop.nix
                 ./2configs/generic-disk.nix
                 ./2configs/generic.nix
-                ./2configs/nix-persistent.nix
 
                 ({ config, lib, pkgs, modulesPath, ... }: {
                   system.stateVersion = "22.11";
@@ -374,58 +352,22 @@
 
                   #users.users.mainUser.home = "/win/Users/gordon";
 
-                  console.keyMap = "de-latin1";
-                  services.xserver.layout = "de";
-                  i18n.defaultLocale = "de_DE.UTF-8";
-                  time.timeZone = "Europe/Berlin";
-                  hardware.enableAllFirmware = true;
                   networking.hostName = "tp3";
 
                   boot.loader.systemd-boot.configurationLimit = 1;
 
-                  #fileSystems."/win" =
-                  #  {
-                  #    device = "/dev/disk/by-uuid/320EF3900EF34AFD";
-                  #    fsType = "ntfs3";
-                  #    options = [ "discard" "acl" "nofail" "uid=1000" "gid=100" ];
-                  #    noCheck = true;
-                  #  };
-
-                  #fileSystems."/nix" =
-                  #  {
-                  #    device = "/dev/disk/by-uuid/4c5e4adb-cffa-4143-95b9-6b15fa08eb23";
-                  #    fsType = "ext4";
-                  #  };
-
-                  #fileSystems."/boot" =
-                  #  {
-                  #    #device = "/dev/disk/by-uuid/BEF2-2750";
-                  #    device = "/dev/disk/by-uuid/055E-8702";
-                  #    fsType = "vfat";
-                  #  };
-
-                  ptsd.secrets.enable = false;
-
-                  services.xserver = {
-                    enable = true;
-                    desktopManager = {
-                      xterm.enable = false;
-                      xfce.enable = true;
+                  fileSystems."/win" =
+                    {
+                      device = "/dev/disk/by-uuid/320EF3900EF34AFD";
+                      fsType = "ntfs3";
+                      options = [ "discard" "acl" "nofail" "uid=1000" "gid=100" ];
+                      noCheck = true;
                     };
-                    displayManager = {
-                      defaultSession = "xfce";
-                      autoLogin = {
-                        enable = true;
-                        user = "enno";
-                      };
-                    };
-                  };
-
-                  #boot.consoleLogLevel = 7;
-                  #services.journald.console = "/dev/console";
 
                   #virtualisation.virtualbox.guest.enable = true;
                   nixpkgs.hostPlatform = "x86_64-linux";
+
+                  services.getty.autologinUser = config.users.users.mainUser.name;
                 })
                 { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];
@@ -663,49 +605,6 @@
                 ];
                 specialArgs = { inherit nixpkgs; };
               };
-
-          hyperv_x86 = nixpkgs.lib.nixosSystem
-            {
-              system = "x86_64-linux";
-              modules = defaultModules ++ [
-                ./2configs/hypervvm.nix
-                ./2configs/vm-efi-xfs.nix
-                {
-                  fileSystems."/".device = "/dev/sda2";
-                  fileSystems."/boot".device = "/dev/sda1";
-                }
-              ];
-            };
-
-          vbox_x86 = nixpkgs.lib.nixosSystem
-            {
-              system = "x86_64-linux";
-              modules = defaultModules ++ [
-                ./2configs/vbox.nix
-                ./2configs/utm-i3.nix
-              ];
-            };
-
-          ws2-nixos = nixpkgs.lib.nixosSystem
-            {
-              system = "x86_64-linux";
-              modules = defaultModules ++ [
-                ./2configs/klipper.nix
-                ./2configs/vbox.nix
-                ./2configs/utm-i3.nix
-                {
-                  documentation = {
-                    enable = false;
-                    man.enable = false;
-                    info.enable = false;
-                    doc.enable = false;
-                    dev.enable = false;
-                  };
-                  networking.hostName = "ws2-nixos";
-                  system.stateVersion = "22.05";
-                }
-              ];
-            };
 
           generic_aarch64 = nixpkgs.lib.nixosSystem {
             system = "aarch64-linux";

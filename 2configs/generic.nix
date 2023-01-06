@@ -8,6 +8,7 @@ in
 {
   imports = [
     ./.
+    ./fish.nix
     ./users/root.nix
   ];
 
@@ -67,6 +68,7 @@ in
 
   hardware.cpu.amd.updateMicrocode = isx86_64;
   hardware.cpu.intel.updateMicrocode = isx86_64;
+  hardware.enableAllFirmware = true;
 
   hardware.firmware = with pkgs; [
     firmwareLinuxNonfree
@@ -92,7 +94,12 @@ in
   };
 
   environment.systemPackages = with pkgs; optionals isx86_64 [
-    cudatoolkit
+    # cudatoolkit # large
+    cifs-utils
+    cryptsetup
+    git
+    hashPassword
+    home-manager
     nvidia_x11.bin
     nvidia_x11.persistenced
     nvidia_x11.settings
@@ -103,4 +110,19 @@ in
     useDHCP = false;
     useNetworkd = true;
   };
+
+  services.resolved = {
+    enable = true;
+    # dnssec = "false";
+  };
+
+  # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
+  boot.kernel.sysctl."fs.inotify.max_user_watches" = mkIf config.services.syncthing.enable 204800;
+
+  ptsd.secrets.enable = false;
+  ptsd.tailscale.enable = true;
+
+  services.udisks2.enable = lib.mkDefault false;
+  security.sudo.wheelNeedsPassword = false;
+  nix.settings.trusted-users = [ "root" "@wheel" ];
 }

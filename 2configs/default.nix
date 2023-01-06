@@ -10,8 +10,6 @@ in
     ./users/root.nix
   ];
 
-  environment.systemPackages = with pkgs;[ foot.terminfo ];
-
   users.mutableUsers = false;
 
   nix = {
