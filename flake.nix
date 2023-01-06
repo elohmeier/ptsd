@@ -581,7 +581,7 @@
                     virtualisation.docker = { enable = true; enableOnBoot = false; };
 
                     fileSystems."/home/enno/Downloads-Keep" = {
-                      device = "//192.168.67.1/Downloads-Keep";
+                      device = "//192.168.70.1/Downloads-Keep";
                       fsType = "cifs";
                       options = [
                         "x-systemd.automount"
@@ -621,7 +621,7 @@
                     };
 
                     _module.args.nixinate = {
-                      host = "192.168.67.3";
+                      host = "192.168.70.2";
                       sshUser = "enno";
                       buildOn = "remote";
                     };
