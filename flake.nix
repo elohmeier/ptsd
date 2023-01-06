@@ -354,25 +354,14 @@
               system = "x86_64-linux";
               modules = defaultModules ++ [
                 home-manager.nixosModule
+                ./2configs
+                ./2configs/devenv.nix
+                ./2configs/generic-desktop.nix
+                ./2configs/generic-disk.nix
+                ./2configs/generic.nix
+                ./2configs/nix-persistent.nix
+
                 ({ config, lib, pkgs, modulesPath, ... }: {
-                  imports = [
-                    ./2configs
-                    ./2configs/devenv.nix
-                    ./2configs/nix-persistent.nix
-                  ];
-                  #boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_0.override {
-                  #  argsOverride = rec {
-                  #    src = pkgs.fetchFromGitHub {
-                  #      owner = "torvalds";
-                  #      repo = "linux";
-                  #      rev = "v${version}";
-                  #      sha256 = "sha256-FbXvv2fV/2JA81DRtglQXf0pL1SON5o3bx2hrHv/Dug=";
-                  #    };
-                  #    version = "6.1-rc6";
-                  #    modDirVersion = "6.1.0-rc6";
-                  #  };
-                  #});
-                  boot.kernelPackages = pkgs.linuxPackages_latest;
                   system.stateVersion = "22.11";
 
                   environment.systemPackages = with pkgs; [
@@ -390,40 +379,10 @@
                   i18n.defaultLocale = "de_DE.UTF-8";
                   time.timeZone = "Europe/Berlin";
                   hardware.enableAllFirmware = true;
-                  networking = {
-                    hostName = "tp3";
-                    useDHCP = false;
-                    useNetworkd = true;
-                    wireless.iwd.enable = true;
-                  };
-                  systemd.network.networks = {
-                    eth = {
-                      dhcpV4Config.RouteMetric = 10;
-                      ipv6AcceptRAConfig.RouteMetric = 10;
-                      linkConfig.RequiredForOnline = "no";
-                      matchConfig.Type = "ether";
-                      networkConfig = { ConfigureWithoutCarrier = true; DHCP = "yes"; };
-                    };
-                    wlan = {
-                      dhcpV4Config.RouteMetric = 20;
-                      ipv6AcceptRAConfig.RouteMetric = 20;
-                      matchConfig.Type = "wlan";
-                      networkConfig.DHCP = "yes";
-                    };
-                  };
-                  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usb_storage" "sd_mod" "ntfs3" "ata_piix" "ohci_pci" "ehci_pci" "ahci" "sr_mod" ];
-                  boot.initrd.kernelModules = [ "amdgpu" ];
-                  boot.kernelModules = [ "kvm-amd" ];
+                  networking.hostName = "tp3";
 
-                  boot.loader.systemd-boot.enable = true;
                   boot.loader.systemd-boot.configurationLimit = 1;
-                  boot.loader.efi.canTouchEfiVariables = true;
 
-                  fileSystems."/" =
-                    {
-                      fsType = "tmpfs";
-                      options = [ "size=2G" "mode=1755" ];
-                    };
                   #fileSystems."/win" =
                   #  {
                   #    device = "/dev/disk/by-uuid/320EF3900EF34AFD";
@@ -432,31 +391,19 @@
                   #    noCheck = true;
                   #  };
 
-                  fileSystems."/nix" =
-                    {
-                      device = "/dev/disk/by-uuid/4c5e4adb-cffa-4143-95b9-6b15fa08eb23";
-                      fsType = "ext4";
-                    };
+                  #fileSystems."/nix" =
+                  #  {
+                  #    device = "/dev/disk/by-uuid/4c5e4adb-cffa-4143-95b9-6b15fa08eb23";
+                  #    fsType = "ext4";
+                  #  };
 
-                  fileSystems."/boot" =
-                    {
-                      #device = "/dev/disk/by-uuid/BEF2-2750";
-                      device = "/dev/disk/by-uuid/055E-8702";
-                      fsType = "vfat";
-                    };
+                  #fileSystems."/boot" =
+                  #  {
+                  #    #device = "/dev/disk/by-uuid/BEF2-2750";
+                  #    device = "/dev/disk/by-uuid/055E-8702";
+                  #    fsType = "vfat";
+                  #  };
 
-                  hardware = {
-                    cpu.amd.updateMicrocode = true;
-                    firmware = with pkgs; [
-                      firmwareLinuxNonfree
-                    ];
-                  };
-
-                  boot.tmpOnTmpfs = true;
-                  boot.initrd.systemd = {
-                    enable = true;
-                    emergencyAccess = true;
-                  };
                   ptsd.secrets.enable = false;
 
                   services.xserver = {
@@ -477,8 +424,10 @@
                   #boot.consoleLogLevel = 7;
                   #services.journald.console = "/dev/console";
 
-                  virtualisation.virtualbox.guest.enable = true;
+                  #virtualisation.virtualbox.guest.enable = true;
+                  nixpkgs.hostPlatform = "x86_64-linux";
                 })
+                { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
 
@@ -757,6 +706,19 @@
                 }
               ];
             };
+
+          generic_aarch64 = nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./2configs/generic.nix
+              ./2configs/generic-disk.nix
+              {
+                system.stateVersion = "22.11";
+                nixpkgs.hostPlatform = "aarch64-linux";
+              }
+              { _module.args.nixinate = { host = "192.168.69.5"; sshUser = "root"; buildOn = "remote"; }; }
+            ];
+          };
 
           utmvm_x86 = nixpkgs.lib.nixosSystem
             {
