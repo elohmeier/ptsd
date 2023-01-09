@@ -370,6 +370,8 @@
                     };
 
                   };
+
+                  programs.fish.shellAliases.reboot-windows = "systemctl reboot --boot-loader-entry=auto-windows";
                 })
                 { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];
