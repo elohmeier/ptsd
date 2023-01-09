@@ -9,7 +9,7 @@
 
       fonts = {
         names = [ "SauceCodePro Nerd Font" ];
-        size = 18.0;
+        size = 11.0;
       };
 
       startup = [{ command = toString pkgs.autoname-workspaces; }];

@@ -59,9 +59,13 @@ in
       "kvm-amd"
       "kvm-intel"
       "nvidia-uvm"
+      "tcp_bbr"
     ];
 
     tmpOnTmpfs = true;
+
+    # speed up networking, affects both IPv4 and IPv6r
+    kernel.sysctl."net.ipv4.tcp_congestion_control" = "bbr";
   };
 
   powerManagement.cpuFreqGovernor = mkDefault "schedutil";
@@ -95,15 +99,19 @@ in
 
   environment.systemPackages = with pkgs; optionals isx86_64 [
     # cudatoolkit # large
+    btop
     cifs-utils
     cryptsetup
     git
     hashPassword
     home-manager
+    neovim
+    nnn
     nvidia_x11.bin
     nvidia_x11.persistenced
     nvidia_x11.settings
     nvtop
+    tmux
   ];
 
   networking = {
@@ -125,4 +133,5 @@ in
   services.udisks2.enable = lib.mkDefault false;
   security.sudo.wheelNeedsPassword = false;
   nix.settings.trusted-users = [ "root" "@wheel" ];
+
 }

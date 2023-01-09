@@ -342,14 +342,6 @@
                 ({ config, lib, pkgs, modulesPath, ... }: {
                   system.stateVersion = "22.11";
 
-                  environment.systemPackages = with pkgs; [
-                    btop
-                    gitMinimal
-                    neovim
-                    nnn
-                    tmux
-                  ];
-
                   #users.users.mainUser.home = "/win/Users/gordon";
 
                   networking.hostName = "tp3";
@@ -368,6 +360,16 @@
                   nixpkgs.hostPlatform = "x86_64-linux";
 
                   services.getty.autologinUser = config.users.users.mainUser.name;
+
+                  home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }: {
+
+                    home.file = with config.lib.file; {
+                      "Desktop/gordon".source = mkOutOfStoreSymlink "/win/Users/gordon";
+                      "Downloads".source = mkOutOfStoreSymlink "/win/Users/gordon/Downloads";
+                      "repos".source = mkOutOfStoreSymlink "/win/Users/gordon/repos";
+                    };
+
+                  };
                 })
                 { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];

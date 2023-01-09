@@ -59,16 +59,34 @@ in
   home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }: {
     home.stateVersion = "22.11";
     imports = [
+      #./home/gpg.nix
       ../3modules/home
       ./home
       ./home/firefox.nix
       ./home/fish.nix
       ./home/fonts.nix
+      ./home/foot.nix
       ./home/git.nix
-      #./home/gpg.nix
       ./home/neovim.nix
       ./home/packages.nix
       ./home/ssh.nix
+      ./home/sway.nix
+      ./home/i3status.nix
     ];
   };
+
+  programs.sway.enable = true;
+
+  security.rtkit.enable = true;
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    alsa.support32Bit = true;
+    pulse.enable = true;
+    # jack.enable = true;
+  };
+
+  hardware.bluetooth.enable = true;
+
+  nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 }

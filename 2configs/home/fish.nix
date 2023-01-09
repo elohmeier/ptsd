@@ -41,14 +41,15 @@ p@{ config, lib, pkgs, ... }:
     interactiveShellInit = ''
       set -U fish_greeting
       source ${../../4scripts/iterm2-integration.fish}
-    '' + lib.optionalString config.wayland.windowManager.sway.enable ''
-      if status is-login
-        if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
-          # pass sway log output to journald
-          exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --unsupported-gpu
-        end
-      end
     '';
+    # + lib.optionalString config.wayland.windowManager.sway.enable ''
+    #   if status is-login
+    #     if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+    #       # pass sway log output to journald
+    #       exec ${pkgs.systemd}/bin/systemd-cat --identifier=sway ${pkgs.sway}/bin/sway --unsupported-gpu
+    #     end
+    #   end
+    # '';
 
     plugins = with pkgs.fishPlugins; [
       #{ name = "done"; src = done.src; } # disabled, now solved via iterm2 integration

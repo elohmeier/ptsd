@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       main = {
-        font = lib.mkDefault "Spleen:size=${toString 18}";
+        font = lib.mkDefault "Spleen:size=${toString 12}";
         dpi-aware = lib.mkDefault "no";
       };
       scrollback.lines = 50000;
