@@ -34,6 +34,17 @@ let
     };
   };
 
+  oil-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix rec {
+    pname = "oil.nvim";
+    version = "2022-01-08";
+    src = pkgs.fetchFromGitHub {
+      owner = "stevearc";
+      repo = "oil.nvim";
+      rev = "e4c411002272d6eed159afdf4cae2e74dc7fc813";
+      sha256 = "sha256-KTSPkHwqYX7cXm98ZrmEvCvbqxgqhq5SbxEbmnn2NYE=";
+    };
+  };
+
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
@@ -53,6 +64,7 @@ let
         nvim-cmp
         nvim-lspconfig
         nvim-web-devicons
+        oil-nvim
         spread-nvim
         telescope-fzf-native-nvim
         telescope-nvim

@@ -75,6 +75,8 @@ require("telescope").load_extension("fzf")
 
 require("luasnip.loaders.from_lua").load({paths = "~/repos/ptsd/src/snippets"})
 
+require("oil").setup()
+
 -- ***************
 -- * keybindings *
 -- ***************
