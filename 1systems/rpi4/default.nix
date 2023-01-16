@@ -56,6 +56,9 @@
       "/var/lib/photoprism"
       "/var/lib/syncthing"
     ];
+    exclude = [
+      "/var/lib/syncthing/rpi4-dl"
+    ];
   };
 
   services.mysqlBackup = {
@@ -85,6 +88,7 @@
       htz3 = cfg "htz3";
       mb3 = cfg "mb3";
       mb4 = cfg "mb4";
+      bae0thiu = cfg "bae0thiu";
     };
 
   # pin uids (not persisted)

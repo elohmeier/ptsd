@@ -329,5 +329,22 @@
 
     matrix.nets.tailscale.ip4.addr = "100.73.35.23";
 
+    bae0thiu = {
+      nets = {
+        #nwvpn = {
+        #  ip4.addr = "changeme";
+        #  aliases = [
+        #    "bae0thiu.nw"
+        #  ];
+        #  wireguard.pubkey = "viZ0Ey2Y965Y7T+OsbHrIT7ndRT0dB3+RcqDK85iUSY=";
+        #};
+        tailscale.ip4.addr = "100.103.92.73";
+      };
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMmgmIAmynlH335ZOoRvn/fUzq3RhNSABikPMhGCFdvP ";
+      borg.quota = "5G";
+      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIndKvwdGRac5AoflIEdr+te6r9sphs8LxW/sjxwtXYg ";
+      syncthing.id = "IDWACTT-CF47Z2S-ADZSHTU-TRJF3LJ-XWUBS6V-YEUCIMG-RTHQ5MN-BOIMXAD";
+    };
+
   };
 }
