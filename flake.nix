@@ -2,9 +2,6 @@
   description = "ptsd";
 
   inputs = {
-    disko.inputs.nixpkgs.follows = "nixpkgs";
-    disko.url = "github:nix-community/disko";
-    flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:elohmeier/home-manager/release-22.11-darwin";
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
@@ -12,11 +9,11 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11";
+    flake-utils.url = github:numtide/flake-utils;
   };
 
   outputs =
     { self
-    , disko
     , flake-utils
     , home-manager
     , nixinate
@@ -33,25 +30,10 @@
     in
     flake-utils.lib.eachDefaultSystem
       (system:
-      let
-        pkgs = import nixpkgs {
-          config.allowUnfree = true; inherit system;
-          config.packageOverrides = pkgOverrides pkgs;
-        };
-      in
       {
-        packages = pkgs // {
-          disko-init =
-            let
-              dcfg = import ./2configs/disko/lvm-immutable.nix { disk = "/dev/nvme0n1"; };
-            in
-            pkgs.writeShellScriptBin "disko-init" ''
-              export PATH=${pkgs.lib.makeBinPath (disko.lib.packages dcfg pkgs)}
-                echo "create partitions..."
-              ${disko.lib.create dcfg}
-              echo "mount partitions..."
-              ${disko.lib.mount dcfg}
-            '';
+        packages = import nixpkgs {
+          config.allowUnfree = true; inherit system;
+          config.packageOverrides = pkgOverrides self;
         };
       })
     // {
@@ -273,20 +255,7 @@
 
                   environment.systemPackages =
                     with pkgs;
-                    let
-                      dcfg = import ./2configs/disko/lvm-immutable.nix { disk = "/dev/nvme0n1"; };
-                    in
                     [
-
-                      (pkgs.writeShellScriptBin "disko-create-lvm-immutable-nvme0n1" ''
-                        export PATH=${lib.makeBinPath (disko.lib.packages dcfg pkgs)}
-                        ${disko.lib.create dcfg}
-                      '')
-                      (pkgs.writeShellScriptBin "disko-mount-lvm-immutable-nvme0n1" ''
-                        export PATH=${lib.makeBinPath (disko.lib.packages dcfg pkgs)}
-                        ${disko.lib.mount dcfg}
-                      '')
-
                       btop
                       gitMinimal
                       neovim
