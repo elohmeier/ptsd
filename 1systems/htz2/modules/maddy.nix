@@ -93,6 +93,8 @@ let
       destination $(local_domains) {
         modify {
           replace_rcpt regexp "elo-.+@nerd-?works.de" enno@$(primary_domain)
+          replace_rcpt regexp ".+@nn42.de" enno@$(primary_domain)
+          replace_rcpt regexp ".+@convexio.de" enno@$(primary_domain)
           replace_rcpt file ${aliases}
         }
 
