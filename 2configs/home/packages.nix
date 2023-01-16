@@ -23,6 +23,7 @@ with lib;
     entr
     exa
     exiftool
+    fava
     fd
     ffmpeg
     fzf-no-fish
@@ -47,13 +48,13 @@ with lib;
     nix-tree
     nixos-generators
     nixpkgs-fmt
-    nixpkgs-fmt
     nmap
     node2nix
-    nodePackages.prettier
+    nodePackages.svelte-language-server
     p7zip
     pass
     poppler_utils
+    prettier-with-plugins
     ptsd-nnn
     pwgen
     qrencode
@@ -69,6 +70,7 @@ with lib;
     tmux
     unzip
     viu # terminal image viewer
+    vivid
     watch
     websocat
     wireguard-tools
@@ -84,14 +86,17 @@ with lib;
       [
         # sqlacodegen
         XlsxWriter
+        beancount
         black
         faker
+        flask
         hocr-tools
         holidays
         ipykernel
         ipython
         isort
         jupyterlab
+        lark
         lxml
         matplotlib
         mypy
@@ -109,14 +114,11 @@ with lib;
         tasmota-decode-config
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         authlib
-        beancount
         beautifulsoup4
         boto3
-        flask
         i3ipc
         impacket
         keyring
-        lark
         mysql-connector
         nbconvert
         netifaces
@@ -165,7 +167,6 @@ with lib;
     dnsmasq
     esphome
     esptool
-    fava
     file
     freerdp
     ghostscript
