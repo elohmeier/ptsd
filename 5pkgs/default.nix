@@ -250,4 +250,11 @@ self: pkgs_master: nixpkgs_master: super:
       '';
 
   });
+
+  fzf-no-fish = super.fzf.overrideAttrs (old: {
+    postInstall = old.postInstall + ''
+      rm -r $out/share/fish
+      rm $out/share/fzf/*.fish
+    '';
+  });
 }

@@ -48,6 +48,7 @@ with lib;
     interactiveShellInit = ''
       set -U fish_greeting
       source ${../4scripts/iterm2-integration.fish}
+      fzf_configure_bindings --directory=\ct
     '' + optionalString (!config.services.qemuGuest.enable) ''
       if test -L /nix/var/nix/profiles/system
         set booted (readlink /run/booted-system/{initrd,kernel,kernel-modules})
@@ -70,7 +71,7 @@ with lib;
 
   environment.systemPackages = with pkgs; mkIf config.programs.fish.enable [
     fishPlugins.fzf-fish
-    fzf
+    fzf-no-fish
     zoxide
   ];
 }

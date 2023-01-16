@@ -25,7 +25,7 @@ with lib;
     exiftool
     fd
     ffmpeg
-    fzf
+    fzf-no-fish
     gen-secrets
     gh
     gomuks
