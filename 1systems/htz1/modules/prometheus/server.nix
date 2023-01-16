@@ -91,6 +91,7 @@ in
           # "htz3"
           "rpi4"
           "rotebox"
+          "bae0thiu"
         ];
       }
 
@@ -106,6 +107,14 @@ in
         params.target = [ "http://localhost:11334/stat" ];
         scrape_interval = "60s";
         static_configs = [{ targets = [ "htz2.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-rspamd}" ]; labels.alias = "htz2"; }];
+      }
+
+      {
+        job_name = "mysqld";
+        #metrics_path = "/probe";
+        #params.target = [ "http://localhost:11334/stat" ];
+        scrape_interval = "60s";
+        static_configs = [{ targets = [ "rpi4.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-mysqld}" ]; labels.alias = "rpi4"; }];
       }
 
       (blackboxGenericScrapeConfig // {

@@ -61,6 +61,39 @@
           "photoprism.*" = "ALL PRIVILEGES";
         };
       }
+      {
+        name = "prometheus-mysqld-exporter";
+        ensurePermissions = {
+          "*.*" = "PROCESS, REPLICATION CLIENT, SELECT, SLAVE MONITOR";
+        };
+      }
     ];
   };
+
+  users.groups.prometheus-mysqld-exporter = { };
+  users.users.prometheus-mysqld-exporter = {
+    isSystemUser = true;
+    group = "prometheus-mysqld-exporter";
+  };
+
+  systemd.services.prometheus-mysqld-exporter =
+    let
+      my-cnf = pkgs.writeText "my.cnf" ''
+        [client]
+        user = prometheus-mysqld-exporter
+        password = socket-authenticated...
+        socket = /run/mysqld/mysqld.sock
+      '';
+    in
+    {
+      description = "Prometheus MySQL Exporter";
+      after = [ "network.target" "mysql.service" ];
+      wants = [ "network.target" "mysql.service" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        ExecStart = "${pkgs.prometheus-mysqld-exporter}/bin/mysqld_exporter --config.my-cnf ${my-cnf} --web.listen-address :${toString config.ptsd.ports.prometheus-mysqld}";
+        User = "prometheus-mysqld-exporter";
+        Group = "prometheus-mysqld-exporter";
+      };
+    };
 }

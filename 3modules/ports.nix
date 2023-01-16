@@ -31,6 +31,7 @@ in
       prometheus-pushgateway = 9091;
       prometheus-rspamd = 7980;
       prometheus-server = 9090;
+      prometheus-mysqld = 9104;
 
       # internal
       prometheus-quotes-exporter = 10003;
