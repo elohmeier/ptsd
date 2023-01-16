@@ -1,61 +1,29 @@
+local prettier = function()
+    return {
+        exe = "prettier",
+        args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+        stdin = true
+    }
+end
+
+local clang_format = function()
+    return {
+        exe = "clang-format",
+        args = {"--assume-filename", vim.api.nvim_buf_get_name(0)},
+        stdin = true,
+        cwd = vim.fn.expand('%:p:h')
+    }
+end
+
 require('formatter').setup({
     filetype = {
-        c = {
-            function()
-                return {
-                    exe = "clang-format",
-                    args = {"--assume-filename", vim.api.nvim_buf_get_name(0)},
-                    stdin = true,
-                    cwd = vim.fn.expand('%:p:h')
-                }
-            end
-        },
-        cpp = {
-            function()
-                return {
-                    exe = "clang-format",
-                    args = {"--assume-filename", vim.api.nvim_buf_get_name(0)},
-                    stdin = true,
-                    cwd = vim.fn.expand('%:p:h')
-                }
-            end
-        },
-        fish = {
-            function()
-                return {
-                    exe = "fish_indent",
-                    stdin = true,
-                }
-            end
-        },
+        c = {clang_format},
+        cpp = {clang_format},
+        fish = {function() return {exe = "fish_indent", stdin = true} end},
         go = {function() return {exe = "gofmt", stdin = true} end},
-        html = {
-            function()
-                return {
-                    exe = "prettier",
-                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
-                    stdin = true
-                }
-            end
-        },
-        javascript = {
-            function()
-                return {
-                    exe = "prettier",
-                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
-                    stdin = true
-                }
-            end
-        },
-        json = {
-            function()
-                return {
-                    exe = "prettier",
-                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
-                    stdin = true
-                }
-            end
-        },
+        html = {prettier},
+        javascript = {prettier},
+        json = {prettier},
         lua = {
             function()
                 return {exe = "lua-format", args = {"--column-limit=100"}, stdin = true}
@@ -77,14 +45,19 @@ require('formatter').setup({
                 }
             end
         },
-        typescriptreact = {
+        svelte = {
             function()
                 return {
                     exe = "prettier",
-                    args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+                    args = {
+                        "--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote',
+                        '--plugin=prettier-plugin-svelte'
+                    },
                     stdin = true
                 }
             end
-        }
+        },
+        typescript = {prettier},
+        typescriptreact = {prettier}
     }
 })

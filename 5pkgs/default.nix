@@ -208,6 +208,8 @@ self: pkgs_master: nixpkgs_master: super:
   xrdp = self.callPackage ./xrdp { };
   xorgxrdp = self.callPackage ./xrdp/xorgxrdp.nix { };
 
+  prettier-with-plugins = super.callPackage ./prettier-with-plugins { };
+
   borg2prom =
     let
       hostname = if self.stdenv.isDarwin then "/bin/hostname" else "${self.nettools}/bin/hostname";

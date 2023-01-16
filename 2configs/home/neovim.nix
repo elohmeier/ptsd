@@ -89,7 +89,8 @@ let
           tree-sitter-php
           tree-sitter-python
           tree-sitter-rust
-          # tree-sitter-sql  # not in 22.05 yet
+          tree-sitter-sql
+          tree-sitter-svelte
           tree-sitter-typescript
           tree-sitter-yaml
         ]))

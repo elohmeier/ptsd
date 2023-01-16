@@ -53,6 +53,7 @@ require("lspconfig").pyright.setup {
     capabilities = {capabilities}
 }
 require("lspconfig").rnix.setup {cmd = {"rnix-lsp"}, capabilities = {capabilities}}
+require("lspconfig").svelte.setup {cmd = {"svelteserver", "--stdio"}, capabilities = {capabilities}}
 require("lualine").setup()
 require("nnn").setup()
 
