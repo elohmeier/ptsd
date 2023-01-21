@@ -56,6 +56,7 @@ let
         editorconfig-nvim
         formatter-nvim
         github-nvim-theme
+        gitsigns-nvim
         impatient-nvim
         leap-nvim
         lualine-nvim
@@ -68,6 +69,7 @@ let
         spread-nvim
         telescope-fzf-native-nvim
         telescope-nvim
+        vim-fugitive
         vim-repeat # required by leap.nvim
 
         (nvim-treesitter.withPlugins (plugins: with plugins; [
