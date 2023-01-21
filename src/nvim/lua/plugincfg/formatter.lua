@@ -1,7 +1,9 @@
+local util = require "formatter.util"
+
 local prettier = function()
     return {
         exe = "prettier",
-        args = {"--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote'},
+        args = {"--stdin-filepath", util.escape_path(vim.api.nvim_buf_get_name(0)), '--single-quote'},
         stdin = true
     }
 end
@@ -9,7 +11,7 @@ end
 local clang_format = function()
     return {
         exe = "clang-format",
-        args = {"--assume-filename", vim.api.nvim_buf_get_name(0)},
+        args = {"--assume-filename", util.escape_path(vim.api.nvim_buf_get_name(0))},
         stdin = true,
         cwd = vim.fn.expand('%:p:h')
     }
@@ -50,7 +52,7 @@ require('formatter').setup({
                 return {
                     exe = "prettier",
                     args = {
-                        "--stdin-filepath", vim.api.nvim_buf_get_name(0), '--single-quote',
+                        "--stdin-filepath", util.escape_path(vim.api.nvim_buf_get_name(0)), '--single-quote',
                         '--plugin=prettier-plugin-svelte'
                     },
                     stdin = true
