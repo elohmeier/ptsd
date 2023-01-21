@@ -1,15 +1,26 @@
-{ lib, stdenv, fetchurl, makeWrapper, undmg, writeText, policies ? { } }:
+{ fetchurl
+, firefox-unwrapped
+, lib
+, makeWrapper
+, policies ? { }
+, stdenv
+, undmg
+, writeText
+}:
 
 let
   policiesFile = writeText "policies.json" (builtins.toJSON { inherit policies; });
 in
 stdenv.mkDerivation rec {
   pname = "firefox-bin";
-  version = "106.0.3";
+  version = firefox-unwrapped.version;
 
   src = fetchurl {
     url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-US/Firefox%20${version}.dmg";
-    sha256 = "sha256-n7/9ibmx9DZFktCSdXlH9Kj23BkBrF/8Jud1HEsdos8=";
+    sha256 = {
+      "108.0.2" = "sha256-DL+xmsJdcsqgSBccs6b5NsyER/t+pFGI2+wCkYTlMFI=";
+      "109.0" = "sha256-1xLHcxBMqMbA15cPiFxvD2L8MxJoUpkffdsR47CyFc8=";
+    }."${version}";
   };
 
   nativeBuildInputs = [ makeWrapper undmg ];
