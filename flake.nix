@@ -848,7 +848,7 @@
                     paths = [ "${homeDirectory}" ];
                     repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
                     compression = "zstd,3";
-                    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
+                    postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name hetzner --push'';
                   };
 
                   rpi4 = {
@@ -860,7 +860,7 @@
                     #repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
                     repo = "ssh://borg-mb4@rpi4.fritz.box/./";
                     compression = "zstd,3";
-                    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
+                    postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name rpi4 --push'';
                   };
                 };
               })
@@ -911,7 +911,7 @@
                     paths = [ "${homeDirectory}" ];
                     repo = "ssh://u267169-sub3@u267169.your-storagebox.de:23/./borg";
                     compression = "zstd,3";
-                    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner";
+                    postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name hetzner --push'';
                   };
 
                   rpi4 = {
@@ -919,7 +919,7 @@
                     paths = [ "${homeDirectory}" ];
                     repo = "ssh://borg-mb3@rpi4.pug-coho.ts.net/./";
                     compression = "zstd,3";
-                    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4";
+                    postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name rpi4 --push'';
                   };
                 };
               };

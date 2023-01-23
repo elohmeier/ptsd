@@ -25,6 +25,13 @@ self: pkgs_master: nixpkgs_master: super:
         flakeIgnore = [ "E501" ];
       }
       ../4scripts/autoname_workspaces.py;
+
+  borg2prom = super.writers.writePython3Bin "borg2prom"
+    {
+      libraries = [ super.python3Packages.requests ];
+      flakeIgnore = [ "E265" "E501" ];
+    } ../4scripts/borg2prom.py;
+
   betaflight-configurator = super.betaflight-configurator.overrideAttrs
     (old: {
       version = "10.8.0-RC7";
@@ -209,18 +216,6 @@ self: pkgs_master: nixpkgs_master: super:
   xorgxrdp = self.callPackage ./xrdp/xorgxrdp.nix { };
 
   prettier-with-plugins = super.callPackage ./prettier-with-plugins { };
-
-  borg2prom =
-    let
-      hostname = if self.stdenv.isDarwin then "/bin/hostname" else "${self.nettools}/bin/hostname";
-    in
-    self.writeShellScriptBin "borg2prom" ''
-      set -e
-      ARCHIVENAME="''${1?must provide ARCHIVENAME}"
-      JOB_NAME="''${2?must provide JOB_NAME}"
-      PATH=$PATH:${self.lib.makeBinPath [ self.borgbackup self.jq ]}
-      . ${../4scripts/borg2prom.sh} "$ARCHIVENAME" "$JOB_NAME" | ${self.curl}/bin/curl -X PUT --data-binary @- "https://htz1.pug-coho.ts.net:9091/metrics/job/borgbackup/instance/$(${hostname} -s)→$JOB_NAME"
-    '';
 
   prom-checktlsa = self.writeShellScriptBin "prom-checktlsa" ''
     PATH=$PATH:${self.lib.makeBinPath (with self; [ dig gawk glibc nettools bash checkSSLCert ])}

@@ -23,7 +23,7 @@ in
     encryption = { mode = "repokey-blake2"; passCommand = "cat ${secrets}/nwbackup.borgkey"; };
     environment.BORG_RSH = "ssh -i ${secrets}/nwbackup.id_ed25519";
     environment.BORG_CACHE_DIR = "/var/cache/borg";
-    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName hetzner"; # curl is called in 5pkgs/default.nix
+    postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name "hetzner" --push'';
     repo = "ssh://u267169-${host2sub hostName}@u267169.your-storagebox.de:23/./borg";
   };
 
@@ -33,7 +33,7 @@ in
     encryption = { mode = "repokey-blake2"; passCommand = "cat ${secrets}/nwbackup.borgkey"; };
     environment.BORG_RSH = "ssh -i ${secrets}/nwbackup.id_ed25519";
     environment.BORG_CACHE_DIR = "/var/cache/borg";
-    postCreate = "${pkgs.borg2prom}/bin/borg2prom $archiveName rpi4"; # curl is called in 5pkgs/default.nix
+    postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name "rpi4" --push'';
     repo = "ssh://borg-${hostName}@rpi4.pug-coho.ts.net/./";
   };
 
