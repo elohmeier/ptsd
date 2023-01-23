@@ -887,7 +887,7 @@
                   packageOverrides = pkgOverrides pkgs;
                 };
 
-                home.packages = with pkgs;[ home-manager git nnn ];
+                home.packages = with pkgs;[ home-manager git nnn btop ];
 
                 services.syncthing.enable = true;
 
@@ -898,14 +898,13 @@
                   };
                   environment.BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
                   exclude = [
-                    "${homeDirectory}/.cache"
                     "${homeDirectory}/.Trash"
+                    "${homeDirectory}/.cache"
                     "${homeDirectory}/Applications"
                     "${homeDirectory}/Downloads"
-                    "${homeDirectory}/Library/Caches"
-                    "${homeDirectory}/Library/Trial"
+                    "${homeDirectory}/Library"
+                    "${homeDirectory}/Pictures/Photos Library.photoslibrary"
                     "sh:${homeDirectory}/**/.cache"
-                    "sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
                   ];
                 in
                 {
