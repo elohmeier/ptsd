@@ -867,14 +867,17 @@
             ];
           };
 
-          macos-luisa = home-manager.lib.homeManagerConfiguration
-            {
-              system = "aarch64-darwin";
-              username = "luisa";
-              homeDirectory = "/Users/luisa";
-              stateVersion = "22.05";
+          macos-luisa = home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin;
 
-              configuration = { config, lib, pkgs, ... }: {
+            modules = [
+              ({ config, lib, pkgs, ... }: {
+                home = {
+                  username = "luisa";
+                  homeDirectory = "/Users/luisa";
+                  stateVersion = "22.05";
+                };
+
                 imports = [
                   ./2configs/home
                 ];
@@ -922,8 +925,9 @@
                     postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name rpi4 --push'';
                   };
                 };
-              };
-            };
+              })
+            ];
+          };
         };
     };
 }
