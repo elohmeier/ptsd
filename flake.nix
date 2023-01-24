@@ -327,22 +327,16 @@
                     options = [ "nosuid" "nodev" ];
                   };
 
-                  #virtualisation.virtualbox.guest.enable = true;
+                  virtualisation = {
+                    virtualbox.host = {
+                      enable = true;
+                      enableExtensionPack = true;
+                    };
+                  };
+
                   nixpkgs.hostPlatform = "x86_64-linux";
 
                   services.getty.autologinUser = config.users.users.mainUser.name;
-
-                  home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }: {
-
-                    home.file = with config.lib.file; {
-                      "Desktop/gordon".source = mkOutOfStoreSymlink "/win/Users/gordon";
-                      "Downloads".source = mkOutOfStoreSymlink "/win/Users/gordon/Downloads";
-                      "repos".source = mkOutOfStoreSymlink "/win/Users/gordon/repos";
-                    };
-
-                  };
-
-                  programs.fish.shellAliases.reboot-windows = "systemctl reboot --boot-loader-entry=auto-windows";
 
                   ptsd.generic.nvidia.enable = false;
                 })

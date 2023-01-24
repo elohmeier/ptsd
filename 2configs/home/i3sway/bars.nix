@@ -8,7 +8,7 @@
   statusCommand = "${pkgs.i3status}/bin/i3status";
   fonts = {
     names = [ "SauceCodePro Nerd Font" ];
-    size = 18.0;
+    size = 10.0;
   };
   trayOutput = "primary";
 

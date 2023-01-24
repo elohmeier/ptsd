@@ -228,9 +228,6 @@ with lib;
     xfsprogs.bin
     xournalpp
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" ]) [
-    #wineWowPackages.stable # 32-bit & 64-bit
-    #winetricks
-    #wkhtmltopdf-qt4
     betaflight-configurator
     easyeffects
     logseq
@@ -239,5 +236,7 @@ with lib;
     prusa-slicer
     signal-desktop
     spotify
+    wine
+    winetricks
   ];
 }

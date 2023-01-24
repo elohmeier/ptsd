@@ -69,7 +69,7 @@ in
 
   config = {
     ptsd.style.colors = readJSON config.ptsd.style.themeFile;
-    ptsd.style.bemenuOpts = with config.ptsd.style.colorsHex;"--fn \"Lucida Sans 18\" --nb \"${background}\" --nf \"${foreground}\" --tb \"${base01}\" --tf \"${base00}\" --hb \"${base0D}\" --hf \"${base00}\"";
+    ptsd.style.bemenuOpts = with config.ptsd.style.colorsHex;"--fn \"Lucida Sans 10\" --nb \"${background}\" --nf \"${foreground}\" --tb \"${base01}\" --tf \"${base00}\" --hb \"${base0D}\" --hf \"${base00}\"";
 
     home.sessionVariables = lib.optionalAttrs (config.xsession.windowManager.i3.enable || config.wayland.windowManager.sway.enable) {
       BEMENU_OPTS = builtins.replaceStrings [ "\"" ] [ "\\\"" ] config.ptsd.style.bemenuOpts;

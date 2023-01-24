@@ -14,24 +14,32 @@
 
       startup = [{ command = toString pkgs.autoname-workspaces; }];
 
-      input."*" = {
-        natural_scroll = "enabled";
-        xkb_layout = "de";
-        repeat_delay = "200";
-        repeat_rate = "45";
-      };
+      input = {
+        "*" = {
+          natural_scroll = "enabled";
+          xkb_layout = "de";
+          repeat_delay = "200";
+          repeat_rate = "45";
+        };
 
-      # ws1
-      input."1118:2092:Microsoft_Microsoft_Ergonomic_Keyboard".xkb_numlock = "enabled";
+        "1118:2092:Microsoft_Microsoft_Ergonomic_Keyboard".xkb_numlock = "enabled";
 
-      input."0:0:PinePhone_Keyboard" = {
-        xkb_file = toString ./pinephone-keyboard.xkb;
-        repeat_delay = "500";
-        repeat_rate = "15";
+        "0:0:PinePhone_Keyboard" = {
+          xkb_file = toString ./pinephone-keyboard.xkb;
+          repeat_delay = "500";
+          repeat_rate = "15";
+        };
+
+        "12951:6505:ZSA_Technology_Labs_Moonlander_Mark_I".xkb_layout = "us";
+        "12951:6505:ZSA_Technology_Labs_Moonlander_Mark_I_Consumer_Control".xkb_layout = "us";
+        "12951:6505:ZSA_Technology_Labs_Moonlander_Mark_I_Keyboard".xkb_layout = "us";
+        "12951:6505:ZSA_Technology_Labs_Moonlander_Mark_I_System_Control".xkb_layout = "us";
+
+        # pine2
+        "1046:1158:Goodix_Capacitive_TouchScreen".map_to_output = "DSI-1";
       };
 
       # pine2
-      input."1046:1158:Goodix_Capacitive_TouchScreen".map_to_output = "DSI-1";
       output.DSI-1.transform = "90";
 
       # LG UltraFine
@@ -115,12 +123,13 @@
     borderColor = base0D;
 
     extraConfig = lib.generators.toINI { } {
-      "urgency=low" = {
+      "urgency = low " = {
         background-color = base00;
         text-color = base0A;
         border-color = base0D;
       };
-      "urgency=high" = {
+      "
+          urgency=high" = {
         background-color = base00;
         text-color = base08;
         border-color = base0D;
