@@ -313,17 +313,19 @@
 
                   #users.users.mainUser.home = "/win/Users/gordon";
 
+                  boot.initrd.services.lvm.enable = true;
+
                   networking.hostName = "tp3";
 
                   boot.loader.systemd-boot.configurationLimit = 1;
 
-                  fileSystems."/win" =
-                    {
-                      device = "/dev/disk/by-uuid/320EF3900EF34AFD";
-                      fsType = "ntfs3";
-                      options = [ "discard" "acl" "nofail" "uid=1000" "gid=100" ];
-                      noCheck = true;
-                    };
+                  fileSystems."/nix".device = "/dev/vg/nix";
+
+                  fileSystems."/home" = {
+                    device = "/dev/vg/home";
+                    fsType = "ext4";
+                    options = [ "nosuid" "nodev" ];
+                  };
 
                   #virtualisation.virtualbox.guest.enable = true;
                   nixpkgs.hostPlatform = "x86_64-linux";
@@ -341,6 +343,8 @@
                   };
 
                   programs.fish.shellAliases.reboot-windows = "systemctl reboot --boot-loader-entry=auto-windows";
+
+                  ptsd.generic.nvidia.enable = false;
                 })
                 { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];

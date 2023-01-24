@@ -4,6 +4,7 @@ with lib;
 let
   inherit (config.boot.kernelPackages) nvidia_x11;
   inherit (config.nixpkgs.hostPlatform) isx86_64;
+  cfg = config.ptsd.generic;
 in
 {
   imports = [
@@ -12,126 +13,142 @@ in
     ./users/root.nix
   ];
 
-  boot = {
-    blacklistedKernelModules = optional isx86_64 "nouveau";
+  options.ptsd.generic = {
+    nvidia.enable = mkOption {
+      type = types.bool;
+      default = isx86_64;
+      description = "Enable nvidia support";
+    };
+    nvidia.cuda.enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Enable cuda support";
+    };
+  };
 
-    extraModulePackages = optional isx86_64 nvidia_x11.bin;
+  config = {
 
-    initrd = {
-      availableKernelModules = [
-        "9p"
-        "9pnet_virtio"
-        "ahci"
-        "ata_piix"
-        "ehci_pci"
-        "hid_microsoft"
-        "ntfs3"
-        "nvme"
-        "ohci_pci"
-        "sd_mod"
-        "sr_mod"
-        "uhci_hcd"
-        "usb_storage"
-        "usbhid"
-        "virtio_blk"
-        "virtio_mmio"
-        "virtio_net"
-        "virtio_pci"
-        "virtio_scsi"
-        "xhci_pci"
-      ];
+    boot = {
+      blacklistedKernelModules = optional isx86_64 "nouveau";
 
-      kernelModules = [
-        "virtio_balloon"
-        "virtio_console"
-        "virtio_rng"
-      ] ++ optional (isx86_64) "amdgpu";
+      extraModulePackages = optional cfg.nvidia.enable nvidia_x11.bin;
 
-      systemd = {
-        enable = mkDefault true;
-        emergencyAccess = true;
+      initrd = {
+        availableKernelModules = [
+          "9p"
+          "9pnet_virtio"
+          "ahci"
+          "ata_piix"
+          "ehci_pci"
+          "hid_microsoft"
+          "ntfs3"
+          "nvme"
+          "ohci_pci"
+          "sd_mod"
+          "sr_mod"
+          "uhci_hcd"
+          "usb_storage"
+          "usbhid"
+          "virtio_blk"
+          "virtio_mmio"
+          "virtio_net"
+          "virtio_pci"
+          "virtio_scsi"
+          "xhci_pci"
+        ];
+
+        kernelModules = [
+          "virtio_balloon"
+          "virtio_console"
+          "virtio_rng"
+        ] ++ optional (isx86_64) "amdgpu";
+
+        systemd = {
+          enable = mkDefault true;
+          emergencyAccess = true;
+        };
       };
+
+      kernelPackages = mkDefault pkgs.linuxPackages_latest;
+
+      kernelModules = optionals isx86_64 [
+        "kvm-amd"
+        "kvm-intel"
+        "tcp_bbr"
+      ] ++ optional cfg.nvidia.cuda.enable "nvidia-uvm";
+
+      tmpOnTmpfs = true;
+
+      # speed up networking, affects both IPv4 and IPv6r
+      kernel.sysctl."net.ipv4.tcp_congestion_control" = "bbr";
     };
 
-    kernelPackages = mkDefault pkgs.linuxPackages_latest;
+    powerManagement.cpuFreqGovernor = mkDefault "schedutil";
 
-    kernelModules = optionals isx86_64 [
-      "kvm-amd"
-      "kvm-intel"
-      "nvidia-uvm"
-      "tcp_bbr"
+    hardware.cpu.amd.updateMicrocode = isx86_64;
+    hardware.cpu.intel.updateMicrocode = isx86_64;
+    hardware.enableAllFirmware = true;
+
+    hardware.firmware = with pkgs; [
+      firmwareLinuxNonfree
+      broadcom-bt-firmware # for the plugable USB stick
     ];
 
-    tmpOnTmpfs = true;
+    hardware.opengl = {
+      enable = true;
+      driSupport = true;
+      driSupport32Bit = isx86_64;
+      extraPackages = with pkgs; optionals isx86_64 [
+        amdvlk
+        rocm-opencl-icd
+        rocm-opencl-runtime
+      ];
+      extraPackages32 = with pkgs; optional isx86_64 driversi686Linux.amdvlk;
+    };
 
-    # speed up networking, affects both IPv4 and IPv6r
-    kernel.sysctl."net.ipv4.tcp_congestion_control" = "bbr";
-  };
+    console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
 
-  powerManagement.cpuFreqGovernor = mkDefault "schedutil";
+    services.xserver = {
+      videoDrivers = optional isx86_64 "amdgpu";
+    };
 
-  hardware.cpu.amd.updateMicrocode = isx86_64;
-  hardware.cpu.intel.updateMicrocode = isx86_64;
-  hardware.enableAllFirmware = true;
-
-  hardware.firmware = with pkgs; [
-    firmwareLinuxNonfree
-    broadcom-bt-firmware # for the plugable USB stick
-  ];
-
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = isx86_64;
-    extraPackages = with pkgs; optionals isx86_64 [
-      amdvlk
-      rocm-opencl-icd
-      rocm-opencl-runtime
+    environment.systemPackages = with pkgs; optionals isx86_64 [
+      btop
+      cifs-utils
+      cryptsetup
+      git
+      hashPassword
+      home-manager
+      neovim
+      nnn
+      tmux
+    ] ++ optionals cfg.nvidia.enable [
+      nvidia_x11.bin
+      nvidia_x11.persistenced
+      nvidia_x11.settings
+    ] ++ optionals cfg.nvidia.cuda.enable [
+      cudatoolkit
+      nvtop
     ];
-    extraPackages32 = with pkgs; optional isx86_64 driversi686Linux.amdvlk;
+
+    networking = {
+      useDHCP = false;
+      useNetworkd = true;
+    };
+
+    services.resolved = {
+      enable = true;
+      # dnssec = "false";
+    };
+
+    # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
+    boot.kernel.sysctl."fs.inotify.max_user_watches" = mkIf config.services.syncthing.enable 204800;
+
+    ptsd.secrets.enable = false;
+    ptsd.tailscale.enable = true;
+
+    services.udisks2.enable = lib.mkDefault false;
+    security.sudo.wheelNeedsPassword = false;
+    nix.settings.trusted-users = [ "root" "@wheel" ];
   };
-
-  console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
-
-  services.xserver = {
-    videoDrivers = optional isx86_64 "amdgpu";
-  };
-
-  environment.systemPackages = with pkgs; optionals isx86_64 [
-    # cudatoolkit # large
-    btop
-    cifs-utils
-    cryptsetup
-    git
-    hashPassword
-    home-manager
-    neovim
-    nnn
-    nvidia_x11.bin
-    nvidia_x11.persistenced
-    nvidia_x11.settings
-    nvtop
-    tmux
-  ];
-
-  networking = {
-    useDHCP = false;
-    useNetworkd = true;
-  };
-
-  services.resolved = {
-    enable = true;
-    # dnssec = "false";
-  };
-
-  # as recommended by https://docs.syncthing.net/users/faq.html#inotify-limits
-  boot.kernel.sysctl."fs.inotify.max_user_watches" = mkIf config.services.syncthing.enable 204800;
-
-  ptsd.secrets.enable = false;
-  ptsd.tailscale.enable = true;
-
-  services.udisks2.enable = lib.mkDefault false;
-  security.sudo.wheelNeedsPassword = false;
-  nix.settings.trusted-users = [ "root" "@wheel" ];
-
 }
