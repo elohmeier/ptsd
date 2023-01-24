@@ -89,4 +89,6 @@ in
   hardware.bluetooth.enable = true;
 
   nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
+
+  environment.systemPackages = with pkgs;[ pavucontrol ];
 }

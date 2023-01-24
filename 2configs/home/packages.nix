@@ -229,6 +229,7 @@ with lib;
     xournalpp
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" ]) [
     betaflight-configurator
+    cabextract
     easyeffects
     logseq
     photoprism # long tensorflow build on aarch64...
@@ -236,7 +237,6 @@ with lib;
     prusa-slicer
     signal-desktop
     spotify
-    wine
-    winetricks
+    wineWowPackages.unstable
   ];
 }

@@ -339,6 +339,8 @@
                   services.getty.autologinUser = config.users.users.mainUser.name;
 
                   ptsd.generic.nvidia.enable = false;
+
+                  programs.fish.interactiveShellInit = "echo This is an unencrypted device. Do not store any private data.";
                 })
                 { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];
