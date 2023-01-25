@@ -54,6 +54,10 @@ require("lspconfig").pyright.setup {
 }
 require("lspconfig").rnix.setup {cmd = {"rnix-lsp"}, capabilities = {capabilities}}
 require("lspconfig").svelte.setup {cmd = {"svelteserver", "--stdio"}, capabilities = {capabilities}}
+require("lspconfig").tsserver.setup {
+    cmd = {"typescript-language-server", "--stdio"},
+    capabilities = {capabilities}
+}
 require("lualine").setup()
 require("nnn").setup()
 
@@ -118,6 +122,8 @@ require("gitsigns").setup {
         map({"o", "x"}, "ih", ":<C-U>Gitsigns select_hunk<CR>")
     end
 }
+
+require("trouble").setup()
 
 -- ***************
 -- * keybindings *
