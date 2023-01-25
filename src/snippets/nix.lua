@@ -62,7 +62,7 @@ return {
 
 {
   $1
-}]]), parse("nix-python-package", [[
+}]]), parse("nix-python-package-github", [[
 { buildPythonPackage, fetchFromGitHub, lib }:
 
 buildPythonPackage rec {
@@ -73,6 +73,21 @@ buildPythonPackage rec {
     owner = "$1";
     repo = "$1";
     rev = "v\${version}";
+    sha256 = lib.fakeSha256;
+  };
+
+  doCheck = false;
+
+  propagatedBuildInputs = [ ];
+}]]), parse("nix-python-package-pypi", [[
+{ buildPythonPackage, fetchPypi, lib }:
+
+buildPythonPackage rec {
+  pname = "$1";
+  version = "$2";
+
+  src = fetchPypi {
+    inherit pname version;
     sha256 = lib.fakeSha256;
   };
 
