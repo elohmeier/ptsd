@@ -69,6 +69,7 @@ let
         spread-nvim
         telescope-fzf-native-nvim
         telescope-nvim
+        trouble-nvim
         vim-fugitive
         vim-repeat # required by leap.nvim
 

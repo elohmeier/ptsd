@@ -20,6 +20,9 @@ with lib;
     bat
     btop
     copy-secrets
+    difftastic
+    cargo
+    rustc
     entr
     exa
     exiftool
@@ -40,6 +43,7 @@ with lib;
     iperf2
     jaq
     jless
+    lazygit
     libfaketime
     logseq-query
     macos-fix-filefoldernames
@@ -51,6 +55,7 @@ with lib;
     nmap
     node2nix
     nodePackages.svelte-language-server
+    nodePackages.typescript-language-server
     p7zip
     pass
     poppler_utils
@@ -68,6 +73,7 @@ with lib;
     tabula-java
     tig
     tmux
+    typescript
     unzip
     viu # terminal image viewer
     vivid
@@ -88,6 +94,7 @@ with lib;
         XlsxWriter
         beancount
         black
+        dataclasses-json
         faker
         flask
         hocr-tools
@@ -96,10 +103,13 @@ with lib;
         ipython
         isort
         jupyterlab
+        langchain
         lark
         lxml
         matplotlib
         mypy
+        nltk
+        openai
         pandas
         psycopg2
         pycrypto
@@ -111,7 +121,9 @@ with lib;
         scikit-learn
         sqlalchemy
         tabulate
+        tenacity
         tasmota-decode-config
+        tiktoken
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         authlib
         beautifulsoup4

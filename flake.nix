@@ -31,7 +31,7 @@
     flake-utils.lib.eachDefaultSystem
       (system:
       {
-        packages = import nixpkgs {
+        packages = import nixpkgs-unstable {
           config.allowUnfree = true; inherit system;
           config.packageOverrides = pkgOverrides self;
         };

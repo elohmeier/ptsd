@@ -8,7 +8,6 @@ self: pkgs_master: nixpkgs_master: super:
 
   macos-fix-filefoldernames = self.writers.writePython3Bin "macos-fix-filefoldernames" { flakeIgnore = [ "E265" ]; } ../4scripts/macos-fix-filefoldernames.py;
   logseq-query = self.callPackage ./logseq-query { };
-  tensorflow1 = self.callPackage ./tensorflow1/bin.nix { };
   subler-bin = self.callPackage ./subler-bin { };
   art = self.callPackage ./art { };
   add-workspace = self.writers.writePython3 "add-workspace"
@@ -85,22 +84,11 @@ self: pkgs_master: nixpkgs_master: super:
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
   };
 
-  ptsd-python3 = self.python310.override {
+  ptsd-python3 = super.python310.override {
     packageOverrides = self: super: rec {
 
       black = super.black.overridePythonAttrs (old: {
-        propagatedBuildInputs = with super; (
-
-          # required uvloop dependency requires broken pyopenssl
-          # waits for https://github.com/pyca/pyopenssl/issues/873
-          if self.stdenv.isDarwin then [
-            click
-            mypy-extensions
-            pathspec
-            platformdirs
-            tomli
-          ] else old.propagatedBuildInputs
-        ) ++ [
+        propagatedBuildInputs = with super; old.propagatedBuildInputs ++ [
           # support reformatting ipynb files
           ipython
           tokenize-rt
@@ -108,25 +96,21 @@ self: pkgs_master: nixpkgs_master: super:
         doCheck = self.stdenv.isLinux;
       });
 
+      blobfile = self.callPackage ./blobfile { };
       davphonebook = self.callPackage ./davphonebook { };
       finance-dl = self.callPackage ./finance-dl { };
       hocr-tools = self.callPackage ./hocr-tools { };
       icloudpd = self.callPackage ./icloudpd { };
+      langchain = self.callPackage ./langchain { };
       neo4j-driver = self.callPackage ./neo4j-driver { };
       nobbofin = self.callPackage ./nobbofin { };
       postgrest-py = self.callPackage ./postgrest-py { };
       pyxlsb = self.callPackage ./pyxlsb { };
       selenium-requests = self.callPackage ./selenium-requests { };
       sqlacodegen = self.callPackage ./sqlacodegen { };
-      vidcutter = self.callPackage ./vidcutter { };
       tasmota-decode-config = self.callPackage ./tasmota-decode-config { };
-
-      jupyterlab_server = super.jupyterlab_server.overridePythonAttrs (old: {
-        # TODO: rm when https://github.com/NixOS/nixpkgs/pull/179564 is merged
-        preCheck = ''
-          export HOME=$(mktemp -d)
-        '';
-      });
+      tiktoken = self.callPackage ./tiktoken { };
+      vidcutter = self.callPackage ./vidcutter { };
     };
   };
 
