@@ -5,6 +5,7 @@ in
 {
   imports = [
     ./config.nix
+    ../../2configs/nix-persistent.nix
     ../../2configs/hw/hetzner-vm.nix
     ../../2configs/luks-ssh-unlock.nix
   ];
@@ -17,8 +18,8 @@ in
 
   fileSystems = {
     "/" = {
-      device = "${vgPrefix}/root";
-      fsType = "ext4";
+      fsType = "tmpfs";
+      options = [ "size=1G" "mode=1755" ];
     };
 
     "/boot" = {
