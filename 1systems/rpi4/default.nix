@@ -70,7 +70,16 @@
   #security.sudo.wheelNeedsPassword = false;
   #nix.settings.trusted-users = [ "root" "@wheel" ];
   networking.hostName = "rpi4";
-  environment.systemPackages = with pkgs;[ btop powertop ptsd-nnn ncdu tmux iperf2 cryptsetup ];
+  environment.systemPackages = with pkgs;[
+    btop
+    cryptsetup
+    gptfdisk
+    iperf2
+    ncdu
+    powertop
+    ptsd-nnn
+    tmux
+  ];
 
   services.borgbackup.repos =
     let
