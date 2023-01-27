@@ -48,10 +48,7 @@ let
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
-        cmp-buffer
-        cmp-nvim-lsp
-        cmp-path
-        cmp_luasnip
+        coc-nvim
         copilot-vim
         editorconfig-nvim
         formatter-nvim
@@ -60,9 +57,7 @@ let
         impatient-nvim
         leap-nvim
         lualine-nvim
-        luasnip
         nnn-nvim
-        nvim-cmp
         nvim-lspconfig
         nvim-web-devicons
         oil-nvim
@@ -104,6 +99,8 @@ in
 {
   home.file.".config/nvim".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/nvim else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/nvim";
   home.file.".local/share/nvim/site/pack".source = "${pluginPack}/pack";
+  home.file.".config/coc/extensions".source = "${pkgs.coc-extensions}";
+  home.file.".config/coc/ultisnips".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/snippets else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/snippets";
 
   home.packages = with pkgs;[
     gopls

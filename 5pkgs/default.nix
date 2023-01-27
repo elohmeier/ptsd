@@ -238,4 +238,6 @@ self: pkgs_master: nixpkgs_master: super:
       rm $out/share/fzf/*.fish
     '';
   });
+
+  coc-extensions = super.callPackage ./coc-extensions { };
 }

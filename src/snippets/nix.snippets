@@ -1,5 +1,12 @@
-return {
-    parse("flake-module-vm", [[
+snippet nix-module-empty "Empty Nix module"
+{ config, lib, pkgs, ... }:
+
+{
+  $1
+}
+endsnippet
+
+snippet flake-module-vm "Flake.nix with NixOS module and VM config"
 {
   description = "$1";
 
@@ -57,12 +64,9 @@ return {
       };
     };
 }
-]]), parse("nix-module-empty", [[
-{ config, lib, pkgs, ... }:
+endsnippet
 
-{
-  $1
-}]]), parse("nix-python-package-github", [[
+snippet nix-python-package-github "buildPythonPackage with GitHub src"
 { buildPythonPackage, fetchFromGitHub, lib }:
 
 buildPythonPackage rec {
@@ -79,7 +83,10 @@ buildPythonPackage rec {
   doCheck = false;
 
   propagatedBuildInputs = [ ];
-}]]), parse("nix-python-package-pypi", [[
+}
+endsnippet
+
+snippet nix-python-package-pypi "buildPythonPackage with PyPI src"
 { buildPythonPackage, fetchPypi, lib }:
 
 buildPythonPackage rec {
@@ -94,7 +101,10 @@ buildPythonPackage rec {
   doCheck = false;
 
   propagatedBuildInputs = [ ];
-}]]), parse("nix-flake-django-venv", [[
+}
+endsnippet
+
+snippet nix-flake-django-venv "Flake.nix with Django devShell"
 {
   description = "$1";
 
@@ -113,29 +123,6 @@ buildPythonPackage rec {
             {
               packageOverrides = self: super: rec {
                 django = self.django_3;
-                django-stubs-ext = self.buildPythonPackage rec {
-                  pname = "django-stubs-ext";
-                  version = "0.5.0";
-                  src = fetchFromGitHub {
-                    owner = "typeddjango";
-                    repo = "django-stubs";
-                    rev = "django-stubs-ext@${version}";
-                    sha256 = "sha256-Y3FZIjQ9li51LCf//zqvxfYQ7qJnvV0rs/qWrQSThvU=";
-                  };
-                  sourceRoot = "${src.name}/django_stubs_ext";
-                  propagatedBuildInputs = with super; [ django typing-extensions ];
-                  doCheck = false;
-                };
-                django-stubs = self.buildPythonPackage rec {
-                  pname = "django-stubs";
-                  version = "1.12.0";
-                  src = self.fetchPypi {
-                    inherit pname version;
-                    sha256 = "sha256-6os10NpJ97LumaeRJfGUPgM0Md0RRybWZDzDXeYZIw4=";
-                  };
-                  propagatedBuildInputs = with super; [ django mypy django-stubs-ext tomli typing-extensions types-pytz types-pyyaml ];
-                  doCheck = false;
-                };
                 pyinstrument = self.buildPythonPackage rec {
                   pname = "pyinstrument";
                   version = "4.1.1";
@@ -164,7 +151,10 @@ buildPythonPackage rec {
           PYTHONPATH = "${venv}/${py3.sitePackages}";
         }));
     };
-}]]), parse("nix-flake-python-venv", [[
+}
+endsnippet
+
+snippet nix-flake-python-venv "Flake.nix with Python devShell"
 {
   description = "$1";
 
@@ -189,5 +179,6 @@ buildPythonPackage rec {
           buildInputs = with pkgs; [ venv ];
         }));
     };
-}]])
 }
+endsnippet
+

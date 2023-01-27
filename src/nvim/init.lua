@@ -42,9 +42,7 @@ require("impatient")
 require("github-theme").setup({theme_style = "light"})
 
 require("plugincfg.formatter")
-require("plugincfg.cmp")
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol
-                                                                      .make_client_capabilities())
+require("plugincfg.coc")
 
 require("leap").set_default_keymaps()
 require("lspconfig").gopls.setup {cmd = {"gopls"}, capabilities = {capabilities}}
@@ -79,8 +77,6 @@ require("telescope").setup {
     }
 }
 require("telescope").load_extension("fzf")
-
-require("luasnip.loaders.from_lua").load({paths = "~/repos/ptsd/src/snippets"})
 
 require("oil").setup()
 
