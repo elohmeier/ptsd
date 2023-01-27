@@ -66,7 +66,9 @@ require("nvim-treesitter.configs").setup {
     indent = {enable = false}
 }
 
+local actions = require("telescope.actions")
 require("telescope").setup {
+    defaults = {mappings = {i = {["<esc>"] = actions.close}}},
     extenssions = {
         fzf = {
             fuzzy = true,
