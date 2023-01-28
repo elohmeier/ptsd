@@ -154,7 +154,7 @@
             dLfyCkEPM2bDwcO2JEYBv772dXX+JM6bsnSpttaN0gs=
           '';
         };
-        tailscale.ip4.addr = "100.72.221.108";
+        tailscale.ip4.addr = "100.92.45.113";
       };
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC8oMXFMl21K1NNVQJpjgY8TAJb0qGZ9GmL6H+aZqDbq ";
       borg.quota = "40G";
