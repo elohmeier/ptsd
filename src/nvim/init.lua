@@ -123,13 +123,25 @@ require("gitsigns").setup {
 
 require("trouble").setup()
 
+require("Comment").setup()
+
 -- ***************
 -- * keybindings *
 -- ***************
 
 -- open empty buffer
 vim.api.nvim_set_keymap("n", "<leader>m", "<cmd>enew<cr>", {noremap = true, silent = true})
+
 vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>make<cr><cr>", {noremap = true, silent = true})
+
+-- tab navigation
+vim.api.nvim_set_keymap("n", "tn", "<cmd>tabnew<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "td", "<cmd>tabclose<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "tt", "<cmd>tabedit<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "th", "<cmd>tabfirst<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "tl", "<cmd>tablast<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "tj", "<cmd>tabnext<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "tk", "<cmd>tabprevious<cr>", {noremap = true, silent = true})
 
 -- LSP, see https://github.com/neovim/nvim-lspconfig
 vim.api.nvim_create_autocmd("LspAttach", {

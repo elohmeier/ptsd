@@ -45,10 +45,22 @@ let
     };
   };
 
+  comment-nvim =  pkgs.vimUtils.buildVimPluginFrom2Nix rec {
+    pname = "Comment.nvim";
+    version = "2023-01-18";
+    src = pkgs.fetchFromGitHub {
+      owner = "numToStr";
+      repo = "Comment.nvim";
+      rev = "eab2c83a0207369900e92783f56990808082eac2";
+      sha256 = "sha256-7UtZAE9tPlnpeHS2LLol/LGVOxptDXNKWXHNHvFBNk4=";
+    };
+  };
+
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
         coc-nvim
+        comment-nvim
         copilot-vim
         editorconfig-nvim
         formatter-nvim
