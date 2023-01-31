@@ -15,6 +15,8 @@
     ./photoprism.nix
   ];
 
+  services.eternal-terminal.enable = true;
+
   boot.loader.raspberryPi = {
     enable = true;
     uboot.enable = true;

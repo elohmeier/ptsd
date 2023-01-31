@@ -24,6 +24,7 @@ with lib;
     copy-secrets
     difftastic
     entr
+    eternal-terminal
     exa
     exiftool
     fava
@@ -42,6 +43,7 @@ with lib;
     imagemagickBig
     iperf2
     jaq
+    jc
     jless
     lazygit
     libfaketime
