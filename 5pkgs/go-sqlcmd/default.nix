@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, buildGoModule, makeWrapper }:
+{ buildGoModule, fetchFromGitHub }:
 
 buildGoModule rec {
   pname = "go-sqlcmd";

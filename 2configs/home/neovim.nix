@@ -34,7 +34,7 @@ let
     };
   };
 
-  oil-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix rec {
+  oil-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "oil.nvim";
     version = "2022-01-08";
     src = pkgs.fetchFromGitHub {
@@ -45,7 +45,7 @@ let
     };
   };
 
-  comment-nvim =  pkgs.vimUtils.buildVimPluginFrom2Nix rec {
+  comment-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "Comment.nvim";
     version = "2023-01-18";
     src = pkgs.fetchFromGitHub {
@@ -118,10 +118,10 @@ in
     gopls
     luaformatter
     neovim
+    nil
     nodejs-slim-16_x # for copilot, NodeJS 18 not yet supported
     pyright
     ripgrep # for telescope
-    rnix-lsp
   ];
 
   home.sessionVariables.EDITOR = "nvim";

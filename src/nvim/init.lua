@@ -50,7 +50,7 @@ require("lspconfig").pyright.setup {
     cmd = {"pyright-langserver", "--stdio"},
     capabilities = {capabilities}
 }
-require("lspconfig").rnix.setup {cmd = {"rnix-lsp"}, capabilities = {capabilities}}
+require("lspconfig").nil_ls.setup {cmd = {"nil"}, capabilities = {capabilities}}
 require("lspconfig").svelte.setup {cmd = {"svelteserver", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").tsserver.setup {
     cmd = {"typescript-language-server", "--stdio"},

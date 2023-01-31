@@ -182,3 +182,19 @@ snippet nix-flake-python-venv "Flake.nix with Python devShell"
 }
 endsnippet
 
+snippet nix-go-package "buildGoModule with GitHub src"
+{ buildGoModule, fetchFromGitHub, lib }:
+
+buildGoModule rec {
+  pname = "$1";
+  version = "$2";
+  vendorSha256 = lib.fakeSha256;
+  src = fetchFromGitHub {
+    owner = "$1";
+    repo = "$1";
+    rev = "v${version}";
+    sha256 = lib.fakeSha256;
+  };
+  doCheck = false;
+}
+endsnippet
