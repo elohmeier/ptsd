@@ -15,14 +15,14 @@ with lib;
 
   home.packages = with pkgs; [
     (pdftk.override { jre = openjdk17; })
+    (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     bat
     btop
+    cargo
     copy-secrets
     difftastic
-    cargo
-    rustc
     entr
     exa
     exiftool
@@ -56,23 +56,27 @@ with lib;
     node2nix
     nodePackages.svelte-language-server
     nodePackages.typescript-language-server
+    ocrmypdf
     p7zip
     pass
     poppler_utils
     prettier-with-plugins
     ptsd-nnn
     pwgen
+    qpdf
     qrencode
     rclone
     remarshal
     ripgrep
     rmlint
+    rustc
     shfmt
     shrinkpdf
     statix
     tabula-java
     tig
     tmux
+    treefmt
     typescript
     unzip
     viu # terminal image viewer
@@ -111,10 +115,12 @@ with lib;
         nltk
         openai
         pandas
+        pdfminer
         psycopg2
         pycrypto
         pyjwt
         pylint
+        pypdf2
         pytest
         pyxlsb
         requests
@@ -135,7 +141,6 @@ with lib;
         nbconvert
         netifaces
         paramiko
-        pdfminer
         pillow
         pyodbc
         selenium
