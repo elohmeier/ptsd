@@ -98,6 +98,7 @@ self: pkgs_master: nixpkgs_master: super:
 
       blobfile = self.callPackage ./blobfile { };
       davphonebook = self.callPackage ./davphonebook { };
+      djhtml = self.callPackage ./djhtml { };
       finance-dl = self.callPackage ./finance-dl { };
       hocr-tools = self.callPackage ./hocr-tools { };
       icloudpd = self.callPackage ./icloudpd { };

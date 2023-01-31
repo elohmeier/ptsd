@@ -24,6 +24,9 @@ require('formatter').setup({
         fish = {function() return {exe = "fish_indent", stdin = true} end},
         go = {function() return {exe = "gofmt", stdin = true} end},
         html = {prettier},
+        htmldjango = {
+            function() return {exe = "djhtml", args = {"--tabwidth", 2}, stdin = true} end
+        },
         javascript = {prettier},
         json = {prettier},
         lua = {

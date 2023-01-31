@@ -99,6 +99,7 @@ with lib;
         beancount
         black
         dataclasses-json
+        djhtml
         faker
         flask
         hocr-tools
