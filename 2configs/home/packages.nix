@@ -49,8 +49,12 @@ with lib;
     libfaketime
     logseq-query
     macos-fix-filefoldernames
+    mkpasswd
     mpv
     ncdu_1
+    nix-index
+    nix-prefetch-git
+    nix-top
     nix-tree
     nixos-generators
     nixpkgs-fmt
@@ -67,11 +71,13 @@ with lib;
     pwgen
     qpdf
     qrencode
+    quirc # qr scanner
     rclone
     remarshal
     ripgrep
     rmlint
     rustc
+    shellcheck
     shfmt
     shrinkpdf
     statix
@@ -80,11 +86,13 @@ with lib;
     tmux
     treefmt
     typescript
+    uncrustify
     unzip
     viu # terminal image viewer
     vivid
     watch
     websocat
+    wget
     wireguard-tools
     wrk
     xh
@@ -98,27 +106,38 @@ with lib;
       [
         # sqlacodegen
         XlsxWriter
+        authlib
         beancount
+        beautifulsoup4
         black
+        boto3
         dataclasses-json
         djhtml
         faker
         flask
         hocr-tools
         holidays
+        impacket
         ipykernel
         ipython
         isort
         jupyterlab
+        keras
+        keyring
         langchain
         lark
         lxml
         matplotlib
         mypy
+        mysql-connector
+        nbconvert
+        netifaces
         nltk
         openai
         pandas
+        paramiko
         pdfminer
+        pillow
         psycopg2
         pycrypto
         pyjwt
@@ -129,26 +148,17 @@ with lib;
         requests
         scikit-learn
         sqlalchemy
+        sshtunnel
         tabulate
-        tenacity
         tasmota-decode-config
+        tenacity
+        tensorflow
         tiktoken
+        weasyprint
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
-        authlib
-        beautifulsoup4
-        boto3
         i3ipc
-        impacket
-        keyring
-        mysql-connector
-        nbconvert
-        netifaces
-        paramiko
-        pillow
         pyodbc
         selenium
-        sshtunnel
-        weasyprint
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
@@ -159,16 +169,16 @@ with lib;
     rar
     subler-bin
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
+    # aliza # dicom viewer
+    # art
+    # calibre
+    # cura
+    # freecad
+    # gnome3.file-roller
     # hash-slinger # tlsa
     # pdfconcat # fixme
     # platformio
-    #aliza # dicom viewer
-    #art
-    #calibre
-    #cura
-    #freecad
-    #gnome3.file-roller
-    #ptsd-vscode
+    # ptsd-vscode
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; nano /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
     AusweisApp2
     apacheHttpd
@@ -208,13 +218,9 @@ with lib;
     lftp
     libreoffice-fresh
     minicom
-    mkpasswd
     mumble
     nbconvert
     netcat-gnu
-    nix-index
-    nix-prefetch-git
-    nix-top
     nwvpn-qr
     openssl
     openvpn
@@ -223,11 +229,9 @@ with lib;
     pdf2svg
     pdfduplex
     pgmodeler
-    quirc # qr scanner
     ripmime
     samba
     screen
-    shellcheck
     smartmontools
     sqlfluff
     sqlitebrowser
@@ -238,12 +242,10 @@ with lib;
     syncthing-device-id
     tmuxinator
     transmission-gtk
-    uncrustify
     unrar
     usbutils
     vlc
     wf-recorder
-    wget
     xdg-utils
     xfsprogs.bin
     xournalpp
