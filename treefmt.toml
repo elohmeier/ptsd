@@ -1,0 +1,23 @@
+[formatter.black]
+command = "black"
+includes = ["*.py", "*.ipynb"]
+
+[formatter.isort]
+command = "isort"
+options = ["--profile", "black"]
+includes = ["*.py", "*.ipynb"]
+
+[formatter.prettier]
+command = "prettier"
+options = ["--write"]
+includes = ["*.json", "*.yaml"]
+
+[formatter.nixpkgs-fmt]
+command = "nixpkgs-fmt"
+includes = ["*.nix"]
+
+[formatter.shfmt]
+command = "shfmt"
+options = ["-w", "-i", "2"]
+includes = ["*.sh"]
+

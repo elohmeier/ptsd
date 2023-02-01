@@ -8,5 +8,3 @@ exiftool '-Directory<DateTimeOriginal' -d '/mnt/photos/photos/originals/eosr6/%Y
 
 ssh root@nas1.nw systemctl stop photoprism
 systemctl start photoprism-index
-
-

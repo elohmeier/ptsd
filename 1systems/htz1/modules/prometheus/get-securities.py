@@ -2,8 +2,8 @@
 
 import json
 import sys
-
 from itertools import groupby
+
 from lxml import etree
 
 tree = etree.parse("/home/enno/repos/nobbofin/portfolio.xml")

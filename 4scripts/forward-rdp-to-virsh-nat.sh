@@ -8,4 +8,3 @@ iptables -A POSTROUTING -t nat -p tcp -d 192.168.197.210 --dport 3389 -j MASQUER
 iptables -A FORWARD -p tcp -d 192.168.197.210 --dport 3389 -m state --state NEW,ESTABLISHED,RELATED -j ACCEPT
 
 systemctl stop firewall
-

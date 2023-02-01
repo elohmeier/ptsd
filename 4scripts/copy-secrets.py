@@ -2,12 +2,13 @@
 #!nix-shell -i python3 -p python3Packages.python-gnupg -p rsync
 
 import argparse
-import gnupg
+import logging
+import os
 import subprocess
 import tempfile
-import os
-import logging
 from pathlib import Path
+
+import gnupg
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("frix-copy-secrets")
