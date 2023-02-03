@@ -112,15 +112,17 @@ in
       videoDrivers = optional isx86_64 "amdgpu";
     };
 
-    environment.systemPackages = with pkgs; optionals isx86_64 [
+    environment.systemPackages = with pkgs; [
       btop
       cifs-utils
       cryptsetup
       git
+      gptfdisk
       hashPassword
       home-manager
       neovim
       nnn
+      smartmontools
       tmux
     ] ++ optionals cfg.nvidia.enable [
       nvidia_x11.bin
@@ -166,5 +168,8 @@ in
     services.udisks2.enable = lib.mkDefault false;
     security.sudo.wheelNeedsPassword = false;
     nix.settings.trusted-users = [ "root" "@wheel" ];
+
+    services.eternal-terminal.enable = true;
+    networking.firewall.allowedTCPPorts = [ 2022 ];
   };
 }
