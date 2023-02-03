@@ -607,12 +607,20 @@
               ];
             };
 
-          utmvm = nixpkgs.lib.nixosSystem
+          utmvm_nixos_2 = nixpkgs.lib.nixosSystem
             {
               system = "aarch64-linux";
               modules = defaultModules ++ [
-                ./2configs/utmvm.nix
-                ./2configs/vm-efi-xfs.nix
+                ./2configs/generic.nix
+                ./2configs/generic-disk.nix
+                {
+                  system.stateVersion = "22.11";
+                  nixpkgs.hostPlatform = "aarch64-linux";
+                }
+                ({ config, lib, pkgs, ... }: {
+                  services.getty.autologinUser = "root";
+                })
+                { _module.args.nixinate = { host = "192.168.70.4"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
 

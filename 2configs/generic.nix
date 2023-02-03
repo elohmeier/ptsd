@@ -136,6 +136,22 @@ in
       useNetworkd = true;
     };
 
+    systemd.network.networks = {
+      eth = mkIf (!config.networking.networkmanager.enable) {
+        dhcpV4Config.RouteMetric = 10;
+        ipv6AcceptRAConfig.RouteMetric = 10;
+        linkConfig.RequiredForOnline = mkIf config.networking.wireless.iwd.enable "no";
+        matchConfig.Type = "ether";
+        networkConfig = { ConfigureWithoutCarrier = true; DHCP = "yes"; };
+      };
+      wlan = mkIf (config.networking.wireless.iwd.enable && !config.networking.networkmanager.enable) {
+        dhcpV4Config.RouteMetric = 20;
+        ipv6AcceptRAConfig.RouteMetric = 20;
+        matchConfig.Type = "wlan";
+        networkConfig.DHCP = "yes";
+      };
+    };
+
     services.resolved = {
       enable = true;
       # dnssec = "false";

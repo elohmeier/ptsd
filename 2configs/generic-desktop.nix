@@ -9,22 +9,6 @@ in
     ./users/mainuser.nix
   ];
 
-  systemd.network.networks = {
-    #   eth = {
-    #     dhcpV4Config.RouteMetric = 10;
-    #     ipv6AcceptRAConfig.RouteMetric = 10;
-    #     linkConfig.RequiredForOnline = "no";
-    #     matchConfig.Type = "ether";
-    #     networkConfig = { ConfigureWithoutCarrier = true; DHCP = "yes"; };
-    #   };
-    #   wlan = mkIf config.networking.wireless.iwd.enable {
-    #     dhcpV4Config.RouteMetric = 20;
-    #     ipv6AcceptRAConfig.RouteMetric = 20;
-    #     matchConfig.Type = "wlan";
-    #     networkConfig.DHCP = "yes";
-    #   };
-  };
-
   # TODO: remove in 23.05
   # see https://github.com/NixOS/nixpkgs/pull/202956
   systemd.services.systemd-networkd-wait-online.enable = false;
