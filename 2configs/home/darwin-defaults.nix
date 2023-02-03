@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: {
+_: {
 
   targets.darwin.defaults = {
     "com.apple.dock" = {

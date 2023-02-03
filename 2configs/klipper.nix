@@ -15,11 +15,10 @@
 # 5. Add "Physical Printer" with "http://<ip>:7125" / OctoPrint,
 #    see also https://docs.fluidd.xyz/features/slicer-uploads
 
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 let
   indentGcode = s: "\n${lib.concatMapStringsSep "\n" (x: "  ${x}") (lib.splitString "\n" s)}";
-  universe = import ./universe.nix;
 in
 {
   users = {

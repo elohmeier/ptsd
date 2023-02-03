@@ -61,7 +61,7 @@ in
           "virtio_balloon"
           "virtio_console"
           "virtio_rng"
-        ] ++ optional (isx86_64) "amdgpu";
+        ] ++ optional isx86_64 "amdgpu";
 
         systemd = {
           enable = mkDefault true;

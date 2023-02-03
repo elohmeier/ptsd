@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 
 let
   fluentConfig = pkgs.writeText "fluent.conf" ''

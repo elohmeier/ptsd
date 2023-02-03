@@ -4,9 +4,9 @@
 
 let
   # Workaround to cope with utillinux in Nixpkgs 20.09 and util-linux in Nixpkgs master
-  utillinux = if pkgs ? utillinux then pkgs.utillinux else pkgs.util-linux;
+  utillinux = pkgs.utillinux or pkgs.util-linux;
 
-  python = if nodejs ? python then nodejs.python else python2;
+  python = nodejs.python or python2;
 
   # Create a tar wrapper that filters all the 'Ignoring unknown extended header keyword' noise
   tarWrapper = runCommand "tarWrapper" { } ''
@@ -111,7 +111,7 @@ let
     );
 
   # Recursively composes the dependencies of a package
-  composePackage = { name, packageName, src, dependencies ? [ ], ... }@args:
+  composePackage = { packageName, src, dependencies ? [ ], ... }:
     builtins.addErrorContext "while evaluating node package '${packageName}'" ''
       installPackage "${packageName}" "${src}"
       ${includeDependencies { inherit dependencies; }}
@@ -186,7 +186,7 @@ let
           if [ -d node_modules ]
           then
               cd node_modules
-              ${lib.concatMapStrings (dependency: pinpointDependenciesOfPackage dependency) dependencies}
+              ${lib.concatMapStrings pinpointDependenciesOfPackage dependencies}
               cd ..
           fi
         ''}
@@ -196,7 +196,7 @@ let
   # dependencies in the package.json file to the versions that are actually
   # being used.
 
-  pinpointDependenciesOfPackage = { packageName, dependencies ? [ ], production ? true, ... }@args:
+  pinpointDependenciesOfPackage = { packageName, dependencies ? [ ], production ? true, ... }:
     ''
       if [ -d "${packageName}" ]
       then
@@ -481,7 +481,6 @@ let
     { name
     , packageName
     , version ? null
-    , dependencies ? [ ]
     , buildInputs ? [ ]
     , production ? true
     , npmFlags ? ""
@@ -502,8 +501,8 @@ let
     stdenv.mkDerivation ({
       name = "${name}${if version == null then "" else "-${version}"}";
       buildInputs = [ tarWrapper python nodejs ]
-        ++ lib.optional (stdenv.isLinux) utillinux
-        ++ lib.optional (stdenv.isDarwin) libtool
+        ++ lib.optional stdenv.isLinux utillinux
+        ++ lib.optional stdenv.isDarwin libtool
         ++ buildInputs;
 
       inherit nodejs;
@@ -562,7 +561,7 @@ let
 
       meta = {
         # default to Node.js' platforms
-        platforms = nodejs.meta.platforms;
+        inherit (nodejs.meta) platforms;
       } // meta;
     } // extraArgs);
 
@@ -592,8 +591,8 @@ let
       name = "node-dependencies-${name}${if version == null then "" else "-${version}"}";
 
       buildInputs = [ tarWrapper python nodejs ]
-        ++ lib.optional (stdenv.isLinux) utillinux
-        ++ lib.optional (stdenv.isDarwin) libtool
+        ++ lib.optional stdenv.isLinux utillinux
+        ++ lib.optional stdenv.isDarwin libtool
         ++ buildInputs;
 
       inherit dontStrip; # Stripping may fail a build for some package deployments
@@ -641,19 +640,9 @@ let
   # Builds a development shell
   buildNodeShell =
     { name
-    , packageName
     , version ? null
-    , src
     , dependencies ? [ ]
     , buildInputs ? [ ]
-    , production ? true
-    , npmFlags ? ""
-    , dontNpmInstall ? false
-    , bypassCache ? false
-    , reconstructLock ? false
-    , dontStrip ? true
-    , unpackPhase ? "true"
-    , buildPhase ? "true"
     , ...
     }@args:
 
@@ -664,7 +653,7 @@ let
     stdenv.mkDerivation ({
       name = "node-shell-${name}${if version == null then "" else "-${version}"}";
 
-      buildInputs = [ python nodejs ] ++ lib.optional (stdenv.isLinux) utillinux ++ buildInputs;
+      buildInputs = [ python nodejs ] ++ lib.optional stdenv.isLinux utillinux ++ buildInputs;
       buildCommand = ''
         mkdir -p $out/bin
         cat > $out/bin/shell <<EOF

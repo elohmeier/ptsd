@@ -1,6 +1,6 @@
 # PC-Engines APU2c4
 
-{ config, lib, pkgs, ... }:
+{ lib, ... }:
 
 {
   boot.initrd.availableKernelModules =

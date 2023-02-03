@@ -1,6 +1,5 @@
 { buildPythonPackage
 , fetchFromGitHub
-, lib
 , pycryptodomex
 , urllib3
 , lxml

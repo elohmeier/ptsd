@@ -1,7 +1,6 @@
 { buildPythonPackage
 , blobfile
 , fetchPypi
-, lib
 , libiconv
 , regex
 , requests

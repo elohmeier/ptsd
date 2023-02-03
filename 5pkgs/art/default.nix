@@ -1,5 +1,4 @@
-{ lib
-, stdenv
+{ stdenv
 , fetchFromBitbucket
 , pkg-config
 , cmake

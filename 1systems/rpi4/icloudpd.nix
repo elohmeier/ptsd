@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+_:
 
 let
   user = "syncthing";

@@ -1,4 +1,4 @@
-{ writers, xorg, imagemagick, gawk, runCommand, xsecurelock, mpv, symlinkJoin }:
+{ writers, xorg, imagemagick, gawk, xsecurelock, mpv, symlinkJoin }:
 let
   myxsecurelock = xsecurelock.overrideAttrs (
     old: {

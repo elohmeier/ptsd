@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   # generate using node2nix -i collection.json -16 -c node-composition.nix
@@ -7,14 +7,14 @@ let
   pkgJson = pkgs.writeTextFile {
     name = "package.json";
     destination = "/package.json";
-    text = (builtins.toJSON {
-      dependencies = (builtins.listToAttrs (builtins.map
+    text = builtins.toJSON {
+      dependencies = builtins.listToAttrs (builtins.map
         (name: {
-          name = name;
+          inherit name;
           value = "*";
         })
-        pkgNames));
-    });
+        pkgNames);
+    };
   };
 in
 pkgs.symlinkJoin {

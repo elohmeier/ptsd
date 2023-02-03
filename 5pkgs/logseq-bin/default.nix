@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, makeWrapper, undmg }:
+{ stdenv, fetchurl, makeWrapper, undmg }:
 
 stdenv.mkDerivation rec {
   pname = "logseq-bin";

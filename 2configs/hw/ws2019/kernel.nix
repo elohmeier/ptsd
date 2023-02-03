@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 {
   # Only 5Ghz Wifi with a low channel (like 40) is supported

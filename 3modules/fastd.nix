@@ -19,7 +19,7 @@ in
           name = mkOption { type = types.str; default = config._module.args.name; };
           mtu = mkOption { type = types.int; };
           peers = mkOption {
-            type = types.listOf (types.submodule ({ config, ... }: {
+            type = types.listOf (types.submodule (_: {
               options = {
                 hostname = mkOption { type = types.str; };
                 port = mkOption { type = types.int; };

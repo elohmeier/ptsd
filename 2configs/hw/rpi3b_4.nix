@@ -46,7 +46,7 @@ in
       dhcpV4Config.RouteMetric = 10;
       ipv6AcceptRAConfig.RouteMetric = 10;
     };
-  } // lib.optionalAttrs (config.networking.wireless.iwd.enable) {
+  } // lib.optionalAttrs config.networking.wireless.iwd.enable {
     wlan = {
       dhcpV4Config.RouteMetric = 20;
       ipv6AcceptRAConfig.RouteMetric = 20;

@@ -18,7 +18,7 @@ let
 in
 stdenv.mkDerivation rec {
   pname = "firefox-bin";
-  version = firefox-unwrapped.version;
+  inherit (firefox-unwrapped) version;
 
   src = fetchurl {
     url = "https://download-installer.cdn.mozilla.net/pub/firefox/releases/${version}/mac/en-US/Firefox%20${version}.dmg";

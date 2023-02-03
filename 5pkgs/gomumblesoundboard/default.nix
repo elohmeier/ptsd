@@ -1,4 +1,4 @@
-{ buildGoModule, fetchFromGitHub, libopus, pkg-config, lib }:
+{ buildGoModule, fetchFromGitHub, libopus, pkg-config }:
 
 buildGoModule {
   pname = "gomumblesoundboard";

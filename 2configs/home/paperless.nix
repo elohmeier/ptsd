@@ -19,21 +19,16 @@ let
         ${concatStringsSep " \\\n " (mapAttrsToList (name: value: ''--set ${name} "${value}"'') set)}
     '');
 
-  mkValueString = value:
-    if value == true then "yes"
-    else if value == false then "no"
-    else lib.generators.mkValueStringDefault { } value;
-
   redisConfig = settings: pkgs.writeText "redis.conf" (lib.generators.toKeyValue
     {
       listsAsDuplicateKeys = true;
-      mkKeyValue = lib.generators.mkKeyValueDefault { inherit mkValueString; } " ";
+      mkKeyValue = lib.generators.mkKeyValueDefault { } " ";
     }
     settings);
 
   redis-settings = {
     port = 0; # do not listen on TCP socket
-    daemonize = false;
+    daemonize = "no";
     loglevel = "notice";
     logfile = ''""''; # log to stdout
     databases = 16;
@@ -41,7 +36,7 @@ let
     save = [ "900 1" "300 10" "60 10000" ];
     dbfilename = "dump.rdb";
     dir = "${config.xdg.dataHome}/redis-paperless";
-    appendonly = false;
+    appendonly = "no";
     appendfsync = "everysec";
     slowlog-log-slower-than = 10000;
     slowlog-max-len = 128;

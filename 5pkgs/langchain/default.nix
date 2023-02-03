@@ -1,6 +1,5 @@
 { buildPythonPackage
 , fetchPypi
-, lib
 , pydantic
 , sqlalchemy
 , requests

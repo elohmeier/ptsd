@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nixosConfig, ... }: {
+{ pkgs, ... }: {
 
   programs.tmux = {
     enable = true;

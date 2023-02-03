@@ -1,4 +1,4 @@
-{ stdenv, fetchFromGitHub, buildGoModule }:
+{ fetchFromGitHub, buildGoModule }:
 
 buildGoModule rec {
   pname = "quotes-exporter";

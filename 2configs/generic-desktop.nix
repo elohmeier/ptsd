@@ -1,9 +1,6 @@
 { config, lib, pkgs, ... }:
 
 with lib;
-let
-
-in
 {
   imports = [
     ./users/mainuser.nix
@@ -40,7 +37,7 @@ in
   console.keyMap = mkDefault "de-latin1";
 
   home-manager.useGlobalPkgs = true;
-  home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }: {
+  home-manager.users.mainUser = { ... }: {
     home.stateVersion = "22.11";
     imports = [
       #./home/gpg.nix

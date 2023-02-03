@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 let
   unlock = pkgs.writeScriptBin "unlock" ''
     #!/bin/sh

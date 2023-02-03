@@ -7,7 +7,7 @@ let
     htz3 = "sub6";
     rpi4 = "sub7";
   }.${host};
-  hostName = config.networking.hostName;
+  inherit (config.networking) hostName;
   secrets = if hostName == "rpi4" then "/var/lib/syncthing" else "/var/src/secrets";
   exclude = [
     "sh:**/tailscaled.log2.txt"

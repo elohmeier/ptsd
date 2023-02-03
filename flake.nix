@@ -9,7 +9,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11";
-    flake-utils.url = github:numtide/flake-utils;
+    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
@@ -25,7 +25,7 @@
 
     let
       pkgOverrides = pkgs:
-        let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; system = pkgs.system; }; in
+        let pkgs_master = import nixpkgs-unstable { config.allowUnfree = true; inherit (pkgs) system; }; in
         super: (import ./5pkgs pkgs pkgs_master nixpkgs super);
     in
     flake-utils.lib.eachDefaultSystem
@@ -57,7 +57,7 @@
               nixos-hardware.nixosModules.raspberry-pi-4
               ./2configs/rescue.nix
               ./2configs/hw/rpi3b_4.nix
-              ({ config, lib, pkgs, modulesPath, ... }:
+              ({ config, pkgs, ... }:
                 {
                   # the result can be copied to a fat32-formatted sd card
                   system.build.sdroot =
@@ -108,7 +108,7 @@
 
                   # see https://github.com/NixOS/nixpkgs/issues/126755#issuecomment-869149243
                   nixpkgs.overlays = [
-                    (final: super: {
+                    (_final: super: {
                       makeModulesClosure = x:
                         super.makeModulesClosure (x // { allowMissing = true; });
                     })
@@ -308,7 +308,7 @@
                 ./2configs/generic-disk.nix
                 ./2configs/generic.nix
 
-                ({ config, lib, pkgs, modulesPath, ... }: {
+                ({ config, ... }: {
                   system.stateVersion = "22.11";
 
                   #users.users.mainUser.home = "/win/Users/gordon";
@@ -509,7 +509,7 @@
                       bindMounts = {
                         "/home/enno/Downloads-Keep" = { hostPath = "/home/enno/Downloads-Keep"; isReadOnly = false; };
                       };
-                      config = { config, pkgs, ... }: {
+                      config = { pkgs, ... }: {
                         system.stateVersion = "22.11";
 
                         environment.systemPackages = with pkgs; [ rtorrent ];
@@ -534,7 +534,7 @@
                     };
                   }
                   home-manager.nixosModule
-                  ({ config, lib, modulesPath, pkgs, ... }: {
+                  (_: {
                     system.stateVersion = "22.05";
                     virtualisation.docker = { enable = true; enableOnBoot = false; };
 
@@ -617,7 +617,7 @@
                   system.stateVersion = "22.11";
                   nixpkgs.hostPlatform = "aarch64-linux";
                 }
-                ({ config, lib, pkgs, ... }: {
+                (_: {
                   services.getty.autologinUser = "root";
                 })
                 { _module.args.nixinate = { host = "192.168.70.4"; sshUser = "root"; buildOn = "remote"; }; }
@@ -632,12 +632,12 @@
                 ./2configs/utm-i3.nix
                 ./2configs/qcow-efi.nix
                 home-manager.nixosModule
-                ({ config, lib, modulesPath, pkgs, ... }: {
+                (_: {
                   system.stateVersion = "22.05";
                   virtualisation.docker = { enable = true; enableOnBoot = false; };
 
                   home-manager.useGlobalPkgs = true;
-                  home-manager.users.mainUser = { config, lib, pkgs, nixosConfig, ... }:
+                  home-manager.users.mainUser = { config, pkgs, ... }:
                     {
                       home.stateVersion = "22.05";
                       imports = [
@@ -688,7 +688,7 @@
             homeDirectory = "/home/enno";
             stateVersion = "22.05";
 
-            configuration = { config, lib, pkgs, ... }: {
+            configuration = { config, pkgs, ... }: {
 
               imports = desktopImports ++ [
                 ./2configs/home/foot.nix
@@ -712,7 +712,7 @@
             homeDirectory = "/home/enno";
             stateVersion = "21.11";
 
-            configuration = { config, lib, pkgs, ... }: {
+            configuration = { config, pkgs, ... }: {
 
               imports = desktopImports ++ [
                 ./2configs/home/foot.nix
@@ -732,7 +732,7 @@
             pkgs = nixpkgs.legacyPackages.aarch64-linux;
 
             modules = [
-              ({ config, lib, pkgs, ... }: {
+              ({ config, pkgs, ... }: {
                 home = {
                   username = "enno";
                   homeDirectory = "/home/enno";
@@ -749,7 +749,7 @@
 
                 nixpkgs.config = {
                   allowUnfree = true;
-                  allowUnfreePredicate = (pkg: true); # https://github.com/nix-community/home-manager/issues/2942
+                  allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
                   packageOverrides = pkgOverrides pkgs;
                 };
 
@@ -764,7 +764,7 @@
             homeDirectory = "/home/enno";
             stateVersion = "22.05";
 
-            configuration = { config, lib, pkgs, ... }: {
+            configuration = { config, pkgs, ... }: {
 
               imports = desktopImports ++ [
                 ./2configs/home/alacritty.nix
@@ -803,7 +803,7 @@
 
                 nixpkgs.config = {
                   allowUnfree = true;
-                  allowUnfreePredicate = (pkg: true); # https://github.com/nix-community/home-manager/issues/2942
+                  allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
                   packageOverrides = pkgOverrides pkgs;
                 };
 
@@ -879,7 +879,7 @@
             pkgs = nixpkgs-unstable.legacyPackages.aarch64-darwin;
 
             modules = [
-              ({ config, lib, pkgs, ... }: {
+              ({ config, pkgs, ... }: {
                 home = {
                   username = "luisa";
                   homeDirectory = "/Users/luisa";

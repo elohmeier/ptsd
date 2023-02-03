@@ -1,5 +1,4 @@
-{ lib
-, pkgs
+{ pkgs
 , modifier ? "Mod1"
 , exit_mode ? "exit: [l]ogout, [r]eboot, [e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end"
 , i3compat ? false

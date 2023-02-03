@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, ... }:
 let
   port = config.ptsd.ports.grafana;
 in

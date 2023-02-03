@@ -14,7 +14,7 @@ let
     modules = [
       ../2configs/rpi3b.nix
 
-      ({ modulesPath, config, lib, pkgs, ... }: {
+      ({ config, pkgs, ... }: {
 
         boot.initrd.network.enable = true;
         boot.initrd.availableKernelModules = [ "overlay" ];

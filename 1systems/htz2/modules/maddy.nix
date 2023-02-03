@@ -4,7 +4,6 @@ with lib;
 
 let
   cfg = config.ptsd.maddy;
-  universe = import ../../../2configs/universe.nix;
 
   aliases = pkgs.writeText "aliases" ''
     info@nerdworks.de: enno@nerdworks.de

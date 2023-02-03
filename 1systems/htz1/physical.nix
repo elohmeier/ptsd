@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+_:
 let
   vgPrefix = "/dev/disk/by-id/dm-name-vg";
 in

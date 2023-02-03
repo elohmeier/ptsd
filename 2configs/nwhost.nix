@@ -1,7 +1,4 @@
 { config, lib, pkgs, ... }:
-let
-  universe = import ./universe.nix;
-in
 {
   imports = [
     ../3modules

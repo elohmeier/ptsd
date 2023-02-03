@@ -1,4 +1,4 @@
-{ buildPythonPackage, fetchFromGitHub, lib, sqlalchemy, inflect }:
+{ buildPythonPackage, fetchFromGitHub, sqlalchemy, inflect }:
 
 buildPythonPackage rec {
   pname = "sqlacodegen";

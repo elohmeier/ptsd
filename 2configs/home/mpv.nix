@@ -1,4 +1,4 @@
-{ config, lib, pkgs, nixosConfig, ... }:
+{ config, pkgs, ... }:
 
 {
   programs.mpv = {

@@ -9,13 +9,11 @@
 , nasm
 , openssl
 , pam
-, perl
 , pkg-config
 , stdenv
 , systemd
 , which
 , xorg
-, xorgxrdp
 }:
 
 stdenv.mkDerivation rec {

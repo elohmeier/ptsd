@@ -91,7 +91,7 @@ let
             nameValuePair h.nets."${netname}".ip4.addr h.nets."${netname}".aliases
           )
           (builtins.attrValues (
-            filterAttrs (hostname: hasAttrByPath [ "nets" netname "aliases" ])
+            filterAttrs (_hostname: hasAttrByPath [ "nets" netname "aliases" ])
               (vpnPeers netname)
           ))
       );
@@ -293,7 +293,7 @@ in
       extraStopCommands = concatStringsSep "\n" (mapAttrsToList (_: netcfg: (genNatForwardDown netcfg.ifname netcfg.natForwardIf)) natForwardNetworks);
     };
 
-    networking.hosts = mapAttrs (name: flatten) (zipAttrs (map generateHosts (attrNames enabledNetworks)));
+    networking.hosts = mapAttrs (_name: flatten) (zipAttrs (map generateHosts (attrNames enabledNetworks)));
 
     boot.kernel.sysctl =
       optionalAttrs cfg.enableGlobalForwarding

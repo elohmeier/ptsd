@@ -1,7 +1,7 @@
-{ citrix_workspace, extraCerts ? [ ], timeZone ? "Europe/Berlin", symlinkJoin, writeText }:
+{ citrix_workspace, extraCerts ? [ ], timeZone ? "Europe/Berlin" }:
 
 (citrix_workspace.overrideAttrs (
-  oldAttrs: {
+  _oldAttrs: {
 
     # Tips from
     # https://discussions.citrix.com/topic/260087-middle-mouse-button-on-citrix-application-mousewheel/

@@ -1,9 +1,6 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 with lib;
-let
-  cfg = config.ptsd.ports;
-in
 {
   options = {
     ptsd.ports = mkOption {

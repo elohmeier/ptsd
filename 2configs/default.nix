@@ -1,6 +1,6 @@
 # Keep in mind this config is also used for NixOS containers.
 
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 with lib;
 let
   universe = import ./universe.nix;

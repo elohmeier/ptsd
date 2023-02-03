@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 {
   ptsd.nwbackup = {
     cacheDir = "/persist/var/cache/borg";

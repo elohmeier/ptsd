@@ -1,4 +1,4 @@
-{ lib, stdenv, fetchurl, makeWrapper, unzip }:
+{ stdenv, fetchurl, makeWrapper, unzip }:
 
 stdenv.mkDerivation rec {
   pname = "subler-bin";

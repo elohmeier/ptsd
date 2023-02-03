@@ -1,4 +1,4 @@
-self: pkgs_master: nixpkgs_master: super:
+self: pkgs_master: _nixpkgs_master: super:
 {
   copy-secrets = self.writers.writePython3Bin "copy-secrets"
     {
@@ -32,7 +32,7 @@ self: pkgs_master: nixpkgs_master: super:
     } ../4scripts/borg2prom.py;
 
   betaflight-configurator = super.betaflight-configurator.overrideAttrs
-    (old: {
+    (_old: {
       version = "10.8.0-RC7";
       src = self.fetchurl {
         url = "https://github.com/betaflight/betaflight-configurator/releases/download/10.8.0-RC7/betaflight-configurator_10.8.0_linux64-portable.zip";
@@ -135,7 +135,7 @@ self: pkgs_master: nixpkgs_master: super:
 
   firefox-bin = self.callPackage ./firefox-bin { };
 
-  checkSSLCert = super.checkSSLCert.overrideAttrs (oldAttrs: rec {
+  checkSSLCert = super.checkSSLCert.overrideAttrs (_oldAttrs: rec {
     # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
     version = "2.12.0";
     src = self.fetchFromGitHub {
@@ -149,11 +149,11 @@ self: pkgs_master: nixpkgs_master: super:
 
   logseq-bin = self.callPackage ./logseq-bin { };
 
-  neovim-unwrapped = pkgs_master.neovim-unwrapped;
-  neovimUtils = pkgs_master.neovimUtils;
-  vimPlugins = pkgs_master.vimPlugins;
-  vimUtils = pkgs_master.vimUtils;
-  wrapNeovim = pkgs_master.wrapNeovim;
+  inherit (pkgs_master) neovim-unwrapped;
+  inherit (pkgs_master) neovimUtils;
+  inherit (pkgs_master) vimPlugins;
+  inherit (pkgs_master) vimUtils;
+  inherit (pkgs_master) wrapNeovim;
 
   pinephone-keyboard = self.callPackage ./pinephone-keyboard { };
 
@@ -207,9 +207,9 @@ self: pkgs_master: nixpkgs_master: super:
     . ${../4scripts/prom-checktlsa.sh}
   '';
 
-  jaq = pkgs_master.jaq;
+  inherit (pkgs_master) jaq;
 
-  openai-whisper-cpp = super.openai-whisper-cpp.overrideAttrs (old: {
+  openai-whisper-cpp = super.openai-whisper-cpp.overrideAttrs (_old: {
     postPatch =
       let
         model-large = self.fetchurl {

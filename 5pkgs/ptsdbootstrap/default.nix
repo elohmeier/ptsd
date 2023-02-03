@@ -5,10 +5,10 @@ let
   ws2 = import ../../1systems/ws2/physical.nix { };
 
   cryptOpen = cfg: mapAttrsToList (name: opts: "${cryptsetup}/bin/cryptsetup luksOpen \"${opts.device}\" \"${name}\"") cfg.boot.initrd.luks.devices;
-  cryptClose = cfg: mapAttrsToList (name: opts: "${cryptsetup}/bin/cryptsetup luksClose \"${name}\"") cfg.boot.initrd.luks.devices;
+  cryptClose = cfg: mapAttrsToList (name: _opts: "${cryptsetup}/bin/cryptsetup luksClose \"${name}\"") cfg.boot.initrd.luks.devices;
   mount = cfg: mapAttrsToList (mountpoint: opts: "mount ${opts.device} /mnt${mountpoint}") (filterAttrs (_: hasAttr "device") cfg.fileSystems);
-  umount = cfg: mapAttrsToList (mountpoint: opts: "umount /mnt${mountpoint}") (filterAttrs (_: hasAttr "device") cfg.fileSystems);
-  mkdir = cfg: mapAttrsToList (mountpoint: opts: "mkdir -p /mnt${mountpoint}") cfg.fileSystems;
+  umount = cfg: mapAttrsToList (mountpoint: _opts: "umount /mnt${mountpoint}") (filterAttrs (_: hasAttr "device") cfg.fileSystems);
+  mkdir = cfg: mapAttrsToList (mountpoint: _opts: "mkdir -p /mnt${mountpoint}") cfg.fileSystems;
 
   up = cfg: name:
     writers.writeDashBin "ptsdbootstrap-${name}-up"

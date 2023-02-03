@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 let
   certDir = "/var/lib/acme/${config.networking.hostName}.${config.networking.domain}";
 in

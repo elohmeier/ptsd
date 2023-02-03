@@ -382,7 +382,7 @@
     bindMounts = {
       "/home/gordon/rpi4-dl" = { hostPath = "/var/lib/syncthing/rpi4-dl"; isReadOnly = false; };
     };
-    config = { config, pkgs, ... }: {
+    config = { pkgs, ... }: {
       system.stateVersion = "22.11";
 
       environment.systemPackages = with pkgs; [ rtorrent ];

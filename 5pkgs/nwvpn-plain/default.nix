@@ -1,4 +1,4 @@
-{ writers, pass, qrencode }:
+{ writers, pass }:
 let
   universe = import ../../2configs/universe.nix;
 in
