@@ -22,6 +22,7 @@ with lib;
     btop
     cargo
     copy-secrets
+    deadnix
     difftastic
     entr
     eternal-terminal
