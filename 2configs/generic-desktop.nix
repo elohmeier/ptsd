@@ -71,5 +71,5 @@ with lib;
 
   nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 
-  environment.systemPackages = with pkgs;[ pavucontrol ];
+  environment.systemPackages = with pkgs;[ pavucontrol glxinfo ];
 }

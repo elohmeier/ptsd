@@ -14,6 +14,11 @@ in
   ];
 
   options.ptsd.generic = {
+    amdgpu.enable = mkOption {
+      type = types.bool;
+      default = isx86_64;
+      description = "Enable amdgpu support";
+    };
     nvidia.enable = mkOption {
       type = types.bool;
       default = isx86_64;
@@ -61,7 +66,7 @@ in
           "virtio_balloon"
           "virtio_console"
           "virtio_rng"
-        ] ++ optional isx86_64 "amdgpu";
+        ] ++ optional cfg.amdgpu.enable "amdgpu";
 
         systemd = {
           enable = mkDefault true;
@@ -98,18 +103,18 @@ in
       enable = true;
       driSupport = true;
       driSupport32Bit = isx86_64;
-      extraPackages = with pkgs; optionals isx86_64 [
+      extraPackages = with pkgs; optionals cfg.amdgpu.enable [
         amdvlk
         rocm-opencl-icd
         rocm-opencl-runtime
       ];
-      extraPackages32 = with pkgs; optional isx86_64 driversi686Linux.amdvlk;
+      extraPackages32 = with pkgs; optional cfg.amdgpu.enable driversi686Linux.amdvlk;
     };
 
     console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
 
     services.xserver = {
-      videoDrivers = optional isx86_64 "amdgpu";
+      videoDrivers = optional cfg.amdgpu.enable "amdgpu" ++ optional cfg.nvidia.enable "nvidia";
     };
 
     environment.systemPackages = with pkgs; [
@@ -122,12 +127,10 @@ in
       home-manager
       neovim
       nnn
+      pciutils
       smartmontools
       tmux
-    ] ++ optionals cfg.nvidia.enable [
-      nvidia_x11.bin
-      nvidia_x11.persistenced
-      nvidia_x11.settings
+      usbutils
     ] ++ optionals cfg.nvidia.cuda.enable [
       cudatoolkit
       nvtop

@@ -154,8 +154,9 @@ with lib;
         tasmota-decode-config
         tenacity
         tensorflow
-        tiktoken
         weasyprint
+      ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+        tiktoken # slow build / unneeded on most machines
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         i3ipc
         pyodbc

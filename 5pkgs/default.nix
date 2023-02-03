@@ -43,7 +43,7 @@ self: pkgs_master: _nixpkgs_master: super:
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
   gomumblesoundboard = self.callPackage ./gomumblesoundboard { };
-  hashPassword = self.callPackage ./hashPassword { };
+  hashPassword = super.callPackage ./hashPassword { };
   httpserve = self.writers.writePython3Bin "httpserve" { flakeIgnore = [ "E265" "E501" ]; } ../4scripts/httpserve.py;
   lz4json = self.callPackage ./lz4json { };
   monica = self.callPackage ./monica { };

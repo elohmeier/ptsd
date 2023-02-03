@@ -50,7 +50,7 @@
 
       bars = import ./i3sway/bars.nix { inherit config pkgs; };
       keybindings = import ./i3sway/keybindings.nix { inherit config lib pkgs; };
-      modes = import ./i3sway/modes.nix { inherit lib pkgs; };
+      modes = import ./i3sway/modes.nix { inherit pkgs; };
 
       window = {
         commands = [
