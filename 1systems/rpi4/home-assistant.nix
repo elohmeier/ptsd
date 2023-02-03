@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ config, pkgs, ... }:
 {
   services.home-assistant = {
     enable = true;
@@ -98,4 +98,10 @@
       };
     };
   };
+
+  # nginx should wait for tailscale
+  systemd.services.nginx.wants = [ "tailscaled.service" ];
+
+  # nginx should ensure that tailscales connection is initialized
+  systemd.services.nginx.serviceConfig.ExecStartPre = [ "+${pkgs.tailscale}/bin/tailscale up" ];
 }

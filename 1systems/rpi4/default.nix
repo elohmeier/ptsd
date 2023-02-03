@@ -376,7 +376,7 @@
   };
 
   containers.ff = {
-    autoStart = true;
+    autoStart = false;
     ephemeral = true;
     macvlans = [ "bat-ffhb" ];
     bindMounts = {
