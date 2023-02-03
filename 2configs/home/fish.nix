@@ -27,6 +27,7 @@ p@{ config, lib, pkgs, ... }:
       "cd.." = "cd ..";
       "ga." = "git add .";
       br = "broot";
+      etm = "et -c \"tmux -CC new -A -s main\"";
       ga = "git add";
       gc = "git commit";
       gco = "git checkout";
