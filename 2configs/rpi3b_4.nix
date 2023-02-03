@@ -36,8 +36,6 @@
 
   ptsd.secrets.enable = false;
 
-  services.journald.extraConfig = "Storage=volatile";
-
   sdImage = {
     populateFirmwareCommands =
       let
