@@ -8,6 +8,7 @@
     ../../2configs/nix-persistent.nix
     ../../2configs/prometheus-node.nix
 
+    ./disks.nix
     ./icloudpd.nix
     ./fluent-bit.nix
     ./fraam-gdrive-backup.nix
@@ -28,24 +29,6 @@
   services.openssh.enable = true;
 
   boot.loader.generic-extlinux-compatible.enable = false;
-
-  fileSystems."/" = {
-    fsType = "tmpfs";
-    options = [ "size=1G" "mode=1755" ];
-  };
-
-  fileSystems."/nix" = {
-    device = "/dev/vg/nix";
-    fsType = "ext4";
-    neededForBoot = true;
-    options = [ "nodev" "noatime" ];
-  };
-
-  fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/A3C8-1710";
-    fsType = "vfat";
-    options = [ "nofail" "nodev" "nosuid" "noexec" ];
-  };
 
   system.stateVersion = "22.11";
 
@@ -109,117 +92,6 @@
   users.users.borg-htz3.uid = 904;
   users.users.borg-mb3.uid = 905;
   users.users.borg-mb4.uid = 906;
-
-  systemd.mounts =
-    let
-      borgDeps = [
-        "borgbackup-repo-apu2.service"
-        "borgbackup-repo-htz1.service"
-        "borgbackup-repo-htz2.service"
-        "borgbackup-repo-htz3.service"
-        "borgbackup-repo-mb3.service"
-        "borgbackup-repo-mb4.service"
-      ];
-      hassDeps = [
-        "home-assistant.service"
-      ];
-      syncthingDeps = [
-        "icloudpd-enno.service"
-        "icloudpd-luisa.service"
-        "rclone-fraam-gdrive-backup.service"
-        "samba-smbd.service"
-        "syncthing.service"
-        "syncthing-init.service"
-        "photoprism.service"
-      ];
-      photoprismDeps = [
-        "photoprism.service"
-      ];
-    in
-    [
-      {
-        what = "/dev/vg/borgbackup";
-        where = "/srv/borgbackup";
-        type = "ext4";
-        options = "noatime,nofail,nodev,nosuid,noexec";
-        before = borgDeps;
-        requiredBy = borgDeps;
-      }
-      {
-        what = "/dev/vg/hass";
-        where = "/var/lib/hass";
-        type = "ext4";
-        options = "noatime,nofail,nodev,nosuid,noexec";
-        before = hassDeps;
-        requiredBy = hassDeps;
-      }
-      {
-        what = "/dev/mapper/syncthing";
-        where = "/var/lib/syncthing";
-        type = "ext4";
-        options = "noatime,nofail,nodev,nosuid,noexec";
-        before = syncthingDeps;
-        requiredBy = syncthingDeps;
-      }
-      {
-        what = "/dev/mapper/photoprism";
-        where = "/var/lib/photoprism";
-        type = "ext4";
-        options = "noatime,nofail,nodev,nosuid,noexec";
-        before = photoprismDeps;
-        requiredBy = photoprismDeps;
-      }
-    ];
-
-  systemd.services.samba-smbd.wantedBy = lib.mkForce [ ];
-  systemd.services.syncthing.wantedBy = lib.mkForce [ ];
-  systemd.services.syncthing-init.wantedBy = lib.mkForce [ ];
-  systemd.services.photoprism.wantedBy = lib.mkForce [ ];
-  systemd.services.mysql.wantedBy = lib.mkForce [ ];
-
-  #systemd.targets.unlock-mnt = {
-  #  description = "Unlock /mnt";
-  #  requires = [ "unlock-mnt.service" ];
-  #  wants = [
-  #    "samba-smbd.service"
-  #    "syncthing.service"
-  #  ];
-  #  after = [
-  #    "unlock-mnt.service"
-  #    "samba-smbd.service"
-  #    "syncthing.service"
-  #  ];
-  #};
-
-  #systemd.services.unlock-mnt = {
-  #  description = "Unlock /mnt";
-  #  wantedBy = [ ];
-  #  requires = [ "mnt.mount" ];
-  #  requiredBy = [
-  #    "rclone-fraam-gdrive-backup.service"
-  #    "icloudpd-enno.service"
-  #    "icloudpd-luisa.service"
-  #    "samba-smbd.service"
-  #    "syncthing.service"
-  #  ];
-  #  before = [
-  #    "rclone-fraam-gdrive-backup.service"
-  #    "icloudpd-enno.service"
-  #    "icloudpd-luisa.service"
-  #    "samba-smbd.service"
-  #    "syncthing.service"
-  #  ];
-  #  after = [ "mnt.mount" ];
-  #  unitConfig.ConditionPathExists = "/root/key";
-  #  script = ''
-  #    echo "Unlocking /mnt with keyfile"
-  #    ${pkgs.fscryptctl}/bin/fscryptctl add_key /mnt < /root/key
-  #  '';
-  #  serviceConfig = {
-  #    Type = "oneshot";
-  #    RemainAfterExit = true;
-  #  };
-  #};
 
   systemd.oomd.enable = false; # fails to start
 
