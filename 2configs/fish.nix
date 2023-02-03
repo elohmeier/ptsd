@@ -66,6 +66,11 @@ with lib;
       end
 
       ${pkgs.zoxide}/bin/zoxide init fish | source
+
+      # show warning if $HOME is subfolder on a tmpfs mounted disk
+      if test (stat -f -c %T $HOME) = tmpfs
+        echo "WARNING: $HOME is on a tmpfs mounted disk"
+      end
     '';
   };
 
