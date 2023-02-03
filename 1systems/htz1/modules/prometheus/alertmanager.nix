@@ -69,7 +69,7 @@
             }
             {
               alert = "SystemdUnitFailed";
-              expr = ''node_systemd_unit_state{state="failed",name!="wpa_supplicant.service"}==1'';
+              expr = ''node_systemd_unit_state{state="failed",name!~"wpa_supplicant.service|borgbackup-job-rpi4.service"}==1'';
               for = "30m";
               labels.severity = "warning";
               annotations = {
