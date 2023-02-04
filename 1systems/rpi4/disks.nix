@@ -5,8 +5,6 @@ let
     description = "Unlock vg/${name}";
     unitConfig.ConditionPathExists = "/run/keys/${name}.luks";
     script = ''
-      ${pkgs.lvm2.bin}/bin/lvchange -ay "vg/${name}"
-  
       # if the volume is already unlocked, exit
       if test -e "/dev/mapper/${name}"; then
         exit 0
@@ -14,6 +12,19 @@ let
 
       echo "Unlocking vg/${name} with keyfile"
       cat "/run/keys/${name}.luks" | ${pkgs.cryptsetup}/bin/cryptsetup luksOpen "/dev/vg/${name}" "${name}" -
+    '';
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    requires = [ "lv-activate-${name}.service" ];
+    after = [ "lv-activate-${name}.service" ];
+  };
+
+  lvActivate = name: {
+    description = "Activate vg/${name}";
+    script = ''
+      ${pkgs.lvm2.bin}/bin/lvchange -ay "vg/${name}"
     '';
     serviceConfig = {
       Type = "oneshot";
@@ -49,6 +60,7 @@ in
         "borgbackup-repo-htz3.service"
         "borgbackup-repo-mb3.service"
         "borgbackup-repo-mb4.service"
+        "borgbackup-repo-bae0thiu.service"
       ];
       hassDeps = [
         "home-assistant.service"
@@ -74,6 +86,8 @@ in
         options = "noatime,nofail,nodev,nosuid,noexec";
         before = borgDeps;
         requiredBy = borgDeps;
+        requires = [ "lv-activate-borgbackup.service" ];
+        after = [ "lv-activate-borgbackup.service" ];
       }
       {
         what = "/dev/vg/hass";
@@ -82,6 +96,8 @@ in
         options = "noatime,nofail,nodev,nosuid,noexec";
         before = hassDeps;
         requiredBy = hassDeps;
+        requires = [ "lv-activate-hass.service" ];
+        after = [ "lv-activate-hass.service" ];
       }
       {
         what = "/dev/mapper/syncthing";
@@ -111,12 +127,6 @@ in
       }
     ];
 
-  systemd.services.borgbackup-repo-apu2.wantedBy = lib.mkForce [ ];
-  systemd.services.borgbackup-repo-htz1.wantedBy = lib.mkForce [ ];
-  systemd.services.borgbackup-repo-htz2.wantedBy = lib.mkForce [ ];
-  systemd.services.borgbackup-repo-htz3.wantedBy = lib.mkForce [ ];
-  systemd.services.borgbackup-repo-mb3.wantedBy = lib.mkForce [ ];
-  systemd.services.borgbackup-repo-mb4.wantedBy = lib.mkForce [ ];
   systemd.services.mysql.wantedBy = lib.mkForce [ ];
   systemd.services.photoprism.wantedBy = lib.mkForce [ ];
   systemd.services.prometheus-mysqld-exporter.wantedBy = lib.mkForce [ ];
@@ -132,12 +142,6 @@ in
       "unlock-syncthing.service"
     ];
     wants = [
-      "borgbackup-repo-apu2.service"
-      "borgbackup-repo-htz1.service"
-      "borgbackup-repo-htz2.service"
-      "borgbackup-repo-htz3.service"
-      "borgbackup-repo-mb3.service"
-      "borgbackup-repo-mb4.service"
       "mysql.service"
       "photoprism.service"
       "prometheus-mysqld-exporter.service"
@@ -151,4 +155,9 @@ in
   systemd.services.unlock-photoprism = genUnlock "photoprism";
   systemd.services.unlock-syncthing = genUnlock "syncthing";
 
+  systemd.services.lv-activate-borgbackup = lvActivate "borgbackup";
+  systemd.services.lv-activate-hass = lvActivate "hass";
+  systemd.services.lv-activate-mysql = lvActivate "mysql";
+  systemd.services.lv-activate-photoprism = lvActivate "photoprism";
+  systemd.services.lv-activate-syncthing = lvActivate "syncthing";
 }
