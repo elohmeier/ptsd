@@ -71,5 +71,14 @@ with lib;
 
   nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 
-  environment.systemPackages = with pkgs;[ pavucontrol glxinfo ];
+  environment.systemPackages = with pkgs;[
+    pavucontrol
+    glxinfo
+    (writeShellScriptBin "ptsd-set-password" ''
+      HASHED_PASSWORD=$(${hashPassword}/bin/hashPassword)
+      echo $HASHED_PASSWORD > /nix/secrets/root.passwd
+      echo $HASHED_PASSWORD > /nix/secrets/mainUser.passwd
+      echo "Written hashed password to /nix/secrets/root.passwd and /nix/secrets/mainUser.passwd"
+    '')
+  ];
 }
