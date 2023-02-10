@@ -87,7 +87,7 @@ buildPythonPackage rec {
 endsnippet
 
 snippet nix-python-package-pypi "buildPythonPackage with PyPI src"
-{ buildPythonPackage, fetchPypi, lib }:
+{ buildPythonPackage, fetchPypi }:
 
 buildPythonPackage rec {
   pname = "$1";
@@ -95,7 +95,7 @@ buildPythonPackage rec {
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = lib.fakeSha256;
+    sha256 = "";
   };
 
   doCheck = false;
