@@ -37,5 +37,11 @@ with lib;
       options = [ "nodev" "noatime" ];
     };
 
+    "/home" = {
+      device = mkDefault "/dev/disk/by-partlabel/home";
+      fsType = mkDefault "ext4";
+      options = [ "nodev" "nosuid" "nofail" ];
+    };
+
   };
 }
