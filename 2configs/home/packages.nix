@@ -50,6 +50,7 @@ with lib;
     libfaketime
     logseq-query
     macos-fix-filefoldernames
+    miller
     mkpasswd
     mpv
     ncdu_1
@@ -86,6 +87,7 @@ with lib;
     tabula-java
     tig
     tmux
+    tmuxinator
     treefmt
     typescript
     uncrustify
@@ -108,6 +110,7 @@ with lib;
       [
         # sqlacodegen
         XlsxWriter
+        alembic
         authlib
         beancount
         beautifulsoup4
@@ -116,6 +119,7 @@ with lib;
         dataclasses-json
         djhtml
         faker
+        fastapi
         flask
         hocr-tools
         holidays
@@ -129,6 +133,8 @@ with lib;
         langchain
         lark
         lxml
+        umap-learn
+        hdbscan
         matplotlib
         mypy
         mysql-connector
@@ -136,9 +142,10 @@ with lib;
         netifaces
         nltk
         openai
+        openpyxl
         pandas
         paramiko
-        pdfminer
+        pdfminer-six
         pillow
         psycopg2
         pycrypto
@@ -148,15 +155,18 @@ with lib;
         pytest
         pyxlsb
         requests
-        scikit-learn
         sqlalchemy
         sshtunnel
         tabulate
         tasmota-decode-config
         tenacity
         tensorflow
+        uvicorn
         weasyprint
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+        scikit-learn
+        sentence-transformers
+        jupyter_ascending
         tiktoken # slow build / unneeded on most machines
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         i3ipc
@@ -257,7 +267,6 @@ with lib;
     cabextract
     easyeffects
     logseq
-    photoprism # long tensorflow build on aarch64...
     portfolio
     prusa-slicer
     signal-desktop
