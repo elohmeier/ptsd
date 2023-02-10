@@ -696,8 +696,10 @@
             {
               system = "aarch64-linux";
               modules = defaultModules ++ [
+                home-manager.nixosModule
                 ./2configs/generic.nix
                 ./2configs/generic-disk.nix
+                ./2configs/generic-desktop.nix
                 {
                   system.stateVersion = "22.11";
                   nixpkgs.hostPlatform = "aarch64-linux";
