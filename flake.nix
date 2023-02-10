@@ -763,6 +763,7 @@
             ./2configs/home/neovim.nix
             ./2configs/home/packages.nix
             ./2configs/home/ssh.nix
+            ./2configs/home/xdg-fixes.nix
           ];
         in
         {
