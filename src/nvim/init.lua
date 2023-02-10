@@ -208,3 +208,10 @@ vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>lua require'spread'.out()<cr>",
                         {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<cr>",
                         {noremap = true, silent = true})
+
+-- plugin: jupyter_ascending
+vim.api.nvim_set_keymap("n", "<leader>x", "<cmd>call jupyter_ascending#execute()<cr>",
+                        {noremap = true, silent = true})
+
+-- copy to system clipboard
+vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {noremap = true, silent = true})

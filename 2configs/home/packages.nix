@@ -63,6 +63,7 @@ with lib;
     node2nix
     nodePackages.svelte-language-server
     nodePackages.typescript-language-server
+    nodejs-18_x
     ocrmypdf
     p7zip
     pass

@@ -84,7 +84,7 @@ self: pkgs_master: _nixpkgs_master: super:
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
   };
 
-  ptsd-python3 = super.python310.override {
+  ptsd-python3 = super.python3.override {
     packageOverrides = self: super: rec {
 
       black = super.black.overridePythonAttrs (old: {
@@ -112,6 +112,11 @@ self: pkgs_master: _nixpkgs_master: super:
       tasmota-decode-config = self.callPackage ./tasmota-decode-config { };
       tiktoken = self.callPackage ./tiktoken { };
       vidcutter = self.callPackage ./vidcutter { };
+      jupyter_ascending = self.callPackage ./jupyter_ascending { };
+      jsonrpcserver = self.callPackage ./jsonrpcserver { };
+      jsonrpcclient = self.callPackage ./jsonrpcclient { };
+      apply-defaults = self.callPackage ./apply-defaults { };
+      oslash = self.callPackage ./oslash { };
     };
   };
 

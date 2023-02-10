@@ -56,6 +56,17 @@ let
     };
   };
 
+  jupyter_ascending = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "jupyter_ascending.vim";
+    version = "2023-01-22";
+    src = pkgs.fetchFromGitHub {
+      owner = "untitled-ai";
+      repo = "jupyter_ascending.vim";
+      rev = "8b0f533fbf7f48d12feddedc10b78c53afa41bc2";
+      sha256 = "sha256-7KvGXklm53h8tUeVPeeXt30SyV9VrVp+NlPJH9aPr2A=";
+    };
+  };
+
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
@@ -67,6 +78,7 @@ let
         github-nvim-theme
         gitsigns-nvim
         impatient-nvim
+        jupyter_ascending
         leap-nvim
         lualine-nvim
         nnn-nvim
@@ -122,7 +134,6 @@ in
     luaformatter
     neovim
     nil
-    nodejs-slim-16_x # for copilot, NodeJS 18 not yet supported
     pyright
     ripgrep # for telescope
   ];
