@@ -82,6 +82,7 @@ let
         leap-nvim
         lualine-nvim
         nnn-nvim
+        nvim-jdtls
         nvim-lspconfig
         nvim-web-devicons
         oil-nvim

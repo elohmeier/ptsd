@@ -47,6 +47,7 @@ with lib;
     iperf2
     jaq
     jc
+    jdt-language-server
     jless
     lazygit
     libfaketime

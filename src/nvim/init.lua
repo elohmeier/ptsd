@@ -125,6 +125,11 @@ require("trouble").setup()
 
 require("Comment").setup()
 
+-- require("jdtls").start_or_attach({
+--     cmd = {"jdt-language-server"},
+--     root_dir = vim.fs.dirname(vim.fs.find({'.gradlew', '.git', 'mvnw'}, {upward = true})[1])
+-- })
+
 -- ***************
 -- * keybindings *
 -- ***************
