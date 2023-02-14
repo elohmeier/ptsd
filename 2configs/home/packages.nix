@@ -22,9 +22,11 @@ with lib;
     btop
     cargo
     copy-secrets
+    nurl
     deadnix
     difftastic
     entr
+    jdk
     eternal-terminal
     exa
     exiftool
@@ -121,8 +123,10 @@ with lib;
         faker
         fastapi
         flask
+        hdbscan
         hocr-tools
         holidays
+        icalendar
         impacket
         ipykernel
         ipython
@@ -133,8 +137,6 @@ with lib;
         langchain
         lark
         lxml
-        umap-learn
-        hdbscan
         matplotlib
         mypy
         mysql-connector
@@ -161,12 +163,19 @@ with lib;
         tasmota-decode-config
         tenacity
         tensorflow
+        tkinter
+        umap-learn
         uvicorn
         weasyprint
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+        flair
+        jupyter_ascending
+        pysbd
         scikit-learn
         sentence-transformers
-        jupyter_ascending
+        spacy
+        stanza
+        thefuzz
         tiktoken # slow build / unneeded on most machines
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
         i3ipc

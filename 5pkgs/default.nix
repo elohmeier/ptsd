@@ -96,27 +96,36 @@ self: pkgs_master: _nixpkgs_master: super:
         doCheck = self.stdenv.isLinux;
       });
 
+      apply-defaults = self.callPackage ./apply-defaults { };
       blobfile = self.callPackage ./blobfile { };
+      bpemb = self.callPackage ./bpemb { };
+      conllu = self.callPackage ./conllu { };
       davphonebook = self.callPackage ./davphonebook { };
       djhtml = self.callPackage ./djhtml { };
       finance-dl = self.callPackage ./finance-dl { };
+      flair = self.callPackage ./flair { };
       hocr-tools = self.callPackage ./hocr-tools { };
       icloudpd = self.callPackage ./icloudpd { };
+      jsonrpcclient = self.callPackage ./jsonrpcclient { };
+      jsonrpcserver = self.callPackage ./jsonrpcserver { };
+      jupyter_ascending = self.callPackage ./jupyter_ascending { };
       langchain = self.callPackage ./langchain { };
       neo4j-driver = self.callPackage ./neo4j-driver { };
       nobbofin = self.callPackage ./nobbofin { };
+      oslash = self.callPackage ./oslash { };
       postgrest-py = self.callPackage ./postgrest-py { };
+      pptree = self.callPackage ./pptree { };
       pyxlsb = self.callPackage ./pyxlsb { };
+      segtok = self.callPackage ./segtok { };
       selenium-requests = self.callPackage ./selenium-requests { };
       sqlacodegen = self.callPackage ./sqlacodegen { };
       tasmota-decode-config = self.callPackage ./tasmota-decode-config { };
       tiktoken = self.callPackage ./tiktoken { };
       vidcutter = self.callPackage ./vidcutter { };
-      jupyter_ascending = self.callPackage ./jupyter_ascending { };
-      jsonrpcserver = self.callPackage ./jsonrpcserver { };
-      jsonrpcclient = self.callPackage ./jsonrpcclient { };
-      apply-defaults = self.callPackage ./apply-defaults { };
-      oslash = self.callPackage ./oslash { };
+
+      # disable slow tests (https://github.com/NixOS/nixpkgs/pull/215822)
+      xyzservices = super.xyzservices.overridePythonAttrs (old: { doCheck = false; });
+
     };
   };
 
