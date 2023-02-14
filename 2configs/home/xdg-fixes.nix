@@ -12,12 +12,7 @@
     LESSHISTFILE = "${cacheHome}/less/history";
     TERMINFO = "${dataHome}/terminfo";
     NODE_REPL_HISTORY = "${dataHome}/node_repl_history";
-    NPM_CONFIG_USERCONFIG = pkgs.writeText "npmrc" ''
-      prefix=${dataHome}/npm
-      cache=${cacheHome}/npm
-      tmp=${stateHome}/npm
-      init-module=${configHome}/npm/config/npm-init.js
-    '';
+    NPM_CONFIG_USERCONFIG = "${configHome}/npm/npmrc";
     KERAS_HOME = "${stateHome}/keras";
     PYTHONSTARTUP = pkgs.writeText "pythonstartup.py" ''
       import os
@@ -39,4 +34,20 @@
       atexit.register(write_history)
     '';
   };
+
+  home.activation.createInitialNpmrc =
+    let
+      defaultNpmrc = pkgs.writeText "npmrc" ''
+        prefix=${config.xdg.dataHome}/npm
+        cache=${config.xdg.cacheHome}/npm
+        init-module=${config.xdg.configHome}/npm/config/npm-init.js
+      '';
+    in
+    lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+      if [ ! -f ${config.xdg.configHome}/npm/npmrc ]; then
+        mkdir -p ${config.xdg.configHome}/npm
+        cp ${defaultNpmrc} ${config.xdg.configHome}/npm/npmrc
+        chmod 600 ${config.xdg.configHome}/npm/npmrc
+      fi
+    '';
 }
