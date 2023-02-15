@@ -154,6 +154,7 @@ with lib;
         pycrypto
         pyjwt
         pylint
+        pymupdf
         pypdf2
         pytest
         pyxlsb

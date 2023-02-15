@@ -126,6 +126,9 @@ self: pkgs_master: _nixpkgs_master: super:
       # disable slow tests (https://github.com/NixOS/nixpkgs/pull/215822)
       xyzservices = super.xyzservices.overridePythonAttrs (old: { doCheck = false; });
 
+      # disable currently failing tests
+      wandb = super.wandb.overridePythonAttrs (old: { doCheck = false; });
+
     };
   };
 
