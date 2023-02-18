@@ -31,12 +31,14 @@ p@{ config, lib, pkgs, ... }:
       ga = "git add";
       gc = "git commit";
       gco = "git checkout";
+      gcp = "git cherry-pick";
       gd = "git diff";
       gf = "git fetch";
       gl = "git log";
       gp = "git pull";
       gpp = "git push";
       gs = "git status";
+      kc = "kubectl";
     };
 
     interactiveShellInit = ''
