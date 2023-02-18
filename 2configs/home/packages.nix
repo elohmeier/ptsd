@@ -22,11 +22,9 @@ with lib;
     btop
     cargo
     copy-secrets
-    nurl
     deadnix
     difftastic
     entr
-    jdk
     eternal-terminal
     exa
     exiftool
@@ -47,8 +45,10 @@ with lib;
     iperf2
     jaq
     jc
+    jdk
     jdt-language-server
     jless
+    kubectl
     lazygit
     libfaketime
     logseq-query
@@ -104,6 +104,7 @@ with lib;
     wrk
     xh
     xz
+    yq
     yt-dlp
     zathura
     zellij
@@ -174,6 +175,7 @@ with lib;
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
         flair
         jupyter_ascending
+        nurl
         pysbd
         scikit-learn
         sentence-transformers
