@@ -6,7 +6,7 @@
   users.users = {
     mainUser = {
       name = "gordon";
-      isNormalUser = true;
+      isNormalUser = lib.mkDefault true;
       home = lib.mkDefault "/home/gordon";
       createHome = true;
       uid = lib.mkDefault 1000;

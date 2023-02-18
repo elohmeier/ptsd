@@ -40,7 +40,7 @@ with lib;
     "/home" = {
       device = mkDefault "/dev/disk/by-partlabel/home";
       fsType = mkDefault "ext4";
-      options = [ "nodev" "nosuid" "nofail" ];
+      options = [ "nodev" "nosuid" "nofail" "x-systemd.device-timeout=3s" ];
     };
 
   };

@@ -700,14 +700,83 @@
                 ./2configs/generic.nix
                 ./2configs/generic-disk.nix
                 ./2configs/generic-desktop.nix
-                {
+                ({ lib, ... }: {
                   system.stateVersion = "22.11";
                   nixpkgs.hostPlatform = "aarch64-linux";
-                }
-                (_: {
+
+                  # match macos ids
+                  users.groups.lp.gid = lib.mkForce 1020;
+                  users.groups.staff.gid = 20;
+                  users.users.mainUser = {
+                    group = "staff";
+                    homeMode = "700";
+                    isNormalUser = false;
+                    isSystemUser = true;
+                    uid = 502;
+                  };
+
+                  fileSystems."/home/gordon/nixos-cluster" = {
+                    device = "192.168.70.1:/Users/enno/repos/nixos-cluster";
+                    fsType = "nfs";
+                    options = [
+                      "x-systemd.automount"
+                      "noauto"
+                      "nfsvers=3"
+                    ];
+                  };
+
                   services.getty.autologinUser = "root";
+
+                  # not supported (QEMU VM)
+                  # virtualisation.rosetta.enable = true;
                 })
                 { _module.args.nixinate = { host = "192.168.70.4"; sshUser = "root"; buildOn = "remote"; }; }
+              ];
+            };
+
+          utmvm_nixos_3 = nixpkgs.lib.nixosSystem
+            {
+              system = "aarch64-linux";
+              modules = defaultModules ++ [
+                home-manager.nixosModule
+                ./2configs/generic.nix
+                ./2configs/generic-disk.nix
+                ./2configs/generic-desktop.nix
+                ({ lib, ... }: {
+                  system.stateVersion = "22.11";
+                  nixpkgs.hostPlatform = "aarch64-linux";
+
+                  # match macos ids
+                  users.groups.lp.gid = lib.mkForce 1020;
+                  users.groups.staff.gid = 20;
+                  users.users.mainUser = {
+                    group = "staff";
+                    homeMode = "700";
+                    isNormalUser = false;
+                    isSystemUser = true;
+                    uid = 502;
+                  };
+
+                  fileSystems."/home/gordon/nixos-cluster" = {
+                    device = "192.168.70.1:/Users/enno/repos/nixos-cluster";
+                    fsType = "nfs";
+                    options = [
+                      "x-systemd.automount"
+                      "noauto"
+                      "nfsvers=3"
+                    ];
+                  };
+
+                  services.getty.autologinUser = "root";
+
+                  virtualisation.rosetta.enable = true;
+
+                  nix.settings = {
+                    extra-platforms = [ "x86_64-linux" ];
+                    extra-sandbox-paths = [ "/run/rosetta" "/run/binfmt" ];
+                  };
+                })
+                { _module.args.nixinate = { host = "192.168.70.5"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
 
