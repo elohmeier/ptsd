@@ -120,6 +120,7 @@ with lib;
         black
         boto3
         dataclasses-json
+        debugpy
         djhtml
         faker
         fastapi
@@ -151,6 +152,7 @@ with lib;
         pdfminer-six
         pillow
         psycopg2
+        pudb
         pycrypto
         pyjwt
         pylint
@@ -186,7 +188,9 @@ with lib;
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+    binutils
     iterm2
+    llvmPackages.lldb
     logseq-bin
     openai-whisper-cpp
     qemu

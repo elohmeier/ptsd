@@ -34,28 +34,6 @@ let
     };
   };
 
-  oil-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    pname = "oil.nvim";
-    version = "2022-01-08";
-    src = pkgs.fetchFromGitHub {
-      owner = "stevearc";
-      repo = "oil.nvim";
-      rev = "e4c411002272d6eed159afdf4cae2e74dc7fc813";
-      sha256 = "sha256-KTSPkHwqYX7cXm98ZrmEvCvbqxgqhq5SbxEbmnn2NYE=";
-    };
-  };
-
-  comment-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    pname = "Comment.nvim";
-    version = "2023-01-18";
-    src = pkgs.fetchFromGitHub {
-      owner = "numToStr";
-      repo = "Comment.nvim";
-      rev = "eab2c83a0207369900e92783f56990808082eac2";
-      sha256 = "sha256-7UtZAE9tPlnpeHS2LLol/LGVOxptDXNKWXHNHvFBNk4=";
-    };
-  };
-
   jupyter_ascending = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "jupyter_ascending.vim";
     version = "2023-01-22";
@@ -82,6 +60,10 @@ let
         leap-nvim
         lualine-nvim
         nnn-nvim
+        nvim-dap
+        nvim-dap-python
+        nvim-dap-ui
+        nvim-dap-virtual-text
         nvim-jdtls
         nvim-lspconfig
         nvim-web-devicons
