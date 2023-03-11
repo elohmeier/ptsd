@@ -29,9 +29,20 @@ in
             jsonData.timeInterval = "60s";
           }
           {
+            name = "Prometheus k3s convexio";
+            type = "prometheus";
+            url = "http://100.65.148.97:9090";
+            jsonData.timeInterval = "15s";
+          }
+          {
             name = "Loki";
             type = "loki";
             url = "http://100.106.245.41:${toString config.ptsd.ports.loki}";
+          }
+          {
+            name = "Loki k3s convexio";
+            type = "loki";
+            url = "http://100.65.148.97:3100";
           }
         ];
       };
