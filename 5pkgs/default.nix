@@ -49,6 +49,7 @@ self: pkgs_master: _nixpkgs_master: super:
   monica = self.callPackage ./monica { };
   nbconvert = self.callPackage ./nbconvert { };
   go-sqlcmd = self.callPackage ./go-sqlcmd { };
+  kubectl-minio = super.callPackage ./kubectl-minio { };
   nwfonts = self.callPackage ./nwfonts { };
   nwvpn-plain = self.callPackage ./nwvpn-plain { };
   nwvpn-qr = self.callPackage ./nwvpn-qr { };
@@ -85,7 +86,7 @@ self: pkgs_master: _nixpkgs_master: super:
   };
 
   ptsd-python3 = super.python3.override {
-    packageOverrides = self: super: rec {
+    packageOverrides = self: super: {
 
       black = super.black.overridePythonAttrs (old: {
         propagatedBuildInputs = with super; old.propagatedBuildInputs ++ [
@@ -115,6 +116,8 @@ self: pkgs_master: _nixpkgs_master: super:
       oslash = self.callPackage ./oslash { };
       postgrest-py = self.callPackage ./postgrest-py { };
       pptree = self.callPackage ./pptree { };
+      presidio-analyzer = self.callPackage ./presidio-analyzer { };
+      presidio-anonymizer = self.callPackage ./presidio-anonymizer { };
       pyxlsb = self.callPackage ./pyxlsb { };
       segtok = self.callPackage ./segtok { };
       selenium-requests = self.callPackage ./selenium-requests { };
@@ -122,13 +125,6 @@ self: pkgs_master: _nixpkgs_master: super:
       tasmota-decode-config = self.callPackage ./tasmota-decode-config { };
       tiktoken = self.callPackage ./tiktoken { };
       vidcutter = self.callPackage ./vidcutter { };
-
-      # disable slow tests (https://github.com/NixOS/nixpkgs/pull/215822)
-      xyzservices = super.xyzservices.overridePythonAttrs (old: { doCheck = false; });
-
-      # disable currently failing tests
-      wandb = super.wandb.overridePythonAttrs (old: { doCheck = false; });
-
     };
   };
 

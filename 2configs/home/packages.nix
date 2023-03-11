@@ -34,6 +34,7 @@ with lib;
     fzf-no-fish
     gen-secrets
     gh
+    ghostscript
     gomuks
     google-cloud-sdk
     hcloud
@@ -48,7 +49,6 @@ with lib;
     jdk
     jdt-language-server
     jless
-    kubectl
     lazygit
     libfaketime
     logseq-query
@@ -86,6 +86,7 @@ with lib;
     shellcheck
     shfmt
     shrinkpdf
+    skopeo
     statix
     tabula-java
     tig
@@ -151,7 +152,10 @@ with lib;
         pandas
         paramiko
         pdfminer-six
+        pikepdf
         pillow
+        presidio-analyzer
+        presidio-anonymizer
         psycopg2
         pudb
         pycrypto
@@ -175,6 +179,7 @@ with lib;
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
         flair
         jupyter_ascending
+        mlxtend
         nurl
         pysbd
         scikit-learn
@@ -192,6 +197,8 @@ with lib;
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
     binutils
     iterm2
+    kubectl
+    kubectl-minio
     llvmPackages.lldb
     logseq-bin
     openai-whisper-cpp
