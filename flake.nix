@@ -715,8 +715,8 @@
                     uid = 502;
                   };
 
-                  fileSystems."/home/gordon/nixos-cluster" = {
-                    device = "192.168.70.1:/Users/enno/repos/nixos-cluster";
+                  fileSystems."/home/gordon/repos" = {
+                    device = "192.168.70.1:/Users/enno/repos";
                     fsType = "nfs";
                     options = [
                       "x-systemd.automount"
@@ -757,8 +757,8 @@
                     uid = 502;
                   };
 
-                  fileSystems."/home/gordon/nixos-cluster" = {
-                    device = "192.168.70.1:/Users/enno/repos/nixos-cluster";
+                  fileSystems."/home/gordon/repos" = {
+                    device = "192.168.70.1:/Users/enno/repos";
                     fsType = "nfs";
                     options = [
                       "x-systemd.automount"
@@ -767,7 +767,12 @@
                     ];
                   };
 
+                  # mb4 remote build
+                  users.users.root.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINW7keKHT6oXCcjR7vWDufiuCb/JCK+ATJO+ZFpLYH1w root@mb4.fritz.box" ];
+
                   services.getty.autologinUser = "root";
+
+                  virtualisation.docker = { enable = true; enableOnBoot = false; };
 
                   virtualisation.rosetta.enable = true;
 
