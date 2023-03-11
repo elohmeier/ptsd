@@ -98,6 +98,7 @@
   ptsd.tailscale = {
     enable = true;
     cert.enable = true;
+    cert.reloadServices = [ "nginx.service" ];
     httpServices = [ "photoprism" ];
     links = [ "home-assistant" ];
   };
