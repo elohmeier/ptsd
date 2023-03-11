@@ -63,6 +63,7 @@ require('formatter').setup({
             end
         },
         typescript = {prettier},
-        typescriptreact = {prettier}
+        typescriptreact = {prettier},
+        yaml = {prettier}
     }
 })

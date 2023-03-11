@@ -1,0 +1,12 @@
+snippet svelte-page "Svelte +page.ts w/ PageLoad"
+import type { PageLoad } from './$types';
+
+export const load: PageLoad = async ({ params, fetch, parent }) => {
+	const { loggedIn } = await parent();
+	const { obj_id } = params;
+
+	return {
+		title: 'my page',
+	};
+};
+endsnippet
