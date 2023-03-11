@@ -341,7 +341,7 @@
         tailscale.ip4.addr = "100.103.92.73";
       };
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMmgmIAmynlH335ZOoRvn/fUzq3RhNSABikPMhGCFdvP ";
-      borg.quota = "5G";
+      borg.quota = "30G";
       ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIndKvwdGRac5AoflIEdr+te6r9sphs8LxW/sjxwtXYg ";
       syncthing.id = "IDWACTT-CF47Z2S-ADZSHTU-TRJF3LJ-XWUBS6V-YEUCIMG-RTHQ5MN-BOIMXAD";
     };
