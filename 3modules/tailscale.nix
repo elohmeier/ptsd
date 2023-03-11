@@ -22,6 +22,26 @@ in
       default = "${config.networking.hostName}.${cfg.domain}";
     };
     cert.enable = mkEnableOption "fetch TLS certificate";
+    cert.reloadServices = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+      description = lib.mdDoc ''
+        The list of systemd services to call `systemctl try-reload-or-restart`
+        on.
+      '';
+    };
+    cert.postRun = mkOption {
+      type = types.lines;
+      default = "";
+      example = "cp full.pem backup.pem";
+      description = lib.mdDoc ''
+        Commands to run after new certificates go live. Note that
+        these commands run as the root user.
+
+        Executed in the same directory with the new certificate.
+      '';
+    };
+
     httpServices = mkOption {
       type = with types; listOf str;
       default = [ ];
@@ -58,13 +78,21 @@ in
 
       systemd.services.tailscale-cert = mkIf cfg.cert.enable {
         description = "fetch tailscale host TLS certificate";
-        script = ''
-          ${config.services.tailscale.package}/bin/tailscale cert "${cfg.fqdn}"
-          cat "${cfg.fqdn}.crt" "${cfg.fqdn}.key" > "${cfg.fqdn}.pem"
-          chmod 640 "${cfg.fqdn}.key"
-          chmod 640 "${cfg.fqdn}.pem"
-        '';
         serviceConfig = {
+          ExecStart = ''${config.services.tailscale.package}/bin/tailscale cert "${cfg.fqdn}"'';
+          ExecStartPost = "+" + (pkgs.writeShellScript "tailscale-cert-post" ''
+            if [ $(date -d "$(stat -c %y "${cfg.fqdn}.crt")" +%s) -gt $(date -d "1 day ago" +%s) ]; then
+              echo "certificate was not renewed"
+              exit 0
+            fi
+            cat "${cfg.fqdn}.crt" "${cfg.fqdn}.key" > "${cfg.fqdn}.pem"
+            chmod 640 "${cfg.fqdn}.key"
+            chmod 640 "${cfg.fqdn}.pem"
+            ${cfg.cert.postRun}
+            ${optionalString (cfg.cert.reloadServices != [])
+              "systemctl --no-block try-reload-or-restart ${escapeShellArgs cfg.cert.reloadServices}"
+            }
+          '');
           StateDirectory = "tailscale-cert";
           WorkingDirectory = "/var/lib/tailscale-cert";
           User = "tailscale-cert";
