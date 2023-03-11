@@ -37,10 +37,21 @@
           name = "nwenv";
           rules = [
             {
-              alert = "DiskSpace10%Free";
+              alert = "DiskSpace20%Free";
               expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes * 100 < 10'';
               for = "30m";
               labels.severity = "warning";
+              annotations = {
+                summary = "{{ $labels.alias }} disk {{ $labels.mountpoint }} full";
+                url = "https://htz1.pug-coho.ts.net:3000/d/rYdddlPWk/node-exporter?var-job={{ $labels.job }}&var-node={{ $labels.instance }}";
+                description = ''The disk {{ $labels.mountpoint }} of host {{ $labels.alias }} has {{ $value | printf "%.1f" }}% free disk space remaining.'';
+              };
+            }
+            {
+              alert = "DiskSpace10%Free";
+              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes * 100 < 10'';
+              for = "30m";
+              labels.severity = "critical";
               annotations = {
                 summary = "{{ $labels.alias }} disk {{ $labels.mountpoint }} full";
                 url = "https://htz1.pug-coho.ts.net:3000/d/rYdddlPWk/node-exporter?var-job={{ $labels.job }}&var-node={{ $labels.instance }}";
