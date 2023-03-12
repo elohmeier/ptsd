@@ -80,5 +80,9 @@ with lib;
       echo $HASHED_PASSWORD > /nix/secrets/mainUser.passwd
       echo "Written hashed password to /nix/secrets/root.passwd and /nix/secrets/mainUser.passwd"
     '')
+    plasma5Packages.kate
+    plasma5Packages.plasma-thunderbolt
   ];
+
+  services.hardware.bolt.enable=true;
 }
