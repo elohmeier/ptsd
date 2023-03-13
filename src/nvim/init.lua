@@ -195,6 +195,9 @@ vim.api.nvim_set_keymap("n", "<leader>n", "<cmd>NnnPicker %:p:h<CR>",
 
 vim.api.nvim_set_keymap("n", "<C-n>", "<cmd>NnnExplorer<CR>", {noremap = true, silent = true})
 
+-- plugin: neo-tree
+vim.api.nvim_set_keymap("n", "\\", "<cmd>Neotree<CR>", {noremap = true, silent = true})
+
 -- plugin: telescope
 vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>",
                         {noremap = true, silent = true})

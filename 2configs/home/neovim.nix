@@ -59,6 +59,7 @@ let
         jupyter_ascending
         leap-nvim
         lualine-nvim
+        neo-tree-nvim
         nnn-nvim
         nvim-dap
         nvim-dap-python
