@@ -37,6 +37,12 @@ in
     repo = "ssh://borg-${hostName}@rpi4.pug-coho.ts.net/./";
   };
 
-  systemd.services.borgbackup-job-hetzner.serviceConfig.CacheDirectory = "borg";
-  systemd.services.borgbackup-job-rpi4.serviceConfig.CacheDirectory = "borg";
+  systemd.services.borgbackup-job-hetzner.serviceConfig = {
+    CacheDirectory = "borg";
+    TimeoutStartSec = "1 week"; # kill stuck jobs
+  };
+  systemd.services.borgbackup-job-rpi4.serviceConfig = {
+    CacheDirectory = "borg";
+    TimeoutStartSec = "1 week"; # kill stuck jobs
+  };
 }
