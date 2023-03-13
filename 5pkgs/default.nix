@@ -98,6 +98,7 @@ self: pkgs_master: _nixpkgs_master: super:
       });
 
       apply-defaults = self.callPackage ./apply-defaults { };
+      bertopic = self.callPackage ./bertopic { };
       blobfile = self.callPackage ./blobfile { };
       bpemb = self.callPackage ./bpemb { };
       conllu = self.callPackage ./conllu { };

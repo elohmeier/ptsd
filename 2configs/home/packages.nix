@@ -154,8 +154,6 @@ with lib;
         pdfminer-six
         pikepdf
         pillow
-        presidio-analyzer
-        presidio-anonymizer
         psycopg2
         pudb
         pycrypto
@@ -177,14 +175,19 @@ with lib;
         uvicorn
         weasyprint
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+        bertopic
         flair
         jupyter_ascending
         mlxtend
         nurl
+        presidio-analyzer
+        presidio-anonymizer
         pysbd
         scikit-learn
         sentence-transformers
         spacy
+        spacy_models.de_core_news_md
+        spacy_models.en_core_web_lg
         stanza
         thefuzz
         tiktoken # slow build / unneeded on most machines
