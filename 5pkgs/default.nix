@@ -97,6 +97,7 @@ self: pkgs_master: _nixpkgs_master: super:
         doCheck = self.stdenv.isLinux;
       });
 
+      accelerate = self.callPackage ./accelerate { };
       apply-defaults = self.callPackage ./apply-defaults { };
       bertopic = self.callPackage ./bertopic { };
       blobfile = self.callPackage ./blobfile { };

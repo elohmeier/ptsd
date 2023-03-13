@@ -175,6 +175,7 @@ with lib;
         uvicorn
         weasyprint
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+        accelerate
         bertopic
         flair
         jupyter_ascending
