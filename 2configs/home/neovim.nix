@@ -1,17 +1,6 @@
 p@{ config, lib, pkgs, ... }:
 
 let
-  nnn-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    pname = "nnn-nvim";
-    version = "2022-08-23";
-    src = pkgs.fetchFromGitHub {
-      owner = "luukvbaal";
-      repo = "nnn.nvim";
-      rev = "f9a4584085d37844c23874d916bc3934c6beabf0";
-      sha256 = "sha256-qjGieRXdf50Jo447WkIa2uHJqORW0jHtqXo8IFxkEhA=";
-    };
-  };
-
   spread-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
     pname = "spread.nvim";
     version = "2022-08-24";
@@ -25,12 +14,12 @@ let
 
   github-nvim-theme = pkgs.vimUtils.buildVimPluginFrom2Nix rec {
     pname = "github-nvim-theme";
-    version = "0.0.6";
+    version = "0.0.7";
     src = pkgs.fetchFromGitHub {
       owner = "projekt0n";
       repo = "github-nvim-theme";
       rev = "v${version}";
-      sha256 = "sha256-wLX81wgl4E50mRig9erbLyrxyGbZllFbHFAQ9+v60W4=";
+      sha256 = "sha256-Qm9ffdkHfG5+PLQ8PbOeFMywBbKVGqX8886clQbJzyg=";
     };
   };
 
@@ -50,9 +39,9 @@ let
       start = with pkgs.vimPlugins; [
         coc-nvim
         comment-nvim
+        which-key-nvim
         copilot-vim
         editorconfig-nvim
-        formatter-nvim
         github-nvim-theme
         gitsigns-nvim
         impatient-nvim
@@ -60,7 +49,6 @@ let
         leap-nvim
         lualine-nvim
         neo-tree-nvim
-        nnn-nvim
         nvim-dap
         nvim-dap-python
         nvim-dap-ui
@@ -114,6 +102,7 @@ in
   };
 
   home.packages = with pkgs;[
+    efm-langserver
     gopls
     luaformatter
     neovim

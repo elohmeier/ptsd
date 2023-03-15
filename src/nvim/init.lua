@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.api.nvim_buf_set_option(0, "formatoptions", "tcqj") -- use "gq" to format paragraphs
         vim.api.nvim_buf_set_option(0, "textwidth", 120)
         vim.api.nvim_win_set_option(0, "colorcolumn", "121")
-    end
+    end,
 })
 
 vim.api.nvim_create_autocmd("FileType", {
@@ -30,7 +30,7 @@ vim.api.nvim_create_autocmd("FileType", {
     callback = function()
         vim.api.nvim_buf_set_option(0, "tabstop", 4)
         vim.api.nvim_buf_set_option(0, "shiftwidth", 4)
-    end
+    end,
 })
 
 -- **************
@@ -41,40 +41,54 @@ require("impatient")
 
 require("github-theme").setup({theme_style = "light"})
 
-require("plugincfg.formatter")
+-- require("plugincfg.formatter")
 require("plugincfg.coc")
 
 require("leap").set_default_keymaps()
 require("lspconfig").gopls.setup {cmd = {"gopls"}, capabilities = {capabilities}}
-require("lspconfig").pyright.setup {
-    cmd = {"pyright-langserver", "--stdio"},
-    capabilities = {capabilities}
-}
+require("lspconfig").pyright.setup {cmd = {"pyright-langserver", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").nil_ls.setup {cmd = {"nil"}, capabilities = {capabilities}}
-require("lspconfig").svelte.setup {cmd = {"svelteserver", "--stdio"}, capabilities = {capabilities}}
-require("lspconfig").tsserver.setup {
-    cmd = {"typescript-language-server", "--stdio"},
-    capabilities = {capabilities}
+require("lspconfig").svelte.setup {
+    cmd = {"svelteserver", "--stdio"},
+    capabilities = {capabilities},
+    on_attach = function(client, bufnr)
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end,
+}
+require("lspconfig").tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, capabilities = {capabilities}}
+require("lspconfig").efm.setup {
+    filetypes = {"typescript", "lua", "python", "nix", "svelte"},
+    init_options = {documentFormatting = true},
+    settings = {
+        rootMarkers = {".git/"},
+        languages = {
+            lua = {
+                {
+                    formatCommand = "lua-format -i --no-keep-simple-function-one-line --no-break-after-operator --extra-sep-at-table-end --column-limit=120",
+                    formatStdin = true,
+                },
+            },
+            nix = {{formatCommand = "nixpkgs-fmt", formatStdin = true}},
+            python = {{formatCommand = "isort --quiet - | black --quiet -", formatStdin = true}},
+            svelte = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+            typescript = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+        },
+    },
 }
 require("lualine").setup()
-require("nnn").setup()
 
 require("nvim-treesitter.configs").setup {
     highlight = {enable = true, additional_vim_regex_highlighting = false},
-    indent = {enable = false}
+    indent = {enable = false},
 }
 
 local actions = require("telescope.actions")
 require("telescope").setup {
     defaults = {mappings = {i = {["<esc>"] = actions.close}}},
     extenssions = {
-        fzf = {
-            fuzzy = true,
-            override_generic_sorter = true,
-            override_file_sorter = true,
-            case_mode = "smart_case"
-        }
-    }
+        fzf = {fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case"},
+    },
 }
 require("telescope").load_extension("fzf")
 
@@ -93,13 +107,17 @@ require("gitsigns").setup {
         -- Navigation
         map("n", "]c", function()
             if vim.wo.diff then return "]c" end
-            vim.schedule(function() gs.next_hunk() end)
+            vim.schedule(function()
+                gs.next_hunk()
+            end)
             return "<Ignore>"
         end, {expr = true})
 
         map("n", "[c", function()
             if vim.wo.diff then return "[c" end
-            vim.schedule(function() gs.prev_hunk() end)
+            vim.schedule(function()
+                gs.prev_hunk()
+            end)
             return "<Ignore>"
         end, {expr = true})
 
@@ -110,15 +128,19 @@ require("gitsigns").setup {
         map("n", "<leader>hu", gs.undo_stage_hunk)
         map("n", "<leader>hR", gs.reset_buffer)
         map("n", "<leader>hp", gs.preview_hunk)
-        map("n", "<leader>hb", function() gs.blame_line {full = true} end)
+        map("n", "<leader>hb", function()
+            gs.blame_line {full = true}
+        end)
         map("n", "<leader>tb", gs.toggle_current_line_blame)
         map("n", "<leader>hd", gs.diffthis)
-        map("n", "<leader>hD", function() gs.diffthis("~") end)
+        map("n", "<leader>hD", function()
+            gs.diffthis("~")
+        end)
         map("n", "<leader>td", gs.toggle_deleted)
 
         -- Text object
         map({"o", "x"}, "ih", ":<C-U>Gitsigns select_hunk<CR>")
-    end
+    end,
 }
 
 require("trouble").setup()
@@ -133,12 +155,13 @@ require("Comment").setup()
 require("dap-python").setup("python3")
 require("dapui").setup()
 
+vim.o.timeout = true
+vim.o.timeoutlen = 300
+require("which-key").setup()
+
 -- ***************
 -- * keybindings *
 -- ***************
-
--- open empty buffer
-vim.api.nvim_set_keymap("n", "<leader>m", "<cmd>enew<cr>", {noremap = true, silent = true})
 
 vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>make<cr><cr>", {noremap = true, silent = true})
 
@@ -176,7 +199,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, bufopts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
         vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, bufopts)
-    end
+    end,
 })
 
 -- buffer navigation
@@ -187,42 +210,32 @@ vim.api.nvim_set_keymap("n", "<leader>h", "<cmd>bprevious<cr>", {noremap = true,
 vim.api.nvim_set_keymap("n", "<leader>bq", "<cmd>bp<bar>bd #<cr>", {noremap = true, silent = true})
 
 -- plugin: formatter
-vim.api.nvim_set_keymap("n", "<leader>i", "<cmd>Format<CR>", {noremap = true, silent = true})
+-- vim.api.nvim_set_keymap("n", "<leader>i", "<cmd>Format<CR>", {noremap = true, silent = true})
 
--- plugin: nnn
-vim.api.nvim_set_keymap("n", "<leader>n", "<cmd>NnnPicker %:p:h<CR>",
-                        {noremap = true, silent = true})
-
-vim.api.nvim_set_keymap("n", "<C-n>", "<cmd>NnnExplorer<CR>", {noremap = true, silent = true})
+-- format using lsp
+vim.api.nvim_set_keymap("n", "<leader>i", "<cmd>lua vim.lsp.buf.format()<CR>", {noremap = true, silent = true})
 
 -- plugin: neo-tree
-vim.api.nvim_set_keymap("n", "\\", "<cmd>Neotree<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>n", "<cmd>NeoTreeFloat<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>m", "<cmd>Neotree git_status reveal float<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "\\", "<cmd>Neotree filesystem reveal left<CR>", {noremap = true, silent = true})
 
 -- plugin: telescope
-vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>",
-                        {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>",
-                        {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>",
-                        {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>",
-                        {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>fd", "<cmd>Telescope resume<CR>",
-                        {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>fd", "<cmd>Telescope resume<CR>", {noremap = true, silent = true})
 
-vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")',
-                        {noremap = true, expr = true, silent = true})
+vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")', {noremap = true, expr = true, silent = true})
 vim.g.copilot_no_tab_map = true
 
 -- plugin: spread
-vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>lua require'spread'.out()<cr>",
-                        {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<cr>",
-                        {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>lua require'spread'.out()<cr>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<cr>", {noremap = true, silent = true})
 
 -- plugin: jupyter_ascending
-vim.api.nvim_set_keymap("n", "<leader>x", "<cmd>call jupyter_ascending#execute()<cr>",
-                        {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>x", "<cmd>call jupyter_ascending#execute()<cr>", {noremap = true, silent = true})
 
 -- copy to system clipboard
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {noremap = true, silent = true})
