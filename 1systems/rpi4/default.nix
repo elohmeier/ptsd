@@ -61,6 +61,7 @@
     gptfdisk
     iperf2
     ncdu
+    neovim
     powertop
     ptsd-nnn
     tmux
