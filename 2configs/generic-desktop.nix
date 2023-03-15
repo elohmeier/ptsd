@@ -84,5 +84,5 @@ with lib;
     plasma5Packages.plasma-thunderbolt
   ];
 
-  services.hardware.bolt.enable=true;
+  services.hardware.bolt.enable = true;
 }
