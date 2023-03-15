@@ -975,6 +975,8 @@
 
                 programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
 
+                home.sessionVariables.SSH_AUTH_SOCK = "${config.home.homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
+
                 launchd.agents.cleanup-downloads = {
                   enable = true;
                   config = {

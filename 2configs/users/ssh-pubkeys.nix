@@ -5,6 +5,7 @@ rec {
 
     enno_mb4 = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIM7OXq7COvJxoRQ2AQdo0HTJCITC6cPIZN/zs8XwCk4b enno@mb4";
     enno_mb4_nixos = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIETizjNiMQOgdL2/Fv2NY4FDpP7wfmcP5faXK9ANHLM7 enno@nixos-mb4";
+    enno_mb4_secretive = "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBLAUxgxfb28NybtTCWjRUKuDvbNai4fZzeIIG4/YTAWIO6VTklmD6HiEVrG4ASRfaPv0Py48POGliXF+7gDU0j0= enno@secretive.mb4.local";
 
     enno_yubi41 =
       "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQC6SC5B14IbROqLvuZWaHeBlI2syQUEl2oH43YjHLjXS4fAgfq7rowXk9kvZFm8So3vFRPX409IiMemzEo1s7r/5JqqOAjzc3iwXitVrL1uiFmry4P0j0by032N5P/q0CE9B2ARQXzafutaqwErqmtGm432Z5ifq3gFbUyax9AUqNuXRdHV3jM0mZrsvBHuE3da6jDg0pzQ3lbUojimt9yKE8Rue3Rhf94fqX7Fibc3TRCp+pBiPeJQUJoMmJ1DZbViUi7WrB7h1P0jSRVLVec9rG6PJbG3BWGjXro9MLN/9TpeymkBJYFlFlrhjedg1u/2NpeQmwd333/DcpIel8GrnUu+sPusCI1HHsmJQbxbzCWxDbQqIabQ5tq4TFaCX6ZWLlaIq7O3ofYv8YfUN5KdVU0Snwb/8o09FcLvu4FSW/L4WL3penaKqWfN03bQ6i1jsZ5KgYVdAgRK9ARx+Tg9DYSzua/rV2CzicAqScU32rKnORUAZS87rdxU6A0SFe7V5E4gmDxvAmCCtYCCYgwGsGHxmrgEGXkh8koBLVJA1MALq1bHieI2NSVC3LCVK5Ml6FXliPH9oeBMxZt8M4uo/1FDE1+6h5BAHF/6r89cUaxRm27AQaEHuS2Kpqc9KYphVW3W53d2GkaI6T/3yYJe2S6QAkVqjeHFUqUIfTq5+w== cardno:000611343941";
@@ -24,6 +25,7 @@ rec {
     enno_fbd
     enno_mb4
     enno_mb4_nixos
+    enno_mb4_secretive
     enno_yubi41
     enno_yubi49
     iph3_terminus
