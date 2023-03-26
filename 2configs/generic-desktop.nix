@@ -8,7 +8,7 @@ with lib;
 
   # TODO: remove in 23.05
   # see https://github.com/NixOS/nixpkgs/pull/202956
-  systemd.services.systemd-networkd-wait-online.enable = false;
+  #systemd.services.systemd-networkd-wait-online.enable = false;
 
   networking = {
     wireless.iwd.enable = mkDefault true;

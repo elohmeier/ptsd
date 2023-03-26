@@ -229,7 +229,7 @@ with lib;
     aspellDicts.en
     aspellDicts.en-computers
     aspellDicts.en-science
-    awscli2
+    # awscli2
     bc
     bubblewrap
     cachix

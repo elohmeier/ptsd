@@ -298,7 +298,7 @@
               ];
             };
 
-          tp3 = nixpkgs.lib.nixosSystem
+          tp3 = nixpkgs-unstable.lib.nixosSystem
             {
               system = "x86_64-linux";
               modules = defaultModules ++ [
