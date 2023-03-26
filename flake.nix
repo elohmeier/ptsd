@@ -344,6 +344,7 @@
                   };
 
                   nixpkgs.hostPlatform = "x86_64-linux";
+                  nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                   services.getty.autologinUser = config.users.users.mainUser.name;
 
