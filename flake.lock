@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "flake-compat": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1673956053,
+        "narHash": "sha256-4gtG9iQuiKITOjNQQeQIpoIB6b16fm+504Ch3sNKLd8=",
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "rev": "35bb57c0c8d8b62bbfd284272c928ceb64ddbde9",
+        "type": "github"
+      },
+      "original": {
+        "owner": "edolstra",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "locked": {
         "lastModified": 1676283394,
@@ -23,17 +39,66 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1674101961,
-        "narHash": "sha256-yC9A59JwadNPZ6nwwwjl1wvkSsV8pNQQvyVsVoiECS4=",
+        "lastModified": 1679666796,
+        "narHash": "sha256-8v5h5vV/r4ZgzE427Pjkl16Dg6t7+1IHNEsKe30x5Ak=",
         "owner": "elohmeier",
         "repo": "home-manager",
-        "rev": "e050fa4d869bd2a936fb1862bf62b09269dce4e2",
+        "rev": "35582368d4f5d19da877fe9769ee685022a7c347",
         "type": "github"
       },
       "original": {
         "owner": "elohmeier",
         "ref": "release-22.11-darwin",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "neovim-flake": {
+      "inputs": {
+        "flake-utils": [
+          "flake-utils"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "dir": "contrib",
+        "lastModified": 1679059174,
+        "narHash": "sha256-GuXMfECDO/2AV6Lajamjn0BUROKGcEQgNFQIqMLVEfE=",
+        "owner": "neovim",
+        "repo": "neovim",
+        "rev": "eb3fcf652bbcab01cd6d55a0e2c120c09cbe69d3",
+        "type": "github"
+      },
+      "original": {
+        "dir": "contrib",
+        "owner": "neovim",
+        "repo": "neovim",
+        "type": "github"
+      }
+    },
+    "neovim-nightly-overlay": {
+      "inputs": {
+        "flake-compat": "flake-compat",
+        "neovim-flake": [
+          "neovim-flake"
+        ],
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1679040884,
+        "narHash": "sha256-f9Cn5FlP9L7Fm/DzdB9CmssQovo/SnF980b4HqMoaAc=",
+        "owner": "nix-community",
+        "repo": "neovim-nightly-overlay",
+        "rev": "403d5f861bd4357b4bc4f7d3be8b42292e6bb4f4",
+        "type": "github"
+      },
+      "original": {
+        "owner": "nix-community",
+        "repo": "neovim-nightly-overlay",
         "type": "github"
       }
     },
@@ -109,6 +174,8 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
+        "neovim-flake": "neovim-flake",
+        "neovim-nightly-overlay": "neovim-nightly-overlay",
         "nixinate": "nixinate",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",

@@ -2,20 +2,27 @@
   description = "ptsd";
 
   inputs = {
+    flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:elohmeier/home-manager/release-22.11-darwin";
+    neovim-flake.inputs.flake-utils.follows = "flake-utils";
+    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-flake.url = "github:neovim/neovim?dir=contrib";
+    neovim-nightly-overlay.inputs.neovim-flake.follows = "neovim-flake";
+    neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11";
-    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
     { self
     , flake-utils
     , home-manager
+    , neovim-nightly-overlay
     , nixinate
     , nixos-hardware
     , nixpkgs
@@ -38,6 +45,8 @@
       })
     // {
       apps = nixinate.nixinate.aarch64-darwin self;
+
+      overlay = import ./5pkgs/overlay.nix;
 
       nixosConfigurations =
         let
@@ -742,9 +751,10 @@
                 ./2configs/generic.nix
                 ./2configs/generic-disk.nix
                 ./2configs/generic-desktop.nix
-                ({ lib, ... }: {
+                ({ lib, pkgs, ... }: {
                   system.stateVersion = "22.11";
                   nixpkgs.hostPlatform = "aarch64-linux";
+                  nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                   # match macos ids
                   users.groups.lp.gid = lib.mkForce 1020;
@@ -780,6 +790,13 @@
                     extra-platforms = [ "x86_64-linux" ];
                     extra-sandbox-paths = [ "/run/rosetta" "/run/binfmt" ];
                   };
+
+                  environment.systemPackages = with pkgs; [ libinput openfortivpn ];
+                  services.xserver.layout = "us";
+                  services.xserver.libinput.enable = true;
+                  services.xserver.libinput.mouse.naturalScrolling = true;
+                  console.keyMap = "us";
+                  i18n.defaultLocale = "en_US.UTF-8";
                 })
                 { _module.args.nixinate = { host = "192.168.70.5"; sshUser = "root"; buildOn = "remote"; }; }
               ];
@@ -953,6 +970,7 @@
                 home = {
                   username = "enno";
                   homeDirectory = "/Users/enno";
+                  sessionPath = [ "${config.home.homeDirectory}/.docker/bin" ];
                   stateVersion = "21.11";
                 };
 
@@ -968,6 +986,7 @@
                   allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
                   packageOverrides = pkgOverrides pkgs;
                 };
+                nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                 services.syncthing.enable = true;
 

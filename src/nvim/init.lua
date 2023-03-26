@@ -52,13 +52,13 @@ require("lspconfig").svelte.setup {
     cmd = {"svelteserver", "--stdio"},
     capabilities = {capabilities},
     on_attach = function(client, bufnr)
-      client.server_capabilities.documentFormattingProvider = false
-      client.server_capabilities.documentRangeFormattingProvider = false
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
     end,
 }
 require("lspconfig").tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").efm.setup {
-    filetypes = {"typescript", "lua", "python", "nix", "svelte"},
+    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json"},
     init_options = {documentFormatting = true},
     settings = {
         rootMarkers = {".git/"},
@@ -73,6 +73,8 @@ require("lspconfig").efm.setup {
             python = {{formatCommand = "isort --quiet - | black --quiet -", formatStdin = true}},
             svelte = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
             typescript = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+            yaml = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+            json = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
         },
     },
 }
@@ -158,6 +160,51 @@ require("dapui").setup()
 vim.o.timeout = true
 vim.o.timeoutlen = 300
 require("which-key").setup()
+
+vim.opt.list = true
+vim.opt.listchars:append "space:⋅"
+vim.opt.listchars:append "eol:↴"
+
+require("indent_blankline").setup {
+    space_char_blankline = " ",
+    show_current_context = true,
+    show_current_context_start = true,
+}
+
+require("nvim-treesitter.configs").setup {
+    textobjects = {
+        move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+                ["]m"] = "@function.outer",
+                ["]]"] = {query = "@class.outer", desc = "Next class start"},
+                --
+                -- You can use regex matching and/or pass a list in a "query" key to group multiple queires.
+                ["]o"] = "@loop.*",
+                -- ["]o"] = { query = { "@loop.inner", "@loop.outer" } }
+                --
+                -- You can pass a query group to use query from `queries/<lang>/<query_group>.scm file in your runtime path.
+                -- Below example nvim-treesitter's `locals.scm` and `folds.scm`. They also provide highlights.scm and indent.scm.
+                ["]s"] = {query = "@scope", query_group = "locals", desc = "Next scope"},
+                ["]z"] = {query = "@fold", query_group = "folds", desc = "Next fold"},
+            },
+            goto_next_end = {["]M"] = "@function.outer", ["]["] = "@class.outer"},
+            goto_previous_start = {["[m"] = "@function.outer", ["[["] = "@class.outer"},
+            goto_previous_end = {["[M"] = "@function.outer", ["[]"] = "@class.outer"},
+            -- Below will go to either the start or the end, whichever is closer.
+            -- Use if you want more granular movements
+            -- Make it even more gradual by adding multiple queries and regex.
+            goto_next = {["]d"] = "@conditional.outer"},
+            goto_previous = {["[d"] = "@conditional.outer"},
+        },
+        swap = {
+            enable = true,
+            swap_next = {["<leader>a"] = "@parameter.inner"},
+            swap_previous = {["<leader>A"] = "@parameter.inner"},
+        },
+    },
+}
 
 -- ***************
 -- * keybindings *

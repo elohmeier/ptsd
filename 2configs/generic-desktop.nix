@@ -25,7 +25,7 @@ with lib;
   };
 
   time.timeZone = "Europe/Berlin";
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = mkDefault "de_DE.UTF-8";
 
   services.xserver = {
     enable = true;
@@ -80,8 +80,10 @@ with lib;
       echo $HASHED_PASSWORD > /nix/secrets/mainUser.passwd
       echo "Written hashed password to /nix/secrets/root.passwd and /nix/secrets/mainUser.passwd"
     '')
+    plasma5Packages.ark
     plasma5Packages.kate
     plasma5Packages.plasma-thunderbolt
+    vscode
   ];
 
   services.hardware.bolt.enable = true;

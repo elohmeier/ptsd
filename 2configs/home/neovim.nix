@@ -39,12 +39,12 @@ let
       start = with pkgs.vimPlugins; [
         coc-nvim
         comment-nvim
-        which-key-nvim
         copilot-vim
         editorconfig-nvim
         github-nvim-theme
         gitsigns-nvim
         impatient-nvim
+        indent-blankline-nvim
         jupyter_ascending
         leap-nvim
         lualine-nvim
@@ -55,10 +55,12 @@ let
         nvim-dap-virtual-text
         nvim-jdtls
         nvim-lspconfig
+        nvim-treesitter-textobjects
         nvim-web-devicons
         oil-nvim
         spread-nvim
         telescope-fzf-native-nvim
+        which-key-nvim
         telescope-nvim
         trouble-nvim
         vim-fugitive
@@ -105,8 +107,8 @@ in
     efm-langserver
     gopls
     luaformatter
-    neovim
     nil
+    neovim-nightly
     pyright
     ripgrep # for telescope
   ];
