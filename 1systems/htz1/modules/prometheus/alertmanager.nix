@@ -19,15 +19,34 @@
       configuration = {
         route = {
           group_by = [ "alertname" "alias" ];
-          receiver = "nwadmins";
+          receiver = "email"; # default receiver
+          routes = [
+            {
+              receiver = "pushover"; # receiver for critical alerts
+              matchers = [ "severity=\"critical\"" ];
+            }
+          ];
         };
-        receivers = [{
-          name = "nwadmins";
-          pushover_configs = [{
-            user_key = "$PUSHOVER_USER_KEY";
-            token = "$PUSHOVER_TOKEN";
-          }];
-        }];
+        receivers = [
+          {
+            name = "email";
+            email_configs = [{
+              to = "enno@nn42.de";
+              from = "alerts@nn42.de";
+              smarthost = "htz2.nn42.de:587";
+              auth_username = "alerts@nn42.de";
+              auth_password = "$EMAIL_PASSWORD";
+              require_tls = true;
+            }];
+          }
+          {
+            name = "pushover";
+            pushover_configs = [{
+              user_key = "$PUSHOVER_USER_KEY";
+              token = "$PUSHOVER_TOKEN";
+            }];
+          }
+        ];
       };
     };
 
@@ -38,7 +57,7 @@
           rules = [
             {
               alert = "DiskSpace20%Free";
-              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes * 100 < 10'';
+              expr = ''node_filesystem_avail_bytes{mountpoint!~"/mnt/backup/.*|/boot"}/node_filesystem_size_bytes * 100 < 20 > 10'';
               for = "30m";
               labels.severity = "warning";
               annotations = {
@@ -102,20 +121,30 @@
             {
               alert = "CheckSSLCertFailed";
               expr = "check_ssl_cert_result > 0";
-              labels.severity = "critical";
+              labels.severity = "warning";
               annotations = {
                 summary = "Certificate check failed";
                 description = "Certificate check for {{ $labels.protocol }}://{{ $labels.host }}:{{ $labels.port }} failed with exit code {{ $value }}.";
               };
             }
             {
-              alert = "NodeDown";
+              alert = "NodeDown5Min";
               expr = ''up{alwayson="1"} == 0'';
               for = "5m";
-              labels.severity = "critical";
+              labels.severity = "warning";
               annotations = {
                 summary = "Node {{ $labels.alias }} down";
                 description = "{{ $labels.alias }} ist seit mehr als fünf Minuten nicht erreichbar.";
+              };
+            }
+            {
+              alert = "NodeDown30Min";
+              expr = ''up{alwayson="1"} == 0'';
+              for = "30m";
+              labels.severity = "critical";
+              annotations = {
+                summary = "Node {{ $labels.alias }} down";
+                description = "{{ $labels.alias }} ist seit mehr als 30 Minuten nicht erreichbar.";
               };
             }
             {
@@ -131,9 +160,9 @@
             }
             {
               alert = "FilesystemLocked";
-              expr = ''node_systemd_unit_state{name="unlock-mnt.service", state="active", alias="rpi4"} == 0'';
+              expr = ''node_systemd_unit_state{name="unlock-disks.target", state="active", alias="rpi4"} == 0'';
               for = "5m";
-              labels.severity = "critical";
+              labels.severity = "warning";
               annotations = {
                 summary = "Filesystem /mnt on rpi4 is locked";
                 description = "The filesystem /mnt on rpi4 is locked and cannot be accessed.";
