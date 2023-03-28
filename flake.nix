@@ -1017,13 +1017,18 @@
                     BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
                   };
                   exclude = [
-                    "${homeDirectory}/.cache"
                     "${homeDirectory}/.Trash"
+                    "${homeDirectory}/.cache"
+                    "${homeDirectory}/.diffusionbee"
+                    "${homeDirectory}/.flair"
                     "${homeDirectory}/Applications"
                     "${homeDirectory}/Downloads"
                     "${homeDirectory}/Downloads-Keep"
                     "${homeDirectory}/Library"
                     "${homeDirectory}/Pictures/Photos Library.photoslibrary"
+                    "${homeDirectory}/Sync/rpi4-dl" # no backup
+                    "${homeDirectory}/Sync/tp3" # no backup
+                    "${homeDirectory}/repos/llama.cpp/models"
                     "${homeDirectory}/roms" # no backup
                     "*.pyc"
                     "*.qcow2"
