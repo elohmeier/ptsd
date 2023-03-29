@@ -971,7 +971,10 @@
                 home = {
                   username = "enno";
                   homeDirectory = "/Users/enno";
-                  sessionPath = [ "${config.home.homeDirectory}/.docker/bin" ];
+                  sessionPath = [
+                    "${config.home.homeDirectory}/.docker/bin"
+                    "${config.home.homeDirectory}/.local/share/npm/bin"
+                  ];
                   stateVersion = "21.11";
                 };
 
