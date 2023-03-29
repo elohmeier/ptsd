@@ -35,6 +35,8 @@ with lib;
     gen-secrets
     gh
     ghostscript
+    go-jsonnet
+    gojsontoyaml
     gomuks
     google-cloud-sdk
     hcloud
@@ -49,6 +51,8 @@ with lib;
     jdk
     jdt-language-server
     jless
+    jsonnet-bundler
+    jsonnet-language-server
     lazygit
     libfaketime
     logseq-query

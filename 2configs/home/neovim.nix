@@ -78,10 +78,10 @@ let
           tree-sitter-html
           tree-sitter-java
           tree-sitter-json
+          tree-sitter-jsonnet
           tree-sitter-lua
           tree-sitter-markdown
           tree-sitter-nix
-          tree-sitter-norg
           tree-sitter-php
           tree-sitter-python
           tree-sitter-rust

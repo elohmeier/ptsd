@@ -48,6 +48,7 @@ require("leap").set_default_keymaps()
 require("lspconfig").gopls.setup {cmd = {"gopls"}, capabilities = {capabilities}}
 require("lspconfig").pyright.setup {cmd = {"pyright-langserver", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").nil_ls.setup {cmd = {"nil"}, capabilities = {capabilities}}
+require("lspconfig").jsonnet_ls.setup {cmd = {"jsonnet-language-server"}, capabilities = {capabilities}}
 require("lspconfig").svelte.setup {
     cmd = {"svelteserver", "--stdio"},
     capabilities = {capabilities},
