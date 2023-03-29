@@ -1,5 +1,5 @@
 {
-  "timeStamp": 1679829592436,
+  "timeStamp": 1680022631208,
   "version": "1.47.4",
   "userSettings": {
     "advancedUserEnabled": true,
@@ -34,9 +34,11 @@
     "google.com",
     "labs.openai.com",
     "mb4-nixos",
+    "microsoft.com",
     "moz-extension-scheme",
     "nerdworks.de",
     "nn42.de",
+    "office.com",
     "opera-scheme",
     "pug-coho.ts.net",
     "vivaldi-scheme",
