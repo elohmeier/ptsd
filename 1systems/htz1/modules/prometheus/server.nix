@@ -117,21 +117,21 @@ in
         static_configs = [{ targets = [ "rpi4.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-mysqld}" ]; labels.alias = "rpi4"; }];
       }
 
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_2xx";
-        params.module = [ "http_2xx" ];
-        static_configs = [{
-          targets = [
-            # "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}"
-            "https://vault.fraam.de"
-          ];
-        }];
-      })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_fraam_www";
-        params.module = [ "http_fraam_www" ];
-        static_configs = [{ targets = [ "https://www.fraam.de" ]; }];
-      })
+      # (blackboxGenericScrapeConfig // {
+      #   job_name = "blackbox_http_2xx";
+      #   params.module = [ "http_2xx" ];
+      #   static_configs = [{
+      #     targets = [
+      #       # "https://nas1.pug-coho.ts.net:${toString config.ptsd.ports.octoprint}"
+      #       "https://vault.fraam.de"
+      #     ];
+      #   }];
+      # })
+      # (blackboxGenericScrapeConfig // {
+      #   job_name = "blackbox_http_fraam_www";
+      #   params.module = [ "http_fraam_www" ];
+      #   static_configs = [{ targets = [ "https://www.fraam.de" ]; }];
+      # })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_nerdworks_www";
         params.module = [ "http_nerdworks_www" ];
