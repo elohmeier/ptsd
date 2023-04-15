@@ -102,12 +102,14 @@ self: pkgs_master: _nixpkgs_master: super:
       bertopic = self.callPackage ./bertopic { };
       blobfile = self.callPackage ./blobfile { };
       bpemb = self.callPackage ./bpemb { };
+      chromadb = self.callPackage ./chromadb { };
       conllu = self.callPackage ./conllu { };
       davphonebook = self.callPackage ./davphonebook { };
       djhtml = self.callPackage ./djhtml { };
       finance-dl = self.callPackage ./finance-dl { };
       flair = self.callPackage ./flair { };
       hocr-tools = self.callPackage ./hocr-tools { };
+      hnswlib = self.callPackage ./hnswlib { };
       icloudpd = self.callPackage ./icloudpd { };
       jsonrpcclient = self.callPackage ./jsonrpcclient { };
       jsonrpcserver = self.callPackage ./jsonrpcserver { };

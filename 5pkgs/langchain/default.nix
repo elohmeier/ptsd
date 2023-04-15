@@ -1,28 +1,40 @@
 { buildPythonPackage
+, aiohttp
+, chromadb
+, dataclasses-json
 , fetchPypi
-, pydantic
-, sqlalchemy
-, requests
-, pyyaml
 , numpy
+, pydantic
+, pyyaml
+, requests
+, sqlalchemy
+, tenacity
+, pythonRelaxDepsHook
 }:
 
 buildPythonPackage rec {
   pname = "langchain";
-  version = "0.0.69";
+  version = "0.0.129";
 
   src = fetchPypi {
     inherit pname version;
-    sha256 = "sha256-GRwZ4GjCUpXbV0EH4cblcM4m3gkC1cXTmwKOMwkvaGM=";
+    sha256 = "sha256-Qf/5BNyhUNbj9il5s46xvHVFIQw864QRNvDaMd34GdY=";
   };
 
   doCheck = false;
 
   propagatedBuildInputs = [
-    pydantic
-    sqlalchemy
-    requests
-    pyyaml
+    aiohttp
+    chromadb
+    dataclasses-json
     numpy
+    pydantic
+    pyyaml
+    requests
+    sqlalchemy
+    tenacity
   ];
+
+  nativeBuildInputs = [ pythonRelaxDepsHook ];
+  pythonRelaxDeps = true;
 }

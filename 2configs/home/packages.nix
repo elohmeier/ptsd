@@ -19,6 +19,7 @@ with lib;
     (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     bat
+    poetry
     btop
     cargo
     copy-secrets
@@ -93,6 +94,7 @@ with lib;
     skopeo
     statix
     tabula-java
+    tanka
     tig
     tmux
     tmuxinator
@@ -120,6 +122,7 @@ with lib;
         # sqlacodegen
         XlsxWriter
         alembic
+        # langchain
         authlib
         beancount
         beautifulsoup4
@@ -142,7 +145,6 @@ with lib;
         jupyterlab
         keras
         keyring
-        langchain
         lark
         lxml
         matplotlib
@@ -164,6 +166,7 @@ with lib;
         pyjwt
         pylint
         pymupdf
+        pynvim
         pypdf2
         pytest
         pyxlsb
@@ -183,7 +186,7 @@ with lib;
         bertopic
         flair
         jupyter_ascending
-        mlxtend
+        # mlxtend
         nurl
         presidio-analyzer
         presidio-anonymizer
