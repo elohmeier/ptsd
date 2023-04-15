@@ -4,7 +4,8 @@
   inputs = {
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.url = "github:elohmeier/home-manager/release-22.11-darwin";
+    home-manager.inputs.utils.follows = "flake-utils";
+    home-manager.url = "github:elohmeier/home-manager/master-darwin";
     neovim-flake.inputs.flake-utils.follows = "flake-utils";
     neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
     neovim-flake.url = "github:neovim/neovim?dir=contrib";
