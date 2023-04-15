@@ -86,6 +86,7 @@ in
               exit 0
             fi
             cat "${cfg.fqdn}.crt" "${cfg.fqdn}.key" > "${cfg.fqdn}.pem"
+            chown tailscale-cert:tailscale-cert "${cfg.fqdn}.pem"
             chmod 640 "${cfg.fqdn}.key"
             chmod 640 "${cfg.fqdn}.pem"
             ${cfg.cert.postRun}
