@@ -2,6 +2,8 @@
   description = "ptsd";
 
   inputs = {
+    disko.inputs.nixpkgs.follows = "nixpkgs";
+    disko.url = "github:nix-community/disko";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.utils.follows = "flake-utils";
@@ -21,6 +23,7 @@
 
   outputs =
     { self
+    , disko
     , flake-utils
     , home-manager
     , neovim-nightly-overlay
@@ -308,7 +311,7 @@
               ];
             };
 
-          tp3 = nixpkgs-unstable.lib.nixosSystem
+          tp3_old = nixpkgs-unstable.lib.nixosSystem
             {
               system = "x86_64-linux";
               modules = defaultModules ++ [
@@ -356,6 +359,43 @@
                 { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
+
+          tp3 = nixpkgs-unstable.lib.nixosSystem {
+            system = "x86_64-linux";
+            modules = defaultModules ++ [
+              home-manager.nixosModule
+              disko.nixosModules.disko
+              ./2configs/networkmanager.nix
+              ./2configs/nix-persistent.nix
+              ./2configs/users
+              ./2configs
+              ({ config, lib, ... }: {
+                networking.hostName = "tp3";
+                services.getty.autologinUser = config.users.users.mainUser.name;
+                disko.devices = import ./2configs/disko/luks-lvm-immutable.nix {
+                  inherit lib;
+                };
+                fileSystems = {
+                  "/" = {
+                    fsType = "tmpfs";
+                    options = [ "size=1G" "mode=1755" ];
+                  };
+                };
+                boot.loader = {
+                  systemd-boot.enable = true;
+                  efi.canTouchEfiVariables = true;
+                };
+                services.xserver = {
+                  enable = true;
+                  desktopManager = {
+                    xterm.enable = false;
+                    xfce.enable = true;
+                  };
+                  displayManager.defaultSession = "xfce";
+                };
+              })
+            ];
+          };
 
           tp4 = nixpkgs.lib.nixosSystem
             {
