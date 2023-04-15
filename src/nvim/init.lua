@@ -1,4 +1,5 @@
 vim.g.mapleader = ","
+vim.g.jupyter_ascending_python_executable = "$HOME/.nix-profile/bin/python3"
 
 local o = vim.o
 o.expandtab = true
@@ -59,7 +60,7 @@ require("lspconfig").svelte.setup {
 }
 require("lspconfig").tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").efm.setup {
-    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json"},
+    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json", "sh"},
     init_options = {documentFormatting = true},
     settings = {
         rootMarkers = {".git/"},
@@ -76,6 +77,7 @@ require("lspconfig").efm.setup {
             typescript = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
             yaml = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
             json = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+            sh = {{formatCommand = "shfmt -ci -s -bn", formatStdin = true}},
         },
     },
 }
@@ -207,11 +209,18 @@ require("nvim-treesitter.configs").setup {
     },
 }
 
+require('spectre').setup({replace_engine = {['sed'] = {cmd = "sed"}}})
+
 -- ***************
 -- * keybindings *
 -- ***************
 
-vim.api.nvim_set_keymap("n", "<leader>b", "<cmd>make<cr><cr>", {noremap = true, silent = true})
+vim.keymap.set('n', '<leader>S', '<cmd>lua require("spectre").open()<CR>', {desc = "Open Spectre"})
+vim.keymap.set('n', '<leader>sw', '<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
+               {desc = "Search current word"})
+vim.keymap.set('v', '<leader>sw', '<esc><cmd>lua require("spectre").open_visual()<CR>', {desc = "Search current word"})
+vim.keymap.set('n', '<leader>sp', '<cmd>lua require("spectre").open_file_search({select_word=true})<CR>',
+               {desc = "Search on current file"})
 
 -- Option + Shift + w to insert „ (like in macOS)
 vim.api.nvim_set_keymap("i", "<M-S-w>", "„", {noremap = true, silent = true})

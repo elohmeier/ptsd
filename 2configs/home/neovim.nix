@@ -55,6 +55,7 @@ let
         nvim-dap-virtual-text
         nvim-jdtls
         nvim-lspconfig
+        nvim-spectre
         nvim-treesitter-textobjects
         nvim-web-devicons
         oil-nvim
