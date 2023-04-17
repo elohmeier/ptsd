@@ -369,7 +369,7 @@
               ./2configs/nix-persistent.nix
               ./2configs/users
               ./2configs
-              ({ config, lib, ... }: {
+              ({ config, lib, pkgs, ... }: {
                 networking.hostName = "tp3";
                 services.getty.autologinUser = config.users.users.mainUser.name;
                 disko.devices = import ./2configs/disko/luks-lvm-immutable.nix {
@@ -381,9 +381,39 @@
                     options = [ "size=1G" "mode=1755" ];
                   };
                 };
-                boot.loader = {
-                  systemd-boot.enable = true;
-                  efi.canTouchEfiVariables = true;
+                boot = {
+                  loader = {
+                    systemd-boot.enable = true;
+                    efi.canTouchEfiVariables = true;
+                  };
+                  initrd = {
+                    availableKernelModules = [
+                      "ahci"
+                      "ata_piix"
+                      "ehci_pci"
+                      "hid_microsoft"
+                      "ntfs3"
+                      "nvme"
+                      "ohci_pci"
+                      "sd_mod"
+                      "sr_mod"
+                      "uhci_hcd"
+                      "usb_storage"
+                      "usbhid"
+                      "xhci_pci"
+                    ];
+
+                    kernelModules = [
+                      "amdgpu"
+                    ];
+
+                    systemd = {
+                      enable = true;
+                      emergencyAccess = true;
+                    };
+                  };
+                  kernelPackages = pkgs.linuxPackages_latest;
+                  kernelModules = [ "kvm-amd" ];
                 };
                 services.xserver = {
                   enable = true;
@@ -392,7 +422,23 @@
                     xfce.enable = true;
                   };
                   displayManager.defaultSession = "xfce";
+                  videoDrivers = [ "amdgpu" ];
                 };
+                hardware.opengl = {
+                  enable = true;
+                  driSupport = true;
+                  driSupport32Bit = true;
+                  extraPackages = with pkgs; [
+                    amdvlk
+                    rocm-opencl-icd
+                    rocm-opencl-runtime
+                  ];
+                  extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
+                };
+
+                console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
+                powerManagement.cpuFreqGovernor = "schedutil";
+                hardware.cpu.amd.updateMicrocode = true;
               })
             ];
           };
@@ -796,8 +842,8 @@
                 ({ lib, pkgs, ... }: {
                   system.stateVersion = "22.11";
                   nixpkgs.hostPlatform = "aarch64-linux";
-                  nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
-
+                  # nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
+                  systemd.services.systemd-networkd-wait-online.enable = false;
                   # match macos ids
                   users.groups.lp.gid = lib.mkForce 1020;
                   users.groups.staff.gid = 20;
@@ -810,7 +856,7 @@
                   };
 
                   fileSystems."/home/gordon/repos" = {
-                    device = "192.168.70.1:/Users/enno/repos";
+                    device = "192.168.71.1:/Users/enno/repos";
                     fsType = "nfs";
                     options = [
                       "x-systemd.automount"
@@ -840,7 +886,7 @@
                   console.keyMap = "us";
                   i18n.defaultLocale = "en_US.UTF-8";
                 })
-                { _module.args.nixinate = { host = "192.168.70.5"; sshUser = "root"; buildOn = "remote"; }; }
+                { _module.args.nixinate = { host = "192.168.71.4"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
 

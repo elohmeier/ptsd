@@ -43,4 +43,13 @@
   });
 
   users.users.root.passwordFile = "/nix/secrets/root.passwd";
+
+  environment.systemPackages = with pkgs; [
+    (writeShellScriptBin "ptsd-set-password" ''
+      HASHED_PASSWORD=$(${hashPassword}/bin/hashPassword)
+      echo $HASHED_PASSWORD > /nix/secrets/root.passwd
+      echo $HASHED_PASSWORD > /nix/secrets/mainUser.passwd
+      echo "Written hashed password to /nix/secrets/root.passwd and /nix/secrets/mainUser.passwd"
+    '')
+  ];
 }
