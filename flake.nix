@@ -879,7 +879,7 @@
                     extra-sandbox-paths = [ "/run/rosetta" "/run/binfmt" ];
                   };
 
-                  environment.systemPackages = with pkgs; [ libinput openfortivpn ];
+                  environment.systemPackages = with pkgs; [ libinput openfortivpn espeak-ng ];
                   services.xserver.layout = "us";
                   services.xserver.libinput.enable = true;
                   services.xserver.libinput.mouse.naturalScrolling = true;
