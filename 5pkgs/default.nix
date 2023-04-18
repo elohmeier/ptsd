@@ -164,8 +164,6 @@ self: pkgs_master: _nixpkgs_master: super:
     patches = [ ];
   });
 
-  logseq-bin = self.callPackage ./logseq-bin { };
-
   inherit (pkgs_master) neovim-unwrapped;
   inherit (pkgs_master) neovimUtils;
   inherit (pkgs_master) vimPlugins;

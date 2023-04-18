@@ -207,11 +207,9 @@ with lib;
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
     binutils
-    iterm2
     kubectl
     kubectl-minio
     llvmPackages.lldb
-    logseq-bin
     openai-whisper-cpp
     qemu
     rar
