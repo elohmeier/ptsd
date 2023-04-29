@@ -97,6 +97,10 @@ self: pkgs_master: _nixpkgs_master: super:
         doCheck = self.stdenv.isLinux;
       });
 
+      wandb = super.wandb.overridePythonAttrs (old: {
+        doCheck = self.stdenv.isLinux;
+      });
+
       accelerate = self.callPackage ./accelerate { };
       apply-defaults = self.callPackage ./apply-defaults { };
       bertopic = self.callPackage ./bertopic { };
