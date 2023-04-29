@@ -8,12 +8,12 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.inputs.utils.follows = "flake-utils";
     home-manager.url = "github:elohmeier/home-manager/master-darwin";
-    neovim-flake.inputs.flake-utils.follows = "flake-utils";
-    neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-flake.url = "github:neovim/neovim?dir=contrib";
-    neovim-nightly-overlay.inputs.neovim-flake.follows = "neovim-flake";
-    neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
+    # neovim-flake.inputs.flake-utils.follows = "flake-utils";
+    # neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
+    # neovim-flake.url = "github:neovim/neovim?dir=contrib";
+    # neovim-nightly-overlay.inputs.neovim-flake.follows = "neovim-flake";
+    # neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
+    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -26,7 +26,7 @@
     , disko
     , flake-utils
     , home-manager
-    , neovim-nightly-overlay
+      # , neovim-nightly-overlay
     , nixinate
     , nixos-hardware
     , nixpkgs
@@ -348,7 +348,7 @@
                   };
 
                   nixpkgs.hostPlatform = "x86_64-linux";
-                  nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
+                  # nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                   services.getty.autologinUser = config.users.users.mainUser.name;
 
@@ -1078,7 +1078,7 @@
                   allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
                   packageOverrides = pkgOverrides pkgs;
                 };
-                nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
+                # nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                 services.syncthing.enable = true;
 

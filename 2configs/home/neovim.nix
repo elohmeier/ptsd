@@ -109,7 +109,8 @@ in
     gopls
     luaformatter
     nil
-    neovim-nightly
+    neovim
+    # neovim-nightly
     pyright
     ripgrep # for telescope
   ];
