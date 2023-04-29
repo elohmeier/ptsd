@@ -19,7 +19,6 @@ with lib;
     (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     bat
-    poetry
     btop
     cargo
     copy-secrets
@@ -59,6 +58,8 @@ with lib;
     logseq-query
     macos-fix-filefoldernames
     miller
+    minikube
+    minio-client
     mkpasswd
     mpv
     ncdu_1
@@ -76,6 +77,7 @@ with lib;
     ocrmypdf
     p7zip
     pass
+    poetry
     poppler_utils
     prettier-with-plugins
     ptsd-nnn
@@ -87,6 +89,7 @@ with lib;
     remarshal
     ripgrep
     rmlint
+    ruff
     rustc
     shellcheck
     shfmt
@@ -125,6 +128,7 @@ with lib;
         # langchain
         authlib
         beancount
+        soupsieve
         beautifulsoup4
         black
         boto3
@@ -176,7 +180,7 @@ with lib;
         tabulate
         tasmota-decode-config
         tenacity
-        tensorflow
+        # tensorflow
         tkinter
         umap-learn
         uvicorn
