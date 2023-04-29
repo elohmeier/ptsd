@@ -81,10 +81,10 @@ in
         serviceConfig = {
           ExecStart = ''${config.services.tailscale.package}/bin/tailscale cert "${cfg.fqdn}"'';
           ExecStartPost = "+" + (pkgs.writeShellScript "tailscale-cert-post" ''
-            if [ $(date -d "$(stat -c %y "${cfg.fqdn}.crt")" +%s) -gt $(date -d "1 day ago" +%s) ]; then
-              echo "certificate was not renewed"
-              exit 0
-            fi
+            # if [ $(date -d "$(stat -c %y "${cfg.fqdn}.crt")" +%s) -gt $(date -d "1 day ago" +%s) ]; then
+            #   echo "certificate was not renewed"
+            #   exit 0
+            # fi
             cat "${cfg.fqdn}.crt" "${cfg.fqdn}.key" > "${cfg.fqdn}.pem"
             chown tailscale-cert:tailscale-cert "${cfg.fqdn}.pem"
             chmod 640 "${cfg.fqdn}.key"
