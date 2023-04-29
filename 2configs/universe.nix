@@ -346,5 +346,10 @@
       syncthing.id = "IDWACTT-CF47Z2S-ADZSHTU-TRJF3LJ-XWUBS6V-YEUCIMG-RTHQ5MN-BOIMXAD";
     };
 
+    convexio_prod = {
+      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILkqKFarJ9lQtEZWG45Quo2WGDZVx1iVakl9ymX3jiVm";
+      borg.quota = "30G";
+    };
+
   };
 }

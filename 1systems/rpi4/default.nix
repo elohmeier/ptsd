@@ -67,6 +67,7 @@
     tmux
   ];
 
+  # remember to update borgDeps in ./disks.nix and below pinned uids
   services.borgbackup.repos =
     let
       cfg = hostname: {
@@ -84,6 +85,7 @@
       mb3 = cfg "mb3";
       mb4 = cfg "mb4";
       bae0thiu = cfg "bae0thiu";
+      convexio_prod = cfg "convexio_prod";
     };
 
   # pin uids (not persisted)
@@ -93,6 +95,8 @@
   users.users.borg-htz3.uid = 904;
   users.users.borg-mb3.uid = 905;
   users.users.borg-mb4.uid = 906;
+  users.users.borg-bae0thiu.uid = 907;
+  users.users.borg-convexio_prod.uid = 908;
 
   systemd.oomd.enable = false; # fails to start
 

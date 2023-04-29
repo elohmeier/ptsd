@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ lib, pkgs, ... }:
 
 let
   genUnlock = name: {
@@ -61,6 +61,7 @@ in
         "borgbackup-repo-mb3.service"
         "borgbackup-repo-mb4.service"
         "borgbackup-repo-bae0thiu.service"
+        "borgbackup-repo-convexio_prod.service"
       ];
       hassDeps = [
         "home-assistant.service"
