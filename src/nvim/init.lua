@@ -41,6 +41,7 @@ vim.api.nvim_create_autocmd("FileType", {
 require("impatient")
 
 require("github-theme").setup({theme_style = "light"})
+-- require("github-theme").setup({theme_style = "dark"})
 
 -- require("plugincfg.formatter")
 require("plugincfg.coc")
@@ -60,7 +61,7 @@ require("lspconfig").svelte.setup {
 }
 require("lspconfig").tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").efm.setup {
-    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json", "sh"},
+    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json", "sh", "markdown"},
     init_options = {documentFormatting = true},
     settings = {
         rootMarkers = {".git/"},
@@ -78,6 +79,7 @@ require("lspconfig").efm.setup {
             yaml = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
             json = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
             sh = {{formatCommand = "shfmt -ci -s -bn", formatStdin = true}},
+            markdown = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
         },
     },
 }
@@ -279,7 +281,7 @@ vim.api.nvim_set_keymap("n", "\\", "<cmd>Neotree filesystem reveal left<CR>", {n
 
 -- plugin: telescope
 vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>fg", "<cmd>lua require'telescope.builtin'.live_grep({ additional_args = { '-j1' }})<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fd", "<cmd>Telescope resume<CR>", {noremap = true, silent = true})
