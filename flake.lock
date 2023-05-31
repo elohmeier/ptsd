@@ -42,17 +42,14 @@
       "inputs": {
         "nixpkgs": [
           "nixpkgs"
-        ],
-        "utils": [
-          "flake-utils"
         ]
       },
       "locked": {
-        "lastModified": 1680550344,
-        "narHash": "sha256-8JGv6vjnPQ4XisY7hMf9u1+AzpiVdcLvPpbTUNNAtRU=",
+        "lastModified": 1685516559,
+        "narHash": "sha256-ksJmxCoU8ahCShgvQ9sQs9WioVdNbLQ6ia2jMy5P5kY=",
         "owner": "elohmeier",
         "repo": "home-manager",
-        "rev": "25ad0b2ef1f11ed256c84c7cb94af0b2d0753618",
+        "rev": "c54852a3e36c5b350722aa848d573be58ed0cba9",
         "type": "github"
       },
       "original": {
@@ -116,11 +113,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1685513263,
-        "narHash": "sha256-89IKZyLSTMShK0Wpeb4EcNAUbA1exENhTzzjnI1NL1M=",
+        "lastModified": 1685516357,
+        "narHash": "sha256-wCVyNnd+wev3lLC2cWKF26px0Jc9rUXeOSjQs91pBvI=",
         "owner": "elohmeier",
         "repo": "nixpkgs",
-        "rev": "507df3821c9479c3ced0cf1b4354fca84edd0f10",
+        "rev": "c2b552f1f82bf03a9cbf306ca82a031ff7205453",
         "type": "github"
       },
       "original": {

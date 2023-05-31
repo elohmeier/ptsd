@@ -18,6 +18,7 @@ let
     "111.0.1" = "sha256-IeDeWL3rbovlwaQ6Ouod2SnhZGOMFyz6ucMWJwO9pjs=";
     "112.0" = "sha256-Dmyz2zxDtp0crN3Qg4nK+wVS+fPoq8m/nE7BTyupQ4A=";
     "112.0.2" = "sha256-kw0mhba1Laa5B8TYvlcEQItzMrZN4ZdFier/FtVtRH0=";
+    "113.0.2" = "sha256-SHSddHtoFOkPZD1AGm7fZYB1UZAsjy+6Ed6J3HKPqCQ=";
   };
 in
 stdenv.mkDerivation rec {
