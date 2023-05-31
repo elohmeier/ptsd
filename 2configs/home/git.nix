@@ -32,6 +32,7 @@
         #paging = "never";
       };
     };
+    lfs.enable = true;
   };
 
   home.packages = [ pkgs.gitAndTools.git-absorb ];
