@@ -102,7 +102,6 @@ self: pkgs_master: _nixpkgs_master: super:
       });
 
       accelerate = self.callPackage ./accelerate { };
-      apply-defaults = self.callPackage ./apply-defaults { };
       bertopic = self.callPackage ./bertopic { };
       blobfile = self.callPackage ./blobfile { };
       bpemb = self.callPackage ./bpemb { };
@@ -115,13 +114,9 @@ self: pkgs_master: _nixpkgs_master: super:
       hocr-tools = self.callPackage ./hocr-tools { };
       hnswlib = self.callPackage ./hnswlib { };
       icloudpd = self.callPackage ./icloudpd { };
-      jsonrpcclient = self.callPackage ./jsonrpcclient { };
-      jsonrpcserver = self.callPackage ./jsonrpcserver { };
-      jupyter_ascending = self.callPackage ./jupyter_ascending { };
       langchain = self.callPackage ./langchain { };
       neo4j-driver = self.callPackage ./neo4j-driver { };
       nobbofin = self.callPackage ./nobbofin { };
-      oslash = self.callPackage ./oslash { };
       postgrest-py = self.callPackage ./postgrest-py { };
       pptree = self.callPackage ./pptree { };
       presidio-analyzer = self.callPackage ./presidio-analyzer { };
