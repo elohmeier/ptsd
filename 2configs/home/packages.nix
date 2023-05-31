@@ -119,7 +119,8 @@ with lib;
     zathura
     zellij
 
-    (ptsd-python3.withPackages (
+    # (ptsd-python3.withPackages (
+    (python3.withPackages (
       pythonPackages: with pythonPackages;
       [
         # sqlacodegen
@@ -178,22 +179,22 @@ with lib;
         sqlalchemy
         sshtunnel
         tabulate
-        tasmota-decode-config
+        # tasmota-decode-config
         tenacity
         # tensorflow
         tkinter
-        umap-learn
+        # umap-learn
         uvicorn
         weasyprint
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
         accelerate
-        bertopic
-        flair
-        jupyter_ascending
+        # bertopic
+        # flair
+        jupyter-ascending
         # mlxtend
         nurl
-        presidio-analyzer
-        presidio-anonymizer
+        # presidio-analyzer
+        # presidio-anonymizer
         pysbd
         scikit-learn
         sentence-transformers
