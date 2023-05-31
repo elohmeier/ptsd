@@ -856,12 +856,13 @@
                   };
 
                   fileSystems."/home/gordon/repos" = {
-                    device = "192.168.71.1:/Users/enno/repos";
+                    device = "192.168.73.1:/Users/enno/repos";
                     fsType = "nfs";
                     options = [
                       "x-systemd.automount"
                       "noauto"
                       "nfsvers=3"
+                      "x-systemd.mount-timeout=5s"
                     ];
                   };
 
@@ -886,7 +887,7 @@
                   console.keyMap = "us";
                   i18n.defaultLocale = "en_US.UTF-8";
                 })
-                { _module.args.nixinate = { host = "192.168.71.4"; sshUser = "root"; buildOn = "remote"; }; }
+                { _module.args.nixinate = { host = "192.168.73.3"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
 
@@ -1118,8 +1119,11 @@
                     "${homeDirectory}/Library"
                     "${homeDirectory}/Pictures/Photos Library.photoslibrary"
                     "${homeDirectory}/Sync/rpi4-dl" # no backup
-                    "${homeDirectory}/Sync/tp3" # no backup
                     "${homeDirectory}/repos/llama.cpp/models"
+                    "${homeDirectory}/repos/whisper.cpp/models"
+                    "${homeDirectory}/repos/convexio/.minio"
+                    "${homeDirectory}/repos/convexio/.minio-prod"
+                    "${homeDirectory}/repos/stable-vicuna-13b-delta/*.bin"
                     "${homeDirectory}/roms" # no backup
                     "*.pyc"
                     "*.qcow2"
