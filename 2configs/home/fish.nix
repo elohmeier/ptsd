@@ -30,6 +30,7 @@ p@{ config, lib, pkgs, ... }:
       etm = "et -c \"tmux -CC new -A -s main\"";
       ga = "git add";
       gc = "git commit";
+      gcf = "git commit --fixup";
       gco = "git checkout";
       gcp = "git cherry-pick";
       gd = "git diff";
