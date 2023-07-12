@@ -23,6 +23,7 @@
       systemd = {
         enable = true;
         emergencyAccess = true;
+        enableTpm2 = false;
       };
     };
     kernel.sysctl."vm.dirty_writeback_centisecs" = 1500; # interval between wakeups to write old data out to disk (saves power)
@@ -31,7 +32,7 @@
       grub.enable = false;
       generic-extlinux-compatible.enable = true;
     };
-    tmpOnTmpfs = true;
+    tmp.useTmpfs = true;
   };
 
   ptsd.secrets.enable = false;

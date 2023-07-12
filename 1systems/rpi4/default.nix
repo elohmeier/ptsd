@@ -1,4 +1,4 @@
-{ config, lib, pkgs, hosts, ... }: {
+{ lib, pkgs, ... }: {
 
   imports = [
     ../../2configs

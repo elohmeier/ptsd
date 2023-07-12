@@ -12,7 +12,6 @@ in
 {
   zramSwap = {
     enable = true;
-    numDevices = 1;
     swapDevices = 1;
     memoryPercent = 75;
     algorithm = "zstd";
@@ -21,8 +20,6 @@ in
   hardware.enableRedistributableFirmware = lib.mkDefault false; # override nixos-hardware default
   hardware.firmware = [ firmware-brcm pkgs.raspberrypiWirelessFirmware ];
   hardware.wirelessRegulatoryDatabase = true;
-
-  console.keyMap = "de-latin1";
 
   networking = {
     useDHCP = false;

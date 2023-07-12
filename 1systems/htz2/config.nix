@@ -73,5 +73,34 @@
     };
   };
 
+  # TODO, waiting for firmware >=7.50
+  # systemd.network.netdevs.htz2wg = {
+  #   netdevConfig = {
+  #     Name = "htz2wg";
+  #     Kind = "wireguard";
+  #     MTUBytes = 1420;
+  #   };
+  #
+  #   wireguardConfig = {
+  #     PrivateKeyFile = "/run/credentials/systemd-networkd.service/htz2wg.key";
+  #     ListenPort = 55555;
+  #   };
+  #
+  #   wireguardPeers = [
+  #     {
+  #       wireguardPeerConfig = {
+  #         PublicKey = "";
+  #         PresharedKeyFile = "/run/credentials/systemd-networkd.service/htz2wg-fbhome.psk";
+  #         AllowedIPs = "191.18.99.2/32";
+  #       };
+  #     }
+  #   ];
+  # };
+  #
+  # systemd.services.systemd-networkd.serviceConfig.LoadCredential = [
+  #   "htz2wg.key:/var/src/secrets/htz2wg.key"
+  #   "htz2wg-fbhome.psk:/var/src/secrets/htz2wg-fbhome.psk"
+  # ];
+
   system.stateVersion = "21.11";
 }

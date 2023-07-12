@@ -6,7 +6,6 @@
     disko.url = "github:nix-community/disko";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    home-manager.inputs.utils.follows = "flake-utils";
     home-manager.url = "github:elohmeier/home-manager/master-darwin";
     # neovim-flake.inputs.flake-utils.follows = "flake-utils";
     # neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
@@ -42,10 +41,21 @@
     flake-utils.lib.eachDefaultSystem
       (system:
       {
-        packages = import nixpkgs-unstable {
-          config.allowUnfree = true; inherit system;
-          config.packageOverrides = pkgOverrides self;
-        };
+        packages =
+          let
+            pkgs = import nixpkgs-unstable {
+              config.allowUnfree = true; inherit system;
+              config.packageOverrides = pkgOverrides self;
+            };
+          in
+          {
+            deploy-rpi4_scangw = pkgs.writeShellScriptBin "deploy-rpi4_scangw" ''
+              echo "building..."
+              nix copy --to ssh://root@rpi4.fritz.box ${self.nixosConfigurations.rpi4_scangw.config.system.build.toplevel}
+              echo "activating..."
+              ssh -t root@rpi4.fritz.box "${self.nixosConfigurations.rpi4_scangw.config.system.build.toplevel}/bin/switch-to-configuration switch"
+            '';
+          };
       })
     // {
       apps = nixinate.nixinate.aarch64-darwin self;
@@ -585,6 +595,14 @@
                 { _module.args.nixinate = { host = "rpi4.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
+
+          rpi4_scangw = nixpkgs-unstable.lib.nixosSystem {
+            system = "aarch64-linux";
+            modules = defaultModules ++ [
+              ./1systems/rpi4_scangw
+              nixos-hardware.nixosModules.raspberry-pi-4
+            ];
+          };
 
           # pine2 = nixpkgs.lib.nixosSystem {
           #   system = "aarch64-linux";

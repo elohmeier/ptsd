@@ -18,22 +18,51 @@ in
     openDefaultPorts = true;
   };
 
-  users.users = {
-    enno = {
-      createHome = false;
-      group = "syncthing";
-      home = "/var/sync/enno";
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [ "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFLG9ccoKuDGnSPw3R5+Fg1URSjexs7nB6H/hn+Wu9GnT0KcVNYogJcYxQZ4OkPxhv/gyWvwvCRlIlJCL+MFO4g= ShellFish@iph3-05012022" ];
-      uid = 1000;
-    };
-    luisa = {
-      createHome = false;
-      group = "syncthing";
-      home = "/var/sync/luisa";
-      isNormalUser = true;
-      openssh.authorizedKeys.keys = [ "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBNSJbK3FwJJYgFA2EsXpgHbMEIaOAbggL3YMixi4vVIG0dmBJxKdg9aOEdm2N5k0htM3cxRWXfiv353WMzLgAQ= ShellFish@nw33-12092022" ];
-      uid = 1001;
-    };
+  services.samba = {
+    enable = true;
+    enableNmbd = false;
+    enableWinbindd = false;
+    extraConfig = ''
+      hosts allow = 100.0.0.0/8
+      hosts deny = 0.0.0.0/0
+      load printers = no
+      local master = no
+      max smbd processes = 5
+      valid users = syncthing
+    '';
+
+    shares =
+      let
+        defaults = {
+          "force group" = "syncthing";
+          "force user" = "syncthing";
+          "guest ok" = "no";
+          "read only" = "no";
+          browseable = "no";
+        };
+      in
+      {
+        scans-enno = defaults // { path = "/var/sync/enno/Scans"; };
+        scans-luisa = defaults // { path = "/var/sync/luisa/Scans"; };
+      };
   };
+
+  # users.users = {
+  #   enno = {
+  #     createHome = false;
+  #     group = "syncthing";
+  #     home = "/var/sync/enno";
+  #     isNormalUser = true;
+  #     openssh.authorizedKeys.keys = [ "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBFLG9ccoKuDGnSPw3R5+Fg1URSjexs7nB6H/hn+Wu9GnT0KcVNYogJcYxQZ4OkPxhv/gyWvwvCRlIlJCL+MFO4g= ShellFish@iph3-05012022" ];
+  #     uid = 1000;
+  #   };
+  #   luisa = {
+  #     createHome = false;
+  #     group = "syncthing";
+  #     home = "/var/sync/luisa";
+  #     isNormalUser = true;
+  #     openssh.authorizedKeys.keys = [ "ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBBNSJbK3FwJJYgFA2EsXpgHbMEIaOAbggL3YMixi4vVIG0dmBJxKdg9aOEdm2N5k0htM3cxRWXfiv353WMzLgAQ= ShellFish@nw33-12092022" ];
+  #     uid = 1001;
+  #   };
+  # };
 }
