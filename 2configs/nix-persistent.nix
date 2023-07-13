@@ -10,6 +10,7 @@
     ${lib.optionalString config.services.octoprint.enable "mkdir -p /nix/persistent/var/lib/octoprint"}
     ${lib.optionalString config.services.samba.enable "mkdir -p /nix/persistent/var/lib/samba"}
     ${lib.optionalString config.services.tailscale.enable "mkdir -p /nix/persistent/var/lib/tailscale"}
+    ${lib.optionalString config.ptsd.tailscale.cert.enable "mkdir -p /nix/persistent/var/lib/tailscale-cert"}
     mkdir -p /nix/secrets
     mkdir -p /nix/persistent/var/lib/systemd
     ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
@@ -22,6 +23,8 @@
     "/var/lib/iwd" = { device = "/nix/persistent/var/lib/iwd"; options = [ "bind" ]; };
   } // lib.optionalAttrs config.services.tailscale.enable {
     "/var/lib/tailscale" = { device = "/nix/persistent/var/lib/tailscale"; options = [ "bind" ]; };
+  } // lib.optionalAttrs config.ptsd.tailscale.cert.enable {
+    "/var/lib/tailscale-cert" = { device = "/nix/persistent/var/lib/tailscale-cert"; options = [ "bind" ]; };
   } // lib.optionalAttrs (config.services.borgbackup.jobs != { }) {
     "/var/cache/borg" = { device = "/nix/persistent/var/cache/borg"; options = [ "bind" ]; };
   };

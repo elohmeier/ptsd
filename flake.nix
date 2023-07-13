@@ -17,6 +17,7 @@
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
+    nixpkgs-unstable-rpi4.url = "github:elohmeier/nixpkgs/6afb867d477dd0bc61f56a7c2cc514673f5f75d2";
     nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11";
   };
 
@@ -30,6 +31,7 @@
     , nixos-hardware
     , nixpkgs
     , nixpkgs-unstable
+    , nixpkgs-unstable-rpi4
     , ...
     }:
 
@@ -64,11 +66,11 @@
 
       nixosConfigurations =
         let
-          defaultModules = [
+          defaultModules = nixPath: [
             ./3modules
             ({ pkgs, ... }:
               {
-                nix.nixPath = [ "nixpkgs=${nixpkgs}" ];
+                nix.nixPath = [ "nixpkgs=${nixPath}" ];
                 nixpkgs.config = { allowUnfree = true; packageOverrides = pkgOverrides pkgs; };
               })
           ];
@@ -596,9 +598,9 @@
               ];
             };
 
-          rpi4_scangw = nixpkgs-unstable.lib.nixosSystem {
+          rpi4_scangw = nixpkgs-unstable-rpi4.lib.nixosSystem {
             system = "aarch64-linux";
-            modules = defaultModules ++ [
+            modules = (defaultModules nixpkgs-unstable-rpi4) ++ [
               ./1systems/rpi4_scangw
               nixos-hardware.nixosModules.raspberry-pi-4
             ];

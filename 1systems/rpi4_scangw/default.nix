@@ -4,6 +4,8 @@
     ../../2configs
     ../../2configs/fish.nix
     ../../2configs/rpi3b_4.nix
+
+    ./home-assistant.nix
   ];
 
   users.users.root.openssh.authorizedKeys.keys =
@@ -14,6 +16,7 @@
   networking.firewall.trustedInterfaces = [ "eth0" "wlan0" ];
   networking.hostName = "rpi4";
   ptsd.tailscale.enable = true;
+  ptsd.tailscale.cert.enable = true;
   services.getty.autologinUser = "root";
   services.openssh.enable = true;
   system.stateVersion = "23.11";
