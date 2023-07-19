@@ -915,7 +915,7 @@
                 home-manager.nixosModule
                 ./2configs/generic.nix
                 ./2configs/generic-disk.nix
-                ./2configs/generic-desktop.nix
+                # ./2configs/generic-desktop.nix
                 ({ lib, pkgs, ... }: {
                   system.stateVersion = "22.11";
                   nixpkgs.hostPlatform = "aarch64-linux";
@@ -932,16 +932,16 @@
                     uid = 502;
                   };
 
-                  fileSystems."/home/gordon/repos" = {
-                    device = "192.168.73.1:/Users/enno/repos";
-                    fsType = "nfs";
-                    options = [
-                      "x-systemd.automount"
-                      "noauto"
-                      "nfsvers=3"
-                      "x-systemd.mount-timeout=5s"
-                    ];
-                  };
+                  # fileSystems."/home/gordon/repos" = {
+                  #   device = "192.168.73.1:/Users/enno/repos";
+                  #   fsType = "nfs";
+                  #   options = [
+                  #     "x-systemd.automount"
+                  #     "noauto"
+                  #     "nfsvers=3"
+                  #     "x-systemd.mount-timeout=5s"
+                  #   ];
+                  # };
 
                   # mb4 remote build
                   users.users.root.openssh.authorizedKeys.keys = [ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINW7keKHT6oXCcjR7vWDufiuCb/JCK+ATJO+ZFpLYH1w root@mb4.fritz.box" ];
@@ -964,7 +964,7 @@
                   console.keyMap = "us";
                   i18n.defaultLocale = "en_US.UTF-8";
                 })
-                { _module.args.nixinate = { host = "192.168.73.3"; sshUser = "root"; buildOn = "remote"; }; }
+                { _module.args.nixinate = { host = "192.168.74.3"; sshUser = "root"; buildOn = "remote"; }; }
               ];
             };
 
