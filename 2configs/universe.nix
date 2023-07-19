@@ -275,9 +275,9 @@
     };
 
     rpi4 = {
-      nets.tailscale.ip4.addr = "100.122.164.57";
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPfSkbsHju/PLP527ghKEn/YlSHY8I8Y1fXVSkmUnLEE";
-      syncthing.id = "EXAME75-EMFDX7G-VXRB2GS-T2JLHXO-LEXTXGX-6DXSPGQ-E3FS742-MVRPZAX";
+      nets.tailscale.ip4.addr = "100.71.220.148";
+      # ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPfSkbsHju/PLP527ghKEn/YlSHY8I8Y1fXVSkmUnLEE";
+      # syncthing.id = "EXAME75-EMFDX7G-VXRB2GS-T2JLHXO-LEXTXGX-6DXSPGQ-E3FS742-MVRPZAX";
     };
 
     # Archer C7 v5  192.168.178.3
