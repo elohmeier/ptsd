@@ -3,13 +3,17 @@
 let
   pkg = pkgs.paperless-ngx;
   dataDir = "${config.xdg.dataHome}/paperless";
+  nltkDir = "${config.xdg.dataHome}/paperless/nltk";
 
   env = {
     PAPERLESS_DATA_DIR = dataDir;
-    PAPERLESS_CONSUMPTION_DIR = "${dataDir}/consume";
+    # PAPERLESS_CONSUMPTION_DIR = "${dataDir}/consume";
+    PAPERLESS_CONSUMPTION_DIR = "/Users/enno/Sync/Scans-Enno";
     PAPERLESS_MEDIA_ROOT = "${dataDir}/media";
     PAPERLESS_REDIS = "unix://${config.xdg.dataHome}/redis-paperless/redis.sock";
+    PAPERLESS_NLTK_DIR = nltkDir;
     GUNICORN_CMD_ARGS = "--bind=127.0.0.1:9876 --worker-tmp-dir=/tmp";
+    PAPERLESS_CONSUMER_POLLING = "30"; # seconds
   };
 
   # utility function around makeWrapper
@@ -50,18 +54,26 @@ let
     ${pkgs.redis}/bin/redis-server "${redis-settings.dir}/redis.conf"
   '';
 
-  paperless-web = pkgs.writeShellScriptBin "paperless-web" ''
-    export PAPERLESS_DATA_DIR="${env.PAPERLESS_DATA_DIR}"
-    export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
-    export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
-    export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
-    export GUNICORN_CMD_ARGS="${env.GUNICORN_CMD_ARGS}"
-    export PATH="${pkg.path}"z
-    export PYTHONPATH="${pkg.python.pkgs.makePythonPath pkg.propagatedBuildInputs}:${pkg}/lib/paperless-ngx/src"
-    ${pkg.python.pkgs.gunicorn}/bin/gunicorn \
-      -c "${pkg}/lib/paperless-ngx/gunicorn.conf.py" \
-      "paperless.asgi:application"
-  '';
+  paperless-web =
+    let
+      pythonWithNltk = pkg.python.withPackages (ps: [ ps.nltk ]);
+    in
+    pkgs.writeShellScriptBin "paperless-web" ''
+      ${pythonWithNltk}/bin/python -m nltk.downloader -d '${nltkDir}' punkt snowball_data stopwords
+
+      export PAPERLESS_DATA_DIR="${env.PAPERLESS_DATA_DIR}"
+      export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
+      export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
+      export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
+      export PAPERLESS_NLTK_DIR="${env.PAPERLESS_NLTK_DIR}"
+      export PAPERLESS_CONSUMER_POLLING="${env.PAPERLESS_CONSUMER_POLLING}"
+      export GUNICORN_CMD_ARGS="${env.GUNICORN_CMD_ARGS}"
+      export PATH="${pkg.path}"
+      export PYTHONPATH="${pkg.python.pkgs.makePythonPath pkg.propagatedBuildInputs}:${pkg}/lib/paperless-ngx/src"
+      ${pkg.python.pkgs.gunicorn}/bin/gunicorn \
+        -c "${pkg}/lib/paperless-ngx/gunicorn.conf.py" \
+        "paperless.asgi:application"
+    '';
 
   paperless-scheduler = pkgs.writeShellScriptBin "paperless-scheduler" ''
     set -e
@@ -69,6 +81,8 @@ let
     export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
     export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
     export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
+    export PAPERLESS_NLTK_DIR="${env.PAPERLESS_NLTK_DIR}"
+    export PAPERLESS_CONSUMER_POLLING="${env.PAPERLESS_CONSUMER_POLLING}"
     mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
     mkdir -p "$PAPERLESS_MEDIA_ROOT"
     ${pkg}/bin/paperless-ngx migrate
@@ -81,36 +95,33 @@ let
     export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
     export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
     export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
+    export PAPERLESS_NLTK_DIR="${env.PAPERLESS_NLTK_DIR}"
+    export PAPERLESS_CONSUMER_POLLING="${env.PAPERLESS_CONSUMER_POLLING}"
     mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
     mkdir -p "$PAPERLESS_MEDIA_ROOT"
     ${pkg}/bin/celery --app paperless worker --loglevel INFO
   '';
 
-  nltk-stopwords = pkgs.fetchzip {
-    name = "nltk-stopwords";
-    url = "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/stopwords.zip";
-    sha256 = "sha256-tX1CMxSvFjr0nnLxbbycaX/IBnzHFxljMZceX5zElPY=";
-  };
-
-  nltk-punkt = pkgs.fetchzip {
-    name = "nltk-punkt";
-    url = "https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip";
-    sha256 = "sha256-SKZu26K17qMUg7iCFZey0GTECUZ+sTTrF/pqeEgJCos=";
-  };
+  paperless-consumer = pkgs.writeShellScriptBin "paperless-consumer" ''
+    set -e
+    export PAPERLESS_DATA_DIR="${env.PAPERLESS_DATA_DIR}"
+    export PAPERLESS_CONSUMPTION_DIR="${env.PAPERLESS_CONSUMPTION_DIR}"
+    export PAPERLESS_MEDIA_ROOT="${env.PAPERLESS_MEDIA_ROOT}"
+    export PAPERLESS_REDIS="${env.PAPERLESS_REDIS}"
+    export PAPERLESS_NLTK_DIR="${env.PAPERLESS_NLTK_DIR}"
+    export PAPERLESS_CONSUMER_POLLING="${env.PAPERLESS_CONSUMER_POLLING}"
+    mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
+    mkdir -p "$PAPERLESS_MEDIA_ROOT"
+    ${pkg}/bin/paperless-ngx document_consumer
+  '';
 in
 {
-  home.file.".local/share/paperless/nltk/corpora/stopwords".source = nltk-stopwords;
-  home.file.".local/share/paperless/nltk/tokenizers/punkt".source = nltk-punkt;
-
   launchd.agents = {
     paperless-consumer = {
       enable = true;
       config = {
-        ProgramArguments = [
-          "${pkg}/bin/paperless-ngx document_consumer"
-        ];
+        ProgramArguments = [ "${paperless-consumer}/bin/paperless-consumer" ];
         RunAtLoad = true;
-        EnvironmentVariables = env;
       };
     };
 
@@ -127,7 +138,6 @@ in
       config = {
         ProgramArguments = [ "${paperless-scheduler}/bin/paperless-scheduler" ];
         RunAtLoad = true;
-        EnvironmentVariables = env;
       };
     };
 
@@ -136,7 +146,6 @@ in
       config = {
         ProgramArguments = [ "${paperless-task-queue}/bin/paperless-task-queue" ];
         RunAtLoad = true;
-        EnvironmentVariables = env;
       };
     };
 
@@ -162,8 +171,9 @@ in
     })
     pkgs.redis
     redis-paperless
-    paperless-web
+    paperless-consumer
     paperless-scheduler
     paperless-task-queue
+    paperless-web
   ];
 }
