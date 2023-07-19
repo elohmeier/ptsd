@@ -55,6 +55,7 @@ with lib;
     jless
     jsonnet-bundler
     jsonnet-language-server
+    kubectl
     lazygit
     libfaketime
     logseq-query
@@ -219,7 +220,6 @@ with lib;
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
     binutils
-    kubectl
     # kubectl-minio
     llvmPackages.lldb
     # openai-whisper-cpp

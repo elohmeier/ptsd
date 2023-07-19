@@ -375,8 +375,10 @@
               ./2configs
               ./2configs/fish.nix
               ({ config, lib, pkgs, ... }: {
+                system.stateVersion = "23.11";
                 networking.hostName = "tp3";
                 # services.getty.autologinUser = config.users.users.mainUser.name;
+                ptsd.tailscale.enable = true;
                 disko.devices = import ./2configs/disko/luks-lvm-immutable.nix {
                   inherit lib;
                 };
