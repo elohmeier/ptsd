@@ -1,5 +1,4 @@
 vim.g.mapleader = ","
-vim.g.jupyter_ascending_python_executable = "$HOME/.nix-profile/bin/python3"
 
 local o = vim.o
 o.expandtab = true
@@ -61,7 +60,7 @@ require("lspconfig").svelte.setup {
 }
 require("lspconfig").tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").efm.setup {
-    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json", "sh", "markdown"},
+    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json", "sh", "markdown", "css"},
     init_options = {documentFormatting = true},
     settings = {
         rootMarkers = {".git/"},
@@ -80,6 +79,7 @@ require("lspconfig").efm.setup {
             json = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
             sh = {{formatCommand = "shfmt -ci -s -bn", formatStdin = true}},
             markdown = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+            css = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
         },
     },
 }
@@ -100,6 +100,8 @@ require("telescope").setup {
 require("telescope").load_extension("fzf")
 
 require("oil").setup()
+
+require("nvim-surround").setup({})
 
 require("gitsigns").setup {
     on_attach = function(bufnr)
@@ -164,7 +166,6 @@ require("dapui").setup()
 
 vim.o.timeout = true
 vim.o.timeoutlen = 300
-require("which-key").setup()
 
 vim.opt.list = true
 vim.opt.listchars:append "space:⋅"
@@ -212,6 +213,34 @@ require("nvim-treesitter.configs").setup {
 }
 
 require('spectre').setup({replace_engine = {['sed'] = {cmd = "sed"}}})
+
+require("notebook")
+local api = require("notebook.api")
+local settings = require("notebook.settings")
+
+function _G.define_cell(extmark)
+    if extmark == nil then
+        local line = vim.fn.line(".")
+        extmark, _ = api.current_extmark(line)
+    end
+    local start_line = extmark[1] + 1
+    local end_line = extmark[3].end_row
+    pcall(function()
+        vim.fn.MagmaDefineCell(start_line, end_line)
+    end)
+end
+
+function _G.define_all_cells()
+    local buffer = vim.api.nvim_get_current_buf()
+    local extmarks = settings.extmarks[buffer]
+    for id, cell in pairs(extmarks) do
+        local extmark = vim.api.nvim_buf_get_extmark_by_id(0, settings.plugin_namespace, id, {details = true})
+        if cell.cell_type == "code" then define_cell(extmark) end
+    end
+end
+
+vim.api.nvim_create_autocmd({"BufRead"}, {pattern = {"*.ipynb"}, command = "MagmaInit"})
+vim.api.nvim_create_autocmd("User", {pattern = {"MagmaInitPost", "NBPostRender"}, callback = _G.define_all_cells})
 
 -- ***************
 -- * keybindings *
@@ -281,10 +310,12 @@ vim.api.nvim_set_keymap("n", "\\", "<cmd>Neotree filesystem reveal left<CR>", {n
 
 -- plugin: telescope
 vim.api.nvim_set_keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>fg", "<cmd>lua require'telescope.builtin'.live_grep({ additional_args = { '-j1' }})<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>fg",
+                        "<cmd>lua require'telescope.builtin'.live_grep({ additional_args = { '-j1' }})<CR>",
+                        {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", {noremap = true, silent = true})
-vim.api.nvim_set_keymap("n", "<leader>fd", "<cmd>Telescope resume<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>Telescope resume<CR>", {noremap = true, silent = true})
 
 vim.api.nvim_set_keymap("i", "<C-j>", 'copilot#Accept("<CR>")', {noremap = true, expr = true, silent = true})
 vim.g.copilot_no_tab_map = true
@@ -293,8 +324,6 @@ vim.g.copilot_no_tab_map = true
 vim.api.nvim_set_keymap("n", "<leader>ss", "<cmd>lua require'spread'.out()<cr>", {noremap = true, silent = true})
 vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<cr>", {noremap = true, silent = true})
 
--- plugin: jupyter_ascending
-vim.api.nvim_set_keymap("n", "<leader>x", "<cmd>call jupyter_ascending#execute()<cr>", {noremap = true, silent = true})
-
 -- copy to system clipboard
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {noremap = true, silent = true})
+

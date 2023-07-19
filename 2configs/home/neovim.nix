@@ -23,16 +23,36 @@ let
     };
   };
 
-  jupyter_ascending = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    pname = "jupyter_ascending.vim";
-    version = "2023-01-22";
+  notebook-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "notebook.nvim";
+    version = "2023-05-11";
     src = pkgs.fetchFromGitHub {
-      owner = "untitled-ai";
-      repo = "jupyter_ascending.vim";
-      rev = "8b0f533fbf7f48d12feddedc10b78c53afa41bc2";
-      sha256 = "sha256-7KvGXklm53h8tUeVPeeXt30SyV9VrVp+NlPJH9aPr2A=";
+      owner = "meatballs";
+      repo = "notebook.nvim";
+      rev = "e7145d5e905f74ac927aa45fe109adbdd9e9f340";
+      sha256 = "sha256-jNQqnRgxb3Ta9VKSfEW6bXDIGeo7LQXdwOERiAawSkk=";
     };
   };
+
+  magma-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
+    pname = "magma.nvim";
+    version = "2023-03-30";
+    src = pkgs.fetchFromGitHub {
+      owner = "meatballs";
+      repo = "magma-nvim";
+      rev = "8be9827f94a3ea72d0aee4d2df96158018e10558";
+      sha256 = "sha256-NSmDKXUPLjN9Vd+OFDJb+uoHqcLCopnoOXorpCVoUG0=";
+    };
+    passthru.python3Dependencies = ps: with ps;[
+      jupyter-client
+      pillow
+      ueberzug
+      cairosvg
+      pnglatex
+      plotly
+    ];
+  };
+
 
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
@@ -45,10 +65,11 @@ let
         gitsigns-nvim
         impatient-nvim
         indent-blankline-nvim
-        jupyter_ascending
         leap-nvim
         lualine-nvim
+        magma-nvim
         neo-tree-nvim
+        notebook-nvim
         nvim-dap
         nvim-dap-python
         nvim-dap-ui
@@ -56,12 +77,12 @@ let
         nvim-jdtls
         nvim-lspconfig
         nvim-spectre
+        nvim-surround
         nvim-treesitter-textobjects
         nvim-web-devicons
         oil-nvim
         spread-nvim
         telescope-fzf-native-nvim
-        which-key-nvim
         telescope-nvim
         trouble-nvim
         vim-fugitive
