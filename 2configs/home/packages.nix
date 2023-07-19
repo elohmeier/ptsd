@@ -292,7 +292,7 @@ with lib;
     syncthing
     syncthing-device-id
     tmuxinator
-    transmission-gtk
+    # transmission-gtk
     unrar
     usbutils
     vlc
@@ -309,6 +309,6 @@ with lib;
     prusa-slicer
     signal-desktop
     spotify
-    wineWowPackages.unstable
+    # wineWowPackages.unstable
   ];
 }

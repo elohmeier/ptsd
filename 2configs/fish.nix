@@ -75,6 +75,8 @@ with lib;
   };
 
   environment.systemPackages = with pkgs; mkIf config.programs.fish.enable [
+    bat
+    fd
     fishPlugins.fzf-fish
     fzf-no-fish
     zoxide

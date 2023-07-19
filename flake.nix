@@ -374,16 +374,17 @@
 
           tp3 = nixpkgs-unstable.lib.nixosSystem {
             system = "x86_64-linux";
-            modules = defaultModules ++ [
+            modules = (defaultModules nixpkgs-unstable) ++ [
               home-manager.nixosModule
               disko.nixosModules.disko
               ./2configs/networkmanager.nix
               ./2configs/nix-persistent.nix
               ./2configs/users
               ./2configs
+              ./2configs/fish.nix
               ({ config, lib, pkgs, ... }: {
                 networking.hostName = "tp3";
-                services.getty.autologinUser = config.users.users.mainUser.name;
+                # services.getty.autologinUser = config.users.users.mainUser.name;
                 disko.devices = import ./2configs/disko/luks-lvm-immutable.nix {
                   inherit lib;
                 };
@@ -393,7 +394,15 @@
                     options = [ "size=1G" "mode=1755" ];
                   };
                 };
+                time.timeZone = "Europe/Berlin";
+                services.pipewire = {
+                  enable = true;
+                  alsa.enable = true;
+                  alsa.support32Bit = true;
+                  pulse.enable = true;
+                };
                 boot = {
+                  kernelParams = [ "mitigations=off" ]; # make linux fast again
                   loader = {
                     systemd-boot.enable = true;
                     efi.canTouchEfiVariables = true;
@@ -434,8 +443,19 @@
                     xfce.enable = true;
                   };
                   displayManager.defaultSession = "xfce";
+                  displayManager.lightdm = {
+                    background = "#008080";
+                  };
                   videoDrivers = [ "amdgpu" ];
+                  libinput.enable = true;
+                  libinput.touchpad.naturalScrolling = true;
+                  libinput.mouse.naturalScrolling = true;
                 };
+                programs.thunar = {
+                  enable = true;
+                  plugins = [ pkgs.xfce.thunar-archive-plugin ];
+                };
+                programs.steam.enable = true;
                 hardware.opengl = {
                   enable = true;
                   driSupport = true;
@@ -448,9 +468,40 @@
                   extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
                 };
 
+                boot.plymouth = {
+                  enable = true;
+                  # theme = "Chicago95";
+                  # themePackages = [ pkgs.chicago95 ];
+                };
+                specialisation.plymouth95.configuration = {
+                  boot.plymouth = {
+                    enable = true;
+                    theme = "Chicago95";
+                    themePackages = [ pkgs.chicago95 ];
+                  };
+                };
+
                 console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
                 powerManagement.cpuFreqGovernor = "schedutil";
                 hardware.cpu.amd.updateMicrocode = true;
+                environment.systemPackages = [
+                  pkgs.alsa-utils
+                  pkgs.btop
+                  pkgs.chicago95
+                  pkgs.file
+                  pkgs.git
+                  pkgs.glxinfo
+                  pkgs.gnome.gnome-disk-utility
+                  pkgs.home-manager
+                  pkgs.libcanberra-gtk3
+                  pkgs.libinput
+                  pkgs.pavucontrol
+                  pkgs.python3 # required by proton (steam)
+                  pkgs.vulkan-tools
+                  pkgs.xfce.xfce4-pulseaudio-plugin
+                ];
+                fonts.fonts = [ pkgs.chicago95 ];
+                virtualisation.docker.enable = true;
               })
             ];
           };
@@ -970,6 +1021,50 @@
           ];
         in
         {
+          xfce95 = home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs-unstable.legacyPackages.x86_64-linux;
+
+            modules = [
+              ({ config, lib, pkgs, ... }: {
+                home = {
+                  username = "gordon";
+                  homeDirectory = "/home/gordon";
+                  stateVersion = "23.05";
+                };
+
+                imports = [
+                  ./2configs/home
+                  ./2configs/home/firefox.nix
+                  ./2configs/home/fish.nix
+                  ./2configs/home/fonts.nix
+                  ./2configs/home/git.nix
+                  ./2configs/home/gpg.nix
+                  ./2configs/home/neovim.nix
+                  ./2configs/home/packages.nix
+                  ./2configs/home/ssh.nix
+                  ./2configs/home/tmux.nix
+                  ./2configs/home/xdg-fixes.nix
+                ];
+
+                nixpkgs.config = {
+                  allowUnfree = true;
+                  allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
+                  packageOverrides = pkgOverrides pkgs;
+                };
+                #nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
+
+                home.packages = with pkgs; [
+                  bchunk
+                  libreoffice
+                  lutris
+                  samba
+                  wine
+                  winetricks
+                  xarchiver
+                ];
+              })
+            ];
+          };
 
           sway_x86 = home-manager.lib.homeManagerConfiguration {
             system = "x86_64-linux";

@@ -2,13 +2,13 @@
 
 stdenv.mkDerivation rec {
   pname = "chicago95";
-  version = "2020-02-24";
+  version = "2023-02-16";
 
   src = fetchFromGitHub {
     owner = "grassmunk";
     repo = pname;
-    rev = "bfe7aec02c5141abf9ece2b0393435819ea13eba";
-    sha256 = "1qh7im3jdq7d1gw0i85w8gqmx0mb49wvq2pdrm68wvl8x44lllr7";
+    rev = "4c39951284add04941adc6ce5a68a778590b93d1";
+    sha256 = "sha256-PwNuVAcJ6FZlALdHAvgX8H56bOkZ0llXGd09ETj4enQ=";
   };
 
   dontBuild = true;
@@ -18,6 +18,9 @@ stdenv.mkDerivation rec {
   installPhase = ''
     install -dm 755 "$out/share/themes/"
     cp -dr --no-preserve='ownership' Theme/Chicago95 "$out/share/themes/"
+
+    install -dm 755 "$out/share/sounds/"
+    cp -dr --no-preserve='ownership' sounds/Chicago95 "$out/share/sounds/"
 
     install -dm 755 "$out/share/lightdm-webkit/themes/"
     cp -dr --no-preserve='ownership' Lightdm/Chicago95 "$out/share/lightdm-webkit/themes/"

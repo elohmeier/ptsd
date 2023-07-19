@@ -113,6 +113,8 @@ in
     # neovim-nightly
     pyright
     ripgrep # for telescope
+    nodejs-18_x
+    nixpkgs-fmt
   ];
 
   home.sessionVariables.EDITOR = "nvim";

@@ -1,5 +1,6 @@
 self: pkgs_master: _nixpkgs_master: super:
 {
+  chicago95 = super.callPackage ./chicago95 { };
   copy-secrets = self.writers.writePython3Bin "copy-secrets"
     {
       flakeIgnore = [ "E265" "E501" ];
