@@ -23,7 +23,9 @@ with lib;
     cargo
     copy-secrets
     deadnix
+    diceware
     difftastic
+    dive
     entr
     eternal-terminal
     exa
@@ -74,7 +76,6 @@ with lib;
     nodePackages.svelte-language-server
     nodePackages.typescript-language-server
     nodejs-18_x
-    ocrmypdf
     p7zip
     pass
     poetry
@@ -88,7 +89,7 @@ with lib;
     rclone
     remarshal
     ripgrep
-    rmlint
+    # rmlint
     ruff
     rustc
     shellcheck
@@ -123,91 +124,97 @@ with lib;
     (python3.withPackages (
       pythonPackages: with pythonPackages;
       [
-        # sqlacodegen
+        #     # sqlacodegen
+        google-cloud-vision
+        ocrmypdf
         XlsxWriter
-        alembic
-        # langchain
-        authlib
-        beancount
-        soupsieve
-        beautifulsoup4
+        #     alembic
+        #     # langchain
+        #     authlib
+        #     beancount
+        #     soupsieve
+        #     beautifulsoup4
         black
-        boto3
-        dataclasses-json
-        debugpy
-        djhtml
-        faker
-        fastapi
-        flask
-        hdbscan
-        hocr-tools
-        holidays
-        icalendar
-        impacket
-        ipykernel
-        ipython
+        #     boto3
+        #     dataclasses-json
+        #     debugpy
+        #     djhtml
+        #     faker
+        #     fastapi
+        #     flask
+        #     guidance
+        #     hdbscan
+        #     hocr-tools
+        #     holidays
+        #     icalendar
+        #     impacket
+        #     ipykernel
+        #     ipython
         isort
         jupyterlab
-        keras
-        keyring
-        lark
-        lxml
+        #     keras
+        #     keyring
+        #     lark
+        #     lxml
         matplotlib
-        mypy
-        mysql-connector
-        nbconvert
-        netifaces
-        nltk
-        openai
-        openpyxl
+        #     mypy
+        #     mysql-connector
+        #     nbconvert
+        #     (pygrok.overrideAttrs (_: {
+        #       meta.platforms = lib.platforms.unix;
+        #     }))
+        #     netifaces
+        #     nltk
+        #     openai
+        opencv4
+        #     openpyxl
         pandas
-        paramiko
-        pdfminer-six
-        pikepdf
+        #     paramiko
+        #     pdfminer-six
+        #     pikepdf
         pillow
         psycopg2
-        pudb
-        pycrypto
-        pyjwt
-        pylint
+        #     pudb
+        #     pycrypto
+        #     pyjwt
+        #     pylint
         pymupdf
-        pynvim
-        pypdf2
+        #     pynvim
+        #     pypdf2
         pytest
         pyxlsb
         requests
         sqlalchemy
-        sshtunnel
-        tabulate
-        # tasmota-decode-config
-        tenacity
-        # tensorflow
-        tkinter
-        # umap-learn
-        uvicorn
-        weasyprint
+        #     sshtunnel
+        #     tabulate
+        #     # tasmota-decode-config
+        #     tenacity
+        #     # tensorflow
+        #     tkinter
+        #     # umap-learn
+        #     uvicorn
+        #     weasyprint
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
-        accelerate
-        # bertopic
-        # flair
-        jupyter-ascending
-        # mlxtend
-        nurl
-        # presidio-analyzer
-        # presidio-anonymizer
-        pysbd
-        scikit-learn
-        sentence-transformers
-        spacy
-        spacy_models.de_core_news_md
-        spacy_models.en_core_web_lg
-        stanza
-        thefuzz
-        tiktoken # slow build / unneeded on most machines
+        #     accelerate
+        #     # bertopic
+        #     # flair
+        #     # mlxtend
+        #     nurl
+        #     # presidio-analyzer
+        #     # presidio-anonymizer
+        #     pysbd
+        #     scikit-learn
+        #     sentence-transformers
+        #     spacy
+        #     spacy_models.de_core_news_md
+        #     spacy_models.en_core_web_lg
+        #     stanza
+        #     thefuzz
+        #     tiktoken # slow build / unneeded on most machines
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
-        i3ipc
-        pyodbc
-        selenium
+        # i3ipc
+        # pyodbc
+        # selenium
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
@@ -312,3 +319,4 @@ with lib;
     # wineWowPackages.unstable
   ];
 }
+
