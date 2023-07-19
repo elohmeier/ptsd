@@ -37,14 +37,14 @@ in
         scheme = "https";
         static_configs = [{ targets = [ "htz1.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-pushgateway}" ]; }];
       }
-      {
-        job_name = "hass_home";
-        scrape_interval = "60s";
-        metrics_path = "/api/prometheus";
-        bearer_token_file = "/run/credentials/prometheus.service/hass-token-home";
-        scheme = "https";
-        static_configs = [{ targets = [ "rpi4.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
-      }
+      # {
+      #   job_name = "hass_home";
+      #   scrape_interval = "60s";
+      #   metrics_path = "/api/prometheus";
+      #   bearer_token_file = "/run/credentials/prometheus.service/hass-token-home";
+      #   scheme = "https";
+      #   static_configs = [{ targets = [ "rpi4.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+      # }
       {
         job_name = "hass_dlrg";
         scrape_interval = "60s";
@@ -89,7 +89,7 @@ in
           "htz1"
           "htz2"
           # "htz3"
-          "rpi4"
+          # "rpi4"
           "rotebox"
         ];
       }
@@ -108,13 +108,13 @@ in
         static_configs = [{ targets = [ "htz2.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-rspamd}" ]; labels.alias = "htz2"; }];
       }
 
-      {
-        job_name = "mysqld";
-        #metrics_path = "/probe";
-        #params.target = [ "http://localhost:11334/stat" ];
-        scrape_interval = "60s";
-        static_configs = [{ targets = [ "rpi4.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-mysqld}" ]; labels.alias = "rpi4"; }];
-      }
+      # {
+      #   job_name = "mysqld";
+      #   #metrics_path = "/probe";
+      #   #params.target = [ "http://localhost:11334/stat" ];
+      #   scrape_interval = "60s";
+      #   static_configs = [{ targets = [ "rpi4.pug-coho.ts.net:${toString config.ptsd.ports.prometheus-mysqld}" ]; labels.alias = "rpi4"; }];
+      # }
 
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_2xx";
@@ -142,11 +142,11 @@ in
         params.module = [ "http_grafana" ];
         static_configs = [{ targets = [ "https://htz1.pug-coho.ts.net:${toString config.ptsd.ports.grafana}/login" ]; }];
       })
-      (blackboxGenericScrapeConfig // {
-        job_name = "blackbox_http_home_assistant_home";
-        params.module = [ "http_home_assistant" ];
-        static_configs = [{ targets = [ "https://rpi4.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
-      })
+      # (blackboxGenericScrapeConfig // {
+      #   job_name = "blackbox_http_home_assistant_home";
+      #   params.module = [ "http_home_assistant" ];
+      #   static_configs = [{ targets = [ "https://rpi4.pug-coho.ts.net:${toString config.ptsd.ports.home-assistant}" ]; }];
+      # })
       (blackboxGenericScrapeConfig // {
         job_name = "blackbox_http_home_assistant_dlrg";
         params.module = [ "http_home_assistant" ];

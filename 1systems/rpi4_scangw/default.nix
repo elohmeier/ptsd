@@ -13,7 +13,7 @@
 
   console.keyMap = "us";
   i18n.defaultLocale = "en_US.UTF-8";
-  networking.firewall.trustedInterfaces = [ "eth0" "wlan0" ];
+  networking.firewall.trustedInterfaces = [ "eth0" "wlan0" "end0" ];
   networking.hostName = "rpi4";
   ptsd.tailscale.enable = true;
   ptsd.tailscale.cert.enable = true;

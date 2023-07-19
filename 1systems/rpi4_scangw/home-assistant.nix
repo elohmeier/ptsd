@@ -46,7 +46,8 @@
         name = "Home";
         time_zone = "Europe/Berlin";
         unit_system = "metric";
-        external_url = "https://rpi4.pug-coho.ts.net:8123";
+        external_url = "https://rpi4.pug-coho.ts.net";
+        internal_url = "http://rpi4.fritz.box:8123";
       };
 
       frontend = { };
@@ -54,8 +55,8 @@
       http = {
         server_host = [ "0.0.0.0" "::" ];
         server_port = config.ptsd.ports.home-assistant;
-        ssl_certificate = "/var/lib/tailscale-cert/rpi4.pug-coho.ts.net.crt";
-        ssl_key = "/var/lib/tailscale-cert/rpi4.pug-coho.ts.net.key";
+        use_x_forwarded_for = true;
+        trusted_proxies = [ "127.0.0.1" "::1" ];
       };
     };
   };
@@ -68,9 +69,43 @@
     serviceConfig = {
       ExecStart = lib.mkForce "${config.services.home-assistant.package}/bin/hass --config '${config.services.home-assistant.configDir}' --log-file '/var/log/hass/home-assistant.log'";
       LogsDirectory = "hass";
-      SupplementaryGroups = lib.mkForce "tailscale-cert";
     };
-    requires = [ "tailscale-cert.service" ];
-    after = [ "tailscale-cert.service" ];
   };
+
+  services.nginx = {
+    enable = true;
+
+    virtualHosts = {
+      home-assistant = {
+        forceSSL = true;
+        listen = [{ addr = config.ptsd.tailscale.ip; port = 443; ssl = true; }];
+        sslCertificate = "/var/lib/tailscale-cert/${config.ptsd.tailscale.fqdn}.crt";
+        sslCertificateKey = "/var/lib/tailscale-cert/${config.ptsd.tailscale.fqdn}.key";
+
+        locations."/".extraConfig = ''
+          proxy_http_version 1.1;
+          proxy_pass http://127.0.0.1:8123;
+          proxy_redirect http:// https://;
+          proxy_set_header Connection $connection_upgrade;
+          proxy_set_header Host $host;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        '';
+      };
+    };
+  };
+
+  systemd.services.nginx = {
+    # nginx should wait for tailscale
+    wants = [ "tailscaled.service" ];
+
+    serviceConfig = {
+      # nginx should ensure that tailscales connection is initialized
+      ExecStartPre = [ "+${pkgs.tailscale}/bin/tailscale up" ];
+
+      SupplementaryGroups = [ "tailscale-cert" ];
+    };
+  };
+
+  services.logrotate.enable = false;
 }
