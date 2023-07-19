@@ -502,6 +502,12 @@
                 ];
                 fonts.fonts = [ pkgs.chicago95 ];
                 virtualisation.docker.enable = true;
+
+                security.tpm2 = {
+                  enable = true;
+                  pkcs11.enable = true;
+                  tctiEnvironment.enable = true;
+                };
               })
             ];
           };
@@ -1062,6 +1068,10 @@
                   winetricks
                   xarchiver
                 ];
+
+                programs.ssh.extraOptionOverrides = {
+                  PKCS11Provider = "/run/current-system/sw/lib/libtpm2_pkcs11.so";
+                };
               })
             ];
           };

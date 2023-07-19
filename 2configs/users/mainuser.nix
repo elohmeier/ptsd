@@ -22,6 +22,7 @@
           "dialout"
           "input" # useful for dosbox on tty
           "vboxusers"
+          "tss"
         ];
       openssh.authorizedKeys.keys =
         let

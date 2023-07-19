@@ -224,7 +224,7 @@ with lib;
     # art
     # calibre
     # cura
-    # freecad
+    freecad
     # gnome3.file-roller
     # hash-slinger # tlsa
     # pdfconcat # fixme
