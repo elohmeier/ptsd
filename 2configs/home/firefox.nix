@@ -70,13 +70,8 @@ in
       else
         pkgs.firefox.override { applicationName = "firefox"; extraPolicies = policies; };
 
-    profiles.privacy = {
-      id = 0; # 0=default
-      settings = lwcfg;
-    };
-
     profiles.office = {
-      id = 1;
+      id = 0; # 0=default
 
       settings = lwcfg // {
         # keep login info
@@ -91,6 +86,11 @@ in
         "media.autoplay.blocking_policy" = 0;
         "media.autoplay.default" = 0;
       };
+    };
+
+    profiles.privacy = {
+      id = 1;
+      settings = lwcfg;
     };
 
     profiles.burp = {
