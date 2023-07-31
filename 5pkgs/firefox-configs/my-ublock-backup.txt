@@ -1,9 +1,12 @@
 {
-  "timeStamp": 1685512805755,
-  "version": "1.49.2",
+  "timeStamp": 1690813426812,
+  "version": "1.51.0",
   "userSettings": {
     "advancedUserEnabled": true,
-    "importedLists": [],
+    "externalLists": "https://ublockorigin.github.io/uAssets/filters/resource-abuse.txt",
+    "importedLists": [
+      "https://ublockorigin.github.io/uAssets/filters/resource-abuse.txt"
+    ],
     "popupPanelSections": 31
   },
   "selectedFilterLists": [
@@ -35,6 +38,7 @@
     "github.dev",
     "google.com",
     "labs.openai.com",
+    "laiyer.de",
     "live.com",
     "mb4-nixos",
     "microsoft.com",
@@ -46,6 +50,7 @@
     "opera-scheme",
     "pug-coho.ts.net",
     "readthedocs.io",
+    "sharepoint.com",
     "trafficmanager.net",
     "visualstudio.com",
     "vivaldi-scheme",
