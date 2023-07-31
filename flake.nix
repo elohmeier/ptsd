@@ -388,6 +388,9 @@
                     options = [ "size=1G" "mode=1755" ];
                   };
                 };
+                swapDevices = [
+                  { device = "/dev/pool/swap"; }
+                ];
                 time.timeZone = "Europe/Berlin";
                 services.pipewire = {
                   enable = true;
@@ -395,8 +398,13 @@
                   alsa.support32Bit = true;
                   pulse.enable = true;
                 };
+                services.fwupd.enable = true;
                 boot = {
                   kernelParams = [ "mitigations=off" ]; # make linux fast again
+
+                  resumeDevice = "/dev/pool/swap";
+
+
                   loader = {
                     systemd-boot.enable = true;
                     efi.canTouchEfiVariables = true;
@@ -444,6 +452,7 @@
                   libinput.enable = true;
                   libinput.touchpad.naturalScrolling = true;
                   libinput.mouse.naturalScrolling = true;
+                  xkbOptions = "eurosign:e,terminate:ctrl_alt_bksp,compose:ralt";
                 };
                 programs.thunar = {
                   enable = true;
@@ -477,8 +486,10 @@
 
                 console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
                 powerManagement.cpuFreqGovernor = "schedutil";
+                powerManagement.powertop.enable = true;
                 hardware.cpu.amd.updateMicrocode = true;
                 environment.systemPackages = [
+                  pkgs.powertop
                   pkgs.alsa-utils
                   pkgs.btop
                   pkgs.chicago95
@@ -495,7 +506,11 @@
                   pkgs.xfce.xfce4-pulseaudio-plugin
                 ];
                 fonts.fonts = [ pkgs.chicago95 ];
-                virtualisation.docker.enable = true;
+                virtualisation.docker = {
+                  enable = true;
+                  enableOnBoot = false;
+                };
+                systemd.services.tailscaled.wantedBy = lib.mkForce [ ]; # manual start to reduce battery usage (frequent wakeups)
 
                 security.tpm2 = {
                   enable = true;
@@ -612,7 +627,7 @@
           htz2 = nixpkgs.lib.nixosSystem
             {
               system = "x86_64-linux";
-              modules = defaultModules ++ [
+              modules = (defaultModules nixpkgs) ++ [
                 ./1systems/htz2/physical.nix
                 { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
               ];
