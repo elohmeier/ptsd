@@ -12,7 +12,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
     nixpkgs-unstable-rpi4.url = "github:elohmeier/nixpkgs/6afb867d477dd0bc61f56a7c2cc514673f5f75d2";
-    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-22.11";
+    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-23.05";
   };
 
   outputs =
