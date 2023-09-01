@@ -86,52 +86,6 @@ self: pkgs_master: _nixpkgs_master: super:
     prusaslicerthumbnails = plugins.callPackage ./octoprint-plugins/prusaslicerthumbnails.nix { };
   };
 
-  # ptsd-python3 = super.python3.override {
-  #   packageOverrides = self: super: {
-  #
-  #     black = super.black.overridePythonAttrs (old: {
-  #       propagatedBuildInputs = with super; old.propagatedBuildInputs ++ [
-  #         # support reformatting ipynb files
-  #         ipython
-  #         tokenize-rt
-  #       ];
-  #       doCheck = self.stdenv.isLinux;
-  #     });
-  #
-  #     wandb = super.wandb.overridePythonAttrs (old: {
-  #       doCheck = self.stdenv.isLinux;
-  #     });
-  #
-  #     accelerate = self.callPackage ./accelerate { };
-  #     bertopic = self.callPackage ./bertopic { };
-  #     blobfile = self.callPackage ./blobfile { };
-  #     bpemb = self.callPackage ./bpemb { };
-  #     chromadb = self.callPackage ./chromadb { };
-  #     conllu = self.callPackage ./conllu { };
-  #     davphonebook = self.callPackage ./davphonebook { };
-  #     djhtml = self.callPackage ./djhtml { };
-  #     finance-dl = self.callPackage ./finance-dl { };
-  #     flair = self.callPackage ./flair { };
-  #     hocr-tools = self.callPackage ./hocr-tools { };
-  #     hnswlib = self.callPackage ./hnswlib { };
-  #     icloudpd = self.callPackage ./icloudpd { };
-  #     langchain = self.callPackage ./langchain { };
-  #     neo4j-driver = self.callPackage ./neo4j-driver { };
-  #     nobbofin = self.callPackage ./nobbofin { };
-  #     postgrest-py = self.callPackage ./postgrest-py { };
-  #     pptree = self.callPackage ./pptree { };
-  #     presidio-analyzer = self.callPackage ./presidio-analyzer { };
-  #     presidio-anonymizer = self.callPackage ./presidio-anonymizer { };
-  #     pyxlsb = self.callPackage ./pyxlsb { };
-  #     segtok = self.callPackage ./segtok { };
-  #     selenium-requests = self.callPackage ./selenium-requests { };
-  #     sqlacodegen = self.callPackage ./sqlacodegen { };
-  #     tasmota-decode-config = self.callPackage ./tasmota-decode-config { };
-  #     tiktoken = self.callPackage ./tiktoken { };
-  #     vidcutter = self.callPackage ./vidcutter { };
-  #   };
-  # };
-
   ptsd-ffmpeg = self.ffmpeg-full.override {
     nonfreeLicensing = true;
     fdkaacExtlib = true;
@@ -224,36 +178,10 @@ self: pkgs_master: _nixpkgs_master: super:
 
   inherit (pkgs_master) jaq;
 
-  openai-whisper-cpp = super.openai-whisper-cpp.overrideAttrs (_old: {
-    postPatch =
-      let
-        model-large = self.fetchurl {
-          url = "https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/main/ggml-large.bin";
-          sha256 = "sha256-mkI/5NQMgndLavNBFbi5NfNBUiRusZ6A43YHHT+ZlIc=";
-        };
-        model-base = self.fetchurl {
-          url = "https://huggingface.co/datasets/ggerganov/whisper.cpp/resolve/main/ggml-base.bin";
-          sha256 = "sha256-YO1bw90U7qhWST0zQ0m0BXgt3K8AKNS130CINF+6Lv4=";
-        };
-      in
-      ''
-        substituteInPlace examples/main/main.cpp \
-          --replace 'std::string language = "en";' 'std::string language = "de";' \
-          --replace 'std::string model    = "models/ggml-base.en.bin";' 'std::string model = "${model-large}";'
-
-        substituteInPlace examples/stream/stream.cpp \
-          --replace 'std::string language  = "en";' 'std::string language = "de";' \
-          --replace 'std::string model     = "models/ggml-base.en.bin";' 'std::string model = "${model-base}";'
-      '';
-
-  });
-
   fzf-no-fish = super.fzf.overrideAttrs (old: {
     postInstall = old.postInstall + ''
       rm -r $out/share/fish
       rm $out/share/fzf/*.fish
     '';
   });
-
-  coc-extensions = super.callPackage ./coc-extensions { };
 }

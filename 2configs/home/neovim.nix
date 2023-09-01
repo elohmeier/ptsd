@@ -14,12 +14,12 @@ let
 
   github-nvim-theme = pkgs.vimUtils.buildVimPluginFrom2Nix rec {
     pname = "github-nvim-theme";
-    version = "0.0.7";
+    version = "1.0.1";
     src = pkgs.fetchFromGitHub {
       owner = "projekt0n";
       repo = "github-nvim-theme";
       rev = "v${version}";
-      sha256 = "sha256-Qm9ffdkHfG5+PLQ8PbOeFMywBbKVGqX8886clQbJzyg=";
+      sha256 = "sha256-30+5q6qE1GCetNKdUC15LcJeat5e0wj9XtNwGdpRsgk=";
     };
   };
 
@@ -34,26 +34,6 @@ let
     };
   };
 
-  magma-nvim = pkgs.vimUtils.buildVimPluginFrom2Nix {
-    pname = "magma.nvim";
-    version = "2023-03-30";
-    src = pkgs.fetchFromGitHub {
-      owner = "meatballs";
-      repo = "magma-nvim";
-      rev = "8be9827f94a3ea72d0aee4d2df96158018e10558";
-      sha256 = "sha256-NSmDKXUPLjN9Vd+OFDJb+uoHqcLCopnoOXorpCVoUG0=";
-    };
-    passthru.python3Dependencies = ps: with ps;[
-      jupyter-client
-      pillow
-      ueberzug
-      cairosvg
-      pnglatex
-      plotly
-    ];
-  };
-
-
   pluginPack = pkgs.vimUtils.packDir {
     mypack = {
       start = with pkgs.vimPlugins; [
@@ -67,7 +47,6 @@ let
         indent-blankline-nvim
         leap-nvim
         lualine-nvim
-        magma-nvim
         neo-tree-nvim
         notebook-nvim
         nvim-dap
@@ -95,6 +74,7 @@ let
           tree-sitter-c-sharp
           tree-sitter-cpp
           tree-sitter-css
+          tree-sitter-dart
           tree-sitter-fish
           tree-sitter-go
           tree-sitter-html
@@ -121,8 +101,6 @@ in
     ".config/nvim".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/nvim else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/nvim";
     ".local/share/nvim/site/pack".source = "${pluginPack}/pack";
     ".config/coc/ultisnips".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/snippets else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/snippets";
-  } // lib.optionalAttrs (pkgs.stdenv.isDarwin) {
-    ".config/coc/extensions".source = "${pkgs.coc-extensions}";
   };
 
   home.packages = with pkgs;[

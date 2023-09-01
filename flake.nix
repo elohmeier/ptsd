@@ -7,12 +7,6 @@
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     home-manager.url = "github:elohmeier/home-manager/master-darwin";
-    # neovim-flake.inputs.flake-utils.follows = "flake-utils";
-    # neovim-flake.inputs.nixpkgs.follows = "nixpkgs";
-    # neovim-flake.url = "github:neovim/neovim?dir=contrib";
-    # neovim-nightly-overlay.inputs.neovim-flake.follows = "neovim-flake";
-    # neovim-nightly-overlay.inputs.nixpkgs.follows = "nixpkgs";
-    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -26,7 +20,6 @@
     , disko
     , flake-utils
     , home-manager
-      # , neovim-nightly-overlay
     , nixinate
     , nixos-hardware
     , nixpkgs
@@ -360,7 +353,6 @@
                   };
 
                   nixpkgs.hostPlatform = "x86_64-linux";
-                  # nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                   services.getty.autologinUser = config.users.users.mainUser.name;
 
@@ -919,7 +911,6 @@
                 ({ lib, pkgs, ... }: {
                   system.stateVersion = "22.11";
                   nixpkgs.hostPlatform = "aarch64-linux";
-                  # nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
                   systemd.services.systemd-networkd-wait-online.enable = false;
                   # match macos ids
                   users.groups.lp.gid = lib.mkForce 1020;
@@ -1057,7 +1048,6 @@
                   allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
                   packageOverrides = pkgOverrides pkgs;
                 };
-                #nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                 home.packages = with pkgs; [
                   bchunk
@@ -1204,7 +1194,6 @@
                   allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
                   packageOverrides = pkgOverrides pkgs;
                 };
-                # nixpkgs.overlays = [ neovim-nightly-overlay.overlay ];
 
                 services.syncthing.enable = true;
 

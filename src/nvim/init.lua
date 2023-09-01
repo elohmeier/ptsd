@@ -39,13 +39,14 @@ vim.api.nvim_create_autocmd("FileType", {
 
 require("impatient")
 
-require("github-theme").setup({theme_style = "light"})
--- require("github-theme").setup({theme_style = "dark"})
+require("github-theme").setup()
+vim.cmd("colorscheme github_light")
 
 -- require("plugincfg.formatter")
 require("plugincfg.coc")
 
 require("leap").set_default_keymaps()
+require("lspconfig").dartls.setup {}
 require("lspconfig").gopls.setup {cmd = {"gopls"}, capabilities = {capabilities}}
 require("lspconfig").pyright.setup {cmd = {"pyright-langserver", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").nil_ls.setup {cmd = {"nil"}, capabilities = {capabilities}}
