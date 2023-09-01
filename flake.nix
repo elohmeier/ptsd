@@ -1005,7 +1005,6 @@
         let
           desktopImports = [
             ./2configs/home
-            ./2configs/home/firefox.nix
             ./2configs/home/fish.nix
             ./2configs/home/fonts.nix
             ./2configs/home/git.nix
@@ -1178,13 +1177,14 @@
                   sessionPath = [
                     "${config.home.homeDirectory}/.docker/bin"
                     "${config.home.homeDirectory}/.local/share/npm/bin"
+                    "${config.home.homeDirectory}/repos/flutter/bin"
+                    "${config.home.homeDirectory}/.pub-cache/bin"
                   ];
                   stateVersion = "21.11";
                 };
 
                 imports = desktopImports ++ [
                   #./2configs/home/email.nix
-                  ./2configs/home/alacritty.nix
                   ./2configs/home/darwin-defaults.nix
                   ./2configs/home/paperless.nix
                 ];

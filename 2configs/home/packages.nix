@@ -15,9 +15,9 @@ with lib;
 
   home.packages = with pkgs; [
     (pdftk.override { jre = openjdk17; })
-    (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
-    (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
-    (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
+    # (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
+    # (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
+    # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     bat
     btop
     cargo
@@ -63,7 +63,7 @@ with lib;
     minikube
     minio-client
     mkpasswd
-    mpv
+    # mpv
     ncdu_1
     nix-index
     nix-prefetch-git
@@ -117,7 +117,7 @@ with lib;
     xz
     yq
     yt-dlp
-    zathura
+    # zathura
     zellij
 
     # (ptsd-python3.withPackages (
@@ -130,7 +130,7 @@ with lib;
         XlsxWriter
         #     alembic
         #     # langchain
-        #     authlib
+        authlib
         #     beancount
         #     soupsieve
         #     beautifulsoup4
@@ -220,12 +220,12 @@ with lib;
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
     binutils
     kubectl
-    kubectl-minio
+    # kubectl-minio
     llvmPackages.lldb
-    openai-whisper-cpp
-    qemu
+    # openai-whisper-cpp
+    # qemu
     rar
-    subler-bin
+    # subler-bin
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" "aarch64-linux" ]) [
     # aliza # dicom viewer
     # art

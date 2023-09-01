@@ -122,6 +122,8 @@ in
       config = {
         ProgramArguments = [ "${paperless-consumer}/bin/paperless-consumer" ];
         RunAtLoad = true;
+        StandardOutPath = "${config.xdg.dataHome}/paperless/paperless-consumer.out";
+        StandardErrorPath = "${config.xdg.dataHome}/paperless/paperless-consumer.err";
       };
     };
 
@@ -130,6 +132,8 @@ in
       config = {
         ProgramArguments = [ "${paperless-web}/bin/paperless-web" ];
         RunAtLoad = true;
+        StandardOutPath = "${config.xdg.dataHome}/paperless/paperless-web.out";
+        StandardErrorPath = "${config.xdg.dataHome}/paperless/paperless-web.err";
       };
     };
 
@@ -138,6 +142,8 @@ in
       config = {
         ProgramArguments = [ "${paperless-scheduler}/bin/paperless-scheduler" ];
         RunAtLoad = true;
+        StandardOutPath = "${config.xdg.dataHome}/paperless/paperless-scheduler.out";
+        StandardErrorPath = "${config.xdg.dataHome}/paperless/paperless-scheduler.err";
       };
     };
 
@@ -146,6 +152,8 @@ in
       config = {
         ProgramArguments = [ "${paperless-task-queue}/bin/paperless-task-queue" ];
         RunAtLoad = true;
+        StandardOutPath = "${config.xdg.dataHome}/paperless/paperless-task-queue.out";
+        StandardErrorPath = "${config.xdg.dataHome}/paperless/paperless-task-queue.err";
       };
     };
 
@@ -154,6 +162,8 @@ in
       config = {
         ProgramArguments = [ "${redis-paperless}/bin/redis-paperless" ];
         RunAtLoad = true;
+        StandardOutPath = "${config.xdg.dataHome}/paperless/redis-paperless.out";
+        StandardErrorPath = "${config.xdg.dataHome}/paperless/redis-paperless.err";
       };
     };
   };
