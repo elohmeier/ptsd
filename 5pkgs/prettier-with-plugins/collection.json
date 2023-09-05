@@ -1,1 +1,1 @@
-["prettier", "prettier-plugin-svelte"]
+["prettier", "prettier-plugin-svelte", "prettier-plugin-toml"]

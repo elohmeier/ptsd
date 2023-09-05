@@ -61,7 +61,7 @@ require("lspconfig").svelte.setup {
 }
 require("lspconfig").tsserver.setup {cmd = {"typescript-language-server", "--stdio"}, capabilities = {capabilities}}
 require("lspconfig").efm.setup {
-    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json", "sh", "markdown", "css"},
+    filetypes = {"typescript", "lua", "python", "nix", "svelte", "yaml", "json", "sh", "markdown", "css", "toml"},
     init_options = {documentFormatting = true},
     settings = {
         rootMarkers = {".git/"},
@@ -81,6 +81,7 @@ require("lspconfig").efm.setup {
             sh = {{formatCommand = "shfmt -ci -s -bn", formatStdin = true}},
             markdown = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
             css = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
+            toml = {{formatCommand = "prettier --stdin-filepath ${INPUT}", formatStdin = true}},
         },
     },
 }

@@ -13,6 +13,51 @@ let
         sha512 = "lFMjJTrFL3j7L9yBxwYfCq2k6qqwHyzuUl/XBnif78PWTJYyL/dfowQHWE3sp6U6ZzqWiiIZnpTMO96zhkjwtg==";
       };
     };
+    "@chevrotain/cst-dts-gen-11.0.3" = {
+      name = "_at_chevrotain_slash_cst-dts-gen";
+      packageName = "@chevrotain/cst-dts-gen";
+      version = "11.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@chevrotain/cst-dts-gen/-/cst-dts-gen-11.0.3.tgz";
+        sha512 = "BvIKpRLeS/8UbfxXxgC33xOumsacaeCKAjAeLyOn7Pcp95HiRbrpl14S+9vaZLolnbssPIUuiUd8IvgkRyt6NQ==";
+      };
+    };
+    "@chevrotain/gast-11.0.3" = {
+      name = "_at_chevrotain_slash_gast";
+      packageName = "@chevrotain/gast";
+      version = "11.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@chevrotain/gast/-/gast-11.0.3.tgz";
+        sha512 = "+qNfcoNk70PyS/uxmj3li5NiECO+2YKZZQMbmjTqRI3Qchu8Hig/Q9vgkHpI3alNjr7M+a2St5pw5w5F6NL5/Q==";
+      };
+    };
+    "@chevrotain/regexp-to-ast-11.0.3" = {
+      name = "_at_chevrotain_slash_regexp-to-ast";
+      packageName = "@chevrotain/regexp-to-ast";
+      version = "11.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@chevrotain/regexp-to-ast/-/regexp-to-ast-11.0.3.tgz";
+        sha512 = "1fMHaBZxLFvWI067AVbGJav1eRY7N8DDvYCTwGBiE/ytKBgP8azTdgyrKyWZ9Mfh09eHWb5PgTSO8wi7U824RA==";
+      };
+    };
+    "@chevrotain/types-11.0.3" = {
+      name = "_at_chevrotain_slash_types";
+      packageName = "@chevrotain/types";
+      version = "11.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@chevrotain/types/-/types-11.0.3.tgz";
+        sha512 = "gsiM3G8b58kZC2HaWR50gu6Y1440cHiJ+i3JUvcp/35JchYejb2+5MVeJK0iKThYpAa/P2PYFV4hoi44HD+aHQ==";
+      };
+    };
+    "@chevrotain/utils-11.0.3" = {
+      name = "_at_chevrotain_slash_utils";
+      packageName = "@chevrotain/utils";
+      version = "11.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@chevrotain/utils/-/utils-11.0.3.tgz";
+        sha512 = "YslZMgtJUyuMbZ+aKvfF3x1f5liK4mWNxghFRv7jqRR9C3R3fAOGTTKvxXDa2Y1s9zSbcpuO0cAxDYsc9SrXoQ==";
+      };
+    };
     "@jridgewell/gen-mapping-0.3.3" = {
       name = "_at_jridgewell_slash_gen-mapping";
       packageName = "@jridgewell/gen-mapping";
@@ -58,6 +103,24 @@ let
         sha512 = "kf37QtfW+Hwx/buWGMPcR60iF9ziHa6r/CZJIHbmcm4+0qrXiVdxegAH0F6yddEVQ7zdkjcGCgCzUu+BcbhQxw==";
       };
     };
+    "@toml-tools/lexer-1.0.0" = {
+      name = "_at_toml-tools_slash_lexer";
+      packageName = "@toml-tools/lexer";
+      version = "1.0.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@toml-tools/lexer/-/lexer-1.0.0.tgz";
+        sha512 = "rVoOC9FibF2CICwCBWQnYcjAEOmLCJExer178K2AsY0Nk9FjJNVoVJuR5UAtuq42BZOajvH+ainf6Gj2GpCnXQ==";
+      };
+    };
+    "@toml-tools/parser-1.0.0" = {
+      name = "_at_toml-tools_slash_parser";
+      packageName = "@toml-tools/parser";
+      version = "1.0.0";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/@toml-tools/parser/-/parser-1.0.0.tgz";
+        sha512 = "j8cd3A3ccLHppGoWI69urbiVJslrpwI6sZ61ySDUPxM/FTkQWRx/JkkF8aipnl0Ds0feWXyjyvmWzn70mIohYg==";
+      };
+    };
     "@types/estree-1.0.1" = {
       name = "_at_types_slash_estree";
       packageName = "@types/estree";
@@ -92,6 +155,15 @@ let
       src = fetchurl {
         url = "https://registry.npmjs.org/axobject-query/-/axobject-query-3.2.1.tgz";
         sha512 = "jsyHu61e6N4Vbz/v18DHwWYKK0bSWLqn47eeDSKPB7m8tqMHF9YJ+mhIk2lVteyZrY8tnSj/jHOv4YiTCuCJgg==";
+      };
+    };
+    "chevrotain-11.0.3" = {
+      name = "chevrotain";
+      packageName = "chevrotain";
+      version = "11.0.3";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/chevrotain/-/chevrotain-11.0.3.tgz";
+        sha512 = "ci2iJH6LeIkvP9eJW6gpueU8cnZhv85ELY8w8WiFtNjMHA5ad6pQLaJo9mEly/9qUyCpvqX8/POVUTf18/HFdw==";
       };
     };
     "code-red-1.0.4" = {
@@ -148,6 +220,15 @@ let
         sha512 = "SW13ws7BjaeJ6p7Q6CO2nchbYEc3X3J6WrmTTDto7yMPqVSZTUyY5Tjbid+Ab8gLnATtygYtiDIJGQRRn2ZOiA==";
       };
     };
+    "lodash-es-4.17.21" = {
+      name = "lodash-es";
+      packageName = "lodash-es";
+      version = "4.17.21";
+      src = fetchurl {
+        url = "https://registry.npmjs.org/lodash-es/-/lodash-es-4.17.21.tgz";
+        sha512 = "mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==";
+      };
+    };
     "magic-string-0.30.3" = {
       name = "magic-string";
       packageName = "magic-string";
@@ -175,13 +256,13 @@ let
         sha512 = "vKiQ8RRtkl9P+r/+oefh25C3fhybptkHKCZSPlcXiJux2tJF55GnEj3BVn4A5gKfq9NWWXXrxkHBwVPUfH0opw==";
       };
     };
-    "prettier-3.0.2" = {
+    "prettier-3.0.3" = {
       name = "prettier";
       packageName = "prettier";
-      version = "3.0.2";
+      version = "3.0.3";
       src = fetchurl {
-        url = "https://registry.npmjs.org/prettier/-/prettier-3.0.2.tgz";
-        sha512 = "o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==";
+        url = "https://registry.npmjs.org/prettier/-/prettier-3.0.3.tgz";
+        sha512 = "L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==";
       };
     };
     "source-map-js-1.0.2" = {
@@ -208,10 +289,10 @@ in
   prettier = nodeEnv.buildNodePackage {
     name = "prettier";
     packageName = "prettier";
-    version = "3.0.2";
+    version = "3.0.3";
     src = fetchurl {
-      url = "https://registry.npmjs.org/prettier/-/prettier-3.0.2.tgz";
-      sha512 = "o2YR9qtniXvwEZlOKbveKfDQVyqxbEIWn48Z8m3ZJjBjcCmUy3xZGIv+7AkaeuaTr6yPXJjwv07ZWlsWbEy1rQ==";
+      url = "https://registry.npmjs.org/prettier/-/prettier-3.0.3.tgz";
+      sha512 = "L/4pUDMxcNa8R/EthV08Zt42WBO4h1rarVtK0K+QJG0X187OLo7l699jWw0GKuwzkPQ//jMFA/8Xm6Fh3J/DAg==";
     };
     buildInputs = globalBuildInputs;
     meta = {
@@ -251,7 +332,7 @@ in
       sources."magic-string-0.30.3"
       sources."mdn-data-2.0.30"
       sources."periscopic-3.1.0"
-      sources."prettier-3.0.2"
+      sources."prettier-3.0.3"
       sources."source-map-js-1.0.2"
       sources."svelte-4.2.0"
     ];
@@ -259,6 +340,36 @@ in
     meta = {
       description = "Svelte plugin for prettier";
       homepage = "https://github.com/sveltejs/prettier-plugin-svelte#readme";
+      license = "MIT";
+    };
+    production = true;
+    bypassCache = true;
+    reconstructLock = true;
+  };
+  prettier-plugin-toml = nodeEnv.buildNodePackage {
+    name = "prettier-plugin-toml";
+    packageName = "prettier-plugin-toml";
+    version = "1.0.0";
+    src = fetchurl {
+      url = "https://registry.npmjs.org/prettier-plugin-toml/-/prettier-plugin-toml-1.0.0.tgz";
+      sha512 = "YMn4Fqy/ANHommZh61s5qqtpfcgPB00Ty890bFPr73B0HAy77zgyH89SvAK+NyPPx3AdM56a4Yo66LH9GPnuZw==";
+    };
+    dependencies = [
+      sources."@chevrotain/cst-dts-gen-11.0.3"
+      sources."@chevrotain/gast-11.0.3"
+      sources."@chevrotain/regexp-to-ast-11.0.3"
+      sources."@chevrotain/types-11.0.3"
+      sources."@chevrotain/utils-11.0.3"
+      sources."@toml-tools/lexer-1.0.0"
+      sources."@toml-tools/parser-1.0.0"
+      sources."chevrotain-11.0.3"
+      sources."lodash-es-4.17.21"
+      sources."prettier-3.0.3"
+    ];
+    buildInputs = globalBuildInputs;
+    meta = {
+      description = "TOML Prettier Plugin";
+      homepage = "https://github.com/un-ts/toml-tools/tree/master#readme";
       license = "MIT";
     };
     production = true;

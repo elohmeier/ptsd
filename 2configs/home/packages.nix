@@ -76,6 +76,7 @@ with lib;
     nmap
     node2nix
     nodePackages.svelte-language-server
+    nodePackages.yarn
     nodePackages.typescript-language-server
     nodejs-18_x
     p7zip
