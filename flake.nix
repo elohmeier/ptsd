@@ -5,13 +5,16 @@
     disko.inputs.nixpkgs.follows = "nixpkgs";
     disko.url = "github:nix-community/disko";
     flake-utils.url = "github:numtide/flake-utils";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
     home-manager.url = "github:elohmeier/home-manager/master-darwin";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    lanzaboote.inputs.flake-utils.follows = "flake-utils";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
     nixinate.inputs.nixpkgs.follows = "nixpkgs";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
     nixpkgs-unstable-rpi4.url = "github:elohmeier/nixpkgs/6afb867d477dd0bc61f56a7c2cc514673f5f75d2";
+    nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:elohmeier/nixpkgs/nixos-23.05";
   };
 
@@ -20,6 +23,7 @@
     , disko
     , flake-utils
     , home-manager
+    , lanzaboote
     , nixinate
     , nixos-hardware
     , nixpkgs
@@ -316,59 +320,12 @@
               ];
             };
 
-          tp3_old = nixpkgs-unstable.lib.nixosSystem
-            {
-              system = "x86_64-linux";
-              modules = defaultModules ++ [
-                home-manager.nixosModule
-                ./2configs
-                ./2configs/generic-desktop.nix
-                ./2configs/generic-disk.nix
-                ./2configs/generic.nix
-
-                ({ config, ... }: {
-                  system.stateVersion = "22.11";
-
-                  #users.users.mainUser.home = "/win/Users/gordon";
-
-                  boot.initrd.services.lvm.enable = true;
-
-                  networking.hostName = "tp3";
-
-                  boot.loader.systemd-boot.configurationLimit = 1;
-
-                  fileSystems."/nix".device = "/dev/vg/nix";
-
-                  fileSystems."/home" = {
-                    device = "/dev/vg/home";
-                    fsType = "ext4";
-                    options = [ "nosuid" "nodev" ];
-                  };
-
-                  virtualisation = {
-                    virtualbox.host = {
-                      enable = true;
-                      enableExtensionPack = true;
-                    };
-                  };
-
-                  nixpkgs.hostPlatform = "x86_64-linux";
-
-                  services.getty.autologinUser = config.users.users.mainUser.name;
-
-                  ptsd.generic.nvidia.enable = false;
-
-                  programs.fish.interactiveShellInit = "echo This is an unencrypted device. Do not store any private data.";
-                })
-                { _module.args.nixinate = { host = "tp3.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
-              ];
-            };
-
           tp3 = nixpkgs-unstable.lib.nixosSystem {
             system = "x86_64-linux";
             modules = (defaultModules nixpkgs-unstable) ++ [
               home-manager.nixosModule
               disko.nixosModules.disko
+              lanzaboote.nixosModules.lanzaboote
               ./2configs/networkmanager.nix
               ./2configs/nix-persistent.nix
               ./2configs/users
@@ -404,9 +361,14 @@
 
                   resumeDevice = "/dev/pool/swap";
 
+                  lanzaboote = {
+                    enable = true;
+                    pkiBundle = "/nix/persistent/etc/secureboot";
+                  };
 
                   loader = {
-                    systemd-boot.enable = true;
+                    systemd-boot.enable = lib.mkForce false; # replaced by lanzaboote
+                    systemd-boot.editor = false;
                     efi.canTouchEfiVariables = true;
                   };
                   initrd = {
@@ -433,6 +395,7 @@
                     systemd = {
                       enable = true;
                       emergencyAccess = true;
+                      network.wait-online.timeout = 0;
                     };
                   };
                   kernelPackages = pkgs.linuxPackages_latest;
@@ -489,7 +452,6 @@
                 powerManagement.powertop.enable = true;
                 hardware.cpu.amd.updateMicrocode = true;
                 environment.systemPackages = [
-                  pkgs.powertop
                   pkgs.alsa-utils
                   pkgs.btop
                   pkgs.chicago95
@@ -501,7 +463,9 @@
                   pkgs.libcanberra-gtk3
                   pkgs.libinput
                   pkgs.pavucontrol
+                  pkgs.powertop
                   pkgs.python3 # required by proton (steam)
+                  pkgs.sbctl
                   pkgs.vulkan-tools
                   pkgs.xfce.xfce4-pulseaudio-plugin
                 ];
@@ -1047,7 +1011,7 @@
 
                 imports = [
                   ./2configs/home
-                  ./2configs/home/firefox.nix
+                  # ./2configs/home/firefox.nix
                   ./2configs/home/fish.nix
                   ./2configs/home/fonts.nix
                   ./2configs/home/git.nix
@@ -1067,13 +1031,19 @@
 
                 home.packages = with pkgs; [
                   bchunk
-                  libreoffice
-                  lutris
+                  firefox
+                  google-chrome
+                  # lutris
                   samba
                   wine
                   winetricks
                   xarchiver
                 ];
+
+                programs.mpv = {
+                  enable = true;
+                  package = pkgs.wrapMpv (pkgs.mpv-unwrapped.override { ffmpeg_5 = pkgs.ffmpeg_5-full; }) { };
+                };
 
                 programs.ssh.extraOptionOverrides = {
                   PKCS11Provider = "/run/current-system/sw/lib/libtpm2_pkcs11.so";

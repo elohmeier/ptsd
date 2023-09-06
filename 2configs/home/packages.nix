@@ -20,7 +20,7 @@ with lib;
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     bat
     btop
-    cargo
+    # cargo
     copy-secrets
     deadnix
     diceware
@@ -92,7 +92,7 @@ with lib;
     ripgrep
     # rmlint
     ruff
-    rustc
+    # rustc
     shellcheck
     shfmt
     shrinkpdf
@@ -231,7 +231,7 @@ with lib;
     # art
     # calibre
     # cura
-    freecad
+    # freecad
     # gnome3.file-roller
     # hash-slinger # tlsa
     # pdfconcat # fixme

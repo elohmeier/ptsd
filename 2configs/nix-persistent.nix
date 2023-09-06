@@ -13,11 +13,13 @@
     ${lib.optionalString config.ptsd.tailscale.cert.enable "mkdir -p /nix/persistent/var/lib/tailscale-cert"}
     mkdir -p /nix/secrets
     mkdir -p /nix/persistent/var/lib/systemd
+    mkdir -p /nix/etc/secureboot
     ${pkgs.systemd}/bin/systemd-machine-id-setup --root /nix/persistent
   '';
 
   fileSystems = {
     "/etc/machine-id" = { device = "/nix/persistent/etc/machine-id"; options = [ "bind" ]; };
+    "/etc/secureboot" = { device = "/nix/persistent/etc/secureboot"; options = [ "bind" ]; };
     "/var/lib/systemd" = { device = "/nix/persistent/var/lib/systemd"; options = [ "bind" ]; };
   } // lib.optionalAttrs config.networking.wireless.iwd.enable {
     "/var/lib/iwd" = { device = "/nix/persistent/var/lib/iwd"; options = [ "bind" ]; };
