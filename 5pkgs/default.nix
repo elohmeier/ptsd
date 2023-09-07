@@ -32,14 +32,6 @@ self: pkgs_master: _nixpkgs_master: super:
       flakeIgnore = [ "E265" "E501" ];
     } ../4scripts/borg2prom.py;
 
-  betaflight-configurator = super.betaflight-configurator.overrideAttrs
-    (_old: {
-      version = "10.8.0-RC7";
-      src = self.fetchurl {
-        url = "https://github.com/betaflight/betaflight-configurator/releases/download/10.8.0-RC7/betaflight-configurator_10.8.0_linux64-portable.zip";
-        sha256 = "sha256-ebTZtpPhZAp2zB9v1WRk3VtHjGtGL7bAJkLp/DCyIFo=";
-      };
-    });
   choose-browser = self.writers.writeDashBin "choose-browser" ../4scripts/choose-browser.sh;
   fritzbox-exporter = self.callPackage ./fritzbox-exporter { };
   gen-secrets = self.callPackage ./gen-secrets { };
@@ -104,20 +96,6 @@ self: pkgs_master: _nixpkgs_master: super:
 
   ptsd-tesseract = self.tesseract.override { enableLanguages = [ "eng" "deu" ]; };
 
-  firefox-bin = self.callPackage ./firefox-bin { };
-
-  checkSSLCert = super.checkSSLCert.overrideAttrs (_oldAttrs: rec {
-    # TODO: waits for https://github.com/NixOS/nixpkgs/pull/147131
-    version = "2.12.0";
-    src = self.fetchFromGitHub {
-      owner = "matteocorti";
-      repo = "check_ssl_cert";
-      rev = "v${version}";
-      sha256 = "sha256-Y7NLCooMP78EesG9zivyuaHwl9qHY2GSOTKuHzYWj6c=";
-    };
-    patches = [ ];
-  });
-
   inherit (pkgs_master) neovim-unwrapped;
   inherit (pkgs_master) neovimUtils;
   inherit (pkgs_master) vimPlugins;
@@ -125,25 +103,6 @@ self: pkgs_master: _nixpkgs_master: super:
   inherit (pkgs_master) wrapNeovim;
 
   pinephone-keyboard = self.callPackage ./pinephone-keyboard { };
-
-  ptsd-vscode = self.vscode-with-extensions.override {
-    vscodeExtensions = with self.vscode-extensions; [
-      eamodio.gitlens
-      editorconfig.editorconfig
-      esbenp.prettier-vscode
-      github.copilot
-      golang.go
-      hashicorp.terraform
-      jkillian.custom-local-formatters
-      jnoortheen.nix-ide
-      ms-toolsai.jupyter
-      ms-vscode-remote.remote-ssh
-      #ms-vsliveshare.vsliveshare
-    ] ++ self.lib.optionals (self.lib.elem self.stdenv.hostPlatform.system [ "x86_64-linux" ]) [
-      ms-python.python
-      ms-vscode.cpptools
-    ];
-  };
 
   linux-megi = self.callPackage ./linux-megi { };
   initvm = self.writeShellScriptBin "initvm" ''
@@ -164,7 +123,6 @@ self: pkgs_master: _nixpkgs_master: super:
     chmod +x nixos-install.sh
     echo "run ./nixos-install.sh to install"
   '';
-  wordpress = self.callPackage ./wordpress { };
 
   xrdp = self.callPackage ./xrdp { };
   xorgxrdp = self.callPackage ./xrdp/xorgxrdp.nix { };
