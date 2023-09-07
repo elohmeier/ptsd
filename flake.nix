@@ -357,7 +357,11 @@
                 };
                 services.fwupd.enable = true;
                 boot = {
-                  kernelParams = [ "mitigations=off" ]; # make linux fast again
+                  kernelParams = [
+                    "mitigations=off" # make linux fast again
+                    "acpi_backlight=native" # force thinkpad_acpi driver
+                    "amd_pstate=active"
+                  ];
 
                   resumeDevice = "/dev/pool/swap";
 
@@ -399,8 +403,11 @@
                     };
                   };
                   kernelPackages = pkgs.linuxPackages_latest;
-                  kernelModules = [ "kvm-amd" ];
+                  kernelModules = [ "kvm-amd" "acpi_call" ];
+                  extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
                 };
+                systemd.network.wait-online.timeout = 0;
+                services.fstrim.enable = true;
                 services.xserver = {
                   enable = true;
                   desktopManager = {
@@ -410,8 +417,22 @@
                   displayManager.defaultSession = "xfce";
                   displayManager.lightdm = {
                     background = "#008080";
+                    greeters.gtk = {
+                      cursorTheme = {
+                        package = pkgs.chicago95;
+                        name = "Chicago95 Animated Hourglass Cursors";
+                      };
+                      iconTheme = {
+                        package = pkgs.chicago95;
+                        name = "Chicago95";
+                      };
+                      theme = {
+                        package = pkgs.chicago95;
+                        name = "Chicago95";
+                      };
+                    };
                   };
-                  videoDrivers = [ "amdgpu" ];
+                  videoDrivers = [ "modesetting" ];
                   libinput.enable = true;
                   libinput.touchpad.naturalScrolling = true;
                   libinput.mouse.naturalScrolling = true;
@@ -469,7 +490,7 @@
                   pkgs.vulkan-tools
                   pkgs.xfce.xfce4-pulseaudio-plugin
                 ];
-                fonts.fonts = [ pkgs.chicago95 ];
+                fonts.packages = [ pkgs.chicago95 ];
                 virtualisation.docker = {
                   enable = true;
                   enableOnBoot = false;
@@ -628,13 +649,14 @@
               ];
             };
 
-          rpi4_scangw = nixpkgs-unstable-rpi4.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = (defaultModules nixpkgs-unstable-rpi4) ++ [
-              ./1systems/rpi4_scangw
-              nixos-hardware.nixosModules.raspberry-pi-4
-            ];
-          };
+          rpi4_scangw = nixpkgs-unstable-rpi4.lib.nixosSystem
+            {
+              system = "aarch64-linux";
+              modules = (defaultModules nixpkgs-unstable-rpi4) ++ [
+                ./1systems/rpi4_scangw
+                nixos-hardware.nixosModules.raspberry-pi-4
+              ];
+            };
 
           # pine2 = nixpkgs.lib.nixosSystem {
           #   system = "aarch64-linux";
@@ -803,18 +825,19 @@
                 specialArgs = { inherit nixpkgs; };
               };
 
-          generic_aarch64 = nixpkgs.lib.nixosSystem {
-            system = "aarch64-linux";
-            modules = defaultModules ++ [
-              ./2configs/generic.nix
-              ./2configs/generic-disk.nix
-              {
-                system.stateVersion = "22.11";
-                nixpkgs.hostPlatform = "aarch64-linux";
-              }
-              { _module.args.nixinate = { host = "192.168.69.5"; sshUser = "root"; buildOn = "remote"; }; }
-            ];
-          };
+          generic_aarch64 = nixpkgs.lib.nixosSystem
+            {
+              system = "aarch64-linux";
+              modules = defaultModules ++ [
+                ./2configs/generic.nix
+                ./2configs/generic-disk.nix
+                {
+                  system.stateVersion = "22.11";
+                  nixpkgs.hostPlatform = "aarch64-linux";
+                }
+                { _module.args.nixinate = { host = "192.168.69.5"; sshUser = "root"; buildOn = "remote"; }; }
+              ];
+            };
 
           utmvm_x86 = nixpkgs.lib.nixosSystem
             {
@@ -1033,7 +1056,7 @@
                   bchunk
                   firefox
                   google-chrome
-                  # lutris
+                  lutris
                   samba
                   wine
                   winetricks
@@ -1323,3 +1346,4 @@
         };
     };
 }
+
