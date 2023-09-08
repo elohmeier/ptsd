@@ -15,7 +15,7 @@ with lib;
 
   home.packages = with pkgs; [
     (pdftk.override { jre = openjdk17; })
-    # (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
+    (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     # (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     bat

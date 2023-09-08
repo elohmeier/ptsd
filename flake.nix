@@ -1061,6 +1061,7 @@
                   wine
                   winetricks
                   xarchiver
+                  zathura
                 ];
 
                 programs.mpv = {

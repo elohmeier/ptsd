@@ -11,6 +11,7 @@
     ${lib.optionalString config.services.samba.enable "mkdir -p /nix/persistent/var/lib/samba"}
     ${lib.optionalString config.services.tailscale.enable "mkdir -p /nix/persistent/var/lib/tailscale"}
     ${lib.optionalString config.ptsd.tailscale.cert.enable "mkdir -p /nix/persistent/var/lib/tailscale-cert"}
+    ${lib.optionalString config.powerManagement.powertop.enable "mkdir -p /nix/persistent/var/cache/powertop"}
     mkdir -p /nix/secrets
     mkdir -p /nix/persistent/var/lib/systemd
     mkdir -p /nix/etc/secureboot
@@ -29,6 +30,8 @@
     "/var/lib/tailscale-cert" = { device = "/nix/persistent/var/lib/tailscale-cert"; options = [ "bind" ]; };
   } // lib.optionalAttrs (config.services.borgbackup.jobs != { }) {
     "/var/cache/borg" = { device = "/nix/persistent/var/cache/borg"; options = [ "bind" ]; };
+  } // lib.optionalAttrs config.powerManagement.powertop.enable {
+    "/var/cache/powertop" = { device = "/nix/persistent/var/cache/powertop"; options = [ "bind" ]; };
   };
 
   systemd.mounts = (lib.optional config.services.samba.enable {
