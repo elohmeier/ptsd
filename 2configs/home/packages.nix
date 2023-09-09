@@ -20,6 +20,7 @@ with lib;
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     bat
     btop
+    bun
     # cargo
     copy-secrets
     deadnix

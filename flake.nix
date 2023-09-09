@@ -488,7 +488,10 @@
                   pkgs.python3 # required by proton (steam)
                   pkgs.sbctl
                   pkgs.vulkan-tools
+                  pkgs.xclip
                   pkgs.xfce.xfce4-pulseaudio-plugin
+                  pkgs.xfce.xfce4-fsguard-plugin
+                  pkgs.xsel
                 ];
                 fonts.packages = [ pkgs.chicago95 ];
                 virtualisation.docker = {
@@ -1058,6 +1061,7 @@
                   google-chrome
                   lutris
                   samba
+                  transmission-gtk
                   wine
                   winetricks
                   xarchiver
