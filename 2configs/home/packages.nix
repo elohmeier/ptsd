@@ -163,7 +163,6 @@ with lib;
         matplotlib
         #     mypy
         #     mysql-connector
-        #     nbconvert
         #     (pygrok.overrideAttrs (_: {
         #       meta.platforms = lib.platforms.unix;
         #     }))
@@ -280,9 +279,7 @@ with lib;
     libreoffice-fresh
     minicom
     mumble
-    nbconvert
     netcat-gnu
-    nwvpn-qr
     openssl
     openvpn
     paperkey

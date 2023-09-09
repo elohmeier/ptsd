@@ -21,6 +21,7 @@ p@{ config, lib, pkgs, ... }:
       tree = "exa --tree";
       vi = "nvim";
       vim = "nvim";
+      nbconvert = "jupyter nbconvert --to script --stdout";
     };
 
     shellAbbrs = {
