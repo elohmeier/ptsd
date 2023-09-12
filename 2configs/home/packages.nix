@@ -28,6 +28,7 @@ with lib;
     difftastic
     dive
     entr
+    mupdf
     eternal-terminal
     exa
     exiftool
