@@ -125,8 +125,7 @@
 
   boot.plymouth = {
     enable = true;
-    # theme = "Chicago95";
-    # themePackages = [ pkgs.chicago95 ];
+    logo = ../src/Microsoft_Windows_95_wordmark.png;
   };
   specialisation.plymouth95.configuration = {
     boot.plymouth = {
@@ -135,6 +134,8 @@
       themePackages = [ pkgs.chicago95 ];
     };
   };
+
+  services.xbanish.enable = true;
 
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
   powerManagement.cpuFreqGovernor = "schedutil";

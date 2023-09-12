@@ -9,7 +9,6 @@ p@{ config, lib, pkgs, ... }:
       gaapf = "git add . && git commit --amend --no-edit && git push --force";
       gapf = "git commit --amend --no-edit && git push --force";
       grep = "grep --color";
-      jq = "jaq";
       l = "exa -al";
       la = "exa -al";
       lg = "exa -al --git";

@@ -21,6 +21,7 @@ with lib;
     bat
     btop
     bun
+    nushell
     # cargo
     copy-secrets
     deadnix
@@ -51,6 +52,7 @@ with lib;
     imagemagickBig
     iperf2
     jaq
+    jq
     jc
     jdk
     jdt-language-server
