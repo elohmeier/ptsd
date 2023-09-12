@@ -2,20 +2,20 @@
   description = "ptsd";
 
   inputs = {
-    disko.inputs.nixpkgs.follows = "nixpkgs";
+    disko.inputs.nixpkgs.follows = "nixpkgs-unstable";
     disko.url = "github:nix-community/disko";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.inputs.nixpkgs.follows = "nixpkgs-unstable";
     home-manager.url = "github:elohmeier/home-manager/master-darwin";
-    lanzaboote.inputs.nixpkgs.follows = "nixpkgs-unstable";
     lanzaboote.inputs.flake-utils.follows = "flake-utils";
+    lanzaboote.inputs.nixpkgs.follows = "nixpkgs-unstable";
     lanzaboote.url = "github:nix-community/lanzaboote/v0.3.0";
-    nixinate.inputs.nixpkgs.follows = "nixpkgs";
+    nixinate.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-unstable-rpi4.url = "github:elohmeier/nixpkgs/6afb867d477dd0bc61f56a7c2cc514673f5f75d2";
     nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-23.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
   };
 
   outputs =
