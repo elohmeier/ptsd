@@ -11,13 +11,20 @@ let
       prettier-plugin-toml
     ];
   };
+  config = pkgs.writeText "prettier.config.cjs" ''
+    module.exports = {
+      plugins: [
+        require.resolve('prettier-plugin-svelte'),
+        require.resolve('prettier-plugin-toml')
+      ]
+    };
+  '';
 in
 myNodePkgs.prettier.overrideAttrs (old: {
   nativeBuildInputs = old.nativeBuildInputs or [ ] ++ [ pkgs.makeWrapper ];
   postInstall = ''
     wrapProgram $out/bin/prettier \
       --set NODE_PATH ${joined}/lib/node_modules \
-      --add-flags "--plugin ${joined}/lib/node_modules/prettier-plugin-svelte/plugin.js" \
-      --add-flags "--plugin ${joined}/lib/node_modules/prettier-plugin-toml/lib/api.js"
+      --add-flags "--config ${config}"
   '';
 })
