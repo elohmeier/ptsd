@@ -31,7 +31,7 @@ with lib;
     entr
     mupdf
     eternal-terminal
-    exa
+    eza
     exiftool
     fava
     fd

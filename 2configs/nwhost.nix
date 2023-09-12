@@ -6,12 +6,12 @@
   ];
 
   programs.fish.shellAliases = {
-    l = "exa -al";
-    la = "exa -al";
-    lg = "exa -al --git";
-    ll = "exa -l";
-    ls = "exa";
-    tree = "exa --tree";
+    l = "eza -al";
+    la = "eza -al";
+    lg = "eza -al --git";
+    ll = "eza -l";
+    ls = "eza";
+    tree = "eza --tree";
   };
 
   environment.systemPackages = with pkgs; [
@@ -19,7 +19,7 @@
     checkSSLCert
     cryptsetup
     dnsutils
-    exa
+    eza
     fd
     git
     macos-fix-filefoldernames

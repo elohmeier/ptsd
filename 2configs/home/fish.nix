@@ -9,15 +9,15 @@ p@{ config, lib, pkgs, ... }:
       gaapf = "git add . && git commit --amend --no-edit && git push --force";
       gapf = "git commit --amend --no-edit && git push --force";
       grep = "grep --color";
-      l = "exa -al";
-      la = "exa -al";
-      lg = "exa -al --git";
-      ll = "exa -l";
-      ls = "exa";
+      l = "eza -al";
+      la = "eza -al";
+      lg = "eza -al --git";
+      ll = "eza -l";
+      ls = "eza";
       ping6 = lib.mkIf pkgs.stdenv.isLinux "ping -6";
       slvpn-set-dns = "sudo busctl call org.freedesktop.resolve1 /org/freedesktop/resolve1 org.freedesktop.resolve1.Manager SetLinkDNS 'ia(iay)' (ip -j link show dev tun0 | jq '.[0].ifindex') 1 2 4 172 16 0 1 && resolvectl status tun0";
       telnet = "screen //telnet";
-      tree = "exa --tree";
+      tree = "eza --tree";
       vi = "nvim";
       vim = "nvim";
       nbconvert = "jupyter nbconvert --to script --stdout";
@@ -67,7 +67,7 @@ p@{ config, lib, pkgs, ... }:
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
 
-  home.packages = with pkgs; [ exa ];
+  home.packages = with pkgs; [ eza ];
 
   home.file.".config/fish/functions".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/fish else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/fish";
 
