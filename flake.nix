@@ -220,7 +220,7 @@
 
           macos-enno = home-manager.lib.homeManagerConfiguration {
             pkgs = import nixpkgs-unstable {
-              system = "aacrh64-darwin";
+              system = "aarch64-darwin";
               overlays = [ self.overlay ];
               config.allowUnfree = true;
             };
@@ -244,7 +244,7 @@
 
           macos-luisa = home-manager.lib.homeManagerConfiguration {
             pkgs = import nixpkgs-unstable {
-              system = "aacrh64-darwin";
+              system = "aarch64-darwin";
               overlays = [ self.overlay ];
               config.allowUnfree = true;
             };

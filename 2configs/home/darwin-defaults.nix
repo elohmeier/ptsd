@@ -5,6 +5,16 @@ _: {
       "show-recents" = false;
     };
 
+    "com.apple.loginwindow" = {
+      TALLogoutSavesState = false;
+      LoginwindowLaunchesRelaunchApps = false;
+    };
+
+    "com.apple.finder" = {
+      ShowPathbar = true;
+      ShowStatusBar = true;
+    };
+
     finder = {
       AppleShowAllExtensions = true;
       FXDefaultSearchScope = "SCcf"; # current folder
