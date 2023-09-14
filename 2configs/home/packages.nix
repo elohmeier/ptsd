@@ -132,7 +132,7 @@ with lib;
       [
         #     # sqlacodegen
         google-cloud-vision
-        (ocrmypdf.override { tesseract = (tesseract5.override { enableLanguages = [ "deu" "eng" ]; }); })
+        ((ocrmypdf.override { tesseract = (tesseract5.override { enableLanguages = [ "deu" "eng" ]; }); }).overridePythonAttrs (_: { doCheck = false; }))
         XlsxWriter
         #     alembic
         #     # langchain
