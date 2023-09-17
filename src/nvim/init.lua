@@ -244,6 +244,9 @@ end
 vim.api.nvim_create_autocmd({"BufRead"}, {pattern = {"*.ipynb"}, command = "MagmaInit"})
 vim.api.nvim_create_autocmd("User", {pattern = {"MagmaInitPost", "NBPostRender"}, callback = _G.define_all_cells})
 
+require("ssr").setup()
+vim.keymap.set({ "n", "x" }, "<leader>sr", function() require("ssr").open() end)
+
 -- ***************
 -- * keybindings *
 -- ***************

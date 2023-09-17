@@ -61,6 +61,7 @@ let
         nvim-web-devicons
         oil-nvim
         spread-nvim
+        ssr-nvim
         telescope-fzf-native-nvim
         telescope-nvim
         trouble-nvim
