@@ -3,7 +3,6 @@ p@{ config, lib, pkgs, ... }:
 {
   programs.fish = {
     enable = true;
-    useBabelfish = true;
 
     shellAliases = {
       gaapf = "git add . && git commit --amend --no-edit && git push --force";
