@@ -60,6 +60,7 @@ let
         nvim-treesitter-textobjects
         nvim-web-devicons
         oil-nvim
+        plantuml-syntax
         spread-nvim
         ssr-nvim
         telescope-fzf-native-nvim

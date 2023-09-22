@@ -14,25 +14,28 @@ with lib;
   home.file.".config/nnn/plugins".source = if (builtins.hasAttr "nixosConfig" p) then ../../4scripts/nnn-plugins else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/4scripts/nnn-plugins";
 
   home.packages = with pkgs; [
-    (pdftk.override { jre = openjdk17; })
-    (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     # (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
+    # cargo
+    # mpv
+    # rmlint
+    # rustc
+    # zathura
+    (pdftk.override { jre = openjdk17; })
+    (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
+    attic-server
     bat
     btop
     bun
-    nushell
-    # cargo
     copy-secrets
     deadnix
     diceware
     difftastic
     dive
     entr
-    mupdf
     eternal-terminal
-    eza
     exiftool
+    eza
     fava
     fd
     ffmpeg
@@ -52,11 +55,11 @@ with lib;
     imagemagickBig
     iperf2
     jaq
-    jq
     jc
     jdk
     jdt-language-server
     jless
+    jq
     jsonnet-bundler
     jsonnet-language-server
     kubectl
@@ -68,7 +71,7 @@ with lib;
     minikube
     minio-client
     mkpasswd
-    # mpv
+    mupdf
     ncdu_1
     nix-index
     nix-prefetch-git
@@ -79,11 +82,13 @@ with lib;
     nmap
     node2nix
     nodePackages.svelte-language-server
-    nodePackages.yarn
     nodePackages.typescript-language-server
+    nodePackages.yarn
     nodejs-18_x
+    nushell
     p7zip
     pass
+    plantuml
     poetry
     poppler_utils
     prettier-with-plugins
@@ -95,9 +100,7 @@ with lib;
     rclone
     remarshal
     ripgrep
-    # rmlint
     ruff
-    # rustc
     shellcheck
     shfmt
     shrinkpdf
@@ -105,6 +108,7 @@ with lib;
     statix
     tabula-java
     tanka
+    taskjuggler
     tig
     tmux
     tmuxinator
@@ -123,7 +127,6 @@ with lib;
     xz
     yq
     yt-dlp
-    # zathura
     zellij
 
     # (ptsd-python3.withPackages (
