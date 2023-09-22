@@ -13,7 +13,7 @@
     nixinate.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nixinate.url = "github:elohmeier/nixinate";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-unstable-rpi4.url = "github:elohmeier/nixpkgs/6afb867d477dd0bc61f56a7c2cc514673f5f75d2";
+    nixpkgs-unstable-rpi4.url = "github:elohmeier/nixpkgs/2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27";
     nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
   };
@@ -66,6 +66,7 @@
         nix-persistent = import ./2configs/nix-persistent.nix;
         secrets = import ./3modules/secrets.nix;
         tailscale = import ./3modules/tailscale.nix;
+        ports = import ./3modules/ports.nix;
         tp3 = import ./2configs/tp3.nix;
         tp4 = import ./2configs/tp4.nix;
         users = import ./2configs/users;
@@ -137,6 +138,20 @@
               modules = [
                 ./1systems/rpi4_scangw
                 nixos-hardware.nixosModules.raspberry-pi-4
+                self.nixosModules.defaults
+                self.nixosModules.nix-persistent
+                self.nixosModules.ports
+                self.nixosModules.secrets
+                self.nixosModules.tailscale
+                self.nixosModules.wireguard
+                {
+                  nixpkgs.pkgs = import nixpkgs-unstable
+                    {
+                      system = "aarch64-linux";
+                      overlays = [ self.overlay ];
+                      config.allowUnfree = true;
+                    };
+                }
               ];
             };
 

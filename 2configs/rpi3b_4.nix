@@ -27,11 +27,6 @@
       };
     };
     kernel.sysctl."vm.dirty_writeback_centisecs" = 1500; # interval between wakeups to write old data out to disk (saves power)
-    #kernelPackages = pkgs.linuxPackages_rpi3;
-    loader = {
-      grub.enable = false;
-      generic-extlinux-compatible.enable = true;
-    };
     tmp.useTmpfs = true;
   };
 

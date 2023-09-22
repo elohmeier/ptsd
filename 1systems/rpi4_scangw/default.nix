@@ -1,10 +1,7 @@
 { pkgs, ... }: {
 
   imports = [
-    ../../2configs
-    ../../2configs/fish.nix
     ../../2configs/rpi3b_4.nix
-
     ./home-assistant.nix
   ];
 
@@ -32,4 +29,19 @@
     btop
     tcpdump
   ];
+
+  fileSystems."/mnt/backup" = {
+    device = "/div/disk/by-partuuid/d30fc381-989f-4eb5-94da-bd66e56a22ed";
+    fsType = "ext4";
+    options = [
+      "commit=120"
+      "noatime"
+      "nodev"
+      "noexec"
+      "nofail"
+      "nosuid"
+    ];
+  };
+
+  programs.fish.enable = true;
 }
