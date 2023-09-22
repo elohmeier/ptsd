@@ -266,17 +266,17 @@
     },
     "nixpkgs-unstable-rpi4": {
       "locked": {
-        "lastModified": 1688542301,
-        "narHash": "sha256-xe1LxhYNs94QEZw77aHvZenPYlK2wmTqZyHSrXnQoHo=",
+        "lastModified": 1695289343,
+        "narHash": "sha256-IJNCku6+oZmb/xAHxu3U+gsewIlVrRB3689bGLjeO8w=",
         "owner": "elohmeier",
         "repo": "nixpkgs",
-        "rev": "6afb867d477dd0bc61f56a7c2cc514673f5f75d2",
+        "rev": "2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27",
         "type": "github"
       },
       "original": {
         "owner": "elohmeier",
         "repo": "nixpkgs",
-        "rev": "6afb867d477dd0bc61f56a7c2cc514673f5f75d2",
+        "rev": "2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27",
         "type": "github"
       }
     },
