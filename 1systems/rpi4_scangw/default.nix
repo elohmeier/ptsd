@@ -31,7 +31,7 @@
   ];
 
   fileSystems."/mnt/backup" = {
-    device = "/div/disk/by-partuuid/d30fc381-989f-4eb5-94da-bd66e56a22ed";
+    device = "/dev/disk/by-partuuid/d30fc381-989f-4eb5-94da-bd66e56a22ed";
     fsType = "ext4";
     options = [
       "commit=120"
