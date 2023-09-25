@@ -44,4 +44,35 @@
   };
 
   programs.fish.enable = true;
+
+  services.borgbackup.repos =
+    let
+      cfg = hostname: {
+        authorizedKeysAppendOnly = [ (import ../../2configs/universe.nix).hosts."${hostname}".borg.pubkey ];
+        path = "/mnt/backup/borg/${hostname}";
+        inherit ((import ../../2configs/universe.nix).hosts."${hostname}".borg) quota;
+        user = "borg-${hostname}";
+      };
+    in
+    {
+      htz1 = cfg "htz1";
+      htz2 = cfg "htz2";
+      mb3 = cfg "mb3";
+      mb4 = cfg "mb4";
+      convexio_prod = cfg "convexio_prod";
+    };
+
+  systemd.services.borgbackup-repo-mb4.serviceConfig.RequiresMountsFor = "/mnt/backup";
+  systemd.services.borgbackup-repo-mb3.serviceConfig.RequiresMountsFor = "/mnt/backup";
+  systemd.services.borgbackup-repo-htz2.serviceConfig.RequiresMountsFor = "/mnt/backup";
+  systemd.services.borgbackup-repo-htz1.serviceConfig.RequiresMountsFor = "/mnt/backup";
+  systemd.services.borgbackup-repo-convexio_prod.serviceConfig.RequiresMountsFor = "/mnt/backup";
+
+  # pin uids (not persisted)
+  users.groups.borg.gid = 994;
+  users.users.borg-mb4.uid = 991;
+  users.users.borg-mb3.uid = 992;
+  users.users.borg-htz2.uid = 993;
+  users.users.borg-htz1.uid = 994;
+  users.users.borg-convexio_prod.uid = 995;
 }
