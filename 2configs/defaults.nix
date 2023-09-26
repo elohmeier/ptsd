@@ -150,4 +150,9 @@ in
     acceptTerms = true;
     defaults.email = lib.mkDefault "elo-lenc@nerdworks.de";
   };
+
+  programs.fish.interactiveShellInit = ''
+    set -U fish_greeting
+    source ${../4scripts/iterm2-integration.fish}
+  '';
 }
