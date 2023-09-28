@@ -162,29 +162,6 @@
       syncthing.id = "N75EGVO-QHGB7RL-FYI2GH3-QFTLVIT-EIWXV2D-JDAYHXI-GXJWKHK-4C74HQ7";
     };
 
-    # Fraam WWW
-    htz3 = {
-      domain = "host.fraam.de";
-      nets = {
-        www = {
-          ip4.addr = "78.47.98.124";
-          ip6.addr = "2a01:4f8:c0c:5dac::1";
-        };
-        nwvpn = {
-          ip4.addr = "191.18.19.41";
-          aliases = [
-            "htz3.nw"
-          ];
-          wireguard.pubkey = "GXkobxcjA/HiURqcFonxNronh5P9m4Ze7g27oiPbOBc=";
-        };
-        tailscale.ip4.addr = "100.85.77.18";
-      };
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFRtD/G7EoOsriINw1hbRcx3Pa/gAllVbyaXFoEE3O0r ";
-      # syncthing.id = "IC6TOSI-OYORQ4W-DSOMJU7-QYSECNO-XFD2F5U-DMN3G4E-D2E5CZ5-5XR7TQM";
-      borg.quota = "20G";
-      borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEC8cOA1MLntU6B55MLu1rgLMI/jmC2iffRQT2ySmM1m";
-    };
-
     # Lu
     mb3 = {
       borg.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIN1I2tWffmioOtFbsc/t5iuxOVJ8IZkrHTfkvkSw+dTJ";
@@ -200,29 +177,6 @@
         ip4.addr = "191.18.19.58";
         wireguard.pubkey = "b0sBX64Klpglf7DKmQ8rcQCs3rCZMrxuK8NAoLVV2gQ=";
       };
-    };
-
-    nas1 = {
-      nets = {
-        nwvpn = {
-          ip4.addr = "191.18.19.37";
-          aliases = [
-            "nas1.nw"
-          ];
-          wireguard = {
-            pubkey = "52uBY3v3s7JE74MRVLepEx8vQliKCpzZteGXG0EhNGU=";
-            networks = [ "192.168.178.0/24" ];
-          };
-        };
-        bs53lan = {
-          ip4.addr = "192.168.178.37"; # ip hardcoded for scan-to-ftp on prt1, remember to update as well
-        };
-        tailscale.ip4.addr = "100.101.207.64";
-      };
-      ssh.pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPzSELiOpE3nCNPSeylax/W3UfXbzSBVQ3mqjHBz/yPy ";
-      borg.quota = "500G";
-      borg.pubkey = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC2g2ga5+52k9vQwbX204VK+ZXEb9dIhbicRe1bZXunDS00MI/kvC1NnLrKpZSJmtieyRBSnYkWkWsejFMKe9TWuTQqd5wceFIASr7bUVInoxQazpYaC07H4wkx1uoeKZqCvQfJD/BCIrPQfXnm8lOwMPWKhAml0wnOPo3EOIFffW5vszxi2RRRLh4af1Azs2pd6/9E+TJnA4foOTgAA1dQEou1X+0eLCEtEwjJFPLNFRVOImXfB4dZ0mke/WTae5DUfUuT4Guz0uf11VYeG1iCorcOLk/0w+LcP4aJMllK3znXQHc/Olm+Og+l4MpRsJTZRke23k+GSgf31BPbvGJJ root@nas1";
-      syncthing.id = "HGJGPWK-AZ7W6YP-42W6HGC-4OD3U33-GQZJ6N3-24YL7V2-CB26CIJ-DT5RXAW";
     };
 
     pine2 = {

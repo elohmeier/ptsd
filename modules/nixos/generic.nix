@@ -8,8 +8,6 @@ let
 in
 {
   imports = [
-    ./.
-    ./fish.nix
     ./users/root.nix
   ];
 

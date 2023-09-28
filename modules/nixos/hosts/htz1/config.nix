@@ -3,8 +3,7 @@
   imports = [
     (modulesPath + "/profiles/hardened.nix")
 
-    ../..
-    ../../2configs
+    ../../2configs/defaults.nix
     ../../2configs/borgbackup.nix
     ../../2configs/nwhost.nix
     ../../2configs/prometheus-node.nix

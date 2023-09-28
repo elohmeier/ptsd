@@ -64,10 +64,6 @@ in
           hostNames = [ universe.hosts.htz1.nets.www.ip4.addr universe.hosts.htz1.nets.www.ip6.addr ] ++ universe.hosts.htz1.nets.www.aliases;
           publicKey = universe.hosts.htz1.ssh.pubkey;
         };
-        "fraamgit" = {
-          hostNames = [ universe.hosts.htz3.nets.www.ip4.addr universe.hosts.htz3.nets.www.ip6.addr "git.fraam.de" ];
-          publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKqi/Ley5IzAX4+x7446j/mEKFekN4pdfYSxesxO48LP";
-        };
 
         # https://docs.hetzner.com/de/robot/storage-box/access/access-ssh-rsync-borg/#ssh-host-keys
         "hetzner-storage-box-ed25519" = {

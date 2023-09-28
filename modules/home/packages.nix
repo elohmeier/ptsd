@@ -25,6 +25,7 @@ with lib;
     (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     attic-server
     bat
+    ollama
     btop
     bun
     copy-secrets

@@ -43,7 +43,7 @@ p@{ config, lib, pkgs, ... }:
 
     interactiveShellInit = ''
       set -U fish_greeting
-      source ${../../4scripts/iterm2-integration.fish}
+      source ${../../scripts/iterm2-integration.fish}
       fzf_configure_bindings --directory=\ct
     '';
     # + lib.optionalString config.wayland.windowManager.sway.enable ''
