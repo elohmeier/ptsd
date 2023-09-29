@@ -52,6 +52,8 @@
       "${homeDirectory}/Applications"
       "${homeDirectory}/Downloads"
       "${homeDirectory}/Downloads-Keep"
+      "${homeDirectory}/OrbStack"
+      "${homeDirectory}/.orbstack"
       "${homeDirectory}/Library"
       "${homeDirectory}/Pictures/Photos Library.photoslibrary"
       "${homeDirectory}/Sync/rpi4-dl" # no backup
