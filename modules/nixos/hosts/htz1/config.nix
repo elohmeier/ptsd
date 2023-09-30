@@ -3,14 +3,9 @@
   imports = [
     (modulesPath + "/profiles/hardened.nix")
 
-    ../../2configs/defaults.nix
-    ../../2configs/borgbackup.nix
-    ../../2configs/nwhost.nix
-    ../../2configs/prometheus-node.nix
-
     ./modules/git.nix
     ./modules/loki.nix
-    ./modules/monica.nix
+    ./modules/monica.nix # TODO: use nixpkgs package
     ./modules/mosquitto.nix
     ./modules/prometheus
   ];

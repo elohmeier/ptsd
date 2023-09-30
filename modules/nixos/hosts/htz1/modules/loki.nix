@@ -1,7 +1,7 @@
 { config, ... }:
 
 let
-  universe = import ../../../2configs/universe.nix;
+  universe = import ../../../../common/universe.nix;
 in
 {
   services.loki = {

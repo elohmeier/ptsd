@@ -2,13 +2,9 @@
 
 with lib;
 let
-  universe = import ./universe.nix;
+  universe = import ../common/universe.nix;
 in
 {
-  imports = [
-    ../3modules
-  ];
-
   console.keyMap = mkDefault "de-latin1";
 
   environment = {

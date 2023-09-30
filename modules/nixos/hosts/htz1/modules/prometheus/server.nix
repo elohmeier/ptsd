@@ -1,8 +1,7 @@
 { config, lib, ... }:
 
-with lib;
 let
-  universe = import ../../../../2configs/universe.nix;
+  universe = import ../../../../../common/universe.nix;
   blackboxGenericScrapeConfig = {
     scrape_interval = "60s";
     metrics_path = "/probe";

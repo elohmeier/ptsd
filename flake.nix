@@ -135,25 +135,6 @@
   #           ];
   #         };
   #
-  #       htz1 = nixpkgs.lib.nixosSystem
-  #         {
-  #           system = "x86_64-linux";
-  #           modules = [
-  #             self.nixosModules.defaults
-  #             self.nixosModules.secrets
-  #             ./1systems/htz1/physical.nix
-  #             { _module.args.nixinate = { host = "htz1.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
-  #             {
-  #               nixpkgs.pkgs = import nixpkgs
-  #                 {
-  #                   system = "x86_64-linux";
-  #                   overlays = [ self.overlay (final: prev: { eza = final.exa; }) ];
-  #                   config.allowUnfree = true;
-  #                 };
-  #             }
-  #           ];
-  #         };
-  #
   #       htz2 = nixpkgs.lib.nixosSystem
   #         {
   #           system = "x86_64-linux";

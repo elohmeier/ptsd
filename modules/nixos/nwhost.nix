@@ -1,7 +1,6 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
-    ../3modules
     ./nwhost-mini.nix
   ];
 

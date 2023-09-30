@@ -3,7 +3,7 @@
 { lib, pkgs, ... }:
 with lib;
 let
-  universe = import ./universe.nix;
+  universe = import ../common/universe.nix;
 in
 {
   imports = [
@@ -149,6 +149,6 @@ in
 
   programs.fish.interactiveShellInit = ''
     set -U fish_greeting
-    source ${../4scripts/iterm2-integration.fish}
+    source ${../../scripts/iterm2-integration.fish}
   '';
 }

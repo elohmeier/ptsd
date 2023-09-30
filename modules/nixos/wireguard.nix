@@ -6,7 +6,7 @@ let
   enabledNetworks = filterAttrs (_: v: v.enable) cfg.networks;
   natForwardNetworks = filterAttrs (_: v: v.natForwardIf != "") enabledNetworks;
   reresolveDnsNetworks = filterAttrs (_: v: v.reresolveDns) enabledNetworks;
-  universe = import ../2configs/universe.nix;
+  universe = import ../common/universe.nix;
 
   generateSecret = _: netcfg: nameValuePair
     netcfg.keyname
