@@ -49,5 +49,16 @@
         rm $out/share/fzf/*.fish
       '';
     });
+
+    dradis-ce = final.callPackage ../../packages/dradis-ce { };
+  };
+
+  perSystem = { system, ... }: {
+    _module.args.pkgs = import inputs.nixpkgs {
+      inherit system;
+      # Apply default overlay to provide nix-snapshotter for NixOS tests &
+      # configurations.
+      overlays = [ self.overlays.default ];
+    };
   };
 }
