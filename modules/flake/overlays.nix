@@ -39,10 +39,7 @@
         '';
       })).override
         { withNerdIcons = true; };
-      prom-checktlsa = final.writeShellScriptBin "prom-checktlsa" ''
-        PATH=$PATH:${final.lib.makeBinPath (with final; [ dig gawk nettools bash checkSSLCert ] ++ final.lib.optional final.stdenv.isLinux glibc)}
-        . ${../../scripts/prom-checktlsa.sh}
-      '';
+      prom-checktlsa = final.callPackage ../../packages/prom-checktlsa { };
 
       fzf-no-fish = final.fzf.overrideAttrs (old: {
         postInstall = old.postInstall + ''

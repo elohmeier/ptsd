@@ -11,8 +11,12 @@
         destination = "/.digrc";
       };
     };
+    path = with pkgs; [
+      moreutils
+      prom-checktlsa
+    ];
     script = ''
-      ${pkgs.prom-checktlsa}/bin/prom-checktlsa | ${pkgs.moreutils}/bin/sponge /var/log/prometheus-check_ssl_cert.prom
+      prom-checktlsa | sponge /var/log/prometheus-check_ssl_cert.prom
     '';
     startAt = "*:0/15"; # every 15 mins
   };
