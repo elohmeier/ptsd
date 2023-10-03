@@ -40,7 +40,7 @@
       })).override
         { withNerdIcons = true; };
       prom-checktlsa = final.writeShellScriptBin "prom-checktlsa" ''
-        PATH=$PATH:${final.lib.makeBinPath (with final; [ dig gawk glibc nettools bash checkSSLCert ])}
+        PATH=$PATH:${final.lib.makeBinPath (with final; [ dig gawk nettools bash checkSSLCert ] ++ final.lib.optional final.stdenv.isLinux glibc)}
         . ${../../scripts/prom-checktlsa.sh}
       '';
 
