@@ -57,8 +57,6 @@ in
     }
   ];
 
-  programs.fish.enable = mkDefault true;
-  users.defaultUserShell = pkgs.fish;
   ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
   environment.variables = { EDITOR = "vim"; };
 }

@@ -1,24 +1,15 @@
 { config, lib, pkgs, ... }:
 {
   imports = [
+    ./fish.nix
     ./nwhost-mini.nix
   ];
-
-  programs.fish.shellAliases = {
-    l = "eza -al";
-    la = "eza -al";
-    lg = "eza -al --git";
-    ll = "eza -l";
-    ls = "eza";
-    tree = "eza --tree";
-  };
 
   environment.systemPackages = with pkgs; [
     bottom
     checkSSLCert
     cryptsetup
     dnsutils
-    eza
     fd
     git
     macos-fix-filefoldernames
