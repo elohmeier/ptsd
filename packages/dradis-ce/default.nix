@@ -1,6 +1,7 @@
 { bundlerEnv
 , fetchFromGitHub
 , lib
+, formats
 , icu
 , makeWrapper
 , nodejs_16
@@ -8,6 +9,7 @@
 , runCommand
 , stdenv
 , writeShellScript
+, yarn
 }:
 
 let
@@ -25,6 +27,16 @@ let
     substituteInPlace $out/engines/dradis-api/dradis-api.gemspec \
       --replace "git ls-files" "find . -type f"
   '';
+
+  yaml = formats.yaml { };
+
+  databaseYml = yaml.generate "database.yml" {
+    production = {
+      adapter = "sqlite3";
+      timeout = 5000;
+      database = "db/dummy.sqlite3";
+    };
+  };
 
   rubyEnv = bundlerEnv {
     inherit ruby;
@@ -73,14 +85,21 @@ let
     pname = "dradis-ce";
     inherit version src;
 
-    buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler ];
+    buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler yarn ];
 
     buildPhase = ''
       runHook preBuild
 
+      mkdir -p templates/{plugins,reports}
+
+      cp ${databaseYml} config/database.yml
+      RAILS_ENV=production rails db:prepare
+      RAILS_ENV=production rails assets:precompile
+
       mv config config.dist
       mv public public.dist
-      rm -rf log
+      mv templates templates.dist
+      rm -rf {log,tmp}
 
       runHook postBuild
     '';
@@ -93,6 +112,7 @@ let
 
       ln -sf /run/dradis/config $out/share/dradis/config
       ln -sf /run/dradis/public $out/share/dradis/public
+      ln -sf /run/dradis/templates $out/share/dradis/templates
       ln -sf /var/lib/dradis/attachments $out/share/dradis/attachments
       ln -sf /var/lib/dradis/tmp $out/share/dradis/tmp
       ln -sf /var/log/dradis $out/share/dradis/log
