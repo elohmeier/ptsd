@@ -29,6 +29,7 @@ with lib;
     btop
     bun
     copy-secrets
+    nixd
     deadnix
     diceware
     difftastic
@@ -37,6 +38,7 @@ with lib;
     eternal-terminal
     exiftool
     eza
+    bundix
     fava
     fd
     ffmpeg
