@@ -32,7 +32,7 @@
 
   outputs = inputs@{ self, flake-parts, nixinate, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "aarch64-darwin" ];
+      systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
       imports = [ ./modules ];
       perSystem = { config, self', inputs', pkgs, system, ... }: {
         apps = (nixinate.nixinate.${system} self).nixinate;
