@@ -13,10 +13,11 @@ let
             pkgs = lib.mkForce pkgs;
           };
         }
+        self.nixosModules.dradis
+        self.nixosModules.ports
         self.nixosModules.secrets
         self.nixosModules.tailscale
         self.nixosModules.wireguard
-        self.nixosModules.ports
       ] ++ modules;
     };
 
@@ -40,10 +41,10 @@ in
   };
 
   flake.nixosConfigurations = {
-    lene-gotthard-striebitz = nixosSystemFor "aarch64-linux" [
+    mato-oestrovsky-loos = nixosSystemFor "aarch64-linux" [
       self.nixosModules.hcloud
-      self.nixosModules.dradis
-      { _module.args.nixinate = { host = "128.140.113.13"; sshUser = "root"; buildOn = "remote"; }; }
+      { ptsd.dradis.enable = true; }
+      { _module.args.nixinate = { host = "78.47.96.112"; sshUser = "root"; buildOn = "remote"; }; }
     ];
 
     htz1 = nixosSystemFor "x86_64-linux" [

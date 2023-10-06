@@ -1,5 +1,8 @@
 { bundlerEnv
 , fetchFromGitHub
+, lib
+, icu
+, makeWrapper
 , nodejs_16
 , ruby
 , runCommand
@@ -15,20 +18,30 @@ let
     rev = "v${version}";
     hash = "sha256-xO1j5sghbz41U5HiXhG5da1rZFpFuD0gnzY9+BMyJFE=";
   };
-  srcWithGemset = runCommand "src-with-gemset" { } ''
+
+  extraConfig = runCommand "extraConfig" { } ''
     mkdir -p $out
-    cp -r ${src}/* $out
-    cp ${./gemset.nix} $out/gemset.nix
+    cp -r ${src}/{engines,lib} $out/
+    substituteInPlace $out/engines/dradis-api/dradis-api.gemspec \
+      --replace "git ls-files" "find . -type f"
   '';
+
   rubyEnv = bundlerEnv {
     inherit ruby;
     name = "dradis-ce-bundler-env";
-    gemfile = ./Gemfile;
-    lockfile = ./Gemfile.lock;
+    gemdir = ./.;
+    extraConfigPaths = [ "${extraConfig}/engines" "${extraConfig}/lib" ];
 
     gemset =
-      let gems = import "${srcWithGemset}/gemset.nix";
+      # let gems = import "${srcWithGemset}/gemset.nix";
+      let gems = import ./gemset.nix;
       in gems // {
+        mini_racer = gems.mini_racer // {
+          buildInputs = [ icu ];
+          dontBuild = false;
+          NIX_LDFLAGS = "-licui18n";
+        };
+
         libv8-node =
           let
             noopScript = writeShellScript "noop" "exit 0";
@@ -59,13 +72,30 @@ let
   dradis = stdenv.mkDerivation {
     pname = "dradis-ce";
     inherit version src;
+
     buildInputs = [ rubyEnv rubyEnv.wrappedRuby rubyEnv.bundler ];
+
+    buildPhase = ''
+      runHook preBuild
+
+      mv config config.dist
+      mv public public.dist
+      rm -rf log
+
+      runHook postBuild
+    '';
 
     installPhase = ''
       runHook preInstall
 
       mkdir -p $out/share
       cp -r . $out/share/dradis
+
+      ln -sf /run/dradis/config $out/share/dradis/config
+      ln -sf /run/dradis/public $out/share/dradis/public
+      ln -sf /var/lib/dradis/attachments $out/share/dradis/attachments
+      ln -sf /var/lib/dradis/tmp $out/share/dradis/tmp
+      ln -sf /var/log/dradis $out/share/dradis/log
 
       runHook postInstall
     '';

@@ -59,6 +59,7 @@
   perSystem = { system, ... }: {
     _module.args.pkgs = import inputs.nixpkgs {
       inherit system;
+      config.permittedInsecurePackages = [ "nodejs-16.20.2" ]; # dradis-ce
       overlays = [
         self.overlays.default
         self.overlays.nixos-23-05-compat
