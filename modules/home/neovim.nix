@@ -99,11 +99,11 @@ let
   };
 in
 {
-  home.file = {
-    ".config/nvim".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/nvim else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/nvim";
-    ".local/share/nvim/site/pack".source = "${pluginPack}/pack";
-    ".config/coc/ultisnips".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/snippets else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/snippets";
-  };
+  # home.file = {
+  #   ".config/nvim".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/nvim else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/nvim";
+  #   ".local/share/nvim/site/pack".source = "${pluginPack}/pack";
+  #   ".config/coc/ultisnips".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/snippets else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/snippets";
+  # };
 
   home.packages = with pkgs;[
     efm-langserver
