@@ -34,9 +34,14 @@
     "/boot" = lib.mkIf (pkgs.stdenv.hostPlatform.isAarch64) { device = "/dev/sda15"; fsType = "vfat"; };
   };
 
+  services.eternal-terminal.enable = true;
+
   networking = {
     domain = "";
-    firewall.logRefusedConnections = false;
+    firewall = {
+      allowedTCPPorts = [ 2022 ];
+      logRefusedConnections = false;
+    };
     useNetworkd = true;
   };
 
@@ -76,7 +81,7 @@
     vimAlias = true;
   };
 
-  environment.systemPackages = with pkgs; [ btop ncdu parted ];
+  environment.systemPackages = with pkgs; [ btop ncdu parted tmux ];
 
   nix.extraOptions = "experimental-features = nix-command flakes";
 }
