@@ -112,7 +112,6 @@ with lib;
     tabula-java
     tanka
     taskjuggler
-    tig
     tmux
     tmuxinator
     treefmt
