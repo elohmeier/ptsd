@@ -106,16 +106,16 @@ in
   # };
 
   home.packages = with pkgs;[
-    efm-langserver
-    gopls
-    luaformatter
-    nil
+    # efm-langserver
+    # gopls
+    # luaformatter
+    # nil
     neovim
     # neovim-nightly
-    pyright
-    ripgrep # for telescope
-    nodejs-18_x
-    nixpkgs-fmt
+    # pyright
+    # ripgrep # for telescope
+    # nodejs-18_x
+    # nixpkgs-fmt
   ];
 
   home.sessionVariables.EDITOR = "nvim";

@@ -3,7 +3,7 @@ p@{ config, lib, pkgs, ... }:
 with lib;
 {
   home.sessionVariables = {
-    BAT_THEME = "GitHub";
+    BAT_THEME = "ansi";
     NIXPKGS_ALLOW_UNFREE = 1;
     NNN_PLUG = "p:preview-tui;f:fzcd;z:autojump;u:ulp";
     PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
@@ -17,15 +17,18 @@ with lib;
     # (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     # cargo
+    fastlane
     # mpv
     # rmlint
     # rustc
+    rustup
     # zathura
     (pdftk.override { jre = openjdk17; })
     (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     attic-server
     bat
     ollama
+    hyperfine
     btop
     bun
     copy-secrets
@@ -84,8 +87,8 @@ with lib;
     nixpkgs-fmt
     nmap
     node2nix
-    nodePackages.svelte-language-server
-    nodePackages.typescript-language-server
+    # nodePackages.svelte-language-server
+    # nodePackages.typescript-language-server
     nodePackages.yarn
     nodejs-18_x
     nushell

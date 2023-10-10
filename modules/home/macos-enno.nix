@@ -7,6 +7,7 @@
       "${config.home.homeDirectory}/.local/share/npm/bin"
       "${config.home.homeDirectory}/repos/flutter/bin"
       "${config.home.homeDirectory}/.pub-cache/bin"
+      "/opt/homebrew/bin"
     ];
     stateVersion = "21.11";
   };
