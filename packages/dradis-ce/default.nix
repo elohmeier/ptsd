@@ -99,7 +99,7 @@ let
       mv config config.dist
       mv public public.dist
       mv templates templates.dist
-      rm -rf {log,tmp}
+      rm -rf {log,tmp,app/views/tmp}
 
       runHook postBuild
     '';
@@ -115,6 +115,7 @@ let
       ln -sf /run/dradis/templates $out/share/dradis/templates
       ln -sf /var/lib/dradis/attachments $out/share/dradis/attachments
       ln -sf /var/lib/dradis/tmp $out/share/dradis/tmp
+      ln -sf /var/lib/dradis/app/views/tmp $out/share/dradis/app/views/tmp
       ln -sf /var/log/dradis $out/share/dradis/log
 
       runHook postInstall

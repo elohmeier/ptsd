@@ -40,7 +40,7 @@ in
       };
 
       preStart = ''
-        mkdir -p /var/lib/dradis/{attachments,tmp}
+        mkdir -p /var/lib/dradis/{attachments,tmp,app/views/tmp}
         mkdir -p /run/dradis/{config,templates,public}
 
         cp -r ${cfg.package}/share/dradis/config.dist/* /run/dradis/config/
