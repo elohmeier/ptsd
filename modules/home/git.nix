@@ -21,15 +21,20 @@
     delta = {
       enable = true;
       options = {
-        #decorations = {
-        #  commit-decoration-style = "bold yellow box ul";
-        #  file-decoration-style = "none";
-        #  file-style = "bold yellow ul";
-        #};
-        #features = "decorations";
-        syntax-theme = "GitHub";
         whitespace-error-style = "22 reverse";
-        #paging = "never";
+
+        # https://github.com/folke/tokyonight.nvim/blob/main/extras/delta/tokyonight_night.gitconfig
+        minus-style = "syntax \"#37222c\"";
+        minus-non-emph-style = "syntax \"#37222c\"";
+        minus-emph-style = "syntax \"#713137\"";
+        minus-empty-line-marker-style = "syntax \"#37222c\"";
+        line-numbers-minus-style = "#b2555b";
+        plus-style = "syntax \"#20303b\"";
+        plus-non-emph-style = "syntax \"#20303b\"";
+        plus-emph-style = "syntax \"#2c5a66\"";
+        plus-empty-line-marker-style = "syntax \"#20303b\"";
+        line-numbers-plus-style = "#266d6a";
+        line-numbers-zero-style = "#3b4261";
       };
     };
     lfs.enable = true;
