@@ -34,6 +34,7 @@ with lib;
     copy-secrets
     nixd
     deadnix
+    libxml2 # xmllint
     diceware
     difftastic
     dive

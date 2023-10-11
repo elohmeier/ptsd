@@ -5,17 +5,19 @@ let
   myNodePkgs = pkgs.callPackage ./node-composition.nix { };
   joined = pkgs.symlinkJoin {
     name = "prettier-with-plugins";
-    paths = with myNodePkgs; [
-      prettier
-      prettier-plugin-svelte
-      prettier-plugin-toml
+    paths = [
+      myNodePkgs.prettier
+      myNodePkgs.prettier-plugin-svelte
+      myNodePkgs.prettier-plugin-toml
+      myNodePkgs."@prettier/plugin-xml"
     ];
   };
   config = pkgs.writeText "prettier.config.cjs" ''
     module.exports = {
       plugins: [
         require.resolve('prettier-plugin-svelte'),
-        require.resolve('prettier-plugin-toml')
+        require.resolve('prettier-plugin-toml'),
+        require.resolve('@prettier/plugin-xml')
       ]
     };
   '';
