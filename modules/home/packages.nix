@@ -31,6 +31,7 @@ with lib;
     hyperfine
     btop
     bun
+    go
     copy-secrets
     nixd
     deadnix
@@ -273,7 +274,6 @@ with lib;
     ghostscript
     gimp
     gnupg
-    go
     go-sqlcmd
     gptfdisk
     home-assistant-cli
