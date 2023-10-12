@@ -1,4 +1,34 @@
 ({ config, lib, pkgs, ... }: {
+
+  imports = [
+    ./nix-security-box/cloud.nix
+    ./nix-security-box/container.nix
+    ./nix-security-box/dns.nix
+    ./nix-security-box/exploits.nix
+    ./nix-security-box/fuzzers.nix
+    ./nix-security-box/generic.nix
+    ./nix-security-box/information-gathering.nix
+    ./nix-security-box/kubernetes.nix
+    ./nix-security-box/ldap.nix
+    ./nix-security-box/load-testing.nix
+    ./nix-security-box/malware.nix
+    ./nix-security-box/network.nix
+    ./nix-security-box/password.nix
+    ./nix-security-box/port-scanners.nix
+    ./nix-security-box/proxies.nix
+    ./nix-security-box/services.nix
+    ./nix-security-box/tls.nix
+    ./nix-security-box/traffic.nix
+    ./nix-security-box/tunneling.nix
+    ./nix-security-box/web.nix
+    ./nix-security-box/windows.nix
+    ./nix-security-box/wireless.nix
+  ];
+  #config.permittedInsecurePackages = [
+  #  "tightvnc-1.3.10"
+  #  "python-2.7.18.6"
+  #];
+
   system.stateVersion = "23.11";
   networking.hostName = "tp3";
   # services.getty.autologinUser = config.users.users.mainUser.name;
