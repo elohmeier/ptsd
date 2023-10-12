@@ -149,7 +149,8 @@ with lib;
         authlib
         #     beancount
         #     soupsieve
-        #     beautifulsoup4
+            beautifulsoup4
+            pyjsparser
         black
         #     boto3
         #     dataclasses-json

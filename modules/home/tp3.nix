@@ -1,5 +1,7 @@
 { pkgs, ... }: {
 
+  services.syncthing.enable = true;
+
   nixpkgs.config = {
     allowUnfree = true;
     allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
@@ -8,6 +10,8 @@
   home.packages = with pkgs; [
     bchunk
     firefox
+    flameshot
+    freecad
     google-chrome
     lutris
     samba
