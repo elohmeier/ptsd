@@ -7,9 +7,12 @@ with lib;
     NIXPKGS_ALLOW_UNFREE = 1;
     NNN_PLUG = "p:preview-tui;f:fzcd;z:autojump;u:ulp";
     PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
+    PASSAGE_AGE = "${pkgs.rage}/bin/rage";
+    PASSAGE_DIR = "${config.home.homeDirectory}/repos/passage-store";
   };
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
   home.file.".password-store".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/password-store";
+  home.file.".passage".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/passage-store";
 
   home.file.".config/nnn/plugins".source = if (builtins.hasAttr "nixosConfig" p) then ../../4scripts/nnn-plugins else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/4scripts/nnn-plugins";
 
@@ -17,25 +20,24 @@ with lib;
     # (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     # cargo
-    fastlane
     # mpv
+    # nodePackages.svelte-language-server
+    # nodePackages.typescript-language-server
     # rmlint
     # rustc
-    rustup
     # zathura
+    (passage.override { age = rage; })
     (pdftk.override { jre = openjdk17; })
     (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
+    age-plugin-se
+    age-plugin-yubikey
     attic-server
     bat
-    ollama
-    hyperfine
     btop
     bun
-    go
+    bundix
     copy-secrets
-    nixd
     deadnix
-    libxml2 # xmllint
     diceware
     difftastic
     dive
@@ -43,7 +45,7 @@ with lib;
     eternal-terminal
     exiftool
     eza
-    bundix
+    fastlane
     fava
     fd
     ffmpeg
@@ -51,6 +53,7 @@ with lib;
     gen-secrets
     gh
     ghostscript
+    go
     go-jsonnet
     gojsontoyaml
     gomuks
@@ -60,6 +63,7 @@ with lib;
     home-manager
     httpserve
     hydra-check
+    hyperfine
     imagemagickBig
     iperf2
     jaq
@@ -73,6 +77,7 @@ with lib;
     kubectl
     lazygit
     libfaketime
+    libxml2 # xmllint
     logseq-query
     macos-fix-filefoldernames
     miller
@@ -85,15 +90,15 @@ with lib;
     nix-prefetch-git
     nix-top
     nix-tree
+    nixd
     nixos-generators
     nixpkgs-fmt
     nmap
     node2nix
-    # nodePackages.svelte-language-server
-    # nodePackages.typescript-language-server
     nodePackages.yarn
     nodejs-18_x
     nushell
+    ollama
     p7zip
     pass
     plantuml
@@ -105,10 +110,12 @@ with lib;
     qpdf
     qrencode
     quirc # qr scanner
+    rage
     rclone
     remarshal
     ripgrep
     ruff
+    rustup
     shellcheck
     shfmt
     shrinkpdf
@@ -134,6 +141,7 @@ with lib;
     xz
     yq
     yt-dlp
+    yubikey-manager
     zellij
 
     # (ptsd-python3.withPackages (
