@@ -184,19 +184,6 @@
   #       #       ({ lib, ... }: { nixpkgs.crossSystem = lib.systems.examples.aarch64-multiplatform; })
   #       #     ];
   #       #   };
-  #
-  #       utmvm_nixos_3 = nixpkgs.lib.nixosSystem
-  #         {
-  #           system = "aarch64-linux";
-  #           modules = [
-  #             home-manager.nixosModule
-  #             self.nixosModules.generic
-  #             self.nixosModules.secrets
-  #             self.nixosModules.generic-disk
-  #             self.nixosModules.utmvm-nixos-3
-  #             { _module.args.nixinate = { host = "192.168.74.3"; sshUser = "root"; buildOn = "remote"; }; }
-  #           ];
-  #         };
   #     };
   #
   #   homeConfigurations =
