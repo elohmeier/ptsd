@@ -29,9 +29,8 @@ with lib;
     (passage.override { age = rage; })
     (pdftk.override { jre = openjdk17; })
     (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
-    age-plugin-se
     age-plugin-yubikey
-    attic-server
+    # attic-server
     bat
     btop
     bun
@@ -145,11 +144,15 @@ with lib;
     zellij
 
     # (ptsd-python3.withPackages (
-    (python3.withPackages (
+    ((python3.override {
+      packageOverrides = self: super: {
+        django = super.django.overridePythonAttrs (old: { doCheck = false; });
+      };
+    }).withPackages (
       pythonPackages: with pythonPackages;
       [
         #     # sqlacodegen
-        google-cloud-vision
+        # google-cloud-vision
         ((ocrmypdf.override { tesseract = (tesseract5.override { enableLanguages = [ "deu" "eng" ]; }); }).overridePythonAttrs (_: { doCheck = false; }))
         XlsxWriter
         #     alembic
@@ -180,7 +183,7 @@ with lib;
         #     keyring
         #     lark
         #     lxml
-        matplotlib
+        # matplotlib
         #     mypy
         #     mysql-connector
         #     (pygrok.overrideAttrs (_: {
@@ -189,7 +192,7 @@ with lib;
         #     netifaces
         #     nltk
         #     openai
-        opencv4
+        # opencv4
         #     openpyxl
         pandas
         #     paramiko
@@ -207,7 +210,7 @@ with lib;
         pytest
         pyxlsb
         requests
-        sqlalchemy
+        # sqlalchemy
         #     sshtunnel
         #     tabulate
         #     # tasmota-decode-config
@@ -241,6 +244,7 @@ with lib;
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
+    age-plugin-se
     binutils
     # kubectl-minio
     llvmPackages.lldb
@@ -260,7 +264,7 @@ with lib;
     # platformio
     # ptsd-vscode
     (writers.writeBashBin "edit-hosts" ''set -e; cat /etc/hosts > /etc/hosts.edit; nano /etc/hosts.edit; mv /etc/hosts.edit /etc/hosts;'')
-    AusweisApp2
+    # AusweisApp2
     apacheHttpd
     asciinema
     aspell
@@ -270,62 +274,60 @@ with lib;
     aspellDicts.en-science
     # awscli2
     bc
-    bubblewrap
-    cachix
+    # bubblewrap
     cifs-utils
-    clang-tools
-    dnsmasq
+    # clang-tools
+    # dnsmasq
     esphome
     esptool
     file
     freerdp
-    ghostscript
     gimp
     gnupg
-    go-sqlcmd
+    # go-sqlcmd
     gptfdisk
     home-assistant-cli
     hunspellDicts.de-de
     hunspellDicts.en-gb-large
     hunspellDicts.en-us-large
-    iftop
-    imapsync
+    # iftop
+    # imapsync
     inkscape
-    iotop
+    # iotop
     keepassxc
-    killall
-    lftp
+    # killall
+    # lftp
     libreoffice-fresh
-    minicom
-    mumble
+    # minicom
+    # mumble
     netcat-gnu
     openssl
     openvpn
     paperkey
     parted
     pdf2svg
-    pdfduplex
-    pgmodeler
+    # pdfduplex
+    # pgmodeler
     ripmime
-    samba
-    screen
-    smartmontools
-    sqlfluff
+    # samba
+    # screen
+    # smartmontools
+    # sqlfluff
     sqlitebrowser
-    sshfs
+    # sshfs
     sxiv
-    sylpheed
+    # sylpheed
     syncthing
     syncthing-device-id
-    tmuxinator
     # transmission-gtk
     unrar
     usbutils
-    vlc
-    wf-recorder
+    # vlc
+    # wf-recorder
     xdg-utils
-    xfsprogs.bin
-    xournalpp
+    zig
+    # xfsprogs.bin
+    # xournalpp
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "x86_64-linux" ]) [
     betaflight-configurator
     cabextract

@@ -14,7 +14,9 @@
     paperless = ./paperless.nix;
     ssh = ./ssh.nix;
     tmux = ./tmux.nix;
+    tp3 = ./tp3.nix;
     xdg-fixes = ./xdg-fixes.nix;
+    xfce95 = ./xfce95.nix;
   };
 
   flake.homeConfigurations = {
@@ -26,19 +28,6 @@
       };
 
       modules = [
-        # ./modules/home
-        # ./modules/home/darwin-defaults.nix
-        # ./modules/home/fish.nix
-        # ./modules/home/fonts.nix
-        # ./modules/home/git.nix
-        # ./modules/home/gpg.nix
-        # ./modules/home/macos-enno.nix
-        # ./modules/home/neovim.nix
-        # ./modules/home/packages.nix
-        # ./modules/home/paperless.nix
-        # ./modules/home/ssh.nix
-        # ./modules/home/tmux.nix
-        # ./modules/home/xdg-fixes.nix
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults
         self.homeModules.fish
@@ -54,6 +43,52 @@
         self.homeModules.xdg-fixes
       ];
     };
+
+    xfce95 = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs-unstable {
+        system = "x86_64-linux";
+        overlays = [ self.overlays.default ];
+        config.allowUnfree = true;
+      };
+
+      modules = [
+        self.homeModules.fish
+        self.homeModules.fonts
+        self.homeModules.git
+        self.homeModules.gpg
+        self.homeModules.neovim
+        self.homeModules.packages
+        self.homeModules.ssh
+        self.homeModules.tmux
+        self.homeModules.tp3
+        self.homeModules.xdg-fixes
+        self.homeModules.xfce95
+        { home.stateVersion = "23.05"; }
+      ];
+    };
+
+    xfce95_aarch64 = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs-unstable {
+        system = "aarch64-linux";
+        overlays = [ self.overlays.default ];
+        config.allowUnfree = true;
+      };
+
+      modules = [
+        self.homeModules.fish
+        self.homeModules.fonts
+        self.homeModules.git
+        self.homeModules.gpg
+        self.homeModules.neovim
+        self.homeModules.packages
+        self.homeModules.ssh
+        self.homeModules.tmux
+        self.homeModules.xdg-fixes
+        self.homeModules.xfce95
+        { home.stateVersion = "23.05"; }
+      ];
+    };
+
   };
 
 }
