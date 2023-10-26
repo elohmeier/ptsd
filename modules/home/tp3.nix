@@ -1,6 +1,10 @@
 { pkgs, ... }: {
 
   home.packages = with pkgs; [
+    bchunk
+    firefox
+    flameshot
+    freecad
     google-chrome
     lutris
     samba

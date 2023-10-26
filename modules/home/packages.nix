@@ -31,6 +31,8 @@ with lib;
     (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     age-plugin-yubikey
     # attic-server
+    attic-server
+    zig
     bat
     btop
     bun
@@ -167,6 +169,8 @@ with lib;
         datasette
         sqlite-utils
         #     beautifulsoup4
+        beautifulsoup4
+        pyjsparser
         black
         #     boto3
         #     dataclasses-json
@@ -300,6 +304,7 @@ with lib;
     gimp
     gnupg
     # go-sqlcmd
+    #go-sqlcmd
     gptfdisk
     home-assistant-cli
     hunspellDicts.de-de
@@ -323,6 +328,8 @@ with lib;
     pdf2svg
     # pdfduplex
     # pgmodeler
+    #pdfduplex
+    pgmodeler
     ripmime
     # samba
     # screen
