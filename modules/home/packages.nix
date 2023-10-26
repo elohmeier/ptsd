@@ -34,6 +34,7 @@ with lib;
     bat
     btop
     bun
+    visidata
     bundix
     copy-secrets
     deadnix
@@ -147,6 +148,9 @@ with lib;
     ((python3.override {
       packageOverrides = self: super: {
         django = super.django.overridePythonAttrs (old: { doCheck = false; });
+        accelerate = super.accelerate.overridePythonAttrs (_: { doCheck = pkgs.stdenv.isLinux; });
+        torch = if pkgs.stdenv.isDarwin then super.torch-bin else super.torch;
+        torchvision = if pkgs.stdenv.isDarwin then super.torchvision-bin else super.torchvision;
       };
     }).withPackages (
       pythonPackages: with pythonPackages;
@@ -160,6 +164,8 @@ with lib;
         authlib
         #     beancount
         #     soupsieve
+        datasette
+        sqlite-utils
         #     beautifulsoup4
         black
         #     boto3
@@ -211,6 +217,15 @@ with lib;
         pyxlsb
         requests
         # sqlalchemy
+        sqlalchemy
+        ipywidgets
+
+        accelerate
+        torch
+        torchvision
+        transformers
+        diffusers
+
         #     sshtunnel
         #     tabulate
         #     # tasmota-decode-config
