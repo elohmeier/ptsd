@@ -35,7 +35,7 @@
   };
   boot.plymouth = {
     enable = true;
-    logo = ../src/Microsoft_Windows_95_wordmark.png;
+    logo = ../../src/Microsoft_Windows_95_wordmark.png;
   };
   environment.systemPackages = [
     pkgs.chicago95
@@ -46,5 +46,5 @@
     pkgs.xfce.xfce4-fsguard-plugin
     pkgs.xsel
   ];
-  fonts.packages = [ pkgs.chicago95 ];
+  fonts.fonts = [ pkgs.chicago95 ];
 }

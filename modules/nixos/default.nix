@@ -20,7 +20,6 @@ let
         self.nixosModules.wireguard
       ] ++ modules;
     };
-
 in
 {
   flake.nixosModules = {
@@ -80,6 +79,7 @@ in
 
     tp3 = nixosSystemFor "x86_64-linux" [
       self.nixosModules.xfce95
+      # TODO
     ];
   };
 }
