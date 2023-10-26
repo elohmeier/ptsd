@@ -54,6 +54,28 @@
         self.homeModules.xdg-fixes
       ];
     };
+
+    xfce95 = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs-unstable {
+        system = "x86_64-linux";
+        overlays = [ self.overlays.default ];
+        config.allowUnfree = true;
+      };
+
+      modules = [
+        ./fish.nix
+        ./fonts.nix
+        ./git.nix
+        ./gpg.nix
+        ./neovim.nix
+        ./packages.nix
+        ./ssh.nix
+        ./tmux.nix
+        ./xdg-fixes.nix
+        ./tp3.nix
+        { home.stateVersion = "23.05"; }
+      ];
+    };
   };
 
 }

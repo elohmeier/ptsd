@@ -26,6 +26,7 @@ with lib;
     (pdftk.override { jre = openjdk17; })
     (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     attic-server
+    zig
     bat
     ollama
     hyperfine
@@ -149,8 +150,8 @@ with lib;
         authlib
         #     beancount
         #     soupsieve
-            beautifulsoup4
-            pyjsparser
+        beautifulsoup4
+        pyjsparser
         black
         #     boto3
         #     dataclasses-json
@@ -275,7 +276,7 @@ with lib;
     ghostscript
     gimp
     gnupg
-    go-sqlcmd
+    #go-sqlcmd
     gptfdisk
     home-assistant-cli
     hunspellDicts.de-de
@@ -297,7 +298,7 @@ with lib;
     paperkey
     parted
     pdf2svg
-    pdfduplex
+    #pdfduplex
     pgmodeler
     ripmime
     samba

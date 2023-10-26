@@ -201,28 +201,6 @@
   #
   #   homeConfigurations =
   #     {
-  #       xfce95 = home-manager.lib.homeManagerConfiguration {
-  #         pkgs = import nixpkgs-unstable {
-  #           system = "x86_64-linux";
-  #           overlays = [ self.overlay ];
-  #           config.allowUnfree = true;
-  #         };
-  #
-  #         modules = [
-  #           ./2configs/home
-  #           ./2configs/home/fish.nix
-  #           ./2configs/home/fonts.nix
-  #           ./2configs/home/git.nix
-  #           ./2configs/home/gpg.nix
-  #           ./2configs/home/neovim.nix
-  #           ./2configs/home/packages.nix
-  #           ./2configs/home/ssh.nix
-  #           ./2configs/home/tmux.nix
-  #           ./2configs/home/xdg-fixes.nix
-  #           ./2configs/home/tp3.nix
-  #           { home.stateVersion = "23.05"; }
-  #         ];
-  #       };
   #
   #       # sway_pine2 = home-manager.lib.homeManagerConfiguration {
   #       #   system = "aarch64-linux";

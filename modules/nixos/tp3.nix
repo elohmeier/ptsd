@@ -40,7 +40,7 @@
   fileSystems = {
     "/" = {
       fsType = "tmpfs";
-      options = [ "size=1G" "mode=1755" ];
+      options = [ "size=4G" "mode=1755" ];
     };
   };
   swapDevices = [
