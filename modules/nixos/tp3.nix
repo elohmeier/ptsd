@@ -107,40 +107,7 @@
   };
   systemd.network.wait-online.timeout = 0;
   services.fstrim.enable = true;
-  services.xserver = {
-    enable = true;
-    desktopManager = {
-      xterm.enable = false;
-      xfce.enable = true;
-    };
-    displayManager.defaultSession = "xfce";
-    displayManager.lightdm = {
-      background = "#008080";
-      greeters.gtk = {
-        cursorTheme = {
-          package = pkgs.chicago95;
-          name = "Chicago95 Animated Hourglass Cursors";
-        };
-        iconTheme = {
-          package = pkgs.chicago95;
-          name = "Chicago95";
-        };
-        theme = {
-          package = pkgs.chicago95;
-          name = "Chicago95";
-        };
-      };
-    };
-    videoDrivers = [ "modesetting" ];
-    libinput.enable = true;
-    libinput.touchpad.naturalScrolling = true;
-    libinput.mouse.naturalScrolling = true;
-    xkbOptions = "eurosign:e,terminate:ctrl_alt_bksp,compose:ralt";
-  };
-  programs.thunar = {
-    enable = true;
-    plugins = [ pkgs.xfce.thunar-archive-plugin ];
-  };
+  services.xserver.videoDrivers = [ "modesetting" ];
   programs.steam.enable = true;
   hardware.opengl = {
     enable = true;
@@ -154,11 +121,6 @@
     extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
   };
 
-  boot.plymouth = {
-    enable = true;
-    logo = ../src/Microsoft_Windows_95_wordmark.png;
-  };
-
   services.xbanish.enable = true;
 
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
@@ -168,25 +130,17 @@
   environment.systemPackages = [
     pkgs.alsa-utils
     pkgs.btop
-    pkgs.chicago95
     pkgs.file
     pkgs.git
     pkgs.glxinfo
     pkgs.gnome.gnome-disk-utility
     pkgs.home-manager
     pkgs.libcanberra-gtk3
-    pkgs.libinput
-    pkgs.pavucontrol
     pkgs.powertop
     pkgs.python3 # required by proton (steam)
     pkgs.sbctl
     pkgs.vulkan-tools
-    pkgs.xclip
-    pkgs.xfce.xfce4-pulseaudio-plugin
-    pkgs.xfce.xfce4-fsguard-plugin
-    pkgs.xsel
   ];
-  fonts.packages = [ pkgs.chicago95 ];
   virtualisation.docker = {
     enable = true;
     enableOnBoot = false;

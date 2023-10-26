@@ -44,23 +44,12 @@
   ];
 
   services.xserver = {
-    enable = true;
-    desktopManager = {
-      xterm.enable = false;
-      xfce.enable = true;
-    };
-    displayManager.defaultSession = "xfce";
     displayManager.lightdm = {
       autoLogin = {
         enable = true;
         user = "gordon";
       };
     };
-
-    layout = "us";
-    libinput.enable = true;
-    libinput.touchpad.naturalScrolling = true;
-    libinput.mouse.naturalScrolling = true;
   };
 
   console.keyMap = "us";

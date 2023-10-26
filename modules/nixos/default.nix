@@ -27,22 +27,23 @@ in
     borgbackup = ./borgbackup.nix;
     defaults = ./defaults.nix;
     dradis = ./dradis.nix;
+    fish = ./fish.nix;
+    generic = ./generic.nix;
+    generic-disk = ./generic-disk.nix;
     hcloud = ./hcloud;
     host-htz1 = ./hosts/htz1;
     hw-hetzner-vm = ./hw/hetzner-vm.nix;
     luks-ssh-unlock = ./luks-ssh-unlock.nix;
+    mainuser = ./users/mainuser.nix;
     nix-persistent = ./nix-persistent.nix;
     nwhost = ./nwhost.nix;
+    ports = ./ports.nix;
     prometheus-node = ./prometheus-node.nix;
     secrets = ./secrets.nix;
     tailscale = ./tailscale.nix;
-    wireguard = ./wireguard.nix;
-    ports = ./ports.nix;
-    fish = ./fish.nix;
-    generic = ./generic.nix;
-    generic-disk = ./generic-disk.nix;
     utmvm-nixos-3 = ./utmvm-nixos-3.nix;
-    mainuser = ./users/mainuser.nix;
+    wireguard = ./wireguard.nix;
+    xfce95 = ./xfce95.nix;
   };
 
   flake.nixosConfigurations = {
@@ -67,13 +68,18 @@ in
     utmvm_nixos_3 = nixosSystemFor "aarch64-linux" [
       self.nixosModules.defaults
       self.nixosModules.fish
-      self.nixosModules.mainuser
       self.nixosModules.generic
       self.nixosModules.generic-disk
+      self.nixosModules.mainuser
       self.nixosModules.nix-persistent
       self.nixosModules.secrets
       self.nixosModules.utmvm-nixos-3
+      self.nixosModules.xfce95
       { _module.args.nixinate = { host = "192.168.74.3"; sshUser = "root"; buildOn = "remote"; }; }
+    ];
+
+    tp3 = nixosSystemFor "x86_64-linux" [
+      self.nixosModules.xfce95
     ];
   };
 }
