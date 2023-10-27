@@ -31,7 +31,6 @@ with lib;
     (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     age-plugin-yubikey
     # attic-server
-    attic-server
     zig
     bat
     btop
@@ -157,88 +156,84 @@ with lib;
     }).withPackages (
       pythonPackages: with pythonPackages;
       [
-        #     # sqlacodegen
+        # (pygrok.overrideAttrs (_: { meta.platforms = lib.platforms.unix; }))
+        # accelerate
+        # alembic
+        # beancount
+        # beautifulsoup4
+        # boto3
+        # dataclasses-json
+        # debugpy
+        # diffusers
+        # djhtml
+        # faker
+        # fastapi
+        # flask
         # google-cloud-vision
+        # guidance
+        # hdbscan
+        # hocr-tools
+        # holidays
+        # icalendar
+        # impacket
+        # ipykernel
+        # ipython
+        # keras
+        # keyring
+        # langchain
+        # lark
+        # lxml
+        # matplotlib
+        # mypy
+        # mysql-connector
+        # netifaces
+        # nltk
+        # openai
+        # opencv4
+        # openpyxl
+        # paramiko
+        # pdfminer-six
+        # pikepdf
+        # pudb
+        # pycrypto
+        # pyjsparser
+        # pyjwt
+        # pylint
+        # pynvim
+        # pypdf2
+        # soupsieve
+        # sqlacodegen
+        # sqlalchemy
+        # sqlalchemy
+        # sshtunnel
+        # tabulate
+        # tasmota-decode-config
+        # tenacity
+        # tensorflow
+        # tkinter
+        # torch
+        # torchvision
+        # transformers
+        # umap-learn
+        # uvicorn
+        # weasyprint
         ((ocrmypdf.override { tesseract = (tesseract5.override { enableLanguages = [ "deu" "eng" ]; }); }).overridePythonAttrs (_: { doCheck = false; }))
         XlsxWriter
-        #     alembic
-        #     # langchain
         authlib
-        #     beancount
-        #     soupsieve
-        datasette
-        sqlite-utils
-        #     beautifulsoup4
         beautifulsoup4
-        pyjsparser
         black
-        #     boto3
-        #     dataclasses-json
-        #     debugpy
-        #     djhtml
-        #     faker
-        #     fastapi
-        #     flask
-        #     guidance
-        #     hdbscan
-        #     hocr-tools
-        #     holidays
-        #     icalendar
-        #     impacket
-        #     ipykernel
-        #     ipython
+        datasette
+        ipywidgets
         isort
         jupyterlab
-        #     keras
-        #     keyring
-        #     lark
-        #     lxml
-        # matplotlib
-        #     mypy
-        #     mysql-connector
-        #     (pygrok.overrideAttrs (_: {
-        #       meta.platforms = lib.platforms.unix;
-        #     }))
-        #     netifaces
-        #     nltk
-        #     openai
-        # opencv4
-        #     openpyxl
         pandas
-        #     paramiko
-        #     pdfminer-six
-        #     pikepdf
         pillow
         psycopg2
-        #     pudb
-        #     pycrypto
-        #     pyjwt
-        #     pylint
         pymupdf
-        #     pynvim
-        #     pypdf2
         pytest
         pyxlsb
         requests
-        # sqlalchemy
-        sqlalchemy
-        ipywidgets
-
-        accelerate
-        torch
-        torchvision
-        transformers
-        diffusers
-
-        #     sshtunnel
-        #     tabulate
-        #     # tasmota-decode-config
-        #     tenacity
-        #     # tensorflow
-        #     tkinter
-        #     # umap-learn
-        #     uvicorn
-        #     weasyprint
+        sqlite-utils
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
         #     accelerate
         #     # bertopic
