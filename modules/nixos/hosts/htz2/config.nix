@@ -3,13 +3,6 @@
   imports =
     [
       (modulesPath + "/profiles/hardened.nix")
-
-      ../..
-      ../../2configs
-      ../../2configs/borgbackup.nix
-      ../../2configs/nwhost-mini.nix
-      ../../2configs/prometheus-node.nix
-
       ./modules/maddy.nix
       ./modules/rspamd.nix
       ./modules/syncthing.nix

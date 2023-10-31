@@ -5,9 +5,6 @@ in
 {
   imports = [
     ./config.nix
-    ../../2configs/nix-persistent.nix
-    ../../2configs/hw/hetzner-vm.nix
-    ../../2configs/luks-ssh-unlock.nix
   ];
 
   boot.initrd.luks.devices.root =
