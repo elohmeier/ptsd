@@ -31,6 +31,7 @@ in
     generic-disk = ./generic-disk.nix;
     hcloud = ./hcloud;
     host-htz1 = ./hosts/htz1;
+    host-htz2 = ./hosts/htz2;
     hw-hetzner-vm = ./hw/hetzner-vm.nix;
     luks-ssh-unlock = ./luks-ssh-unlock.nix;
     mainuser = ./users/mainuser.nix;
@@ -62,6 +63,18 @@ in
       self.nixosModules.nwhost
       self.nixosModules.prometheus-node
       { _module.args.nixinate = { host = "htz1.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
+    ];
+
+    htz2 = nixosSystemFor "x86_64-linux" [
+      self.nixosModules.borgbackup
+      self.nixosModules.defaults
+      self.nixosModules.host-htz2
+      self.nixosModules.hw-hetzner-vm
+      self.nixosModules.luks-ssh-unlock
+      self.nixosModules.nix-persistent
+      self.nixosModules.nwhost
+      self.nixosModules.prometheus-node
+      { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
     ];
 
     utmvm_nixos_3 = nixosSystemFor "aarch64-linux" [
