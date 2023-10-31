@@ -13,6 +13,7 @@ in
     folders = {
       "/var/sync/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "rpi4" ]; };
       "/var/sync/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "rpi4" ]; };
+      "/var/sync/laiyer/Scans" = { label = "laiyer/Scans"; id = "nwx3z-7w27q"; devices = [ "mb4" ]; };
     };
 
     openDefaultPorts = true;
@@ -44,6 +45,7 @@ in
       {
         scans-enno = defaults // { path = "/var/sync/enno/Scans"; };
         scans-luisa = defaults // { path = "/var/sync/luisa/Scans"; };
+        scans-laiyer = defaults // { path = "/var/sync/laiyer/Scans"; };
       };
   };
 
