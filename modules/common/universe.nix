@@ -305,5 +305,6 @@
       borg.quota = "30G";
     };
 
+    dipl-ing-danuta-tlustek-bsc.syncthing.id = "LHKNHUJ-OGOAYKR-7B6CKT6-QWHX6JM-JZX25RZ-NEOMHO5-C2ZWJTR-FVYFCAJ";
   };
 }

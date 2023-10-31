@@ -13,7 +13,7 @@ in
     folders = {
       "/var/sync/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" ]; };
       "/var/sync/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" ]; };
-      "/var/sync/laiyer/Scans" = { label = "laiyer/Scans"; id = "nwx3z-7w27q"; devices = [ "mb4" ]; };
+      "/var/sync/laiyer/Scans" = { label = "laiyer/Scans"; id = "nwx3z-7w27q"; devices = [ "mb4" "dipl-ing-danuta-tlustek-bsc" ]; };
     };
 
     openDefaultPorts = true;
