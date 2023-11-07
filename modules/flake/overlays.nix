@@ -50,10 +50,6 @@
 
       dradis-ce = final.callPackage ../../packages/dradis-ce { };
     };
-
-    nixos-23-05-compat = final: prev: {
-      eza = final.exa;
-    };
   };
 
   perSystem = { system, ... }: {
@@ -63,14 +59,6 @@
         allowUnfree = true;
         permittedInsecurePackages = [ "nodejs-16.20.2" ]; # dradis-ce
       };
-      overlays = [
-        self.overlays.default
-        self.overlays.nixos-23-05-compat
-      ];
-    };
-
-    _module.args.pkgs-unstable = import inputs.nixpkgs-unstable {
-      inherit system;
       overlays = [
         self.overlays.default
       ];

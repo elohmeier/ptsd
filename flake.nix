@@ -4,26 +4,25 @@
   inputs = {
     disko = {
       url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:elohmeier/home-manager/master-darwin";
     };
     lanzaboote = {
       inputs.flake-utils.follows = "flake-utils";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/lanzaboote/v0.3.0";
     };
     nixinate = {
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs";
       url = "github:elohmeier/nixinate";
     };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-unstable-rpi4.url = "github:elohmeier/nixpkgs/2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27";
-    nixpkgs-unstable.url = "github:elohmeier/nixpkgs/nixos-unstable";
-    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-23.05";
+    nixpkgs-rpi4.url = "github:elohmeier/nixpkgs/2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27";
+    nixpkgs.url = "github:elohmeier/nixpkgs/nixos-unstable";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";

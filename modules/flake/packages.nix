@@ -1,7 +1,7 @@
 _: {
-  perSystem = { pkgs-unstable, ... }: {
+  perSystem = { pkgs, ... }: {
     packages = {
-      inherit (pkgs-unstable) dradis-ce prom-checktlsa;
+      inherit (pkgs) dradis-ce prom-checktlsa;
     };
   };
 }

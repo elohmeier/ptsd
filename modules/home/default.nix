@@ -21,7 +21,7 @@
 
   flake.homeConfigurations = {
     macos-enno = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = import inputs.nixpkgs-unstable {
+      pkgs = import inputs.nixpkgs {
         system = "aarch64-darwin";
         overlays = [ self.overlays.default ];
         config.allowUnfree = true;
@@ -45,7 +45,7 @@
     };
 
     xfce95 = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = import inputs.nixpkgs-unstable {
+      pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
         overlays = [ self.overlays.default ];
         config.allowUnfree = true;
@@ -68,7 +68,7 @@
     };
 
     xfce95_aarch64 = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = import inputs.nixpkgs-unstable {
+      pkgs = import inputs.nixpkgs {
         system = "aarch64-linux";
         overlays = [ self.overlays.default ];
         config.allowUnfree = true;

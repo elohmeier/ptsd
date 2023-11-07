@@ -16,7 +16,7 @@ in
     ];
   };
 
-  boot.tmpOnTmpfs = mkDefault true;
+  boot.tmp.useTmpfs = mkDefault true;
 
   nix.gc = {
     automatic = mkDefault true;

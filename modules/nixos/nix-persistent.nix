@@ -50,7 +50,7 @@
     requiredBy = [ "octoprint.service" ];
   });
 
-  users.users.root.passwordFile = "/nix/secrets/root.passwd";
+  users.users.root.hashedPasswordFile = "/nix/secrets/root.passwd";
 
   environment.systemPackages = with pkgs; [
     (writeShellScriptBin "ptsd-set-password" ''

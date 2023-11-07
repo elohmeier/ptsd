@@ -29,9 +29,12 @@ in
 
   services.openssh = {
     enable = true;
-    permitRootLogin = mkDefault "prohibit-password";
-    passwordAuthentication = mkDefault false;
-    kbdInteractiveAuthentication = false;
+
+    settings = {
+      PermitRootLogin = mkDefault "prohibit-password";
+      PasswordAuthentication = mkDefault false;
+      KbdInteractiveAuthentication = false;
+    };
 
     # sshtunnel compat
     extraConfig = ''
