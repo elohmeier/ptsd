@@ -1,6 +1,10 @@
 p@{ config, lib, pkgs, ... }:
 
 with lib;
+
+let
+  tesseract = (pkgs.tesseract5.override { enableLanguages = [ "deu" "eng" ]; });
+in
 {
   home.sessionVariables = {
     BAT_THEME = "ansi";
@@ -19,6 +23,7 @@ with lib;
   home.packages = with pkgs; [
     # (writeShellScriptBin "paperless-id" (builtins.readFile ../../4scripts/paperless-id))
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
+    # attic-server
     # cargo
     # mpv
     # nodePackages.svelte-language-server
@@ -28,14 +33,10 @@ with lib;
     # zathura
     (passage.override { age = rage; })
     (pdftk.override { jre = openjdk17; })
-    (tesseract5.override { enableLanguages = [ "deu" "eng" ]; })
     age-plugin-yubikey
-    # attic-server
-    zig
     bat
     btop
     bun
-    visidata
     bundix
     copy-secrets
     deadnix
@@ -97,7 +98,7 @@ with lib;
     nmap
     node2nix
     nodePackages.yarn
-    nodejs-18_x
+    nodejs_latest
     nushell
     ollama
     p7zip
@@ -114,6 +115,7 @@ with lib;
     rage
     rclone
     remarshal
+    reveal-md
     ripgrep
     ruff
     rustup
@@ -131,6 +133,7 @@ with lib;
     typescript
     uncrustify
     unzip
+    visidata
     viu # terminal image viewer
     vivid
     watch
@@ -144,6 +147,7 @@ with lib;
     yt-dlp
     yubikey-manager
     zellij
+    zig
 
     # (ptsd-python3.withPackages (
     ((python3.override {
@@ -217,7 +221,7 @@ with lib;
         # umap-learn
         # uvicorn
         # weasyprint
-        ((ocrmypdf.override { tesseract = (tesseract5.override { enableLanguages = [ "deu" "eng" ]; }); }).overridePythonAttrs (_: { doCheck = false; }))
+        ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: { doCheck = false; }))
         XlsxWriter
         authlib
         beautifulsoup4
