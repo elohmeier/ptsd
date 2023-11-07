@@ -1,4 +1,4 @@
-{ modulesPath, ... }:
+{ lib, pkgs, modulesPath, ... }:
 {
   imports =
     [
@@ -94,6 +94,22 @@
   #   "htz2wg.key:/var/src/secrets/htz2wg.key"
   #   "htz2wg-fbhome.psk:/var/src/secrets/htz2wg-fbhome.psk"
   # ];
+
+  services.atuin = {
+    enable = true;
+    host = "100.92.45.113";
+    port = 8888;
+    openRegistration = false;
+  };
+
+  services.postgresql.package = pkgs.postgresql_16;
+
+  # Work around 'pq: permission denied for schema public' with postgres >=v15, until a
+  # solution for `services.postgresql.ensureUsers` is found.
+  # See https://github.com/NixOS/nixpkgs/issues/216989
+  systemd.services.postgresql.postStart = lib.mkAfter ''
+    $PSQL -tAc 'ALTER DATABASE "atuin" OWNER TO "atuin";'
+  '';
 
   system.stateVersion = "21.11";
 }

@@ -1,6 +1,18 @@
 p@{ config, lib, pkgs, ... }:
 
 {
+  programs.atuin = {
+    enable = true;
+    enableFishIntegration = true;
+
+    flags = [ "--disable-up-arrow" ];
+
+    settings = {
+      enter_accept = true;
+      sync_address = "http://100.92.45.113:8888"; # htz2
+    };
+  };
+
   programs.fish = {
     enable = true;
 
