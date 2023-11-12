@@ -161,7 +161,7 @@ def preview_sxiv(path: str, env: NnnEnv, i3: Connection):
 def preview_file(path: str, env: NnnEnv, ipc: Connection):
     kill_old_preview()
     _, ext = os.path.splitext(path.lower())
-    
+
     if os.path.isdir(path):
         subprocess.run(["clear"])
         subprocess.run(["exa", "-l", path])

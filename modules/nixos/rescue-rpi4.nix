@@ -31,7 +31,7 @@
         # Look in arch/arm/mach-bcm283x/Kconfig in the U-Boot tree to see if this is still
         # a requirement in the future.
         enable_uart=1
-      
+
         # Prevent the firmware from smashing the framebuffer setup done by the mainline kernel
         # when attempting to show low-voltage or overtemperature warnings.
         avoid_warnings=1
@@ -63,4 +63,3 @@
   ];
 
 })
-

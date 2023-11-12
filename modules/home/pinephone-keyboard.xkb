@@ -2,7 +2,7 @@ xkb_keymap {
 	xkb_keycodes  { include "evdev+aliases(qwerty)"	};
 	xkb_types     { include "complete"	};
 	xkb_compat    { include "complete"	};
-	xkb_symbols   { 
+	xkb_symbols   {
 	  include "pc+us+inet(evdev)+level3(ralt_switch)"
 
 	  // from https://gitlab.freedesktop.org/xkeyboard-config/xkeyboard-config/-/merge_requests/322

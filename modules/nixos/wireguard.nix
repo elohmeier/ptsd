@@ -99,7 +99,7 @@ let
   # network interface ordering has no effect, that's why we call them "A" and "B"
   genNatForward = ifA: ifB: op: ''
     ### ptsd.wireguard: configure NAT forwarding in both directions of a network interface pair ###
-    
+
     # continue forwarding of established or related connections
     iptables -${op} FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
 

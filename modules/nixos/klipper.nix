@@ -286,7 +286,7 @@ in
             G1 E{E} F2100
           {% else %}
             {action_respond_info("Extruder not hot enough")}
-          {% endif %}  
+          {% endif %}
           RESUME_BASE {get_params}
         '';
       };

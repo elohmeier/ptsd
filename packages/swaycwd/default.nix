@@ -3,5 +3,5 @@
 writers.writeDashBin "swaycwd" ''
   pid=$(${sway}/bin/swaymsg -t get_tree | ${jq}/bin/jq '.. | select(.type?) | select(.type=="con") | select(.focused==true).pid')
   ppid=$(${procps}/bin/pgrep --newest --parent ''${pid})
-  readlink /proc/''${ppid}/cwd || echo $HOME  
+  readlink /proc/''${ppid}/cwd || echo $HOME
 ''

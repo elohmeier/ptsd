@@ -49,7 +49,7 @@
 
   system.build.format-disk = pkgs.writeShellScriptBin "format-disk" ''
     DISK="''${1?must provide a block device, e.g. /dev/sda}"
-    
+
     # partition disk
     ${pkgs.parted}/sbin/parted --script $DISK \
       mklabel gpt \
@@ -66,7 +66,7 @@
   system.build.mount-sdcard = pkgs.writeShellScriptBin "mount-sdcard" ''
     DISK="''${1?must provide a block device, e.g. /dev/sda}"
     DIR="''${2?must provide a directory, e.g. /mnt/sd}"
-    
+
     mkdir -p $DIR/{boot,nix/store,var/src}
     mount ''${DISK}1 $DIR/boot
     mount ''${DISK}2 $DIR/var/src

@@ -93,7 +93,7 @@ let
                 gpu_mem=128
                 # disable missing sdcard log spam
                 dtparam=sd_poll_once=on
-                
+
                 [all]
                 kernel=Image
                 #kernel=u-boot.bin
@@ -115,7 +115,7 @@ let
             ''
               mkdir -p $out
               (cd ${pkgs.raspberrypifw}/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $out/)
-              
+
               # Add the config / cmdline
               cp ${configTxt} $out/config.txt
               cp ${cmdlineTxt} $out/cmdline.txt

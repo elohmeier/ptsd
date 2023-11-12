@@ -20,4 +20,3 @@ includes = ["*.nix"]
 command = "shfmt"
 options = ["-w", "-i", "2"]
 includes = ["*.sh"]
-

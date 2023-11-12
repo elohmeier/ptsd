@@ -52,7 +52,7 @@ in
           Mit freundlichen Grüßen
           Enno Richter
 
-          -- 
+          --
           Enno Richter
 
           Nerdworks Hamburg

@@ -17,4 +17,3 @@
 
   environment.systemPackages = [ pkgs.eza ];
 }
-

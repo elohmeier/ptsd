@@ -4,7 +4,7 @@
 
 let
   # just take the needed firmware files to reduce size
-  firmware-brcm = pkgs.runCommand "firmware-brcm" { } ''          
+  firmware-brcm = pkgs.runCommand "firmware-brcm" { } ''
     mkdir -p $out/lib/firmware
     ${pkgs.rsync}/bin/rsync -av ${pkgs.firmwareLinuxNonfree}/lib/firmware/{brcm,cypress} $out/lib/firmware/
   '';

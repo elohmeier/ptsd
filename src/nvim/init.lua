@@ -327,4 +327,3 @@ vim.api.nvim_set_keymap("n", "<leader>ssc", "<cmd>lua require'spread'.combine()<
 
 -- copy to system clipboard
 vim.api.nvim_set_keymap("v", "<leader>y", '"+y', {noremap = true, silent = true})
-

@@ -181,4 +181,3 @@ Run `check_ssl_cert -H htz2.nn42.de -p 25 -P smtp --dane 1` to check it.
       '')
     ];
 ```
-
