@@ -44,6 +44,29 @@
       ];
     };
 
+    orb = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs {
+        system = "aarch64-linux";
+        overlays = [ self.overlays.default ];
+        config.allowUnfree = true;
+      };
+
+      modules = [
+        self.homeModules.fish
+        self.homeModules.git
+        self.homeModules.neovim
+        self.homeModules.ssh
+        self.homeModules.tmux
+        {
+          home = {
+            username = "enno";
+            homeDirectory = "/home/enno";
+            stateVersion = "23.05";
+          };
+        }
+      ];
+    };
+
     xfce95 = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
