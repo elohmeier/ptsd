@@ -9,6 +9,7 @@ p@{ config, lib, pkgs, ... }:
 
     settings = {
       enter_accept = true;
+      invert = true;
       sync_address = "http://100.92.45.113:8888"; # htz2
     };
   };
@@ -52,6 +53,10 @@ p@{ config, lib, pkgs, ... }:
       gpp = "git push";
       gst = "git status";
       kc = "kubectl";
+      nb = "nix build";
+      nr = "nix run";
+      nf = "nix flake";
+      nfu = "nix flake update";
     };
 
     interactiveShellInit = ''
