@@ -7,7 +7,7 @@
     roboto
     roboto-slab
     spleen
-    win10fonts
+    # win10fonts
   ];
 
   # see reg. mkForce: https://github.com/nix-community/home-manager/pull/3014

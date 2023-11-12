@@ -37,6 +37,8 @@ in
     bat
     btop
     bun
+    nix-prefetch-github
+    gnused
     bundix
     copy-secrets
     deadnix
@@ -55,9 +57,9 @@ in
     gen-secrets
     gh
     ghostscript
-    go
     go-jsonnet
     gojsontoyaml
+    pre-commit
     gomuks
     google-cloud-sdk
     hcloud
@@ -92,13 +94,11 @@ in
     nix-prefetch-git
     nix-top
     nix-tree
-    nixd
     nixos-generators
     nixpkgs-fmt
     nmap
     node2nix
     nodePackages.yarn
-    nodejs_latest
     nushell
     ollama
     p7zip
@@ -226,6 +226,7 @@ in
         authlib
         beautifulsoup4
         black
+        llm
         datasette
         ipywidgets
         isort
@@ -361,4 +362,3 @@ in
     # wineWowPackages.unstable
   ];
 }
-
