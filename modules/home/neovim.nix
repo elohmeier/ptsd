@@ -7,6 +7,7 @@ p@{ config, lib, pkgs, ... }:
     neovim
     nixd
     nodejs_latest
+    ripgrep
     zig
   ];
 
