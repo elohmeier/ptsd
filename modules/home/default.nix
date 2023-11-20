@@ -10,6 +10,7 @@
     gpg = ./gpg.nix;
     macos-enno = ./macos-enno.nix;
     neovim = ./neovim.nix;
+    orb = ./orb.nix;
     packages = ./packages.nix;
     paperless = ./paperless.nix;
     ssh = ./ssh.nix;
@@ -57,6 +58,7 @@
         self.homeModules.neovim
         self.homeModules.ssh
         self.homeModules.tmux
+        self.homeModules.orb
         {
           home = {
             username = "enno";
