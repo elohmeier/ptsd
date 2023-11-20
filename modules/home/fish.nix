@@ -5,8 +5,6 @@ p@{ config, lib, pkgs, ... }:
     enable = true;
     enableFishIntegration = true;
 
-    flags = [ "--disable-up-arrow" ];
-
     settings = {
       enter_accept = true;
       invert = true;
@@ -110,6 +108,7 @@ p@{ config, lib, pkgs, ... }:
     plugins = with pkgs.fishPlugins; [
       #{ name = "done"; src = done.src; } # disabled, now solved via iterm2 integration
       { name = "fzf"; inherit (fzf-fish) src; }
+      { name = "tide"; src = tide.src; }
     ];
   };
 
@@ -118,7 +117,7 @@ p@{ config, lib, pkgs, ... }:
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
 
-  home.packages = with pkgs; [ eza ];
+  home.packages = with pkgs; [ eza fd fzf-no-fish ];
 
   home.file.".config/fish/functions".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/fish else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/fish";
 
