@@ -6,7 +6,7 @@ p@{ config, lib, pkgs, ... }:
     enableFishIntegration = true;
 
     settings = {
-      enter_accept = true;
+      enter_accept = false;
       invert = true;
       sync_address = "http://100.92.45.113:8888"; # htz2
     };
