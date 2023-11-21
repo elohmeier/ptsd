@@ -222,11 +222,11 @@
     },
     "nixos-hardware": {
       "locked": {
-        "lastModified": 1700315735,
-        "narHash": "sha256-zlSLW6dX5XwBEwN87CIVtMr8zDSKvTRFmWmIQ9FfWgo=",
+        "lastModified": 1700392353,
+        "narHash": "sha256-KARn8aVJu5fdW0jdJYoOQ1SPqWlNdz4l7r90NbArWSY=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "1721da31f9b30cbf4460c4ec5068b3b6174a4694",
+        "rev": "2b00bc76dc893cd996a3d76a2f059d657a5ef37a",
         "type": "github"
       },
       "original": {
@@ -238,11 +238,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1700377877,
-        "narHash": "sha256-ufvx7ColF+bbAzkFQFrZrg63TQBgbEA2tU+YpMNOkis=",
+        "lastModified": 1700519631,
+        "narHash": "sha256-1PyDXeK8sso1guEGWUq4Ys221vGJi5FwoGuUXxikOJ8=",
         "owner": "elohmeier",
         "repo": "nixpkgs",
-        "rev": "cbdf777fdd4654225dadcb87e69944959e59f78b",
+        "rev": "7eddf65b30ff53471d3c7eab59fc471c77f66f6a",
         "type": "github"
       },
       "original": {
