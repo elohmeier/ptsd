@@ -304,6 +304,7 @@ in
     freerdp
     gimp
     gnupg
+    screen
     # go-sqlcmd
     #go-sqlcmd
     gptfdisk

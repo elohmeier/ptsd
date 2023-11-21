@@ -77,49 +77,8 @@
   #
   #   overlay = import ./modules/flake/overlays.nix;
   #
-  #   nixosModules = {
-  #     defaults = import ./2configs/defaults.nix;
-  #     generic = import ./2configs/generic.nix;
-  #     generic-desktop = import ./2configs/generic-desktop.nix;
-  #     generic-disk = import ./2configs/generic-disk.nix;
-  #     networkmanager = import ./2configs/networkmanager.nix;
-  #     nix-persistent = import ./2configs/nix-persistent.nix;
-  #     secrets = import ./3modules/secrets.nix;
-  #     tailscale = import ./3modules/tailscale.nix;
-  #     ports = import ./3modules/ports.nix;
-  #     tp3 = import ./2configs/tp3.nix;
-  #     tp4 = import ./2configs/tp4.nix;
-  #     users = import ./2configs/users;
-  #     wireguard = import ./3modules/wireguard.nix;
-  #   };
-  #
   #   nixosConfigurations =
   #     {
-  #       tp3 = nixpkgs-unstable.lib.nixosSystem {
-  #         system = "x86_64-linux";
-  #         modules = [
-  #           disko.nixosModules.disko
-  #           home-manager.nixosModule
-  #           lanzaboote.nixosModules.lanzaboote
-  #           self.nixosModules.defaults
-  #           self.nixosModules.networkmanager
-  #           self.nixosModules.nix-persistent
-  #           self.nixosModules.secrets
-  #           self.nixosModules.tailscale
-  #           self.nixosModules.tp3
-  #           self.nixosModules.users
-  #           self.nixosModules.wireguard
-  #           {
-  #             nixpkgs.pkgs = import nixpkgs-unstable
-  #               {
-  #                 system = "x86_64-linux";
-  #                 overlays = [ self.overlay ];
-  #                 config.allowUnfree = true;
-  #               };
-  #           }
-  #         ];
-  #       };
-  #
   #       tp4 = nixpkgs.lib.nixosSystem
   #         {
   #           system = "x86_64-linux";

@@ -1,4 +1,4 @@
-{ self, lib, withSystem, ... }:
+{ self, inputs, lib, withSystem, ... }:
 let
   nixosSystemFor = system: modules:
     let
@@ -28,6 +28,7 @@ in
     dradis = ./dradis.nix;
     fish = ./fish.nix;
     generic = ./generic.nix;
+    generic-desktop = ./generic-desktop.nix;
     generic-disk = ./generic-disk.nix;
     hcloud = ./hcloud;
     host-htz1 = ./hosts/htz1;
@@ -35,12 +36,16 @@ in
     hw-hetzner-vm = ./hw/hetzner-vm.nix;
     luks-ssh-unlock = ./luks-ssh-unlock.nix;
     mainuser = ./users/mainuser.nix;
+    networkmanager = ./networkmanager.nix;
     nix-persistent = ./nix-persistent.nix;
     nwhost = ./nwhost.nix;
     ports = ./ports.nix;
     prometheus-node = ./prometheus-node.nix;
     secrets = ./secrets.nix;
     tailscale = ./tailscale.nix;
+    tp3 = ./tp3.nix;
+    tp4 = ./tp4.nix;
+    users = ./users;
     utmvm-nixos-3 = ./utmvm-nixos-3.nix;
     wireguard = ./wireguard.nix;
     xfce95 = ./xfce95.nix;
@@ -92,7 +97,17 @@ in
 
     tp3 = nixosSystemFor "x86_64-linux" [
       self.nixosModules.xfce95
-      # TODO
+      inputs.disko.nixosModules.disko
+      inputs.home-manager.nixosModule
+      inputs.lanzaboote.nixosModules.lanzaboote
+      self.nixosModules.defaults
+      self.nixosModules.networkmanager
+      self.nixosModules.nix-persistent
+      self.nixosModules.secrets
+      self.nixosModules.tailscale
+      self.nixosModules.tp3
+      self.nixosModules.users
+      self.nixosModules.wireguard
     ];
   };
 }
