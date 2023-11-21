@@ -222,6 +222,7 @@ in
         # uvicorn
         # weasyprint
         ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: { doCheck = false; }))
+        huggingface-hub
         XlsxWriter
         authlib
         beautifulsoup4
