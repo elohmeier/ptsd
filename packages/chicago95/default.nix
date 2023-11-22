@@ -2,13 +2,13 @@
 
 stdenv.mkDerivation rec {
   pname = "chicago95";
-  version = "2023-02-16";
+  version = "2023-11-17";
 
   src = fetchFromGitHub {
     owner = "grassmunk";
     repo = pname;
-    rev = "4c39951284add04941adc6ce5a68a778590b93d1";
-    sha256 = "sha256-PwNuVAcJ6FZlALdHAvgX8H56bOkZ0llXGd09ETj4enQ=";
+    rev = "6fa69c1e557ef88efd87b65f9c6a3f98820ddce3";
+    hash = "sha256-zrUVgg8q5Iz/AXDxFMkBDkKjjYiiChTEf5P+okV3K+0=";
   };
 
   dontBuild = true;
