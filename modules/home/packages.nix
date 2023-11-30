@@ -82,8 +82,6 @@ in
     lazygit
     libfaketime
     libxml2 # xmllint
-    logseq-query
-    macos-fix-filefoldernames
     miller
     minikube
     minio-client
@@ -100,7 +98,7 @@ in
     node2nix
     nodePackages.yarn
     nushell
-    ollama
+    # ollama
     p7zip
     pass
     plantuml
@@ -221,25 +219,25 @@ in
         # umap-learn
         # uvicorn
         # weasyprint
-        ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: { doCheck = false; }))
-        huggingface-hub
-        XlsxWriter
-        authlib
-        beautifulsoup4
-        black
-        llm
-        datasette
-        ipywidgets
-        isort
-        jupyterlab
-        pandas
-        pillow
-        psycopg2
-        pymupdf
-        pytest
-        pyxlsb
-        requests
-        sqlite-utils
+        #    ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: { doCheck = false; }))
+        #    huggingface-hub
+        #    XlsxWriter
+        #    authlib
+        #    beautifulsoup4
+        #    black
+        #    llm
+        #    datasette
+        #    ipywidgets
+        #    isort
+        #    jupyterlab
+        #    pandas
+        #    pillow
+        #    psycopg2
+        #    pymupdf
+        #    pytest
+        #    pyxlsb
+        #    requests
+        #    sqlite-utils
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
         #     accelerate
         #     # bertopic
@@ -266,6 +264,8 @@ in
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
     age-plugin-se
     binutils
+    logseq-query
+    macos-fix-filefoldernames
     # kubectl-minio
     llvmPackages.lldb
     # openai-whisper-cpp
@@ -357,7 +357,7 @@ in
     cabextract
     easyeffects
     logseq
-    portfolio
+    #portfolio
     prusa-slicer
     signal-desktop
     spotify

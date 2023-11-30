@@ -6,7 +6,7 @@
     flameshot
     freecad
     google-chrome
-    lutris
+    # lutris
     samba
     transmission-gtk
     wine
@@ -15,7 +15,7 @@
 
   programs.mpv = {
     enable = true;
-    package = pkgs.wrapMpv (pkgs.mpv-unwrapped.override { ffmpeg_5 = pkgs.ffmpeg_5-full; }) { };
+    # package = pkgs.wrapMpv (pkgs.mpv-unwrapped.override { ffmpeg_5 = pkgs.ffmpeg_5-full; }) { };
   };
 
   programs.ssh.extraOptionOverrides = {
