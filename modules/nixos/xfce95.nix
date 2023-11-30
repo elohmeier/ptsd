@@ -31,7 +31,11 @@
   };
   programs.thunar = {
     enable = true;
-    plugins = [ pkgs.xfce.thunar-archive-plugin ];
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-media-tags-plugin
+      thunar-volman
+    ];
   };
   boot.plymouth = {
     enable = true;
