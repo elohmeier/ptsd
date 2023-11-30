@@ -8,7 +8,7 @@ stdenv.mkDerivation rec {
     owner = "grassmunk";
     repo = pname;
     rev = "6fa69c1e557ef88efd87b65f9c6a3f98820ddce3";
-    hash = "sha256-zrUVgg8q5Iz/AXDxFMkBDkKjjYiiChTEf5P+okV3K+0=";
+    hash = "sha256-/wLrU+7i5Fmxp3iKfJSAmLypwJpbmC3qH7zLPIMV88M=";
   };
 
   dontBuild = true;

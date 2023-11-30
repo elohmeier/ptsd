@@ -20,7 +20,8 @@
   xfconf.settings = {
     xsettings = {
       "Gtk/CursorThemeName" = "Chicago95 Animated Hourglass Cursors";
-      "Gtk/FontName" = "MS Sans Serif 8";
+      "Gtk/FontName" = "Helvetica 8";
+      # "Gtk/FontName" = "MS Sans Serif 8";
       "Gtk/MonospaceFontName" = "Spleen 8x16 Medium 12";
       "Net/IconThemeName" = "Chicago95";
       "Net/SoundThemeName" = "Chicago95";
@@ -101,6 +102,23 @@
       "backdrop/screen0/monitor0/workspace0/last-image" = "${../../src/win95wp.png}";
     };
   };
+
+  xdg.configFile."autostart/Chicago95 Login Sound.desktop".text = lib.generators.toINI
+    { }
+    {
+      "Desktop Entry" = {
+        Encoding = "UTF-8";
+        Version = "0.9.4";
+        Type = "Application";
+        Name = "Chicago95 Login Sound";
+        Comment = "Plays the Windows 95 startup sound";
+        Exec = "${pkgs.alsa-utils}/bin/aplay /run/current-system/sw/share/sounds/Chicago95/stereo/desktop-login.wav";
+        RunHook = "0";
+        StartupNotify = "false";
+        Terminal = "false";
+        Hidden = "false";
+      };
+    };
 
   home.activation.xfconfWallpaper = lib.hm.dag.entryAfter [ "installPackages" ] ''
     ${pkgs.xfce.xfconf}/bin/xfconf-query -c xfce4-desktop -l | grep last-image | while read path; do
