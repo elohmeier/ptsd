@@ -21,6 +21,9 @@
           package = pkgs.chicago95;
           name = "Chicago95";
         };
+        extraConfig = ''
+          font-name=Helvetica 8
+        '';
       };
     };
     layout = lib.mkDefault "us";

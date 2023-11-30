@@ -112,7 +112,7 @@
         Type = "Application";
         Name = "Chicago95 Login Sound";
         Comment = "Plays the Windows 95 startup sound";
-        Exec = "${pkgs.alsa-utils}/bin/aplay /run/current-system/sw/share/sounds/Chicago95/stereo/desktop-login.wav";
+        Exec = "${pkgs.libcanberra-gtk3}/bin/canberra-gtk-play -i desktop-login";
         RunHook = "0";
         StartupNotify = "false";
         Terminal = "false";
