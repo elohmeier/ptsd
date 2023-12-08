@@ -54,7 +54,6 @@ in
     fd
     ffmpeg
     fzf-no-fish
-    gen-secrets
     gh
     ghostscript
     go-jsonnet
@@ -85,7 +84,6 @@ in
     miller
     minikube
     minio-client
-    mkpasswd
     mupdf
     ncdu_1
     nix-index
@@ -98,7 +96,6 @@ in
     node2nix
     nodePackages.yarn
     nushell
-    # ollama
     p7zip
     pass
     plantuml
@@ -262,9 +259,10 @@ in
       ]
     ))
   ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
-    age-plugin-se
-    binutils
+    # age-plugin-se
+    # binutils
     logseq-query
+    ollama
     macos-fix-filefoldernames
     # kubectl-minio
     llvmPackages.lldb
@@ -291,6 +289,7 @@ in
     aspellDicts.de
     aspellDicts.en
     aspellDicts.en-computers
+    mkpasswd
     aspellDicts.en-science
     # awscli2
     bc

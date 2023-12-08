@@ -1,5 +1,11 @@
 { config, lib, pkgs, ... }:
 
 {
-  home.packages = [ pkgs.gotenberg ];
+  home.packages = with pkgs; [
+    btop
+    gotenberg
+    pre-commit
+    rustup
+    gcc
+  ];
 }
