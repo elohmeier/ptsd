@@ -1,8 +1,7 @@
-#!/usr/bin/env nix-shell
-#!nix-shell -i bash -p pwgen -p whois
+#!/usr/bin/env bash
 
-pwgen -s 2 -A -1 200 |
-  while read -r line; do
-    domain="${line}42.de"
-    whois "$domain" | egrep -q 'Status: free' && echo "$domain is available"
-  done
+pwgen -s 3 -A -1 200 |
+	while read -r line; do
+		domain="${line}.de"
+		whois "$domain" | egrep -q 'Status: free' && echo "$domain is available"
+	done
