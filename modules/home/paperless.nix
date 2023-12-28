@@ -99,7 +99,7 @@ let
     export PAPERLESS_CONSUMER_POLLING="${env.PAPERLESS_CONSUMER_POLLING}"
     mkdir -p "$PAPERLESS_CONSUMPTION_DIR"
     mkdir -p "$PAPERLESS_MEDIA_ROOT"
-    ${pkg}/bin/celery --app paperless worker --loglevel INFO
+    ${pkg}/bin/celery --app paperless worker --loglevel INFO --concurrency 10
   '';
 
   paperless-consumer = pkgs.writeShellScriptBin "paperless-consumer" ''
