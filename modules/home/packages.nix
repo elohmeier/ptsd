@@ -31,7 +31,7 @@ in
     # rmlint
     # rustc
     # zathura
-    (passage.override { age = rage; })
+    passage
     (pdftk.override { jre = openjdk17; })
     age-plugin-yubikey
     bat
@@ -39,6 +39,7 @@ in
     bun
     nix-prefetch-github
     gnused
+    ssh-to-age
     bundix
     copy-secrets
     deadnix
@@ -94,9 +95,11 @@ in
     nixpkgs-fmt
     nmap
     node2nix
+    nodePackages.pnpm
     nodePackages.yarn
     nushell
     p7zip
+    mermaid-cli
     pass
     plantuml
     poetry
@@ -107,7 +110,8 @@ in
     qpdf
     qrencode
     quirc # qr scanner
-    rage
+    age
+    sops
     rclone
     remarshal
     reveal-md
@@ -143,6 +147,7 @@ in
     yubikey-manager
     zellij
     zig
+    tesseract
 
     # (ptsd-python3.withPackages (
     ((python3.override {
@@ -216,25 +221,25 @@ in
         # umap-learn
         # uvicorn
         # weasyprint
-        #    ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: { doCheck = false; }))
-        #    huggingface-hub
-        #    XlsxWriter
-        #    authlib
-        #    beautifulsoup4
-        #    black
-        #    llm
-        #    datasette
-        #    ipywidgets
-        #    isort
-        #    jupyterlab
-        #    pandas
-        #    pillow
-        #    psycopg2
-        #    pymupdf
-        #    pytest
-        #    pyxlsb
-        #    requests
-        #    sqlite-utils
+        ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: { doCheck = false; }))
+        huggingface-hub
+        XlsxWriter
+        authlib
+        beautifulsoup4
+        black
+        llm
+        datasette
+        ipywidgets
+        isort
+        jupyterlab
+        pandas
+        pillow
+        psycopg2
+        pymupdf
+        pytest
+        pyxlsb
+        requests
+        sqlite-utils
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
         #     accelerate
         #     # bertopic

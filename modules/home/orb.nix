@@ -3,9 +3,8 @@
 {
   home.packages = with pkgs; [
     btop
-    gotenberg
+    gcc
     pre-commit
     rustup
-    gcc
   ];
 }
