@@ -10,10 +10,9 @@ _:
       #  extraOptions.RemoteForward = "/Users/enno/.gnupg/S.gpg-agent /run/user/1000/gnupg/S.gpg-agent.extra";
       #};
 
-      "fbdjmp" = {
-        hostname = "192.168.178.135";
-        user = "sysadmin";
-        port = 12345;
+      "utm-nixos-2023-12" = {
+        hostname = "192.168.74.8";
+        user = "gordon";
       };
 
       "mb4-nixos" = {
