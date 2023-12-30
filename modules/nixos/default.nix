@@ -31,6 +31,7 @@ in
     generic-desktop = ./generic-desktop.nix;
     generic-disk = ./generic-disk.nix;
     hcloud = ./hcloud;
+    hl5380dn = ./hl5380dn.nix;
     host-htz1 = ./hosts/htz1;
     host-htz2 = ./hosts/htz2;
     hw-hetzner-vm = ./hw/hetzner-vm.nix;
@@ -96,11 +97,11 @@ in
     ];
 
     tp3 = nixosSystemFor "x86_64-linux" [
-      self.nixosModules.xfce95
       inputs.disko.nixosModules.disko
       inputs.home-manager.nixosModule
       inputs.lanzaboote.nixosModules.lanzaboote
       self.nixosModules.defaults
+      self.nixosModules.hl5380dn
       self.nixosModules.networkmanager
       self.nixosModules.nix-persistent
       self.nixosModules.secrets
@@ -108,6 +109,7 @@ in
       self.nixosModules.tp3
       self.nixosModules.users
       self.nixosModules.wireguard
+      self.nixosModules.xfce95
     ];
   };
 }
