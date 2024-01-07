@@ -6,7 +6,7 @@
     flameshot
     freecad
     google-chrome
-    # lutris
+    lutris
     samba
     transmission-gtk
     wine
