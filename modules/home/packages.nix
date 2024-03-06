@@ -38,6 +38,7 @@ in
     btop
     bun
     nix-prefetch-github
+    azure-cli
     gnused
     ssh-to-age
     bundix
@@ -104,12 +105,13 @@ in
     plantuml
     poetry
     poppler_utils
-    prettier-with-plugins
+    # prettier-with-plugins
     ptsd-nnn
     pwgen
     qpdf
     qrencode
     quirc # qr scanner
+    moreutils
     age
     sops
     rclone

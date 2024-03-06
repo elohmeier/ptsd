@@ -11,7 +11,9 @@ p@{ config, lib, pkgs, ... }:
     ripgrep
     zig
   ]
-  ++ lib.optionals pkgs.stdenv.isDarwin [ pkgs.clang ]
+  ++ lib.optionals pkgs.stdenv.isDarwin [
+    # pkgs.clang
+  ]
   ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.gcc ];
 
   home.sessionVariables.EDITOR = "nvim";

@@ -40,6 +40,7 @@ p@{ config, lib, pkgs, ... }:
       br = "broot";
       etm = "et -c \"tmux -CC new -A -s main\"";
       ga = "git add";
+      gb = "git branch";
       gc = "git commit";
       gcf = "git commit --fixup";
       gco = "git checkout";
