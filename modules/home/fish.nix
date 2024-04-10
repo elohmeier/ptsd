@@ -63,6 +63,15 @@ p@{ config, lib, pkgs, ... }:
       source ${../../scripts/iterm2-integration.fish}
       fzf_configure_bindings --directory=\ct
 
+      function h
+        set _h_dir (${pkgs.h}/bin/h --resolve "${config.home.homeDirectory}/repos" $argv)
+        set _h_ret $status
+        if test "$_h_dir" != "$PWD"
+          cd "$_h_dir"
+        end
+        return $_h_ret
+      end
+
       # TokyoNight Color Palette
       set -l foreground c0caf5
       set -l selection 283457
