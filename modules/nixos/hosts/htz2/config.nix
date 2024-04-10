@@ -111,5 +111,10 @@
     $PSQL -tAc 'ALTER DATABASE "atuin" OWNER TO "atuin";'
   '';
 
+  systemd.services.atuin = {
+    after = [ "postgresql.service" ];
+    wants = [ "postgresql.service" ];
+  };
+
   system.stateVersion = "21.11";
 }
