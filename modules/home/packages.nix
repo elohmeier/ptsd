@@ -38,7 +38,9 @@ in
     btop
     bun
     nix-prefetch-github
+    kubernetes-helm
     azure-cli
+    wasm-pack
     gnused
     ssh-to-age
     bundix

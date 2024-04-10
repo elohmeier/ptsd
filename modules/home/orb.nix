@@ -5,7 +5,9 @@
     attic-client
     btop
     gcc
+    jq
     pre-commit
     rustup
+    nix-tree
   ];
 }
