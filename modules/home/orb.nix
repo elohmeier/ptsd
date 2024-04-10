@@ -2,6 +2,7 @@
 
 {
   home.packages = with pkgs; [
+    attic-client
     btop
     gcc
     pre-commit

@@ -26,6 +26,7 @@
       shrinkpdf = final.callPackage ../../packages/shrinkpdf { };
       syncthing-device-id = final.writers.writePython3Bin "syncthing-device-id" { flakeIgnore = [ "E203" "E265" "E501" ]; } ../../scripts/syncthing-device-id.py;
       win10fonts = final.callPackage ../../packages/win10fonts { };
+      attic-client = final.callPackage ../../packages/attic { clientOnly = true; };
       #   wkhtmltopdf-qt4 = final.callPackage ./wkhtmltopdf-qt4 { };
       #   xorgxrdp = final.callPackage ./xrdp/xorgxrdp.nix { };
       #   xrdp = final.callPackage ./xrdp { };
