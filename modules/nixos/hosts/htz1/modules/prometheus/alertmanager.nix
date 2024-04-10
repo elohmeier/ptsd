@@ -91,8 +91,8 @@
             {
               alert = "EndpointDown";
               expr = "probe_success == 0";
-              for = "30s";
-              labels.severity = "critical";
+              for = "30m";
+              labels.severity = "warning";
               annotations = {
                 summary = "Endpunkt {{ $labels.instance }} ist nicht erreichbar";
               };

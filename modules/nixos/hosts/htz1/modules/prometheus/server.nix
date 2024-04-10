@@ -65,14 +65,14 @@ in
         static_configs = [{ targets = [ "127.0.0.1:${toString config.ptsd.ports.prometheus-quotes-exporter}" ]; }];
       }
 
-      {
-        job_name = "node_wrt";
-        scrape_interval = "60s";
-        static_configs = [
-          # { targets = [ "${universe.hosts.wrt1.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "wrt1"; alwayson = "1"; }; }
-          { targets = [ "${universe.hosts.wrt2.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "wrt2"; alwayson = "1"; }; }
-        ];
-      }
+      # {
+      #   job_name = "node_wrt";
+      #   scrape_interval = "60s";
+      #   static_configs = [
+      #     # { targets = [ "${universe.hosts.wrt1.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "wrt1"; alwayson = "1"; }; }
+      #     { targets = [ "${universe.hosts.wrt2.nets.nwvpn.ip4.addr}:9100" ]; labels = { alias = "wrt2"; alwayson = "1"; }; }
+      #   ];
+      # }
 
       {
         job_name = "node_ts";
@@ -88,6 +88,20 @@ in
           "htz1"
           "htz2"
           "rpi4"
+        ];
+      }
+
+      {
+        job_name = "node_ts_noalert";
+        scrape_interval = "60s";
+        static_configs = map
+          (host: {
+            targets = [ "${universe.hosts."${host}".nets.tailscale.ip4.addr}:9100" ];
+            labels = {
+              alias = host;
+              alwayson = "0";
+            };
+          }) [
           "rotebox"
         ];
       }
