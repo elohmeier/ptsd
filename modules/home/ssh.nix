@@ -85,6 +85,16 @@ _:
         user = "root";
       };
 
+      root1 = {
+        hostname = "2a01:4f8:221:359b::2";
+        user = "root";
+      };
+
+      root2 = {
+        hostname = "2a01:4f8:262:3d8e::2";
+        user = "root";
+      };
+
       #"awsbuilder" = {
       #  hostname = "35.157.132.66";
       #  user = "admin";
