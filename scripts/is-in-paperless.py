@@ -19,7 +19,6 @@ def main():
     engine = create_engine("sqlite:////Users/enno/.local/share/paperless/db.sqlite3")
     Base.prepare(autoload_with=engine)
     Document = Base.classes.documents_document
-    Comment = Base.classes.documents_comment
     session = Session(engine)
 
     for f in args.file:

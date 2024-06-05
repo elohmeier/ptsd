@@ -6,7 +6,6 @@ and HEAD requests in a fairly straightforward manner.
 see: https://gist.github.com/UniIsland/3346170
 """
 
-
 __version__ = "0.1"
 __all__ = ["SimpleHTTPRequestHandler"]
 __author__ = "bones7456"
@@ -50,7 +49,6 @@ def fbytes(B):
 
 
 class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
-
     """Simple HTTP request handler with GET/HEAD/POST commands.
     This serves files from the current directory and any of its
     subdirectories.  The MIME type for files is determined by
