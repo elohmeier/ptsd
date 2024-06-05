@@ -86,6 +86,22 @@
       postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name hetzner --push'';
     };
 
+    hetzner-documents = {
+      inherit encryption environment;
+      paths = [
+        "${config.xdg.dataHome}/paperless"
+        "${homeDirectory}/Documents"
+        "${homeDirectory}/Documents-Luisa"
+        "${homeDirectory}/Sync/Scans-Enno"
+        "${homeDirectory}/Sync/Scans-Laiyer"
+        "${homeDirectory}/Sync/Scans-Luisa"
+        "${homeDirectory}/Sync/iOS"
+      ];
+      repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg-documents";
+      compression = "zstd,3";
+      postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name hetzner-documents --push'';
+    };
+
     rpi4 = {
       inherit encryption environment;
       exclude = exclude ++ [
