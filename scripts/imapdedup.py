@@ -449,7 +449,7 @@ def process(options, mboxes: List[str]):
     try:
         if not options.process:
             server.login(options.user, options.password)
-    except:
+    except imaplib.IMAP4.error:
         sys.stderr.write("\nError: Login failed\n")
         sys.exit(1)
 

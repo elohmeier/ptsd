@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-export $(grep -v '^#' /run/keys/hass-cli.env | xargs -d '\n')
+export "$(grep -v '^#' /run/keys/hass-cli.env | xargs -d '\n')"
 json=$(hass-cli -o json state get sensor.fraam_co2_mhz19b_carbondioxide)
-state=$(echo $json | jq -r '.[0].state')
+state=$(echo "$json" | jq -r '.[0].state')
 class=""
 
 if ((state > 1000)); then

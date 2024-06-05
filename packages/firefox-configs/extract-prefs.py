@@ -7,10 +7,10 @@ import sys
 prefs = {}
 
 with open(sys.stdin.fileno()) as f:
-    for l in f:
+    for line in f:
         m = re.match(
             r"(defaultPref|pref|lockPref)\(\"(?P<key>[a-zA-Z\.0-9_\-]+)\",\s+(?P<value>[%\?=#,:/\- _\.a-zA-Z\"0-9]+)\);",
-            l,
+            line,
         )
         if m:
             val = m.group("value")

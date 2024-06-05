@@ -37,7 +37,7 @@ case "$profile" in
     --dir /run/user/"$(id -u)" \
     --ro-bind /run/current-system/sw/bin /run/current-system/sw/bin \
     --ro-bind /run/user/"$(id -u)"/pulse /run/user/"$(id -u)"/pulse \
-    --ro-bind /run/user/"$(id -u)"/$WAYLAND_DISPLAY /run/user/"$(id -u)"/$WAYLAND_DISPLAY \
+    --ro-bind /run/user/"$(id -u)"/"$WAYLAND_DISPLAY" /run/user/"$(id -u)"/"$WAYLAND_DISPLAY" \
     --proc /proc \
     --bind ~/.mozilla ~/.mozilla \
     --bind ~/.cache/mozilla ~/.cache/mozilla \
@@ -49,6 +49,7 @@ case "$profile" in
     --setenv PATH /run/current-system/sw/bin \
     --die-with-parent \
     --new-session \
-    $(readlink $(which firefox)) "$@"
+    "$(readlink "$(which firefox)")" -P bwrap-enno "$@"
+
   ;;
 esac
