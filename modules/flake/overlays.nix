@@ -55,8 +55,6 @@
           '';
         });
 
-        dradis-ce = final.callPackage ../../packages/dradis-ce { };
-
         ollama_unstable = pkgsUnstable.ollama;
         llama-cpp_unstable = pkgsUnstable.llama-cpp;
 

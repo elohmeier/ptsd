@@ -13,7 +13,6 @@ let
             pkgs = lib.mkForce pkgs;
           };
         }
-        self.nixosModules.dradis
         self.nixosModules.ports
         self.nixosModules.secrets
         self.nixosModules.tailscale
@@ -25,7 +24,6 @@ in
   flake.nixosModules = {
     borgbackup = ./borgbackup.nix;
     defaults = ./defaults.nix;
-    dradis = ./dradis.nix;
     fish = ./fish.nix;
     generic = ./generic.nix;
     generic-desktop = ./generic-desktop.nix;
@@ -53,11 +51,6 @@ in
   };
 
   flake.nixosConfigurations = {
-    mato-oestrovsky-loos = nixosSystemFor "aarch64-linux" [
-      self.nixosModules.hcloud
-      { ptsd.dradis.enable = true; }
-    ];
-
     htz1 = nixosSystemFor "x86_64-linux" [
       self.nixosModules.borgbackup
       self.nixosModules.defaults
