@@ -12,7 +12,7 @@
     neovim = ./neovim.nix;
     orb = ./orb.nix;
     packages = ./packages.nix;
-    paperless = ./paperless.nix;
+    # paperless = ./paperless.nix;
     ssh = ./ssh.nix;
     tmux = ./tmux.nix;
     tp3 = ./tp3.nix;
@@ -46,7 +46,7 @@
         self.homeModules.macos-enno
         self.homeModules.neovim
         self.homeModules.packages
-        self.homeModules.paperless
+        # self.homeModules.paperless
         self.homeModules.ssh
         self.homeModules.tmux
         self.homeModules.xdg-fixes
