@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   programs.gpg = {
@@ -19,7 +19,6 @@
     '' + lib.optionalString pkgs.stdenv.isDarwin ''
       pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
     '';
-    pinentryFlavor = if pkgs.stdenv.isLinux then "gnome3" else null;
   };
 
   home.activation.addGpgPublicKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -29,4 +28,15 @@
     $DRY_RUN_CMD echo -e "5\ny\n" | ${pkgs.gnupg}/bin/gpg --command-fd 0 --expert --edit-key 807BC3355DA0F069 trust
     $DRY_RUN_CMD echo -e "5\ny\n" | ${pkgs.gnupg}/bin/gpg --command-fd 0 --expert --edit-key F5EAA91650FAB83F trust
   '';
+
+  # see https://github.com/nix-community/home-manager/pull/3840
+  launchd.agents.gpg-agent = lib.mkIf pkgs.stdenv.isDarwin {
+    enable = true;
+    config = {
+      ProgramArguments = [ "${config.programs.gpg.package}/bin/gpgconf" "--launch" "gpg-agent" ];
+      RunAtLoad = true;
+      KeepAlive.SuccessfulExit = false;
+      EnvironmentVariables.GNUPGHOME = config.programs.gpg.homedir;
+    };
+  };
 }
