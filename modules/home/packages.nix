@@ -25,24 +25,22 @@ in
     # (writeShellScriptBin "transcribe-video" (builtins.readFile ../../4scripts/transcribe-video))
     # attic-server
     # cargo
+    # hatch
+    # moreutils
     # mpv
     # nodePackages.svelte-language-server
     # nodePackages.typescript-language-server
+    # prettier-with-plugins
     # rmlint
     # rustc
     # zathura
-    passage
     (pdftk.override { jre = openjdk17; })
+    age
     age-plugin-yubikey
+    azure-cli
     bat
     btop
     bun
-    nix-prefetch-github
-    kubernetes-helm
-    azure-cli
-    wasm-pack
-    gnused
-    ssh-to-age
     bundix
     copy-secrets
     deadnix
@@ -57,14 +55,17 @@ in
     fava
     fd
     ffmpeg
+    foreman
     fzf-no-fish
     gh
     ghostscript
+    gitu
+    gnused
     go-jsonnet
     gojsontoyaml
-    pre-commit
     gomuks
     google-cloud-sdk
+    graphviz
     hcloud
     helix
     home-manager
@@ -82,16 +83,20 @@ in
     jsonnet-bundler
     jsonnet-language-server
     kubectl
+    kubernetes-helm
     lazygit
     libfaketime
     libxml2 # xmllint
+    mermaid-cli
     miller
     minikube
     minio-client
     mupdf
     ncdu_1
+    nil
     nix-index
     nix-prefetch-git
+    nix-prefetch-github
     nix-top
     nix-tree
     nixos-generators
@@ -102,20 +107,18 @@ in
     nodePackages.yarn
     nushell
     p7zip
-    mermaid-cli
     pass
+    passage
     plantuml
     poetry
     poppler_utils
-    # prettier-with-plugins
+    pre-commit
+    process-compose
     ptsd-nnn
     pwgen
     qpdf
     qrencode
     quirc # qr scanner
-    moreutils
-    age
-    sops
     rclone
     remarshal
     reveal-md
@@ -126,10 +129,14 @@ in
     shfmt
     shrinkpdf
     skopeo
+    sops
+    ssh-to-age
     statix
     tabula-java
     tanka
     taskjuggler
+    tesseract
+    texlive.combined.scheme-context
     tmux
     tmuxinator
     treefmt
@@ -139,6 +146,7 @@ in
     visidata
     viu # terminal image viewer
     vivid
+    wasm-pack
     watch
     websocat
     wget
@@ -151,7 +159,6 @@ in
     yubikey-manager
     zellij
     zig
-    tesseract
 
     # (ptsd-python3.withPackages (
     ((python3.override {
@@ -271,7 +278,8 @@ in
     # age-plugin-se
     # binutils
     logseq-query
-    ollama
+    ollama_unstable
+    llama-cpp_unstable
     macos-fix-filefoldernames
     # kubectl-minio
     llvmPackages.lldb

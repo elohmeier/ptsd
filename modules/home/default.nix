@@ -56,7 +56,10 @@
     orb = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "aarch64-linux";
-        overlays = [ self.overlays.default ];
+        overlays = [
+          inputs.nixcfg.overlays.default
+          self.overlays.default
+        ];
         config.allowUnfree = true;
       };
 

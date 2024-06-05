@@ -1,15 +1,14 @@
-p@{ config, lib, pkgs, ... }:
+p@{ config, lib, pkgs, pkgsUnstable, ... }:
 
 {
-  home.packages = with pkgs;[
-    gnumake
-    go
-    lazygit
-    neovim
-    nixd
-    nodejs_latest
-    ripgrep
-    zig
+  home.packages = [
+    pkgs.gnumake
+    pkgs.go
+    pkgsUnstable.neovim
+    pkgs.nixd
+    pkgs.nodejs_latest
+    pkgs.ripgrep
+    pkgs.zig
   ]
   ++ lib.optionals pkgs.stdenv.isDarwin [
     # pkgs.clang
