@@ -55,7 +55,6 @@ in
   flake.nixosConfigurations = {
     mato-oestrovsky-loos = nixosSystemFor "aarch64-linux" [
       self.nixosModules.hcloud
-      { _module.args.nixinate = { host = "78.47.96.112"; sshUser = "root"; buildOn = "remote"; }; }
       { ptsd.dradis.enable = true; }
     ];
 
@@ -68,7 +67,6 @@ in
       self.nixosModules.nix-persistent
       self.nixosModules.nwhost
       self.nixosModules.prometheus-node
-      { _module.args.nixinate = { host = "htz1.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
     ];
 
     htz2 = nixosSystemFor "x86_64-linux" [
@@ -80,7 +78,6 @@ in
       self.nixosModules.nix-persistent
       self.nixosModules.nwhost
       self.nixosModules.prometheus-node
-      { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
     ];
 
     utmvm_nixos_3 = nixosSystemFor "aarch64-linux" [
@@ -93,7 +90,6 @@ in
       self.nixosModules.secrets
       self.nixosModules.utmvm-nixos-3
       self.nixosModules.xfce95
-      { _module.args.nixinate = { host = "192.168.74.3"; sshUser = "root"; buildOn = "remote"; }; }
     ];
 
     tp3 = nixosSystemFor "x86_64-linux" [

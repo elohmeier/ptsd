@@ -1,7 +1,10 @@
 _: {
   perSystem = { pkgs, ... }: {
     packages = {
-      inherit (pkgs) dradis-ce prom-checktlsa chicago95;
+      inherit (pkgs)
+        chicago95
+        dradis-ce
+        prom-checktlsa;
     };
   };
 }

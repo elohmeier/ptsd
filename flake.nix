@@ -9,33 +9,51 @@
     flake-utils.url = "github:numtide/flake-utils";
     home-manager = {
       inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:elohmeier/home-manager/master-darwin";
+      url = "github:elohmeier/home-manager/release-24.05-darwin";
     };
     lanzaboote = {
+      inputs.flake-compat.follows = "flake-compat";
+      inputs.flake-parts.follows = "flake-parts";
       inputs.flake-utils.follows = "flake-utils";
       inputs.nixpkgs.follows = "nixpkgs";
       url = "github:nix-community/lanzaboote/v0.3.0";
     };
-    nixinate = {
-      inputs.nixpkgs.follows = "nixpkgs";
-      url = "github:elohmeier/nixinate";
-    };
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-rpi4.url = "github:elohmeier/nixpkgs/2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
       inputs.nixpkgs-lib.follows = "nixpkgs";
     };
+    flake-compat = {
+      url = "github:edolstra/flake-compat";
+    };
+    colmena = {
+      url = "github:zhaofengli/colmena";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.stable.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
+      inputs.flake-compat.follows = "flake-compat";
+    };
+    nixcfg = {
+      url = "github:elohmeier/nixcfg";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, flake-parts, nixinate, ... }:
+  outputs = inputs@{ self, flake-parts, treefmt-nix, ... }:
     flake-parts.lib.mkFlake { inherit inputs; } {
       systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
-      imports = [ ./modules ];
-      perSystem = { config, self', inputs', pkgs, system, ... }: {
-        apps = (nixinate.nixinate.${system} self).nixinate;
-      };
+      imports = [ ./modules treefmt-nix.flakeModule ];
     };
 
   # outputs =
@@ -44,7 +62,6 @@
   #   , flake-utils
   #   , home-manager
   #   , lanzaboote
-  #   , nixinate
   #   , nixos-hardware
   #   , nixpkgs
   #   , nixpkgs-unstable
@@ -73,8 +90,6 @@
   #       };
   #   })
   # // {
-  #   apps = nixinate.nixinate.aarch64-darwin self;
-  #
   #   overlay = import ./modules/flake/overlays.nix;
   #
   #   nixosConfigurations =
@@ -89,7 +104,6 @@
   #             self.nixosModules.generic-desktop
   #             self.nixosModules.generic-disk
   #             self.nixosModules.tp4
-  #             { _module.args.nixinate = { host = "tp4.fritz.box"; sshUser = "root"; buildOn = "remote"; }; }
   #           ];
   #         };
   #
@@ -99,7 +113,6 @@
   #           modules = [
   #             self.nixosModules.secrets
   #             ./1systems/htz2/physical.nix
-  #             { _module.args.nixinate = { host = "htz2.nn42.de"; sshUser = "root"; buildOn = "remote"; }; }
   #           ];
   #         };
   #

@@ -28,6 +28,14 @@
         config.allowUnfree = true;
       };
 
+      extraSpecialArgs = {
+        pkgsUnstable = import inputs.nixpkgs-unstable {
+          system = "aarch64-darwin";
+          overlays = [ self.overlays.default ];
+          config.allowUnfree = true;
+        };
+      };
+
       modules = [
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults
@@ -50,6 +58,17 @@
         system = "aarch64-linux";
         overlays = [ self.overlays.default ];
         config.allowUnfree = true;
+      };
+
+      extraSpecialArgs = {
+        pkgsUnstable = import inputs.nixpkgs-unstable {
+          system = "aarch64-linux";
+          overlays = [
+            inputs.nixcfg.overlays.default
+            self.overlays.default
+          ];
+          config.allowUnfree = true;
+        };
       };
 
       modules = [
