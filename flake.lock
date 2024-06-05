@@ -248,6 +248,26 @@
         "type": "github"
       }
     },
+    "nix95": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1703775717,
+        "narHash": "sha256-wO9iwzVtgEBSt5endpWdUO8Q53JEZx0rC+Mutj3Mu0Q=",
+        "owner": "elohmeier",
+        "repo": "nix95",
+        "rev": "71bc458a78373c5e11be1b662e3fb893e9702905",
+        "type": "github"
+      },
+      "original": {
+        "owner": "elohmeier",
+        "repo": "nix95",
+        "type": "github"
+      }
+    },
     "nixcfg": {
       "inputs": {
         "nixpkgs": [
@@ -427,6 +447,7 @@
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
+        "nix95": "nix95",
         "nixcfg": "nixcfg",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs",

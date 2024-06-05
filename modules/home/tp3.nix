@@ -1,17 +1,28 @@
 { pkgs, ... }: {
 
-  home.packages = with pkgs; [
-    bchunk
-    firefox
-    flameshot
-    freecad
-    google-chrome
-    lutris
-    samba
-    transmission-gtk
-    wine
-    winetricks
-  ];
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
+  };
+
+  home = {
+    username = "gordon";
+    homeDirectory = "/home/gordon";
+
+    packages = with pkgs; [
+      bchunk
+      firefox
+      flameshot
+      freecad
+      google-chrome
+      lutris
+      samba
+      transmission-gtk
+      wine
+      winetricks
+      zathura
+    ];
+  };
 
   programs.mpv = {
     enable = true;

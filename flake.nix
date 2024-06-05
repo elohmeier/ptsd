@@ -48,6 +48,10 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix95 = {
+      url = "github:elohmeier/nix95";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, flake-parts, treefmt-nix, ... }:

@@ -47,7 +47,6 @@ in
     users = ./users;
     utmvm-nixos-3 = ./utmvm-nixos-3.nix;
     wireguard = ./wireguard.nix;
-    xfce95 = ./xfce95.nix;
   };
 
   flake.nixosConfigurations = {
@@ -74,6 +73,7 @@ in
     ];
 
     utmvm_nixos_3 = nixosSystemFor "aarch64-linux" [
+      inputs.nix95.nixosModules.nix95
       self.nixosModules.defaults
       self.nixosModules.fish
       self.nixosModules.generic
@@ -82,13 +82,13 @@ in
       self.nixosModules.nix-persistent
       self.nixosModules.secrets
       self.nixosModules.utmvm-nixos-3
-      self.nixosModules.xfce95
     ];
 
     tp3 = nixosSystemFor "x86_64-linux" [
       inputs.disko.nixosModules.disko
       inputs.home-manager.nixosModule
       inputs.lanzaboote.nixosModules.lanzaboote
+      inputs.nix95.nixosModules.nix95
       self.nixosModules.defaults
       self.nixosModules.hl5380dn
       self.nixosModules.networkmanager
@@ -98,7 +98,6 @@ in
       self.nixosModules.tp3
       self.nixosModules.users
       self.nixosModules.wireguard
-      self.nixosModules.xfce95
     ];
   };
 }

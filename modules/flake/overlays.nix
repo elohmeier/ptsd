@@ -10,7 +10,6 @@
       in
       {
         borg2prom = final.writers.writePython3Bin "borg2prom" { libraries = [ final.python3Packages.requests ]; flakeIgnore = [ "E265" "E501" ]; } ../../scripts/borg2prom.py;
-        chicago95 = final.callPackage ../../packages/chicago95 { };
         copy-secrets = final.writers.writePython3Bin "copy-secrets" { flakeIgnore = [ "E265" "E501" ]; libraries = [ final.python3Packages.python-gnupg ]; } ../../scripts/copy-secrets.py;
         #   fritzbox-exporter = final.callPackage ./fritzbox-exporter { };
         gen-secrets = final.callPackage ../../packages/gen-secrets { };
@@ -71,6 +70,7 @@
       overlays = [
         inputs.colmena.overlays.default
         inputs.nixcfg.overlays.default
+        inputs.nix95.overlays.default
         self.overlays.default
       ];
     };
@@ -83,6 +83,7 @@
       overlays = [
         inputs.colmena.overlays.default
         inputs.nixcfg.overlays.default
+        inputs.nix95.overlays.default
         self.overlays.default
       ];
     };

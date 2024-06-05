@@ -17,7 +17,6 @@
     tmux = ./tmux.nix;
     tp3 = ./tp3.nix;
     xdg-fixes = ./xdg-fixes.nix;
-    xfce95 = ./xfce95.nix;
   };
 
   flake.homeConfigurations = {
@@ -94,11 +93,26 @@
     xfce95 = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
-        overlays = [ self.overlays.default ];
+        overlays = [
+          self.overlays.default
+          inputs.nvim-config.overlays.default
+        ];
         config.allowUnfree = true;
       };
 
+      extraSpecialArgs = {
+        pkgsUnstable = import inputs.nixpkgs-unstable {
+          system = "x86_64-linux";
+          overlays = [
+            self.overlays.default
+            inputs.nvim-config.overlays.default
+          ];
+          config.allowUnfree = true;
+        };
+      };
+
       modules = [
+        inputs.nix95.homeModules.nix95
         self.homeModules.fish
         self.homeModules.fonts
         self.homeModules.git
@@ -109,7 +123,6 @@
         self.homeModules.tmux
         self.homeModules.tp3
         self.homeModules.xdg-fixes
-        self.homeModules.xfce95
         { home.stateVersion = "23.05"; }
       ];
     };
@@ -122,6 +135,7 @@
       };
 
       modules = [
+        inputs.nix95.homeModules.nix95
         self.homeModules.fish
         self.homeModules.fonts
         self.homeModules.git
@@ -131,7 +145,6 @@
         self.homeModules.ssh
         self.homeModules.tmux
         self.homeModules.xdg-fixes
-        self.homeModules.xfce95
         { home.stateVersion = "23.05"; }
       ];
     };
