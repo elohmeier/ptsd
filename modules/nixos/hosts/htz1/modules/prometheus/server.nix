@@ -87,7 +87,7 @@ in
           }) [
           "htz1"
           "htz2"
-          "rpi4"
+          # "rpi4" # no node_exporter running
         ];
       }
 
