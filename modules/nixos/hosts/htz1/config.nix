@@ -5,7 +5,7 @@
 
     ./modules/git.nix
     ./modules/loki.nix
-    ./modules/monica.nix # TODO: use nixpkgs package
+    ./modules/monica.nix
     ./modules/mosquitto.nix
     ./modules/prometheus
   ];
