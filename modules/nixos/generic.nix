@@ -80,7 +80,7 @@ in
         "tcp_bbr"
       ] ++ optional cfg.nvidia.cuda.enable "nvidia-uvm";
 
-      tmpOnTmpfs = true;
+      tmp.useTmpfs = true;
 
       # speed up networking, affects both IPv4 and IPv6r
       kernel.sysctl."net.ipv4.tcp_congestion_control" = "bbr";

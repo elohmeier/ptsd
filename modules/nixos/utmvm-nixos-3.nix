@@ -43,13 +43,9 @@
     openfortivpn
   ];
 
-  services.xserver = {
-    displayManager.lightdm = {
-      autoLogin = {
-        enable = true;
-        user = "gordon";
-      };
-    };
+  services.displayManager.autoLogin = {
+    enable = true;
+    user = "gordon";
   };
 
   console.keyMap = "us";
