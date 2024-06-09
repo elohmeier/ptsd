@@ -6,62 +6,44 @@ in
 {
   services.loki = {
     enable = true;
-    # https://grafana.com/docs/loki/latest/configuration/examples/
     configuration = {
+      auth_enabled = false; # single-tenant mode
+
       server = {
         http_listen_address = universe.hosts."${config.networking.hostName}".nets.tailscale.ip4.addr;
         http_listen_port = config.ptsd.ports.loki;
+        log_level = "info";
       };
-      auth_enabled = false; # single-tenant mode
-      schema_config = {
-        configs = [
-          {
-            from = "2021-01-01";
-            store = "boltdb-shipper";
-            object_store = "filesystem";
-            schema = "v11";
-            index.prefix = "index_";
-            index.period = "24h";
-          }
-        ];
-      };
-      storage_config = {
-        boltdb_shipper = {
-          active_index_directory = "/var/lib/loki/boltdb-shipper/active";
-          cache_location = "/var/lib/loki/boltdb-shipper/cache";
-          cache_ttl = "24h";
-          shared_store = "filesystem";
 
-        };
-        filesystem = {
-          directory = "/var/lib/loki/chunks";
+      common = {
+        path_prefix = config.services.loki.dataDir;
+        replication_factor = 1;
+        ring = {
+          instance_addr = "127.0.0.1";
+          kvstore.store = "inmemory";
         };
       };
 
-      ingester = {
-        lifecycler = {
-          interface_names = [ "lo" ];
-          address = "127.0.0.1";
-
-          ring = {
-            kvstore = {
-              store = "inmemory";
-            };
-            replication_factor = 1;
+      schema_config.configs = [
+        {
+          from = "2020-05-15";
+          store = "tsdb";
+          object_store = "filesystem";
+          schema = "v13";
+          index = {
+            prefix = "index_";
+            period = "24h";
           };
-          final_sleep = "0s";
+        }
+      ];
+
+      storage_config = {
+        filesystem = {
+          directory = "${config.services.loki.dataDir}/chunks";
         };
-        chunk_idle_period = "5m";
-        chunk_retain_period = "30s";
       };
-      compactor = {
-        shared_store = "filesystem";
-        compaction_interval = "10m";
-        working_directory = "/var/lib/loki/compactor";
-        retention_enabled = true;
-        retention_delete_delay = "168h"; # 7d
-        retention_delete_worker_count = 150;
-      };
+
+      analytics.reporting_enabled = false;
     };
   };
 }
