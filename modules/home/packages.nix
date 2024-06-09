@@ -43,8 +43,10 @@ in
     ripgrep
     zig
     age
+    nix-melt
     age-plugin-yubikey
     azure-cli
+    aerc
     bat
     btop
     bun
