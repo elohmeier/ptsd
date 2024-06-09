@@ -4,3 +4,4 @@ result-*
 */.vscode/settings.json
 *.pyc
 *.qcow2
+.aider*

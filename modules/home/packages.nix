@@ -35,6 +35,7 @@ in
     # rustc
     # zathura
     (pdftk.override { jre = openjdk17; })
+    aider
     age
     age-plugin-yubikey
     azure-cli
