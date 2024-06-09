@@ -23,14 +23,20 @@
     macos-enno = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "aarch64-darwin";
-        overlays = [ self.overlays.default ];
+        overlays = [
+          self.overlays.default
+          inputs.nvim-config.overlays.default
+        ];
         config.allowUnfree = true;
       };
 
       extraSpecialArgs = {
         pkgsUnstable = import inputs.nixpkgs-unstable {
           system = "aarch64-darwin";
-          overlays = [ self.overlays.default ];
+          overlays = [
+            self.overlays.default
+            inputs.nvim-config.overlays.default
+          ];
           config.allowUnfree = true;
         };
       };

@@ -1,19 +1,9 @@
-p@{ config, lib, pkgs, pkgsUnstable, ... }:
+{ pkgsUnstable, ... }:
 
 {
   home.packages = [
-    pkgs.gnumake
-    pkgs.go
-    pkgsUnstable.neovim
-    pkgs.nixd
-    pkgs.nodejs_latest
-    pkgs.ripgrep
-    pkgs.zig
-  ]
-  ++ lib.optionals pkgs.stdenv.isDarwin [
-    # pkgs.clang
-  ]
-  ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.gcc ];
+    pkgsUnstable.nixvim-full
+  ];
 
   home.sessionVariables.EDITOR = "nvim";
 }

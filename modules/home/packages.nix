@@ -35,7 +35,13 @@ in
     # rustc
     # zathura
     (pdftk.override { jre = openjdk17; })
+    gnumake
+    go
+    # nixd
+    nodejs_latest
     aider
+    ripgrep
+    zig
     age
     age-plugin-yubikey
     azure-cli
