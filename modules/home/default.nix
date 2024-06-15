@@ -63,6 +63,7 @@
         system = "aarch64-linux";
         overlays = [
           inputs.nixcfg.overlays.default
+          inputs.nvim-config.overlays.default
           self.overlays.default
         ];
         config.allowUnfree = true;
@@ -73,6 +74,7 @@
           system = "aarch64-linux";
           overlays = [
             inputs.nixcfg.overlays.default
+            inputs.nvim-config.overlays.default
             self.overlays.default
           ];
           config.allowUnfree = true;

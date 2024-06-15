@@ -43,6 +43,7 @@ in
     ripgrep
     zig
     age
+    nix-init
     nix-melt
     age-plugin-yubikey
     azure-cli
@@ -242,16 +243,17 @@ in
         # uvicorn
         # weasyprint
         ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: { doCheck = false; }))
-        huggingface-hub
         XlsxWriter
         authlib
         beautifulsoup4
         black
-        llm
         datasette
+        httpx
+        huggingface-hub
         ipywidgets
         isort
         jupyterlab
+        llm
         pandas
         pillow
         psycopg2
@@ -260,6 +262,7 @@ in
         pyxlsb
         requests
         sqlite-utils
+        structlog
       ] ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
         #     accelerate
         #     # bertopic
