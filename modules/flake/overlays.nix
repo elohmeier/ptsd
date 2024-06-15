@@ -24,7 +24,6 @@
         #   pdfconcat = final.writers.writePython3Bin "pdfconcat" { flakeIgnore = [ "E203" "E501" "W503" ]; } (final.substituteAll { src = ../4scripts/pdfconcat.py; inherit (final) pdftk; });
         #   pdfduplex = final.callPackage ./pdfduplex { };
         #   pinephone-keyboard = final.callPackage ./pinephone-keyboard { };
-        prettier-with-plugins = final.callPackage ../../packages/prettier-with-plugins { };
         #   ptsd-octoprintPlugins = import ./octoprint-plugins;
         #   quotes-exporter = final.callPackage ./quotes-exporter { };
         shrinkpdf = final.callPackage ../../packages/shrinkpdf { };
@@ -58,6 +57,8 @@
         llama-cpp_unstable = pkgsUnstable.llama-cpp;
 
         paperless-ngx_unstable = pkgsUnstable.paperless-ngx;
+
+        ptsd-node-packages = final.callPackage ../../packages/node-packages/node-composition.nix { };
       };
   };
 

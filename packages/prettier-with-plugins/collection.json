@@ -1,6 +1,0 @@
-[
-  "prettier",
-  "prettier-plugin-svelte",
-  "prettier-plugin-toml",
-  "@prettier/plugin-xml"
-]

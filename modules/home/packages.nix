@@ -30,10 +30,10 @@ in
     # mpv
     # nodePackages.svelte-language-server
     # nodePackages.typescript-language-server
-    # prettier-with-plugins
     # rmlint
     # rustc
     # zathura
+    ptsd-node-packages.prettier
     (pdftk.override { jre = openjdk17; })
     gnumake
     go
