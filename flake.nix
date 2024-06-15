@@ -83,7 +83,10 @@
       inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
       inputs.git-hooks.follows = "git-hooks";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+      # intentionally use the tested nixpkgs version from nixvim
+      # inputs.nixpkgs.follows = "nixpkgs-unstable";
+
       inputs.treefmt-nix.follows = "treefmt-nix";
       inputs.home-manager.follows = "home-manager";
     };
