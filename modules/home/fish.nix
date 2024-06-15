@@ -23,6 +23,7 @@ p@{ config, lib, pkgs, ... }:
       l = "eza -al";
       la = "eza -al";
       lg = "eza -al --git";
+      lgg = "lazygit";
       ll = "eza -l";
       ls = "eza";
       nbconvert = "jupyter nbconvert --to script --stdout";
@@ -53,9 +54,10 @@ p@{ config, lib, pkgs, ... }:
       gst = "git status";
       kc = "kubectl";
       nb = "nix build";
-      nr = "nix run";
       nf = "nix flake";
+      nfl = "nix flake lock";
       nfu = "nix flake update";
+      nr = "nix run";
     };
 
     interactiveShellInit = ''
