@@ -77,9 +77,28 @@ in
         ls_colors_light = pkgs.runCommandNoCC "ls_colors_light" { } ''
           ${pkgs.vivid}/bin/vivid generate rose-pine-dawn > $out
         '';
+
+        # generate tide config into a file containing key-value pairs
+        # example output:
+        # tide_aws_bg_color normal
+        # tide_aws_color yellow
+        # ...
+        tidecfg =
+          let
+            script = pkgs.writeText "tide-configure-fish.fish" ''
+              set fish_function_path ${pkgs.fishPlugins.tide}/share/fish/vendor_functions.d $fish_function_path
+
+              tide configure --auto --style=Lean --prompt_colors='16 colors' --show_time='24-hour format' --lean_prompt_height='One line' --prompt_spacing=Compact --icons='Few icons' --transient=No
+            '';
+          in
+          pkgs.runCommandNoCC "tidecfg" { } ''
+            HOME=$(mktemp -d)
+            ${pkgs.fish}/bin/fish ${script}
+            ${pkgs.fish}/bin/fish -c "set -U --long" > $out
+          '';
       in
       ''
-        set -U fish_greeting
+        set -g fish_greeting
         source ${../../scripts/iterm2-integration.fish}
         fzf_configure_bindings --directory=\ct
 
@@ -90,6 +109,16 @@ in
             cd "$_h_dir"
           end
           return $_h_ret
+        end
+
+        # Check if tide is configured by checking one of the variables
+        if not set -q tide_aws_bg_color
+          # Load the tide configuration from the generated file
+          echo "Loading tide configuration (only once)" >&2
+          for line in (cat ${tidecfg})
+            # tide only works with universal variables
+            eval "set -U $line"
+          end
         end
 
         set -l DARK_MODE 1
