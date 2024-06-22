@@ -10,7 +10,14 @@
       key = "0x807BC3355DA0F069";
       signByDefault = false;
     };
-    ignores = [ "*~" "*.swp" ".ipynb_checkpoints/" ".DS_Store" ".direnv/" ];
+    ignores = [
+      "*.swp"
+      "*~"
+      ".DS_Store"
+      ".aider*"
+      ".direnv/"
+      ".ipynb_checkpoints/"
+    ];
     extraConfig = {
       init.defaultBranch = "master";
       pull = {
