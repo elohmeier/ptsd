@@ -1,5 +1,13 @@
 p@{ config, lib, pkgs, ... }:
 
+let
+  rose-pine-fish = pkgs.fetchFromGitHub {
+    owner = "rose-pine";
+    repo = "fish";
+    rev = "38aab5baabefea1bc7e560ba3fbdb53cb91a6186";
+    hash = "sha256-bSGGksL/jBNqVV0cHZ8eJ03/8j3HfD9HXpDa8G/Cmi8=";
+  };
+in
 {
   programs.atuin = {
     enable = true;
@@ -62,11 +70,12 @@ p@{ config, lib, pkgs, ... }:
 
     interactiveShellInit =
       let
+        # cache vivid output in the store
         ls_colors_dark = pkgs.runCommandNoCC "ls_colors_dark" { } ''
-          ${pkgs.vivid}/bin/vivid generate molokai > $out
+          ${pkgs.vivid}/bin/vivid generate rose-pine > $out
         '';
         ls_colors_light = pkgs.runCommandNoCC "ls_colors_light" { } ''
-          ${pkgs.vivid}/bin/vivid generate ayu > $out
+          ${pkgs.vivid}/bin/vivid generate rose-pine-dawn > $out
         '';
       in
       ''
@@ -100,10 +109,10 @@ p@{ config, lib, pkgs, ... }:
       +
       ''
         if [ $DARK_MODE -eq 1 ]
-          source ${pkgs.vimPlugins.tokyonight-nvim}/extras/fish/tokyonight_night.fish
+          fish_config theme choose "Rosé Pine"
           set -gx LS_COLORS (cat ${ls_colors_dark})
         else
-          source ${pkgs.vimPlugins.tokyonight-nvim}/extras/fish/tokyonight_day.fish
+          fish_config theme choose "Rosé Pine Dawn"
           set -gx LS_COLORS (cat ${ls_colors_light})
         end
       '';
@@ -150,4 +159,6 @@ p@{ config, lib, pkgs, ... }:
 
   home.file.".config/fish/functions".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/fish else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/fish";
 
+  home.file.".config/fish/themes/Rosé Pine.theme".source = "${rose-pine-fish}/themes/Rosé Pine.theme";
+  home.file.".config/fish/themes/Rosé Pine Dawn.theme".source = "${rose-pine-fish}/themes/Rosé Pine Dawn.theme";
 }

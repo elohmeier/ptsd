@@ -19,6 +19,7 @@
         httpserve = final.writers.writePython3Bin "httpserve" { flakeIgnore = [ "E265" "E501" ]; } ../../scripts/httpserve.py;
         #   linux-megi = final.callPackage ./linux-megi { };
         logseq-query = final.callPackage ../../packages/logseq-query { };
+        vivid = final.callPackage ../../packages/vivid { };
         macos-fix-filefoldernames = final.writers.writePython3Bin "macos-fix-filefoldernames" { flakeIgnore = [ "E265" ]; } ../../scripts/macos-fix-filefoldernames.py;
         #   nwfonts = final.callPackage ./nwfonts { };
         #   pdfconcat = final.writers.writePython3Bin "pdfconcat" { flakeIgnore = [ "E203" "E501" "W503" ]; } (final.substituteAll { src = ../4scripts/pdfconcat.py; inherit (final) pdftk; });
