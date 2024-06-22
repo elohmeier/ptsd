@@ -35,10 +35,12 @@ in
     # zathura
     ptsd-node-packages.prettier
     (pdftk.override { jre = openjdk17; })
+    nurl
     gnumake
     go
     # nixd
     nodejs_latest
+    djlint
     aider
     ripgrep
     zig
