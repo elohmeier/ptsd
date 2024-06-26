@@ -13,10 +13,7 @@
     stateVersion = "21.11";
   };
 
-  # TODO: needed?
-  # nixpkgs.config = {
-  #   allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
-  # };
+  programs.nix-index-database.comma.enable = true;
 
   services.syncthing.enable = true;
 

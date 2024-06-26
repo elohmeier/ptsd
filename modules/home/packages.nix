@@ -106,7 +106,6 @@ in
     mupdf
     ncdu_1
     nil
-    nix-index
     nix-prefetch-git
     nix-prefetch-github
     nix-top

@@ -42,6 +42,8 @@
       };
 
       modules = [
+        # self.homeModules.paperless
+        inputs.nix-index-database.hmModules.nix-index
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults
         self.homeModules.fish
@@ -51,7 +53,6 @@
         self.homeModules.macos-enno
         self.homeModules.neovim
         self.homeModules.packages
-        # self.homeModules.paperless
         self.homeModules.ssh
         self.homeModules.tmux
         self.homeModules.xdg-fixes
