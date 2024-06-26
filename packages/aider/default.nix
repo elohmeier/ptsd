@@ -122,7 +122,7 @@ let
     };
   };
 
-  version = "0.37.0";
+  version = "0.40.5";
 in
 py3.pkgs.buildPythonApplication rec {
   pname = "aider";
@@ -133,7 +133,7 @@ py3.pkgs.buildPythonApplication rec {
     owner = "paul-gauthier";
     repo = "aider";
     rev = "v${version}";
-    hash = "sha256-6kJTagYcHvUXu3YrbMLqCYwDkGgfLVTtbjoTIIuA6SM=";
+    hash = "sha256-T4fR0Id6p1t2p8sBfrb/RH98WovrYuZCNOiIJUloxGQ=";
   };
 
   postPatch = ''
@@ -144,7 +144,6 @@ py3.pkgs.buildPythonApplication rec {
   '';
 
   propagatedBuildInputs = with py3.pkgs; [
-    universal-ctags
     aiohttp
     aiosignal
     async-timeout
