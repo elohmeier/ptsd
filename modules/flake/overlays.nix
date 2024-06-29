@@ -16,6 +16,7 @@
         #   go-sqlcmd = final.callPackage ./go-sqlcmd { };
         #   gomumblesoundboard = final.callPackage ./gomumblesoundboard { };
         hashPassword = final.callPackage ../../packages/hashPassword { };
+        hl = final.callPackage ../../packages/hl { };
         httpserve = final.writers.writePython3Bin "httpserve" { flakeIgnore = [ "E265" "E501" ]; } ../../scripts/httpserve.py;
         #   linux-megi = final.callPackage ./linux-megi { };
         logseq-query = final.callPackage ../../packages/logseq-query { };

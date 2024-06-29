@@ -10,6 +10,7 @@
     gcc
     gotenberg
     hcloud
+    hl
     jless
     jq
     kubectl

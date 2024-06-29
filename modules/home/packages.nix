@@ -30,6 +30,7 @@ in
     # mpv
     # nodePackages.svelte-language-server
     # nodePackages.typescript-language-server
+    zstd.bin
     # rmlint
     # rustc
     # zathura
@@ -37,6 +38,7 @@ in
     (pdftk.override { jre = openjdk17; })
     nurl
     gnumake
+    hl
     go
     # nixd
     nodejs_latest
