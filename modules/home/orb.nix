@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -7,6 +7,7 @@
     btop
     cfssl
     colmena
+    dive
     gcc
     gotenberg
     hcloud
