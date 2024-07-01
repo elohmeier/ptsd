@@ -30,6 +30,7 @@
         #   quotes-exporter = final.callPackage ./quotes-exporter { };
         shrinkpdf = final.callPackage ../../packages/shrinkpdf { };
         syncthing-device-id = final.writers.writePython3Bin "syncthing-device-id" { flakeIgnore = [ "E203" "E265" "E501" ]; } ../../scripts/syncthing-device-id.py;
+        h-move-repo = final.writers.writeBashBin "h-move-repo" { } ../../scripts/h-move-repo.sh;
         win10fonts = final.callPackage ../../packages/win10fonts { };
         attic-client = final.callPackage ../../packages/attic { clientOnly = true; };
         #   wkhtmltopdf-qt4 = final.callPackage ./wkhtmltopdf-qt4 { };

@@ -50,6 +50,7 @@ in
     nix-init
     nix-melt
     age-plugin-yubikey
+    h-move-repo
     azure-cli
     aerc
     bat
