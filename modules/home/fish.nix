@@ -66,6 +66,9 @@ in
       nfl = "nix flake lock";
       nfu = "nix flake update";
       nr = "nix run";
+      rga = "rg -a.";
+      rgi = "rg -i";
+      rgia = "rg -ia.";
     };
 
     interactiveShellInit =
