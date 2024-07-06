@@ -46,6 +46,7 @@ in
     aider
     ripgrep
     zig
+    taplo
     age
     nix-init
     nix-melt
