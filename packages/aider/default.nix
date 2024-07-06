@@ -122,7 +122,7 @@ let
     };
   };
 
-  version = "0.40.5";
+  version = "0.42.0";
 in
 py3.pkgs.buildPythonApplication rec {
   pname = "aider";
@@ -133,7 +133,7 @@ py3.pkgs.buildPythonApplication rec {
     owner = "paul-gauthier";
     repo = "aider";
     rev = "v${version}";
-    hash = "sha256-T4fR0Id6p1t2p8sBfrb/RH98WovrYuZCNOiIJUloxGQ=";
+    hash = "sha256-VDz5o8KqiDQ5QBvYA4IKG4DYhKqapzjgq6VsMs+GV+s=";
   };
 
   postPatch = ''
@@ -190,6 +190,10 @@ py3.pkgs.buildPythonApplication rec {
   ] ++ [
     portaudio
     universal-ctags
+  ];
+
+  checkInputs = with py3.pkgs; [
+    zipp
   ];
 
   # Tests require a Git repository
