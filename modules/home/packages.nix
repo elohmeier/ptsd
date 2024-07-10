@@ -39,6 +39,8 @@ in
     nurl
     gnumake
     hl
+    edge-tts
+    nix-update
     go
     # nixd
     nodejs_latest

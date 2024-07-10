@@ -33,6 +33,7 @@
         h-move-repo = final.writers.writeBashBin "h-move-repo" { } ../../scripts/h-move-repo.sh;
         win10fonts = final.callPackage ../../packages/win10fonts { };
         attic-client = final.callPackage ../../packages/attic { clientOnly = true; };
+        edge-tts = final.callPackage ../../packages/edge-tts { };
         #   wkhtmltopdf-qt4 = final.callPackage ./wkhtmltopdf-qt4 { };
         #   xorgxrdp = final.callPackage ./xrdp/xorgxrdp.nix { };
         #   xrdp = final.callPackage ./xrdp { };

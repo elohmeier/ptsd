@@ -3,6 +3,7 @@ _: {
     packages = {
       inherit (pkgs)
         aider
+        edge-tts
         prom-checktlsa;
     };
   };
