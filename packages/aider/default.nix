@@ -122,7 +122,7 @@ let
     };
   };
 
-  version = "0.42.0";
+  version = "0.46.1";
 in
 py3.pkgs.buildPythonApplication rec {
   pname = "aider";
@@ -133,7 +133,7 @@ py3.pkgs.buildPythonApplication rec {
     owner = "paul-gauthier";
     repo = "aider";
     rev = "v${version}";
-    hash = "sha256-VDz5o8KqiDQ5QBvYA4IKG4DYhKqapzjgq6VsMs+GV+s=";
+    hash = "sha256-GPcCsQucXX0K1P2o2DR7LgB/QF49IGGl+hIdWHuFJww=";
   };
 
   postPatch = ''
@@ -160,6 +160,7 @@ py3.pkgs.buildPythonApplication rec {
     gitpython
     grep-ast
     idna
+    importlib-resources
     jsonschema
     litellm
     markdown-it-py
