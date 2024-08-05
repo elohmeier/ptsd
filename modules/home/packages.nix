@@ -34,6 +34,7 @@ in
     # rmlint
     # rustc
     # zathura
+    realise-symlink
     (pdftk.override { jre = openjdk17; })
     aerc
     age
