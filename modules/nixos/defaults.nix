@@ -28,7 +28,7 @@ in
   programs.command-not-found.enable = false;
 
   services.openssh = {
-    enable = true;
+    enable = lib.mkDefault true;
 
     settings = {
       PermitRootLogin = mkDefault "prohibit-password";

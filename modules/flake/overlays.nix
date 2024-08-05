@@ -73,8 +73,9 @@
       };
       overlays = [
         inputs.colmena.overlays.default
-        inputs.nixcfg.overlays.default
         inputs.nix95.overlays.default
+        inputs.nixcfg.overlays.default
+        inputs.nvim-config.overlays.default
         self.overlays.default
       ];
     };
@@ -86,8 +87,9 @@
       };
       overlays = [
         inputs.colmena.overlays.default
-        inputs.nixcfg.overlays.default
         inputs.nix95.overlays.default
+        inputs.nixcfg.overlays.default
+        inputs.nvim-config.overlays.default
         self.overlays.default
       ];
     };
