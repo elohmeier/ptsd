@@ -28,34 +28,19 @@ in
     # hatch
     # moreutils
     # mpv
+    # nixd
     # nodePackages.svelte-language-server
     # nodePackages.typescript-language-server
-    zstd.bin
     # rmlint
     # rustc
     # zathura
-    ptsd-node-packages.prettier
     (pdftk.override { jre = openjdk17; })
-    nurl
-    gnumake
-    hl
-    edge-tts
-    nix-update
-    go
-    # nixd
-    nodejs_latest
-    djlint
-    aider
-    ripgrep
-    zig
-    taplo
-    age
-    nix-init
-    nix-melt
-    age-plugin-yubikey
-    h-move-repo
-    azure-cli
     aerc
+    age
+    age-plugin-yubikey
+    awscli2
+    aider
+    azure-cli
     bat
     btop
     bun
@@ -65,6 +50,9 @@ in
     diceware
     difftastic
     dive
+    djlint
+    dust
+    edge-tts
     entr
     eternal-terminal
     exiftool
@@ -78,14 +66,18 @@ in
     gh
     ghostscript
     gitu
+    gnumake
     gnused
+    go
     go-jsonnet
     gojsontoyaml
     gomuks
     google-cloud-sdk
     graphviz
+    h-move-repo
     hcloud
     helix
+    hl
     home-manager
     httpserve
     hydra-check
@@ -112,16 +104,21 @@ in
     mupdf
     ncdu_1
     nil
+    nix-init
+    nix-melt
     nix-prefetch-git
     nix-prefetch-github
     nix-top
     nix-tree
+    nix-update
     nixos-generators
     nixpkgs-fmt
     nmap
     node2nix
     nodePackages.pnpm
     nodePackages.yarn
+    nodejs_latest
+    nurl
     nushell
     p7zip
     pass
@@ -132,6 +129,7 @@ in
     pre-commit
     process-compose
     ptsd-nnn
+    ptsd-node-packages.prettier
     pwgen
     qpdf
     qrencode
@@ -139,6 +137,7 @@ in
     rclone
     remarshal
     reveal-md
+    ripgrep
     ripgrep
     ruff
     rustup
@@ -151,6 +150,7 @@ in
     statix
     tabula-java
     tanka
+    taplo
     taskjuggler
     tesseract
     texlive.combined.scheme-context
@@ -176,6 +176,8 @@ in
     yubikey-manager
     zellij
     zig
+    zig
+    zstd.bin
 
     # (ptsd-python3.withPackages (
     ((python3.override {
