@@ -80,38 +80,6 @@ in
       };
   };
 
-  ptsd.wireguard.networks = {
-    dlrgvpn = {
-      publicKey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
-      # publicKey = "DXmzQWZjP7EeW9P6lysxpEVi3Cq6zfqAHg2od3bCZ20="; # avm labor vpn
-      client = {
-        #endpoint = "hvrhukr39ruezms4.myfritz.net:55557"; # old 7490
-        endpoint = "letvjkxepuccuto1.myfritz.net:55557"; # new 7590
-        # endpoint = "letvjkxepuccuto1.myfritz.net:51551"; # avm labor vpn
-        allowedIPs = [ "191.18.21.0/24" ];
-      };
-      reresolveDns = true;
-      server.listenPort = 55557; # on rpi2
-    };
-
-    fraam_buero_vpn = {
-      publicKey = "edW3MrRctb1Yed5fHRiSPcDMdvCU/zZpLG1CBqiFY0k=";
-      client = {
-        endpoint = "94.134.201.30:55555";
-        allowedIPs = [ "191.18.23.0/24" ];
-      };
-    };
-
-    nwvpn = {
-      publicKey = "UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=";
-      client = {
-        endpoint = "159.69.186.234:55555";
-        allowedIPs = [ "191.18.19.0/24" ];
-      };
-      server.listenPort = 55555;
-    };
-  };
-
   security.polkit.extraConfig = ''
     /* Allow admins to login into machines or manage systemd units without password */
     polkit.addRule(function(action, subject) {

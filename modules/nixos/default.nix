@@ -14,9 +14,7 @@ let
           };
         }
         self.nixosModules.ports
-        self.nixosModules.secrets
         self.nixosModules.tailscale
-        self.nixosModules.wireguard
       ] ++ modules;
     };
 in
@@ -40,13 +38,11 @@ in
     nwhost = ./nwhost.nix;
     ports = ./ports.nix;
     prometheus-node = ./prometheus-node.nix;
-    secrets = ./secrets.nix;
     tailscale = ./tailscale.nix;
     tp3 = ./tp3.nix;
     tp4 = ./tp4.nix;
     users = ./users;
     utmvm-nixos-3 = ./utmvm-nixos-3.nix;
-    wireguard = ./wireguard.nix;
   };
 
   flake.nixosConfigurations = {
@@ -80,7 +76,6 @@ in
       self.nixosModules.generic-disk
       self.nixosModules.mainuser
       self.nixosModules.nix-persistent
-      self.nixosModules.secrets
       self.nixosModules.utmvm-nixos-3
     ];
 
@@ -93,11 +88,9 @@ in
       self.nixosModules.hl5380dn
       self.nixosModules.networkmanager
       self.nixosModules.nix-persistent
-      self.nixosModules.secrets
       self.nixosModules.tailscale
       self.nixosModules.tp3
       self.nixosModules.users
-      self.nixosModules.wireguard
     ];
   };
 }
