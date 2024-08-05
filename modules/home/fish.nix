@@ -1,4 +1,4 @@
-p@{ config, lib, pkgs, ... }:
+p@{ config, lib, pkgs, pkgsUnstable, ... }:
 
 let
   rose-pine-fish = pkgs.fetchFromGitHub {
@@ -75,10 +75,10 @@ in
       let
         # cache vivid output in the store
         ls_colors_dark = pkgs.runCommandNoCC "ls_colors_dark" { } ''
-          ${pkgs.vivid}/bin/vivid generate rose-pine > $out
+          ${pkgsUnstable.vivid}/bin/vivid generate tokyonight-night > $out
         '';
         ls_colors_light = pkgs.runCommandNoCC "ls_colors_light" { } ''
-          ${pkgs.vivid}/bin/vivid generate rose-pine-dawn > $out
+          ${pkgsUnstable.vivid}/bin/vivid generate ayu > $out
         '';
 
         # generate tide config into a file containing key-value pairs
@@ -141,10 +141,12 @@ in
       +
       ''
         if [ $DARK_MODE -eq 1 ]
-          fish_config theme choose "Rosé Pine"
+          # fish_config theme choose "Rosé Pine"
+          fish_config theme choose "TokyoNight Night"
           set -gx LS_COLORS (cat ${ls_colors_dark})
         else
-          fish_config theme choose "Rosé Pine Dawn"
+          # fish_config theme choose "Rosé Pine Dawn"
+          fish_config theme choose "TokyoNight Day"
           set -gx LS_COLORS (cat ${ls_colors_light})
         end
       '';
@@ -193,4 +195,56 @@ in
 
   home.file.".config/fish/themes/Rosé Pine.theme".source = "${rose-pine-fish}/themes/Rosé Pine.theme";
   home.file.".config/fish/themes/Rosé Pine Dawn.theme".source = "${rose-pine-fish}/themes/Rosé Pine Dawn.theme";
+
+  home.file.".config/fish/themes/TokyoNight Night.theme".text = ''
+    # Upstream: https://github.com/folke/tokyonight.nvim/blob/main/extras/fish/tokyonight_night.fish
+    # Syntax Highlighting Colors
+    fish_color_normal c0caf5
+    fish_color_command 7dcfff
+    fish_color_keyword bb9af7
+    fish_color_quote e0af68
+    fish_color_redirection c0caf5
+    fish_color_end ff9e64
+    fish_color_error f7768e
+    fish_color_param 9d7cd8
+    fish_color_comment 565f89
+    fish_color_selection --background=283457
+    fish_color_search_match --background=283457
+    fish_color_operator 9ece6a
+    fish_color_escape bb9af7
+    fish_color_autosuggestion 565f89
+
+    # Completion Pager Colors
+    fish_pager_color_progress 565f89
+    fish_pager_color_prefix 7dcfff
+    fish_pager_color_completion c0caf5
+    fish_pager_color_description 565f89
+    fish_pager_color_selected_background --background=283457
+  '';
+
+  home.file.".config/fish/themes/TokyoNight Day.theme".text = ''
+    # Upstream: https://github.com/folke/tokyonight.nvim/blob/main/extras/fish/tokyonight_day.fish
+    # Syntax Highlighting Colors
+    fish_color_normal 3760bf
+    fish_color_command 007197
+    fish_color_keyword 9854f1
+    fish_color_quote 8c6c3e
+    fish_color_redirection 3760bf
+    fish_color_end f52a65
+    fish_color_error f52a65
+    fish_color_param 7847bd
+    fish_color_comment 848cb5
+    fish_color_selection --background=b7c1e3
+    fish_color_search_match --background=b7c1e3
+    fish_color_operator 587539
+    fish_color_escape 9854f1
+    fish_color_autosuggestion 848cb5
+
+    # Completion Pager Colors
+    fish_pager_color_progress 848cb5
+    fish_pager_color_prefix 007197
+    fish_pager_color_completion 3760bf
+    fish_pager_color_description 848cb5
+    fish_pager_color_selected_background --background=b7c1e3
+  '';
 }
