@@ -1,10 +1,11 @@
-{ lib
-, python3
-, fetchFromGitHub
-, universal-ctags
-, portaudio
-, tree-sitter-grammars
-, writeText
+{
+  lib,
+  python3,
+  fetchFromGitHub,
+  universal-ctags,
+  portaudio,
+  tree-sitter-grammars,
+  writeText,
 }:
 let
   py3 = python3.override {
@@ -39,13 +40,9 @@ let
           setuptools
         ];
 
-        propagatedBuildInputs = with self; [
-          tree-sitter
-        ];
+        propagatedBuildInputs = with self; [ tree-sitter ];
 
-        pythonImportsCheck = [
-          "tree_sitter_languages"
-        ];
+        pythonImportsCheck = [ "tree_sitter_languages" ];
 
         # see upstream https://github.com/grantjenks/py-tree-sitter-languages/blob/main/build.py
         preBuild =
@@ -122,7 +119,7 @@ let
     };
   };
 
-  version = "0.46.1";
+  version = "0.48.1";
 in
 py3.pkgs.buildPythonApplication rec {
   pname = "aider";
@@ -133,7 +130,7 @@ py3.pkgs.buildPythonApplication rec {
     owner = "paul-gauthier";
     repo = "aider";
     rev = "v${version}";
-    hash = "sha256-GPcCsQucXX0K1P2o2DR7LgB/QF49IGGl+hIdWHuFJww=";
+    hash = "sha256-o/AW1Gisq6azZmpL6B1taAFVZZRkWZywSNXc1p4abZs=";
   };
 
   postPatch = ''
@@ -143,66 +140,65 @@ py3.pkgs.buildPythonApplication rec {
       --replace '"ctags"' '"${universal-ctags}/bin/ctags"'
   '';
 
-  propagatedBuildInputs = with py3.pkgs; [
-    aiohttp
-    aiosignal
-    async-timeout
-    attrs
-    backoff
-    beautifulsoup4
-    certifi
-    charset-normalizer
-    configargparse
-    diff-match-patch
-    diskcache
-    frozenlist
-    gitdb
-    gitpython
-    grep-ast
-    idna
-    importlib-resources
-    jsonschema
-    litellm
-    markdown-it-py
-    mdurl
-    multidict
-    networkx
-    numpy
-    openai
-    packaging
-    playwright
-    prompt-toolkit
-    pygments
-    pypandoc
-    python-dotenv
-    pyyaml
-    requests
-    rich
-    scipy
-    smmap
-    sounddevice
-    soundfile
-    streamlit
-    tiktoken
-    tqdm
-    urllib3
-    wcwidth
-    yarl
-  ] ++ [
-    portaudio
-    universal-ctags
-  ];
+  propagatedBuildInputs =
+    with py3.pkgs;
+    [
+      aiohttp
+      aiosignal
+      async-timeout
+      attrs
+      backoff
+      beautifulsoup4
+      certifi
+      charset-normalizer
+      configargparse
+      diff-match-patch
+      diskcache
+      frozenlist
+      gitdb
+      gitpython
+      grep-ast
+      idna
+      importlib-resources
+      jsonschema
+      litellm
+      markdown-it-py
+      mdurl
+      multidict
+      networkx
+      numpy
+      openai
+      packaging
+      playwright
+      prompt-toolkit
+      pygments
+      pypandoc
+      python-dotenv
+      pyyaml
+      requests
+      rich
+      scipy
+      smmap
+      sounddevice
+      soundfile
+      streamlit
+      tiktoken
+      tqdm
+      urllib3
+      wcwidth
+      yarl
+    ]
+    ++ [
+      portaudio
+      universal-ctags
+    ];
 
-  checkInputs = with py3.pkgs; [
-    zipp
-  ];
+  checkInputs = with py3.pkgs; [ zipp ];
 
   # Tests require a Git repository
   doCheck = false;
 
-  pythonImportsCheck = [
-    "aider.main"
-  ];
+  pythonImportsCheck = [ "aider.main" ];
 
   meta = with lib; {
     changelog = "https://github.com/paul-gauthier/aider/raw/v${version}/HISTORY.md";
