@@ -1,20 +1,16 @@
 (
-  {
-    config,
-    lib,
-    pkgs,
-    ...
-  }:
+  { config, pkgs, ... }:
   {
     home = {
       username = "enno";
       homeDirectory = "/Users/enno";
       sessionPath = [
         "${config.home.homeDirectory}/.docker/bin"
-        "${config.home.homeDirectory}/.local/share/npm/bin"
         "${config.home.homeDirectory}/.local/share/cargo/bin"
-        "${config.home.homeDirectory}/repos/flutter/bin"
+        "${config.home.homeDirectory}/.local/share/npm/bin"
         "${config.home.homeDirectory}/.pub-cache/bin"
+        "${config.home.homeDirectory}/repos/flutter/bin"
+        "${config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/bin"}"
         "/opt/homebrew/bin"
       ];
       stateVersion = "21.11";
