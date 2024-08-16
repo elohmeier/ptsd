@@ -119,6 +119,10 @@ in
           programs.fish.enable = true;
           home-manager.useGlobalPkgs = true;
           home-manager.extraSpecialArgs.pkgsUnstable = pkgsUnstable;
+          nix.settings.trusted-users = [
+            "root"
+            "enno"
+          ];
 
           # username must match the one specified in ./orbstack-defaults/orbstack.nix
           home-manager.users.enno =
