@@ -3,7 +3,12 @@ _: {
     { pkgs, ... }:
     {
       packages = {
-        inherit (pkgs) aider edge-tts prom-checktlsa;
+        inherit (pkgs)
+          aider
+          edge-tts
+          prom-checktlsa
+          zathura-darwin
+          ;
       };
     };
 }

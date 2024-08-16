@@ -114,6 +114,31 @@
             done
           '';
         };
+
+        zathura-darwin =
+          let
+            bundler = final.makeDarwinBundle {
+              name = "zathura";
+              exec = "zathura";
+            };
+            # see https://github.com/NixOS/nixpkgs/pull/334542
+            zathura-mupdf = final.zathura.override {
+              plugins = with final.zathuraPkgs; [
+                zathura_djvu
+                zathura_ps
+                zathura_cb
+                zathura_pdf_mupdf
+              ];
+            };
+          in
+          final.symlinkJoin {
+            name = "zathura-darwin";
+            paths = [ zathura-mupdf ];
+            postBuild = ''
+              source ${bundler}
+              makeDarwinBundlePhase
+            '';
+          };
       };
   };
 

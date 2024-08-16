@@ -51,7 +51,6 @@ in
       # nodePackages.typescript-language-server
       # rmlint
       # rustc
-      # zathura
       realise-symlink
       (pdftk.override { jre = openjdk17; })
       aerc
@@ -348,6 +347,7 @@ in
       # qemu
       rar
       # subler-bin
+      zathura-darwin
     ]
     ++
       lib.optionals
