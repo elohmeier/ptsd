@@ -100,6 +100,7 @@ in
               "transmission"
               "utm"
               "visual-studio-code"
+              "wezterm"
               "vnc-viewer"
               # "amethyst"
               # "losslesscut"
