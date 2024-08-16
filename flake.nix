@@ -81,6 +81,7 @@
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs-rpi4.url = "github:elohmeier/nixpkgs/2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixvim = {
       url = "github:nix-community/nixvim";

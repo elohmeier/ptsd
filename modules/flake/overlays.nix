@@ -72,7 +72,6 @@
           })).override
             { withNerdIcons = true; };
         prom-checktlsa = final.callPackage ../../packages/prom-checktlsa { };
-        aider = pkgsUnstable.callPackage ../../packages/aider { };
 
         fzf-no-fish = final.fzf.overrideAttrs (old: {
           postInstall =

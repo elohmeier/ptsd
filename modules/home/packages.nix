@@ -2,6 +2,7 @@ p@{
   config,
   lib,
   pkgs,
+  pkgsMaster,
   ...
 }:
 
@@ -57,7 +58,7 @@ in
       age
       age-plugin-yubikey
       awscli2
-      aider
+      pkgsMaster.aider-chat
       azure-cli
       bat
       btop

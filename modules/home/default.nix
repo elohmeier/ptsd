@@ -1,10 +1,4 @@
-{
-  self,
-  lib,
-  withSystem,
-  inputs,
-  ...
-}:
+{ self, inputs, ... }:
 
 {
   flake.homeModules = {
@@ -37,6 +31,14 @@
       };
 
       extraSpecialArgs = {
+        pkgsMaster = import inputs.nixpkgs-master {
+          system = "aarch64-darwin";
+          overlays = [
+            self.overlays.default
+            inputs.nvim-config.overlays.default
+          ];
+          config.allowUnfree = true;
+        };
         pkgsUnstable = import inputs.nixpkgs-unstable {
           system = "aarch64-darwin";
           overlays = [
