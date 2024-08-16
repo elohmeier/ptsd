@@ -1,18 +1,19 @@
-{ buildPythonPackage
-, fetchFromGitHub
-, schema
-, click
-, python-dateutil
-, requests
-, tqdm
-, piexif
-, keyring
-, keyrings-alt
-, six
-, tzlocal
-, pytz
-, certifi
-, future
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  schema,
+  click,
+  python-dateutil,
+  requests,
+  tqdm,
+  piexif,
+  keyring,
+  keyrings-alt,
+  six,
+  tzlocal,
+  pytz,
+  certifi,
+  future,
 
 }:
 

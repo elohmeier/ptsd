@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   programs.gpg = {
@@ -11,14 +16,16 @@
     enable = true;
     enableSshSupport = true;
     enableExtraSocket = pkgs.stdenv.isLinux;
-    extraConfig = ''
-      # https://github.com/drduh/config/blob/master/gpg-agent.conf
-      # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
-      default-cache-ttl 60
-      max-cache-ttl 120
-    '' + lib.optionalString pkgs.stdenv.isDarwin ''
-      pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
-    '';
+    extraConfig =
+      ''
+        # https://github.com/drduh/config/blob/master/gpg-agent.conf
+        # https://www.gnupg.org/documentation/manuals/gnupg/Agent-Options.html
+        default-cache-ttl 60
+        max-cache-ttl 120
+      ''
+      + lib.optionalString pkgs.stdenv.isDarwin ''
+        pinentry-program ${pkgs.pinentry_mac}/Applications/pinentry-mac.app/Contents/MacOS/pinentry-mac
+      '';
   };
 
   home.activation.addGpgPublicKeys = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
@@ -33,7 +40,11 @@
   launchd.agents.gpg-agent = lib.mkIf pkgs.stdenv.isDarwin {
     enable = true;
     config = {
-      ProgramArguments = [ "${config.programs.gpg.package}/bin/gpgconf" "--launch" "gpg-agent" ];
+      ProgramArguments = [
+        "${config.programs.gpg.package}/bin/gpgconf"
+        "--launch"
+        "gpg-agent"
+      ];
       RunAtLoad = true;
       KeepAlive.SuccessfulExit = false;
       EnvironmentVariables.GNUPGHOME = config.programs.gpg.homedir;

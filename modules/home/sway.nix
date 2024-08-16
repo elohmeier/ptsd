@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   wayland.windowManager.sway = {
@@ -12,7 +17,7 @@
         size = 11.0;
       };
 
-      startup = [{ command = toString pkgs.autoname-workspaces; }];
+      startup = [ { command = toString pkgs.autoname-workspaces; } ];
 
       input = {
         "*" = {
@@ -151,7 +156,9 @@
       StandardInput = "socket";
       ExecStart = "${pkgs.wob}/bin/wob --anchor bottom --anchor right --margin 50";
     };
-    Install = { WantedBy = [ "graphical-session.target" ]; };
+    Install = {
+      WantedBy = [ "graphical-session.target" ];
+    };
   };
 
   systemd.user.sockets.wob = {
@@ -159,6 +166,8 @@
       ListenFIFO = "%t/wob.sock";
       SocketMode = "0600";
     };
-    Install = { WantedBy = [ "sockets.target" ]; };
+    Install = {
+      WantedBy = [ "sockets.target" ];
+    };
   };
 }

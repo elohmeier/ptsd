@@ -1,4 +1,14 @@
-{ writers, coreutils, pwgen, hashPassword, openssh, wireguard-tools, openssl, pass, syncthing-device-id }:
+{
+  writers,
+  coreutils,
+  pwgen,
+  hashPassword,
+  openssh,
+  wireguard-tools,
+  openssl,
+  pass,
+  syncthing-device-id,
+}:
 writers.writeDashBin "gen-secrets" ''
   HOSTNAME="''${1?must provide hostname}"
   TMPDIR=$(${coreutils}/bin/mktemp -d)

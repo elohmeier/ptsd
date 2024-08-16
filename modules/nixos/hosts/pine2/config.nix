@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [
@@ -18,7 +23,7 @@
 
   users.defaultUserShell = pkgs.fish;
 
-  environment.systemPackages = with pkgs;[
+  environment.systemPackages = with pkgs; [
     git
     home-manager
   ];
@@ -43,9 +48,7 @@
     };
   };
 
-  ptsd.nwbackup.paths = [
-    "/home/enno/"
-  ];
+  ptsd.nwbackup.paths = [ "/home/enno/" ];
 
   system.build.format-disk = pkgs.writeShellScriptBin "format-disk" ''
     DISK="''${1?must provide a block device, e.g. /dev/sda}"

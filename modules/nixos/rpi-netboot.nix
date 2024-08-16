@@ -1,5 +1,10 @@
-{ config, lib, pkgs, nixpkgs, ... }:
-
+{
+  config,
+  lib,
+  pkgs,
+  nixpkgs,
+  ...
+}:
 
 # copy https://github.com/raspberrypi/rpi-firmware/blob/master/bootcode.bin to otherwise empty fat32-formatted sd card for rpi3b+
 # (not required for rpi4)
@@ -14,59 +19,60 @@ let
     modules = [
       ../2configs/rpi3b.nix
 
-      ({ config, pkgs, ... }: {
+      (
+        { config, pkgs, ... }:
+        {
 
-        boot.initrd.network.enable = true;
-        boot.initrd.availableKernelModules = [ "overlay" ];
-        boot.initrd.kernelModules = [ "overlay" ];
-        boot.initrd.systemd = {
-          enable = true;
-          emergencyAccess = true;
-        };
+          boot.initrd.network.enable = true;
+          boot.initrd.availableKernelModules = [ "overlay" ];
+          boot.initrd.kernelModules = [ "overlay" ];
+          boot.initrd.systemd = {
+            enable = true;
+            emergencyAccess = true;
+          };
 
-        # required networking config for successful nfsroot boot
-        networking = {
-          #useNetworkd = lib.mkForce false;
-          #useDHCP = lib.mkForce false;
-          #interfaces.eth0.useDHCP = lib.mkForce false;
-        };
+          # required networking config for successful nfsroot boot
+          networking = {
+            #useNetworkd = lib.mkForce false;
+            #useDHCP = lib.mkForce false;
+            #interfaces.eth0.useDHCP = lib.mkForce false;
+          };
 
-        fileSystems."/" = {
-          fsType = "tmpfs";
-          options = [ "mode=0755" ];
-        };
+          fileSystems."/" = {
+            fsType = "tmpfs";
+            options = [ "mode=0755" ];
+          };
 
-        #fileSystems."/nix/.ro-store" = {
-        fileSystems."/nix/store" = {
-          fsType = "nfs";
-          device = "${localIP}:/";
-          options = [ "nfsvers=4" ];
-          neededForBoot = true;
-        };
+          #fileSystems."/nix/.ro-store" = {
+          fileSystems."/nix/store" = {
+            fsType = "nfs";
+            device = "${localIP}:/";
+            options = [ "nfsvers=4" ];
+            neededForBoot = true;
+          };
 
-        #fileSystems."/nix/.rw-store" = {
-        #  fsType = "tmpfs";
-        #  options = [ "mode=0755" ];
-        #  neededForBoot = true;
-        #};
+          #fileSystems."/nix/.rw-store" = {
+          #  fsType = "tmpfs";
+          #  options = [ "mode=0755" ];
+          #  neededForBoot = true;
+          #};
 
-        #fileSystems."/nix/store" = {
-        #  fsType = "overlay";
-        #  device = "overlay";
-        #  options = [
-        #    "lowerdir=/nix/.ro-store"
-        #    "upperdir=/nix/.rw-store/store"
-        #    "workdir=/nix/.rw-store/work"
-        #  ];
-        #  depends = [
-        #    "/nix/.ro-store"
-        #    "/nix/.rw-store/store"
-        #    "/nix/.rw-store/work"
-        #  ];
-        #};
+          #fileSystems."/nix/store" = {
+          #  fsType = "overlay";
+          #  device = "overlay";
+          #  options = [
+          #    "lowerdir=/nix/.ro-store"
+          #    "upperdir=/nix/.rw-store/store"
+          #    "workdir=/nix/.rw-store/work"
+          #  ];
+          #  depends = [
+          #    "/nix/.ro-store"
+          #    "/nix/.rw-store/store"
+          #    "/nix/.rw-store/work"
+          #  ];
+          #};
 
-        boot.postBootCommands =
-          ''
+          boot.postBootCommands = ''
             # After booting, register the contents of the Nix store
             # in the Nix database in the tmpfs.
             ${config.nix.package}/bin/nix-store --load-db < /nix/store/nix-path-registration
@@ -76,12 +82,10 @@ let
             ${config.nix.package}/bin/nix-env -p /nix/var/nix/profiles/system --set /run/current-system
           '';
 
-        # https://github.com/raspberrypi/linux/issues/4020
-        system.build.firmware =
-          let
-            configTxt = pkgs.writeText
-              "config.txt"
-              ''
+          # https://github.com/raspberrypi/linux/issues/4020
+          system.build.firmware =
+            let
+              configTxt = pkgs.writeText "config.txt" ''
                 [pi4]
                 enable_gic=1
                 armstub=armstub8-gic.bin
@@ -107,12 +111,9 @@ let
                 avoid_warnings=1
               '';
 
-            cmdlineTxt = pkgs.writeText "cmdline.txt" "init=${bootSystem.config.system.build.toplevel}/init ${toString bootSystem.config.boot.kernelParams}";
-          in
-          pkgs.runCommand
-            "firmware"
-            { }
-            ''
+              cmdlineTxt = pkgs.writeText "cmdline.txt" "init=${bootSystem.config.system.build.toplevel}/init ${toString bootSystem.config.boot.kernelParams}";
+            in
+            pkgs.runCommand "firmware" { } ''
               mkdir -p $out
               (cd ${pkgs.raspberrypifw}/share/raspberrypi/boot && cp bootcode.bin fixup*.dat start*.elf $out/)
 
@@ -130,25 +131,28 @@ let
               cp ${pkgs.raspberrypifw}/share/raspberrypi/boot/bcm2711-rpi-4-b.dtb $out/
             '';
 
-        system.build.nfsroot = pkgs.runCommand "nfsroot" { } ''
-          closureInfo=${pkgs.closureInfo { rootPaths = [ config.system.build.toplevel ]; }}
-          mkdir $out
-          cp $closureInfo/registration nix-path-registration
-          cp -r nix-path-registration $(cat $closureInfo/store-paths) $out
-        '';
-      })
+          system.build.nfsroot = pkgs.runCommand "nfsroot" { } ''
+            closureInfo=${pkgs.closureInfo { rootPaths = [ config.system.build.toplevel ]; }}
+            mkdir $out
+            cp $closureInfo/registration nix-path-registration
+            cp -r nix-path-registration $(cat $closureInfo/store-paths) $out
+          '';
+        }
+      )
     ];
   };
 
-  tftpRoot = with bootSystem.config.system.build; pkgs.symlinkJoin {
-    name = "ipxeBootDir";
-    paths = [
-      initialRamdisk
-      kernel
-      "${kernel}/dtbs" # rpi expects "overlays" folder on root level
-      firmware
-    ];
-  };
+  tftpRoot =
+    with bootSystem.config.system.build;
+    pkgs.symlinkJoin {
+      name = "ipxeBootDir";
+      paths = [
+        initialRamdisk
+        kernel
+        "${kernel}/dtbs" # rpi expects "overlays" folder on root level
+        firmware
+      ];
+    };
 in
 {
   networking = {
@@ -160,7 +164,7 @@ in
           2049 # nfs
         ];
         allowedUDPPorts = [
-          53 #dns
+          53 # dns
           67 # dhcp
           68 # dhcp
           69 # tftp
@@ -197,9 +201,11 @@ in
   services.atftpd = {
     enable = true;
     root = tftpRoot;
-    extraOptions = [ "--verbose=7" "--bind-address ${localIP}" ];
+    extraOptions = [
+      "--verbose=7"
+      "--bind-address ${localIP}"
+    ];
   };
-
 
   services.nfs.server = {
     enable = true;

@@ -1,4 +1,8 @@
-{ disks ? [ "/dev/nvme0n1" ], ... }: {
+{
+  disks ? [ "/dev/nvme0n1" ],
+  ...
+}:
+{
   disk = {
     nvme = {
       type = "disk";
@@ -16,9 +20,7 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              mountOptions = [
-                "defaults"
-              ];
+              mountOptions = [ "defaults" ];
             };
           }
           {

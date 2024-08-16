@@ -1,8 +1,9 @@
-{ lib
-, writers
-, coreutils
-, mkpasswd
-, openssl
+{
+  lib,
+  writers,
+  coreutils,
+  mkpasswd,
+  openssl,
 }:
 let
   path = lib.makeBinPath [

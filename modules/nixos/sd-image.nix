@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 
 let
@@ -47,12 +52,20 @@ in
         # Alternatively, this could be removed from the configuration.
         # The filesystem is not needed at runtime, it could be treated
         # as an opaque blob instead of a discrete FAT32 filesystem.
-        options = [ "noatime" "nofail" "noauto" ];
+        options = [
+          "noatime"
+          "nofail"
+          "noauto"
+        ];
       };
       "/nix" = {
         device = "/dev/disk/by-label/NIXOS_SD";
         fsType = "ext4";
-        options = [ "nodev" "noatime" "commit=1800" ];
+        options = [
+          "nodev"
+          "noatime"
+          "commit=1800"
+        ];
       };
       "/" = {
         fsType = "tmpfs";
@@ -93,18 +106,27 @@ in
 
     services.journald.extraConfig = "Storage=volatile";
 
-    system.build.sdImage = pkgs.callPackage
-      ({ stdenv
-       , dosfstools
-       , e2fsprogs
-       , mtools
-       , libfaketime
-       , util-linux
-       , zstd
-       }: stdenv.mkDerivation {
+    system.build.sdImage = pkgs.callPackage (
+      {
+        stdenv,
+        dosfstools,
+        e2fsprogs,
+        mtools,
+        libfaketime,
+        util-linux,
+        zstd,
+      }:
+      stdenv.mkDerivation {
         name = imageName;
 
-        nativeBuildInputs = [ dosfstools e2fsprogs mtools libfaketime util-linux zstd ];
+        nativeBuildInputs = [
+          dosfstools
+          e2fsprogs
+          mtools
+          libfaketime
+          util-linux
+          zstd
+        ];
 
         compressImage = false;
 
@@ -165,8 +187,8 @@ in
               zstd -T$NIX_BUILD_CORES --rm $img
           fi
         '';
-      })
-      { };
+      }
+    ) { };
 
   };
 }

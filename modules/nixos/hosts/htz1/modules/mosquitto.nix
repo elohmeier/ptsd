@@ -4,39 +4,41 @@
   services.mosquitto = {
     enable = true;
 
-    listeners = [{
-      port = 8883;
+    listeners = [
+      {
+        port = 8883;
 
-      # see https://tasmota.github.io/docs/MQTT/#mqtt-topic-definition
-      users = {
-        hass = {
-          acl = [
-            "readwrite cmnd/#"
-            "readwrite stat/#"
-            "readwrite tele/#"
-            "readwrite tasmota/#"
-          ];
-          #passwordFile = "/run/credentials/mosquitto.service/hass-passwd";
-          passwordFile = config.ptsd.secrets.files."mosquitto-hass.passwd".path;
+        # see https://tasmota.github.io/docs/MQTT/#mqtt-topic-definition
+        users = {
+          hass = {
+            acl = [
+              "readwrite cmnd/#"
+              "readwrite stat/#"
+              "readwrite tele/#"
+              "readwrite tasmota/#"
+            ];
+            #passwordFile = "/run/credentials/mosquitto.service/hass-passwd";
+            passwordFile = config.ptsd.secrets.files."mosquitto-hass.passwd".path;
+          };
+
+          tasmota = {
+            acl = [
+              "readwrite cmnd/#"
+              "readwrite stat/#"
+              "readwrite tele/#"
+              "readwrite tasmota/#"
+            ];
+            #passwordFile = "/run/credentials/mosquitto.service/tasmota-passwd";
+            passwordFile = config.ptsd.secrets.files."mosquitto-tasmota.passwd".path;
+          };
         };
 
-        tasmota = {
-          acl = [
-            "readwrite cmnd/#"
-            "readwrite stat/#"
-            "readwrite tele/#"
-            "readwrite tasmota/#"
-          ];
-          #passwordFile = "/run/credentials/mosquitto.service/tasmota-passwd";
-          passwordFile = config.ptsd.secrets.files."mosquitto-tasmota.passwd".path;
+        settings = {
+          certfile = "/var/lib/acme/mqtt.nerdworks.de/fullchain.pem";
+          keyfile = "/var/lib/acme/mqtt.nerdworks.de/key.pem";
         };
-      };
-
-      settings = {
-        certfile = "/var/lib/acme/mqtt.nerdworks.de/fullchain.pem";
-        keyfile = "/var/lib/acme/mqtt.nerdworks.de/key.pem";
-      };
-    }];
+      }
+    ];
   };
 
   systemd.services.mosquitto.serviceConfig = {
@@ -53,8 +55,12 @@
   };
 
   ptsd.secrets.files = {
-    "mosquitto-hass.passwd" = { owner = "mosquitto"; };
-    "mosquitto-tasmota.passwd" = { owner = "mosquitto"; };
+    "mosquitto-hass.passwd" = {
+      owner = "mosquitto";
+    };
+    "mosquitto-tasmota.passwd" = {
+      owner = "mosquitto";
+    };
   };
 
   networking.firewall.interfaces.ens3.allowedTCPPorts = [ 8883 ];

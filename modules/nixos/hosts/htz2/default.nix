@@ -3,20 +3,20 @@ let
   vgPrefix = "/dev/vg";
 in
 {
-  imports = [
-    ./config.nix
-  ];
+  imports = [ ./config.nix ];
 
-  boot.initrd.luks.devices.root =
-    {
-      device = "/dev/sda2";
-      preLVM = true;
-    };
+  boot.initrd.luks.devices.root = {
+    device = "/dev/sda2";
+    preLVM = true;
+  };
 
   fileSystems = {
     "/" = {
       fsType = "tmpfs";
-      options = [ "size=1G" "mode=1755" ];
+      options = [
+        "size=1G"
+        "mode=1755"
+      ];
     };
 
     "/boot" = {
@@ -25,18 +25,16 @@ in
       options = [ "nofail" ];
     };
 
-    "/nix" =
-      {
-        device = "${vgPrefix}/nix";
-        fsType = "ext4";
-      };
+    "/nix" = {
+      device = "${vgPrefix}/nix";
+      fsType = "ext4";
+    };
 
-    "/var" =
-      {
-        device = "${vgPrefix}/var";
-        fsType = "ext4";
-        neededForBoot = true; # mount early for passwd provisioning
-      };
+    "/var" = {
+      device = "${vgPrefix}/var";
+      fsType = "ext4";
+      neededForBoot = true; # mount early for passwd provisioning
+    };
 
     "/var/lib/maddy" = {
       device = "${vgPrefix}/maddy";
@@ -45,7 +43,5 @@ in
     };
   };
 
-  swapDevices = [
-    { device = "${vgPrefix}/swap"; }
-  ];
+  swapDevices = [ { device = "${vgPrefix}/swap"; } ];
 }

@@ -63,12 +63,13 @@ in
     enable = true;
 
     package =
-      if
-        pkgs.stdenv.isDarwin
-      then
+      if pkgs.stdenv.isDarwin then
         pkgs.firefox-bin.override { inherit policies; }
       else
-        pkgs.firefox.override { applicationName = "firefox"; extraPolicies = policies; };
+        pkgs.firefox.override {
+          applicationName = "firefox";
+          extraPolicies = policies;
+        };
 
     profiles.office = {
       id = 0; # 0=default
@@ -116,15 +117,25 @@ in
   # restore ublock backup
   home.file =
     let
-      dir = if pkgs.stdenv.isDarwin then "Library/Application Support/Mozilla/ManagedStorage" else ".mozilla/managed-storage";
+      dir =
+        if pkgs.stdenv.isDarwin then
+          "Library/Application Support/Mozilla/ManagedStorage"
+        else
+          ".mozilla/managed-storage";
       # https://github.com/gorhill/uBlock/wiki/Deploying-uBlock-Origin
-      ublockJson = pkgs.writeText "ublock.json" (builtins.toJSON {
-        name = "uBlock0@raymondhill.net";
-        description = "ignored";
-        type = "storage";
-        # backup conversion similar to http://raymondhill.net/ublock/adminSetting.html
-        data.adminSettings = builtins.readFile (pkgs.runCommand "ublock-config-backup" { preferLocalBuild = true; } "cat ${../../5pkgs/firefox-configs/my-ublock-backup.txt} | ${pkgs.jq}/bin/jq -c > $out");
-      });
+      ublockJson = pkgs.writeText "ublock.json" (
+        builtins.toJSON {
+          name = "uBlock0@raymondhill.net";
+          description = "ignored";
+          type = "storage";
+          # backup conversion similar to http://raymondhill.net/ublock/adminSetting.html
+          data.adminSettings = builtins.readFile (
+            pkgs.runCommand "ublock-config-backup" {
+              preferLocalBuild = true;
+            } "cat ${../../5pkgs/firefox-configs/my-ublock-backup.txt} | ${pkgs.jq}/bin/jq -c > $out"
+          );
+        }
+      );
     in
     {
       "${dir}/uBlock0@raymondhill.net.json".source = ublockJson;

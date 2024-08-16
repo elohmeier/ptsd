@@ -111,10 +111,23 @@
     };
   };
 
-  outputs = inputs@{ self, flake-parts, treefmt-nix, ... }:
+  outputs =
+    inputs@{
+      self,
+      flake-parts,
+      treefmt-nix,
+      ...
+    }:
     flake-parts.lib.mkFlake { inherit inputs; } {
-      systems = [ "aarch64-darwin" "aarch64-linux" "x86_64-linux" ];
-      imports = [ ./modules treefmt-nix.flakeModule ];
+      systems = [
+        "aarch64-darwin"
+        "aarch64-linux"
+        "x86_64-linux"
+      ];
+      imports = [
+        ./modules
+        treefmt-nix.flakeModule
+      ];
     };
 
   # outputs =

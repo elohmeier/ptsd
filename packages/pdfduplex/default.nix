@@ -1,4 +1,8 @@
-{ writers, pdftk, openjdk17 }:
+{
+  writers,
+  pdftk,
+  openjdk17,
+}:
 let
   mypdftk = pdftk.override { jre = openjdk17; };
 in

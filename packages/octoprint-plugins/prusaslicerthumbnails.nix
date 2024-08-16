@@ -1,4 +1,9 @@
-{ buildPythonPackage, fetchFromGitHub, octoprint, pillow }:
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  octoprint,
+  pillow,
+}:
 
 buildPythonPackage rec {
   pname = "OctoPrintPlugin-PrusaSlicerThumbnails";
@@ -13,5 +18,8 @@ buildPythonPackage rec {
 
   doCheck = false;
 
-  propagatedBuildInputs = [ octoprint pillow ];
+  propagatedBuildInputs = [
+    octoprint
+    pillow
+  ];
 }

@@ -1,17 +1,26 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 {
   services.home-assistant = {
     enable = true;
     configDir = "/nix/persistent/var/lib/hass";
-    package = (pkgs.home-assistant.overrideAttrs (_: { doInstallCheck = false; })).override {
-      extraComponents = [
-        "dwd_weather_warnings"
-        "esphome"
-        "met"
-        "radio_browser" # required by installation wizard
-        "tasmota"
-      ];
-    };
+    package =
+      (pkgs.home-assistant.overrideAttrs (_: {
+        doInstallCheck = false;
+      })).override
+        {
+          extraComponents = [
+            "dwd_weather_warnings"
+            "esphome"
+            "met"
+            "radio_browser" # required by installation wizard
+            "tasmota"
+          ];
+        };
 
     config = {
       automation = "!include automations.yaml";
@@ -19,20 +28,30 @@
 
       config = { };
       device_automation = { };
-      homekit.filter.include_entity_globs = [ "sensor.wemos_co2_mhz19b_carbondioxide" "light.*" "fan.*" "switch.weihnachtsbaum" ];
+      homekit.filter.include_entity_globs = [
+        "sensor.wemos_co2_mhz19b_carbondioxide"
+        "light.*"
+        "fan.*"
+        "switch.weihnachtsbaum"
+      ];
       mobile_app = { };
       mqtt = {
-        fan = [{
-          name = "Inventer";
-          state_topic = "stat/tasmota_A8C8C4/fan_state";
-          command_topic = "cmnd/tasmota_A8C8C4/fan_state";
-          preset_modes = [ "Wärmerückgewinnung" "Durchlüftung" ];
-          preset_mode_state_topic = "stat/tasmota_A8C8C4/fan_preset_mode";
-          preset_mode_command_topic = "cmnd/tasmota_A8C8C4/fan_preset_mode";
-          percentage_command_topic = "cmnd/tasmota_A8C8C4/fan_percentage";
-          percentage_state_topic = "stat/tasmota_A8C8C4/fan_percentage";
-          speed_range_max = 4;
-        }];
+        fan = [
+          {
+            name = "Inventer";
+            state_topic = "stat/tasmota_A8C8C4/fan_state";
+            command_topic = "cmnd/tasmota_A8C8C4/fan_state";
+            preset_modes = [
+              "Wärmerückgewinnung"
+              "Durchlüftung"
+            ];
+            preset_mode_state_topic = "stat/tasmota_A8C8C4/fan_preset_mode";
+            preset_mode_command_topic = "cmnd/tasmota_A8C8C4/fan_preset_mode";
+            percentage_command_topic = "cmnd/tasmota_A8C8C4/fan_percentage";
+            percentage_state_topic = "stat/tasmota_A8C8C4/fan_percentage";
+            speed_range_max = 4;
+          }
+        ];
       };
       prometheus = { };
       sonos = { };
@@ -40,7 +59,7 @@
       system_health = { };
 
       homeassistant = {
-        auth_providers = [{ type = "homeassistant"; }];
+        auth_providers = [ { type = "homeassistant"; } ];
         latitude = "53.568286";
         longitude = "9.971997";
         name = "Home";
@@ -53,10 +72,16 @@
       frontend = { };
 
       http = {
-        server_host = [ "0.0.0.0" "::" ];
+        server_host = [
+          "0.0.0.0"
+          "::"
+        ];
         server_port = config.ptsd.ports.home-assistant;
         use_x_forwarded_for = true;
-        trusted_proxies = [ "127.0.0.1" "::1" ];
+        trusted_proxies = [
+          "127.0.0.1"
+          "::1"
+        ];
       };
     };
   };
@@ -78,7 +103,13 @@
     virtualHosts = {
       home-assistant = {
         forceSSL = true;
-        listen = [{ addr = config.ptsd.tailscale.ip; port = 443; ssl = true; }];
+        listen = [
+          {
+            addr = config.ptsd.tailscale.ip;
+            port = 443;
+            ssl = true;
+          }
+        ];
         sslCertificate = "/var/lib/tailscale-cert/${config.ptsd.tailscale.fqdn}.crt";
         sslCertificateKey = "/var/lib/tailscale-cert/${config.ptsd.tailscale.fqdn}.key";
 

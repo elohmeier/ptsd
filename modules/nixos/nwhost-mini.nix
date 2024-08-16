@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -33,11 +38,21 @@ in
     ];
   };
 
-  networking.domain = if hasAttr "domain" universe.hosts."${config.networking.hostName}" then universe.hosts."${config.networking.hostName}".domain else "host.nerdworks.de";
+  networking.domain =
+    if hasAttr "domain" universe.hosts."${config.networking.hostName}" then
+      universe.hosts."${config.networking.hostName}".domain
+    else
+      "host.nerdworks.de";
 
   networking.hosts = {
-    "127.0.0.1" = [ "${config.networking.hostName}.${config.networking.domain}" "${config.networking.hostName}" ];
-    "::1" = [ "${config.networking.hostName}.${config.networking.domain}" "${config.networking.hostName}" ];
+    "127.0.0.1" = [
+      "${config.networking.hostName}.${config.networking.domain}"
+      "${config.networking.hostName}"
+    ];
+    "::1" = [
+      "${config.networking.hostName}.${config.networking.domain}"
+      "${config.networking.hostName}"
+    ];
   };
 
   ptsd.wireguard.networks.nwvpn = {
@@ -58,5 +73,7 @@ in
   ];
 
   ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
-  environment.variables = { EDITOR = "vim"; };
+  environment.variables = {
+    EDITOR = "vim";
+  };
 }

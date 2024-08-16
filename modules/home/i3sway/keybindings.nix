@@ -1,14 +1,19 @@
-{ config
-, lib
-, pkgs
-, modifier ? "Mod1"
-, extraKeybindings ? { }
-, enableFlameshot ? false
-, termExec ? prog: dir: "${pkgs.foot}/bin/foot${if dir != "" then " --working-directory=\"${dir}\"" else ""}${if prog != "" then " ${prog}" else ""}"
-, lockCmd ? "${pkgs.swaylock}/bin/swaylock --color 000000 -f"
-, cwdCmd ? "${pkgs.swaycwd}/bin/swaycwd"
-, exit_mode ? "exit: [l]ogout, [r]eboot, [e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end"
-, enableAudio ? false
+{
+  config,
+  lib,
+  pkgs,
+  modifier ? "Mod1",
+  extraKeybindings ? { },
+  enableFlameshot ? false,
+  termExec ?
+    prog: dir:
+    "${pkgs.foot}/bin/foot${if dir != "" then " --working-directory=\"${dir}\"" else ""}${
+      if prog != "" then " ${prog}" else ""
+    }",
+  lockCmd ? "${pkgs.swaylock}/bin/swaylock --color 000000 -f",
+  cwdCmd ? "${pkgs.swaycwd}/bin/swaycwd",
+  exit_mode ? "exit: [l]ogout, [r]eboot, [e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end",
+  enableAudio ? false,
 }:
 
 with lib;
@@ -101,13 +106,18 @@ in
   "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+ | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
   "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%- | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
 
-  "XF86AudioMute" = mkIf (enableAudio && cfg.primarySpeaker != null)
-    "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --toggle-mute && (${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-mute && echo 0 > $WOBSOCK ) || ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
-  "XF86AudioLowerVolume" = mkIf (enableAudio && cfg.primarySpeaker != null)
-    "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --unmute --decrease 5 && ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
-  "XF86AudioRaiseVolume" = mkIf (enableAudio && cfg.primarySpeaker != null)
-    "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --unmute --increase 5 && ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
-  "XF86AudioMicMute" = mkIf (enableAudio && cfg.primaryMicrophone != null) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
+  "XF86AudioMute" =
+    mkIf (enableAudio && cfg.primarySpeaker != null)
+      "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --toggle-mute && (${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-mute && echo 0 > $WOBSOCK ) || ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
+  "XF86AudioLowerVolume" =
+    mkIf (enableAudio && cfg.primarySpeaker != null)
+      "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --unmute --decrease 5 && ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
+  "XF86AudioRaiseVolume" =
+    mkIf (enableAudio && cfg.primarySpeaker != null)
+      "exec ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --unmute --increase 5 && ${pkgs.pamixer}/bin/pamixer --sink ${cfg.primarySpeaker} --get-volume > $WOBSOCK";
+  "XF86AudioMicMute" = mkIf (
+    enableAudio && cfg.primaryMicrophone != null
+  ) "exec ${pkgs.pulseaudio}/bin/pactl set-source-mute ${cfg.primaryMicrophone} toggle";
 
   #"XF86Calculator" = lib.mkDefault "exec ${cfg.term.execFloating "${pkgs.bc}/bin/bc -l" ""}";
   "XF86HomePage" = "exec firefox";
@@ -152,7 +162,11 @@ in
 
   # screenshots
   "Print" = ''exec ${pkgs.grim}/bin/grim -t png ~/Pocket/Screenshots/$(${pkgs.coreutils}/bin/date +"%Y-%m-%d_%H:%M:%S.png")'';
-  "${modifier}+Ctrl+Shift+4" = if enableFlameshot then "exec ${pkgs.flameshot}/bin/flameshot gui" else
-    #''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
-  ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -'';
-} // extraKeybindings
+  "${modifier}+Ctrl+Shift+4" =
+    if enableFlameshot then
+      "exec ${pkgs.flameshot}/bin/flameshot gui"
+    else
+      #''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.wl-clipboard}/bin/wl-copy -t image/png''
+      ''exec ${pkgs.grim}/bin/grim -t png -g "$(${pkgs.slurp}/bin/slurp)" - | ${pkgs.swappy}/bin/swappy -f -'';
+}
+// extraKeybindings

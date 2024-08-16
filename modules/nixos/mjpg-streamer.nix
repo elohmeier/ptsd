@@ -1,12 +1,16 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
   cfg = config.ptsd.mjpg-streamer;
-  outputPlugin =
-    builtins.replaceStrings
-      [ "@www@" ] [ "${cfg.package}/share/mjpg-streamer/www" ]
-      cfg.outputPlugin;
+  outputPlugin = builtins.replaceStrings [ "@www@" ] [
+    "${cfg.package}/share/mjpg-streamer/www"
+  ] cfg.outputPlugin;
 in
 {
   options = {
@@ -61,8 +65,6 @@ in
         SupplementaryGroups = "video";
         CPUWeight = 20;
       };
-    } // lib.optionalAttrs (cfg.deviceService != "") {
-      bindsTo = [ cfg.deviceService ];
-    };
+    } // lib.optionalAttrs (cfg.deviceService != "") { bindsTo = [ cfg.deviceService ]; };
   };
 }

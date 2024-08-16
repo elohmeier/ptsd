@@ -30,60 +30,77 @@ in
   };
 
   fileSystems = {
-    "/" =
-      {
-        device = "${vgPrefix}-root";
-        fsType = "ext4";
-      };
+    "/" = {
+      device = "${vgPrefix}-root";
+      fsType = "ext4";
+    };
 
-    "/boot" =
-      {
-        device = "${disk}-part1";
-        fsType = "vfat";
-        options = [ "nodev" "nosuid" "noexec" ];
-      };
+    "/boot" = {
+      device = "${disk}-part1";
+      fsType = "vfat";
+      options = [
+        "nodev"
+        "nosuid"
+        "noexec"
+      ];
+    };
 
-    "/home" =
-      {
-        device = "${vgPrefix}-home";
-        fsType = "ext4";
-        options = [ "nodev" "nosuid" "noexec" ];
-      };
+    "/home" = {
+      device = "${vgPrefix}-home";
+      fsType = "ext4";
+      options = [
+        "nodev"
+        "nosuid"
+        "noexec"
+      ];
+    };
 
-    "/nix" =
-      {
-        device = "${vgPrefix}-nix";
-        fsType = "ext4";
-        options = [ "nodev" ];
-      };
+    "/nix" = {
+      device = "${vgPrefix}-nix";
+      fsType = "ext4";
+      options = [ "nodev" ];
+    };
 
-    "/var" =
-      {
-        device = "${vgPrefix}-var";
-        fsType = "ext4";
-        neededForBoot = true; # mount early for passwd provisioning
-        options = [ "nodev" "nosuid" "noexec" ];
-      };
+    "/var" = {
+      device = "${vgPrefix}-var";
+      fsType = "ext4";
+      neededForBoot = true; # mount early for passwd provisioning
+      options = [
+        "nodev"
+        "nosuid"
+        "noexec"
+      ];
+    };
 
     "/var/lib/private/octoprint" = {
       device = "${vgPrefix}-var--lib--private--octoprint";
       fsType = "ext4";
-      options = [ "nodev" "nosuid" "noexec" ];
+      options = [
+        "nodev"
+        "nosuid"
+        "noexec"
+      ];
     };
 
-    "/var/lib/prometheus2" =
-      {
-        device = "${vgPrefix}-var--lib--prometheus2";
-        fsType = "ext4";
-        options = [ "nodev" "nosuid" "noexec" ];
-      };
+    "/var/lib/prometheus2" = {
+      device = "${vgPrefix}-var--lib--prometheus2";
+      fsType = "ext4";
+      options = [
+        "nodev"
+        "nosuid"
+        "noexec"
+      ];
+    };
 
-    "/var/log" =
-      {
-        device = "${vgPrefix}-var--log";
-        fsType = "ext4";
-        options = [ "nodev" "nosuid" "noexec" ];
-      };
+    "/var/log" = {
+      device = "${vgPrefix}-var--log";
+      fsType = "ext4";
+      options = [
+        "nodev"
+        "nosuid"
+        "noexec"
+      ];
+    };
 
     # "/mnt/sdcard/eosr6" = {
     #   device = "/dev/disk/by-label/EOS_DIGITAL";
@@ -92,10 +109,7 @@ in
     # };
   };
 
-  swapDevices =
-    [
-      { device = "${vgPrefix}-swap"; }
-    ];
+  swapDevices = [ { device = "${vgPrefix}-swap"; } ];
 
   powerManagement.cpuFreqGovernor = "schedutil";
   networking.hostId = "1591AF90"; # required for zfs

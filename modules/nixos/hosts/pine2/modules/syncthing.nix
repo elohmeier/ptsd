@@ -14,11 +14,16 @@ in
 
     key = "/home/enno/.keys/syncthing.key";
     cert = "/home/enno/.keys/syncthing.crt";
-    devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hasAttr "syncthing") universe.hosts);
+    devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (
+      filterAttrs (_: hasAttr "syncthing") universe.hosts
+    );
     folders = {
       "/home/enno/repos" = {
         id = "yqa69-2zjmt";
-        devices = [ "nas1" "mb4" ];
+        devices = [
+          "nas1"
+          "mb4"
+        ];
         label = "repos";
         ignorePerms = false;
       };

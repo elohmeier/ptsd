@@ -1,4 +1,10 @@
-p@{ config, lib, pkgs, pkgsUnstable, ... }:
+p@{
+  config,
+  lib,
+  pkgs,
+  pkgsUnstable,
+  ...
+}:
 
 let
   rose-pine-fish = pkgs.fetchFromGitHub {
@@ -126,8 +132,7 @@ in
 
         set -l DARK_MODE 1
       ''
-      +
-      lib.optionalString pkgs.stdenv.isDarwin ''
+      + lib.optionalString pkgs.stdenv.isDarwin ''
         # read AppleInterfaceStyle from defaults
         # for Dark mode, the exit code is 0 and the content is "Dark"
         # for Light mode, the exit code is 1 and a error message is shown
@@ -138,8 +143,7 @@ in
           set -l DARK_MODE 0
         end
       ''
-      +
-      ''
+      + ''
         if [ $DARK_MODE -eq 1 ]
           # fish_config theme choose "Rosé Pine"
           fish_config theme choose "TokyoNight Night"
@@ -152,8 +156,14 @@ in
       '';
 
     plugins = with pkgs.fishPlugins; [
-      { name = "fzf"; inherit (fzf-fish) src; }
-      { name = "tide"; src = tide.src; }
+      {
+        name = "fzf";
+        inherit (fzf-fish) src;
+      }
+      {
+        name = "tide";
+        src = tide.src;
+      }
     ];
   };
 
@@ -189,9 +199,17 @@ in
     '';
   };
 
-  home.packages = with pkgs; [ eza fd fzf-no-fish ];
+  home.packages = with pkgs; [
+    eza
+    fd
+    fzf-no-fish
+  ];
 
-  home.file.".config/fish/functions".source = if (builtins.hasAttr "nixosConfig" p) then ../../src/fish else config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/fish";
+  home.file.".config/fish/functions".source =
+    if (builtins.hasAttr "nixosConfig" p) then
+      ../../src/fish
+    else
+      config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/fish";
 
   home.file.".config/fish/themes/Rosé Pine.theme".source = "${rose-pine-fish}/themes/Rosé Pine.theme";
   home.file.".config/fish/themes/Rosé Pine Dawn.theme".source = "${rose-pine-fish}/themes/Rosé Pine Dawn.theme";

@@ -1,12 +1,16 @@
-{ lib, pkgs, modulesPath, ... }:
 {
-  imports =
-    [
-      (modulesPath + "/profiles/hardened.nix")
-      ./modules/maddy.nix
-      ./modules/rspamd.nix
-      ./modules/syncthing.nix
-    ];
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
+{
+  imports = [
+    (modulesPath + "/profiles/hardened.nix")
+    ./modules/maddy.nix
+    ./modules/rspamd.nix
+    ./modules/syncthing.nix
+  ];
 
   services.borgbackup.jobs.hetzner.paths = [ "/var/lib/maddy" ];
   services.borgbackup.jobs.rpi4.paths = [ "/var/lib/maddy" ];
@@ -33,20 +37,32 @@
     interfaces.ens3 = {
       useDHCP = true;
       ipv6 = {
-        addresses = [{ address = "2a01:4f8:c2c:b468::1"; prefixLength = 64; }];
+        addresses = [
+          {
+            address = "2a01:4f8:c2c:b468::1";
+            prefixLength = 64;
+          }
+        ];
       };
     };
 
     # reduce noise coming from www if
     firewall.logRefusedConnections = false;
 
-    firewall.allowedTCPPorts = [ 80 443 ];
+    firewall.allowedTCPPorts = [
+      80
+      443
+    ];
   };
 
   # prevents creation of the following route (`ip -6 route`):
   # default dev lo proto static metric 1024 pref medium
   systemd.network.networks."40-ens3".routes = [
-    { routeConfig = { Gateway = "fe80::1"; }; }
+    {
+      routeConfig = {
+        Gateway = "fe80::1";
+      };
+    }
   ];
 
   security.acme.certs."htz2.nn42.de" = {
@@ -62,7 +78,11 @@
     recommendedTlsSettings = true;
 
     virtualHosts = {
-      "htz2.nn42.de" = { addSSL = true; enableACME = true; serverAliases = [ "mail.nerdworks.de" ]; };
+      "htz2.nn42.de" = {
+        addSSL = true;
+        enableACME = true;
+        serverAliases = [ "mail.nerdworks.de" ];
+      };
     };
   };
 

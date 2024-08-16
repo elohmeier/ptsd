@@ -5,7 +5,8 @@
     port = config.ptsd.ports.octoprint;
 
     package = pkgs.octoprint;
-    plugins = plugins:
+    plugins =
+      plugins:
       let
         ptsdPlugins = pkgs.ptsd-octoprintPlugins plugins;
       in
@@ -25,15 +26,17 @@
     extraConfig = {
       plugins.firmwareupdater = {
         _selected_profile = 0;
-        profiles = [{
-          # prusa config
-          _name = "Default";
-          flash_method = "avrdude";
-          avrdude_avrmcu = "m2560";
-          avrdude_path = "${pkgs.avrdude}/bin/avrdude";
-          avrdude_programmer = "wiring";
-          serial_port = "/dev/ttyACM0";
-        }];
+        profiles = [
+          {
+            # prusa config
+            _name = "Default";
+            flash_method = "avrdude";
+            avrdude_avrmcu = "m2560";
+            avrdude_path = "${pkgs.avrdude}/bin/avrdude";
+            avrdude_programmer = "wiring";
+            serial_port = "/dev/ttyACM0";
+          }
+        ];
       };
     };
   };

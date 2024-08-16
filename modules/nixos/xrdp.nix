@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -68,7 +73,9 @@ let
       ];
     };
   };
-  sesmanCfg = pkgs.writeText "sesman.ini" (lib.generators.toINI { listsAsDuplicateKeys = true; } sesmanConfig);
+  sesmanCfg = pkgs.writeText "sesman.ini" (
+    lib.generators.toINI { listsAsDuplicateKeys = true; } sesmanConfig
+  );
   xrdpConfig = {
     Globals = {
       ini_version = 1;
@@ -151,7 +158,6 @@ in
     };
   };
 
-
   ###### implementation
 
   config = mkIf cfg.enable {
@@ -226,7 +232,10 @@ in
     };
     users.groups.xrdp = { };
 
-    security.pam.services.xrdp-sesman = { allowNullPassword = true; startSession = true; };
+    security.pam.services.xrdp-sesman = {
+      allowNullPassword = true;
+      startSession = true;
+    };
   };
 
 }

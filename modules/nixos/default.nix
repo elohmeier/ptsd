@@ -1,13 +1,22 @@
-{ self, inputs, lib, withSystem, ... }:
+{
+  self,
+  inputs,
+  lib,
+  withSystem,
+  ...
+}:
 let
-  nixosSystemFor = system: modules:
+  nixosSystemFor =
+    system: modules:
     let
       pkgs = withSystem system ({ pkgs, ... }: pkgs);
       pkgsUnstable = withSystem system ({ pkgsUnstable, ... }: pkgsUnstable);
     in
     lib.nixosSystem {
       inherit system;
-      specialArgs = { inherit lib; };
+      specialArgs = {
+        inherit lib;
+      };
       modules = [
         {
           _module.args = {
@@ -102,26 +111,31 @@ in
       inputs.home-manager.nixosModule
       self.nixosModules.defaults
       self.nixosModules.orbstack-defaults
-      ({ pkgs, pkgsUnstable, ... }: {
-        networking.hostName = "nixos";
-        users.defaultUserShell = pkgs.fish;
-        programs.fish.enable = true;
-        home-manager.useGlobalPkgs = true;
-        home-manager.extraSpecialArgs.pkgsUnstable = pkgsUnstable;
+      (
+        { pkgs, pkgsUnstable, ... }:
+        {
+          networking.hostName = "nixos";
+          users.defaultUserShell = pkgs.fish;
+          programs.fish.enable = true;
+          home-manager.useGlobalPkgs = true;
+          home-manager.extraSpecialArgs.pkgsUnstable = pkgsUnstable;
 
-        # username must match the one specified in ./orbstack-defaults/orbstack.nix
-        home-manager.users.enno = { nixosConfig, pkgs, ... }: {
-          home.stateVersion = nixosConfig.system.stateVersion;
-          imports = [
-            self.homeModules.fish
-            self.homeModules.git
-            self.homeModules.neovim
-            self.homeModules.orb
-            self.homeModules.ssh
-            self.homeModules.tmux
-          ];
-        };
-      })
+          # username must match the one specified in ./orbstack-defaults/orbstack.nix
+          home-manager.users.enno =
+            { nixosConfig, pkgs, ... }:
+            {
+              home.stateVersion = nixosConfig.system.stateVersion;
+              imports = [
+                self.homeModules.fish
+                self.homeModules.git
+                self.homeModules.neovim
+                self.homeModules.orb
+                self.homeModules.ssh
+                self.homeModules.tmux
+              ];
+            };
+        }
+      )
     ];
   };
 }

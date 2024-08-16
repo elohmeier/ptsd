@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   xsession.windowManager.i3 = {
@@ -19,9 +24,17 @@
 
       bars = import ./i3sway/bars.nix { inherit config pkgs; };
       keybindings = import ./i3sway/keybindings.nix {
-        inherit config lib pkgs; termExec = prog: dir: "${config.programs.alacritty.package}/bin/alacritty${if dir != "" then " --working-directory \"${dir}\"" else ""}${if prog != "" then " -e ${prog}" else ""}";
+        inherit config lib pkgs;
+        termExec =
+          prog: dir:
+          "${config.programs.alacritty.package}/bin/alacritty${
+            if dir != "" then " --working-directory \"${dir}\"" else ""
+          }${if prog != "" then " -e ${prog}" else ""}";
       };
-      modes = import ./i3sway/modes.nix { inherit lib pkgs; i3compat = true; };
+      modes = import ./i3sway/modes.nix {
+        inherit lib pkgs;
+        i3compat = true;
+      };
 
       colors = with config.ptsd.style.colorsHex; {
         focused = {

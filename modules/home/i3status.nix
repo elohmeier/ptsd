@@ -60,7 +60,9 @@ with lib;
 
       "battery all" = mkIf enableBattery {
         position = 4;
-        settings = { format = "%status %percentage %remaining"; };
+        settings = {
+          format = "%status %percentage %remaining";
+        };
       };
 
       "disk /" = {
@@ -117,7 +119,9 @@ with lib;
 
       "tztime local" = {
         position = 8;
-        settings = { format = "%Y-%m-%d %H:%M:%S"; };
+        settings = {
+          format = "%Y-%m-%d %H:%M:%S";
+        };
       };
 
     };

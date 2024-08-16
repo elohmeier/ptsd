@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   universe = import ../../2configs/universe.nix;
@@ -13,7 +18,11 @@ in
     ../../2configs/users/enno.nix # for git repo support
   ];
 
-  environment.systemPackages = with pkgs;[ rmlint vim borgbackup ];
+  environment.systemPackages = with pkgs; [
+    rmlint
+    vim
+    borgbackup
+  ];
 
   documentation = {
     enable = false;
@@ -53,7 +62,11 @@ in
 
   # IP is reserved in DHCP server for us.
   # not using DHCP here, because we might receive a different address than post-initrd.
-  boot.kernelParams = [ "ip=${universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr}::192.168.178.1:255.255.255.0:${config.networking.hostName}:eno1:off" ];
+  boot.kernelParams = [
+    "ip=${
+      universe.hosts."${config.networking.hostName}".nets.bs53lan.ip4.addr
+    }::192.168.178.1:255.255.255.0:${config.networking.hostName}:eno1:off"
+  ];
 
   # route traffic from/to nwvpn
   ptsd.wireguard = {

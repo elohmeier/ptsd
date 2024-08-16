@@ -1,4 +1,8 @@
-{ buildPythonPackage, fetchFromGitHub, octoprint }:
+{
+  buildPythonPackage,
+  fetchFromGitHub,
+  octoprint,
+}:
 
 buildPythonPackage rec {
   pname = "OctoPrintPlugin-PrusaLevelingGuide";

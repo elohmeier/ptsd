@@ -1,4 +1,7 @@
-{ disk ? "/dev/vdb" }: {
+{
+  disk ? "/dev/vdb",
+}:
+{
   disk = {
     vdb = {
       type = "disk";
@@ -17,7 +20,12 @@
               type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
-              options = [ "nofail" "nodev" "nosuid" "noexec" ];
+              options = [
+                "nofail"
+                "nodev"
+                "nosuid"
+                "noexec"
+              ];
             };
           }
           {
@@ -45,7 +53,10 @@
             type = "filesystem";
             format = "ext4";
             mountpoint = "/nix";
-            options = [ "nodev" "noatime" ];
+            options = [
+              "nodev"
+              "noatime"
+            ];
           };
         };
         home = {
@@ -55,7 +66,10 @@
             type = "filesystem";
             format = "ext4";
             mountpoint = "/home";
-            options = [ "nodev" "nosuid" ];
+            options = [
+              "nodev"
+              "nosuid"
+            ];
           };
         };
         var = {
@@ -65,7 +79,11 @@
             type = "filesystem";
             format = "ext4";
             mountpoint = "/var";
-            options = [ "nodev" "nosuid" "noexec" ];
+            options = [
+              "nodev"
+              "nosuid"
+              "noexec"
+            ];
           };
         };
       };

@@ -1,10 +1,13 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 {
-  imports = [
-    ./users/mainuser.nix
-  ];
+  imports = [ ./users/mainuser.nix ];
 
   # TODO: remove in 23.05
   # see https://github.com/NixOS/nixpkgs/pull/202956
@@ -37,24 +40,26 @@ with lib;
   console.keyMap = mkDefault "de-latin1";
 
   home-manager.useGlobalPkgs = true;
-  home-manager.users.mainUser = { ... }: {
-    home.stateVersion = "22.11";
-    imports = [
-      #./home/gpg.nix
-      ../3modules/home
-      ./home
-      ./home/firefox.nix
-      ./home/fish.nix
-      ./home/fonts.nix
-      ./home/foot.nix
-      ./home/git.nix
-      # ./home/neovim.nix
-      ./home/packages.nix
-      ./home/ssh.nix
-      ./home/sway.nix
-      ./home/i3status.nix
-    ];
-  };
+  home-manager.users.mainUser =
+    { ... }:
+    {
+      home.stateVersion = "22.11";
+      imports = [
+        #./home/gpg.nix
+        ../3modules/home
+        ./home
+        ./home/firefox.nix
+        ./home/fish.nix
+        ./home/fonts.nix
+        ./home/foot.nix
+        ./home/git.nix
+        # ./home/neovim.nix
+        ./home/packages.nix
+        ./home/ssh.nix
+        ./home/sway.nix
+        ./home/i3status.nix
+      ];
+    };
 
   programs.sway.enable = true;
 
@@ -71,7 +76,7 @@ with lib;
 
   nixpkgs.config.firefox.enablePlasmaBrowserIntegration = true;
 
-  environment.systemPackages = with pkgs;[
+  environment.systemPackages = with pkgs; [
     pavucontrol
     glxinfo
     plasma5Packages.ark

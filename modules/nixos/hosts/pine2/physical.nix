@@ -1,9 +1,7 @@
 { config, ... }:
 
 {
-  imports = [
-    ./config.nix
-  ];
+  imports = [ ./config.nix ];
 
   security.pam.mount.enable = true;
   users.users.mainUser.cryptHomeLuks = "/dev/sysVG/home-enno";
@@ -15,38 +13,50 @@
 
   fileSystems."/" = {
     fsType = "tmpfs";
-    options = [ "size=200M" "mode=1755" ];
+    options = [
+      "size=200M"
+      "mode=1755"
+    ];
   };
 
   fileSystems."/nix" = {
     fsType = "xfs";
     device = "/dev/sysVG/nix";
-    options = [ "nodev" "noatime" ];
+    options = [
+      "nodev"
+      "noatime"
+    ];
   };
 
-  fileSystems."/persist" =
-    {
-      fsType = "xfs";
-      device = "/dev/sysVG/persist";
-      options = [ "nodev" "nosuid" "noexec" ];
-    };
+  fileSystems."/persist" = {
+    fsType = "xfs";
+    device = "/dev/sysVG/persist";
+    options = [
+      "nodev"
+      "nosuid"
+      "noexec"
+    ];
+  };
 
   fileSystems."/var/src" = {
     fsType = "ext4";
     device = "/dev/sysVG/var-src";
     neededForBoot = true;
-    options = [ "nodev" "nosuid" "noexec" ];
+    options = [
+      "nodev"
+      "nosuid"
+      "noexec"
+    ];
   };
 
   services.journald.extraConfig = "Storage=volatile";
 
-  swapDevices =
-    [
-      {
-        device = "/dev/sysVG/swap";
-        randomEncryption.enable = true;
-      }
-    ];
+  swapDevices = [
+    {
+      device = "/dev/sysVG/swap";
+      randomEncryption.enable = true;
+    }
+  ];
 
   boot = {
     consoleLogLevel = 7;

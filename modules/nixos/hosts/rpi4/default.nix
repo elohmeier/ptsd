@@ -1,4 +1,5 @@
-{ lib, pkgs, ... }: {
+{ lib, pkgs, ... }:
+{
 
   imports = [
     ../../2configs
@@ -24,7 +25,10 @@
     version = 4;
   };
   users.users.root.openssh.authorizedKeys.keys =
-    let sshPubKeys = import ../../2configs/users/ssh-pubkeys.nix; in sshPubKeys.authorizedKeys_enno;
+    let
+      sshPubKeys = import ../../2configs/users/ssh-pubkeys.nix;
+    in
+    sshPubKeys.authorizedKeys_enno;
 
   services.openssh.enable = true;
 
@@ -41,9 +45,7 @@
       "/var/lib/photoprism"
       "/var/lib/syncthing"
     ];
-    exclude = [
-      "/var/lib/syncthing/rpi4-dl"
-    ];
+    exclude = [ "/var/lib/syncthing/rpi4-dl" ];
   };
 
   services.mysqlBackup = {
@@ -55,7 +57,7 @@
   #security.sudo.wheelNeedsPassword = false;
   #nix.settings.trusted-users = [ "root" "@wheel" ];
   networking.hostName = "rpi4";
-  environment.systemPackages = with pkgs;[
+  environment.systemPackages = with pkgs; [
     btop
     cryptsetup
     gptfdisk
@@ -108,22 +110,74 @@
     links = [ "home-assistant" ];
   };
 
-  services.syncthing = let universe = import ../../2configs/universe.nix; in
+  services.syncthing =
+    let
+      universe = import ../../2configs/universe.nix;
+    in
     {
       enable = true;
       dataDir = "/var/lib/syncthing";
       openDefaultPorts = true;
-      devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: lib.hasAttr "syncthing") universe.hosts);
+      devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (
+        lib.filterAttrs (_: lib.hasAttr "syncthing") universe.hosts
+      );
 
       folders = {
-        "/var/lib/syncthing/enno/LuNo" = { label = "enno/LuNo"; id = "3ull9-9deg4"; devices = [ "mb3" "mb4" ]; };
-        "/var/lib/syncthing/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" "ipd1" "htz2" ]; };
-        "/var/lib/syncthing/enno/iOS" = { label = "enno/iOS"; id = "qm9ln-btyqu"; devices = [ "iph3" "ipd1" "mb4" ]; };
-        "/var/lib/syncthing/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" "htz2" ]; };
-        "/var/lib/syncthing/fraam-gdrive-backup" = { label = "fraam-gdrive-backup"; id = "fraam-gdrive-backup"; devices = [ "mb4" ]; };
+        "/var/lib/syncthing/enno/LuNo" = {
+          label = "enno/LuNo";
+          id = "3ull9-9deg4";
+          devices = [
+            "mb3"
+            "mb4"
+          ];
+        };
+        "/var/lib/syncthing/enno/Scans" = {
+          label = "enno/Scans";
+          id = "ezjwj-xgnhe";
+          devices = [
+            "mb4"
+            "iph3"
+            "ipd1"
+            "htz2"
+          ];
+        };
+        "/var/lib/syncthing/enno/iOS" = {
+          label = "enno/iOS";
+          id = "qm9ln-btyqu";
+          devices = [
+            "iph3"
+            "ipd1"
+            "mb4"
+          ];
+        };
+        "/var/lib/syncthing/luisa/Scans" = {
+          label = "luisa/Scans";
+          id = "dnryo-kz7io";
+          devices = [
+            "mb4"
+            "mb3"
+            "htz2"
+          ];
+        };
+        "/var/lib/syncthing/fraam-gdrive-backup" = {
+          label = "fraam-gdrive-backup";
+          id = "fraam-gdrive-backup";
+          devices = [ "mb4" ];
+        };
         # "/var/lib/syncthing/paperless" = { label = "paperless"; id = "pu5le-lk2og"; devices = [ "mb4" ]; type = "receiveonly"; };
-        "/var/lib/syncthing/rpi4-dl" = { label = "rpi4-dl"; id = "q5frb-pk9qx"; devices = [ "mb4" "ws2" ]; };
-        "/var/lib/syncthing/photos" = { label = "photos"; id = "9usxu-er25n"; devices = [ "mb4" ]; };
+        "/var/lib/syncthing/rpi4-dl" = {
+          label = "rpi4-dl";
+          id = "q5frb-pk9qx";
+          devices = [
+            "mb4"
+            "ws2"
+          ];
+        };
+        "/var/lib/syncthing/photos" = {
+          label = "photos";
+          id = "9usxu-er25n";
+          devices = [ "mb4" ];
+        };
       };
     };
 
@@ -156,13 +210,20 @@
         };
       in
       {
-        scans-enno = defaults // { path = "/var/lib/syncthing/enno/Scans"; };
-        scans-luisa = defaults // { path = "/var/lib/syncthing/luisa/Scans"; };
+        scans-enno = defaults // {
+          path = "/var/lib/syncthing/enno/Scans";
+        };
+        scans-luisa = defaults // {
+          path = "/var/lib/syncthing/luisa/Scans";
+        };
       };
   };
 
   # networking.firewall.allowedTCPPorts = [ 445 ]; # samba
-  networking.firewall.trustedInterfaces = [ "eth0" "wlan0" ];
+  networking.firewall.trustedInterfaces = [
+    "eth0"
+    "wlan0"
+  ];
 
   boot.kernel.sysctl = {
     "net.core.rmem_max" = 2500000; # for syncthing
@@ -258,35 +319,40 @@
     ephemeral = true;
     macvlans = [ "bat-ffhb" ];
     bindMounts = {
-      "/home/gordon/rpi4-dl" = { hostPath = "/var/lib/syncthing/rpi4-dl"; isReadOnly = false; };
-    };
-    config = { pkgs, ... }: {
-      system.stateVersion = "22.11";
-
-      environment.systemPackages = with pkgs; [ rtorrent ];
-
-      networking = {
-        useDHCP = false;
-        interfaces.mv-bat-ffhb.useDHCP = true;
-      };
-
-      # Manually configure nameserver. Using resolved inside the container seems to fail
-      # currently
-      environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
-
-      services.getty.autologinUser = "gordon";
-
-      # copy syncthing uid/gid
-      users.groups.gordon.gid = 237;
-      users.users.gordon = {
-        createHome = true;
-        group = "gordon";
-        home = "/home/gordon";
-        homeMode = "700";
-        isSystemUser = true;
-        uid = 237;
-        useDefaultShell = true;
+      "/home/gordon/rpi4-dl" = {
+        hostPath = "/var/lib/syncthing/rpi4-dl";
+        isReadOnly = false;
       };
     };
+    config =
+      { pkgs, ... }:
+      {
+        system.stateVersion = "22.11";
+
+        environment.systemPackages = with pkgs; [ rtorrent ];
+
+        networking = {
+          useDHCP = false;
+          interfaces.mv-bat-ffhb.useDHCP = true;
+        };
+
+        # Manually configure nameserver. Using resolved inside the container seems to fail
+        # currently
+        environment.etc."resolv.conf".text = "nameserver 8.8.8.8";
+
+        services.getty.autologinUser = "gordon";
+
+        # copy syncthing uid/gid
+        users.groups.gordon.gid = 237;
+        users.users.gordon = {
+          createHome = true;
+          group = "gordon";
+          home = "/home/gordon";
+          homeMode = "700";
+          isSystemUser = true;
+          uid = 237;
+          useDefaultShell = true;
+        };
+      };
   };
 }

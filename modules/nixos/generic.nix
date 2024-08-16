@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -7,9 +12,7 @@ let
   cfg = config.ptsd.generic;
 in
 {
-  imports = [
-    ./users/root.nix
-  ];
+  imports = [ ./users/root.nix ];
 
   options.ptsd.generic = {
     amdgpu.enable = mkOption {
@@ -74,11 +77,13 @@ in
 
       kernelPackages = mkDefault pkgs.linuxPackages_latest;
 
-      kernelModules = optionals isx86_64 [
-        "kvm-amd"
-        "kvm-intel"
-        "tcp_bbr"
-      ] ++ optional cfg.nvidia.cuda.enable "nvidia-uvm";
+      kernelModules =
+        optionals isx86_64 [
+          "kvm-amd"
+          "kvm-intel"
+          "tcp_bbr"
+        ]
+        ++ optional cfg.nvidia.cuda.enable "nvidia-uvm";
 
       tmp.useTmpfs = true;
 
@@ -101,11 +106,13 @@ in
       enable = true;
       driSupport = true;
       driSupport32Bit = isx86_64;
-      extraPackages = with pkgs; optionals cfg.amdgpu.enable [
-        amdvlk
-        rocm-opencl-icd
-        rocm-opencl-runtime
-      ];
+      extraPackages =
+        with pkgs;
+        optionals cfg.amdgpu.enable [
+          amdvlk
+          rocm-opencl-icd
+          rocm-opencl-runtime
+        ];
       extraPackages32 = with pkgs; optional cfg.amdgpu.enable driversi686Linux.amdvlk;
     };
 
@@ -115,24 +122,27 @@ in
       videoDrivers = optional cfg.amdgpu.enable "amdgpu" ++ optional cfg.nvidia.enable "nvidia";
     };
 
-    environment.systemPackages = with pkgs; [
-      btop
-      cifs-utils
-      cryptsetup
-      git
-      gptfdisk
-      hashPassword
-      home-manager
-      neovim
-      nnn
-      pciutils
-      smartmontools
-      tmux
-      usbutils
-    ] ++ optionals cfg.nvidia.cuda.enable [
-      cudatoolkit
-      nvtop
-    ];
+    environment.systemPackages =
+      with pkgs;
+      [
+        btop
+        cifs-utils
+        cryptsetup
+        git
+        gptfdisk
+        hashPassword
+        home-manager
+        neovim
+        nnn
+        pciutils
+        smartmontools
+        tmux
+        usbutils
+      ]
+      ++ optionals cfg.nvidia.cuda.enable [
+        cudatoolkit
+        nvtop
+      ];
 
     networking = {
       useDHCP = false;
@@ -145,7 +155,10 @@ in
         ipv6AcceptRAConfig.RouteMetric = 10;
         linkConfig.RequiredForOnline = mkIf config.networking.wireless.iwd.enable "no";
         matchConfig.Type = "ether";
-        networkConfig = { ConfigureWithoutCarrier = true; DHCP = "yes"; };
+        networkConfig = {
+          ConfigureWithoutCarrier = true;
+          DHCP = "yes";
+        };
       };
       wlan = mkIf (config.networking.wireless.iwd.enable && !config.networking.networkmanager.enable) {
         dhcpV4Config.RouteMetric = 20;
@@ -168,7 +181,10 @@ in
 
     services.udisks2.enable = lib.mkDefault false;
     security.sudo.wheelNeedsPassword = false;
-    nix.settings.trusted-users = [ "root" "@wheel" ];
+    nix.settings.trusted-users = [
+      "root"
+      "@wheel"
+    ];
 
     services.eternal-terminal.enable = true;
     networking.firewall.allowedTCPPorts = [ 2022 ];

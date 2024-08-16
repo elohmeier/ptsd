@@ -1,5 +1,5 @@
-{ config, pkgs, ... }: {
-
+{ config, pkgs, ... }:
+{
 
   systemd.services.prometheus-quotes-exporter = {
     description = "Prometheus exporter for quotes";

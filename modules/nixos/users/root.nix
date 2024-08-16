@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   users.users = {
@@ -12,8 +17,6 @@
       # # make sure the /var/src fs is marked for early mounting with
       # # neededForBoot = true
       # hashedPasswordFile = lib.mkIf config.ptsd.secrets.enable (lib.mkDefault "/var/src/secrets/root.passwd");
-    } // lib.optionalAttrs config.programs.fish.enable {
-      shell = pkgs.fish;
-    };
+    } // lib.optionalAttrs config.programs.fish.enable { shell = pkgs.fish; };
   };
 }

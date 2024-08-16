@@ -19,8 +19,14 @@ let
     PHOTOPRISM_DATABASE_USER = "syncthing";
   };
 
-  after = [ "network.target" "mysql.service" ];
-  wants = [ "network.target" "mysql.service" ];
+  after = [
+    "network.target"
+    "mysql.service"
+  ];
+  wants = [
+    "network.target"
+    "mysql.service"
+  ];
 
   serviceConfig = {
     User = "syncthing";
@@ -35,7 +41,12 @@ in
 {
   systemd.services.photoprism = {
     description = "Photoprism Photo Management";
-    inherit environment after wants serviceConfig;
+    inherit
+      environment
+      after
+      wants
+      serviceConfig
+      ;
     script = ''
       PWFILE=/var/lib/photoprism/.initial-password.txt
 
@@ -52,7 +63,12 @@ in
 
   systemd.services.photoprism-index = {
     description = "Photoprism Indexing";
-    inherit environment after wants serviceConfig;
+    inherit
+      environment
+      after
+      wants
+      serviceConfig
+      ;
     script = ''
       ${pkgs.photoprism}/bin/photoprism \
         --sponsor \
@@ -99,8 +115,14 @@ in
     in
     {
       description = "Prometheus MySQL Exporter";
-      after = [ "network.target" "mysql.service" ];
-      wants = [ "network.target" "mysql.service" ];
+      after = [
+        "network.target"
+        "mysql.service"
+      ];
+      wants = [
+        "network.target"
+        "mysql.service"
+      ];
       wantedBy = [ "multi-user.target" ];
       serviceConfig = {
         ExecStart = "${pkgs.prometheus-mysqld-exporter}/bin/mysqld_exporter --config.my-cnf ${my-cnf} --web.listen-address :${toString config.ptsd.ports.prometheus-mysqld}";

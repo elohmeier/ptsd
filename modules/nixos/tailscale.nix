@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -80,20 +85,22 @@ in
         description = "fetch tailscale host TLS certificate";
         serviceConfig = {
           ExecStart = ''${config.services.tailscale.package}/bin/tailscale cert "${cfg.fqdn}"'';
-          ExecStartPost = "+" + (pkgs.writeShellScript "tailscale-cert-post" ''
-            # if [ $(date -d "$(stat -c %y "${cfg.fqdn}.crt")" +%s) -gt $(date -d "1 day ago" +%s) ]; then
-            #   echo "certificate was not renewed"
-            #   exit 0
-            # fi
-            cat "${cfg.fqdn}.crt" "${cfg.fqdn}.key" > "${cfg.fqdn}.pem"
-            chown tailscale-cert:tailscale-cert "${cfg.fqdn}.pem"
-            chmod 640 "${cfg.fqdn}.key"
-            chmod 640 "${cfg.fqdn}.pem"
-            ${cfg.cert.postRun}
-            ${optionalString (cfg.cert.reloadServices != [])
-              "systemctl --no-block try-reload-or-restart ${escapeShellArgs cfg.cert.reloadServices}"
-            }
-          '');
+          ExecStartPost =
+            "+"
+            + (pkgs.writeShellScript "tailscale-cert-post" ''
+              # if [ $(date -d "$(stat -c %y "${cfg.fqdn}.crt")" +%s) -gt $(date -d "1 day ago" +%s) ]; then
+              #   echo "certificate was not renewed"
+              #   exit 0
+              # fi
+              cat "${cfg.fqdn}.crt" "${cfg.fqdn}.key" > "${cfg.fqdn}.pem"
+              chown tailscale-cert:tailscale-cert "${cfg.fqdn}.pem"
+              chmod 640 "${cfg.fqdn}.key"
+              chmod 640 "${cfg.fqdn}.pem"
+              ${cfg.cert.postRun}
+              ${optionalString (
+                cfg.cert.reloadServices != [ ]
+              ) "systemctl --no-block try-reload-or-restart ${escapeShellArgs cfg.cert.reloadServices}"}
+            '');
           StateDirectory = "tailscale-cert";
           WorkingDirectory = "/var/lib/tailscale-cert";
           User = "tailscale-cert";
@@ -114,54 +121,63 @@ in
       services.nginx = {
         enable = true;
 
-        virtualHosts = {
-          "${cfg.fqdn}" = {
-            listenAddresses = [ cfg.ip ];
-            addSSL = true;
-            sslCertificate = "/var/lib/tailscale-cert/${cfg.fqdn}.crt";
-            sslCertificateKey = "/var/lib/tailscale-cert/${cfg.fqdn}.key";
-            root = pkgs.writeTextFile {
-              name = "tsindex";
-              destination = "/index.html";
-              text = ''
-                <!DOCTYPE html>
-                <html lang="en">
-                  <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                    <title>${cfg.fqdn}</title>
-                  </head>
-                  <body>
-                    <h2>${cfg.fqdn}</h2>
-                    <ul>
-                ${concatMapStrings (svc: ''
-                      <li><a href="https://${cfg.fqdn}:${toString config.ptsd.ports."${svc}"}">${svc}</a></li>
-                '') allLinks}
-                    </ul>
-                  </body>
-                </html>
-              '';
+        virtualHosts =
+          {
+            "${cfg.fqdn}" = {
+              listenAddresses = [ cfg.ip ];
+              addSSL = true;
+              sslCertificate = "/var/lib/tailscale-cert/${cfg.fqdn}.crt";
+              sslCertificateKey = "/var/lib/tailscale-cert/${cfg.fqdn}.key";
+              root = pkgs.writeTextFile {
+                name = "tsindex";
+                destination = "/index.html";
+                text = ''
+                  <!DOCTYPE html>
+                  <html lang="en">
+                    <head>
+                      <meta charset="UTF-8">
+                      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                      <meta http-equiv="X-UA-Compatible" content="ie=edge">
+                      <title>${cfg.fqdn}</title>
+                    </head>
+                    <body>
+                      <h2>${cfg.fqdn}</h2>
+                      <ul>
+                  ${concatMapStrings (svc: ''
+                    <li><a href="https://${cfg.fqdn}:${toString config.ptsd.ports."${svc}"}">${svc}</a></li>
+                  '') allLinks}
+                      </ul>
+                    </body>
+                  </html>
+                '';
+              };
             };
-          };
-        } // (builtins.listToAttrs (map
-          (name: {
-            inherit name; value = {
-            forceSSL = true;
-            listen = [{ addr = cfg.ip; port = config.ptsd.ports."${name}"; ssl = true; }];
-            sslCertificate = "/var/lib/tailscale-cert/${cfg.fqdn}.crt";
-            sslCertificateKey = "/var/lib/tailscale-cert/${cfg.fqdn}.key";
+          }
+          // (builtins.listToAttrs (
+            map (name: {
+              inherit name;
+              value = {
+                forceSSL = true;
+                listen = [
+                  {
+                    addr = cfg.ip;
+                    port = config.ptsd.ports."${name}";
+                    ssl = true;
+                  }
+                ];
+                sslCertificate = "/var/lib/tailscale-cert/${cfg.fqdn}.crt";
+                sslCertificateKey = "/var/lib/tailscale-cert/${cfg.fqdn}.key";
 
-            locations."/".extraConfig = ''
-              proxy_http_version 1.1;
-              proxy_pass http://127.0.0.1:${toString config.ptsd.ports."${name}"};
-              proxy_set_header Connection $http_connection;
-              proxy_set_header Host $host;
-              proxy_set_header Upgrade $http_upgrade;
-            '';
-          };
-          })
-          cfg.httpServices));
+                locations."/".extraConfig = ''
+                  proxy_http_version 1.1;
+                  proxy_pass http://127.0.0.1:${toString config.ptsd.ports."${name}"};
+                  proxy_set_header Connection $http_connection;
+                  proxy_set_header Host $host;
+                  proxy_set_header Upgrade $http_upgrade;
+                '';
+              };
+            }) cfg.httpServices
+          ));
       };
     })
   ];

@@ -1,13 +1,14 @@
-{ stdenv
-, autoconf
-, automake
-, fetchFromGitHub
-, libtool
-, nasm
-, pkg-config
-, which
-, xorg
-, xrdp
+{
+  stdenv,
+  autoconf,
+  automake,
+  fetchFromGitHub,
+  libtool,
+  nasm,
+  pkg-config,
+  which,
+  xorg,
+  xrdp,
 }:
 
 stdenv.mkDerivation rec {
@@ -21,7 +22,14 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-veRzHQklkjoHIy5xowd4UI1e5ZxBbSsElYd4vE+LiJ4=";
   };
 
-  nativeBuildInputs = [ pkg-config autoconf automake which libtool nasm ];
+  nativeBuildInputs = [
+    pkg-config
+    autoconf
+    automake
+    which
+    libtool
+    nasm
+  ];
 
   buildInputs = [ xorg.xorgserver ];
 

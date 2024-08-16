@@ -1,4 +1,10 @@
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 {
   imports = [
     "${modulesPath}/installer/netboot/netboot.nix"
@@ -8,7 +14,10 @@
   environment.defaultPackages = lib.mkForce [ ];
 
   users.users.root.openssh.authorizedKeys.keys =
-    let sshPubKeys = import ./users/ssh-pubkeys.nix; in sshPubKeys.authorizedKeys_enno;
+    let
+      sshPubKeys = import ./users/ssh-pubkeys.nix;
+    in
+    sshPubKeys.authorizedKeys_enno;
 
   networking.firewall.allowedUDPPorts = [ config.services.tailscale.port ];
   networking.firewall.checkReversePath = "loose";
@@ -18,8 +27,14 @@
   systemd.services.tailscale-autoconnect = {
     description = "Automatic connection to Tailscale";
 
-    after = [ "network-pre.target" "tailscale.service" ];
-    wants = [ "network-pre.target" "tailscale.service" ];
+    after = [
+      "network-pre.target"
+      "tailscale.service"
+    ];
+    wants = [
+      "network-pre.target"
+      "tailscale.service"
+    ];
     wantedBy = [ "multi-user.target" ];
 
     serviceConfig.Type = "oneshot";

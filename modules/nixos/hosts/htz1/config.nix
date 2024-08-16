@@ -31,8 +31,12 @@
       ];
     in
     {
-      hetzner = { inherit paths exclude; };
-      rpi4 = { inherit paths exclude; };
+      hetzner = {
+        inherit paths exclude;
+      };
+      rpi4 = {
+        inherit paths exclude;
+      };
     };
 
   ptsd.secrets.files."nwvpn-fb1.psk" = {
@@ -54,32 +58,54 @@
     interfaces.ens3 = {
       useDHCP = true;
       ipv6 = {
-        addresses = [{ address = "2a01:4f8:c010:1adc::1"; prefixLength = 64; }];
+        addresses = [
+          {
+            address = "2a01:4f8:c010:1adc::1";
+            prefixLength = 64;
+          }
+        ];
       };
     };
 
     # reduce noise coming from www if
     firewall.logRefusedConnections = false;
 
-    firewall.allowedTCPPorts = [ 80 443 ];
+    firewall.allowedTCPPorts = [
+      80
+      443
+    ];
 
     # nixos-fw-accept chain will be removed by the NixOS stop-script, so no extraStopCommands are needed
     # whitelist networks based on AS ip ranges, see update script
-    firewall.extraCommands = let allowlist = builtins.fromJSON (builtins.readFile ./ip-allowlist.json); in ''
-      iptables -A nixos-fw -p tcp -s ${builtins.concatStringsSep "," allowlist.ipv4} --match multiport --dports 8123 -j nixos-fw-accept
-      ip6tables -A nixos-fw -p tcp -s ${builtins.concatStringsSep "," allowlist.ipv6} --match multiport --dports 8123 -j nixos-fw-accept
-    '';
+    firewall.extraCommands =
+      let
+        allowlist = builtins.fromJSON (builtins.readFile ./ip-allowlist.json);
+      in
+      ''
+        iptables -A nixos-fw -p tcp -s ${builtins.concatStringsSep "," allowlist.ipv4} --match multiport --dports 8123 -j nixos-fw-accept
+        ip6tables -A nixos-fw -p tcp -s ${builtins.concatStringsSep "," allowlist.ipv6} --match multiport --dports 8123 -j nixos-fw-accept
+      '';
   };
 
   # prevents creation of the following route (`ip -6 route`):
   # default dev lo proto static metric 1024 pref medium
   systemd.network.networks."40-ens3".routes = [
-    { routeConfig = { Gateway = "fe80::1"; }; }
+    {
+      routeConfig = {
+        Gateway = "fe80::1";
+      };
+    }
   ];
 
   ptsd.wireguard.networks.nwvpn = {
     server.enable = true;
-    routes = [{ routeConfig = { Destination = "192.168.178.0/24"; }; }];
+    routes = [
+      {
+        routeConfig = {
+          Destination = "192.168.178.0/24";
+        };
+      }
+    ];
     reresolveDns = true; # fb1 connection / dyndns
     reresolveDnsInterval = "06:00";
   };
@@ -94,9 +120,7 @@
       "prometheus-pushgateway"
       "prometheus-server"
     ];
-    links = [
-      "monica"
-    ];
+    links = [ "monica" ];
   };
 
   security.acme.certs."mqtt.nerdworks.de" = {
@@ -112,20 +136,35 @@
     recommendedTlsSettings = true;
 
     virtualHosts = {
-      "mqtt.nerdworks.de" = { addSSL = true; enableACME = true; };
+      "mqtt.nerdworks.de" = {
+        addSSL = true;
+        enableACME = true;
+      };
       "www.nerdworks.de" = {
         addSSL = true;
         enableACME = true;
         root = "/var/www/nerdworks.de/prod-v2";
         locations."/dl/".alias = "/var/www/nerdworks.de/dl/";
       };
-      "nerdworks.de" = { addSSL = true; enableACME = true; globalRedirect = "www.nerdworks.de"; };
+      "nerdworks.de" = {
+        addSSL = true;
+        enableACME = true;
+        globalRedirect = "www.nerdworks.de";
+      };
       "htz1.nn42.de" = {
         addSSL = true;
         enableACME = true;
         listen = [
-          { addr = "159.69.186.234"; port = 8123; ssl = true; }
-          { addr = "[2a01:4f8:c010:1adc::1]"; port = 8123; ssl = true; }
+          {
+            addr = "159.69.186.234";
+            port = 8123;
+            ssl = true;
+          }
+          {
+            addr = "[2a01:4f8:c010:1adc::1]";
+            port = 8123;
+            ssl = true;
+          }
         ];
         locations."/".extraConfig = ''
           proxy_http_version 1.1;

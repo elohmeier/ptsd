@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 let
   virshNatIpPrefix = "192.168.197"; # "XXX.XXX.XXX" without last block
@@ -50,21 +55,37 @@ in
     };
   };
 
-  environment.systemPackages = with pkgs; mkIf nonAarch64 [
-    samba
-    # looking-glass-client
-    # scream
-    virt-viewer
-    virtmanager
-  ];
+  environment.systemPackages =
+    with pkgs;
+    mkIf nonAarch64 [
+      samba
+      # looking-glass-client
+      # scream
+      virt-viewer
+      virtmanager
+    ];
 
   networking = mkIf nonAarch64 {
     useNetworkd = true;
 
     firewall.interfaces = {
       "${virshNatIf}" = {
-        allowedTCPPorts = [ 53 631 445 139 ];
-        allowedUDPPorts = [ 53 67 68 546 547 137 138 4011 ];
+        allowedTCPPorts = [
+          53
+          631
+          445
+          139
+        ];
+        allowedUDPPorts = [
+          53
+          67
+          68
+          546
+          547
+          137
+          138
+          4011
+        ];
       };
     };
 

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   pkg = pkgs.paperless-ngx_unstable;
@@ -22,18 +27,28 @@ let
   };
 
   # utility function around makeWrapper
-  mkWrapperDrv = { original, name, set ? { } }:
-    pkgs.runCommand "${name}-wrapper" { nativeBuildInputs = [ pkgs.makeWrapper ]; } (with lib; ''
-      makeWrapper "${original}" "$out/bin/${name}" \
-        ${concatStringsSep " \\\n " (mapAttrsToList (name: value: ''--set ${name} "${value}"'') set)}
-    '');
-
-  redisConfig = settings: pkgs.writeText "redis.conf" (lib.generators.toKeyValue
+  mkWrapperDrv =
     {
-      listsAsDuplicateKeys = true;
-      mkKeyValue = lib.generators.mkKeyValueDefault { } " ";
-    }
-    settings);
+      original,
+      name,
+      set ? { },
+    }:
+    pkgs.runCommand "${name}-wrapper" { nativeBuildInputs = [ pkgs.makeWrapper ]; } (
+      with lib;
+      ''
+        makeWrapper "${original}" "$out/bin/${name}" \
+          ${concatStringsSep " \\\n " (mapAttrsToList (name: value: ''--set ${name} "${value}"'') set)}
+      ''
+    );
+
+  redisConfig =
+    settings:
+    pkgs.writeText "redis.conf" (
+      lib.generators.toKeyValue {
+        listsAsDuplicateKeys = true;
+        mkKeyValue = lib.generators.mkKeyValueDefault { } " ";
+      } settings
+    );
 
   redis-settings = {
     port = 0; # do not listen on TCP socket
@@ -42,7 +57,11 @@ let
     logfile = ''""''; # log to stdout
     databases = 16;
     maxclients = 10000;
-    save = [ "900 1" "300 10" "60 10000" ];
+    save = [
+      "900 1"
+      "300 10"
+      "60 10000"
+    ];
     dbfilename = "dump.rdb";
     dir = "${config.xdg.dataHome}/redis-paperless";
     appendonly = "no";

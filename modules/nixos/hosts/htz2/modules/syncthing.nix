@@ -10,11 +10,34 @@ in
     key = "/var/src/secrets/syncthing.key";
     cert = "/var/src/secrets/syncthing.crt";
     settings = {
-      devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (lib.filterAttrs (_: lib.hasAttr "syncthing") universe.hosts);
+      devices = lib.mapAttrs (_: hostcfg: hostcfg.syncthing) (
+        lib.filterAttrs (_: lib.hasAttr "syncthing") universe.hosts
+      );
       folders = {
-        "/var/sync/enno/Scans" = { label = "enno/Scans"; id = "ezjwj-xgnhe"; devices = [ "mb4" "iph3" ]; };
-        "/var/sync/luisa/Scans" = { label = "luisa/Scans"; id = "dnryo-kz7io"; devices = [ "mb4" "mb3" ]; };
-        "/var/sync/laiyer/Scans" = { label = "laiyer/Scans"; id = "nwx3z-7w27q"; devices = [ "mb4" "dipl-ing-danuta-tlustek-bsc" ]; };
+        "/var/sync/enno/Scans" = {
+          label = "enno/Scans";
+          id = "ezjwj-xgnhe";
+          devices = [
+            "mb4"
+            "iph3"
+          ];
+        };
+        "/var/sync/luisa/Scans" = {
+          label = "luisa/Scans";
+          id = "dnryo-kz7io";
+          devices = [
+            "mb4"
+            "mb3"
+          ];
+        };
+        "/var/sync/laiyer/Scans" = {
+          label = "laiyer/Scans";
+          id = "nwx3z-7w27q";
+          devices = [
+            "mb4"
+            "dipl-ing-danuta-tlustek-bsc"
+          ];
+        };
       };
     };
 
@@ -45,9 +68,15 @@ in
         };
       in
       {
-        scans-enno = defaults // { path = "/var/sync/enno/Scans"; };
-        scans-luisa = defaults // { path = "/var/sync/luisa/Scans"; };
-        scans-laiyer = defaults // { path = "/var/sync/laiyer/Scans"; };
+        scans-enno = defaults // {
+          path = "/var/sync/enno/Scans";
+        };
+        scans-luisa = defaults // {
+          path = "/var/sync/luisa/Scans";
+        };
+        scans-laiyer = defaults // {
+          path = "/var/sync/laiyer/Scans";
+        };
       };
   };
 

@@ -35,20 +35,31 @@ in
 {
   fileSystems."/" = {
     fsType = "tmpfs";
-    options = [ "size=1G" "mode=1755" ];
+    options = [
+      "size=1G"
+      "mode=1755"
+    ];
   };
 
   fileSystems."/nix" = {
     device = "/dev/vg/nix";
     fsType = "ext4";
     neededForBoot = true;
-    options = [ "nodev" "noatime" ];
+    options = [
+      "nodev"
+      "noatime"
+    ];
   };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/A3C8-1710";
     fsType = "vfat";
-    options = [ "nofail" "nodev" "nosuid" "noexec" ];
+    options = [
+      "nofail"
+      "nodev"
+      "nosuid"
+      "noexec"
+    ];
   };
 
   systemd.mounts =
@@ -63,9 +74,7 @@ in
         "borgbackup-repo-bae0thiu.service"
         "borgbackup-repo-convexio_prod.service"
       ];
-      hassDeps = [
-        "home-assistant.service"
-      ];
+      hassDeps = [ "home-assistant.service" ];
       syncthingDeps = [
         "icloudpd-enno.service"
         "icloudpd-luisa.service"
@@ -75,9 +84,7 @@ in
         "syncthing-init.service"
         "photoprism.service"
       ];
-      photoprismDeps = [
-        "photoprism.service"
-      ];
+      photoprismDeps = [ "photoprism.service" ];
     in
     [
       {

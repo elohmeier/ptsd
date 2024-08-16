@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   systemd.services.prometheus-fritzbox-exporter = {
     description = "Prometheus exporter for Fritz!Box home routers";

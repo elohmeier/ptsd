@@ -1,4 +1,9 @@
-{ stdenv, fetchgit, gitMinimal, php }:
+{
+  stdenv,
+  fetchgit,
+  gitMinimal,
+  php,
+}:
 
 stdenv.mkDerivation {
   pname = "pinephone-keyboard";
@@ -10,7 +15,10 @@ stdenv.mkDerivation {
     sha256 = "sha256-eL35j3ymWodiX7KEerN40y8yMM151u1j6dhmS3OqE3A=";
   };
 
-  buildInputs = [ gitMinimal php ];
+  buildInputs = [
+    gitMinimal
+    php
+  ];
   buildPhase = "make tools";
 
   installPhase = ''

@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
@@ -23,25 +28,21 @@ in
 
   config = mkMerge [
     {
-      assertions = [{
-        assertion = !(cfg.headless.enable && cfg.vfio.enable);
-        message = "ptsd.nvidia.headless.enable and -.vfio.enable are mutually exclusive";
-      }];
+      assertions = [
+        {
+          assertion = !(cfg.headless.enable && cfg.vfio.enable);
+          message = "ptsd.nvidia.headless.enable and -.vfio.enable are mutually exclusive";
+        }
+      ];
     }
 
     (mkIf cfg.headless.enable {
       boot = {
-        blacklistedKernelModules = [
-          "nouveau"
-        ];
+        blacklistedKernelModules = [ "nouveau" ];
 
-        extraModulePackages = [
-          nvidia_x11.bin
-        ];
+        extraModulePackages = [ nvidia_x11.bin ];
 
-        kernelModules = [
-          "nvidia-uvm"
-        ];
+        kernelModules = [ "nvidia-uvm" ];
       };
 
       environment.systemPackages = with pkgs; [
@@ -62,28 +63,26 @@ in
         };
       };
 
-      systemd.services.nvidia-persistenced =
-        {
-          description = "NVIDIA Persistence Daemon";
-          wantedBy = [ "multi-user.target" ];
-          serviceConfig = {
-            Type = "forking";
-            Restart = "always";
-            PIDFile = "/var/run/nvidia-persistenced/nvidia-persistenced.pid";
-            ExecStart = "${nvidia_x11.persistenced}/bin/nvidia-persistenced --verbose";
-            ExecStopPost = "${pkgs.coreutils}/bin/rm -rf /var/run/nvidia-persistenced";
-          };
+      systemd.services.nvidia-persistenced = {
+        description = "NVIDIA Persistence Daemon";
+        wantedBy = [ "multi-user.target" ];
+        serviceConfig = {
+          Type = "forking";
+          Restart = "always";
+          PIDFile = "/var/run/nvidia-persistenced/nvidia-persistenced.pid";
+          ExecStart = "${nvidia_x11.persistenced}/bin/nvidia-persistenced --verbose";
+          ExecStopPost = "${pkgs.coreutils}/bin/rm -rf /var/run/nvidia-persistenced";
         };
+      };
 
-      services.udev.extraRules =
-        ''
-          # Create /dev/nvidia-uvm when the nvidia-uvm module is loaded.
-          KERNEL=="nvidia", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidiactl c $$(grep nvidia-frontend /proc/devices | cut -d \  -f 1) 255'"
-          KERNEL=="nvidia_modeset", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia-modeset c $$(grep nvidia-frontend /proc/devices | cut -d \  -f 1) 254'"
-          KERNEL=="card*", SUBSYSTEM=="drm", DRIVERS=="nvidia", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia%n c $$(grep nvidia-frontend /proc/devices | cut -d \  -f 1) %n'"
-          KERNEL=="nvidia_uvm", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia-uvm c $$(grep nvidia-uvm /proc/devices | cut -d \  -f 1) 0'"
-          KERNEL=="nvidia_uvm", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia-uvm-tools c $$(grep nvidia-uvm /proc/devices | cut -d \  -f 1) 0'"
-        '';
+      services.udev.extraRules = ''
+        # Create /dev/nvidia-uvm when the nvidia-uvm module is loaded.
+        KERNEL=="nvidia", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidiactl c $$(grep nvidia-frontend /proc/devices | cut -d \  -f 1) 255'"
+        KERNEL=="nvidia_modeset", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia-modeset c $$(grep nvidia-frontend /proc/devices | cut -d \  -f 1) 254'"
+        KERNEL=="card*", SUBSYSTEM=="drm", DRIVERS=="nvidia", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia%n c $$(grep nvidia-frontend /proc/devices | cut -d \  -f 1) %n'"
+        KERNEL=="nvidia_uvm", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia-uvm c $$(grep nvidia-uvm /proc/devices | cut -d \  -f 1) 0'"
+        KERNEL=="nvidia_uvm", RUN+="${pkgs.runtimeShell} -c 'mknod -m 666 /dev/nvidia-uvm-tools c $$(grep nvidia-uvm /proc/devices | cut -d \  -f 1) 0'"
+      '';
     })
 
     (mkIf cfg.vfio.enable {
@@ -96,7 +95,12 @@ in
           "nvidia_modeset"
           "i2c_nvidia_gpu"
         ];
-        kernelModules = [ "vfio_virqfd" "vfio_pci" "vfio_iommu_type1" "vfio" ];
+        kernelModules = [
+          "vfio_virqfd"
+          "vfio_pci"
+          "vfio_iommu_type1"
+          "vfio"
+        ];
         extraModprobeConfig = ''
           options kvm ignore_msrs=1
         '';

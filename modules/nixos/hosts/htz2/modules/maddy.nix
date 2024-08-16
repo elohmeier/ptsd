@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 
@@ -357,7 +362,10 @@ in
       sslServerCert = "/var/lib/acme/htz2.nn42.de/fullchain.pem";
       sslServerKey = "/var/lib/acme/htz2.nn42.de/key.pem";
       enablePAM = false;
-      mailboxes.Junk = { specialUse = "Junk"; auto = "create"; };
+      mailboxes.Junk = {
+        specialUse = "Junk";
+        auto = "create";
+      };
       enableQuota = true;
       mailLocation = "mdbox:/var/lib/dovecot/mail";
       extraConfig = ''

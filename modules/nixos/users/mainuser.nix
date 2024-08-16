@@ -1,6 +1,11 @@
 # Keep in mind this config is also used for NixOS containers.
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   users.users = {
@@ -11,27 +16,24 @@
       createHome = true;
       uid = lib.mkDefault 1000;
       description = lib.mkDefault "Gordon Shumway";
-      extraGroups =
-        [
-          "wheel"
-          "networkmanager"
-          "libvirtd"
-          "docker"
-          "syncthing"
-          "video"
-          "dialout"
-          "input" # useful for dosbox on tty
-          "vboxusers"
-          "tss"
-        ];
+      extraGroups = [
+        "wheel"
+        "networkmanager"
+        "libvirtd"
+        "docker"
+        "syncthing"
+        "video"
+        "dialout"
+        "input" # useful for dosbox on tty
+        "vboxusers"
+        "tss"
+      ];
       openssh.authorizedKeys.keys =
         let
           sshPubKeys = import ./ssh-pubkeys.nix;
         in
         sshPubKeys.authorizedKeys_enno;
       hashedPasswordFile = "/nix/secrets/mainUser.passwd";
-    } // lib.optionalAttrs config.programs.fish.enable {
-      shell = pkgs.fish;
-    };
+    } // lib.optionalAttrs config.programs.fish.enable { shell = pkgs.fish; };
   };
 }

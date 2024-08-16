@@ -15,7 +15,11 @@
 {
   systemd.services.rclone-fraam-gdrive-backup = {
     description = "rclone job for fraam-gdrive-backup";
-    path = with pkgs; [ rclone jq gnused ];
+    path = with pkgs; [
+      rclone
+      jq
+      gnused
+    ];
     script = ''
       for userrow in $(jq -r '.[] | @base64' "$CREDENTIALS_DIRECTORY/gdrive-cfg"); do
       	_jq() {
@@ -81,7 +85,10 @@
       SystemCallArchitectures = "native";
       UMask = "0066";
     };
-    wants = [ "network.target" "network-online.target" ];
+    wants = [
+      "network.target"
+      "network-online.target"
+    ];
     startAt = "*-*-* 05:00:00";
   };
 }

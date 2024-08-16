@@ -16,7 +16,6 @@
     dev.enable = false;
   };
 
-
   boot = {
     initrd = {
       includeDefaultModules = false;

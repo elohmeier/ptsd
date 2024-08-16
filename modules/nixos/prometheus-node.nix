@@ -26,8 +26,6 @@
       "ksmd"
       "textfile"
     ];
-    extraFlags = [
-      "--collector.textfile.directory=/var/log"
-    ];
+    extraFlags = [ "--collector.textfile.directory=/var/log" ];
   };
 }

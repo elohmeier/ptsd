@@ -2,7 +2,12 @@
 
 {
   home.packages = with pkgs; [
-    (nerdfonts.override { fonts = [ "FiraCode" "SourceCodePro" ]; })
+    (nerdfonts.override {
+      fonts = [
+        "FiraCode"
+        "SourceCodePro"
+      ];
+    })
     # nwfonts # TODO: fix src
     roboto
     roboto-slab

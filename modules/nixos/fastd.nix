@@ -1,40 +1,58 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
   cfg = config.ptsd.fastd;
 
-  peerCfg = peer: pkgs.writeText "fast-peer-${peer.hostname}.conf" ''
-    key "${peer.publickey}";
-    remote ipv4 "${peer.hostname}" port ${toString peer.port};
-    float yes;
-  '';
+  peerCfg =
+    peer:
+    pkgs.writeText "fast-peer-${peer.hostname}.conf" ''
+      key "${peer.publickey}";
+      remote ipv4 "${peer.hostname}" port ${toString peer.port};
+      float yes;
+    '';
 in
 {
   options.ptsd.fastd = {
     enable = mkEnableOption "ptsd.fastd";
     networks = mkOption {
-      type = types.attrsOf (types.submodule ({ config, ... }: {
-        options = {
-          name = mkOption { type = types.str; default = config._module.args.name; };
-          mtu = mkOption { type = types.int; };
-          peers = mkOption {
-            type = types.listOf (types.submodule (_: {
-              options = {
-                hostname = mkOption { type = types.str; };
-                port = mkOption { type = types.int; };
-                publickey = mkOption { type = types.str; };
+      type = types.attrsOf (
+        types.submodule (
+          { config, ... }:
+          {
+            options = {
+              name = mkOption {
+                type = types.str;
+                default = config._module.args.name;
               };
-            }));
-          };
-        };
-      }));
+              mtu = mkOption { type = types.int; };
+              peers = mkOption {
+                type = types.listOf (
+                  types.submodule (_: {
+                    options = {
+                      hostname = mkOption { type = types.str; };
+                      port = mkOption { type = types.int; };
+                      publickey = mkOption { type = types.str; };
+                    };
+                  })
+                );
+              };
+            };
+          }
+        )
+      );
     };
   };
 
   config = mkIf cfg.enable {
-    systemd.services = mapAttrs'
-      (name: cfg: nameValuePair "fastd-${name}" {
+    systemd.services = mapAttrs' (
+      name: cfg:
+      nameValuePair "fastd-${name}" {
         description = "fastd tunneling daemon for ${name}";
         wantedBy = [ "multi-user.target" ];
         after = [ "network.target" ];
@@ -67,8 +85,8 @@ in
         '';
 
         serviceConfig.StateDirectory = "fastd";
-      })
-      cfg.networks;
+      }
+    ) cfg.networks;
 
     networking.firewall.allowedUDPPorts = [ 10000 ];
 

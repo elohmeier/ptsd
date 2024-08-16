@@ -13,83 +13,83 @@ BASE_DIR="$HOME/repos"
 
 # Function to get the preferred remote (upstream if it exists, otherwise origin)
 get_preferred_remote() {
-    local repo_path=$1
-    if git -C "$repo_path" remote | grep -q '^upstream$'; then
-        echo "upstream"
-    else
-        echo "origin"
-    fi
+  local repo_path=$1
+  if git -C "$repo_path" remote | grep -q '^upstream$'; then
+    echo "upstream"
+  else
+    echo "origin"
+  fi
 }
 
 # Function to check if remote uses GitHub URL format
 is_github_url() {
-    local repo_path=$1
-    local remote
-    remote=$(get_preferred_remote "$repo_path")
-    local remote_url
-    remote_url=$(git -C "$repo_path" remote get-url "$remote")
+  local repo_path=$1
+  local remote
+  remote=$(get_preferred_remote "$repo_path")
+  local remote_url
+  remote_url=$(git -C "$repo_path" remote get-url "$remote")
 
-    [[ $remote_url == git@github.com:* || $remote_url == https://github.com/* ]]
+  [[ $remote_url == git@github.com:* || $remote_url == https://github.com/* ]]
 }
 
 # Function to extract the GitHub username and repo name
 extract_github_info() {
-    local repo_path=$1
-    local remote
-    remote=$(get_preferred_remote "$repo_path")
-    local remote_url
-    remote_url=$(git -C "$repo_path" remote get-url "$remote")
+  local repo_path=$1
+  local remote
+  remote=$(get_preferred_remote "$repo_path")
+  local remote_url
+  remote_url=$(git -C "$repo_path" remote get-url "$remote")
 
-    if [[ $remote_url == git@github.com:* ]]; then
-        # SSH URL format
-        remote_url=${remote_url#git@github.com:}
-    elif [[ $remote_url == https://github.com/* ]]; then
-        # HTTPS URL format
-        remote_url=${remote_url#https://github.com/}
-    else
-        echo "Unsupported URL format" >&2
-        return 1
-    fi
+  if [[ $remote_url == git@github.com:* ]]; then
+    # SSH URL format
+    remote_url=${remote_url#git@github.com:}
+  elif [[ $remote_url == https://github.com/* ]]; then
+    # HTTPS URL format
+    remote_url=${remote_url#https://github.com/}
+  else
+    echo "Unsupported URL format" >&2
+    return 1
+  fi
 
-    IFS='/' read -ra ADDR <<<"$remote_url"
-    local username=${ADDR[0]}
-    local repo_name_with_git=${ADDR[1]}
-    local repo_name="${repo_name_with_git%.git}"
+  IFS='/' read -ra ADDR <<<"$remote_url"
+  local username=${ADDR[0]}
+  local repo_name_with_git=${ADDR[1]}
+  local repo_name="${repo_name_with_git%.git}"
 
-    echo "$username" "$repo_name"
+  echo "$username" "$repo_name"
 }
 
 if [[ $# -ne 1 ]]; then
-    echo "Usage: $0 <repo_path>"
-    exit 1
+  echo "Usage: $0 <repo_path>"
+  exit 1
 fi
 
 repo_path="$1"
 
 if ! is_github_url "$repo_path"; then
-    echo "The repo at $repo_path does not use a GitHub URL format."
-    exit 1
+  echo "The repo at $repo_path does not use a GitHub URL format."
+  exit 1
 fi
 
 IFS=' ' read -r username repo_name <<<"$(extract_github_info "$repo_path")"
 new_path="$BASE_DIR/github.com/$username/$repo_name"
 
 # Check if target directory already exists
-if [[ "$repo_path" == "$new_path" ]]; then
-    echo "The repository is already at the correct location: $new_path"
-    exit 0
+if [[ $repo_path == "$new_path" ]]; then
+  echo "The repository is already at the correct location: $new_path"
+  exit 0
 elif [[ -d $new_path ]]; then
-    echo "Error: Target directory '$new_path' already exists."
-    exit 1
+  echo "Error: Target directory '$new_path' already exists."
+  exit 1
 fi
 
 echo "The repository at $repo_path will be moved to $new_path."
 
 read -r -p "Are you sure you want to move the repository? (y/n): " confirm
 if [[ $confirm =~ ^[Yy]$ ]]; then
-    mkdir -p "$(dirname "$new_path")"
-    mv "$repo_path" "$new_path"
-    echo "Repository moved to $new_path."
+  mkdir -p "$(dirname "$new_path")"
+  mv "$repo_path" "$new_path"
+  echo "Repository moved to $new_path."
 else
-    echo "Move cancelled."
+  echo "Move cancelled."
 fi

@@ -1,59 +1,74 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
   cfg = config.ptsd.icloudpd;
   pkg = pkgs.ptsd-python3.pkgs.icloudpd;
 
-  generateService = jobname: jobcfg: nameValuePair "icloudpd-${jobname}" {
-    description = "Download iCloud photos and videos (${jobname})";
+  generateService =
+    jobname: jobcfg:
+    nameValuePair "icloudpd-${jobname}" {
+      description = "Download iCloud photos and videos (${jobname})";
 
-    # TODO: prevent execution if cookie token outdated because of nasty iOS 2FA prompts
-    script = ''
+      # TODO: prevent execution if cookie token outdated because of nasty iOS 2FA prompts
+      script = ''
+        ${pkg}/bin/icloudpd \
+          --directory "${jobcfg.directory}" \
+          --username "$ICLOUD_USER" \
+          --password "$ICLOUD_PASS" \
+          --cookie-directory "${jobcfg.cookieDirectory}"
+      '';
+      wants = [
+        "network.target"
+        "network-online.target"
+      ];
+      after = [
+        "network.target"
+        "network-online.target"
+      ];
+
+      serviceConfig = {
+        EnvironmentFile = jobcfg.envFile;
+        Restart = "no";
+        Type = "oneshot";
+
+        User = jobcfg.user;
+        Group = jobcfg.group;
+        StateDirectory = "icloudpd";
+      };
+
+      startAt = "*-*-* 05:30:00";
+    };
+
+  generateReauthScript =
+    jobname: jobcfg:
+    pkgs.writeShellScriptBin "icloudpd-${jobname}-reauth" ''
+      set -e
+      source ${jobcfg.envFile}
       ${pkg}/bin/icloudpd \
         --directory "${jobcfg.directory}" \
         --username "$ICLOUD_USER" \
         --password "$ICLOUD_PASS" \
-        --cookie-directory "${jobcfg.cookieDirectory}"
+        --cookie-directory "${jobcfg.cookieDirectory}" \
+        --list-albums
     '';
-    wants = [ "network.target" "network-online.target" ];
-    after = [ "network.target" "network-online.target" ];
-
-    serviceConfig = {
-      EnvironmentFile = jobcfg.envFile;
-      Restart = "no";
-      Type = "oneshot";
-
-      User = jobcfg.user;
-      Group = jobcfg.group;
-      StateDirectory = "icloudpd";
-    };
-
-    startAt = "*-*-* 05:30:00";
-  };
-
-  generateReauthScript = jobname: jobcfg: pkgs.writeShellScriptBin "icloudpd-${jobname}-reauth" ''
-    set -e
-    source ${jobcfg.envFile}
-    ${pkg}/bin/icloudpd \
-      --directory "${jobcfg.directory}" \
-      --username "$ICLOUD_USER" \
-      --password "$ICLOUD_PASS" \
-      --cookie-directory "${jobcfg.cookieDirectory}" \
-      --list-albums
-  '';
 in
 {
   options.ptsd.icloudpd = {
     jobs = mkOption {
       type = types.attrsOf (
         types.submodule (
-          { config, ... }: {
+          { config, ... }:
+          {
             options = {
               name = mkOption {
                 type = types.strMatching "[A-Za-z0-9]+";
-                default =
-                  config._module.args.name;
+                default = config._module.args.name;
               };
               directory = mkOption {
                 type = types.path;
@@ -65,7 +80,10 @@ in
               };
               user = mkOption { type = types.str; };
               group = mkOption { type = types.str; };
-              cookieDirectory = mkOption { type = types.path; default = "/var/lib/icloudpd"; };
+              cookieDirectory = mkOption {
+                type = types.path;
+                default = "/var/lib/icloudpd";
+              };
             };
           }
         )

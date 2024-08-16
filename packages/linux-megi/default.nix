@@ -1,17 +1,22 @@
-{ linuxKernel, lib, stdenv, stdenvAdapters, fetchFromGitHub, ... }:
+{
+  linuxKernel,
+  lib,
+  stdenv,
+  stdenvAdapters,
+  fetchFromGitHub,
+  ...
+}:
 
 let
-  stdenvRockPro64 = stdenvAdapters.addAttrsToDerivation
-    {
-      # from https://wiki.gentoo.org/wiki/PINE64_ROCKPro64#GCC_optimization
-      NIX_CFLAGS_COMPILE = [
-        "-march=armv8-a+crc+crypto"
-        "-mtune=cortex-a72.cortex-a53"
-        "-mfix-cortex-a53-835769"
-        "-mfix-cortex-a53-843419"
-      ];
-    }
-    stdenv;
+  stdenvRockPro64 = stdenvAdapters.addAttrsToDerivation {
+    # from https://wiki.gentoo.org/wiki/PINE64_ROCKPro64#GCC_optimization
+    NIX_CFLAGS_COMPILE = [
+      "-march=armv8-a+crc+crypto"
+      "-mtune=cortex-a72.cortex-a53"
+      "-mfix-cortex-a53-835769"
+      "-mfix-cortex-a53-843419"
+    ];
+  } stdenv;
 in
 linuxKernel.manualConfig rec {
   inherit lib;

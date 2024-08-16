@@ -1,4 +1,16 @@
-{ stdenv, lib, fetchFromGitHub, openal, alure, libX11, libXtst, pkg-config, libinput, makeWrapper, useLibInput ? false }:
+{
+  stdenv,
+  lib,
+  fetchFromGitHub,
+  openal,
+  alure,
+  libX11,
+  libXtst,
+  pkg-config,
+  libinput,
+  makeWrapper,
+  useLibInput ? false,
+}:
 
 stdenv.mkDerivation rec {
   pname = "bucklespring";
@@ -11,7 +23,21 @@ stdenv.mkDerivation rec {
     sha256 = "14g26cv2fharbgcacw59ybxrw9vzxrwpq1vxpj5x42i79hixs2iq";
   };
 
-  buildInputs = [ openal alure pkg-config ] ++ (if useLibInput then [ libinput ] else [ libX11 libXtst ]);
+  buildInputs =
+    [
+      openal
+      alure
+      pkg-config
+    ]
+    ++ (
+      if useLibInput then
+        [ libinput ]
+      else
+        [
+          libX11
+          libXtst
+        ]
+    );
 
   makeFlags = lib.optionals useLibInput [ "libinput=1" ];
 

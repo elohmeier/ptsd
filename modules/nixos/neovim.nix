@@ -10,9 +10,7 @@ let
   };
 in
 {
-  environment.systemPackages = [
-    pkgs.neovim
-  ];
+  environment.systemPackages = [ pkgs.neovim ];
 
   environment.etc."xdg/nvim/sysinit.vim".text = ''
     set runtimepath^=${pluginPack}

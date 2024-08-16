@@ -16,9 +16,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.34";
-          aliases = [
-            "apu2.nw"
-          ];
+          aliases = [ "apu2.nw" ];
           wireguard = {
             pubkey = "eQXHytFmxA8HyECId+vVaTOVE9iCaWV7KVGs5ps6glQ=";
             networks = [ "192.168.168.0/24" ];
@@ -46,9 +44,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.57";
-          aliases = [
-            "fb1.nw"
-          ];
+          aliases = [ "fb1.nw" ];
           wireguard.pubkey = "Lb8YbkDPg7ceSpba5jmgEKIbTswWWlngKttylhPgfW4=";
           wireguard.psk = true;
           wireguard.endpoint = "xx625i9umx768rfs.myfritz.net:55542";
@@ -74,9 +70,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.44"; # 12 Mini
-          aliases = [
-            "iph3.nw"
-          ];
+          aliases = [ "iph3.nw" ];
           wireguard.pubkey = "F//4NrmUWnSFTTIMSG/6iQAi50Yc4rVVEA3M9JBRfHQ=";
         };
       };
@@ -89,9 +83,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.38"; # Enno
-          aliases = [
-            "ipd1.nw"
-          ];
+          aliases = [ "ipd1.nw" ];
           wireguard.pubkey = ''
             JgZZ9Os5M/O2B+b5GaajcfV01wj8nTByoUdhF76yNiM=
           '';
@@ -104,9 +96,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.40"; # Lu
-          aliases = [
-            "ipd2.nw"
-          ];
+          aliases = [ "ipd2.nw" ];
           wireguard.pubkey = "+i2sgu4OY2p5J5qO8N8Ritr8ySPyYqSeQayyEx9cBVc=";
         };
       };
@@ -118,15 +108,11 @@
         www = {
           ip4.addr = "159.69.186.234";
           ip6.addr = "2a01:4f8:c010:1adc::1";
-          aliases = [
-            "git.nerdworks.de"
-          ];
+          aliases = [ "git.nerdworks.de" ];
         };
         nwvpn = {
           ip4.addr = "191.18.19.32";
-          aliases = [
-            "htz1.nw"
-          ];
+          aliases = [ "htz1.nw" ];
           wireguard.pubkey = ''
             UeAoj/VLCmoWLGjAkFRXYLYeac/tLM2itmkq4GKz0zg=
           '';
@@ -147,9 +133,7 @@
         };
         nwvpn = {
           ip4.addr = "191.18.19.36";
-          aliases = [
-            "htz2.nw"
-          ];
+          aliases = [ "htz2.nw" ];
           wireguard.pubkey = ''
             dLfyCkEPM2bDwcO2JEYBv772dXX+JM6bsnSpttaN0gs=
           '';
@@ -183,9 +167,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.56";
-          aliases = [
-            "pine2.nw"
-          ];
+          aliases = [ "pine2.nw" ];
           wireguard.pubkey = "kIsdr5zQZZ4/a57L34usMp7iDerpFnhso1iJZULYeB0=";
         };
       };
@@ -199,9 +181,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.35";
-          aliases = [
-            "rpi2.nw"
-          ];
+          aliases = [ "rpi2.nw" ];
           wireguard = {
             pubkey = "BoZpusHOB9dNMFvnpwV2QitB0ejJEDAhEUPv+uI9iFo=";
             networks = [ "192.168.178.0/24" ];
@@ -239,9 +219,7 @@
       nets = {
         nwvpn = {
           ip4.addr = "191.18.19.53";
-          aliases = [
-            "wrt1.nw"
-          ];
+          aliases = [ "wrt1.nw" ];
           wireguard.pubkey = "tKU/Y7nCTzg1fJ8CI9VZi1P9GbX/JUr/5gZIEcjh3zQ=";
         };
       };
@@ -258,9 +236,7 @@
         };
         nwvpn = {
           ip4.addr = "191.18.19.45";
-          aliases = [
-            "wrt2.nw"
-          ];
+          aliases = [ "wrt2.nw" ];
           wireguard.pubkey = "edW3MrRctb1Yed5fHRiSPcDMdvCU/zZpLG1CBqiFY0k=";
         };
       };

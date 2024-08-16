@@ -1,6 +1,11 @@
 # for rpi4: include nixos-hardware.nixosModules.raspberry-pi-4 in nixosSystem.modules in flake.nix (not required for rpi3b)
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # just take the needed firmware files to reduce size
@@ -18,7 +23,10 @@ in
   };
 
   hardware.enableRedistributableFirmware = lib.mkDefault false; # override nixos-hardware default
-  hardware.firmware = [ firmware-brcm pkgs.raspberrypiWirelessFirmware ];
+  hardware.firmware = [
+    firmware-brcm
+    pkgs.raspberrypiWirelessFirmware
+  ];
   hardware.wirelessRegulatoryDatabase = true;
 
   networking = {
@@ -28,31 +36,39 @@ in
     wireless.iwd.enable = lib.mkDefault true;
   };
 
-  services.resolved = { enable = true; dnssec = "false"; };
+  services.resolved = {
+    enable = true;
+    dnssec = "false";
+  };
 
   systemd.network.wait-online.timeout = 0;
 
-  systemd.network.networks = {
-    eth = {
-      matchConfig.Driver = "smsc95xx bcmgenet"; # rpi3 / rpi4
-      linkConfig.RequiredForOnline = if config.networking.wireless.iwd.enable then "no" else "yes";
-      networkConfig = {
-        ConfigureWithoutCarrier = true;
-        DHCP = "yes";
+  systemd.network.networks =
+    {
+      eth = {
+        matchConfig.Driver = "smsc95xx bcmgenet"; # rpi3 / rpi4
+        linkConfig.RequiredForOnline = if config.networking.wireless.iwd.enable then "no" else "yes";
+        networkConfig = {
+          ConfigureWithoutCarrier = true;
+          DHCP = "yes";
+        };
+        dhcpV4Config.RouteMetric = 10;
+        ipv6AcceptRAConfig.RouteMetric = 10;
       };
-      dhcpV4Config.RouteMetric = 10;
-      ipv6AcceptRAConfig.RouteMetric = 10;
+    }
+    // lib.optionalAttrs config.networking.wireless.iwd.enable {
+      wlan = {
+        dhcpV4Config.RouteMetric = 20;
+        ipv6AcceptRAConfig.RouteMetric = 20;
+        matchConfig.Driver = "brcmfmac";
+        networkConfig.DHCP = "yes";
+      };
     };
-  } // lib.optionalAttrs config.networking.wireless.iwd.enable {
-    wlan = {
-      dhcpV4Config.RouteMetric = 20;
-      ipv6AcceptRAConfig.RouteMetric = 20;
-      matchConfig.Driver = "brcmfmac";
-      networkConfig.DHCP = "yes";
-    };
-  };
 
-  environment.systemPackages = with pkgs;[ libraspberrypi usbutils ];
+  environment.systemPackages = with pkgs; [
+    libraspberrypi
+    usbutils
+  ];
 
   # device access required for vcgencmd
   services.udev.extraRules = ''

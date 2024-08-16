@@ -1,22 +1,23 @@
-{ pkgs
-, modifier ? "Mod1"
-, exit_mode ? "exit: [l]ogout, [r]eboot, [e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end"
-, i3compat ? false
+{
+  pkgs,
+  modifier ? "Mod1",
+  exit_mode ? "exit: [l]ogout, [r]eboot, [e]ntry..., [s]hutdown, s[u]spend-then-hibernate, [h]ibernate, sus[p]end",
+  i3compat ? false,
 }:
 
 {
   "${exit_mode}" = {
     "e" =
       let
-        script = pkgs.writeShellScript "reboot-to-entry"
-          ''
-            set -e
-            entry=$(systemctl reboot --boot-loader-entry=help | tac | bemenu --list 10 --prompt 'Select entry:')
-            systemctl reboot "--boot-loader-entry=''${entry}"
-          '';
+        script = pkgs.writeShellScript "reboot-to-entry" ''
+          set -e
+          entry=$(systemctl reboot --boot-loader-entry=help | tac | bemenu --list 10 --prompt 'Select entry:')
+          systemctl reboot "--boot-loader-entry=''${entry}"
+        '';
       in
       ''exec ${script}; mode "default"'';
-    "l" = if i3compat then ''exec i3-msg exit; mode "default"'' else ''exec swaymsg exit; mode "default"'';
+    "l" =
+      if i3compat then ''exec i3-msg exit; mode "default"'' else ''exec swaymsg exit; mode "default"'';
     "r" = ''exec systemctl reboot; mode "default"'';
     #"w" = ''exec systemctl reboot --boot-loader-entry=auto-windows; mode "default"'';
     "s" = ''exec systemctl poweroff; mode "default"'';

@@ -10,7 +10,6 @@ in
 {
   # TODO: add https://nixos.wiki/wiki/Remote_LUKS_Unlocking
 
-
   # You should configure `boot.initrd.luks.devices` for this to function, e.g.:
   # boot.initrd.luks.devices.myvg = {
   #   device = "/dev/sda2";

@@ -1,4 +1,5 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
 
   imports = [
     ../../2configs/rpi3b_4.nix
@@ -6,11 +7,18 @@
   ];
 
   users.users.root.openssh.authorizedKeys.keys =
-    let sshPubKeys = import ../../2configs/users/ssh-pubkeys.nix; in sshPubKeys.authorizedKeys_enno;
+    let
+      sshPubKeys = import ../../2configs/users/ssh-pubkeys.nix;
+    in
+    sshPubKeys.authorizedKeys_enno;
 
   console.keyMap = "us";
   i18n.defaultLocale = "en_US.UTF-8";
-  networking.firewall.trustedInterfaces = [ "eth0" "wlan0" "end0" ];
+  networking.firewall.trustedInterfaces = [
+    "eth0"
+    "wlan0"
+    "end0"
+  ];
   networking.hostName = "rpi4";
   ptsd.tailscale.enable = true;
   ptsd.tailscale.cert.enable = true;

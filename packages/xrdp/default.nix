@@ -1,19 +1,20 @@
-{ lib
-, autoconf
-, automake
-, fetchFromGitHub
-, fuse
-, libjpeg
-, libopus
-, libtool
-, nasm
-, openssl
-, pam
-, pkg-config
-, stdenv
-, systemd
-, which
-, xorg
+{
+  lib,
+  autoconf,
+  automake,
+  fetchFromGitHub,
+  fuse,
+  libjpeg,
+  libopus,
+  libtool,
+  nasm,
+  openssl,
+  pam,
+  pkg-config,
+  stdenv,
+  systemd,
+  which,
+  xorg,
 }:
 
 stdenv.mkDerivation rec {
@@ -28,9 +29,26 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-wZ5OyGUdkD+PqtxB1j4l1bv56bWbOcqdBquzDS9USqo=";
   };
 
-  nativeBuildInputs = [ pkg-config autoconf automake which libtool nasm ];
+  nativeBuildInputs = [
+    pkg-config
+    autoconf
+    automake
+    which
+    libtool
+    nasm
+  ];
 
-  buildInputs = [ openssl systemd pam fuse libjpeg libopus xorg.libX11 xorg.libXfixes xorg.libXrandr ];
+  buildInputs = [
+    openssl
+    systemd
+    pam
+    fuse
+    libjpeg
+    libopus
+    xorg.libX11
+    xorg.libXfixes
+    xorg.libXrandr
+  ];
 
   postPatch = ''
     substituteInPlace sesman/xauth.c --replace "xauth -q" "${xorg.xauth}/bin/xauth -q"
@@ -53,7 +71,10 @@ stdenv.mkDerivation rec {
     "--with-systemdsystemunitdir=/var/empty"
   ];
 
-  installFlags = [ "DESTDIR=$(out)" "prefix=" ];
+  installFlags = [
+    "DESTDIR=$(out)"
+    "prefix="
+  ];
 
   postInstall = ''
     cp $src/keygen/openssl.conf $out/share/xrdp/openssl.conf

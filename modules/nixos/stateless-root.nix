@@ -2,9 +2,7 @@
 {
   ptsd.nwbackup = {
     cacheDir = "/persist/var/cache/borg";
-    extraPaths = [
-      "/persist"
-    ];
+    extraPaths = [ "/persist" ];
   };
 
   ptsd.secrets.files = lib.optionalAttrs config.ptsd.nwbackup.enable {
@@ -32,11 +30,13 @@
       device = "/persist/var/lib/systemd";
       options = [ "bind" ];
     };
-    "/var/lib/systemd/coredump" =
-      {
-        fsType = "tmpfs";
-        options = [ "size=100M" "mode=1644" ];
-      };
+    "/var/lib/systemd/coredump" = {
+      fsType = "tmpfs";
+      options = [
+        "size=100M"
+        "mode=1644"
+      ];
+    };
     "/var/lib/tailscale" = {
       device = "/persist/var/lib/tailscale";
       options = [ "bind" ];
@@ -49,19 +49,33 @@
       where = "/var/lib/samba";
       type = "none";
       options = "bind";
-      before = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
-      requiredBy = [ "samba-nmbd.service" "samba-smbd.service" "samba-winbindd.service" ];
+      before = [
+        "samba-nmbd.service"
+        "samba-smbd.service"
+        "samba-winbindd.service"
+      ];
+      requiredBy = [
+        "samba-nmbd.service"
+        "samba-smbd.service"
+        "samba-winbindd.service"
+      ];
     }
   ];
 
-  system.activationScripts.initialize-persist-drive = lib.stringAfter [ "users" "groups" ] ''
-    mkdir -p /persist/etc/NetworkManager/system-connections/
-    mkdir -p /persist/var/cache/borg
-    mkdir -p /persist/var/lib/acme
-    mkdir -p /persist/var/lib/bluetooth
-    mkdir -p /persist/var/lib/libvirt/qemu
-    mkdir -p /persist/var/lib/samba/private
-    mkdir -p /persist/var/lib/systemd
-    mkdir -p /persist/var/lib/tailscale
-  '';
+  system.activationScripts.initialize-persist-drive =
+    lib.stringAfter
+      [
+        "users"
+        "groups"
+      ]
+      ''
+        mkdir -p /persist/etc/NetworkManager/system-connections/
+        mkdir -p /persist/var/cache/borg
+        mkdir -p /persist/var/lib/acme
+        mkdir -p /persist/var/lib/bluetooth
+        mkdir -p /persist/var/lib/libvirt/qemu
+        mkdir -p /persist/var/lib/samba/private
+        mkdir -p /persist/var/lib/systemd
+        mkdir -p /persist/var/lib/tailscale
+      '';
 }

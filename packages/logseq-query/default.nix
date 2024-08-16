@@ -1,9 +1,10 @@
-{ pkgs
-, lib
-, nodejs
-, stdenv
-, writeShellScript
-, runCommand
+{
+  pkgs,
+  lib,
+  nodejs,
+  stdenv,
+  writeShellScript,
+  runCommand,
 }:
 
 let

@@ -1,12 +1,20 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
-  host2sub = host: {
-    htz1 = "sub4";
-    htz2 = "sub5";
-    htz3 = "sub6";
-    rpi4 = "sub7";
-  }.${host};
+  host2sub =
+    host:
+    {
+      htz1 = "sub4";
+      htz2 = "sub5";
+      htz3 = "sub6";
+      rpi4 = "sub7";
+    }
+    .${host};
   inherit (config.networking) hostName;
   secrets = if hostName == "rpi4" then "/var/lib/syncthing" else "/var/src/secrets";
   exclude = [
@@ -20,7 +28,10 @@ in
   services.borgbackup.jobs.hetzner = {
     inherit exclude;
     compression = "zstd,3";
-    encryption = { mode = "repokey-blake2"; passCommand = "cat ${secrets}/nwbackup.borgkey"; };
+    encryption = {
+      mode = "repokey-blake2";
+      passCommand = "cat ${secrets}/nwbackup.borgkey";
+    };
     environment.BORG_RSH = "ssh -i ${secrets}/nwbackup.id_ed25519";
     environment.BORG_CACHE_DIR = "/var/cache/borg";
     postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name "hetzner" --push'';
@@ -30,7 +41,10 @@ in
   services.borgbackup.jobs.rpi4 = lib.mkIf (config.networking.hostName != "rpi4") {
     inherit exclude;
     compression = "zstd,3";
-    encryption = { mode = "repokey-blake2"; passCommand = "cat ${secrets}/nwbackup.borgkey"; };
+    encryption = {
+      mode = "repokey-blake2";
+      passCommand = "cat ${secrets}/nwbackup.borgkey";
+    };
     environment.BORG_RSH = "ssh -i ${secrets}/nwbackup.id_ed25519";
     environment.BORG_CACHE_DIR = "/var/cache/borg";
     postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name "rpi4" --push'';

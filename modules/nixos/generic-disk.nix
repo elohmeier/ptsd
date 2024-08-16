@@ -2,9 +2,7 @@
 
 with lib;
 {
-  imports = [
-    ./nix-persistent.nix
-  ];
+  imports = [ ./nix-persistent.nix ];
 
   boot.loader = {
     systemd-boot.enable = true;
@@ -20,27 +18,42 @@ with lib;
 
     "/" = {
       fsType = "tmpfs";
-      options = [ "size=1G" "mode=1755" ];
+      options = [
+        "size=1G"
+        "mode=1755"
+      ];
     };
-
 
     "/boot" = {
       device = mkDefault "/dev/disk/by-partlabel/boot";
       fsType = mkDefault "vfat";
-      options = [ "nofail" "nodev" "nosuid" "noexec" ];
+      options = [
+        "nofail"
+        "nodev"
+        "nosuid"
+        "noexec"
+      ];
     };
 
     "/nix" = {
       device = mkDefault "/dev/disk/by-partlabel/nix";
       fsType = mkDefault "ext4";
       neededForBoot = true;
-      options = [ "nodev" "noatime" ];
+      options = [
+        "nodev"
+        "noatime"
+      ];
     };
 
     "/home" = {
       device = mkDefault "/dev/disk/by-partlabel/home";
       fsType = mkDefault "ext4";
-      options = [ "nodev" "nosuid" "nofail" "x-systemd.device-timeout=3s" ];
+      options = [
+        "nodev"
+        "nosuid"
+        "nofail"
+        "x-systemd.device-timeout=3s"
+      ];
     };
 
   };

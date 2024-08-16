@@ -5,7 +5,8 @@
     enable = true;
     host = "127.0.0.1";
     port = config.ptsd.ports.octoprint;
-    plugins = plugins:
+    plugins =
+      plugins:
       let
         ptsdPlugins = pkgs.ptsd-octoprintPlugins plugins;
       in
@@ -31,15 +32,17 @@
         pi_support.vcgencmd_throttle_check_command = "${pkgs.libraspberrypi}/bin/vcgencmd get_throttled";
         firmwareupdater = {
           _selected_profile = 0;
-          profiles = [{
-            # prusa config
-            _name = "Default";
-            flash_method = "avrdude";
-            avrdude_avrmcu = "m2560";
-            avrdude_path = "${pkgs.avrdude}/bin/avrdude";
-            avrdude_programmer = "wiring";
-            serial_port = "/dev/ttyACM0";
-          }];
+          profiles = [
+            {
+              # prusa config
+              _name = "Default";
+              flash_method = "avrdude";
+              avrdude_avrmcu = "m2560";
+              avrdude_path = "${pkgs.avrdude}/bin/avrdude";
+              avrdude_programmer = "wiring";
+              serial_port = "/dev/ttyACM0";
+            }
+          ];
         };
         tracking.enabled = false;
       };

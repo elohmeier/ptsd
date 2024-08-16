@@ -1,4 +1,10 @@
-{ self, lib, withSystem, inputs, ... }:
+{
+  self,
+  lib,
+  withSystem,
+  inputs,
+  ...
+}:
 
 {
   flake.homeModules = {

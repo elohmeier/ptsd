@@ -18,7 +18,11 @@ in
       natForwardIf = "eth0";
       server.enable = true;
       routes = [
-        { routeConfig = { Destination = "192.168.168.0/24"; }; }
+        {
+          routeConfig = {
+            Destination = "192.168.168.0/24";
+          };
+        }
       ];
     };
   };

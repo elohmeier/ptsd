@@ -9,9 +9,7 @@ in
   options = {
     ptsd.nwsyncthing = {
       enable = mkEnableOption "nwsyncthing";
-      folders = mkOption {
-        type = types.attrs;
-      };
+      folders = mkOption { type = types.attrs; };
     };
   };
 
@@ -35,7 +33,9 @@ in
 
       key = "/run/keys/syncthing.key";
       cert = "/run/keys/syncthing.crt";
-      devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (filterAttrs (_: hasAttr "syncthing") universe.hosts);
+      devices = mapAttrs (_: hostcfg: hostcfg.syncthing) (
+        filterAttrs (_: hasAttr "syncthing") universe.hosts
+      );
       inherit (cfg) folders;
     };
 

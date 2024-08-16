@@ -1,22 +1,34 @@
-{ lib
-, stdenv
-, rustPlatform
-, pkg-config
-, installShellFiles
-, nix
-, boost
-, darwin
-, fetchFromGitHub
+{
+  lib,
+  stdenv,
+  rustPlatform,
+  pkg-config,
+  installShellFiles,
+  nix,
+  boost,
+  darwin,
+  fetchFromGitHub,
 
   # Only build the client
-, clientOnly ? false
+  clientOnly ? false,
 
   # Only build certain crates
-, crates ? if clientOnly then [ "attic-client" ] else [ "attic-client" "attic-server" ]
+  crates ?
+    if clientOnly then
+      [ "attic-client" ]
+    else
+      [
+        "attic-client"
+        "attic-server"
+      ],
 }:
 
 let
-  ignoredPaths = [ ".github" "target" "book" ];
+  ignoredPaths = [
+    ".github"
+    "target"
+    "book"
+  ];
 
 in
 rustPlatform.buildRustPackage rec {
@@ -38,9 +50,7 @@ rustPlatform.buildRustPackage rec {
   buildInputs = [
     nix
     boost
-  ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [
-    SystemConfiguration
-  ]);
+  ] ++ lib.optionals stdenv.isDarwin (with darwin.apple_sdk.frameworks; [ SystemConfiguration ]);
 
   cargoLock = {
     lockFile = ./Cargo.lock;

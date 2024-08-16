@@ -1,4 +1,9 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   # just take the needed firmware files to reduce size
@@ -14,9 +19,11 @@ in
     firmware-bcm43
   ];
 
-  nixpkgs.config.packageOverrides = pkgs: pkgs.lib.recursiveUpdate pkgs {
-    linuxKernel.kernels.linux_megi = pkgs.callPackage ../../../5pkgs/linux-megi { };
-  };
+  nixpkgs.config.packageOverrides =
+    pkgs:
+    pkgs.lib.recursiveUpdate pkgs {
+      linuxKernel.kernels.linux_megi = pkgs.callPackage ../../../5pkgs/linux-megi { };
+    };
 
   boot.kernelPackages = pkgs.linuxPackagesFor pkgs.linuxKernel.kernels.linux_megi;
 
@@ -52,7 +59,10 @@ in
   console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
   console.keyMap = "us";
 
-  environment.systemPackages = with pkgs; [ brightnessctl pinephone-keyboard ];
+  environment.systemPackages = with pkgs; [
+    brightnessctl
+    pinephone-keyboard
+  ];
 
   # todo: kernel module missing?
   networking.firewall.enable = false;

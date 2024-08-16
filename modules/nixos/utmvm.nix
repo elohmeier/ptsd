@@ -1,4 +1,9 @@
-{ config, pkgs, modulesPath, ... }:
+{
+  config,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
@@ -26,7 +31,6 @@
       IPv6PrivacyExtensions = "kernel";
     };
   };
-
 
   # not supported on aarch64-linux
   # environment.unixODBCDrivers = [ pkgs.unixODBCDrivers.msodbcsql17 ];
@@ -75,7 +79,10 @@
 
   nix.settings = {
     extra-platforms = [ "x86_64-linux" ];
-    extra-sandbox-paths = [ "/run/rosetta" "/run/binfmt" ];
+    extra-sandbox-paths = [
+      "/run/rosetta"
+      "/run/binfmt"
+    ];
   };
 
   boot.binfmt.registrations."rosetta" = {

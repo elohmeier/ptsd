@@ -22,7 +22,10 @@ let
 in
 {
   users = {
-    users.klipper = { isSystemUser = true; group = "klipper"; };
+    users.klipper = {
+      isSystemUser = true;
+      group = "klipper";
+    };
     groups.klipper = { };
   };
 
@@ -229,7 +232,6 @@ in
         M84
       '';
 
-
       # fluidd macros (see https://docs.fluidd.xyz/configuration/initial_setup#macros)
       "gcode_macro PAUSE" = {
         description = "Pause the actual running print";
@@ -317,9 +319,7 @@ in
     };
 
   # group-accessible state dir for moonraker upload
-  systemd.tmpfiles.rules = [
-    "d /var/lib/klipper 0775 klipper klipper - -"
-  ];
+  systemd.tmpfiles.rules = [ "d /var/lib/klipper 0775 klipper klipper - -" ];
 
   services.moonraker = {
     enable = true;
@@ -328,8 +328,14 @@ in
         enable_debug_logging = false;
       };
       authorization = {
-        trusted_clients = [ "100.0.0.0/8" "192.168.0.0/16" ];
-        cors_domains = [ "http://${config.networking.hostName}.pug-coho.ts.net" "http://${config.networking.hostName}.fritz.box" ];
+        trusted_clients = [
+          "100.0.0.0/8"
+          "192.168.0.0/16"
+        ];
+        cors_domains = [
+          "http://${config.networking.hostName}.pug-coho.ts.net"
+          "http://${config.networking.hostName}.fritz.box"
+        ];
       };
 
       octoprint_compat = { }; # allow file upload from slicer
@@ -338,7 +344,10 @@ in
     address = "0.0.0.0";
   };
 
-  networking.firewall.allowedTCPPorts = [ config.services.moonraker.port 80 ];
+  networking.firewall.allowedTCPPorts = [
+    config.services.moonraker.port
+    80
+  ];
 
   systemd.services.moonraker = {
     serviceConfig.SupplementaryGroups = "klipper";

@@ -13,11 +13,18 @@
 
   services.getty.autologinUser = "enno";
   security.sudo.wheelNeedsPassword = false;
-  nix.trustedUsers = [ "root" "@wheel" ];
+  nix.trustedUsers = [
+    "root"
+    "@wheel"
+  ];
   system.stateVersion = "22.05";
   networking.hostName = "rpi3";
 
-  environment.systemPackages = with pkgs;[ vim tmux btop ];
+  environment.systemPackages = with pkgs; [
+    vim
+    tmux
+    btop
+  ];
 
   ptsd.tailscale = {
     enable = true;

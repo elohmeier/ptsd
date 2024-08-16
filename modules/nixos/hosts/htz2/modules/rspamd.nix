@@ -22,14 +22,16 @@
     workers = {
       normal = {
         includes = [ "$CONFDIR/worker-normal.inc" ];
-        bindSockets = [{
-          socket = "/run/rspamd/rspamd.sock";
-          mode = "0660";
-          owner = "${config.services.rspamd.user}";
-          group = "${config.services.rspamd.group}";
-        }
+        bindSockets = [
+          {
+            socket = "/run/rspamd/rspamd.sock";
+            mode = "0660";
+            owner = "${config.services.rspamd.user}";
+            group = "${config.services.rspamd.group}";
+          }
           "127.0.0.1:11333"
-          "[::1]:11333"];
+          "[::1]:11333"
+        ];
       };
       controller = {
         includes = [ "$CONFDIR/worker-controller.inc" ];

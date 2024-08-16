@@ -1,8 +1,9 @@
-{ buildPythonPackage
-, configargparse
-, fetchFromGitHub
-, paho-mqtt
-, requests
+{
+  buildPythonPackage,
+  configargparse,
+  fetchFromGitHub,
+  paho-mqtt,
+  requests,
 }:
 
 buildPythonPackage rec {

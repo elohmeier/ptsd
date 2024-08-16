@@ -1,11 +1,14 @@
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 with lib;
 let
   cfg = config.ptsd.fluent-bit;
-  toLoki = pkgs.lib.generators.toINI {
-    mkKeyValue = k: v: "  ${k} ${toString v}";
-  };
+  toLoki = pkgs.lib.generators.toINI { mkKeyValue = k: v: "  ${k} ${toString v}"; };
   parserConfig = pkgs.writeText "fluent-bit-parsers.conf" (toLoki {
     PARSER = {
       name = "traefik";
@@ -26,7 +29,7 @@ let
     # todo: gen config by just piling up includes
     # see https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/configuration-file#config_include_file-1
 
-    INPUT = #[
+    INPUT = # [
       {
         name = "systemd";
         tag = "*";

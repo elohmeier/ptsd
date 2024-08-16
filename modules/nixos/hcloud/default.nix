@@ -1,4 +1,9 @@
-{ lib, pkgs, modulesPath, ... }:
+{
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [
@@ -14,9 +19,7 @@
       "ata_piix"
       "uhci_hcd"
       "xen_blkfront"
-    ] ++ lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [
-      "vmw_pvscsi"
-    ];
+    ] ++ lib.optionals pkgs.stdenv.hostPlatform.isx86_64 [ "vmw_pvscsi" ];
     initrd.kernelModules = [ "nvme" ];
 
     loader.grub = {
@@ -30,8 +33,14 @@
   documentation.man.enable = false;
 
   fileSystems = {
-    "/" = { device = "/dev/sda1"; fsType = "ext4"; };
-    "/boot" = lib.mkIf (pkgs.stdenv.hostPlatform.isAarch64) { device = "/dev/sda15"; fsType = "vfat"; };
+    "/" = {
+      device = "/dev/sda1";
+      fsType = "ext4";
+    };
+    "/boot" = lib.mkIf (pkgs.stdenv.hostPlatform.isAarch64) {
+      device = "/dev/sda15";
+      fsType = "vfat";
+    };
   };
 
   services.eternal-terminal.enable = true;
@@ -81,7 +90,12 @@
     vimAlias = true;
   };
 
-  environment.systemPackages = with pkgs; [ btop ncdu parted tmux ];
+  environment.systemPackages = with pkgs; [
+    btop
+    ncdu
+    parted
+    tmux
+  ];
 
   nix.extraOptions = "experimental-features = nix-command flakes";
 }
