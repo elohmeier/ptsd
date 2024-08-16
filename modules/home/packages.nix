@@ -288,6 +288,7 @@ in
             datasette
             httpx
             huggingface-hub
+            ipympl
             ipywidgets
             isort
             jupyterlab
