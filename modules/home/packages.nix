@@ -210,6 +210,7 @@ in
             });
             torch = if pkgs.stdenv.isDarwin then super.torch-bin else super.torch;
             torchvision = if pkgs.stdenv.isDarwin then super.torchvision-bin else super.torchvision;
+            llm-claude-3 = self.callPackage ../../packages/llm-claude-3 { };
           };
         }).withPackages
         (
@@ -290,7 +291,7 @@ in
             ipywidgets
             isort
             jupyterlab
-            llm
+            (llm.withPlugins ([ llm-claude-3 ]))
             pandas
             pillow
             psycopg2
