@@ -93,7 +93,6 @@ in
       gomuks
       google-cloud-sdk
       graphviz
-      h-move-repo
       hcloud
       helix
       hl

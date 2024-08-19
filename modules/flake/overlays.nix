@@ -53,7 +53,6 @@
             "E501"
           ];
         } ../../scripts/syncthing-device-id.py;
-        h-move-repo = final.writers.writeBashBin "h-move-repo" { } ../../scripts/h-move-repo.sh;
         win10fonts = final.callPackage ../../packages/win10fonts { };
         attic-client = final.callPackage ../../packages/attic { clientOnly = true; };
         edge-tts = final.callPackage ../../packages/edge-tts { };
