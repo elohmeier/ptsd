@@ -68,6 +68,7 @@ in
             casks = [
               "burp-suite"
               "cleanshot"
+              "coolterm"
               "db-browser-for-sqlite"
               "dbeaver-enterprise"
               "discord"
@@ -92,7 +93,7 @@ in
               "rectangle"
               "redisinsight"
               "secretive"
-              "shortcat"
+              "shortcat" # codespell:ignore
               "signal"
               "soundsource"
               "spotify"
