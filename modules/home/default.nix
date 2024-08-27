@@ -2,17 +2,18 @@
 
 {
   flake.homeModules = {
+    # paperless = ./paperless.nix;
     borgbackup = ./borgbackup.nix;
     darwin-defaults = ./darwin-defaults.nix;
     fish = ./fish.nix;
     fonts = ./fonts.nix;
     git = ./git.nix;
     gpg = ./gpg.nix;
+    lazygit = ./lazygit.nix;
     macos-enno = ./macos-enno.nix;
     neovim = ./neovim.nix;
     orb = ./orb.nix;
     packages = ./packages.nix;
-    # paperless = ./paperless.nix;
     ssh = ./ssh.nix;
     tmux = ./tmux.nix;
     tp3 = ./tp3.nix;
@@ -58,6 +59,7 @@
         self.homeModules.fonts
         self.homeModules.git
         self.homeModules.gpg
+        self.homeModules.lazygit
         self.homeModules.macos-enno
         self.homeModules.neovim
         self.homeModules.packages
@@ -93,6 +95,7 @@
       modules = [
         self.homeModules.fish
         self.homeModules.git
+        self.homeModules.lazygit
         self.homeModules.neovim
         self.homeModules.ssh
         self.homeModules.tmux
@@ -134,6 +137,7 @@
         self.homeModules.fonts
         self.homeModules.git
         self.homeModules.gpg
+        self.homeModules.lazygit
         self.homeModules.neovim
         self.homeModules.packages
         self.homeModules.ssh
@@ -157,6 +161,7 @@
         self.homeModules.fonts
         self.homeModules.git
         self.homeModules.gpg
+        self.homeModules.lazygit
         self.homeModules.neovim
         self.homeModules.packages
         self.homeModules.ssh

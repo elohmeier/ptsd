@@ -15,7 +15,6 @@
     jless
     jq
     kubectl
-    lazygit
     nix-tree
     pre-commit
     ripgrep

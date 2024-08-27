@@ -2,6 +2,7 @@ p@{
   config,
   lib,
   pkgs,
+  pkgsUnstable,
   pkgsMaster,
   ...
 }:
@@ -69,6 +70,8 @@ in
       diceware
       difftastic
       dive
+      pkgsUnstable.aichat
+      pkgsUnstable.tig
       djlint
       dust
       edge-tts
@@ -112,7 +115,6 @@ in
       jsonnet-language-server
       kubectl
       kubernetes-helm
-      lazygit
       libfaketime
       libxml2 # xmllint
       mermaid-cli

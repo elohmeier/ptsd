@@ -11,6 +11,7 @@
       signByDefault = false;
     };
     ignores = [
+      "*.sqlite3-journal"
       "*.swp"
       "*~"
       ".DS_Store"
