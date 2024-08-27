@@ -11,7 +11,7 @@ with lib;
 
 let
   tesseract = (
-    pkgs.tesseract5.override {
+    pkgsUnstable.tesseract5.override {
       enableLanguages = [
         "deu"
         "eng"
@@ -31,6 +31,10 @@ in
   home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}"; # codespell:ignore
   home.file.".password-store".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/password-store";
   home.file.".passage".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/passage-store";
+
+  home.file.".streamlit/config.toml".source =
+    (pkgs.formats.toml { }).generate "streamlit-config.toml"
+      { browser.gatherUsageStats = false; };
 
   home.file.".config/nnn/plugins".source =
     if (builtins.hasAttr "nixosConfig" p) then
@@ -56,10 +60,10 @@ in
       realise-symlink
       (pdftk.override { jre = openjdk17; })
       aerc
+      pkgsMaster.uv
       age
       age-plugin-yubikey
       awscli2
-      pkgsMaster.aider-chat
       azure-cli
       bat
       btop
@@ -70,11 +74,13 @@ in
       diceware
       difftastic
       dive
+      pkgsMaster.aider-chat
       pkgsUnstable.aichat
       pkgsUnstable.tig
       djlint
       dust
       edge-tts
+      nbqa
       entr
       eternal-terminal
       exiftool
@@ -200,86 +206,14 @@ in
       zig
       zstd.bin
 
-      # (ptsd-python3.withPackages (
       (
-        (python3.override {
+        (pkgsUnstable.python312.override {
           packageOverrides = self: super: {
-            django = super.django.overridePythonAttrs (old: {
-              doCheck = false;
-            });
-            accelerate = super.accelerate.overridePythonAttrs (_: {
-              doCheck = pkgs.stdenv.isLinux;
-            });
-            torch = if pkgs.stdenv.isDarwin then super.torch-bin else super.torch;
-            torchvision = if pkgs.stdenv.isDarwin then super.torchvision-bin else super.torchvision;
             llm-claude-3 = self.callPackage ../../packages/llm-claude-3 { };
           };
         }).withPackages
         (
-          pythonPackages:
-          with pythonPackages;
-          [
-            # (pygrok.overrideAttrs (_: { meta.platforms = lib.platforms.unix; }))
-            # accelerate
-            # alembic
-            # beancount
-            # beautifulsoup4
-            # boto3
-            # dataclasses-json
-            # debugpy
-            # diffusers
-            # djhtml
-            # faker
-            # fastapi
-            # flask
-            # google-cloud-vision
-            # guidance
-            # hdbscan
-            # hocr-tools
-            # holidays
-            # icalendar
-            # impacket
-            # ipykernel
-            # ipython
-            # keras
-            # keyring
-            # langchain
-            # lark
-            # lxml
-            # matplotlib
-            # mypy
-            # mysql-connector
-            # netifaces
-            # nltk
-            # openai
-            # opencv4
-            # openpyxl
-            # paramiko
-            # pdfminer-six
-            # pikepdf
-            # pudb
-            # pycrypto
-            # pyjsparser
-            # pyjwt
-            # pylint
-            # pynvim
-            # pypdf2
-            # soupsieve
-            # sqlacodegen
-            # sqlalchemy
-            # sqlalchemy
-            # sshtunnel
-            # tabulate
-            # tasmota-decode-config
-            # tenacity
-            # tensorflow
-            # tkinter
-            # torch
-            # torchvision
-            # transformers
-            # umap-learn
-            # uvicorn
-            # weasyprint
+          pythonPackages: with pythonPackages; [
             ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: {
               doCheck = false;
             }))
@@ -305,35 +239,6 @@ in
             sqlite-utils
             structlog
           ]
-          ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
-            #     accelerate
-            #     # bertopic
-            #     # flair
-            #     # mlxtend
-            #     nurl
-            #     # presidio-analyzer
-            #     # presidio-anonymizer
-            #     pysbd
-            #     scikit-learn
-            #     sentence-transformers
-            #     spacy
-            #     spacy_models.de_core_news_md
-            #     spacy_models.en_core_web_lg
-            #     stanza
-            #     thefuzz
-            #     tiktoken # slow build / unneeded on most machines
-          ]
-          ++
-            lib.optionals
-              (elem pkgs.stdenv.hostPlatform.system [
-                "x86_64-linux"
-                "aarch64-linux"
-              ])
-              [
-                # i3ipc
-                # pyodbc
-                # selenium
-              ]
         )
       )
     ]
@@ -341,8 +246,6 @@ in
       # age-plugin-se
       # binutils
       logseq-query
-      ollama_unstable
-      llama-cpp_unstable
       (pkgs.wezterm.overrideAttrs (_: {
         patches = [
           # kitty delete key fix - https://github.com/wez/wezterm/pull/5025
@@ -352,6 +255,8 @@ in
           })
         ];
       }))
+      pkgsUnstable.ollama
+      pkgsUnstable.llama-cpp
       macos-fix-filefoldernames
       # kubectl-minio
       llvmPackages.lldb
