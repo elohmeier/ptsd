@@ -340,6 +340,15 @@ in
       logseq-query
       ollama_unstable
       llama-cpp_unstable
+      (pkgs.wezterm.overrideAttrs (_: {
+        patches = [
+          # kitty delete key fix - https://github.com/wez/wezterm/pull/5025
+          (pkgs.fetchpatch {
+            url = "https://github.com/wez/wezterm/commit/855957ec82a28621b8287ac595ac6decd36149c1.patch";
+            hash = "sha256-E7rRA9d2929dqfwfIKxIwPKit3EphFur5k6Y2p5UBkU=";
+          })
+        ];
+      }))
       macos-fix-filefoldernames
       # kubectl-minio
       llvmPackages.lldb
