@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+# Creates a temporary pdfmark and merges it with the input pdf to produce a watermark with a custom text
+
+set -euo pipefail
+
+SCRIPT_NAME=$(basename "$0")
+readonly USAGE="Usage: $SCRIPT_NAME <pdf_from_file> <pdf_to_file> <watermark>"
+
+function die() {
+    echo "Error: $*" >&2
+    exit 1
+}
+
+function create_pdfmark() {
+    local watermark="$1"
+    cat <<EOF
+<<
+   /EndPage
+   {
+     2 eq { pop false }
+     {
+         gsave
+         /Helvetica findfont 48 scalefont setfont
+         newpath
+         0.7 setgray  % Dark gray color
+         230 290 moveto 50 rotate
+         ($watermark) show
+         grestore
+         true
+     } ifelse
+   } bind
+>> setpagedevice
+EOF
+}
+
+function main() {
+    if [[ $# -ne 3 ]]; then
+        die "$USAGE"
+    fi
+
+    local pdf_from_file="$1"
+    local pdf_to_file="$2"
+    local watermark="$3"
+
+    [[ -f "$pdf_from_file" ]] || die "Input file '$pdf_from_file' does not exist."
+
+    tmpfile=$(mktemp -t pdf_watermark.XXXXXX)
+    trap 'rm -f "$tmpfile"' EXIT
+
+    create_pdfmark "$watermark" >"$tmpfile"
+
+    gs -dBATCH -dNOPAUSE -q -sOutputFile="$pdf_to_file" -sDEVICE=pdfwrite "$tmpfile" "$pdf_from_file"
+}
+
+main "$@"
