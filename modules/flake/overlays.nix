@@ -86,7 +86,7 @@
 
         paperless-ngx_unstable = pkgsUnstable.paperless-ngx;
 
-        ptsd-node-packages = final.callPackage ../../packages/node-packages/node-composition.nix { };
+      ptsd-node-packages = final.callPackage ../../packages/node-packages { };
 
         realise-symlink = final.writeShellApplication {
           name = "realise-symlink";

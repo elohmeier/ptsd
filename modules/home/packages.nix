@@ -148,6 +148,7 @@ in
       process-compose
       ptsd-nnn
       ptsd-node-packages.prettier
+      ptsd-node-packages.readability-cli
       pwgen
       qpdf
       qrencode
