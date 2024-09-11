@@ -148,10 +148,12 @@ in
           # fish_config theme choose "Rosé Pine"
           fish_config theme choose "TokyoNight Night"
           set -gx LS_COLORS (cat ${ls_colors_dark})
+          set -gx AICHAT_LIGHT_THEME 0
         else
           # fish_config theme choose "Rosé Pine Dawn"
           fish_config theme choose "TokyoNight Day"
           set -gx LS_COLORS (cat ${ls_colors_light})
+          set -gx AICHAT_LIGHT_THEME 1
         end
       '';
 

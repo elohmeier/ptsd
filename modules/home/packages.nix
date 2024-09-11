@@ -24,13 +24,8 @@ in
     BAT_THEME = "ansi";
     NIXPKGS_ALLOW_UNFREE = 1;
     NNN_PLUG = "p:preview-tui;f:fzcd;z:autojump;u:ulp";
-    PASSWORD_STORE_DIR = "${config.home.homeDirectory}/repos/password-store";
-    PASSAGE_AGE = "${pkgs.rage}/bin/rage";
-    PASSAGE_DIR = "${config.home.homeDirectory}/repos/passage-store";
   };
-  home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}"; # codespell:ignore
-  home.file.".password-store".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/password-store";
-  home.file.".passage".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/passage-store";
+  home.file.".lq/config.edn".text = "{:default-options {:graph \"logseq\"}}";
 
   home.file.".streamlit/config.toml".source =
     (pkgs.formats.toml { }).generate "streamlit-config.toml"
@@ -58,23 +53,23 @@ in
       # rmlint
       # rustc
       realise-symlink
-      (pdftk.override { jre = openjdk17; })
+      # (pdftk.override { jre = openjdk17; })
       aerc
       pkgsMaster.uv
+      pandoc
       age
       age-plugin-yubikey
-      awscli2
-      azure-cli
+      # awscli2
+      # azure-cli
       bat
       btop
       bun
-      bundix
-      copy-secrets
+      # bundix
       deadnix
       diceware
       difftastic
       dive
-      pkgsMaster.aider-chat
+      # pkgsMaster.aider-chat
       pkgsUnstable.aichat
       pkgsUnstable.tig
       djlint
@@ -99,7 +94,7 @@ in
       go
       go-jsonnet
       gojsontoyaml
-      gomuks
+      # gomuks
       google-cloud-sdk
       graphviz
       hcloud
@@ -125,7 +120,7 @@ in
       libxml2 # xmllint
       mermaid-cli
       miller
-      minikube
+      # minikube
       minio-client
       mupdf
       ncdu_1
@@ -141,16 +136,14 @@ in
       nixos-generators
       nmap
       node2nix
-      nodePackages.pnpm
-      nodePackages.yarn
+      pkgsMaster.nodePackages.pnpm
+      pkgsMaster.nodePackages.yarn
       nodejs_latest
       nurl
       nushell
       p7zip
-      pass
-      passage
       plantuml
-      poetry
+      # poetry
       poppler_utils
       pre-commit
       process-compose
@@ -162,11 +155,10 @@ in
       qrencode
       quirc # qr scanner
       rclone
-      remarshal
-      reveal-md
+      # remarshal
+      # reveal-md
       ripgrep
-      ripgrep
-      ruff
+      # ruff
       rustup
       shellcheck
       shfmt
@@ -185,7 +177,7 @@ in
       tmuxinator
       treefmt
       typescript
-      uncrustify
+      # uncrustify
       unzip
       visidata
       viu # terminal image viewer
@@ -202,50 +194,49 @@ in
       yt-dlp
       yubikey-manager
       zellij
-      zig
-      zig
+      # zig
       zstd.bin
 
-      (
-        (pkgsUnstable.python312.override {
-          packageOverrides = self: super: {
-            llm-claude-3 = self.callPackage ../../packages/llm-claude-3 { };
-          };
-        }).withPackages
-        (
-          pythonPackages: with pythonPackages; [
-            ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: {
-              doCheck = false;
-            }))
-            XlsxWriter
-            authlib
-            beautifulsoup4
-            black
-            datasette
-            httpx
-            huggingface-hub
-            ipympl
-            ipywidgets
-            isort
-            jupyterlab
-            (llm.withPlugins ([ llm-claude-3 ]))
-            pandas
-            pillow
-            psycopg2
-            pymupdf
-            pytest
-            pyxlsb
-            requests
-            sqlite-utils
-            structlog
-          ]
-        )
-      )
+      # (
+      #   (pkgsUnstable.python312.override {
+      #     packageOverrides = self: super: {
+      #       llm-claude-3 = self.callPackage ../../packages/llm-claude-3 { };
+      #     };
+      #   }).withPackages
+      #   (
+      #     pythonPackages: with pythonPackages; [
+      #       ((ocrmypdf.override { tesseract = tesseract; }).overridePythonAttrs (_: {
+      #         doCheck = false;
+      #       }))
+      #       XlsxWriter
+      #       authlib
+      #       beautifulsoup4
+      #       black
+      #       datasette
+      #       httpx
+      #       huggingface-hub
+      #       ipympl
+      #       ipywidgets
+      #       isort
+      #       jupyterlab
+      #       (llm.withPlugins ([ llm-claude-3 ]))
+      #       pandas
+      #       pillow
+      #       psycopg2
+      #       pymupdf
+      #       pytest
+      #       pyxlsb
+      #       requests
+      #       sqlite-utils
+      #       structlog
+      #     ]
+      #   )
+      # )
     ]
     ++ lib.optionals (elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" ]) [
       # age-plugin-se
       # binutils
-      logseq-query
+      # logseq-query
       (pkgs.wezterm.overrideAttrs (_: {
         patches = [
           # kitty delete key fix - https://github.com/wez/wezterm/pull/5025
@@ -255,8 +246,8 @@ in
           })
         ];
       }))
-      pkgsUnstable.ollama
-      pkgsUnstable.llama-cpp
+      # pkgsUnstable.ollama
+      # pkgsUnstable.llama-cpp
       macos-fix-filefoldernames
       # kubectl-minio
       llvmPackages.lldb
@@ -264,7 +255,7 @@ in
       # qemu
       rar
       # subler-bin
-      zathura-darwin
+      # zathura-darwin
     ]
     ++
       lib.optionals
