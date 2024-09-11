@@ -10,15 +10,7 @@
           "E501"
         ];
       } ../../scripts/borg2prom.py;
-      copy-secrets = final.writers.writePython3Bin "copy-secrets" {
-        flakeIgnore = [
-          "E265"
-          "E501"
-        ];
-        libraries = [ final.python3Packages.python-gnupg ];
-      } ../../scripts/copy-secrets.py;
       #   fritzbox-exporter = final.callPackage ./fritzbox-exporter { };
-      gen-secrets = final.callPackage ../../packages/gen-secrets { };
       #   go-sqlcmd = final.callPackage ./go-sqlcmd { };
       #   gomumblesoundboard = final.callPackage ./gomumblesoundboard { };
       hashPassword = final.callPackage ../../packages/hashPassword { };
