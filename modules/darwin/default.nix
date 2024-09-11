@@ -31,7 +31,7 @@ in
 
   flake.darwinConfigurations = {
     mb4 = darwinSystemFor "aarch64-darwin" [
-      inputs.home-manager.darwinModule
+      # inputs.home-manager.darwinModule
       (
         { pkgs, pkgsUnstable, ... }:
         {
@@ -45,14 +45,18 @@ in
           #   ];
           # };
 
-          services.nix-daemon.enable = true;
+          # do not manage nix-daemon/nix.conf
+          nix.useDaemon = true;
 
-          nix.settings.trusted-users = [
-            "root"
-            "enno"
-          ];
-          nix.settings.experimental-features = "nix-command flakes repl-flake";
-          nix.settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
+          # services.nix-daemon.enable = true;
+          # nix.settings.trusted-users = [
+          #   "root"
+          #   "enno"
+          # ];
+          # nix.settings.experimental-features = "nix-command flakes";
+          # nix.settings.extra-nix-path = "nixpkgs=flake:nixpkgs";
+
+          programs.gnupg.agent.enable = true;
 
           homebrew = {
             enable = true;
@@ -61,14 +65,20 @@ in
               upgrade = true;
             };
             brews = [
-              "cocoapods"
-              "libimobiledevice"
+              "btop"
               "qemu"
+              "tesseract"
+              "tesseract-lang"
+              "uv"
+
+              # iOS/Tauri development
+              # "cocoapods"
+              # "libimobiledevice"
             ];
             casks = [
               "burp-suite"
               "cleanshot"
-              "coolterm"
+              # "coolterm"
               "cursor"
               "db-browser-for-sqlite"
               "dbeaver-enterprise"
@@ -91,10 +101,11 @@ in
               "orbstack"
               "portfolioperformance"
               "prusaslicer"
+              "raspberry-pi-imager"
               "rectangle"
               "redisinsight"
               "secretive"
-              "shortcat" # codespell:ignore
+              "shortcat"
               "signal"
               "soundsource"
               "spotify"
@@ -103,6 +114,7 @@ in
               "utm"
               "visual-studio-code"
               "vnc-viewer"
+              "sublime-text"
               # "amethyst"
               # "losslesscut"
               # "postman"

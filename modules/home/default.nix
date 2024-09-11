@@ -13,6 +13,7 @@
     macos-enno = ./macos-enno.nix;
     neovim = ./neovim.nix;
     orb = ./orb.nix;
+    pass = ./pass.nix;
     packages = ./packages.nix;
     ssh = ./ssh.nix;
     tmux = ./tmux.nix;
@@ -21,8 +22,8 @@
   };
 
   flake.homeConfigurations = {
-    macos-enno = inputs.home-manager.lib.homeManagerConfiguration {
-      pkgs = import inputs.nixpkgs {
+    macos-enno = inputs.home-manager-master.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs-unstable {
         system = "aarch64-darwin";
         overlays = [
           self.overlays.default
@@ -58,14 +59,15 @@
         self.homeModules.fish
         self.homeModules.fonts
         self.homeModules.git
-        self.homeModules.gpg
+        #self.homeModules.gpg
         self.homeModules.lazygit
         self.homeModules.macos-enno
         self.homeModules.neovim
-        self.homeModules.packages
+        #self.homeModules.packages
+        self.homeModules.pass
         self.homeModules.ssh
-        self.homeModules.tmux
-        self.homeModules.xdg-fixes
+        #self.homeModules.tmux
+        #self.homeModules.xdg-fixes
       ];
     };
 

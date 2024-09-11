@@ -6,6 +6,7 @@
       homeDirectory = "/Users/enno";
       sessionPath = [
         "${config.home.homeDirectory}/.docker/bin"
+        "${config.home.homeDirectory}/.local/bin"
         "${config.home.homeDirectory}/.local/share/cargo/bin"
         "${config.home.homeDirectory}/.local/share/npm/bin"
         "${config.home.homeDirectory}/.pub-cache/bin"
