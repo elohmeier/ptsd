@@ -1,1 +1,1 @@
-["prettier", "readability-cli"]
+["prettier", "prettier-plugin-tailwindcss", "readability-cli"]
