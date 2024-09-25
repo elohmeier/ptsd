@@ -1,33 +1,13 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
+  # see also nixcfg git config
   programs.git = {
-    enable = true;
-    package = pkgs.git;
-    userName = "Enno Richter";
-    userEmail = "enno@nerdworks.de";
     signing = {
       key = "0x807BC3355DA0F069";
       signByDefault = false;
     };
-    ignores = [
-      "*.sqlite3-journal"
-      "*.swp"
-      "*~"
-      ".DS_Store"
-      ".aider*"
-      ".direnv/"
-      ".ipynb_checkpoints/"
-    ];
-    extraConfig = {
-      init.defaultBranch = "master";
-      pull = {
-        rebase = false;
-        ff = "only";
-      };
-    };
     delta = {
-      enable = true;
       options = {
         whitespace-error-style = "22 reverse";
 
@@ -58,8 +38,5 @@
         line-numbers-zero-style = "#a8aecb";
       };
     };
-    lfs.enable = true;
   };
-
-  home.packages = [ pkgs.gitAndTools.git-absorb ];
 }

@@ -40,6 +40,7 @@
         #self.homeModules.xdg-fixes
         inputs.nix-index-database.hmModules.nix-index
         inputs.nixcfg.hmModules.cli-fish
+        inputs.nixcfg.hmModules.cli-git
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults
         self.homeModules.fish
