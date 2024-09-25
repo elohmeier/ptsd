@@ -22,33 +22,14 @@
   };
 
   flake.homeConfigurations = {
-    macos-enno = inputs.home-manager-master.lib.homeManagerConfiguration {
-      pkgs = import inputs.nixpkgs-unstable {
+    macos-enno = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs {
         system = "aarch64-darwin";
         overlays = [
           self.overlays.default
           inputs.nvim-config.overlays.default
         ];
         config.allowUnfree = true;
-      };
-
-      extraSpecialArgs = {
-        pkgsMaster = import inputs.nixpkgs-master {
-          system = "aarch64-darwin";
-          overlays = [
-            self.overlays.default
-            inputs.nvim-config.overlays.default
-          ];
-          config.allowUnfree = true;
-        };
-        pkgsUnstable = import inputs.nixpkgs-unstable {
-          system = "aarch64-darwin";
-          overlays = [
-            self.overlays.default
-            inputs.nvim-config.overlays.default
-          ];
-          config.allowUnfree = true;
-        };
       };
 
       modules = [

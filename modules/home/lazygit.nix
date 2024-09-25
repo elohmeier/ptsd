@@ -141,7 +141,7 @@ _: {
       ];
       git = {
         commit = {
-          signOff = true;
+          # signOff = true;
         };
         paging = {
           colorArg = "always";

@@ -17,6 +17,27 @@
       stateVersion = "21.11";
     };
 
+    home.packages = with pkgs; [
+      bat
+      gh
+      jless
+      libfaketime
+      ptsd-nnn
+      ripgrep
+    ];
+
+    home.file.".aider.conf.yml".source =
+      let
+        settings = {
+          check-update = false;
+          dirty-commits = false;
+          lint-cmd = "[python: ruff check]";
+          suggest-shell-commands = false;
+        };
+        yamlFormat = pkgs.formats.yaml { };
+      in
+      yamlFormat.generate "aider-config" settings;
+
     programs.nix-index-database.comma.enable = true;
 
     services.syncthing.enable = true;

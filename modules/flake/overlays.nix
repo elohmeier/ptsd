@@ -52,7 +52,7 @@
           makeFlags = old.makeFlags ++ [ "O_GITSTATUS=1" ];
 
           # fix for darwin, nnn assumes homebrew gsed
-          patchPhase = ''
+          patchPhase = final.lib.optionalString final.stdenv.isDarwin ''
             substituteInPlace src/nnn.c --replace '#define SED "gsed"' '#define SED "${final.gnused}/bin/sed"'
           '';
         })).override

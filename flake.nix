@@ -40,10 +40,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    home-manager-master = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -83,22 +79,24 @@
     nix-index-database.url = "github:nix-community/nix-index-database";
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
-    nixpkgs-rpi4.url = "github:elohmeier/nixpkgs/2bd04c7d2efbd5c7ce1d626baaa6303eb578dc27";
-    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:NixOS/nixpkgs/master";
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.devshell.follows = "devshell";
       inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
       inputs.git-hooks.follows = "git-hooks";
-
-      # intentionally use the tested nixpkgs version from nixvim
-      # inputs.nixpkgs.follows = "nixpkgs-unstable";
-
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nix-darwin.follows = "nix-darwin";
       inputs.treefmt-nix.follows = "treefmt-nix";
       inputs.home-manager.follows = "home-manager";
+      inputs.nuschtosSearch.follows = "nuschtosSearch";
+    };
+    nuschtosSearch = {
+      url = "github:NuschtOS/search";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.flake-utils.follows = "flake-utils";
     };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";

@@ -1,7 +1,7 @@
-{ pkgsUnstable, ... }:
+{ pkgs, ... }:
 
 {
-  home.packages = [ pkgsUnstable.nixvim-full ];
+  home.packages = [ pkgs.nixvim-full ];
 
   home.sessionVariables.EDITOR = "nvim";
 }

@@ -2,7 +2,6 @@ p@{
   config,
   lib,
   pkgs,
-  pkgsUnstable,
   ...
 }:
 
@@ -81,10 +80,10 @@ in
       let
         # cache vivid output in the store
         ls_colors_dark = pkgs.runCommandNoCC "ls_colors_dark" { } ''
-          ${pkgsUnstable.vivid}/bin/vivid generate tokyonight-night > $out
+          ${pkgs.vivid}/bin/vivid generate tokyonight-night > $out
         '';
         ls_colors_light = pkgs.runCommandNoCC "ls_colors_light" { } ''
-          ${pkgsUnstable.vivid}/bin/vivid generate ayu > $out
+          ${pkgs.vivid}/bin/vivid generate ayu > $out
         '';
 
         # generate tide config into a file containing key-value pairs
