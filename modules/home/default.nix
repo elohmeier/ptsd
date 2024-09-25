@@ -16,7 +16,6 @@
     pass = ./pass.nix;
     packages = ./packages.nix;
     ssh = ./ssh.nix;
-    tmux = ./tmux.nix;
     tp3 = ./tp3.nix;
     xdg-fixes = ./xdg-fixes.nix;
   };
@@ -36,11 +35,11 @@
         # self.homeModules.paperless
         #self.homeModules.gpg
         #self.homeModules.packages
-        #self.homeModules.tmux
         #self.homeModules.xdg-fixes
         inputs.nix-index-database.hmModules.nix-index
         inputs.nixcfg.hmModules.cli-fish
         inputs.nixcfg.hmModules.cli-git
+        inputs.nixcfg.hmModules.cli-tmux
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults
         self.homeModules.fish
