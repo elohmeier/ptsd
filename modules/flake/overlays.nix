@@ -59,15 +59,6 @@
           { withNerdIcons = true; };
       prom-checktlsa = final.callPackage ../../packages/prom-checktlsa { };
 
-      fzf-no-fish = final.fzf.overrideAttrs (old: {
-        postInstall =
-          old.postInstall
-          + ''
-            rm -r $out/share/fish
-            rm $out/share/fzf/*.fish
-          '';
-      });
-
       ptsd-node-packages = final.callPackage ../../packages/node-packages { };
 
       realise-symlink = final.writeShellApplication {

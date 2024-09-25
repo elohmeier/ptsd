@@ -85,7 +85,6 @@ in
       fd
       ffmpeg
       foreman
-      fzf-no-fish
       gh
       ghostscript
       gitu

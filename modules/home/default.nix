@@ -34,21 +34,22 @@
 
       modules = [
         # self.homeModules.paperless
+        #self.homeModules.gpg
+        #self.homeModules.packages
+        #self.homeModules.tmux
+        #self.homeModules.xdg-fixes
         inputs.nix-index-database.hmModules.nix-index
+        inputs.nixcfg.hmModules.cli-fish
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults
         self.homeModules.fish
         self.homeModules.fonts
         self.homeModules.git
-        #self.homeModules.gpg
         self.homeModules.lazygit
         self.homeModules.macos-enno
         self.homeModules.neovim
-        #self.homeModules.packages
         self.homeModules.pass
         self.homeModules.ssh
-        #self.homeModules.tmux
-        #self.homeModules.xdg-fixes
       ];
     };
 
