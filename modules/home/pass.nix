@@ -17,6 +17,7 @@ with lib;
   # home.file.".passage".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/passage-store";
 
   home.packages = with pkgs; [
+    libfaketime
     pass
     # passage
   ];

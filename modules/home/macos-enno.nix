@@ -21,7 +21,7 @@
       bat
       gh
       jless
-      libfaketime
+      nix-tree
       ptsd-nnn
       ripgrep
     ];
