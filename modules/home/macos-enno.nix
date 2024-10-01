@@ -22,6 +22,7 @@
       gh
       home-manager
       jless
+      ncdu_1
       nix-tree
       ptsd-nnn
       ripgrep
