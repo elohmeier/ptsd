@@ -37,6 +37,7 @@
         #self.homeModules.packages
         #self.homeModules.xdg-fixes
         inputs.nix-index-database.hmModules.nix-index
+        inputs.nixcfg.hmModules.cli-direnv
         inputs.nixcfg.hmModules.cli-fish
         inputs.nixcfg.hmModules.cli-git
         inputs.nixcfg.hmModules.cli-tmux
