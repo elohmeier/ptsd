@@ -65,26 +65,17 @@
         config.allowUnfree = true;
       };
 
-      extraSpecialArgs = {
-        pkgsUnstable = import inputs.nixpkgs-unstable {
-          system = "aarch64-linux";
-          overlays = [
-            inputs.nixcfg.overlays.default
-            inputs.nvim-config.overlays.default
-            self.overlays.default
-          ];
-          config.allowUnfree = true;
-        };
-      };
-
       modules = [
+        inputs.nixcfg.hmModules.cli-direnv
+        inputs.nixcfg.hmModules.cli-fish
+        inputs.nixcfg.hmModules.cli-git
+        inputs.nixcfg.hmModules.cli-tmux
         self.homeModules.fish
         self.homeModules.git
         self.homeModules.lazygit
         self.homeModules.neovim
-        self.homeModules.ssh
-        self.homeModules.tmux
         self.homeModules.orb
+        self.homeModules.ssh
         {
           home = {
             username = "enno";
