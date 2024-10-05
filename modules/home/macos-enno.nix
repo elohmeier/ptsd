@@ -19,25 +19,25 @@
 
     home.packages = with pkgs; [
       bat
+      ffmpeg
       gh
+      google-cloud-sdk
+      hcloud
       home-manager
       jless
+      mkcert
       ncdu_1
       nix-tree
+      ollama
       ptsd-nnn
       ripgrep
+      rustup
+      shellcheck
+      shfmt
+      sops
+      ssh-to-age
       watch
-      # yt-dlp
-      (pkgs.yt-dlp.overridePythonAttrs (_: {
-        patches = [
-          # [ie/loom] Fix hls format
-          # https://github.com/yt-dlp/yt-dlp/pull/10760
-          (pkgs.fetchpatch {
-            url = "https://github.com/yt-dlp/yt-dlp/commit/3c716f042db74c211f4f104290838f45b2f26a24.patch";
-            hash = "sha256-mIsYW8U7TNnLLBVkxAEHvsK/BGHB29p8/I1Dn5qhumA=";
-          })
-        ];
-      }))
+      yt-dlp
     ];
 
     home.file.".aider.conf.yml".source =

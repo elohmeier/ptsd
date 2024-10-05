@@ -33,10 +33,14 @@ p@{
 
     shellAbbrs = {
       br = "broot";
+      e = "nvim";
       etm = "et -c \"tmux -CC new -A -s main\"";
+      jl = "jupyter lab";
       rga = "rg -a.";
       rgi = "rg -i";
       rgia = "rg -ia.";
+      pgen = "pass generate";
+      hc = "hcloud";
     };
 
     interactiveShellInit = ''
