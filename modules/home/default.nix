@@ -9,7 +9,6 @@
     fonts = ./fonts.nix;
     git = ./git.nix;
     gpg = ./gpg.nix;
-    lazygit = ./lazygit.nix;
     macos-enno = ./macos-enno.nix;
     neovim = ./neovim.nix;
     orb = ./orb.nix;
@@ -25,8 +24,9 @@
       pkgs = import inputs.nixpkgs {
         system = "aarch64-darwin";
         overlays = [
-          self.overlays.default
+          inputs.nixcfg.overlays.default
           inputs.nvim-config.overlays.default
+          self.overlays.default
         ];
         config.allowUnfree = true;
       };
@@ -37,16 +37,17 @@
         #self.homeModules.packages
         #self.homeModules.xdg-fixes
         inputs.nix-index-database.hmModules.nix-index
+        inputs.nixcfg.hmModules.cli-bat
         inputs.nixcfg.hmModules.cli-direnv
         inputs.nixcfg.hmModules.cli-fish
         inputs.nixcfg.hmModules.cli-git
+        inputs.nixcfg.hmModules.cli-lazygit
         inputs.nixcfg.hmModules.cli-tmux
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults
         self.homeModules.fish
         self.homeModules.fonts
         self.homeModules.git
-        self.homeModules.lazygit
         self.homeModules.macos-enno
         self.homeModules.neovim
         self.homeModules.pass
