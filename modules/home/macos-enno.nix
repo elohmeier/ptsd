@@ -31,6 +31,7 @@ in
       hcloud
       home-manager
       jless
+      jq
       mkcert
       ncdu_1
       nix-tree
@@ -44,6 +45,7 @@ in
       shellcheck
       shfmt
       sops
+      sq
       ssh-to-age
       watch
       yt-dlp
