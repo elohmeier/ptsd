@@ -152,6 +152,7 @@
       enable = true;
       enableOnBoot = false;
     };
+    virtualisation.virtualbox.host.enable = true;
     systemd.services.tailscaled.wantedBy = lib.mkForce [ ]; # manual start to reduce battery usage (frequent wakeups)
 
     security.tpm2 = {
