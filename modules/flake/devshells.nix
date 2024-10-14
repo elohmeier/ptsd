@@ -10,7 +10,7 @@
     {
       devShells.default = pkgs.mkShellNoCC {
         packages = [
-          pkgs.checkSSLCert
+          pkgs.nagiosPlugins.check_ssl_cert
           pkgs.dig
         ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.hash-slinger ];
       };
