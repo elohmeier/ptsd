@@ -25,6 +25,7 @@ in
       docker-shell-completions
     ]
     ++ (with pkgs; [
+      deno
       ffmpeg
       gh
       google-cloud-sdk
@@ -34,6 +35,7 @@ in
       jq
       mkcert
       ncdu_1
+      nix-melt
       nix-tree
       nodejs_latest
       ollama
