@@ -109,18 +109,22 @@
       };
 
       modules = [
+        # self.homeModules.packages
+        # self.homeModules.xdg-fixes
         inputs.nix95.homeModules.nix95
+        inputs.nixcfg.hmModules.cli-bat
+        inputs.nixcfg.hmModules.cli-direnv
+        inputs.nixcfg.hmModules.cli-fish
+        inputs.nixcfg.hmModules.cli-git
+        inputs.nixcfg.hmModules.cli-lazygit
+        inputs.nixcfg.hmModules.cli-tmux
         self.homeModules.fish
         self.homeModules.fonts
         self.homeModules.git
         self.homeModules.gpg
-        self.homeModules.lazygit
         self.homeModules.neovim
-        self.homeModules.packages
         self.homeModules.ssh
-        self.homeModules.tmux
         self.homeModules.tp3
-        self.homeModules.xdg-fixes
         { home.stateVersion = "23.05"; }
       ];
     };
