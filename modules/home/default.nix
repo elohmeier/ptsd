@@ -67,13 +67,14 @@
       };
 
       modules = [
+        inputs.nixcfg.hmModules.cli-bat
         inputs.nixcfg.hmModules.cli-direnv
         inputs.nixcfg.hmModules.cli-fish
         inputs.nixcfg.hmModules.cli-git
+        inputs.nixcfg.hmModules.cli-lazygit
         inputs.nixcfg.hmModules.cli-tmux
         self.homeModules.fish
         self.homeModules.git
-        self.homeModules.lazygit
         self.homeModules.neovim
         self.homeModules.orb
         self.homeModules.ssh

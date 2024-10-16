@@ -21,6 +21,7 @@
     jq
     kubectl
     nix-tree
+    nixos-anywhere
     pre-commit
     ripgrep
     rustup
