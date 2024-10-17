@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # source: https://github.com/Tallguy297/SimpleHTTPServerWithUpload/blob/master/SimpleHTTPServerWithUpload.py
 
 """Simple HTTP Server With Upload.
@@ -39,13 +40,13 @@ def fbytes(B):
     if B < KB:
         return "{0} {1}".format(B, "Bytes" if 0 == B > 1 else "Byte")
     elif KB <= B < MB:
-        return "{0:.2f} KB".format(B / KB)
+        return f"{B / KB:.2f} KB"
     elif MB <= B < GB:
-        return "{0:.2f} MB".format(B / MB)
+        return f"{B / MB:.2f} MB"
     elif GB <= B < TB:
-        return "{0:.2f} GB".format(B / GB)
+        return f"{B / GB:.2f} GB"
     elif TB <= B:
-        return "{0:.2f} TB".format(B / TB)
+        return f"{B / TB:.2f} TB"
 
 
 class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
@@ -133,7 +134,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             remainbytes -= len(line)
             try:
                 out = open(fn, "wb")
-            except IOError:
+            except OSError:
                 return (
                     False,
                     "<br><br>Can't create file to write.<br>Do you have permission to write?",
@@ -187,7 +188,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             # newline translations, making the actual size of the content
             # transmitted *less* than the content-length!
             f = open(path, "rb")
-        except IOError:
+        except OSError:
             self.send_error(404, "File not found")
             return None
         self.send_response(200)
@@ -206,7 +207,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         """
         try:
             list = os.listdir(path)
-        except os.error:
+        except OSError:
             self.send_error(404, "No permission to list directory")
             return None
         enc = sys.getfilesystemencoding()
