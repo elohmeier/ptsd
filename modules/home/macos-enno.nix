@@ -26,6 +26,7 @@ in
     ]
     ++ (with pkgs; [
       deno
+      entr
       ffmpeg
       gh
       google-cloud-sdk
@@ -49,6 +50,8 @@ in
       sops
       sq
       ssh-to-age
+      typst
+      typstyle
       watch
       yt-dlp
     ]);
