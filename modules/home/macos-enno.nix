@@ -20,12 +20,16 @@ in
     stateVersion = "21.11";
   };
 
+  # from https://github.com/wagoodman/dive/issues/542#issuecomment-2352251218
+  home.sessionVariables.DOCKER_HOST = "unix://${config.home.homeDirectory}/.orbstack/run/docker.sock";
+
   home.packages =
     [
       docker-shell-completions
     ]
     ++ (with pkgs; [
       deno
+      dive
       entr
       ffmpeg
       gh
@@ -34,10 +38,13 @@ in
       home-manager
       jless
       jq
+      just
       mkcert
       ncdu_1
       nix-melt
       nix-tree
+      nix-update
+      nixpacks
       nodejs_latest
       ollama
       pnpm
