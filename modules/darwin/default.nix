@@ -29,6 +29,7 @@ in
 
   flake.darwinConfigurations = {
     mb4 = darwinSystemFor "aarch64-darwin" [
+      ./orbstack-builder.nix
       (
         { pkgs, ... }:
         {

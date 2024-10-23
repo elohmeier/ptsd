@@ -141,5 +141,11 @@ in
         }
       )
     ];
+
+    orb-nixos-builder = nixosSystemFor "aarch64-linux" [
+      self.nixosModules.defaults
+      self.nixosModules.orbstack-defaults
+      ./orbstack-builder.nix
+    ];
   };
 }
