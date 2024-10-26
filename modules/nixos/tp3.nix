@@ -151,6 +151,7 @@
       pkgs.python3 # required by proton (steam)
       pkgs.sbctl
       pkgs.vulkan-tools
+      pkgs.wirelesstools
     ];
     virtualisation.docker = {
       enable = true;

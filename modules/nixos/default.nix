@@ -91,6 +91,7 @@ in
       self.nixosModules.utmvm-nixos-3
     ];
 
+    # sudo systemd-cryptenroll --tpm2-device=/dev/tpmrm0 --tpm2-pcrs=0+7 /dev/nvme0n1p2
     tp3 = nixosSystemFor "x86_64-linux" [
       inputs.disko.nixosModules.disko
       inputs.home-manager.nixosModule

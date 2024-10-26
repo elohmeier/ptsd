@@ -1,5 +1,4 @@
 {
-  config,
   lib,
   pkgs,
   ...
@@ -19,6 +18,7 @@
         macAddress = "random";
         powersave = true;
       };
+      settings.device."wifi.iwd.autoconnect" = "yes";
     };
   };
 
