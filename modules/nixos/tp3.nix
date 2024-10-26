@@ -133,6 +133,10 @@
 
     services.xbanish.enable = true;
 
+    nix.settings = {
+      trusted-users = [ config.users.users.mainUser.name ];
+    };
+
     console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
     powerManagement.cpuFreqGovernor = "schedutil";
     powerManagement.powertop.enable = true;
