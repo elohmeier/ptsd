@@ -1,6 +1,6 @@
 # Keep in mind this config is also used for NixOS containers.
 
-{ lib, pkgs, ... }:
+{ lib, ... }:
 with lib;
 let
   universe = import ../common/universe.nix;
@@ -11,7 +11,6 @@ in
   users.mutableUsers = false;
 
   nix = {
-    package = pkgs.nixFlakes;
     extraOptions = ''
       experimental-features = nix-command flakes
     '';

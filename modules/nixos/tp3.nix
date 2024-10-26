@@ -116,14 +116,17 @@
     services.fstrim.enable = true;
     services.xserver.videoDrivers = [ "modesetting" ];
     programs.steam.enable = true;
-    hardware.opengl = {
+
+    hardware.bluetooth.enable = true;
+    hardware.bluetooth.powerOnBoot = true;
+    services.blueman.enable = true;
+
+    hardware.graphics = {
       enable = true;
-      driSupport = true;
-      driSupport32Bit = true;
+      enable32Bit = true;
       extraPackages = with pkgs; [
         amdvlk
-        rocm-opencl-icd
-        rocm-opencl-runtime
+        rocmPackages.clr.icd
       ];
       extraPackages32 = with pkgs; [ driversi686Linux.amdvlk ];
     };
@@ -140,7 +143,8 @@
       pkgs.file
       pkgs.git
       pkgs.glxinfo
-      pkgs.gnome.gnome-disk-utility
+      pkgs.gnome-disk-utility
+      pkgs.gptfdisk
       pkgs.home-manager
       pkgs.libcanberra-gtk3
       pkgs.powertop

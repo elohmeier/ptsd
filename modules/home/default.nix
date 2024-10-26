@@ -112,6 +112,7 @@
       modules = [
         # self.homeModules.packages
         # self.homeModules.xdg-fixes
+        inputs.nix-index-database.hmModules.nix-index
         inputs.nix95.homeModules.nix95
         inputs.nixcfg.hmModules.cli-bat
         inputs.nixcfg.hmModules.cli-direnv
@@ -126,6 +127,7 @@
         self.homeModules.neovim
         self.homeModules.ssh
         self.homeModules.tp3
+        self.homeModules.pass
         { home.stateVersion = "23.05"; }
       ];
     };

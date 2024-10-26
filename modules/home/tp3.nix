@@ -11,14 +11,20 @@
     homeDirectory = "/home/gordon";
 
     packages = with pkgs; [
+      aichat
       bchunk
       firefox
       flameshot
       freecad
       google-chrome
+      kubectl
+      libreoffice-fresh
       lutris
+      nix-update
+      ripgrep
       samba
-      transmission-gtk
+      transmission_4-gtk
+      uv
       wine
       winetricks
       zathura
@@ -33,4 +39,6 @@
   programs.ssh.extraOptionOverrides = {
     PKCS11Provider = "/run/current-system/sw/lib/libtpm2_pkcs11.so";
   };
+
+  programs.nix-index-database.comma.enable = true;
 }
