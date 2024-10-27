@@ -21,6 +21,8 @@ let
           _module.args = {
             pkgs = lib.mkForce pkgs;
           };
+
+          nix.settings.extra-nix-path = "nixpkgs=flake:${inputs.nixpkgs}";
         }
         self.nixosModules.ports
         self.nixosModules.tailscale
