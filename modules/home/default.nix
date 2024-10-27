@@ -120,14 +120,15 @@
         inputs.nixcfg.hmModules.cli-git
         inputs.nixcfg.hmModules.cli-lazygit
         inputs.nixcfg.hmModules.cli-tmux
+        inputs.sops-nix.homeManagerModules.sops
         self.homeModules.fish
         self.homeModules.fonts
         self.homeModules.git
         self.homeModules.gpg
         self.homeModules.neovim
+        self.homeModules.pass
         self.homeModules.ssh
         self.homeModules.tp3
-        self.homeModules.pass
         { home.stateVersion = "23.05"; }
       ];
     };

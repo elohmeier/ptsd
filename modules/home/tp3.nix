@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ config, pkgs, ... }:
 {
 
   nixpkgs.config = {
@@ -9,8 +9,12 @@
   home = {
     username = "gordon";
     homeDirectory = "/home/gordon";
+    sessionPath = [
+      "${config.home.homeDirectory}/.local/bin" # uv-managed
+    ];
 
     packages = with pkgs; [
+      age
       aichat
       bchunk
       firefox
@@ -21,17 +25,28 @@
       libreoffice-fresh
       lutris
       nix-update
+      podman
       ripgrep
       samba
-      transmission_4-gtk
-      podman
       skopeo
+      sops
+      transmission_4-gtk
       uv
       wine
       winetricks
       zathura
     ];
   };
+
+  sops = {
+    age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    defaultSopsFile = ../../secrets/tp3-home.yaml;
+    secrets."aichat-config.yaml" = { };
+  };
+
+  home.file.".config/aichat/config.yaml".source =
+    config.lib.file.mkOutOfStoreSymlink
+      config.sops.secrets."aichat-config.yaml".path;
 
   programs.mpv = {
     enable = true;
