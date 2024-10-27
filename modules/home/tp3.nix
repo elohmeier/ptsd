@@ -24,6 +24,8 @@
       ripgrep
       samba
       transmission_4-gtk
+      podman
+      skopeo
       uv
       wine
       winetricks
