@@ -10,7 +10,6 @@ let
     system: modules:
     let
       pkgs = withSystem system ({ pkgs, ... }: pkgs);
-      pkgsUnstable = withSystem system ({ pkgsUnstable, ... }: pkgsUnstable);
     in
     lib.nixosSystem {
       inherit system;
@@ -21,7 +20,6 @@ let
         {
           _module.args = {
             pkgs = lib.mkForce pkgs;
-            pkgsUnstable = lib.mkForce pkgsUnstable;
           };
         }
         self.nixosModules.ports

@@ -104,19 +104,5 @@
           self.overlays.default
         ];
       };
-
-      _module.args.pkgsUnstable = import inputs.nixpkgs-unstable {
-        inherit system;
-        config = {
-          allowUnfree = true;
-        };
-        overlays = [
-          inputs.colmena.overlays.default
-          inputs.nix95.overlays.default
-          inputs.nixcfg.overlays.default
-          inputs.nvim-config.overlays.default
-          self.overlays.default
-        ];
-      };
     };
 }
