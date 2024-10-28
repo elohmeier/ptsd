@@ -88,7 +88,7 @@
       ];
     };
 
-    xfce95 = inputs.home-manager.lib.homeManagerConfiguration {
+    tp3 = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
         overlays = [
@@ -119,7 +119,7 @@
         inputs.nixcfg.hmModules.cli-fish
         inputs.nixcfg.hmModules.cli-git
         inputs.nixcfg.hmModules.cli-lazygit
-        inputs.nixcfg.hmModules.cli-tmux
+        inputs.nixcfg.hmModules.cli-tmux-ascii
         inputs.sops-nix.homeManagerModules.sops
         self.homeModules.fish
         self.homeModules.fonts

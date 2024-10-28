@@ -9,10 +9,11 @@
       ];
     })
     # nwfonts # TODO: fix src
+    # win10fonts
+    ibm-plex
     roboto
     roboto-slab
     spleen
-    # win10fonts
   ];
 
   # see reg. mkForce: https://github.com/nix-community/home-manager/pull/3014

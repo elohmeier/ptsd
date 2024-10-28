@@ -16,7 +16,9 @@
     packages = with pkgs; [
       age
       aichat
+      bc
       bchunk
+      entr
       firefox
       flameshot
       freecad
@@ -31,6 +33,7 @@
       skopeo
       sops
       transmission_4-gtk
+      typst
       uv
       wine
       winetricks
