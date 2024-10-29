@@ -58,38 +58,38 @@ in
   };
 
   flake.nixosConfigurations = {
-    htz1 = nixosSystemFor "x86_64-linux" [
-      self.nixosModules.borgbackup
-      self.nixosModules.defaults
-      self.nixosModules.host-htz1
-      self.nixosModules.hw-hetzner-vm
-      self.nixosModules.luks-ssh-unlock
-      self.nixosModules.nix-persistent
-      self.nixosModules.nwhost
-      self.nixosModules.prometheus-node
-    ];
-
-    htz2 = nixosSystemFor "x86_64-linux" [
-      self.nixosModules.borgbackup
-      self.nixosModules.defaults
-      self.nixosModules.host-htz2
-      self.nixosModules.hw-hetzner-vm
-      self.nixosModules.luks-ssh-unlock
-      self.nixosModules.nix-persistent
-      self.nixosModules.nwhost
-      self.nixosModules.prometheus-node
-    ];
-
-    utmvm_nixos_3 = nixosSystemFor "aarch64-linux" [
-      inputs.nix95.nixosModules.nix95
-      self.nixosModules.defaults
-      self.nixosModules.fish
-      self.nixosModules.generic
-      self.nixosModules.generic-disk
-      self.nixosModules.mainuser
-      self.nixosModules.nix-persistent
-      self.nixosModules.utmvm-nixos-3
-    ];
+    # htz1 = nixosSystemFor "x86_64-linux" [
+    #   self.nixosModules.borgbackup
+    #   self.nixosModules.defaults
+    #   self.nixosModules.host-htz1
+    #   self.nixosModules.hw-hetzner-vm
+    #   self.nixosModules.luks-ssh-unlock
+    #   self.nixosModules.nix-persistent
+    #   self.nixosModules.nwhost
+    #   self.nixosModules.prometheus-node
+    # ];
+    #
+    # htz2 = nixosSystemFor "x86_64-linux" [
+    #   self.nixosModules.borgbackup
+    #   self.nixosModules.defaults
+    #   self.nixosModules.host-htz2
+    #   self.nixosModules.hw-hetzner-vm
+    #   self.nixosModules.luks-ssh-unlock
+    #   self.nixosModules.nix-persistent
+    #   self.nixosModules.nwhost
+    #   self.nixosModules.prometheus-node
+    # ];
+    #
+    # utmvm_nixos_3 = nixosSystemFor "aarch64-linux" [
+    #   inputs.nix95.nixosModules.nix95
+    #   self.nixosModules.defaults
+    #   self.nixosModules.fish
+    #   self.nixosModules.generic
+    #   self.nixosModules.generic-disk
+    #   self.nixosModules.mainuser
+    #   self.nixosModules.nix-persistent
+    #   self.nixosModules.utmvm-nixos-3
+    # ];
 
     # sudo systemd-cryptenroll --tpm2-device=/dev/tpmrm0 --tpm2-pcrs=0+7 /dev/nvme0n1p2
     tp3 = nixosSystemFor "x86_64-linux" [
