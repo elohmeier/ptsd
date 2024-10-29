@@ -109,36 +109,18 @@ in
     # build using `NIX_CONFIG="extra-experimental-features = nix-command flakes" nix shell nixpkgs#git --command nix build /Users/enno/repos/ptsd#nixosConfigurations.orb-nixos.config.system.build.topLevel -L`
     # activate using `NIX_CONFIG="extra-experimental-features = nix-command flakes" nix shell nixpkgs#git --command nixos-rebuild --flake /Users/enno/repos/ptsd#orb-nixos --use-remote-sudo switch`
     orb-nixos = nixosSystemFor "aarch64-linux" [
-      inputs.home-manager.nixosModule
       self.nixosModules.defaults
       self.nixosModules.orbstack-defaults
       (
-        { pkgs, pkgsUnstable, ... }:
+        { pkgs, ... }:
         {
           networking.hostName = "nixos";
           users.defaultUserShell = pkgs.fish;
           programs.fish.enable = true;
-          home-manager.useGlobalPkgs = true;
-          home-manager.extraSpecialArgs.pkgsUnstable = pkgsUnstable;
           nix.settings.trusted-users = [
             "root"
             "enno"
           ];
-
-          # username must match the one specified in ./orbstack-defaults/orbstack.nix
-          home-manager.users.enno =
-            { nixosConfig, pkgs, ... }:
-            {
-              home.stateVersion = nixosConfig.system.stateVersion;
-              imports = [
-                self.homeModules.fish
-                self.homeModules.git
-                self.homeModules.neovim
-                self.homeModules.orb
-                self.homeModules.ssh
-                self.homeModules.tmux
-              ];
-            };
         }
       )
     ];
