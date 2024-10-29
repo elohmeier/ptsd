@@ -18,7 +18,14 @@ with lib;
 
   home.packages = with pkgs; [
     libfaketime
-    pass
+    (pass.withExtensions (
+      ext: with ext; [
+        pass-audit
+        pass-genphrase
+        pass-import
+        pass-otp
+      ]
+    ))
     # passage
   ];
 }
