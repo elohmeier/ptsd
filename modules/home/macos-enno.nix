@@ -75,6 +75,10 @@ in
     in
     yamlFormat.generate "aider-config" settings;
 
+  programs.gpg = {
+    enable = true;
+  };
+
   programs.nix-index-database.comma.enable = true;
 
   services.syncthing.enable = true;
