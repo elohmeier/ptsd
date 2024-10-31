@@ -28,6 +28,7 @@ in
       docker-shell-completions
     ]
     ++ (with pkgs; [
+      attic-client
       deno
       dive
       entr
@@ -54,6 +55,7 @@ in
       rustup
       shellcheck
       shfmt
+      skopeo
       sops
       sq
       ssh-to-age

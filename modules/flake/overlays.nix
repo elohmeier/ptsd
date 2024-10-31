@@ -41,7 +41,6 @@
         ];
       } ../../scripts/syncthing-device-id.py;
       win10fonts = final.callPackage ../../packages/win10fonts { };
-      attic-client = final.callPackage ../../packages/attic { clientOnly = true; };
       edge-tts = final.callPackage ../../packages/edge-tts { };
       #   wkhtmltopdf-qt4 = final.callPackage ./wkhtmltopdf-qt4 { };
       #   xorgxrdp = final.callPackage ./xrdp/xorgxrdp.nix { };
@@ -97,6 +96,7 @@
           allowUnfree = true;
         };
         overlays = [
+          inputs.attic.overlays.default
           inputs.colmena.overlays.default
           inputs.nix95.overlays.default
           inputs.nixcfg.overlays.default
