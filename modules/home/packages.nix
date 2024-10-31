@@ -2,8 +2,6 @@ p@{
   config,
   lib,
   pkgs,
-  pkgsUnstable,
-  pkgsMaster,
   ...
 }:
 
@@ -74,7 +72,6 @@ in
       pkgsUnstable.tig
       djlint
       dust
-      edge-tts
       nbqa
       entr
       eternal-terminal
@@ -254,7 +251,6 @@ in
       # qemu
       rar
       # subler-bin
-      # zathura-darwin
     ]
     ++
       lib.optionals
