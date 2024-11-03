@@ -8,7 +8,10 @@ let
   user = "builder";
 in
 {
-  environment.systemPackages = [ pkgs.btop ];
+  environment.systemPackages = with pkgs; [
+    btop
+    nix-top
+  ];
 
   networking.hostName = "nixos-builder";
 

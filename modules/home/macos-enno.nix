@@ -29,6 +29,7 @@ in
     ]
     ++ (with pkgs; [
       attic-client
+      colmena
       deno
       dive
       entr
@@ -40,9 +41,11 @@ in
       jless
       jq
       just
+      kubernetes-helm
       mkcert
       ncdu_1
       nix-melt
+      nix-top
       nix-tree
       nix-update
       nixpacks
@@ -61,6 +64,7 @@ in
       ssh-to-age
       typst
       typstyle
+      vals
       watch
       yt-dlp
     ]);
