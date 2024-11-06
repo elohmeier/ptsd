@@ -10,6 +10,7 @@ in
 {
   environment.systemPackages = with pkgs; [
     btop
+    cntr # for use with breakpointHook
     nix-top
   ];
 
