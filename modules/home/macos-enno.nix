@@ -51,6 +51,7 @@ in
       nixpacks
       nodejs_latest
       ollama
+      packer
       pnpm
       ptsd-nnn
       realise-symlink
