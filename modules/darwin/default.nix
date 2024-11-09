@@ -37,6 +37,10 @@ in
 
           services.nix-daemon.enable = true;
 
+          programs.fish.enable = true;
+
+          environment.shells = [ pkgs.fish ];
+
           nix = {
             package = pkgs.nixVersions.nix_2_24;
 
