@@ -41,6 +41,7 @@ in
       jless
       jq
       just
+      kubectl
       kubernetes-helm
       mkcert
       ncdu_1
