@@ -9,46 +9,79 @@ def get_screen_config() -> str:
     return ";".join(sorted(screen_names))
 
 
-SCREEN_FONT_MAP = {
-    "Built-in Retina Display": ("FiraCode Nerd Font Mono 11", True),
+SCREEN_PROFILE_MAP = {
+    "Built-in Retina Display": "Retina",
 }
 
+DEFAULT_PROFILE = "Spleen 8x16"
 
-async def update_session_font(session: iterm2.Session):
+
+def get_target_profile_name() -> str:
     screen_config = get_screen_config()
 
-    # Get the target font based on which display we're on
-    target_font, target_font_antialias = SCREEN_FONT_MAP.get(
-        screen_config, (None, False)
-    )
+    # Get the target profile based on which display we're on
+    target_profile_name = SCREEN_PROFILE_MAP.get(screen_config, DEFAULT_PROFILE)
 
-    if not target_font:
-        print(f"no font configured for screen config `{screen_config}`")
-        return
+    if not target_profile_name:
+        raise Exception(f"no profile configured for screen config `{screen_config}`")
 
-    # Get the session's profile because we need to know its font.
+    return target_profile_name
+
+
+async def update_session_profile(session: iterm2.Session):
+    target_profile_name = get_target_profile_name()
+
     profile = await session.async_get_profile()
 
     # Get current font
-    current_font = profile.normal_font
+    current_profile_name = profile.name
 
-    if current_font == target_font:
-        print(f"font `{current_font}` already configured, skipped switching")
+    if current_profile_name == target_profile_name:
+        print(f"profile `{current_profile_name}` already in use, skipping switching")
         return
 
-    change = iterm2.LocalWriteOnlyProfile()
-    change.set_normal_font(target_font)
-    change.set_ascii_anti_aliased(target_font_antialias)
+    partialProfiles = await iterm2.PartialProfile.async_query(session.connection)
 
-    # Update the session's copy of its profile without updating the
-    # underlying profile.
-    await session.async_set_profile_properties(change)
+    for partial in partialProfiles:
+        if partial.name == target_profile_name:
+            full = await partial.async_get_full_profile()
+            await session.async_set_profile(full)
+            print(
+                f"switched session profile from `{current_profile_name}` to `{target_profile_name}`"
+            )
+            break
+    else:
+        print(f"Could not find profile `{target_profile_name}`")
 
-    print(f"switched font from `{current_font}` to `{target_font}`")
+
+async def configure_default_profile(connection: iterm2.Connection):
+    """Set default profile for new sessions."""
+    target_profile_name = get_target_profile_name()
+
+    default_profile = await iterm2.Profile.async_get_default(connection)
+
+    if default_profile.name == target_profile_name:
+        print(f"profile `{target_profile_name}` already default, skipping update")
+        return
+
+    partialProfiles = await iterm2.PartialProfile.async_query(connection)
+
+    for partial in partialProfiles:
+        if partial.name == target_profile_name:
+            await partial.async_make_default()
+            print(f"profile `{target_profile_name}` marked as default")
+            break
+    else:
+        print(f"Could not find profile `{target_profile_name}`")
 
 
 async def main(connection: iterm2.Connection):
-    # Monitor existing sessions
+    # Since iterm will determine the window size (e.g. on new tag) based on the
+    # default profile's font, this avoids unneeded window-resizes when using a
+    # NewSessionMonitor (given different font sizes between the profiles)
+    await configure_default_profile(connection)
+
+    # Update existing sessions
     app = await iterm2.async_get_app(connection)
 
     if app is None:
@@ -57,14 +90,7 @@ async def main(connection: iterm2.Connection):
     for window in app.terminal_windows:
         for tab in window.tabs:
             for session in tab.sessions:
-                await update_session_font(session)
-
-    # When new sessions are created, monitor them, too.
-    async with iterm2.NewSessionMonitor(connection) as mon:
-        while True:
-            session_id = await mon.async_get()  # blocking
-            if session := app.get_session_by_id(session_id):
-                await update_session_font(session)
+                await update_session_profile(session)
 
 
 # This instructs the script to run the "main" coroutine and to keep running even after it returns.
