@@ -5,6 +5,7 @@ let
     mkdir -p $out/share
     cp -r ${pkgs.docker}/share/{bash-completion,fish,zsh} $out/share/
   '';
+  secretiveSocket = "${config.home.homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
 in
 {
   home = {
@@ -17,11 +18,22 @@ in
       "${config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/bin"}"
       "/opt/homebrew/bin"
     ];
+    sessionVariables = {
+
+      # from https://github.com/wagoodman/dive/issues/542#issuecomment-2352251218
+      DOCKER_HOST = "unix://${config.home.homeDirectory}/.orbstack/run/docker.sock";
+
+      SSH_AUTH_SOCK = secretiveSocket;
+    };
     stateVersion = "21.11";
   };
 
-  # from https://github.com/wagoodman/dive/issues/542#issuecomment-2352251218
-  home.sessionVariables.DOCKER_HOST = "unix://${config.home.homeDirectory}/.orbstack/run/docker.sock";
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      IdentityAgent ${secretiveSocket}
+    '';
+  };
 
   home.packages =
     [
@@ -94,8 +106,6 @@ in
   home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
 
   programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
-
-  home.sessionVariables.SSH_AUTH_SOCK = "${config.home.homeDirectory}/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh";
 
   launchd.agents.cleanup-downloads = {
     enable = true;
