@@ -32,10 +32,11 @@
       };
 
       modules = [
-        # self.homeModules.paperless
         #self.homeModules.gpg
         #self.homeModules.packages
+        #self.homeModules.paperless
         #self.homeModules.xdg-fixes
+        ./process-compose.nix
         inputs.nix-index-database.hmModules.nix-index
         inputs.nixcfg.hmModules.cli-bat
         inputs.nixcfg.hmModules.cli-direnv
