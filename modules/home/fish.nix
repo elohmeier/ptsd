@@ -44,7 +44,16 @@ p@{
     };
 
     interactiveShellInit = ''
-      source ${../../scripts/iterm2-integration.fish}
+      if test "$TERM_PROGRAM" = "iTerm.app"
+        source ${../../scripts/iterm2-integration.fish}
+      end
+
+      # (ghostty compat) workaround terminal filtering until fix is included in release:
+      # https://github.com/fish-shell/fish-shell/commit/cb58a30bf22b031663b40f306beaf6be6698b7c0
+      function __fish_update_cwd_osc --on-variable PWD --description 'Notify terminals when $PWD changes'
+        printf \e\]7\;file://%s%s\a $hostname (string escape --style=url -- $PWD)
+      end
+      __fish_update_cwd_osc # Run once because we might have already inherited a PWD from an old
 
       function h
         set _h_dir (${pkgs.h}/bin/h --resolve "${config.home.homeDirectory}/repos" $argv)

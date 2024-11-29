@@ -15,6 +15,7 @@ in
       "${config.home.homeDirectory}/.local/bin" # uv-managed
       "${config.home.homeDirectory}/.local/share/cargo/bin"
       "${config.home.homeDirectory}/.local/share/npm/bin"
+      "${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS"
       "${config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/bin"}"
       "/opt/homebrew/bin"
     ];
