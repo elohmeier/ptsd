@@ -203,8 +203,8 @@ in
           "${homeDirectory}/Sync" # backed up via syncthing
         ];
         paths = [ "${homeDirectory}" ];
-        #repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
-        repo = "ssh://borg-mb4@rpi4.fritz.box/./";
+        repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
+        # repo = "ssh://borg-mb4@rpi4.fritz.box/./";
         compression = "zstd,3";
         postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name rpi4 --push'';
       };
