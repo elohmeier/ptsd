@@ -44,6 +44,7 @@ in
       attic-client
       colmena
       deno
+      diceware
       dive
       entr
       ffmpeg
@@ -68,6 +69,8 @@ in
       packer
       pnpm
       ptsd-nnn
+      qpdf
+      rclone
       realise-symlink
       ripgrep
       rustup
@@ -77,6 +80,7 @@ in
       sops
       sq
       ssh-to-age
+      stylua
       typst
       typstyle
       vals
