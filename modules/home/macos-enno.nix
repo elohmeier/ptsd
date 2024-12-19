@@ -13,7 +13,7 @@ in
     homeDirectory = "/Users/enno";
     sessionPath = [
       "${config.home.homeDirectory}/.local/bin" # uv-managed
-      "${config.home.homeDirectory}/.local/share/cargo/bin"
+      "${config.home.homeDirectory}/.cargo/bin" # cargo-managed
       "${config.home.homeDirectory}/.local/share/npm/bin"
       "${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS"
       "${config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/bin"}"
@@ -67,7 +67,9 @@ in
       nodejs_latest
       ollama
       packer
+      pandoc
       pnpm
+      pqrs
       ptsd-nnn
       qpdf
       rclone

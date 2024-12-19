@@ -76,7 +76,6 @@ in
               "qemu"
               "tesseract"
               "tesseract-lang"
-              "uv"
 
               # iOS/Tauri development
               # "cocoapods"
