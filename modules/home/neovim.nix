@@ -1,7 +1,7 @@
 { pkgs, ... }:
 
 {
-  home.packages = [ pkgs.nixvim-full ];
+  home.packages = [ pkgs.nixvim-full-aw ];
 
   home.sessionVariables.EDITOR = "nvim";
 
