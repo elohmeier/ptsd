@@ -30,28 +30,33 @@
       # ./nix-security-box/web.nix
       # ./nix-security-box/windows.nix
       # ./nix-security-box/wireless.nix
+
+      ./modules/disko.nix
     ];
+
+    networking.hostId = "c1acffeb";
+
     #config.permittedInsecurePackages = [
     #  "tightvnc-1.3.10"
     #  "python-2.7.18.6"
     #];
 
-    system.stateVersion = "23.11";
+    system.stateVersion = "24.11";
     networking.hostName = "tp3";
     # services.getty.autologinUser = config.users.users.mainUser.name;
     ptsd.tailscale.enable = true;
-    disko.devices = import ./disko/luks-lvm-immutable.nix { inherit lib; };
+    # disko.devices = import ./disko/luks-lvm-immutable.nix { inherit lib; };
     programs.fish.enable = true;
-    fileSystems = {
-      "/" = {
-        fsType = "tmpfs";
-        options = [
-          "size=4G"
-          "mode=1755"
-        ];
-      };
-    };
-    swapDevices = [ { device = "/dev/pool/swap"; } ];
+    # fileSystems = {
+    #   "/" = {
+    #     fsType = "tmpfs";
+    #     options = [
+    #       "size=4G"
+    #       "mode=1755"
+    #     ];
+    #   };
+    # };
+    # swapDevices = [ { device = "/dev/pool/swap"; } ];
     time.timeZone = "Europe/Berlin";
     services.pipewire = {
       enable = true;
@@ -69,14 +74,15 @@
 
       resumeDevice = "/dev/pool/swap";
 
-      lanzaboote = {
-        enable = true;
-        pkiBundle = "/nix/persistent/etc/secureboot";
-        configurationLimit = 7;
-      };
+      # lanzaboote = {
+      #   enable = true;
+      #   pkiBundle = "/nix/persistent/etc/secureboot";
+      #   configurationLimit = 7;
+      # };
 
       loader = {
-        systemd-boot.enable = lib.mkForce false; # replaced by lanzaboote
+        systemd-boot.enable = true;
+        # systemd-boot.enable = lib.mkForce false; # replaced by lanzaboote
         systemd-boot.editor = false;
         efi.canTouchEfiVariables = true;
       };
@@ -115,7 +121,7 @@
     systemd.network.wait-online.timeout = 0;
     services.fstrim.enable = true;
     services.xserver.videoDrivers = [ "modesetting" ];
-    programs.steam.enable = true;
+    # programs.steam.enable = true;
 
     hardware.bluetooth.enable = true;
     hardware.bluetooth.powerOnBoot = true;
@@ -146,8 +152,8 @@
       pkgs.btop
       pkgs.file
       pkgs.git
-      pkgs.glxinfo
-      pkgs.gnome-disk-utility
+      # pkgs.glxinfo
+      # pkgs.gnome-disk-utility
       pkgs.gptfdisk
       pkgs.home-manager
       pkgs.libcanberra-gtk3
@@ -158,11 +164,8 @@
       pkgs.wirelesstools
     ];
 
-    virtualisation.podman = {
-      enable = true;
-    };
-
-    virtualisation.virtualbox.host.enable = true;
+    # virtualisation.podman.enable = true;
+    # virtualisation.virtualbox.host.enable = true;
 
     systemd.services.tailscaled.wantedBy = lib.mkForce [ ]; # manual start to reduce battery usage (frequent wakeups)
 

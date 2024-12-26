@@ -3,7 +3,7 @@ _: {
     { pkgs, ... }:
     {
       packages = {
-        inherit (pkgs) prom-checktlsa;
+        inherit (pkgs) disko prom-checktlsa;
 
         inherit (pkgs.ptsd-node-packages) readability-cli;
       };

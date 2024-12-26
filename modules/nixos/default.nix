@@ -38,7 +38,6 @@ in
     generic-desktop = ./generic-desktop.nix;
     generic-disk = ./generic-disk.nix;
     hcloud = ./hcloud;
-    hl5380dn = ./hl5380dn.nix;
     host-htz1 = ./hosts/htz1;
     host-htz2 = ./hosts/htz2;
     hw-hetzner-vm = ./hw/hetzner-vm.nix;
@@ -51,10 +50,13 @@ in
     ports = ./ports.nix;
     prometheus-node = ./prometheus-node.nix;
     tailscale = ./tailscale.nix;
-    tp3 = ./tp3.nix;
     tp4 = ./tp4.nix;
     users = ./users;
     utmvm-nixos-3 = ./utmvm-nixos-3.nix;
+  };
+
+  flake.diskoConfigurations = {
+    tp3 = import ./tp3/modules/disko.nix;
   };
 
   flake.nixosConfigurations = {
@@ -94,16 +96,15 @@ in
     # sudo systemd-cryptenroll --tpm2-device=/dev/tpmrm0 --tpm2-pcrs=0+7 /dev/nvme0n1p2
     tp3 = nixosSystemFor "x86_64-linux" [
       inputs.disko.nixosModules.disko
-      inputs.home-manager.nixosModule
+      # inputs.home-manager.nixosModule
       inputs.lanzaboote.nixosModules.lanzaboote
-      inputs.nix95.nixosModules.nix95
+      # inputs.nix95.nixosModules.nix95
       self.nixosModules.defaults
-      self.nixosModules.hl5380dn
       self.nixosModules.networkmanager
-      self.nixosModules.nix-persistent
-      self.nixosModules.tailscale
-      self.nixosModules.tp3
+      # self.nixosModules.nix-persistent
+      # self.nixosModules.tailscale
       self.nixosModules.users
+      ./tp3
     ];
 
     # build using `NIX_CONFIG="extra-experimental-features = nix-command flakes" nix shell nixpkgs#git --command nix build /Users/enno/repos/ptsd#nixosConfigurations.orb-nixos.config.system.build.topLevel -L`
