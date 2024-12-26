@@ -33,7 +33,7 @@
           sshPubKeys = import ./ssh-pubkeys.nix;
         in
         sshPubKeys.authorizedKeys_enno;
-      hashedPasswordFile = "/nix/secrets/mainUser.passwd";
+      # hashedPasswordFile = "/nix/secrets/mainUser.passwd";
     } // lib.optionalAttrs config.programs.fish.enable { shell = pkgs.fish; };
   };
 }
