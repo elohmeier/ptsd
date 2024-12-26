@@ -142,6 +142,7 @@
     nix.settings = {
       trusted-users = [ config.users.users.mainUser.name ];
     };
+    services.getty.autologinUser = "root";
 
     console.font = "${pkgs.spleen}/share/consolefonts/spleen-8x16.psfu";
     powerManagement.cpuFreqGovernor = "schedutil";
