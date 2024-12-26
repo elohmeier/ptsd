@@ -72,7 +72,7 @@
         "amd_pstate=active"
       ];
 
-      resumeDevice = "/dev/pool/swap";
+      # resumeDevice = "/dev/pool/swap";
 
       # lanzaboote = {
       #   enable = true;
