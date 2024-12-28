@@ -1,10 +1,13 @@
 { config, pkgs, ... }:
-{
 
-  nixpkgs.config = {
-    allowUnfree = true;
-    allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
-  };
+let
+  sshTpmAgentSocket = "/run/user/1000/gnupg/S.gpg-agent.ssh";
+in
+{
+  # nixpkgs.config = {
+  #   allowUnfree = true;
+  #   allowUnfreePredicate = _pkg: true; # https://github.com/nix-community/home-manager/issues/2942
+  # };
 
   home = {
     username = "gordon";
@@ -12,6 +15,12 @@
     sessionPath = [
       "${config.home.homeDirectory}/.local/bin" # uv-managed
     ];
+
+    sessionVariables = {
+      EDITOR = "nvim";
+
+      SSH_AUTH_SOCK = sshTpmAgentSocket;
+    };
 
     packages = with pkgs; [
       age
@@ -28,11 +37,14 @@
       libreoffice-fresh
       lutris
       nix-update
+      nixvim-full
       podman
       ripgrep
       samba
       skopeo
       sops
+      ssh-tpm-agent
+      syncthing
       transmission_4-gtk
       typst
       uv
@@ -40,6 +52,18 @@
       winetricks
       zathura
     ];
+  };
+
+  programs.fish.shellAliases = {
+    vi = "nvim";
+    vim = "nvim";
+  };
+
+  programs.ssh = {
+    enable = true;
+    extraConfig = ''
+      IdentityAgent ${sshTpmAgentSocket}
+    '';
   };
 
   sops = {
@@ -55,10 +79,6 @@
   programs.mpv = {
     enable = true;
     # package = pkgs.wrapMpv (pkgs.mpv-unwrapped.override { ffmpeg_5 = pkgs.ffmpeg_5-full; }) { };
-  };
-
-  programs.ssh.extraOptionOverrides = {
-    PKCS11Provider = "/run/current-system/sw/lib/libtpm2_pkcs11.so";
   };
 
   programs.nix-index-database.comma.enable = true;
