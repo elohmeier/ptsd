@@ -1,9 +1,16 @@
 keys:
   - &admin_enno_mb4 age1e6gdd6c0nf5p47jhcq8dvrcyu4vmrzvg2kd75thsgyl7pzqemunq9mfl7e
   - &admin_enno_tp3 age13em7fsrealzue677tdqejgsafc2sfx62h5w03ynkv0urujuc0g0stw209m
+  - &machine_tp3 age1qu4q6xh6nlls25rthygu3zx85dt2kk7p9yehmepekhqg2r5esu6qvy623j
 creation_rules:
   - path_regex: secrets/tp3-home\.(yaml|json|env|ini)$
     key_groups:
       - age:
           - *admin_enno_mb4
           - *admin_enno_tp3
+  - path_regex: secrets/tp3\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *admin_enno_mb4
+          - *admin_enno_tp3
+          - *machine_tp3

@@ -96,13 +96,13 @@ in
     # sudo systemd-cryptenroll --tpm2-device=/dev/tpmrm0 --tpm2-pcrs=0+7 /dev/nvme0n1p2
     tp3 = nixosSystemFor "x86_64-linux" [
       inputs.disko.nixosModules.disko
-      # inputs.home-manager.nixosModule
+      inputs.home-manager.nixosModule
       inputs.lanzaboote.nixosModules.lanzaboote
-      # inputs.nix95.nixosModules.nix95
+      inputs.nix95.nixosModules.nix95
+      inputs.sops-nix.nixosModules.default
       self.nixosModules.defaults
       self.nixosModules.networkmanager
-      # self.nixosModules.nix-persistent
-      # self.nixosModules.tailscale
+      self.nixosModules.tailscale
       self.nixosModules.users
       ./tp3
     ];
