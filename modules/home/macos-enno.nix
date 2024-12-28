@@ -20,13 +20,19 @@ in
       "/opt/homebrew/bin"
     ];
     sessionVariables = {
-
       # from https://github.com/wagoodman/dive/issues/542#issuecomment-2352251218
       DOCKER_HOST = "unix://${config.home.homeDirectory}/.orbstack/run/docker.sock";
+
+      EDITOR = "nvim";
 
       SSH_AUTH_SOCK = secretiveSocket;
     };
     stateVersion = "21.11";
+  };
+
+  programs.fish.shellAliases = {
+    vi = "nvim";
+    vim = "nvim";
   };
 
   programs.ssh = {
@@ -64,6 +70,7 @@ in
       nix-tree
       nix-update
       nixpacks
+      nixvim-full-aw
       nodejs_latest
       ollama
       packer
@@ -110,7 +117,8 @@ in
 
   services.syncthing.enable = true;
 
-  home.file.".hammerspoon".source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
+  home.file.".hammerspoon".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/src/hammerspoon";
 
   programs.fish.shellAbbrs.hm = "home-manager --flake ${config.home.homeDirectory}/repos/ptsd/.#macos-enno --impure";
 

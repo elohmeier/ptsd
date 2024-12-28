@@ -10,7 +10,6 @@
     git = ./git.nix;
     gpg = ./gpg.nix;
     macos-enno = ./macos-enno.nix;
-    neovim = ./neovim.nix;
     orb = ./orb.nix;
     pass = ./pass.nix;
     packages = ./packages.nix;
@@ -50,7 +49,6 @@
         self.homeModules.fonts
         self.homeModules.git
         self.homeModules.macos-enno
-        self.homeModules.neovim
         self.homeModules.pass
         self.homeModules.ssh
       ];
@@ -76,7 +74,6 @@
         inputs.nixcfg.hmModules.cli-tmux
         self.homeModules.fish
         self.homeModules.git
-        self.homeModules.neovim
         self.homeModules.orb
         self.homeModules.ssh
         {
@@ -126,7 +123,6 @@
         self.homeModules.fonts
         self.homeModules.git
         self.homeModules.gpg
-        self.homeModules.neovim
         self.homeModules.pass
         self.homeModules.ssh
         self.homeModules.tp3
@@ -148,7 +144,6 @@
         self.homeModules.git
         self.homeModules.gpg
         self.homeModules.lazygit
-        self.homeModules.neovim
         self.homeModules.packages
         self.homeModules.ssh
         self.homeModules.tmux
