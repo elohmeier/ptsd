@@ -22,6 +22,7 @@
       firefox
       flameshot
       freecad
+      ghostty
       google-chrome
       kubectl
       libreoffice-fresh
