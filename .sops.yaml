@@ -1,6 +1,6 @@
 keys:
   - &admin_enno_mb4 age1e6gdd6c0nf5p47jhcq8dvrcyu4vmrzvg2kd75thsgyl7pzqemunq9mfl7e
-  - &admin_enno_tp3 age13em7fsrealzue677tdqejgsafc2sfx62h5w03ynkv0urujuc0g0stw209m
+  - &admin_enno_tp3 age1c6hnw9xkjxvu000pdfkrtcedfltfj3an9cajp88tmha2hcqhddksvqrpnu
   - &machine_tp3 age1qu4q6xh6nlls25rthygu3zx85dt2kk7p9yehmepekhqg2r5esu6qvy623j
 creation_rules:
   - path_regex: secrets/tp3-home\.(yaml|json|env|ini)$
