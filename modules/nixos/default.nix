@@ -97,7 +97,6 @@ in
     tp3 = nixosSystemFor "x86_64-linux" [
       inputs.disko.nixosModules.disko
       inputs.home-manager.nixosModule
-      inputs.lanzaboote.nixosModules.lanzaboote
       inputs.nix95.nixosModules.nix95
       inputs.sops-nix.nixosModules.default
       self.nixosModules.defaults

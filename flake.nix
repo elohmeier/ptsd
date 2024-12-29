@@ -56,14 +56,6 @@
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.3.0";
-      inputs.flake-compat.follows = "flake-compat";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.flake-utils.follows = "flake-utils";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.pre-commit-hooks-nix.follows = "pre-commit-hooks";
-    };
     nvim-config = {
       url = "github:elohmeier/nvim-config";
       inputs.devshell.follows = "devshell";
@@ -155,7 +147,6 @@
   #   , disko
   #   , flake-utils
   #   , home-manager
-  #   , lanzaboote
   #   , nixos-hardware
   #   , nixpkgs
   #   , nixpkgs-unstable

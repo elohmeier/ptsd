@@ -10,20 +10,26 @@
     ./modules/disko.nix
   ];
 
+  networking.hostName = "tp3";
   networking.hostId = "c1acffeb";
 
   system.stateVersion = "24.11";
-  networking.hostName = "tp3";
+
   ptsd.tailscale.enable = true;
+
   programs.fish.enable = true;
+
   time.timeZone = "Europe/Berlin";
+
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
   services.fwupd.enable = true;
+
   boot = {
     kernelParams = [
       "mitigations=off" # make linux fast again
@@ -31,18 +37,12 @@
       "amd_pstate=active"
     ];
 
-    # lanzaboote = {
-    #   enable = true;
-    #   pkiBundle = "/nix/persistent/etc/secureboot";
-    #   configurationLimit = 7;
-    # };
-
     loader = {
       systemd-boot.enable = true;
-      # systemd-boot.enable = lib.mkForce false; # replaced by lanzaboote
       systemd-boot.editor = false;
       efi.canTouchEfiVariables = true;
     };
+
     initrd = {
       availableKernelModules = [
         "ahci"
@@ -117,7 +117,6 @@
     pkgs.libcanberra-gtk3
     pkgs.powertop
     pkgs.python3 # required by proton (steam)
-    pkgs.sbctl
     pkgs.vulkan-tools
     pkgs.wirelesstools
   ];
