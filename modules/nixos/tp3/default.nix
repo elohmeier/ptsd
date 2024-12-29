@@ -151,4 +151,9 @@
   users.users.mainUser.hashedPasswordFile = config.sops.secrets."mainuser.passwd".path;
   users.users.root.hashedPasswordFile = config.sops.secrets."root.passwd".path;
 
+  services.zfs = {
+    autoSnapshot.enable = true;
+    autoSnapshot.monthly = lib.mkDefault 1;
+    autoScrub.enable = true;
+  };
 }
