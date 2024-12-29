@@ -14,7 +14,7 @@
 
   services.gpg-agent = {
     enable = true;
-    enableSshSupport = true;
+    enableSshSupport = false;
     enableExtraSocket = pkgs.stdenv.isLinux;
     extraConfig =
       ''

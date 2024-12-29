@@ -108,8 +108,7 @@
       };
 
       modules = [
-        # self.homeModules.packages
-        # self.homeModules.xdg-fixes
+        ./ssh-tpm-agent.nix
         inputs.nix-index-database.hmModules.nix-index
         inputs.nix95.homeModules.nix95
         inputs.nixcfg.hmModules.cli-bat

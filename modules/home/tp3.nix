@@ -1,8 +1,5 @@
 { config, pkgs, ... }:
 
-let
-  sshTpmAgentSocket = "/run/user/1000/gnupg/S.gpg-agent.ssh";
-in
 {
   # nixpkgs.config = {
   #   allowUnfree = true;
@@ -18,8 +15,6 @@ in
 
     sessionVariables = {
       EDITOR = "nvim";
-
-      SSH_AUTH_SOCK = sshTpmAgentSocket;
     };
 
     packages = with pkgs; [
@@ -43,7 +38,6 @@ in
       samba
       skopeo
       sops
-      ssh-tpm-agent
       syncthing
       transmission_4-gtk
       typst
@@ -57,13 +51,6 @@ in
   programs.fish.shellAliases = {
     vi = "nvim";
     vim = "nvim";
-  };
-
-  programs.ssh = {
-    enable = true;
-    extraConfig = ''
-      IdentityAgent ${sshTpmAgentSocket}
-    '';
   };
 
   sops = {
