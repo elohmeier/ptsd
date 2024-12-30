@@ -12,6 +12,12 @@ let
     # Write each exclude pattern to a new line
     pkgs.writeText "excludefile" (concatStringsSep "\n" cfg.exclude);
 
+  mkKeepArgs =
+    cfg:
+    # If cfg.prune.keep e.g. has a yearly attribute,
+    # its content is passed on as --keep-yearly
+    lib.concatStringsSep " " (lib.mapAttrsToList (x: y: "--keep-${x}=${toString y}") cfg.prune.keep);
+
   mkBackupScript =
     cfg:
     ''
@@ -97,9 +103,12 @@ let
     mkWrapperDrv {
       original = "${pkgs.borgbackup}/bin/borg";
       name = "borg-job-${name}";
-      set = {
-        BORG_REPO = cfg.repo;
-      } // (mkPassEnv cfg) // cfg.environment;
+      set =
+        {
+          BORG_REPO = cfg.repo;
+        }
+        // (mkPassEnv cfg)
+        // cfg.environment;
     };
 
   mkBackupLaunchdAgent =
@@ -107,23 +116,26 @@ let
     nameValuePair "borgbackup-job-${name}" {
       enable = true;
       config = {
-        EnvironmentVariables = {
-          BORG_REPO = cfg.repo;
-          PATH = lib.makeBinPath (
-            with pkgs;
-            [
-              coreutils
-              borgbackup
-              openssh
-            ]
-          );
-          inherit (cfg)
-            extraArgs
-            extraInitArgs
-            extraCreateArgs
-            extraPruneArgs
-            ;
-        } // (mkPassEnv cfg) // cfg.environment;
+        EnvironmentVariables =
+          {
+            BORG_REPO = cfg.repo;
+            PATH = lib.makeBinPath (
+              with pkgs;
+              [
+                coreutils
+                borgbackup
+                openssh
+              ]
+            );
+            inherit (cfg)
+              extraArgs
+              extraInitArgs
+              extraCreateArgs
+              extraPruneArgs
+              ;
+          }
+          // (mkPassEnv cfg)
+          // cfg.environment;
         LowPriorityBackgroundIO = true;
         ProcessType = "Background";
         Program = toString (pkgs.writeShellScript "borgbackup-script-${name}" (mkBackupScript cfg));
@@ -155,7 +167,7 @@ let
           (mkPassEnv cfg) // cfg.environment
         )
       )}
-      ${mkBackupScript cfg}
+      ${mkBackupScript cfg} "$@"
     '';
 in
 {
@@ -448,9 +460,12 @@ in
     with config.ptsd.borgbackup;
     {
 
-      home.packages = [
-        pkgs.borgbackup
-      ] ++ (mapAttrsToList mkBorgWrapper jobs) ++ (mapAttrsToList mkManualBackupScript jobs);
+      home.packages =
+        [
+          pkgs.borgbackup
+        ]
+        ++ (mapAttrsToList mkBorgWrapper jobs)
+        ++ (mapAttrsToList mkManualBackupScript jobs);
 
       launchd.agents = mapAttrs' mkBackupLaunchdAgent jobs;
 

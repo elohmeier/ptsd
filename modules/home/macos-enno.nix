@@ -64,7 +64,7 @@ in
       kubectl
       kubernetes-helm
       mkcert
-      ncdu_1
+      ncdu
       nix-melt
       nix-top
       nix-tree
@@ -150,53 +150,40 @@ in
         BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
         BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
       };
-      exclude = [
-        "${homeDirectory}/.Trash"
-        "${homeDirectory}/.cache"
-        "${homeDirectory}/.diffusionbee"
-        "${homeDirectory}/.flair"
-        "${homeDirectory}/.ollama/models"
-        "${homeDirectory}/.orbstack"
-        "${homeDirectory}/Applications"
-        "${homeDirectory}/Downloads"
-        "${homeDirectory}/Downloads-Keep"
-        "${homeDirectory}/Library"
-        "${homeDirectory}/OrbStack"
-        "${homeDirectory}/Pictures/Photos Library.photoslibrary"
-        "${homeDirectory}/Sync/rpi4-dl" # no backup
-        "${homeDirectory}/repos/convexio/.minio"
-        "${homeDirectory}/repos/convexio/.minio-prod"
-        "${homeDirectory}/repos/flutter/bin/cache"
-        "${homeDirectory}/repos/llama.cpp/models"
-        "${homeDirectory}/repos/stable-vicuna-13b-delta"
-        "${homeDirectory}/repos/stable-vicuna-13b-delta/*.bin"
-        "${homeDirectory}/repos/tauri-app/src-tauri/target"
-        "${homeDirectory}/repos/whisper.cpp/models"
-        "${homeDirectory}/roms" # no backup
-        "*.pyc"
-        "*.qcow2"
-        "sh:${homeDirectory}/**/.cache"
-        "sh:${homeDirectory}/**/node_modules"
-        #"${homeDirectory}/Library/Caches"
-        #"${homeDirectory}/Library/Trial"
-        #"sh:${homeDirectory}/Library/Containers/*/Data/Library/Caches"
-      ];
+      prune = {
+        keep = {
+          within = "1d"; # Keep all archives from the last day
+          daily = 7;
+          weekly = 4;
+          monthly = -1; # Keep at least one archive for each month
+        };
+      };
     in
     {
       hetzner = {
-        inherit encryption environment exclude;
-        paths = [ "${homeDirectory}" ];
+        inherit encryption environment prune;
+        paths = [
+          "${homeDirectory}/.config"
+          "${homeDirectory}/Desktop"
+          "${homeDirectory}/Documents"
+          "${homeDirectory}/Maildir"
+          "${homeDirectory}/Movies"
+          "${homeDirectory}/Music"
+          "${homeDirectory}/Pictures"
+          "${homeDirectory}/Recordings"
+          "${homeDirectory}/Sync"
+          "${homeDirectory}/Templates"
+        ];
         repo = "ssh://u267169-sub2@u267169.your-storagebox.de:23/./borg";
         compression = "zstd,3";
         postCreate = ''${pkgs.borg2prom}/bin/borg2prom --archive-name "$archiveName" --job-name hetzner --push'';
       };
 
       hetzner-documents = {
-        inherit encryption environment;
+        inherit encryption environment prune;
         paths = [
           "${config.xdg.dataHome}/paperless"
           "${homeDirectory}/Documents"
-          "${homeDirectory}/Documents-Luisa"
           "${homeDirectory}/Sync/Scans-Enno"
           "${homeDirectory}/Sync/Scans-Laiyer"
           "${homeDirectory}/Sync/Scans-Luisa"
@@ -208,11 +195,19 @@ in
       };
 
       rpi4 = {
-        inherit encryption environment;
-        exclude = exclude ++ [
-          "${homeDirectory}/Sync" # backed up via syncthing
+        inherit encryption environment prune;
+        paths = [
+          "${homeDirectory}/.config"
+          "${homeDirectory}/Desktop"
+          "${homeDirectory}/Documents"
+          "${homeDirectory}/Maildir"
+          "${homeDirectory}/Movies"
+          "${homeDirectory}/Music"
+          "${homeDirectory}/Pictures"
+          "${homeDirectory}/Recordings"
+          "${homeDirectory}/Sync"
+          "${homeDirectory}/Templates"
         ];
-        paths = [ "${homeDirectory}" ];
         repo = "ssh://borg-mb4@rpi4.pug-coho.ts.net/./";
         # repo = "ssh://borg-mb4@rpi4.fritz.box/./";
         compression = "zstd,3";
