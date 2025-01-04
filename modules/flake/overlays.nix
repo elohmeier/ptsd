@@ -10,7 +10,6 @@
           "E501"
         ];
       } ../../scripts/borg2prom.py;
-      ghostty = inputs.ghostty.packages.${final.system}.default;
       hashPassword = final.callPackage ../../packages/hashPassword { };
       hl = final.callPackage ../../packages/hl { };
       httpserve = final.writers.writePython3Bin "httpserve" {
