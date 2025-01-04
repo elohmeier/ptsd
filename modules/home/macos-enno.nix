@@ -12,10 +12,11 @@ in
     username = "enno";
     homeDirectory = "/Users/enno";
     sessionPath = [
-      "${config.home.homeDirectory}/.local/bin" # uv-managed
       "${config.home.homeDirectory}/.cargo/bin" # cargo-managed
+      "${config.home.homeDirectory}/.local/bin" # uv-managed
       "${config.home.homeDirectory}/.local/share/npm/bin"
       "${config.home.homeDirectory}/Applications/Ghostty.app/Contents/MacOS"
+      "${config.home.homeDirectory}/go/bin"
       "${config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/repos/ptsd/bin"}"
       "/opt/homebrew/bin"
     ];
@@ -61,6 +62,7 @@ in
       jless
       jq
       just
+      k9s
       kubectl
       kubernetes-helm
       mkcert
@@ -94,6 +96,7 @@ in
       typstyle
       vals
       watch
+      wget
       yt-dlp
     ]);
 
