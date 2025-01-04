@@ -31,6 +31,42 @@
         "type": "github"
       }
     },
+    "clan-core": {
+      "inputs": {
+        "disko": [
+          "disko"
+        ],
+        "flake-parts": [
+          "flake-parts"
+        ],
+        "nixos-facter-modules": "nixos-facter-modules",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "sops-nix": [
+          "sops-nix"
+        ],
+        "systems": [
+          "systems"
+        ],
+        "treefmt-nix": [
+          "treefmt-nix"
+        ]
+      },
+      "locked": {
+        "lastModified": 1735930566,
+        "narHash": "sha256-KD2mbQ+Z6SvHBTQvJzIPgMvrZ1iaXvcE1obfLREIaso=",
+        "ref": "refs/heads/main",
+        "rev": "2b1f6ef3746e955fbe7f75e9eafabb88910d9986",
+        "revCount": 5368,
+        "type": "git",
+        "url": "https://git.clan.lol/clan/clan-core"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://git.clan.lol/clan/clan-core"
+      }
+    },
     "colmena": {
       "inputs": {
         "flake-compat": [
@@ -395,6 +431,21 @@
         "type": "github"
       }
     },
+    "nixos-facter-modules": {
+      "locked": {
+        "lastModified": 1734596637,
+        "narHash": "sha256-MRqwVAe3gsb88u4ME1UidmZFVCx+FEnoob0zkpO9DMY=",
+        "owner": "numtide",
+        "repo": "nixos-facter-modules",
+        "rev": "536472754982bf03079b4b4e0261838a760587c0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "nixos-facter-modules",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1734352517,
@@ -574,6 +625,7 @@
     "root": {
       "inputs": {
         "attic": "attic",
+        "clan-core": "clan-core",
         "colmena": "colmena",
         "devshell": "devshell",
         "disko": "disko",

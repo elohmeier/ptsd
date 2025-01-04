@@ -49,6 +49,7 @@ in
     ]
     ++ (with pkgs; [
       attic-client
+      clan-cli
       colmena
       deno
       diceware
