@@ -11,6 +11,7 @@ in
   environment.systemPackages = with pkgs; [
     btop
     cntr # for use with breakpointHook
+    gitMinimal # nix develop support
     nix-top
   ];
 
