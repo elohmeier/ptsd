@@ -14,6 +14,7 @@
       pkgs.ruff
       pkgs.taplo
       pkgs.uv
+      pkgs.yazi
     ];
     sessionVariables = {
       EDITOR = "nvim";
