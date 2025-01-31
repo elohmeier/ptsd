@@ -87,6 +87,48 @@
       ];
     };
 
+    runpod = inputs.home-manager.lib.homeManagerConfiguration {
+      pkgs = import inputs.nixpkgs {
+        system = "x86_64-linux";
+        overlays = [
+          inputs.nixcfg.overlays.default
+          inputs.nvim-config.overlays.default
+          self.overlays.default
+        ];
+        config.allowUnfree = true;
+      };
+
+      modules = [
+        inputs.nixcfg.hmModules.cli-bat
+        inputs.nixcfg.hmModules.cli-direnv
+        inputs.nixcfg.hmModules.cli-fish
+        inputs.nixcfg.hmModules.cli-git
+        inputs.nixcfg.hmModules.cli-lazygit
+        inputs.nixcfg.hmModules.cli-tmux
+        (
+          { pkgs, ... }:
+          {
+            home = {
+              username = "root";
+              homeDirectory = "/root";
+              stateVersion = "24.11";
+              packages = [
+                pkgs.ghostty.terminfo
+                pkgs.nixvim-minimal
+              ];
+              sessionVariables = {
+                EDITOR = "nvim";
+              };
+            };
+
+            programs.fish.shellAbbrs = {
+              e = "nvim";
+            };
+          }
+        )
+      ];
+    };
+
     tp3 = inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
