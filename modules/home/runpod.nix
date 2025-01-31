@@ -10,6 +10,7 @@
       pkgs.ghostty.terminfo
       pkgs.nixfmt-rfc-style
       pkgs.nixvim-minimal
+      pkgs.rsync
       pkgs.ruff
       pkgs.taplo
       pkgs.uv
