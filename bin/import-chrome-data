@@ -68,7 +68,7 @@ def main():
                     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
                 )
                 user_data_dir = chrome_alt_dir
-                command = f'"{chrome_path}" --user-data-dir="{user_data_dir}"'
+                command = f'"{chrome_path}" --user-data-dir="{user_data_dir}" https://teams.microsoft.com/'
                 subprocess.Popen(
                     command,
                     shell=True,
