@@ -105,34 +105,7 @@
         inputs.nixcfg.hmModules.cli-git
         inputs.nixcfg.hmModules.cli-lazygit
         inputs.nixcfg.hmModules.cli-tmux
-        (
-          { pkgs, ... }:
-          {
-            home = {
-              username = "root";
-              homeDirectory = "/root";
-              stateVersion = "24.11";
-              packages = [
-                pkgs.ghostty.terminfo
-                pkgs.nixfmt-rfc-style
-                pkgs.nixvim-minimal
-                pkgs.ruff
-                pkgs.uv
-              ];
-              sessionVariables = {
-                EDITOR = "nvim";
-                TERMINFO_DIRS = "/root/.nix-profile/share/terminfo:/etc/terminfo:/lib/terminfo:/usr/share/terminfo";
-                PATH = "/nix/var/nix/profiles/default/bin:/usr/local/nvidia/bin:/usr/local/cuda/bin:/usr/local/sbin /usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/nix/var/nix/profiles/default/bin";
-              };
-            };
-
-            programs.fish = {
-              shellAbbrs = {
-                e = "nvim";
-              };
-            };
-          }
-        )
+        ./runpod.nix
       ];
     };
 

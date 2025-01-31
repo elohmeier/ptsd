@@ -181,3 +181,16 @@ Run `check_ssl_cert -H htz2.nn42.de -p 25 -P smtp --dane 1` to check it.
       '')
     ];
 ```
+
+## Runpod quickstart
+
+```
+apt update && apt install -y nvtop
+curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install linux --init none --no-confirm --diagnostic-endpoint ""
+export PATH=${PATH}:/nix/var/nix/profiles/default/bin
+nix run home-manager -- --flake github:elohmeier/ptsd#runpod switch
+export TERMINFO_DIRS=/root/.nix-profile/share/terminfo:/etc/terminfo:/lib/terminfo:/usr/share/terminfo
+echo "/root/.nix-profile/bin/fish" >> /etc/shells
+chsh -s /root/.nix-profile/bin/fish
+fish
+```
