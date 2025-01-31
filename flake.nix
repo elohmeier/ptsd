@@ -48,7 +48,6 @@
       url = "github:cachix/git-hooks.nix";
       inputs.flake-compat.follows = "flake-compat";
       inputs.gitignore.follows = "gitignore";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     gitignore = {
@@ -88,7 +87,6 @@
     nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    # nixpkgs.url = "github:NixOS/nixpkgs/master";
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.devshell.follows = "devshell";
@@ -111,7 +109,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.flake-compat.follows = "flake-compat";
       inputs.gitignore.follows = "gitignore";
-      inputs.nixpkgs-stable.follows = "nixpkgs";
     };
     sops-nix = {
       url = "github:Mic92/sops-nix";
