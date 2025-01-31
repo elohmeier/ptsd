@@ -49,7 +49,9 @@ in
     ]
     ++ (with pkgs; [
       attic-client
+      bombardier
       clan-cli
+      cmake
       colmena
       deno
       diceware
@@ -60,6 +62,7 @@ in
       google-cloud-sdk
       hcloud
       home-manager
+      hyperfine
       jless
       jq
       just
@@ -80,10 +83,12 @@ in
       pandoc
       pnpm
       pqrs
+      pyright
       qpdf
       rclone
       realise-symlink
       ripgrep
+      runpodctl
       rustup
       shellcheck
       shfmt
@@ -98,6 +103,7 @@ in
       watch
       wget
       yt-dlp
+      yazi
     ]);
 
   home.file.".aider.conf.yml".source =
@@ -105,7 +111,7 @@ in
       settings = {
         check-update = false;
         dirty-commits = false;
-        lint-cmd = "[python: ruff check]";
+        lint-cmd = [ "python: ruff check" ];
         suggest-shell-commands = false;
       };
       yamlFormat = pkgs.formats.yaml { };
