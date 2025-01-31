@@ -42,6 +42,7 @@
         inputs.nixcfg.hmModules.cli-fish
         inputs.nixcfg.hmModules.cli-git
         inputs.nixcfg.hmModules.cli-lazygit
+        inputs.nixcfg.hmModules.cli-nnn
         inputs.nixcfg.hmModules.cli-tmux
         self.homeModules.borgbackup
         self.homeModules.darwin-defaults

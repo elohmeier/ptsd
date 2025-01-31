@@ -80,7 +80,6 @@ in
       pandoc
       pnpm
       pqrs
-      ptsd-nnn
       qpdf
       rclone
       realise-symlink

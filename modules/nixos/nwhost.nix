@@ -19,7 +19,6 @@
     git
     macos-fix-filefoldernames
     mc
-    ptsd-nnn
     ripgrep
   ];
 

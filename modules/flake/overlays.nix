@@ -32,16 +32,6 @@
         ];
       } ../../scripts/syncthing-device-id.py;
       win10fonts = final.callPackage ../../packages/win10fonts { };
-      ptsd-nnn =
-        (final.nnn.overrideAttrs (old: {
-          makeFlags = old.makeFlags ++ [ "O_GITSTATUS=1" ];
-
-          # fix for darwin, nnn assumes homebrew gsed
-          patchPhase = final.lib.optionalString final.stdenv.isDarwin ''
-            substituteInPlace src/nnn.c --replace '#define SED "gsed"' '#define SED "${final.gnused}/bin/sed"'
-          '';
-        })).override
-          { withNerdIcons = true; };
       prom-checktlsa = final.callPackage ../../packages/prom-checktlsa { };
       ptsd-node-packages = final.callPackage ../../packages/node-packages { };
     };

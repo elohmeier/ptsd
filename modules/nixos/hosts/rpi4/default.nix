@@ -65,7 +65,6 @@
     ncdu
     neovim
     powertop
-    ptsd-nnn
     tmux
   ];
 

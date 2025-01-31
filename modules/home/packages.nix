@@ -143,7 +143,6 @@ in
       poppler_utils
       pre-commit
       process-compose
-      ptsd-nnn
       ptsd-node-packages.prettier
       ptsd-node-packages.readability-cli
       pwgen
