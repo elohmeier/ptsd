@@ -41,6 +41,7 @@ p@{
       rgia = "rg -ia.";
       pgen = "pass generate";
       hc = "hcloud";
+      y = "yazi";
     };
 
     interactiveShellInit = ''
