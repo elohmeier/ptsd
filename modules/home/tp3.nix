@@ -26,11 +26,13 @@
       firefox
       flameshot
       freecad
+      gh
       ghostty
       google-chrome
       kubectl
       libreoffice-fresh
       lutris
+      ncdu
       nix-update
       nixvim-full
       podman
@@ -44,6 +46,7 @@
       uv
       wine
       winetricks
+      yazi
       zathura
     ];
   };

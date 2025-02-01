@@ -68,7 +68,7 @@
         network.wait-online.timeout = 0;
       };
     };
-    kernelPackages = pkgs.linuxPackages_latest;
+    # kernelPackages = pkgs.linuxPackages_latest;
     kernelModules = [
       "kvm-amd"
       "acpi_call"
