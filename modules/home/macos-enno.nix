@@ -53,6 +53,7 @@ in
       clan-cli
       cmake
       colmena
+      copier
       deno
       diceware
       dive
