@@ -20,7 +20,9 @@ import os
 import posixpath
 import re
 import shutil
+import socket
 import socketserver
+import subprocess
 import sys
 import time
 import urllib.error
@@ -218,8 +220,7 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
         f.write(b"<html>\n")
         f.write(
             (
-                '<meta http-equiv="Content-Type" '
-                'content="text/html; charset=%s">' % enc
+                '<meta http-equiv="Content-Type" content="text/html; charset=%s">' % enc
             ).encode(enc)
         )
         f.write(("<title>Directory listing for %s</title>\n" % displaypath).encode(enc))
@@ -257,8 +258,15 @@ class SimpleHTTPRequestHandler(http.server.BaseHTTPRequestHandler):
             dirimage = "data:image/gif;base64,R0lGODlhGAAYAMIAAP///7+/v7u7u1ZWVTc3NwAAAAAAAAAAACH+RFRoaXMgaWNvbiBpcyBpbiB0aGUgcHVibGljIGRvbWFpbi4gMTk5NSBLZXZpbiBIdWdoZXMsIGtldmluaEBlaXQuY29tACH5BAEAAAEALAAAAAAYABgAAANdGLrc/jAuQaulQwYBuv9cFnFfSYoPWXoq2qgrALsTYN+4QOg6veFAG2FIdMCCNgvBiAxWlq8mUseUBqGMoxWArW1xXYXWGv59b+WxNH1GV9vsNvd9jsMhxLw+70gAADs="
             fullname = os.path.join(path, name)
             displayname = linkname = name
-            fsize = fbytes(os.path.getsize(fullname))
-            created_date = time.ctime(os.path.getctime(fullname))
+
+            try:
+                fsize = fbytes(os.path.getsize(fullname))
+                created_date = time.ctime(os.path.getctime(fullname))
+            except (FileNotFoundError, OSError):
+                # Handle dangling symlinks and other file access errors
+                fsize = "?"
+                created_date = "?"
+
             # Append / for directories or @ for symbolic links
             if os.path.isdir(fullname):
                 dirimage = "data:image/png;base64,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"
@@ -372,7 +380,7 @@ parser.add_argument(
     "-b",
     default="",
     metavar="ADDRESS",
-    help="Specify alternate bind address " "[default: all interfaces]",
+    help="Specify alternate bind address [default: all interfaces]",
 )
 parser.add_argument(
     "port",
@@ -388,14 +396,53 @@ PORT = args.port
 BIND = args.bind
 HOST = BIND
 
-if HOST == "":
-    HOST = "localhost"
+
+def get_ip_addresses():
+    """Get all IPv4 addresses for this host."""
+    addresses = []
+
+    try:
+        # Try ip addr first (modern systems)
+        output = subprocess.check_output(["ip", "addr"], text=True)
+        for line in output.split("\n"):
+            if "inet " in line and "scope global" in line:
+                ip = line.split()[1].split("/")[0]
+                addresses.append(ip)
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        try:
+            # Fall back to ifconfig
+            output = subprocess.check_output(["ifconfig"], text=True)
+            for line in output.split("\n"):
+                if "inet " in line and "broadcast" in line:
+                    ip = line.split()[1]
+                    addresses.append(ip)
+        except (subprocess.CalledProcessError, FileNotFoundError):
+            # If both fail, just use socket to get hostname IP
+            try:
+                hostname_ip = socket.gethostbyname(socket.gethostname())
+                if hostname_ip != "127.0.0.1":
+                    addresses.append(hostname_ip)
+            except socket.gaierror:
+                pass
+
+    # Always include localhost
+    if "127.0.0.1" not in addresses:
+        addresses.append("127.0.0.1")
+
+    return sorted(addresses)  # Sort for consistent output
+
+
+if HOST in ("", "0.0.0.0"):
+    HOST = "0.0.0.0"  # Listen on all interfaces
+    print("Server accessible at:")
+    for addr in get_ip_addresses():
+        print(f"  http://{addr}:{PORT}/")
+else:
+    print(f"Server accessible at: http://{HOST}:{PORT}/")
 
 Handler = SimpleHTTPRequestHandler
 
 with socketserver.TCPServer((BIND, PORT), Handler) as httpd:
-    serve_message = "Serving HTTP on {host} port {port} (http://{host}:{port}/) ..."
-    print(serve_message.format(host=HOST, port=PORT))
     try:
         httpd.serve_forever()
     except KeyboardInterrupt:
