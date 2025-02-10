@@ -60,6 +60,7 @@ in
       entr
       ffmpeg
       gh
+      git-filter-repo
       google-cloud-sdk
       hcloud
       home-manager
