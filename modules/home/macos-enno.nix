@@ -48,6 +48,7 @@ in
       docker-shell-completions
     ]
     ++ (with pkgs; [
+      aerc
       attic-client
       bombardier
       clan-cli
