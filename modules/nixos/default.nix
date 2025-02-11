@@ -70,18 +70,18 @@ in
     #   self.nixosModules.nwhost
     #   self.nixosModules.prometheus-node
     # ];
-    #
-    # htz2 = nixosSystemFor "x86_64-linux" [
-    #   self.nixosModules.borgbackup
-    #   self.nixosModules.defaults
-    #   self.nixosModules.host-htz2
-    #   self.nixosModules.hw-hetzner-vm
-    #   self.nixosModules.luks-ssh-unlock
-    #   self.nixosModules.nix-persistent
-    #   self.nixosModules.nwhost
-    #   self.nixosModules.prometheus-node
-    # ];
-    #
+
+    htz2 = nixosSystemFor "x86_64-linux" [
+      self.nixosModules.borgbackup
+      self.nixosModules.defaults
+      self.nixosModules.host-htz2
+      self.nixosModules.hw-hetzner-vm
+      self.nixosModules.luks-ssh-unlock
+      self.nixosModules.nix-persistent
+      self.nixosModules.nwhost
+      self.nixosModules.prometheus-node
+    ];
+
     # utmvm_nixos_3 = nixosSystemFor "aarch64-linux" [
     #   inputs.nix95.nixosModules.nix95
     #   self.nixosModules.defaults

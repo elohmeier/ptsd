@@ -15,6 +15,7 @@ in
   environment = {
     systemPackages = with pkgs; [
       btop
+      ghostty.terminfo
       ncdu_1
       tmux
       vim
@@ -55,14 +56,9 @@ in
     ];
   };
 
-  ptsd.wireguard.networks.nwvpn = {
-    enable = mkDefault (hasAttr "nwvpn" universe.hosts."${config.networking.hostName}".nets);
-    ip = universe.hosts."${config.networking.hostName}".nets.nwvpn.ip4.addr;
-  };
-
   ptsd.tailscale.enable = mkDefault true;
 
-  services.openssh.hostKeys = mkIf config.ptsd.secrets.enable [
+  services.openssh.hostKeys = [
     {
       # configure path explicitely to have correct configuration
       # when built under /mnt (e.g. in installer-situation)
@@ -72,7 +68,6 @@ in
     }
   ];
 
-  ptsd.secrets.files."ssh.id_ed25519.pub".mode = "0444";
   environment.variables = {
     EDITOR = "vim";
   };

@@ -8,7 +8,7 @@
   imports = [
     (modulesPath + "/profiles/hardened.nix")
     ./modules/maddy.nix
-    ./modules/rspamd.nix
+    # ./modules/rspamd.nix
     ./modules/syncthing.nix
   ];
 

@@ -44,42 +44,6 @@ in
     openDefaultPorts = true;
   };
 
-  services.samba = {
-    enable = true;
-    enableNmbd = false;
-    enableWinbindd = false;
-    extraConfig = ''
-      hosts allow = 100.0.0.0/8
-      hosts deny = 0.0.0.0/0
-      load printers = no
-      local master = no
-      max smbd processes = 5
-      valid users = syncthing
-    '';
-
-    shares =
-      let
-        defaults = {
-          "force group" = "syncthing";
-          "force user" = "syncthing";
-          "guest ok" = "no";
-          "read only" = "no";
-          browseable = "no";
-        };
-      in
-      {
-        scans-enno = defaults // {
-          path = "/var/sync/enno/Scans";
-        };
-        scans-luisa = defaults // {
-          path = "/var/sync/luisa/Scans";
-        };
-        scans-laiyer = defaults // {
-          path = "/var/sync/laiyer/Scans";
-        };
-      };
-  };
-
   # users.users = {
   #   enno = {
   #     createHome = false;

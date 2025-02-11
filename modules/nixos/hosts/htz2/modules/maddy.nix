@@ -11,13 +11,14 @@ let
   cfg = config.ptsd.maddy;
 
   aliases = pkgs.writeText "aliases" ''
-    info@nerdworks.de: enno@nerdworks.de
+    e.lohmeier@gmx.de: enno@nerdworks.de
     enno.lohmeier@nerdworks.de: enno@nerdworks.de
     enno.richter@nerdworks.de: enno@nerdworks.de
-    postmaster: enno@nerdworks.de
-    e.lohmeier@gmx.de: enno@nerdworks.de
+    enno@nn42.de: enno@nerdworks.de
+    info@nerdworks.de: enno@nerdworks.de
     lulu@nerdworks.de: enno@nerdworks.de
     paypal@nerdworks.de: enno@nerdworks.de
+    postmaster: enno@nerdworks.de
   '';
 
   filterCommand = pkgs.writers.writePython3 "maddy-filter" { } ./maddy-filter.py;
@@ -90,14 +91,9 @@ let
       #   deliver_to lmtp tcp://127.0.0.1:8024
       # }
 
-      check {
-        rspamd
-      }
-
       destination $(local_domains) {
         modify {
           replace_rcpt regexp "elo-.+@nerd-?works.de" enno@$(primary_domain)
-          replace_rcpt regexp ".+@nn42.de" enno@$(primary_domain)
           replace_rcpt regexp ".+@convexio.de" enno@$(primary_domain)
           replace_rcpt file ${aliases}
         }
@@ -237,7 +233,7 @@ in
 
       # see https://github.com/foxcpp/maddy/blob/master/dist/systemd/maddy.service
       serviceConfig = {
-        LogNamespace = "mail";
+        # LogNamespace = "mail";
 
         User = "maddy";
         Group = "maddy";
