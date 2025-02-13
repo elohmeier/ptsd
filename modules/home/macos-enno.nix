@@ -50,6 +50,7 @@ in
     ++ (with pkgs; [
       aerc
       attic-client
+      basedpyright
       bombardier
       clan-cli
       cmake
@@ -86,7 +87,6 @@ in
       pandoc
       pnpm
       pqrs
-      pyright
       qpdf
       rclone
       realise-symlink
@@ -99,14 +99,15 @@ in
       sops
       sq
       ssh-to-age
+      stress-ng
       stylua
       typst
       typstyle
       vals
       watch
       wget
-      yt-dlp
       yazi
+      yt-dlp
     ]);
 
   home.file.".aider.conf.yml".source =
