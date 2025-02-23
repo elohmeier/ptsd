@@ -70,17 +70,7 @@ in
               autoUpdate = true;
               upgrade = true;
             };
-            brews = [
-              "aichat"
-              "btop"
-              "qemu"
-              "tesseract"
-              "tesseract-lang"
-
-              # iOS/Tauri development
-              # "cocoapods"
-              # "libimobiledevice"
-            ];
+            brews = [ ];
             casks = [
               "activitywatch"
               "betterdisplay"

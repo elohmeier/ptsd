@@ -49,9 +49,11 @@ in
     ]
     ++ (with pkgs; [
       aerc
+      aichat
       attic-client
       basedpyright
       bombardier
+      btop
       clan-cli
       cmake
       colmena
@@ -91,6 +93,7 @@ in
       rclone
       realise-symlink
       ripgrep
+      ruff
       runpodctl
       rustup
       shellcheck
@@ -101,8 +104,10 @@ in
       ssh-to-age
       stress-ng
       stylua
+      talosctl
       typst
       typstyle
+      uv
       vals
       watch
       wget
@@ -113,6 +118,7 @@ in
   home.file.".aider.conf.yml".source =
     let
       settings = {
+        auto-commits = false;
         check-update = false;
         dirty-commits = false;
         lint-cmd = [ "python: ruff check" ];
