@@ -54,7 +54,6 @@ in
       basedpyright
       bombardier
       btop
-      clan-cli
       cmake
       colmena
       copier

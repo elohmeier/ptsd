@@ -10,7 +10,6 @@
           "E501"
         ];
       } ../../scripts/borg2prom.py;
-      clan-cli = inputs.clan-core.packages.${final.system}.clan-cli;
       hashPassword = final.callPackage ../../packages/hashPassword { };
       hl = final.callPackage ../../packages/hl { };
       httpserve = final.writers.writePython3Bin "httpserve" {

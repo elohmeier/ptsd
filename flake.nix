@@ -9,25 +9,12 @@
       inputs.nixpkgs-stable.follows = "nixpkgs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    clan-core = {
-      url = "git+https://git.clan.lol/clan/clan-core";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-parts.follows = "flake-parts";
-      inputs.disko.follows = "disko";
-      inputs.sops-nix.follows = "sops-nix";
-      inputs.systems.follows = "systems";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-    };
     colmena = {
       url = "github:zhaofengli/colmena";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.stable.follows = "nixpkgs";
       inputs.flake-utils.follows = "flake-utils";
       inputs.flake-compat.follows = "flake-compat";
-    };
-    devshell = {
-      url = "github:numtide/devshell";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     disko = {
       url = "github:nix-community/disko";
@@ -60,8 +47,6 @@
     };
     nvim-config = {
       url = "github:elohmeier/nvim-config";
-      inputs.devshell.follows = "devshell";
-      inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
       inputs.git-hooks.follows = "git-hooks";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -89,14 +74,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     nixvim = {
       url = "github:nix-community/nixvim";
-      inputs.devshell.follows = "devshell";
-      inputs.flake-compat.follows = "flake-compat";
       inputs.flake-parts.follows = "flake-parts";
-      inputs.git-hooks.follows = "git-hooks";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.nix-darwin.follows = "nix-darwin";
-      inputs.treefmt-nix.follows = "treefmt-nix";
-      inputs.home-manager.follows = "home-manager";
       inputs.nuschtosSearch.follows = "nuschtosSearch";
     };
     nuschtosSearch = {
