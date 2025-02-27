@@ -61,6 +61,7 @@ in
       deno
       diceware
       dive
+      dprint
       entr
       ffmpeg
       gh
@@ -89,6 +90,7 @@ in
       pandoc
       pnpm
       pqrs
+      pwgen
       qpdf
       rclone
       realise-symlink
@@ -111,7 +113,9 @@ in
       vals
       watch
       wget
+      xz
       yazi
+      yq
       yt-dlp
     ]);
 
