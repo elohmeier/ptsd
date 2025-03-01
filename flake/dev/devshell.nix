@@ -1,4 +1,4 @@
-{ ... }:
+{ self, ... }:
 {
   perSystem =
     {
@@ -13,6 +13,8 @@
           pkgs.nagiosPlugins.check_ssl_cert
           pkgs.dig
         ] ++ lib.optionals pkgs.stdenv.isLinux [ pkgs.hash-slinger ];
+
+        shellHook = self.checks.${system}.git-hooks-check.shellHook;
       };
     };
 }
