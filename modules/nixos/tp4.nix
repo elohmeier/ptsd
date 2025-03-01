@@ -55,7 +55,7 @@
     };
 
     boot.kernelPackages = pkgs.linuxPackages_latest.extend (
-      selfLinux: superLinux: { nvidia_x11 = superLinux.nvidia_x11_legacy390; }
+      _selfLinux: superLinux: { nvidia_x11 = superLinux.nvidia_x11_legacy390; }
     );
 
     nixpkgs.config.packageOverrides = pkgs: {

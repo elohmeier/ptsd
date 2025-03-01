@@ -14,14 +14,14 @@ let
     ;
 
   nodePackages =
-    final:
+    _final:
     import ./composition.nix {
       inherit pkgs nodejs;
       inherit (stdenv.hostPlatform) system;
     };
 
   mainProgramOverrides =
-    final: prev:
+    _final: prev:
     mapAttrs (
       pkgName: mainProgram:
       prev.${pkgName}.override (oldAttrs: {

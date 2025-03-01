@@ -4,7 +4,7 @@ let
   inherit (pkgs) stdenv lib;
 in
 
-final: prev: {
+_final: prev: {
   inherit nodejs;
 
   readability-cli = prev.readability-cli.override {

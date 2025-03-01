@@ -8,9 +8,13 @@
 with lib;
 let
   cfg = config.ptsd.mjpg-streamer;
-  outputPlugin = builtins.replaceStrings [ "@www@" ] [
-    "${cfg.package}/share/mjpg-streamer/www"
-  ] cfg.outputPlugin;
+  outputPlugin =
+    builtins.replaceStrings
+      [ "@www@" ]
+      [
+        "${cfg.package}/share/mjpg-streamer/www"
+      ]
+      cfg.outputPlugin;
 in
 {
   options = {

@@ -26,7 +26,8 @@ in
 
   "${modifier}+Shift+a" = "exec xrandr --output Virtual-1 --auto";
 
-  "${modifier}+d" = "exec ${pkgs.bemenu}/bin/bemenu-run --list 10 --prompt 'Run:' ${config.ptsd.style.bemenuOpts}";
+  "${modifier}+d" =
+    "exec ${pkgs.bemenu}/bin/bemenu-run --list 10 --prompt 'Run:' ${config.ptsd.style.bemenuOpts}";
   #"${modifier}+d" = "exec ${pkgs.dmenu}/bin/dmenu_path | ${pkgs.dmenu}/bin/dmenu -p \"Run:\" -l 10 | ${pkgs.findutils}/bin/xargs ${pkgs.sway}/bin/swaymsg exec";
 
   # change focus
@@ -103,8 +104,10 @@ in
 
   "${modifier}+Shift+w" = "exec ${termExec "nmtui" ""}";
 
-  "XF86MonBrightnessUp" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+ | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
-  "XF86MonBrightnessDown" = "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%- | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
+  "XF86MonBrightnessUp" =
+    "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%+ | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
+  "XF86MonBrightnessDown" =
+    "exec ${pkgs.brightnessctl}/bin/brightnessctl s 10%- | sed -En 's/.*\\(([0-9]+)%\\).*/\\1/p' > $WOBSOCK";
 
   "XF86AudioMute" =
     mkIf (enableAudio && cfg.primarySpeaker != null)
@@ -124,8 +127,10 @@ in
   "XF86Search" = "exec firefox";
   "XF86Mail" = "exec evolution";
   "XF86Launch5" = "exec spotify"; # Label: 1
-  "XF86Launch8" = mkIf enableAudio "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo -5%"; # Label: 4
-  "XF86Launch9" = mkIf enableAudio "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo +5%"; # Label: 5
+  "XF86Launch8" =
+    mkIf enableAudio "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo -5%"; # Label: 4
+  "XF86Launch9" =
+    mkIf enableAudio "exec ${pkgs.pulseaudio}/bin/pactl set-sink-volume alsa_output.usb-LG_Electronics_Inc._USB_Audio-00.analog-stereo +5%"; # Label: 5
 
   "XF86AudioPlay" = mkIf enableAudio "exec ${pkgs.playerctl}/bin/playerctl play-pause";
   "${modifier}+p" = mkIf enableAudio "exec ${pkgs.playerctl}/bin/playerctl play-pause";
@@ -161,7 +166,8 @@ in
   #"${modifier}+e" ="exec pcmanfm \"`${cwdCmd}`\"";
 
   # screenshots
-  "Print" = ''exec ${pkgs.grim}/bin/grim -t png ~/Pocket/Screenshots/$(${pkgs.coreutils}/bin/date +"%Y-%m-%d_%H:%M:%S.png")'';
+  "Print" =
+    ''exec ${pkgs.grim}/bin/grim -t png ~/Pocket/Screenshots/$(${pkgs.coreutils}/bin/date +"%Y-%m-%d_%H:%M:%S.png")'';
   "${modifier}+Ctrl+Shift+4" =
     if enableFlameshot then
       "exec ${pkgs.flameshot}/bin/flameshot gui"
