@@ -45,8 +45,6 @@
           allowUnfree = true;
         };
         overlays = [
-          inputs.attic.overlays.default
-          inputs.colmena.overlays.default
           inputs.nix95.overlays.default
           inputs.nixcfg.overlays.default
           inputs.nvim-config.overlays.default
