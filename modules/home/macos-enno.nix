@@ -121,7 +121,6 @@ in
   home.file.".aider.conf.yml".source =
     let
       settings = {
-        auto-commits = false;
         check-update = false;
         dirty-commits = false;
         lint-cmd = [ "python: ruff check" ];
