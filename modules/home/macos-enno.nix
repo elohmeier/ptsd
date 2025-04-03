@@ -48,10 +48,13 @@ in
       docker-shell-completions
     ]
     ++ (with pkgs; [
+      act
       aerc
       aichat
+      argo-workflows
       attic-client
       basedpyright
+      binocle
       bombardier
       btop
       cmake
@@ -65,12 +68,16 @@ in
       ffmpeg
       gh
       git-filter-repo
+      go
+      go-jsonnet
       google-cloud-sdk
       hcloud
+      hexyl
       home-manager
       hyperfine
       jless
       jq
+      jsonnet-bundler
       just
       k9s
       kubectl
@@ -84,10 +91,14 @@ in
       nixpacks
       nixvim-full-aw
       nodejs_latest
+      numbat
       ollama
+      opentofu
       packer
       pandoc
+      pastel
       pnpm
+      poppler_utils # pdfinfo
       pqrs
       pwgen
       qpdf
@@ -106,15 +117,17 @@ in
       stress-ng
       stylua
       talosctl
+      tanka
       typst
       typstyle
       uv
       vals
       watch
       wget
+      xan
       xz
       yazi
-      yq
+      yq-go
       yt-dlp
     ]);
 
