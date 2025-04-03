@@ -172,6 +172,9 @@ in
         BORG_RELOCATED_REPO_ACCESS_IS_OK = "yes";
         BORG_RSH = "ssh -i ${homeDirectory}/.ssh/nwbackup.id_ed25519";
       };
+      exclude = [
+        "${homeDirectory}/*/.direnv/"
+      ];
       prune = {
         keep = {
           within = "1d"; # Keep all archives from the last day
@@ -183,7 +186,12 @@ in
     in
     {
       hetzner = {
-        inherit encryption environment prune;
+        inherit
+          encryption
+          environment
+          exclude
+          prune
+          ;
         paths = [
           "${homeDirectory}/.config"
           "${homeDirectory}/Desktop"
@@ -202,7 +210,12 @@ in
       };
 
       hetzner-documents = {
-        inherit encryption environment prune;
+        inherit
+          encryption
+          environment
+          exclude
+          prune
+          ;
         paths = [
           "${config.xdg.dataHome}/paperless"
           "${homeDirectory}/Documents"
